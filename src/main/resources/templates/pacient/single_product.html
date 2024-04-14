@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SaintMedic</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+
+    <style>
+
+
+      .user-menu {
+			display: flex;
+			align-items: center; /* Esto centra verticalmente los hijos del contenedor */
+
+			
+			  gap: 20px; /* Ajusta el valor según necesites */
+
+
+		  }
+    </style>
+
+  </head>
+  <body>
+
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+      <defs>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="category" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19 5.5h-6.28l-.32-1a3 3 0 0 0-2.84-2H5a3 3 0 0 0-3 3v13a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-10a3 3 0 0 0-3-3Zm1 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1h4.56a1 1 0 0 1 .95.68l.54 1.64a1 1 0 0 0 .95.68h7a1 1 0 0 1 1 1Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="heart" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M20.16 4.61A6.27 6.27 0 0 0 12 4a6.27 6.27 0 0 0-8.16 9.48l7.45 7.45a1 1 0 0 0 1.42 0l7.45-7.45a6.27 6.27 0 0 0 0-8.87Zm-1.41 7.46L12 18.81l-6.75-6.74a4.28 4.28 0 0 1 3-7.3a4.25 4.25 0 0 1 3 1.25a1 1 0 0 0 1.42 0a4.27 4.27 0 0 1 6 6.05Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="plus" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="minus" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M19 11H5a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="check" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="trash" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1ZM20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2ZM10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="star-outline" viewBox="0 0 15 15">
+          <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.5 9.804L5.337 11l.413-2.533L4 6.674l2.418-.37L7.5 4l1.082 2.304l2.418.37l-1.75 1.793L9.663 11L7.5 9.804Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="star-solid" viewBox="0 0 15 15">
+          <path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="search" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="user" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M15.71 12.71a6 6 0 1 0-7.42 0a10 10 0 0 0-6.22 8.18a1 1 0 0 0 2 .22a8 8 0 0 1 15.9 0a1 1 0 0 0 1 .89h.11a1 1 0 0 0 .88-1.1a10 10 0 0 0-6.25-8.19ZM12 12a4 4 0 1 1 4-4a4 4 0 0 1-4 4Z"/>
+        </symbol>
+        <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 15 15">
+          <path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
+        </symbol>
+      </defs>
+    </svg>
+
+    <div class="preloader-wrapper">
+      <div class="preloader">
+      </div>
+    </div>
+
+    <div class="header">
+						
+      <!-- Logo -->
+       <div class="header-left active">
+         <a href="page_compra_prueba.html" class="logo">
+           <img src="images/LogoConLetras.png"  alt="">
+         </a>
+         <a href="page_compra_prueba.html" class="logo-small">
+           <img src="assets/img/logo-small.png"  alt="">
+         </a>
+         <a id="toggle_btn" href="javascript:void(0);">
+         </a>
+      </div>
+      <!-- /Logo -->
+      
+      <a id="mobile_btn" class="mobile_btn" href="#sidebar">
+        <span class="bar-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </a>
+      
+      <!-- Header Menu -->
+      <ul class="nav user-menu">
+
+
+        <li class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+            <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+          </svg>
+
+        </li>
+
+        <li class="nav-item">
+          <a href="principal.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+              <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+              <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+            </svg>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="generar_orden_compra.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a href="historial.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+              <path d="M6 12v-2h3v2z"/>
+              <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+            </svg>
+          </a>
+
+        </li>
+
+        <li class="nav-item">
+          <a href="tracking.html">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+            </svg>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="chat.html" class="nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+              <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+            </svg>
+          </a>
+        </li>
+        
+
+        <li class="nav-item dropdown has-arrow main-drop">
+          <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+            <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+            <span class="status online"></span></span>
+          </a>
+          <div class="dropdown-menu menu-drop-user">
+            <div class="profilename">
+              <div class="profileset">
+                <span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+                <span class="status online"></span></span>
+                <div class="profilesets">
+                  <h6>Patricio</h6>
+                  <h5>Paciente</h5>
+                </div>
+              </div>
+              <hr class="m-0">
+              <a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i> Mi perfil</a>
+              <!--
+              <a class="dropdown-item" href="generalsettings.html"><i class="me-2" data-feather="settings"></i>Settings</a>-->
+              <hr class="m-0">
+              <a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <!-- /Header Menu -->
+      
+      <!-- Mobile Menu -->
+      <div class="dropdown mobile-user-menu">
+        <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="perfil.html">Mi perfil</a>
+          <!---
+          <a class="dropdown-item" href="generalsettings.html">Settings</a>-->
+          <a class="dropdown-item" href="signin.html">Cerrar sesión</a>
+        </div>
+      </div>
+      <!-- /Mobile Menu -->
+    </div>
+ 
+
+    <section id="selling-product" class="single-product mt-0 mt-1 py-3" style=" background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+      <div class="container-fluid"  style="margin-top: 6%;">
+        <nav class="breadcrumb mb-3">
+          <h6 class="breadcrumb-item" style="color: orange;" href="page_compra_prueba.html">Atrás</h6>
+          <h6 class="breadcrumb-item active" aria-current="page">Producto</h6>
+        </nav>
+        <div class="row g-5">
+          <div class="col-lg-7">
+            <div class="row flex-column-reverse flex-lg-row">
+              <div class="col-md-12 col-lg-10">
+                <!-- product-large-slider -->
+                <div class="swiper product-large-slider swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress swiper-backface-hidden">
+                  <div class="swiper-wrapper" id="swiper-wrapper-143bd5aa0c10e8ca2" aria-live="polite">
+                    <div class="swiper-slide swiper-slide-visible swiper-slide-active" role="group" aria-label="1 / 5" style="width: 672px; opacity: 1; transform: translate3d(0px, 0px, 0px);">
+                      <div class="image-zoom" data-scale="2.5" data-image="images/product-large-1.jpg"><img src="images/aspirina.jpeg" width="800" height="635" alt="product-large" class="img-fluid"></div>
+                    </div>
+                    <div class="swiper-slide swiper-slide-next" role="group" aria-label="2 / 5" style="width: 672px; opacity: 0; transform: translate3d(-672px, 0px, 0px);">
+                      <div class="image-zoom" data-scale="2.5" data-image="images/product-large-2.jpg"><img src="./FoodMart - Free eCommerce Grocery Store HTML Website Template_files/product-large-2.jpg" alt="product-large" class="img-fluid"></div>
+                    </div>
+                    <div class="swiper-slide" role="group" aria-label="3 / 5" style="width: 672px; opacity: 0; transform: translate3d(-1344px, 0px, 0px);">
+                      <div class="image-zoom" data-scale="2.5" data-image="images/product-large-3.jpg"><img src="./FoodMart - Free eCommerce Grocery Store HTML Website Template_files/product-large-3.jpg" alt="product-large" class="img-fluid"></div>
+                    </div>
+                    <div class="swiper-slide" role="group" aria-label="4 / 5" style="width: 672px; opacity: 0; transform: translate3d(-2016px, 0px, 0px);">
+                      <div class="image-zoom" data-scale="2.5" data-image="images/product-large-4.jpg"><img src="./FoodMart - Free eCommerce Grocery Store HTML Website Template_files/product-large-4.jpg" alt="product-large" class="img-fluid"></div>
+                    </div>
+                    <div class="swiper-slide" role="group" aria-label="5 / 5" style="width: 672px; opacity: 0; transform: translate3d(-2688px, 0px, 0px);">
+                      <div class="image-zoom" data-scale="2.5" data-image="images/product-large-5.jpg"><img src="./FoodMart - Free eCommerce Grocery Store HTML Website Template_files/product-large-5.jpg" alt="product-large" class="img-fluid"></div>
+                    </div>
+                  </div>
+                <!-- / product-large-slider -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="product-info">
+              <div class="element-header">
+                <h2 itemprop="name" class="display-6">Aspirina 500mg</h2>
+              </div>
+              <div class="product-price pt-3 pb-3">
+                <strong class="text-primary display-6 fw-bold">S/18.00</strong>
+                <!--para descuento
+                <del class="ms-2">$940.00</del>
+              -->
+              </div>
+              <p>
+                Alivia fuertes dolores de cabeza gracias a sus partículas microactivas de rápida acción
+                No debe utilizarse el medicamento en los siguientes casos: -Si es alérgico a uno de los demás compuestos o si, después de ingerir ácido acetilsalicílico, otros salicilatos, analgésicos o reumatoides o los denominados antiinflamatorios no esteroideos, presenta asfixia o reacciones a la piel similares a una alergia.- Si padece de úlceras estomacales y/o al duodeno o presenta sangrados estomacales o en el intestino
+              </p>
+              <div class="cart-wrap py-3">
+                <div class="product-quantity pt-3">
+                  <div class="stock-button-wrap">
+
+                    <div class="input-group product-qty" style="max-width: 150px;">
+                      <span class="input-group-btn">
+                          <button type="button" class="quantity-left-minus btn btn-light btn-number" data-type="minus" data-field="">
+                            <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
+                          </button>
+                      </span>
+                      <input type="text" id="quantity" name="quantity" class="form-control input-number text-center" value="1" min="1" max="100">
+                      <span class="input-group-btn">
+                          <button type="button" class="quantity-right-plus btn btn-light btn-number" data-type="plus" data-field="">
+                              <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
+                          </button>
+                      </span>
+                    </div>
+                    <div class="qty-button d-flex flex-wrap pt-3">
+                      <button type="submit" class="btn btn-primary py-3 px-4 text-uppercase me-3 mt-3">Añadir al carrito</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="meta-product py-2">
+               
+                <div class="meta-item d-flex align-items-baseline">
+                  <h6 class="item-title no-margin pe-2">Categoría:</h6>
+                  <ul class="select-list list-unstyled d-flex">
+                    <li data-value="S" class="select-item">
+                      <a href="https://demo.templatesjungle.com/foodmart/single-product.html#">Dolor</a>,
+                    </li>
+                  </ul>
+                </div>
+                <div class="meta-item d-flex align-items-baseline">
+                  <h6 class="item-title no-margin pe-2">Etiquetas:</h6>
+                  <ul class="select-list list-unstyled d-flex">
+                    <li data-value="S" class="select-item">
+                      <a href="https://demo.templatesjungle.com/foodmart/single-product.html#">Dolor de cabeza</a>,
+                    </li>
+                    <li data-value="S" class="select-item">
+                      <a href="https://demo.templatesjungle.com/foodmart/single-product.html#">Modern</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </section>
+
+    <div id="footer-bottom">
+      <div class="container-fluid mt-1">
+        <div class="row">
+          <div class="col-md-6 copyright">
+            <p>© 2024 SaintMedic. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>

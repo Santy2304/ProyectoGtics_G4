@@ -1,0 +1,532 @@
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+			<meta name="description" content="POS - Bootstrap Admin Template">
+			<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+			<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+			<meta name="robots" content="noindex, nofollow">
+			<title>SaintMedic</title>
+			
+			<!-- Favicon -->
+			<!link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+			
+			<!-- Bootstrap CSS -->
+			<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+
+			<!-- Datetimepicker CSS -->
+			<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+			
+			<!-- animation CSS -->
+			<link rel="stylesheet" href="assets/css/animate.css">
+
+			<!-- Select2 CSS -->
+			<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+
+			<!-- Datatable CSS -->
+			<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+			
+			<!-- Fontawesome CSS -->
+			<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+			<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+			<!-- Main CSS -->
+			<link rel="stylesheet" href="assets/css/style.css">
+
+			<style>
+				.user-menu {
+				display: flex;
+				align-items: center; /* Esto centra verticalmente los hijos del contenedor */
+	
+				
+				  gap: 20px; /* Ajusta el valor según necesites */
+	
+	
+			  }
+
+			</style>
+
+			
+			
+		</head>
+		<body>
+			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+				<defs>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="category" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M19 5.5h-6.28l-.32-1a3 3 0 0 0-2.84-2H5a3 3 0 0 0-3 3v13a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-10a3 3 0 0 0-3-3Zm1 13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-13a1 1 0 0 1 1-1h4.56a1 1 0 0 1 .95.68l.54 1.64a1 1 0 0 0 .95.68h7a1 1 0 0 1 1 1Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="calendar" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z"/>
+				  </symbol>
+				 
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="plus" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="minus" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M19 11H5a1 1 0 0 0 0 2h14a1 1 0 0 0 0-2Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="cart" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M8.5 19a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 8.5 19ZM19 16H7a1 1 0 0 1 0-2h8.491a3.013 3.013 0 0 0 2.885-2.176l1.585-5.55A1 1 0 0 0 19 5H6.74a3.007 3.007 0 0 0-2.82-2H3a1 1 0 0 0 0 2h.921a1.005 1.005 0 0 1 .962.725l.155.545v.005l1.641 5.742A3 3 0 0 0 7 18h12a1 1 0 0 0 0-2Zm-1.326-9l-1.22 4.274a1.005 1.005 0 0 1-.963.726H8.754l-.255-.892L7.326 7ZM16.5 19a1.5 1.5 0 1 0 1.5 1.5a1.5 1.5 0 0 0-1.5-1.5Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="check" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M18.71 7.21a1 1 0 0 0-1.42 0l-7.45 7.46l-3.13-3.14A1 1 0 1 0 5.29 13l3.84 3.84a1 1 0 0 0 1.42 0l8.16-8.16a1 1 0 0 0 0-1.47Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="trash" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M10 18a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1ZM20 6h-4V5a3 3 0 0 0-3-3h-2a3 3 0 0 0-3 3v1H4a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V8h1a1 1 0 0 0 0-2ZM10 5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1h-4Zm7 14a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V8h10Zm-3-1a1 1 0 0 0 1-1v-6a1 1 0 0 0-2 0v6a1 1 0 0 0 1 1Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="star-outline" viewBox="0 0 15 15">
+					<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="M7.5 9.804L5.337 11l.413-2.533L4 6.674l2.418-.37L7.5 4l1.082 2.304l2.418.37l-1.75 1.793L9.663 11L7.5 9.804Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="star-solid" viewBox="0 0 15 15">
+					<path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="search" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="user" viewBox="0 0 24 24">
+					<path fill="currentColor" d="M15.71 12.71a6 6 0 1 0-7.42 0a10 10 0 0 0-6.22 8.18a1 1 0 0 0 2 .22a8 8 0 0 1 15.9 0a1 1 0 0 0 1 .89h.11a1 1 0 0 0 .88-1.1a10 10 0 0 0-6.25-8.19ZM12 12a4 4 0 1 1 4-4a4 4 0 0 1-4 4Z"/>
+				  </symbol>
+				  <symbol xmlns="http://www.w3.org/2000/svg" id="close" viewBox="0 0 15 15">
+					<path fill="currentColor" d="M7.953 3.788a.5.5 0 0 0-.906 0L6.08 5.85l-2.154.33a.5.5 0 0 0-.283.843l1.574 1.613l-.373 2.284a.5.5 0 0 0 .736.518l1.92-1.063l1.921 1.063a.5.5 0 0 0 .736-.519l-.373-2.283l1.574-1.613a.5.5 0 0 0-.283-.844L8.921 5.85l-.968-2.062Z"/>
+				  </symbol>
+				</defs>
+			  </svg>
+			<div id="global-loader" >
+				<div class="whirly-loader"> </div>
+			</div>
+		
+			<!-- Main Wrapper -->
+			<div class="main-wrapper">
+				
+				<!-- Header -->
+				<div class="header">
+						
+					<!-- Logo -->
+					 <div class="header-left active">
+						 <a href="page_compra_prueba.html" class="logo">
+							 <img src="images/LogoConLetras.png"  alt="">
+						 </a>
+						 <a href="page_compra_prueba.html" class="logo-small">
+							 <img src="assets/img/logo-small.png"  alt="">
+						 </a>
+						 <a id="toggle_btn" href="javascript:void(0);">
+						 </a>
+					</div>
+					<!-- /Logo -->
+					
+					<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+						<span class="bar-icon">
+							<span></span>
+							<span></span>
+							<span></span>
+						</span>
+					</a>
+					
+					<!-- Header Menu -->
+					<ul class="nav user-menu">
+
+
+						<li class="nav-item">
+							<a href="seleccionarSede.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+									<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+								</svg>
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="principal.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+									<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+									<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+								</svg>
+							</a>
+
+						</li>
+
+						<li class="nav-item">
+							<a href="generar_orden_compra.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+									<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+								</svg>
+							</a>
+						</li>
+
+
+						<li class="nav-item">
+							<a href="historial.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+									<path d="M6 12v-2h3v2z"/>
+									<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+								</svg>
+							</a>
+
+						</li>
+
+
+						<li class="nav-item">
+							<a href="tracking.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+									<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+								</svg>
+							</a>
+
+						</li>
+
+						<li class="nav-item">
+							<a href="chat.html">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+									<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+								</svg>
+							</a>
+
+						</li>
+					
+						<li class="nav-item dropdown has-arrow main-drop">
+							<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+								<span class="user-img"><img src="images/perfil.png" alt="">
+								<span class="status online"></span></span>
+							</a>
+							<div class="dropdown-menu menu-drop-user">
+								<div class="profilename">
+									<div class="profileset">
+										<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+										<span class="status online"></span></span>
+										<div class="profilesets">
+											<h6>Patricio</h6>
+											<h5>Paciente</h5>
+										</div>
+									</div>
+									<hr class="m-0">
+									<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i>Mi perfil</a>
+									<!---
+									<a class="dropdown-item" href="generalsettings.html"><i class="me-2" data-feather="settings"></i>Settings</a>-->
+									<hr class="m-0">
+									<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<!-- /Header Menu -->
+					
+					<!-- Mobile Menu -->
+					<div class="dropdown mobile-user-menu">
+						<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="perfil.html">Mi perfil</a>
+							<!--
+							<a class="dropdown-item" href="generalsettings.html">Settings</a>-->
+							<a class="dropdown-item" href="signin.html">Cerrar sesión</a>
+						</div>
+					</div>
+					<!-- /Mobile Menu -->
+				</div>
+				<!-- Header -->
+				
+				<!-- Sidebar -->
+				
+				<!-- /Sidebar -->
+				
+					<div class="content" style="margin-top: 4%;">
+						<!-- /product list -->
+						<div class="card">
+							<div class="card-body">
+								<div class="table-top">
+									<div class="search-set">
+										<div class="search-path">
+											<a class="btn btn-filter" id="filter_search">
+												<img src="assets/img/icons/filter.svg" alt="img">
+												<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											</a>
+										</div>
+										<div class="search-input">
+											<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										</div>
+										<div id="DataTables_Table_0_filter" class="dataTables_filter">
+											<label>
+												<input type="search" class="form-control form-control-sm" placeholder="Buscar" aria-controls="DataTables_Table_0">
+											</label>
+										</div>
+									</div>
+									<!--
+									<div class="wordset">
+										<ul>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+											</li>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											</li>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+											</li>
+										</ul>
+									</div>
+									-->
+								</div>
+								<!-- /Filter -->
+								<div class="card" id="filter_inputs">
+									<div class="card-body pb-0">
+										<div class="row">
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" class="datetimepicker cal-icon" placeholder="Escoja fecha" >
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" placeholder="Ingrese Número">
+												</div>
+											</div>
+											
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Escoja estado</option>
+														<option>Evaluación/option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Escoja estado de pago</option>
+														<option>Pagado</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-1 col-sm-6 col-12">
+												<div class="form-group">
+													<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Filter -->
+								<div class="card" id="filter_inputs">
+									<div class="card-body pb-0">
+										<div class="row">
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" class="datetimepicker cal-icon" placeholder="Escoge fecha" >
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" placeholder="Ingrese Número">
+												</div>
+											</div>
+											
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Escoge estado</option>
+														<option>En proceso</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Escoja estado de pago</option>
+														<option>Estado de pago</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-1 col-sm-6 col-12">
+												<div class="form-group">
+													<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- /Filter -->
+								<div class="table-responsive">
+									<table class="table datanew">
+										<thead>
+											<tr>
+												<th>Número de Orden</th>
+												<th>Fecha de emisión</th>
+												<th>Estado</th>
+												<th>Costo (S/.)</th>
+												<th>Estado de Pago</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												
+												<td class="text-bolds">1</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>550</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">2</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>410</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">3</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightred">Rechazado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">4</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">5</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightred">Rechazado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">6</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>210</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">7</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightyellow">Evaluación</span></td>
+												<td>1000</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">8</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>550</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">9</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>410</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">10</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightred">Rechazado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">11</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">12</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightred">Rechazado</span></td>
+												<td>210</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+											<tr>
+											
+												<td class="text-bolds">13</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightgreen">Finalizado</span></td>
+												<td>210</td>
+												<td><span class="badges bg-lightgreen">Pagado</span></td>
+
+											</tr>
+											<tr>
+												
+												<td class="text-bolds">14</td>
+												<td>07/04/24</td>
+												<td><span class="badges bg-lightyellow">Evaluación</span></td>
+												<td>1000</td>
+												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- /product list -->
+					</div>
+				
+			</div>
+			<!-- /Main Wrapper -->
+			  
+			<!-- jQuery -->
+			<script src="assets/js/jquery-3.6.0.min.js"></script>
+
+			<!-- Feather Icon JS -->
+			<script src="assets/js/feather.min.js"></script>
+
+			<!-- Slimscroll JS -->
+			<script src="assets/js/jquery.slimscroll.min.js"></script>
+
+			<!-- Datatable JS -->
+			<script src="assets/js/jquery.dataTables.min.js"></script>
+			<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+			
+			<!-- Bootstrap Core JS -->
+			<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+			<!-- Datetimepicker JS -->
+			<script src="assets/js/moment.min.js"></script>
+			<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+			<!-- Select2 JS -->
+			<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+			<!-- Sweetalert 2 -->
+			<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+			<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+
+			<!-- Custom JS -->
+			<script src="assets/js/script.js"></script>
+			
+		</body>
+	</html>

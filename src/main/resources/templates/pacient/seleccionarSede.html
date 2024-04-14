@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="POS - Bootstrap Admin Template">
+        <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
+        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        <meta name="robots" content="noindex, nofollow">
+        <title>SaintMedic</title>
+        
+        <!-- Favicon -->
+        <!link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+        
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        
+        <!-- animation CSS -->
+        <link rel="stylesheet" href="assets/css/animate.css">
+
+        <!-- Datatable CSS -->
+        <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+        
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+        <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+        
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="assets/css/style.css">
+        
+
+        <style>
+
+
+            .user-menu {
+                  display: flex;
+                  align-items: center; /* Esto centra verticalmente los hijos del contenedor */
+      
+                  
+                    gap: 20px; /* Ajusta el valor según necesites */
+      
+      
+                }
+          </style>
+
+    </head>
+    <body>
+        <div id="global-loader" >
+            <div class="whirly-loader"> </div>
+        </div>
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+
+            <!-- Header -->
+            <div class="header">
+						
+				<!-- Logo -->
+				 <div class="header-left active">
+					<a href="principal.html" class="logo">
+						<img src="images/LogoConLetras.png"  alt="">
+					</a>
+					<a href="principal.html" class="logo-small">
+						<img src="assets/img/logo-small.png"  alt="">
+					</a>
+					<a id="toggle_btn" href="javascript:void(0);">
+					</a>
+				</div>
+				<!-- /Logo -->
+				
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+				
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
+
+
+
+	
+					
+
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+							<span class="user-img"><img src="images/perfil.png" alt="">
+							<span class="status online"></span></span>
+						</a>
+						<div class="dropdown-menu menu-drop-user">
+							<div class="profilename">
+								<div class="profileset">
+									<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
+									<span class="status online"></span></span>
+									<div class="profilesets">
+										<h6>John Doe</h6>
+										<h5>Admin</h5>
+									</div>
+								</div>
+								<hr class="m-0">
+								<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i> My Profile</a>
+								<hr class="m-0">
+								<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Logout</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<!-- /Header Menu -->
+				
+				<!-- Mobile Menu -->
+				<div class="dropdown mobile-user-menu">
+					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="perfil.html">Mi perfil</a>
+						<a class="dropdown-item" href="signin.html">Cerrar sesión</a>
+					</div>
+				</div>
+				<!-- /Mobile Menu -->
+			</div>
+            <!-- Header -->
+            
+        <!-- Sidebar -->
+           
+            <!-- /Sidebar -->
+
+            
+                <div class="content">
+                    <div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h2 class="page-title">Elige en que sede deseas realizar tus compras o consultas</h2>
+							</div>
+						</div>
+					</div>
+                    <div class="row">
+						<div class="col-12 col-lg-6 col-sm-12 p-4">
+							<div class="card flex-fill bg-white">
+                                <img alt="Card Image" src="images/sede1.jpeg" class="card-img-top">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Sede 1</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Dirección: </br> Av. Somewhere N° --- </p>
+                                    <a class="btn btn-primary" href="javascript:void(0);">Ingresar a esta sede</a>
+                                </div>
+                            </div>
+						</div>
+                        <div class="col-12 col-lg-6 col-sm-12 p-4">
+							<div class="card flex-fill bg-white">
+                                <img alt="Card Image" src="images/sede2.jpeg" class="card-img-top">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Sede 2</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Dirección: </br> Av. Somewhere N° --- </p>
+                                    <a class="btn btn-primary" href="javascript:void(0);">Ingresar a esta sede</a>
+                                </div>
+                            </div>
+						</div>
+                        <div class="col-12 col-lg-6 col-sm-12 p-4">
+							<div class="card flex-fill bg-white">
+                                <img alt="Card Image" src="images/sede3.jpeg" class="card-img-top">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Sede 3</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Dirección: </br> Av. Somewhere N° --- </p>
+                                    <a class="btn btn-primary" href="javascript:void(0);">Ingresar a esta sede</a>
+                                </div>
+                            </div>
+						</div>
+                        <div class="col-12 col-lg-6 col-sm-12 p-4">
+							<div class="card flex-fill bg-white">
+                                <img alt="Card Image" src="images/sede4.jpeg" class="card-img-top">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Sede 4</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Dirección: </br> Av. Somewhere N° --- </p>
+                                    <a class="btn btn-primary" href="principal.html">Ingresar a esta sede</a>
+                                </div>
+                            </div>
+						</div>			
+					</div>
+                </div>
+            
+        </div>
+        <!-- /Main Wrapper -->
+        
+        <!-- jQuery -->
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+        <!-- Feather Icon JS -->
+        <script src="assets/js/feather.min.js"></script>
+
+        <!-- Slimscroll JS -->
+        <script src="assets/js/jquery.slimscroll.min.js"></script>
+
+        <!-- Bootstrap Core JS -->
+        <script src="assets/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Custom JS -->
+        <script src="assets/js/script.js"></script>
+        
+    </body>
+</html>

@@ -214,8 +214,8 @@
 									<span class="user-img"><img src="assets/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 									<div class="profilesets">
-										<h6>Hineill Céspedes</h6>
-										<h5>Farmacista</h5>
+										<h6>Lancelot Del Lago</h6>
+										<h5>Administrador</h5>
 										<h5>Sede Pando</h5>
 									</div>
 								</div>
@@ -253,8 +253,8 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="assets/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="medicinelist.html">Inventario</a></li>
-									<li><a href="#">Generar reposición</a></li>
+									<li><a href="inventario.html" class="active">Inventario</a></li>
+									<li><a href="reposicion.html">Generar reposición</a></li>
 								</ul>
 							</li>
 							<!--
@@ -304,428 +304,220 @@
 										<tr>
 											<th>#</th>
 											<th>Medicamentos</th>
-											<th>ID</th>
+											<th>Tipo</th>
 											<th>Cantidad </th>
-											<th>Estado</th>
+											<th>Precio unitario</th>
 											<th>Actualizar</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr>
 											<td>1</td>
-											<td>Medicamentos</td>
-											<td>1234</td>
-											<td>Francis Estela</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Pagina web</td>
-											<td>Francis Estela</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT005</td>
-											<td>5/02/2024</td>
-											<td>Hineill Cespedes</td>
-											<td>122.00</td>
-											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td><a  onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' }).then({})"> Entregado</a></td>
 
-											<td>Chatbot</td>
-											<td>Francis Estela</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT003</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Chatbot</td>
-											<td>Hineill Cespedes</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT004</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
-												</a>
+
 											</td>
 										</tr>
 										<tr>
-											<td>
-												<a class="me-3" href="#">
-													<img src="assets/img/icons/docs.png" alt="img" style="height: auto; width: 20px">
-												</a>
-											</td>
-											<td>PT001</td>
-											<td>10/04/2024</td>
-											<td>Francis Estela</td>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
 											<td>123.00</td>
 											<td>
-												<a href="#">REC12354V</a>
-											</td>
-											<td>Entregado</td>
-											<td>Presencial</td>
-											<td>Admin</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
+
 												<a class="me-3" href="editproduct.html">
 													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/prohibido.png" alt="img">
+
+											</td>
+										</tr>
+										<tr>
+											<td>1</td>
+											<td>Ceterizina</td>
+											<td>Anti inflamatorio</td>
+											<td>34</td>
+											<td>123.00</td>
+											<td>
+
+												<a class="me-3" href="editproduct.html">
+													<img src="assets/img/icons/edit.svg" alt="img">
 												</a>
+
 											</td>
 										</tr>
 									</tbody>

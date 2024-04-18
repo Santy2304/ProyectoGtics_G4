@@ -285,8 +285,8 @@
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
-							<h4>Product Edit</h4>
-							<h6>Update your product</h6>
+							<h4>Editar Producto</h4>
+							<h6>Actualice el producto</h6>
 						</div>
 					</div>
 					<!-- /add -->
@@ -295,37 +295,35 @@
 							<div class="row">
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Product Name</label>
-										<input type="text" value="Macbook pro">
+										<label>Nombre del Producto</label>
+										<input type="text" value="Paracetamol" readonly>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Category</label>
+										<label>Categoría</label>
 										<select class="select">
-											<option>Computers</option>
-											<option>Mac</option>
+											<option>Dolor</option>
+											<option>Suplemento</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Sub Category</label>
+										<label>Subcategoría</label>
 										<select class="select">
-											<option>None</option>
-											<option>option1</option>
+											<option>Fiebre</option>
+											<option>Antihistamínico</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Brand</label>
-										<select class="select">
-											<option>None</option>
-											<option>option1</option>
-										</select>
+										<label>Marca</label>
+										<input type="text" value="Genérico" readonly>
 									</div>
 								</div>
+								<!--
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Unit</label>
@@ -335,72 +333,69 @@
 										</select>
 									</div>
 								</div>
+								-->
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>SKU</label>
-										<input type="text" value="PT0002">
+										<label>Lote</label>
+										<input type="text" value="M001" readonly>
 									</div>
 								</div>
+								<!--
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Minimum Qty</label>
 										<input type="text" value="5">
 									</div>
 								</div>
+								-->
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Quantity</label>
+										<label>Cantidad</label>
 										<input type="text" value="50">
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label>Description</label>
+										<label>Descripción</label>
 										<textarea class="form-control">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</textarea>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Tax</label>
-										<select class="select">
-											<option>Choose Tax</option>
-											<option>2%</option>
-										</select>
+										<label>Fecha de Producción</label>
+										<input type="text" value="X-04-2024">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Discount Type</label>
-										<select class="select">
-											<option>Percentage</option>
-											<option>10%</option>
-											<option>20%</option>
-										</select>
+										<label>Fecha de Caducidad</label>
+										<input type="text" value="X-06-2024">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>Price</label>
-										<input type="text" value="1500.00">
+										<label>Precio (S/.)</label>
+										<input type="text" value="0.50">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
-										<label>	Status</label>
+										<label>Disponibilidad</label>
 										<select class="select">
-											<option>Active</option>
-											<option>Open</option>
+											<option>Pando Etapa 1</option>
+											<option>Todos</option>
+											<option>Ninguno</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-12">
 									<div class="form-group">
-										<label>	Product Image</label>
+										<label>Imagen del Producto</label>
 										<div class="image-upload">
 											<input type="file">
 											<div class="image-uploads">
 												<img src="assets/img/icons/upload.svg" alt="img">
-												<h4>Drag and drop a file to upload</h4>
+												<h4>Arrastre y suelte un archivo a subir</h4>
 											</div>
 										</div>
 									</div>
@@ -415,7 +410,7 @@
 													</div>
 													<div class="productviewscontent">
 														<div class="productviewsname">
-															<h2>macbookpro.jpg</h2>
+															<h2>paracetamol.jpg</h2>
 															<h3>581kb</h3>
 														</div>
 														<a href="javascript:void(0);" class="hideset">x</a>
@@ -426,8 +421,8 @@
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Update</a>
-									<a href="productlist.html" class="btn btn-cancel" >Cancel</a>
+									<a href="javascript:void(0);" class="btn btn-submit me-2">Actualizar</a>
+									<a href="listaMedicamentos.html" class="btn btn-cancel" >Cancelar</a>
 								</div>
 							</div>
 						</div>

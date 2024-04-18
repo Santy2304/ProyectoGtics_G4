@@ -132,10 +132,10 @@ $(document).ready(function() {
       },
       series: [{
         name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        data: [600, 800, 750, 910, 1490, 540, 730, 1600, 1000,1910,1700,3000]
       }],
       title: {
-        text: 'Product Trends by Month',
+        text: 'Cantidad de ventas por mes',
         align: 'left'
       },
       grid: {
@@ -145,7 +145,7 @@ $(document).ready(function() {
         },
       },
       xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        categories: ['Jan', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep','Oct','Nov','Dic'],
       }
     }
 
@@ -326,8 +326,8 @@ var chart = new ApexCharts(
 chart.render();
 }
 
-// Simple Bar
-if($('#s-bar').length > 0 ){
+// Simple Bar min
+if($('#s-bar-m').length > 0 ){
 var sBar = {
     chart: {
         height: 350,
@@ -336,7 +336,7 @@ var sBar = {
           show: false,
         }
     },
-    // colors: ['#4361ee'],
+    colors: ['#4361ee'],
     plotOptions: {
         bar: {
             horizontal: true,
@@ -346,20 +346,55 @@ var sBar = {
         enabled: false
     },
     series: [{
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        data: [1, 3, 4, 6]
     }],
     xaxis: {
-        categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'],
+        categories: ['Prolia 60mg Denusomab ', 'Novotiral', 'Bicalutamida', 'Ácido Zolédronico'],
     }
 }
 
 var chart = new ApexCharts(
-    document.querySelector("#s-bar"),
+    document.querySelector("#s-bar-m"),
     sBar
 );
 
 chart.render();
 }
+
+// Simple Bar min
+    if($('#s-bar-M').length > 0 ){
+        var sBar = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: {
+                    show: false,
+                }
+            },
+            colors: ['#4361ee'],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [{
+                data: [250, 300, 346,402]
+            }],
+            xaxis: {
+                categories: ['Gel limpiador', 'Colageno hidrolizado', 'Oil Control FPS 50+', 'Paracetamol'],
+            }
+        }
+
+        var chart = new ApexCharts(
+            document.querySelector("#s-bar-M"),
+            sBar
+        );
+
+        chart.render();
+    }
 
 // Mixed Chart
 if($('#mixed-chart').length > 0 ){
@@ -424,8 +459,9 @@ var donutChart = {
           show: false,
         }
     },
-    // colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
-    series: [44, 55, 41, 17],
+    colors: ['#FF9F43', '#00CFE8', '#1B2850', '#28C76F'],
+    series: [440, 550, 410, 170],
+    labels: ['sede1','sede2','sede3','sede4'],
     responsive: [{
         breakpoint: 480,
         options: {

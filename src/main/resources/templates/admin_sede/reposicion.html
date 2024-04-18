@@ -33,7 +33,15 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
-		
+
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
+		<style>
+			.small-input {
+				width: 80px; /* Puedes ajustar este valor según tus necesidades */
+			}
+		</style>
     </head>
     <body>
 		
@@ -300,269 +308,69 @@
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
-							<h4>DETALLES DE LA VENTA</h4>
+							<h4>Solicitud de Reposición</h4>
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="row">
-						<div class="col-lg-8 col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="productdetails">
-										<ul class="product-bar">
-											<li>
-												<h4 style="background-color: #ced4da">Paciente</h4>
-												<h6>Francis Estela</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">DNI</h4>
-												<h6>12345678</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Dirección</h4>
-												<h6>Av. Universitaria 1234</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Distrito</h4>
-												<h6>San Miguel</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Teléfono</h4>
-												<h6>123456789</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Doctor</h4>
-												<h6>Hineill Cespedes</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Seguro</h4>
-												<h6>Rimac</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Modalidad de envío</h4>
-												<h6>Delivery</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Metodo de pago</h4>
-												<h6>VISA</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Hora y día de entrega</h4>
-												<h6>11/04/2024 - 13:00 P.M.</h6>
-											</li>
 
-										</ul>
-									</div>
-								</div>
-							</div>
+					<div class="row">
+						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body">
-									<div class="productdetails">
-										<h6 style="font-weight: bold">RESUMÉN DE COMPRA</h6>
-										<br>
-										<ul class="product-bar">
-											<li>
-												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Producto</h6>
+									<h5 class="card-title">Información del administrador</h5>
+									<form action="#">
+										<div class="row">
+											<div class="col-xl-6">
+												<div class="form-group row">
+													<label class="col-lg-3 col-form-label">Nombre</label>
+													<div class="col-lg-9">
+														<input type="text" class="form-control">
+													</div>
 												</div>
-												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Marca</h6>
+												<div class="form-group row">
+													<label class="col-lg-3 col-form-label">Apellido</label>
+													<div class="col-lg-9">
+														<input type="text" class="form-control">
+													</div>
 												</div>
-												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Cantidad</h6>
+
+												<div class="form-group row">
+													<label class="col-lg-3 col-form-label">Medicamentos</label>
+													<div class="col-lg-9">
+														<table id="medicamentosTable" class="display" style="width:100%">
+															<thead>
+															<tr>
+																<th>Nombre</th>
+																<th>Cantidad</th>
+																<th>Seleccionar</th>
+															</tr>
+															</thead>
+															<tbody>
+															<!-- Aquí puedes agregar las filas de datos de tu tabla -->
+															<tr>
+																<td>Medicamento 1</td>
+																<td><p><input type="number" class="small-input"></p></td>
+																<td><p><input type="checkbox"></p></td>
+															</tr>
+															<tr>
+																<td>Medicamento 2</td>
+																<td><p><input type="number" class="small-input"></p></td>
+																<td><p><input type="checkbox"></p></td>
+															</tr>
+															<!-- Puedes agregar más filas según sea necesario -->
+															</tbody>
+														</table>
+													</div>
+
 												</div>
-												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Precio unitario</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>2 tabletas</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>10.00</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>4 tabletas</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>20.00</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="slider-product-details">
-										<div class="owl-carousel owl-theme product-slide">
-											<div class="slider-product">
-												<img src="assets/img/product/product69.jpg" alt="img">
-												<h4>BOLETA.pdf</h4>
 											</div>
-											<div class="slider-product">
-												<img src="assets/img/product/product69.jpg" alt="img">
-												<h4>receta.pdf</h4>
-											</div>
+
 										</div>
-									</div>
+
+										<div class="">
+											<button type="submit" class="btn btn-primary">Enviar</button>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -576,6 +384,13 @@
 		 
 		<!-- jQuery -->
         <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+		<script>
+			// Inicializa el DataTable
+			$(document).ready(function() {
+				$('#medicamentosTable').DataTable();
+			});
+		</script>
 
         <!-- Feather Icon JS -->
 		<script src="assets/js/feather.min.js"></script>

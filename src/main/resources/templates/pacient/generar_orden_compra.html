@@ -45,7 +45,7 @@
 		</style>
 
 	</head>
-	<body>
+	<body style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
 		</div>
@@ -176,7 +176,7 @@
 			<!-- Header -->
 			<!-- Sidebar -->
 			<!-- /Sidebar -->
-				<div class="content py-3" style=" margin-top: 4%; background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+				<div class="content py-3" style=" margin-top: 6%">
 					<div class="row mx-1">
 						<div class="col-lg-3 col-sm-6 col-12">
 							<div class="dash-widget">
@@ -184,7 +184,7 @@
 									<span><img src="assets/img/icons/dash1.svg" alt="img"></span>
 								</div>
 								<div class="dash-widgetcontent">
-									<h5 >S/<span class="counters" data-count="90">S/200</span></h5>
+									<h5 >S/90.00</h5>
 									<h6>Total a Pagar</h6>
 								</div>
 							</div>
@@ -218,7 +218,7 @@
 											</div>
 											<div class="col-md-4 mb-3">
 												<label for="validationServer02">Teléfono</label>
-												<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="Otto" required>
+												<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="998563q" required>
 												<div class="invalid-feedback">
 													Por favor ingrese un número correcto
 												</div>
@@ -228,7 +228,7 @@
 										<div class="form-row row">
 											<div class="col-md-6 mb-3">
 												<label class="mb-2" for="validationServer03">Dirección</label>
-												<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Ciudad" required>
+												<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Casa de Hiro" required>
 												<div class="valid-feedback">
 													Correcto!
 												</div>
@@ -254,7 +254,7 @@
 										  </div>
 										</div>
 										
-										<button class="btn btn-primary mt-2" type="submit">Enviar</button>
+										<button class="btn btn-primary mt-2" href="numero_de_orden.html" type="submit">Enviar</button>
 									</form>
 								</div>
 							</div>
@@ -263,50 +263,39 @@
 							<div class="card flex-fill">
 								<div class="card-header pb-0 d-flex justify-content-between align-items-center">
 									<h4 class="card-title mb-0">Carrito</h4>
-									<div class="dropdown">
-										<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
-											<i class="fa fa-ellipsis-v"></i>
-										</a>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-											<li>
-												<a href="productlist.html" class="dropdown-item">Lista de productos</a>
-											</li>
-											<li>
-												<a href="addproduct.html" class="dropdown-item">Añadir producto</a>
-											</li>
-										</ul>
-									</div>
+
 								</div>
 								<div class="card-body">
 									<div class="table-responsive dataview">
 										<table class="table datatable ">
 											<thead>
 												<tr>
-													<th>N°</th>
 													<th>Productos</th>
-													<th>Precio</th>
+													<th>Cantidad</th>
+													<th>Total</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>2</td>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
 															<img src="images/aspirina.jpeg" alt="product">
 														</a>
 														<a href="#">Aspirina 500mg</a>
 													</td>
-													<td>S/36</td>
+													<td>4</td>
+
+													<td>S/36.00</td>
 												</tr>
 												<tr>
-													<td>3</td>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
 															<img src="images/ibuprofeno.png" alt="product">
 														</a>
 														<a href="#">Ibuprofeno 800mg </a>
 													</td>
-													<td>S/54</td>
+													<td>6</td>
+													<td>S/54.00</td>
 												</tr>
 											</tbody>
 										</table>

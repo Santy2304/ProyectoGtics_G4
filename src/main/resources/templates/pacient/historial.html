@@ -45,12 +45,13 @@
 	
 			  }
 
+
 			</style>
 
 			
 			
 		</head>
-		<body>
+		<body style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				<defs>
 				  <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
@@ -234,10 +235,21 @@
 				
 				<!-- /Sidebar -->
 				
-					<div class="content" style="margin-top: 4%;">
+					<div class="content" style="margin-top: 6%;">
 						<!-- /product list -->
+
+
 						<div class="card">
+
+
 							<div class="card-body">
+								<div class="page-header">
+									<div class="page-title">
+										<h4>Historial de Ordenes</h4>
+									</div>
+
+								</div>
+
 								<div class="table-top">
 									<div class="search-set">
 										<div class="search-path">
@@ -272,45 +284,11 @@
 									-->
 								</div>
 								<!-- /Filter -->
-								<div class="card" id="filter_inputs">
-									<div class="card-body pb-0">
-										<div class="row">
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" class="datetimepicker cal-icon" placeholder="Escoja fecha" >
-												</div>
-											</div>
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" placeholder="Ingrese Número">
-												</div>
-											</div>
-											
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<select class="select">
-														<option>Escoja estado</option>
-														<option>Evaluación/option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<select class="select">
-														<option>Escoja estado de pago</option>
-														<option>Pagado</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-1 col-sm-6 col-12">
-												<div class="form-group">
-													<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+
 								<!-- /Filter -->
+
+
+
 								<div class="card" id="filter_inputs">
 									<div class="card-body pb-0">
 										<div class="row">
@@ -355,6 +333,7 @@
 										<thead>
 											<tr>
 												<th>Número de Orden</th>
+												<th>Detalle</th>
 												<th>Fecha de emisión</th>
 												<th>Estado</th>
 												<th>Costo (S/.)</th>
@@ -365,128 +344,139 @@
 											<tr>
 												
 												<td class="text-bolds">1</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>550</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Aceptado</td>
+												<td>550.00</td>
+												<td>Pagado</td>
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">2</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>410</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Finalizado</td>
+												<td>410.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">3</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>210.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">4</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+												<td>En Evaluación</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">5</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+												<td>Rechazado</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">6</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Finalizado</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
+
 											<tr>
 												
-												<td class="text-bolds">7</td>
+												<td class="text-bolds">29</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+													</a>
+													</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightyellow">Evaluación</span></td>
-												<td>1000</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">8</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>550</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">9</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>410</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td class="text-bolds">19</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">10</td>
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">11</td>
+
+												<td class="text-bolds">23</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">12</td>
+
+												<td class="text-bolds">34</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
-											<tr>
-											
-												<td class="text-bolds">13</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">14</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightyellow">Evaluación</span></td>
-												<td>1000</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
-											</tr>
 										</tbody>
 									</table>
 								</div>

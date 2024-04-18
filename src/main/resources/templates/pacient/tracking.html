@@ -188,62 +188,169 @@
 					<div class="row">
 					
 						<!-- Lightbox -->
-                        <div class="col-lg-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="mb-0 text-center">Ordenes en camino</h2>
-                                </div>
-                                <div class="card-body">
-									<div class="table-responsive">
-										<table class="table  datanew ">
-											<thead>
-												<tr>
-													<th>Número</th>
-													<th>Sede</th>
-													<th>Fecha de emisión</th>
-													<th>Costo</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>1</td>
-													<td>Pando Etapa 1</td>
-													<td>2011/04/25</td>
-													<td>$320,800</td>
-												</tr>
-												<tr>
-													<td>Garrett Winters</td>
-													<td>Tokyo</td>
-													<td>2011/07/25</td>
-													<td>$170,750</td>
-												</tr>
-												<tr>
-													<td>Ashton Cox</td>
-													<td>San Francisco</td>
-													<td>2009/01/12</td>
-													<td>$86,000</td>
-												</tr>
-												<tr>
-													<td>Cedric Kelly</td>
-													<td>Edinburgh</td>
-													<td>2012/03/29</td>
-													<td>$433,060</td>
-												</tr>
-												<tr>
-													<td>Airi Satou</td>
-													<td>Tokyo</td>
-													<td>2008/11/28</td>
-													<td>$162,700</td>
-												</tr>
-											
-												
-											</tbody>
-										</table>
+						<div class="card">
+
+
+							<div class="card-body">
+								<div class="page-header">
+									<div class="page-title">
+										<h4>Historial de Ordenes</h4>
+									</div>
+
+								</div>
+
+								<div class="table-top">
+									<div class="search-set">
+										<div class="search-path">
+											<a class="btn btn-filter" id="filter_search">
+												<img src="assets/img/icons/filter.svg" alt="img">
+												<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											</a>
+										</div>
+										<div class="search-input">
+											<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										</div>
+										<div id="DataTables_Table_0_filter" class="dataTables_filter">
+											<label>
+												<input type="search" class="form-control form-control-sm" placeholder="Buscar" aria-controls="DataTables_Table_0">
+											</label>
+										</div>
+									</div>
+									<!--
+									<div class="wordset">
+										<ul>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
+											</li>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											</li>
+											<li>
+												<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
+											</li>
+										</ul>
+									</div>
+									-->
+								</div>
+								<!-- /Filter -->
+
+								<!-- /Filter -->
+
+
+
+								<div class="card" id="filter_inputs">
+									<div class="card-body pb-0">
+										<div class="row">
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" class="datetimepicker cal-icon" placeholder="Escoge fecha" >
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<input type="text" placeholder="Ingrese Número">
+												</div>
+											</div>
+
+
+
+											<div class="col-lg-1 col-sm-6 col-12">
+												<div class="form-group">
+													<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
-                                <!-- end card body -->
-                            </div>
-                        </div>
+								<!-- /Filter -->
+								<div class="table-responsive">
+									<table class="table datanew">
+										<thead>
+											<tr>
+												<th>Número de Orden</th>
+												<th>Detalle</th>
+												<th>Fecha de emisión</th>
+												<th>Costo (S/.)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr style="background-color: #ffda6a">
+
+												<td class="text-bolds">1</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>550.00</td>
+											</tr>
+											<tr>
+
+												<td class="text-bolds">2</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>410.00</td>
+
+											</tr>
+											<tr>
+
+												<td class="text-bolds">3</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>210.00</td>
+
+											</tr>
+											<tr>
+
+												<td class="text-bolds">4</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>210.00</td>
+
+											</tr>
+											<tr>
+
+												<td class="text-bolds">5</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>210.00</td>
+
+											</tr>
+											<tr>
+
+												<td class="text-bolds">6</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
+												<td>07/04/24</td>
+												<td>210.00</td>
+
+											</tr>
+
+
+
+
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+
+
 						<!-- /Wizard -->
 						
 						<!-- Wizard -->
@@ -347,8 +454,14 @@
         <script src="assets/js/script.js"></script>
 
               <!-- Datatable JS -->
-              <script src="assets/js/jquery.dataTables.min.js"></script>
-              <script src="assets/js/dataTables.bootstrap4.min.js"></script>
-        
-    </body>
+		<script src="assets/js/jquery.dataTables.min.js"></script>
+		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+
+		<!-- Datetimepicker JS -->
+		<script src="assets/js/moment.min.js"></script>
+		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
+		<script src="assets/plugins/select2/js/select2.min.js"></script>
+
+	</body>
 </html>

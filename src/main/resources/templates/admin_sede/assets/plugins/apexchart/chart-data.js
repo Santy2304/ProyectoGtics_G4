@@ -327,7 +327,7 @@ chart.render();
 }
 
 // Simple Bar min
-if($('#s-bar-m').length > 0 ){
+if($('#s-bar-l').length > 0 ){
 var sBar = {
     chart: {
         height: 350,
@@ -354,7 +354,7 @@ var sBar = {
 }
 
 var chart = new ApexCharts(
-    document.querySelector("#s-bar-m"),
+    document.querySelector("#s-bar-l"),
     sBar
 );
 

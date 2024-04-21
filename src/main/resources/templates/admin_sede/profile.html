@@ -30,6 +30,23 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
+
+		<style>
+			#editarBtn, #guardarCambiosBtn {
+				background-color: orange;
+				border: 1px solid orange;
+				border-radius: 20px; /* Ajusta el valor según el radio de los bordes que deseas */
+				padding: 5px 15px;
+				color: white; /* Color del texto */
+				cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+			}
+
+			#editarBtn:hover, #guardarCambiosBtn:hover {
+				background-color: darkorange; /* Cambia el color al pasar el ratón sobre el botón */
+			}
+
+
+		</style>
 		
     </head>
     <body>
@@ -48,10 +65,10 @@
 						
 				<!-- Logo -->
 				 <div class="header-left active">
-					<a href="error404.html" class="logo">
+					<a href="#" class="logo">
 						<img src="assets/img/LogoConLetras.png"  alt="">
 					</a>
-					<a href="error404.html" class="logo-small">
+					<a href="#" class="logo-small">
 						<img src="assets/img/PastillaSinFondo.png"  alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
@@ -72,6 +89,8 @@
 				
 					<!-- Search -->
 
+					<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+					</li>
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 							<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -297,10 +316,12 @@
 											<h4>Aquí podrás editar tus datos personales</h4>
 										</div>
 									</div>
+									<!---
 									<div class="ms-auto">
 										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
 										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
 									</div>
+									-->
 								</div>
 							</div>
 							<div class="row">
@@ -317,15 +338,17 @@
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
+									<div class="campo">
 										<h5>Email</h5>
-										<input type="text" placeholder="lancelot26Z@hotmail.com" >
+										<span class="lectura">lancelot26Z@hotmail.com</span>
+										<input type="text" class="edicion" style="display: none;">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
+									<div class="campo">
 										<h5>Phone</h5>
-										<input type="text" placeholder="920821483"  >
+										<span class="lectura">982812260</span>
+										<input type="text" class="edicion" style="display: none;">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
@@ -341,8 +364,14 @@
 									</div>
 								</div>
 								<div class="col-12">
+									<!--
 									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar </a>
-									<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+									-->
+									<div id="botones">
+										<button id="editarBtn" onclick="alternarModo()">Editar</button>
+										<button id="guardarCambiosBtn" onclick="guardarCambios()" style="display: none;">Guardar</button>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -354,6 +383,54 @@
 
 		
 		<!-- /Main Wrapper -->
+		<script>
+			function alternarModo() {
+				var camposLectura = document.getElementsByClassName('lectura');
+				var camposEdicion = document.getElementsByClassName('edicion');
+				var editarBtn = document.getElementById('editarBtn');
+				var guardarCambiosBtn = document.getElementById('guardarCambiosBtn');
+
+				for (var i = 0; i < camposLectura.length; i++) {
+					if (camposLectura[i].style.display === 'none') {
+						// Modo edición -> Modo lectura
+						camposLectura[i].innerText = camposEdicion[i].value;
+						camposLectura[i].style.display = 'inline';
+						camposEdicion[i].style.display = 'none';
+					} else {
+						// Modo lectura -> Modo edición
+						camposEdicion[i].value = camposLectura[i].innerText;
+						camposLectura[i].style.display = 'none';
+						camposEdicion[i].style.display = 'inline';
+						camposEdicion[i].focus();
+					}
+				}
+
+				// Mostrar botón "Guardar" y ocultar botón "Editar"
+				guardarCambiosBtn.style.display = 'inline';
+				editarBtn.style.display = 'none';
+			}
+
+			function guardarCambios() {
+				var camposLectura = document.getElementsByClassName('lectura');
+				var camposEdicion = document.getElementsByClassName('edicion');
+				var editarBtn = document.getElementById('editarBtn');
+				var guardarCambiosBtn = document.getElementById('guardarCambiosBtn');
+
+				for (var i = 0; i < camposLectura.length; i++) {
+					camposLectura[i].innerText = camposEdicion[i].value;
+				}
+
+				// Ocultar campos de edición y mostrar campos de lectura
+				for (var i = 0; i < camposLectura.length; i++) {
+					camposEdicion[i].style.display = 'none';
+					camposLectura[i].style.display = 'inline';
+				}
+
+				// Mostrar botón "Editar" y ocultar botón "Guardar"
+				guardarCambiosBtn.style.display = 'none';
+				editarBtn.style.display = 'inline';
+			}
+		</script>
 		 
 		<!-- jQuery -->
         <script src="assets/js/jquery-3.6.0.min.js"></script>

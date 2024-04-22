@@ -41,6 +41,114 @@
 			.small-input {
 				width: 80px; /* Puedes ajustar este valor según tus necesidades */
 			}
+
+			/*---------------*/
+			h2 {
+				color: #FFA500;
+				text-align: center;
+				margin-top: 20px;
+			}
+
+			form {
+				background-color: #ffffff;
+				max-width: 500px;
+				margin: 20px auto;
+				padding: 20px;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			}
+
+			label {
+				color: black;
+				font-weight: bold;
+			}
+
+			input[type="text"],
+			input[type="number"],
+			select {
+				width: calc(100% - 20px);
+				padding: 8px;
+				margin-bottom: 10px;
+				border: 1px solid #FFA500;
+				border-radius: 5px;
+				box-sizing: border-box;
+				background-color: #ddd;
+			}
+
+			select {
+				color: gray;
+			}
+
+			.styled-button {
+				background-color: #FF9F43;
+				color: #fff;
+				border: none;
+				padding: 10px 20px;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 16px;
+				margin-right: 10px;
+			}
+
+			.styled-button:hover {
+				background-color: #FF9F43;
+			}
+
+			.orange-button {
+				background-color: #FF9F43; /* Cambiado a naranja neon */
+				color: white;
+				border: none;
+				padding: 10px 20px;
+				border-radius: 5px;
+				cursor: pointer;
+				font-size: 16px;
+				margin-right: 10px;
+				/* Añadido efecto de brillo */
+				box-shadow: 0 4px 10px rgba(255, 165, 0, 0.3);
+			}
+
+			.orange-button:hover {
+				background-color: #FF9F43;
+				color: white;
+				/* Ajustado el brillo en hover */
+				box-shadow: 0 6px 15px rgba(255, 165, 0, 0.4);
+			}
+
+			#productos div {
+				margin-bottom: 10px;
+			}
+
+			#productos div:last-child {
+				margin-bottom: 0; /* Elimina el margen inferior del último div */
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-top: 20px;
+			}
+
+			th, td {
+				border: 1px solid #ddd;
+				padding: 8px;
+				text-align: left;
+			}
+
+			th {
+				background-color: #FF9F43;
+				color: white;
+			}
+
+			tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+
+			tr:hover {
+				background-color: #ddd;
+			}
+
+
+
 		</style>
     </head>
     <body>
@@ -313,69 +421,89 @@
 					</div>
 					<!-- /add -->
 
-					<div class="row">
-						<div class="col-md-12">
-							<div class="card">
-								<div class="card-body">
-									<h5 class="card-title">Información del administrador</h5>
-									<form action="#">
-										<div class="row">
-											<div class="col-xl-6">
-												<div class="form-group row">
-													<label class="col-lg-3 col-form-label">Nombre</label>
-													<div class="col-lg-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
-												<div class="form-group row">
-													<label class="col-lg-3 col-form-label">Apellido</label>
-													<div class="col-lg-9">
-														<input type="text" class="form-control">
-													</div>
-												</div>
+					<form id="pedidoForm" action="submit_form.php" method="POST">
+						<label for="nombre">Nombre del solicitante:</label><br>
+						<input type="text" id="nombre" name="nombre" required><br>
 
-												<div class="form-group row">
-													<label class="col-lg-3 col-form-label">Medicamentos</label>
-													<div class="col-lg-9">
-														<table id="medicamentosTable" class="display" style="width:100%">
-															<thead>
-															<tr>
-																<th>Nombre</th>
-																<th>Cantidad</th>
-																<th>Seleccionar</th>
-															</tr>
-															</thead>
-															<tbody>
-															<!-- Aquí puedes agregar las filas de datos de tu tabla -->
-															<tr>
-																<td>Medicamento 1</td>
-																<td><p><input type="number" class="small-input"></p></td>
-																<td><p><input type="checkbox"></p></td>
-															</tr>
-															<tr>
-																<td>Medicamento 2</td>
-																<td><p><input type="number" class="small-input"></p></td>
-																<td><p><input type="checkbox"></p></td>
-															</tr>
-															<!-- Puedes agregar más filas según sea necesario -->
-															</tbody>
-														</table>
-													</div>
+						<label for="contacto">Información de contacto:</label><br>
+						<input type="text" id="contacto" name="contacto" required><br>
 
-												</div>
-											</div>
-
-										</div>
-
-										<div class="">
-											<button type="submit" class="btn btn-primary">Enviar</button>
-										</div>
-									</form>
+						<fieldset>
+							<legend>Productos a reponer:</legend>
+							<div id="productos">
+								<div>
+									<select id="productoSelect">
+										<option value="" style="color: gray;">Seleccione un producto</option>
+										<option value="Medicamento 1">Medicamento 1</option>
+										<option value="Medicamento 2">Medicamento 2</option>
+										<option value="Medicamento 3">Medicamento 3</option>
+										<!-- Agrega más opciones de productos según sea necesario -->
+									</select>
+								</div>
+								<div>
+									<input type="number" id="cantidad" placeholder="Cantidad" min="1">
+								</div>
+								<div>
+									<button type="button" onclick="agregarProducto()" class="orange-button">+</button> <!-- Cambiado a naranja neon -->
 								</div>
 							</div>
-						</div>
-					</div>
-						
+						</fieldset>
+
+						<table id="pedidoTable">
+							<thead>
+							<tr>
+								<th>Producto</th>
+								<th>Cantidad</th>
+							</tr>
+							</thead>
+							<tbody id="pedidoBody">
+							</tbody>
+						</table>
+
+						<br>
+
+						<input type="submit" value="Enviar Solicitud" class="orange-button"> <!-- Cambiado a naranja neon -->
+						<button type="button" id="cancelarButton" onclick="cancelar()" class="orange-button">Cancelar</button> <!-- Cambiado a naranja neon -->
+					</form>
+
+					<script>
+						var productosAgregados = 0;
+
+						function agregarProducto() {
+							var producto = document.getElementById("productoSelect").value;
+							var cantidad = document.getElementById("cantidad").value;
+
+							if (producto && cantidad && productosAgregados < 10) {
+								var tbody = document.getElementById("pedidoBody");
+								var row = tbody.insertRow();
+
+								var cell1 = row.insertCell(0);
+								var cell2 = row.insertCell(1);
+
+								cell1.innerHTML = producto;
+								cell2.innerHTML = cantidad;
+
+								productosAgregados++;
+
+								if (productosAgregados === 10) {
+									document.getElementById("productoSelect").disabled = true;
+									document.getElementById("cantidad").disabled = true;
+									document.querySelector('button').disabled = true;
+								}
+
+								document.getElementById("pedidoForm").reset();
+							}
+						}
+
+						function cancelar() {
+							var tbody = document.getElementById("pedidoBody");
+							tbody.innerHTML = "";
+							productosAgregados = 0;
+							document.getElementById("productoSelect").disabled = false;
+							document.getElementById("cantidad").disabled = false;
+							document.querySelector('button').disabled = false;
+						}
+					</script>
 					<!-- /add -->
 				</div>
 			</div>

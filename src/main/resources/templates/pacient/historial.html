@@ -45,12 +45,13 @@
 	
 			  }
 
+
 			</style>
 
 			
 			
 		</head>
-		<body>
+		<body style="background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 			<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 				<defs>
 				  <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
@@ -106,138 +107,105 @@
 			<div class="main-wrapper">
 				
 				<!-- Header -->
-				<div class="header">
-						
-					<!-- Logo -->
-					 <div class="header-left active">
-						 <a href="page_compra_prueba.html" class="logo">
-							 <img src="images/LogoConLetras.png"  alt="">
-						 </a>
-						 <a href="page_compra_prueba.html" class="logo-small">
-							 <img src="assets/img/logo-small.png"  alt="">
-						 </a>
-						 <a id="toggle_btn" href="javascript:void(0);">
-						 </a>
-					</div>
-					<!-- /Logo -->
-					
-					<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-						<span class="bar-icon">
-							<span></span>
-							<span></span>
-							<span></span>
-						</span>
+				<nav class="navbar navbar-expand-custom navbar-mainbg">
+					<a  class="logo">
+						<img src="images/LOGO2.png" width="65" height="65">
 					</a>
-					
-					<!-- Header Menu -->
-					<ul class="nav user-menu">
+
+					<a class="navbar-brand navbar-logo"> Saint Medic</a>
 
 
-						<li class="nav-item">
-							<a href="seleccionarSede.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
-									<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
-								</svg>
-							</a>
-						</li>
+					<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<i class="fas fa-bars text-white"></i>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto">
+							<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+							<li class="nav-item">
+								<a class="nav-link" href="seleccionarSede.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+										<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+									</svg>
+									Elegir sede
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="principal.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+										<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+										<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+									</svg>
+									Home
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="generar_orden_compra.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+										<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+									</svg>
+									Orden de compra
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="historial.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+										<path d="M6 12v-2h3v2z"/>
+										<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+									</svg>
+									Historial
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link"  href="tracking.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+										<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+									</svg>
+									Tracking
+								</a>
+							</li>
+							<li class="nav-item" >
+								<a class="nav-link" href="chat.html">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+										<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+									</svg>
+									Chat
+								</a>
+							</li>
 
-						<li class="nav-item">
-							<a href="principal.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
-									<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
-									<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
-								</svg>
-							</a>
 
-						</li>
+							<li class="nav-item" >
+								<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
+							</li>
+							<li class="nav-item">
+								<a href="#">
+									<img src="assets/img/logOut.png" alt="Logout" width="25" height="25" >
+								</a>
+							</li>
 
-						<li class="nav-item">
-							<a href="generar_orden_compra.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-									<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-								</svg>
-							</a>
-						</li>
+						</ul>
 
-
-						<li class="nav-item">
-							<a href="historial.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
-									<path d="M6 12v-2h3v2z"/>
-									<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
-								</svg>
-							</a>
-
-						</li>
-
-
-						<li class="nav-item">
-							<a href="tracking.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
-									<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
-								</svg>
-							</a>
-
-						</li>
-
-						<li class="nav-item">
-							<a href="chat.html">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
-									<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
-								</svg>
-							</a>
-
-						</li>
-					
-						<li class="nav-item dropdown has-arrow main-drop">
-							<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-								<span class="user-img"><img src="images/perfil.png" alt="">
-								<span class="status online"></span></span>
-							</a>
-							<div class="dropdown-menu menu-drop-user">
-								<div class="profilename">
-									<div class="profileset">
-										<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
-										<span class="status online"></span></span>
-										<div class="profilesets">
-											<h6>Patricio</h6>
-											<h5>Paciente</h5>
-										</div>
-									</div>
-									<hr class="m-0">
-									<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i>Mi perfil</a>
-									<!---
-									<a class="dropdown-item" href="generalsettings.html"><i class="me-2" data-feather="settings"></i>Settings</a>-->
-									<hr class="m-0">
-									<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-								</div>
-							</div>
-						</li>
-					</ul>
-					<!-- /Header Menu -->
-					
-					<!-- Mobile Menu -->
-					<div class="dropdown mobile-user-menu">
-						<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-						<div class="dropdown-menu dropdown-menu-right">
-							<a class="dropdown-item" href="perfil.html">Mi perfil</a>
-							<!--
-							<a class="dropdown-item" href="generalsettings.html">Settings</a>-->
-							<a class="dropdown-item" href="signin.html">Cerrar sesión</a>
-						</div>
 					</div>
-					<!-- /Mobile Menu -->
-				</div>
+				</nav>
 				<!-- Header -->
 				
 				<!-- Sidebar -->
 				
 				<!-- /Sidebar -->
 				
-					<div class="content" style="margin-top: 4%;">
+					<div class="content" style="margin-top: 1%;">
 						<!-- /product list -->
+
+
 						<div class="card">
+
+
 							<div class="card-body">
+								<div class="page-header" style="margin-bottom: 1%">
+									<div class="page-title">
+										<h4>Historial de órdenes</h4>
+									</div>
+								</div>
+
 								<div class="table-top">
 									<div class="search-set">
 										<div class="search-path">
@@ -272,45 +240,11 @@
 									-->
 								</div>
 								<!-- /Filter -->
-								<div class="card" id="filter_inputs">
-									<div class="card-body pb-0">
-										<div class="row">
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" class="datetimepicker cal-icon" placeholder="Escoja fecha" >
-												</div>
-											</div>
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<input type="text" placeholder="Ingrese Número">
-												</div>
-											</div>
-											
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<select class="select">
-														<option>Escoja estado</option>
-														<option>Evaluación/option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<select class="select">
-														<option>Escoja estado de pago</option>
-														<option>Pagado</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg-1 col-sm-6 col-12">
-												<div class="form-group">
-													<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+
 								<!-- /Filter -->
+
+
+
 								<div class="card" id="filter_inputs">
 									<div class="card-body pb-0">
 										<div class="row">
@@ -355,6 +289,7 @@
 										<thead>
 											<tr>
 												<th>Número de Orden</th>
+												<th>Detalle</th>
 												<th>Fecha de emisión</th>
 												<th>Estado</th>
 												<th>Costo (S/.)</th>
@@ -365,128 +300,139 @@
 											<tr>
 												
 												<td class="text-bolds">1</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>550</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Aceptado</td>
+												<td>550.00</td>
+												<td>Pagado</td>
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">2</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>410</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Finalizado</td>
+												<td>410.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">3</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>210.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">4</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+												<td>En Evaluación</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">5</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+												<td>Rechazado</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
 											<tr>
 												
 												<td class="text-bolds">6</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a></td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td>Finalizado</td>
+												<td>210.00</td>
+												<td>---</td>
 
 											</tr>
+
 											<tr>
 												
-												<td class="text-bolds">7</td>
+												<td class="text-bolds">29</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+													</a>
+													</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightyellow">Evaluación</span></td>
-												<td>1000</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">8</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>550</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">9</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>410</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
+												<td class="text-bolds">19</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">10</td>
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">11</td>
+
+												<td class="text-bolds">23</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
 											<tr>
-												
-												<td class="text-bolds">12</td>
+
+												<td class="text-bolds">34</td>
+												<td><a href="detalle.html">
+													<img src="assets/img/icons/prescription2.svg" alt="img">
+
+												</a>
+												</td>
 												<td>07/04/24</td>
-												<td><span class="badges bg-lightred">Rechazado</span></td>
-												<td>210</td>
+												<td>Aceptado</td>
+												<td>410.00</td>
 												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 											</tr>
-											<tr>
-											
-												<td class="text-bolds">13</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightgreen">Finalizado</span></td>
-												<td>210</td>
-												<td><span class="badges bg-lightgreen">Pagado</span></td>
 
-											</tr>
-											<tr>
-												
-												<td class="text-bolds">14</td>
-												<td>07/04/24</td>
-												<td><span class="badges bg-lightyellow">Evaluación</span></td>
-												<td>1000</td>
-												<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
-											</tr>
 										</tbody>
 									</table>
 								</div>

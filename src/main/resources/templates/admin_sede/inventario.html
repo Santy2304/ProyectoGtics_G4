@@ -30,6 +30,46 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="assets/css/style.css">
+		<style>
+			/* Para el title*/
+
+			#text-container {
+				position: relative;
+			}
+
+			#glow {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none; /* Evita que el brillo interfiera con el texto */
+			}
+			/*suave con borrar lo anterior*/
+			table {
+				border-collapse: collapse;
+				width: 100%;
+				background-color: #f9f9f9; /* Color de fondo suave */
+				border-radius: 8px; /* Bordes redondeados */
+				overflow: hidden; /* Ocultar bordes redondeados en las esquinas */
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+			}
+
+			th, td {
+				padding: 12px 15px; /* Espaciado interior */
+				text-align: left; /* Alineación del texto */
+				border-bottom: 1px solid #ddd; /* Borde inferior */
+			}
+
+			th {
+				background-color: #ff8c00; /* Color de fondo de la cabecera */
+				color: white; /* Color del texto de la cabecera */
+			}
+
+			tr:hover {
+				background-color: #f2f2f2; /* Cambio de color al pasar el ratón */
+			}
+		</style>
 		
     </head>
     <body>
@@ -294,8 +334,11 @@
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
-						<div class="page-title">
-							<h4>MEDICAMENTOS - REPOSICIÓN</h4>
+						<div id="text-container">
+							<svg id="glow">
+								<path fill="none" stroke="#ff8c00" stroke-width="2" id="path"></path>
+							</svg>
+							<h1 id="title">INVENTARIO DE MEDICAMENTOS</h1>
 						</div>
 						<div class="page-btn">
 							<a href="reposicion.html" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
@@ -445,7 +488,25 @@
 			</div>
         </div>
 		<!-- /Main Wrapper -->
-		 
+
+		<script>
+			const text = document.querySelector('#title');
+			const glow = document.querySelector('#path');
+
+			const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
+			textPath.setAttribute('href', '#title');
+			textPath.textContent = text.textContent;
+
+			glow.appendChild(textPath);
+
+			const length = glow.getTotalLength();
+			glow.style.strokeDasharray = length;
+			glow.style.strokeDashoffset = length;
+
+			// Animación
+			glow.style.transition = 'stroke-dashoffset 2s ease-in-out';
+			glow.style.strokeDashoffset = '0';
+		</script>
 		<!-- jQuery -->
         <script src="assets/js/jquery-3.6.0.min.js"></script>
 

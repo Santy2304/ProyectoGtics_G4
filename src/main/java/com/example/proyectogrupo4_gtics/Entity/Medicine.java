@@ -1,12 +1,10 @@
 package com.example.proyectogrupo4_gtics.Entity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.List;
-
+@Entity
+@Table(name="medicine")
 public class Medicine {
 
     @Id
@@ -24,8 +22,6 @@ public class Medicine {
 
     private String description;
 
-    @OneToMany(mappedBy = "idmedicine")
-    private List<Lote> lote;
 
 
     public int getIdMedicine() {
@@ -76,11 +72,5 @@ public class Medicine {
         this.description = description;
     }
 
-    public List<Lote> getLote() {
-        return lote;
-    }
 
-    public void setLote(List<Lote> lote) {
-        this.lote = lote;
-    }
 }

@@ -1,11 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 import com.mysql.cj.jdbc.Blob;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+
+
 @Entity
 @Table(name="administrator")
 public class Administrator{

@@ -1,36 +1,28 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
+import jakarta.persistence.*;
 
 import java.util.Date;
-
+@Entity
+@Table(name="lote")
 public class Lote{
 
 
-    @Getter
     @Id
     @Column(name = "idlote")
     private int idLote;
 
-    @Getter
     private String site;
 
-    @Getter
     @Column(name = "expiredate")
     private Date expireDate;
 
-    @Getter
+
     @Column(name = "initialstock")
     private int initialStock;
 
-    @Getter
     private boolean expire;
 
-    @Getter
     private int stock;
 
     @ManyToOne

@@ -1,12 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+
+
 @Entity
 @Table(name="doctor")
 public class Doctor {

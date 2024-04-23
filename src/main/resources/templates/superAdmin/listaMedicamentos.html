@@ -345,7 +345,6 @@
 											<th>Lote</th>
 											<th>Nombre del Producto</th>
 											<th>Categoría</th>
-											<th>Subcategoría</th>
 											<!--<th>Marca</th>-->
 											<th>Cantidad</th>
 											<th>Precio</th>
@@ -354,19 +353,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="medicamento,obj: ${listaMedicamentos}">
 
 											<td>M001</td>
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
 													<img src="assets/img/product/product1.jpg" alt="product">
 												</a>
-												<span href="javascript:void(0);">Paracetamol</span>
+												<span href="javascript:void(0);" th:text="${medicamento.name}"></span>
 											</td>
-											<td>Dolor</td>
-											<td>Fiebre</td>
-											<td>50</td>
-											<td>0.50</td>
+											<td th:text="${medicamento.category}"></td>
+											<td> nose</td>
+											<td th:text="${medicamento.price}"></td>
 											<!--<td>100.00</td>
 											<td>Admin</td>-->
 											<td>
@@ -383,31 +381,6 @@
 										</tr>
 										<tr>
 
-											<td>M002</td>
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product1.jpg" alt="product">
-												</a>
-												<span href="javascript:void(0);">Paracetamol</span>
-											</td>
-											<td>Dolor</td>
-											<td>Fiebre</td>
-											<td>50</td>
-											<td>0.50</td>
-											<!--<td>100.00</td>
-											<td>Admin</td>-->
-											<td>
-												<a class="me-3" href="detallesProducto.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="editarMedicamento.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
 
 
 										<!--

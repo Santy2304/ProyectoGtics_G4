@@ -48,11 +48,35 @@ public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer>
     List<Medicine> listarMedicamentoPorNombre(String name);
 
 
-    //Editar sede a administrador
+    //Editar sede a administrador, pero falta un campo de fecha de edición en la bd del proyecto
     @Transactional
     @Modifying
     @Query(value = "update administrator set site = ?1 where idadministrator=?2", nativeQuery = true)
     void actualizarSedeAdmin(String sede, int idAdmin);
+
+    //Editar correo a admin
+    @Transactional
+    @Modifying
+    @Query(value ="update administrator set email = ?1 where idadministrator=?2", nativeQuery = true)
+    void actualizarEmailAdmin(String email, int idAdmin);
+
+    //Banear administrador
+    @Transactional
+    @Modifying
+    @Query(value = "update administrator set banned=TRUE where idadministrator=?1", nativeQuery= true)
+    void banearAdmin(int idAdmin);
+
+    //Registrar administrador
+    @Transactional
+    @Modifying
+    @Query(value = "insert into administrator (name,lastname,dni,site,email,password,datecreationaccount) values (?1,?2,?3,?4,?5,?6,now())",nativeQuery = true)
+    void agregarAdmin(String name, String lastname, String dni, String site,String email, String password);
+
+    //Editar perfil de SuperAdmin
+    @Transactional
+    @Modifying
+    @Query(value = "update superadmin set email = ?1", nativeQuery = true)
+    void actualizarPerfilSuperAdmin(String email);
 
 
 

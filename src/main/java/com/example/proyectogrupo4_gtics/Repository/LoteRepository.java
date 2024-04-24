@@ -4,5 +4,9 @@ import com.example.proyectogrupo4_gtics.Entity.Lote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface LoteRepository extends JpaRepository<Lote, Long> {
+public interface LoteRepository extends JpaRepository<Lote, Integer> {
+
+
+
+
 }

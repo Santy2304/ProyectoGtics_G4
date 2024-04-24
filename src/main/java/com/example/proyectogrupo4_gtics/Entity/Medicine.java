@@ -23,6 +23,9 @@ public class Medicine {
     private String description;
 
 
+    @OneToMany(mappedBy = "medicine")
+    private List<Lote> lote;
+
 
     public int getIdMedicine() {
         return idMedicine;

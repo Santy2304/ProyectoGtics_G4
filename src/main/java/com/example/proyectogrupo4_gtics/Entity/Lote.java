@@ -29,6 +29,10 @@ public class Lote{
     @JoinColumn(name="idpedidosreposicion")
     private ReplacementOrder replacementOrder;
 
+    @ManyToOne
+    @JoinColumn(name="idmedicine")
+    private Medicine medicine;
+
     public void setIdLote(int idLote) {
         this.idLote = idLote;
     }

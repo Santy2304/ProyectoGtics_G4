@@ -12,8 +12,6 @@ import java.util.List;
 
 @Controller
 public class SuperAdminController {
-
-
     final MedicineRepository medicineRepository;
     final PatientRepository patientRepository;
     final DoctorRepository doctorRepository;
@@ -30,6 +28,7 @@ public class SuperAdminController {
 
         return "superAdmin/listaMedicamentos";
     }
+
     //Solo para poder saltar entre vistas auxiliar de momento
     @GetMapping("/verSedeSuperAdmin")
     public String verSede(Model model) {

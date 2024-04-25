@@ -410,7 +410,7 @@
 
 	<div class="page-wrapper">
 		<div class="content">
-			<div class="page-header">
+			<div class="page-header text-center">
 				<div class="page-title">
 					<h4>Solicitud de Reposición</h4>
 				</div>
@@ -418,18 +418,18 @@
 			<!-- /add -->
 
 			<form id="pedidoForm" action="submit_form.php" method="POST">
-				<label for="nombre">Nombre del solicitante:</label><br>
+				<label for="nombre">Nombre:</label><br>
 				<input type="text" id="nombre" name="nombre" required><br>
 
-				<label for="contacto">Información de contacto:</label><br>
-				<input type="text" id="contacto" name="contacto" required><br>
+				<label for="dni">DNI:</label><br>
+				<input type="text" id="dni" name="dni" required><br>
 
 				<fieldset>
 					<legend>Productos a reponer:</legend>
 					<div id="productos">
 						<div>
 							<select id="productoSelect">
-								<option value="" style="color: gray;">Seleccione un producto</option>
+								<option value="" style="color: gray;">Seleccione un medicamento</option>
 								<option value="Medicamento 1">Medicamento 1</option>
 								<option value="Medicamento 2">Medicamento 2</option>
 								<option value="Medicamento 3">Medicamento 3</option>

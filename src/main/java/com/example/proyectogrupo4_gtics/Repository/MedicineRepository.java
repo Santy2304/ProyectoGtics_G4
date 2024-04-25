@@ -1,4 +1,15 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
-public interface MedicineRepository {
+import com.example.proyectogrupo4_gtics.Entity.Medicine;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
+public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
+
+    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio, l.stock as cantidad from medicine m \n" +
+            "inner join lote l on (m.idMedicine=l.idMedicine)")
+    List<cantidadMedicamentosDTO> obtenerDatosMedicamentos();
+
 }

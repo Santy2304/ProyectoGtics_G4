@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -10,29 +10,31 @@
 		<title>Saint Medic</title>
 
 		<!-- Favicon -->
-		<link rel="shortcut icon" type="image/x-icon" href="assets/img/PastillaSinFondo.png">
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
 
 
 		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		
+		<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
 		<!-- animation CSS -->
-        <link rel="stylesheet" href="assets/css/animate.css">
+		<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
 		<!-- Select2 CSS -->
-		<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
 
 		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
-		
-        <!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-		
+		<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
+
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
 		<!-- Main CSS -->
-        <link rel="stylesheet" href="assets/css/style.css">
-		
-    </head>
+		<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+	</head>
     <body>
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
@@ -46,10 +48,10 @@
 				<!-- Logo -->
 				<div class="header-left active">
 					<a href="error404.html" class="logo">
-						<img src="assets/img/LogoConLetras.png"  alt="">
+						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 					</a>
 					<a href="error404.html" class="logo-small">
-						<img src="assets/img/PastillaSinFondo.png"  alt="">
+						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
 					</a>
@@ -98,7 +100,7 @@
 
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
 						</a>
 						<div class="dropdown-menu notifications">
 							<div class="topnav-dropdown-header">
@@ -111,7 +113,7 @@
 										<a href="notifications.html">
 											<div class="media d-flex">
 												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/Farmacista.jpeg">
+													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
 												</span>
 												<div class="media-body flex-grow-1">
 													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
@@ -152,13 +154,13 @@
 
 					<li class="nav-item dropdown has-arrow main-drop">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="assets/img/Farmacista.jpeg" alt="">
+							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 							<span class="status online"></span></span>
 						</a>
 						<div class="dropdown-menu menu-drop-user">
 							<div class="profilename">
 								<div class="profileset">
-									<span class="user-img"><img src="assets/img/Farmacista.jpeg" alt="">
+									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 									<div class="profilesets">
 										<h6>Joshy Yauri</h6>
@@ -168,7 +170,7 @@
 								<hr class="m-0">
 								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
 								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+								<a class="dropdown-item logout pb-0" href="signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
 							</div>
 						</div>
 					</li>
@@ -195,34 +197,35 @@
 						<ul>
 
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="listados.html" class="active">Listas de Usuairo</a></li>
+									<li><a href="/verListadosSuperAdmin" class="active">Listas de Usuarios</a></li>
 
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="Sede.html">Pando Etapa 1</a></li>
-									<li><a href="Sede.html">Pando Etapa 2</a></li>
-									<li><a href="Sede.html">Pando Etapa 3</a></li>
-									<li><a href="Sede.html">Pando Etapa 4</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
 
 								</ul>
 
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="listaMedicamentos.html">Medicamentos</a></li>
+									<li><a href="/listaMedicamentosSuperAdmin">Medicamentos</a></li>
 								</ul>
 							</li>
+
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="perfil.html">Perfil</a></li>
-									<li><a href="notifications.html" > Notificaciones</a></li>
+									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
+									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -238,7 +241,7 @@
 							<h4>Administradores de Sede</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarAdminSede.html" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Registrat Nuevo Administrador</a>
+							<a href="AgregarAdminSede.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrat Nuevo Administrador</a>
 						</div>
 					</div>
 					
@@ -250,18 +253,18 @@
 								<div class="search-set">
 									<div class="search-path">
 										<a class="btn btn-filter" id="filter_search">
-											<img src="assets/img/icons/filter.svg" alt="img">
-											<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -297,7 +300,7 @@
 
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
 													</div>
 												</div>
 											</div>
@@ -326,7 +329,7 @@
 										<tr>
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product1.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
 											<td>Josh</td>
@@ -343,13 +346,13 @@
 											</td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="EditarAdministrador.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -357,7 +360,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product4.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
 												</a>
 											</td>
 											<td>Alex</td>
@@ -374,13 +377,13 @@
 											</td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="EditarAdministrador.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -388,7 +391,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product5.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
 												</a>
 											</td>
 											<td>Jean</td>
@@ -405,13 +408,13 @@
 											</td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="EditarAdministrador.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -419,7 +422,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product7.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
 												</a>
 											</td>
 											<td>Alonso</td>
@@ -436,13 +439,13 @@
 											</td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -450,7 +453,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product17.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
 												</a>
 											</td>
 											<td>Gabriel</td>
@@ -467,13 +470,13 @@
 											</td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -501,19 +504,19 @@
 								<div class="search-set">
 									<div class="search-path">
 										<a class="btn btn-filter" id="filter_search1">
-											<img src="assets/img/icons/filter.svg" alt="img">
-											<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 
 									</ul>
@@ -549,7 +552,7 @@
 
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
 													</div>
 												</div>
 											</div>
@@ -579,7 +582,7 @@
 
 											<td class="productimgname" style="text-align: center;">
 												<a href="#" class="product-img">
-												<img src="assets/img/product/product1.jpg" alt="product">
+												<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
 											<td>Hineill</td>
@@ -594,13 +597,13 @@
 											</div></td>
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="EditarFarmacista.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -629,18 +632,18 @@
 								<div class="search-set">
 									<div class="search-path">
 										<a class="btn btn-filter" id="filter_search2">
-											<img src="assets/img/icons/filter.svg" alt="img">
-											<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -676,7 +679,7 @@
 
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
 													</div>
 												</div>
 											</div>
@@ -704,7 +707,7 @@
 										<tr>
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product1.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
 											<td>Santiago</td>
@@ -720,11 +723,11 @@
 
 											<td>
 												<a class="me-3" href="product-details.html">
-													<img src="assets/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -744,7 +747,7 @@
 							<h4>Doctores</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarDoctor.html" class="btn btn-added"><img src="assets/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
+							<a href="AgregarDoctor.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
 						</div>
 					</div>
 
@@ -754,18 +757,18 @@
 								<div class="search-set">
 									<div class="search-path">
 										<a class="btn btn-filter" id="filter_search3">
-											<img src="assets/img/icons/filter.svg" alt="img">
-											<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="assets/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -799,7 +802,7 @@
 												</div>
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="assets/img/icons/search-whites.svg" alt="img"></a>
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
 													</div>
 												</div>
 											</div>
@@ -827,7 +830,7 @@
 										<tr>
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product1.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
 											<td>Josh</td>
@@ -841,10 +844,10 @@
 											<td>
 
 												<a class="me-3" href="EditarDoctor.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -852,7 +855,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product4.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
 												</a>
 											</td>
 											<td>Joshy</td>
@@ -866,10 +869,10 @@
 											<td>
 
 												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -877,7 +880,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product5.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
 												</a>
 											</td>
 											<td>Jhoshimar</td>
@@ -891,10 +894,10 @@
 											<td>
 
 												<a class="me-3" href="EditarDoctor.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -902,7 +905,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product7.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
 												</a>
 											</td>
 											<td>Joshua</td>
@@ -914,10 +917,10 @@
 											<td>
 
 												<a class="me-3" href="EditarDoctor.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -925,7 +928,7 @@
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
-													<img src="assets/img/product/product17.jpg" alt="product">
+													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
 												</a>
 											</td>
 											<td>Jhostin</td>
@@ -937,10 +940,10 @@
 
 											<td>
 												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a class="confirm-text" href="javascript:void(0);">
-													<img src="assets/img/icons/delete.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
@@ -958,33 +961,33 @@
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->
-        <script src="assets/js/jquery-3.6.0.min.js"></script>
+		<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
-        <!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+		<!--Feather Icon JS-->
+		<script src="/assets_superAdmin/js/feather.min.js"></script>
 
-		<!-- Slimscroll JS -->
-		<script src="assets/js/jquery.slimscroll.min.js"></script>
+		<!--Slimscroll JS-->
+		<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
 
-		<!-- Datatable JS -->
-		<script src="assets/js/jquery.dataTables.min.js"></script>
-		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
-		
-		<!-- Bootstrap Core JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+		<!-- Datatable JS-->
+		<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+		<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
 
-		<!-- Select2 JS -->
-		<script src="assets/plugins/select2/js/select2.min.js"></script>
+		<!--Bootstrap Core JS-->
+		<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>-->
 
-		<!-- Sweetalert 2 -->
-		<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-		<script src="assets/plugins/sweetalert/sweetalerts.min.js"></script>
+		<!--Select2 JS-->
+		<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
 
-		<!-- Custom JS -->
-		<script src="assets/js/script.js"></script>
+		<!-- Sweetalert 2-->
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
 
-		<script src="assets/js/moment.min.js"></script>
-		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+		<!-- Custom JS-->
+		<script src="/assets_superAdmin/js/script.js"></script>
+
+		<script src="/assets_superAdmin/js/moment.min.js"></script>
+		<script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
 
     </body>
 </html>

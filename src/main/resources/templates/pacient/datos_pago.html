@@ -12,22 +12,22 @@
 		<!-- Favicon -->
 		
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets_pacient/css/bootstrap.min.css">
 		
 		<!-- animation CSS -->
-		<link rel="stylesheet" href="assets/css/animate.css">
+		<link rel="stylesheet" href="assets_pacient/css/animate.css">
 
 		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" href="assets_pacient/css/dataTables.bootstrap4.min.css">
 		
 		<!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+		<link rel="stylesheet" href="assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="assets_pacient/plugins/fontawesome/css/all.min.css">
 		
 		<!-- Main CSS -->
-		<link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="assets_pacient/css/style.css">
 		
-		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="assets_pacient/css/bootstrap-datetimepicker.min.css">
 
 
 		<style>
@@ -56,6 +56,35 @@
 			</a>
 
 			<a class="navbar-brand navbar-logo"> Saint Medic</a>
+
+
+			<!-- Header -->
+	
+			<div class="header">
+						
+				<!-- Logo -->
+				 <div class="header-left active">
+					<a href="page_compra_prueba.html" class="logo">
+						<img src="assets_pacient/images/LogoConLetras.png" alt="">
+					</a>
+					<a href="page_compra_prueba.html" class="logo-small">
+						<img src="assets_pacient/img/logo-small.png" alt="">
+					</a>
+					<a id="toggle_btn" href="javascript:void(0);">
+					</a>
+				</div>
+				<!-- /Logo -->
+				
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+				
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
 
 
 			<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,13 +145,28 @@
 					</li>
 
 
-					<li class="nav-item" >
-						<a  href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
-					</li>
-					<li class="nav-item">
-						<a href="#">
-							<img src="assets/img/logOut.png" alt="Logout" width="25" height="25" >
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+							<span class="user-img"><img src="assets_pacient/images/perfil.png" alt="">
+							<span class="status online"></span></span>
 						</a>
+						<div class="dropdown-menu menu-drop-user">
+							<div class="profilename">
+								<div class="profileset">
+									<span class="user-img"><img src="assets_pacient/img/profiles/avator1.jpg" alt="">
+									<span class="status online"></span></span>
+									<div class="profilesets">
+										<h6>Patricio</h6>
+										<h5>Paciente</h5>
+									</div>
+								</div>
+								<hr class="m-0">
+								<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i>Mi perfil</a>
+								<hr class="m-0">
+								<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets_pacient/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+							</div>
+						</div>
+
 					</li>
 
 				</ul>
@@ -136,12 +180,13 @@
 			<!-- Header -->
 			<!-- Sidebar -->
 			<!-- /Sidebar -->
-				<div class="content py-3" style=" margin-top: 1%; background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover; margin-left:7% ; margin-right:7%">
+				<div class="content py-3" style=" margin-top: 4%; background-image: url('assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+
 					<div class="row mx-1">
 						<div class="col-lg-3 col-sm-6 col-12">
 							<div class="dash-widget">
 								<div class="dash-widgetimg">
-									<span><img src="assets/img/icons/dash1.svg" alt="img"></span>
+									<span><img src="assets_pacient/img/icons/dash1.svg" alt="img"></span>
 								</div>
 								<div class="dash-widgetcontent">
 									<h5 >S/90.00</h5>
@@ -254,7 +299,7 @@
 												<tr>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
-															<img src="images/aspirina.jpeg" alt="product">
+															<img src="assets_pacient/images/aspirina.jpeg" alt="product">
 														</a>
 														<a href="#">Aspirina 500mg</a>
 													</td>
@@ -265,7 +310,7 @@
 												<tr>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
-															<img src="images/ibuprofeno.png" alt="product">
+															<img src="assets_pacient/images/ibuprofeno.png" alt="product">
 														</a>
 														<a href="#">Ibuprofeno 800mg </a>
 													</td>
@@ -286,35 +331,35 @@
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->
-		<script src="assets/js/jquery-3.6.0.min.js"></script>
+		<script src="assets_pacient/js/jquery-3.6.0.min.js"></script>
 
 		<!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+		<script src="assets_pacient/js/feather.min.js"></script>
 
 		<!-- Slimscroll JS -->
-		<script src="assets/js/jquery.slimscroll.min.js"></script>
+		<script src="assets_pacient/js/jquery.slimscroll.min.js"></script>
 
 		<!-- Datatable JS -->
-		<script src="assets/js/jquery.dataTables.min.js"></script>
-		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+		<script src="assets_pacient/js/jquery.dataTables.min.js"></script>
+		<script src="assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 		
 		<!-- Bootstrap Core JS -->
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<script src="assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 		<!-- Chart JS -->
-		<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-		<script src="assets/plugins/apexchart/chart-data.js"></script>
+		<script src="assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
+		<script src="assets_pacient/plugins/apexchart/chart-data.js"></script>
 		
 		<!-- Custom JS -->
-		<script src="assets/js/script.js"></script>
+		<script src="assets_pacient/js/script.js"></script>
 		
 		<!-- Datetimepicker JS -->
-		<script src="assets/js/moment.min.js"></script>
-		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="assets_pacient/js/moment.min.js"></script>
+		<script src="assets_pacient/js/bootstrap-datetimepicker.min.js"></script>
 
 
-		<script src="assets/js/jquery.dataTables.min.js"></script>
-		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+		<script src="assets_pacient/js/jquery.dataTables.min.js"></script>
+		<script src="assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 
 	</body>
 </html>

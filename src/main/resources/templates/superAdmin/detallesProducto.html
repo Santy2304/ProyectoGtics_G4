@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -9,33 +9,31 @@
         <meta name="robots" content="noindex, nofollow">
 		<title>Saint Medic</title>
 
+
 		<!-- Favicon -->
-		<link rel="shortcut icon" type="image/x-icon" href="assets/img/PastillaSinFondo.png">
+		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
 
 
 		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		
+		<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
 		<!-- animation CSS -->
-        <link rel="stylesheet" href="assets/css/animate.css">
+		<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
 		<!-- Select2 CSS -->
-		<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
-
-		<!-- Owl Carousel CSS -->
-		<link rel="stylesheet" href="assets/plugins/owlcarousel/owl.carousel.min.css">
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
 
 		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
-		
-        <!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-		
+		<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
+
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
 		<!-- Main CSS -->
-        <link rel="stylesheet" href="assets/css/style.css">
-		
-    </head>
+		<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+	</head>
     <body>
 		
 		<div id="global-loader" >
@@ -51,10 +49,10 @@
 				<!-- Logo -->
 				<div class="header-left active">
 					<a href="error404.html" class="logo">
-						<img src="assets/img/LogoConLetras.png"  alt="">
+						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 					</a>
 					<a href="error404.html" class="logo-small">
-						<img src="assets/img/PastillaSinFondo.png"  alt="">
+						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
 					</a>
@@ -103,7 +101,7 @@
 
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="assets/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
 						</a>
 						<div class="dropdown-menu notifications">
 							<div class="topnav-dropdown-header">
@@ -116,7 +114,7 @@
 										<a href="notifications.html">
 											<div class="media d-flex">
 												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/Farmacista.jpeg">
+													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
 												</span>
 												<div class="media-body flex-grow-1">
 													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
@@ -157,13 +155,13 @@
 
 					<li class="nav-item dropdown has-arrow main-drop">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="assets/img/Farmacista.jpeg" alt="">
+							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 							<span class="status online"></span></span>
 						</a>
 						<div class="dropdown-menu menu-drop-user">
 							<div class="profilename">
 								<div class="profileset">
-									<span class="user-img"><img src="assets/img/Farmacista.jpeg" alt="">
+									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 									<div class="profilesets">
 										<h6>Joshy Yauri</h6>
@@ -173,7 +171,7 @@
 								<hr class="m-0">
 								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
 								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="../pharmacist/signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+								<a class="dropdown-item logout pb-0" href="../signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
 							</div>
 						</div>
 					</li>
@@ -185,7 +183,7 @@
 					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<div class="dropdown-menu dropdown-menu-right">
 						<a class="dropdown-item" href="perfil.html">Mi Perfil</a>
-						<a class="dropdown-item" href="../pharmacist/signin.html">Logout</a>
+						<a class="dropdown-item" href="../signin.html">Logout</a>
 					</div>
 				</div>
 				<!-- /Mobile Menu -->
@@ -200,39 +198,37 @@
 						<ul>
 
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="listados.html">Listas de Usuairo</a></li>
+									<li><a href="/verListadosSuperAdmin" >Listas de Usuairo</a></li>
 
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="Sede.html">Pando Etapa 1</a></li>
-									<li><a href="Sede.html">Pando Etapa 2</a></li>
-									<li><a href="Sede.html">Pando Etapa 3</a></li>
-									<li><a href="Sede.html">Pando Etapa 4</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
 
 								</ul>
 
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="listaMedicamentos.html" class="active" >Medicamentos</a></li>
+									<li><a href="/listaMedicamentosSuperAdmin" class="active" >Medicamentos</a></li>
 								</ul>
 							</li>
 
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="assets/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="perfil.html">Perfil</a></li>
-									<li><a href="notifications.html" > Notificaciones</a></li>
+									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
+									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
 								</ul>
 							</li>
-
-
 						</ul>
 					</div>
 				</div>
@@ -253,9 +249,9 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="bar-code-view">
-										<img src="assets/img/barcode1.png" alt="barcode">
+										<img src="/assets_superAdmin/img/barcode1.png" alt="barcode">
 										<a class="printimg">
-											<img src="assets/img/icons/printer.svg" alt="print">
+											<img src="/assets_superAdmin/img/icons/printer.svg" alt="print">
 										</a>
 									</div>
 									<div class="productdetails">
@@ -327,11 +323,11 @@
 									<div class="slider-product-details">
 										<div class="owl-carousel owl-theme product-slide">
 											<div class="slider-product">
-												<img src="assets/img/product/product69.jpg" alt="img">
+												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
 												<h4>paracetamol.jpg</h4>
 											</div>
 											<div class="slider-product">
-												<img src="assets/img/product/product69.jpg" alt="img">
+												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
 												<h4>paracetamol2.jpg</h4>
 											</div>
 										</div>
@@ -348,25 +344,30 @@
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->
-        <script src="assets/js/jquery-3.6.0.min.js"></script>
+		<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
-        <!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+		<!--Feather Icon JS-->
+		<script src="/assets_superAdmin/js/feather.min.js"></script>
 
-		<!-- Slimscroll JS -->
-		<script src="assets/js/jquery.slimscroll.min.js"></script>
+		<!--Slimscroll JS-->
+		<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
 
-		<!-- Bootstrap Core JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+		<!-- Datatable JS-->
+		<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+		<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
 
-		<!-- Owl JS -->
-		<script src="assets/plugins/owlcarousel/owl.carousel.min.js"></script>
+		<!--Bootstrap Core JS-->
+		<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>-->
 
-		<!-- Select2 JS -->
-		<script src="assets/plugins/select2/js/select2.min.js"></script>
+		<!--Select2 JS-->
+		<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
 
-		<!-- Custom JS -->
-		<script src="assets/js/script.js"></script>
+		<!-- Sweetalert 2-->
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+
+		<!-- Custom JS-->
+		<script src="/assets_superAdmin/js/script.js"></script>
 		
     </body>
 </html>

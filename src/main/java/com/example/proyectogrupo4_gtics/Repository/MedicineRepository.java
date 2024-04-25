@@ -1,7 +1,9 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -26,5 +28,10 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<cantidadMedicamentosDTO> obtenerDatosMedicamentos();
 
 
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
+    void actualizarMedicine(String name,String category,Double price,String description ,int idMedicine);
 
 }

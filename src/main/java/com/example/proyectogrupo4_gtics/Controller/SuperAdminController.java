@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -120,14 +121,59 @@ public class SuperAdminController {
                     loteRepository.save(lote4);
                 }
 
+        return "redirect:/listaMedicamentosSuperAdmin";
+    }
 
 
+    //Editar medicamento
 
+    @GetMapping("/editarMedicamento")
+    public String editarMedicamento(@RequestParam("idMedicine") int idMedicine, Model model) {
+
+        Optional<Medicine> medicineOptional = medicineRepository.findById(idMedicine);
+        if (medicineOptional.isPresent()) {
+            Medicine medicine = medicineOptional.get();
+            model.addAttribute("medicine", medicine);
+            return "superAdmin/editarMedicamento";
+        } else {
+            return "redirect:/listaMedicamentosSuperAdmin";
+        }
+    }
+
+
+    @PostMapping("/guardarCambiosMedicamento")
+    public String guardarCambiosMedicamento(Medicine medicine) {
+        medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
         return "redirect:/listaMedicamentosSuperAdmin";
     }
 
 
 
+
+    //Detalle
+
+    @GetMapping("/verDetallesProductoSuperAdmin")
+    public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
+
+        Optional<Medicine> medicineOptional = medicineRepository.findById(idMedicine);
+        if (medicineOptional.isPresent()) {
+            Medicine medicine = medicineOptional.get();
+            model.addAttribute("medicine", medicine);
+            return "superAdmin/detallesProducto";
+        } else {
+            return "redirect:/listaMedicamentosSuperAdmin";
+        }
+
+    }
+
+
+
+
+
+    @GetMapping("/verDetalleMedicamentosSuperAdmin")
+    public String verDetalleMedicamentos() {
+        return "superAdmin/DetalleMedicamentos";
+    }
 
 
     //Solo para poder saltar entre vistas auxiliar de momento
@@ -151,10 +197,7 @@ public class SuperAdminController {
     public String verListados() {
         return "superAdmin/listados";
     }
-    @GetMapping("/verEditarMedicamentoSuperAdmin")
-    public String verEditarMedicamento() {
-        return "superAdmin/editarMedicamento";
-    }
+
     @GetMapping("/verEditarFarmacistaSuperAdmin")
     public String verEditarFarmacista() {
         return "superAdmin/EditarFarmacista";
@@ -167,14 +210,7 @@ public class SuperAdminController {
     public String verEditarAdministrador() {
         return "superAdmin/EditarAdministrador";
     }
-    @GetMapping("/verDetallesProductoSuperAdmin")
-    public String verDetallesProducto() {
-        return "superAdmin/detallesProducto";
-    }
-    @GetMapping("/verDetalleMedicamentosSuperAdmin")
-    public String verDetalleMedicamentos() {
-        return "superAdmin/DetalleMedicamentos";
-    }
+
 
     @PostMapping("/formNewMedicamento")
     public String addNewMedicine(Medicine medicine){

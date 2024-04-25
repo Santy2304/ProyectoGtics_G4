@@ -283,77 +283,81 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre Completo</label>
-										<input type="text" >
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" >
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Codigo de colegiatura</label>
-										<input type="text" >
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Telefono</label>
-										<input type="text" >
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Correo</label>
-										<input type="text" >
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Distrito de residencia</label>
-										<select class="select">
-											<option>Select</option>
-											<option>Owner</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Password</label>
-										<div class="pass-group">
-											<input type="password" class=" pass-input">
-											<span class="fas toggle-password fa-eye-slash"></span>
+					<form method="POST" th:action="@{/agregarFarmacista}">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<input type="hidden" th:value="${farmacista.idFarmacista}" name="farmacistaId">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input name="nameFarmacista" id="nameFarmacista" type="text" >
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Perfil</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Subir imagen</h4>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Apellido</label>
+											<input name="apellidoFarmacista"  id="apellidoFarmacista"type="text" >
+										</div>
+									</div>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>DNI</label>
+											<input name="dniFarmacista" id="dniFarmacista" type="text" >
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Código de colegiatura</label>
+											<input name="codigoFarmacista" id="codigoFarmacista" type="text" >
+										</div>
+									</div>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Correo</label>
+											<input name="correoFarmacista" id="correoFarmacista" type="text" >
+										</div>
+									</div>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Distrito de residencia</label>
+											<select class="select">
+												<option>Select</option>
+												<option>Owner</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Contraseña</label>
+											<div class="pass-group">
+												<input type="password" class=" pass-input">
+												<span class="fas toggle-password fa-eye-slash"></span>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Enviar solicitud</a>
-									<a href="userlist.html"  class="btn btn-cancel">Cancelar</a>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Perfil</label>
+											<div class="image-upload">
+												<input type="file">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Subir imagen</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<a href="javascript:void(0);" class="btn btn-submit me-2">Enviar solicitud</a>
+										<a href="userlist.html"  class="btn btn-cancel">Cancelar</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</form>
+
 					<!-- /add -->
 				</div>
 			</div>

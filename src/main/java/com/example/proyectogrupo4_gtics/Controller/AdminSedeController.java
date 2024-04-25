@@ -1,7 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.Entity.Doctor;
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
+import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Repository.DoctorRepository;
 import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
 import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminSedeController {
@@ -31,6 +31,31 @@ public class AdminSedeController {
     public String listPharmacist(Model model) {
         model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede());
         return "admin_sede/pharmacistlist";
+    }
+    @PostMapping("/agregarFarmacista")
+    public String agregarFarmacista(@RequestParam("nameFarmacista") String nameFarmacista,
+                                   @RequestParam("apellidoFarmacista")String apellidoFarmacista,
+                                   @RequestParam("dniFarmacista") String dniFarmacista,
+                                   @RequestParam("codigoFarmacista") String codeFarmacista,
+                                   @RequestParam("correoFarmacista") String correoFarmacista,
+                                   @RequestParam("distritoFarmacista") String distritoFarmacista,
+                                   @RequestParam("contrasenaFarmacista") String contrasenaFarmacista,
+                                   @RequestParam("photoFarmacista") String fotoFarmacista,
+                                   Model model){
+        Pharmacist farmacista = new Pharmacist();
+        farmacista.setName(nameFarmacista);
+        farmacista.setLastName(apellidoFarmacista);
+        farmacista.setDni(dniFarmacista);
+        farmacista.setCode(codeFarmacista);
+        farmacista.setEmail(correoFarmacista);
+        farmacista.setDistrit(distritoFarmacista);
+        farmacista.setPassword(contrasenaFarmacista);
+        farmacista.setPhoto(fotoFarmacista);
+        pharmacistRepository.save(farmacista);
+
+        model.addAttribute("farmacista", farmacista);
+
+        return "admin_sede/addpharmacist";
     }
     /*Linkear las demás vistas*/
     @GetMapping("dashboardAdminSede")

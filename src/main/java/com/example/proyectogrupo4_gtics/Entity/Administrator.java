@@ -1,8 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 import com.mysql.cj.jdbc.Blob;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 @Entity
@@ -38,6 +39,7 @@ public class Administrator{
     private String photo; /*Persistence no me deja poner Blob*/
 
     @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
 
     public int getIdAdministrador() {

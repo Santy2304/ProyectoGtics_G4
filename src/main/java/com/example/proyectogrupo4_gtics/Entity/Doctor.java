@@ -1,8 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 @Entity
@@ -29,6 +30,7 @@ public class Doctor {
     private String email;
 
     @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate;
 
     public int getIdDoctor() {

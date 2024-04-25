@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import java.util.Date;
 @Entity
 @Table(name="lote")
-
 public class Lote{
 
     @Id
@@ -22,6 +21,7 @@ public class Lote{
 
     private int stock;
 
+    private boolean visible;
     @ManyToOne
     @JoinColumn(name="idpedidosreposicion")
     private ReplacementOrder replacementOrder;
@@ -84,5 +84,13 @@ public class Lote{
 
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

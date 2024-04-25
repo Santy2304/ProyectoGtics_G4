@@ -8,6 +8,7 @@ import java.util.List;
 public class Medicine {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idmedicine")
     private int idMedicine;
 

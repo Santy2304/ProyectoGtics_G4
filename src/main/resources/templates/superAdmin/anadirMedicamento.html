@@ -67,33 +67,6 @@
 				<!-- Header Menu -->
 				<ul class="nav user-menu">
 
-					<!-- Search -->
-					<!--
-                    <li class="nav-item">
-                        <div class="top-nav-search">
-
-                            <a href="javascript:void(0);" class="responsive-search">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <form action="#">
-                                <div class="searchinputs">
-                                    <input type="text" placeholder="Search Here ...">
-                                    <div class="search-addon">
-                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                                    </div>
-                                </div>
-                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-                            </form>
-                        </div>
-                    </li>
-                    -->
-					<!-- /Search -->
-
-					<!-- Flag -->
-
-					<!-- /Flag -->
-
-					<!-- Notifications -->
 
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
@@ -119,24 +92,6 @@
 											</div>
 										</a>
 									</li>
-
-
-									<!--Ejemplo completo-->
-									<!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
 
 
 
@@ -240,26 +195,37 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{/formNewMedicamento}">
+					<form method="post" th:action="@{/crearMedicamento}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Nombre del Producto</label>
-											<input type="text">
+											<label for="nameMedicine">Nombre del Producto</label>
+											<input name="nameMedicine" type="text" id="nameMedicine">
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Categoría</label>
-											<select class="select">
+											<label for="category">Categoría</label>
+											<select name="category" class="select" id="category">
 												<option>Selecciona categoría</option>
-												<option>Dolor</option>
-												<option>Suplemento</option>
+												<option value="Dolor">Dolor</option>
+												<option value="Suplemento">Suplemento</option>
+												<option value="Belleza">Belleza</option>
+												<option value="Alergias">Alergias</option>
+												<option value="Otros">Otros</option>
 											</select>
 										</div>
 									</div>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="priceMedicine" >Precio del Producto</label>
+											<input name="priceMedicine" type="text" id="priceMedicine">
+										</div>
+									</div>
+
 
 
 									<!--
@@ -273,12 +239,7 @@
 										</div>
 									</div>
 									-->
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="form-group">
-											<label>Lote</label>
-											<input type="text" >
-										</div>
-									</div>
+
 									<!--
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
@@ -287,36 +248,44 @@
 										</div>
 									</div>
 									-->
+
+
+									<div class="form-group">
+										<label for="description">Descripción</label>
+										<textarea name="description" id="description" class="form-control"></textarea>
+									</div>
+
+
+<!--
+									<h4 class="mb-4"><strong><u>Disponilidad</u></strong></h4>
+
+
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Fecha de Producción</label>
-											<input type="text">
+											<label for="stockPando1">Cantidad en Pando 1</label>
+											<input name="stockPando1" id="stockPando1" type="text">
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="stockPando2">Cantidad en Pando 2</label>
+											<input name="stockPando2" id="stockPando2" type="text">
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Fecha de Caducidad</label>
-											<input type="text">
-										</div>
-									</div>
-									<div class="col-lg-12">
-										<div class="form-group">
-											<label>Descripción</label>
-											<textarea class="form-control"></textarea>
+											<label for="stockPando3">Cantidad en Pando 3</label>
+											<input name="stockPando3" id="stockPando3" type="text">
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Cantidad</label>
-											<input type="text">
+											<label for="stockPando4">Cantidad en Pando 4</label>
+											<input name="stockPando4" id="stockPando4" type="text">
 										</div>
 									</div>
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="form-group">
-											<label>Precio</label>
-											<input type="text">
-										</div>
-									</div>
+
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Disponibilidad</label>
@@ -327,6 +296,7 @@
 											</select>
 										</div>
 									</div>
+									-->
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label>Imagen del Producto</label>
@@ -340,8 +310,8 @@
 										</div>
 									</div>
 									<div class="col-lg-12">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Añadir</a>
-										<a href="listaMedicamentos.html" class="btn btn-cancel">Cancelar</a>
+										<button type="submit" class="btn btn-submit me-2">Añadir</button>
+										<button href="listaMedicamentos.html" class="btn btn-cancel">Cancelar</button>
 									</div>
 								</div>
 							</div>

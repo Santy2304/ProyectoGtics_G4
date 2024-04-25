@@ -8,8 +8,23 @@ import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
-    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio, l.stock as cantidad from medicine m \n" +
-            "inner join lote l on (m.idMedicine=l.idMedicine)")
+
+    List<Medicine> findByIdMedicine(int idMedicine);
+
+    @Query(nativeQuery = true, value = "SELECT \n" +
+            "    m.idMedicine AS idMedicine, \n" +
+            "    m.name AS nombreMedicamento, \n" +
+            "    m.category AS categoria, \n" +
+            "    m.price AS precio, \n" +
+            "    COALESCE(SUM(l.stock), 0) AS cantidad \n" +
+            "FROM \n" +
+            "    medicine m \n" +
+            "LEFT JOIN \n" +
+            "    lote l ON m.idMedicine = l.idMedicine \n" +
+            "GROUP BY \n" +
+            "    m.idMedicine, m.name, m.category, m.price;")
     List<cantidadMedicamentosDTO> obtenerDatosMedicamentos();
+
+
 
 }

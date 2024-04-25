@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import java.util.Date;
 @Entity
 @Table(name="lote")
+
 public class Lote{
 
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idlote")
     private int idLote;
 
@@ -16,10 +17,6 @@ public class Lote{
 
     @Column(name = "expiredate")
     private Date expireDate;
-
-
-    @Column(name = "initialstock")
-    private int initialStock;
 
     private boolean expire;
 
@@ -33,28 +30,59 @@ public class Lote{
     @JoinColumn(name="idmedicine")
     private Medicine medicine;
 
+    public int getIdLote() {
+        return idLote;
+    }
+
     public void setIdLote(int idLote) {
         this.idLote = idLote;
+    }
+
+    public String getSite() {
+        return site;
     }
 
     public void setSite(String site) {
         this.site = site;
     }
 
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
     }
 
-    public void setInitialStock(int initialStock) {
-        this.initialStock = initialStock;
+    public boolean isExpire() {
+        return expire;
     }
 
     public void setExpire(boolean expire) {
         this.expire = expire;
     }
 
+    public int getStock() {
+        return stock;
+    }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
 
+    public ReplacementOrder getReplacementOrder() {
+        return replacementOrder;
+    }
+
+    public void setReplacementOrder(ReplacementOrder replacementOrder) {
+        this.replacementOrder = replacementOrder;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
 }

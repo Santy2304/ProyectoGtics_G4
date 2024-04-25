@@ -1,11 +1,10 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Entity.Administrator;
+import com.example.proyectogrupo4_gtics.Entity.Doctor;
 import com.example.proyectogrupo4_gtics.Entity.Lote;
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
-import com.example.proyectogrupo4_gtics.Repository.DoctorRepository;
-import com.example.proyectogrupo4_gtics.Repository.LoteRepository;
-import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
-import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -24,11 +24,14 @@ public class SuperAdminController {
     final DoctorRepository doctorRepository;
 
     final LoteRepository loteRepository;
-    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository) {
+    final AdministratorRepository administratorRepository;
+
+    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
+        this.administratorRepository = administratorRepository;
     }
 
     @GetMapping("/listaMedicamentosSuperAdmin")
@@ -148,7 +151,13 @@ public class SuperAdminController {
         return "superAdmin/notifications";
     }
     @GetMapping("/verListadosSuperAdmin")
-    public String verListados() {
+    public String verListados(Model model) {
+
+        List<Doctor> listaDoctores = doctorRepository.findAll();
+        model.addAttribute("listaDoctores", listaDoctores);
+        List<Administrator> listaAdminSede = administratorRepository.findAll();
+        model.addAttribute("listaAdminSede", listaAdminSede);
+
         return "superAdmin/listados";
     }
     @GetMapping("/verEditarMedicamentoSuperAdmin")

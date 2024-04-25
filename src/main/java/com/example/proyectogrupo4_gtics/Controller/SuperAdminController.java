@@ -373,15 +373,29 @@ public class SuperAdminController {
     public String verEditarFarmacista() {
         return "superAdmin/EditarFarmacista";
     }
-    @GetMapping("/verEditarDoctorSuperAdmin")
-    public String verEditarDoctor() {
-        return "superAdmin/EditarDoctor";
+    @GetMapping("/editarDoctor")
+    public String verEditarDoctor(@RequestParam("idDoctor") int idDoctor , Model model) {
+        Optional<Doctor> doctor =  doctorRepository.findById(idDoctor);
+        if(doctor.isPresent()){
+            model.addAttribute("doctor", doctor.get());
+            return "superAdmin/EditarDoctor";
+        }else{
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
+
+
     @GetMapping("/verEditarAdministradorSuperAdmin")
     public String verEditarAdministrador() {
         return "superAdmin/EditarAdministrador";
     }
 
+    @PostMapping("/editarDoctor")
+    public String editarDoctor(Doctor doctor){
+        //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
+        doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(), doctor.getIdDoctor());
+        return "redirect:/verListadosSuperAdmin";
+    }
 
     @PostMapping("/formNewMedicamento")
     public String addNewMedicine(Medicine medicine){

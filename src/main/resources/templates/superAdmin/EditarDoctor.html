@@ -290,7 +290,8 @@
 			</div>
 
 			<!-- /Sidebar -->
-
+			<form method="post" th:action="@{/editarDoctor}" th:object="${doctor}">
+				<input name="idDoctor"  th:field="*{idDoctor}" type="hidden">
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
@@ -305,19 +306,19 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input type="text" value="Josh">
+										<input name="name" type="text" th:field="${doctor.name}">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Apellidos</label>
-										<input type="text" value="Yauri">
+										<input name="lastName" type="text" th:field="${doctor.lastName}">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input type="text" value="12345678">
+										<input name="dni" type="text" th:field="${doctor.dni}">
 									</div>
 								</div>
 
@@ -325,18 +326,17 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input type="text" value="teamogineil@mail.com">
+										<input name="email" type="text" th:field="${doctor.email}">
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Sede</label>
-										<select class="select">
-											<option>Pando 1</option>
+										<select class="select" name="site">
+											<option th:if="doctor.site eq 'Pando 1' " selected>Pando 1</option>
 											<option>Pando 2</option>
 											<option>Pando 3</option>
 											<option>Pando 4</option>
-
 										</select>
 									</div>
 								</div>
@@ -369,8 +369,8 @@
 									</div>
 								</div>
 								<div class="col-lg-12">
-									<a href="listados.html" class="btn btn-submit me-2">Confirmar</a>
-									<a  href="listados.html" class="btn btn-cancel">Cancelar</a>
+									<button type="submit" class="btn btn-submit me-2">Confirmar</button>
+									<button  href="/verListadosSuperAdmin" class="btn btn-cancel">Cancelar</button>
 								</div>
 							</div>
 						</div>
@@ -378,6 +378,7 @@
 					<!-- /add -->
 				</div>
 			</div>
+			</form>
         </div>
 		<!-- /Main Wrapper -->
 		 

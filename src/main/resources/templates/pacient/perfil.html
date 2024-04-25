@@ -136,9 +136,10 @@
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
 
-				<div class="content" style="margin-left:5% ; margin-right:5%">
+				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
+						<form method="post" th:action="@{/editarPerfilPaciente}">
 						<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
@@ -154,27 +155,26 @@
 											</div>
 										</div>
 										<div class="profile-contentname">
-											<h2>William Castillo</h2>
+											<h2 th:text="${usuario.name}"></h2>
 											<h4>Actualiza tu foto y datos personales</h4>
 										</div>
 									</div>
 									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+										<button type="submit" class="btn btn-submit me-2">Guardar</button>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6 col-sm-12">
+									<input type="hidden" th:field="*{usuario.id}">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input type="text" placeholder="William" readonly>
+										<input type="text" th:value="${usuario.name}" readonly>
 									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
+
 									<div class="form-group">
 										<label>Apellido</label>
-										<input type="text" placeholder="Castilo" readonly>
+										<input type="text" th:value="${usuario.lastName}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
@@ -189,25 +189,25 @@
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Dirección</label>
-										<input type="text" placeholder="Av. universitaria N° 1XX">
+										<input type="text" th:value="${usuario.location}">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input type="text" placeholder="7729XXXX" readonly>
+										<input type="text" th:value="|${usuario.dni}|" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input type="text" placeholder="someone@something.com" readonly>
+										<input type="text" th:value="${usuario.email}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Seguro</label>
-										<input type="text" placeholder="Seguro X">
+										<input type="text" th:value="${usuario.insurance}">
 									</div>
 								</div>
 								<!-- A futuro puede servir
@@ -222,11 +222,17 @@
 								</div>
 								-->
 								<div class="col-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-									<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+									<button type="submit" class="btn btn-submit me-2">Guardar</button>
+									<a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
 								</div>
+								<script>
+									function regresarPaginaAnterior() {
+										window.history.back();
+									}
+								</script>
 							</div>
 						</div>
+						</form>
 					</div>
 					<!-- /product list -->
 				</div>

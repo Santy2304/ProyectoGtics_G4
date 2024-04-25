@@ -41,29 +41,13 @@
                     <h5 class="card-title mb-0" th:text="${site.name}"></h5>
                 </div>
                 <div class="card-body">
-                    <p class="card-text" th:text=" Dirección: |${site.name}|" >Dirección:<br>
-                        Av. Somewhere N° ---</p>
-                    <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div class="col-12 col-md-6 col-lg-4 d-flex">
-            <div class="card flex-fill bg-white">
-                <img alt="Card Image" src="../assets_pacient/images/sede3.jpeg" class="card-img-top">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Pando3</h5>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Dirección:<br>
-                        Av. Somewhere N° ---</p>
-                    <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
+                    <p class="card-text" th:text="|Dirección: ${site.address}|" ></p>
+                    <a class="btn btn-primary" th:href="|/elegirSedePrimeraVez?idSede=${site.getIdSite()}|">Ir a la tienda</a>
                 </div>
             </div>
         </div>
     </div>
+    <!--
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4 d-flex">
             <div class="card flex-fill bg-white">
@@ -105,6 +89,7 @@
             </div>
         </div>
     </div>
+    -->
 
 
 </section>

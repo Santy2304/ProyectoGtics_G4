@@ -123,94 +123,21 @@
                 <div class="line"></div>
             </div>
 
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-
-
-
-
-                        <img alt="Card Image" src="../assets_pacient/images/sede1.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando1</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
+                <div class="row">
+                    <div class="col-12 col-md-6 col-lg-4 d-flex" th:each="site : ${listaSede}" th:if="site.idSite != sede.id">
+                        <div class="card flex-fill bg-white">
+                            <img alt="Card Image" src="../assets_pacient/images/sede1.jpeg" class="card-img-top">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0" th:text="${site.name}"></h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text" th:text="|Dirección: ${site.address}|" ></p>
+                                <a class="btn btn-primary" th:href="|/elegirSedePrimeraVez?idSede=${site.getIdSite()}|">Ir a la tienda</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="../assets_pacient/images/sede2.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando2</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="../assets_pacient/images/sede3.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando3</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="../assets_pacient/images/sede4.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando4</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="../assets_pacient/images/sede1.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando5</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="card flex-fill bg-white">
-                        <img alt="Card Image" src="../assets_pacient/images/sede2.jpeg" class="card-img-top">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">Pando6</h5>
-                        </div>
-                        <div class="card-body">
-                            <p class="card-text">Dirección:<br>
-                                Av. Somewhere N° ---</p>
-                            <a class="btn btn-primary" href="principal.html">Ir a la tienda</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
 
         </section>

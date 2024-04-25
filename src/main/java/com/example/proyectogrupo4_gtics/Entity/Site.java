@@ -12,7 +12,6 @@ public class Site {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idsite")
     private int idSite;
-
     private String name;
 
     private String address;

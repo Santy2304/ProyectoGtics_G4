@@ -13,23 +13,23 @@
         <!link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
 		
 		<!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets_pacient/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
 		
 		<!-- animation CSS -->
-        <link rel="stylesheet" href="assets_pacient/css/animate.css">
+        <link rel="stylesheet" href="../assets_pacient/css/animate.css">
 
 		<!-- Select2 CSS -->
-		<link rel="stylesheet" href="assets_pacient/plugins/select2/css/select2.min.css">
+		<link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
 
 		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="assets_pacient/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
 		
         <!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets_pacient/plugins/fontawesome/css/all.min.css">
+		<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
 		
 		<!-- Main CSS -->
-        <link rel="stylesheet" href="assets_pacient/css/style.css">
+        <link rel="stylesheet" href="../assets_pacient/css/style.css">
 		
 		<style>
         
@@ -54,7 +54,7 @@
 
 		<nav class="navbar navbar-expand-custom navbar-mainbg">
 			<a  class="logo">
-				<img src="assets_pacient/images/LOGO2.png" width="65" height="65">
+				<img src="../assets_pacient/images/LOGO2.png" width="65" height="65">
 			</a>
 
 			<a class="navbar-brand navbar-logo"> Saint Medic</a>
@@ -119,11 +119,11 @@
 
 
 					<li class="nav-item active" >
-						<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="assets_pacient/images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
+						<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="../assets_pacient/images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
 					</li>
 					<li class="nav-item">
 						<a href="#">
-							<img src="assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+							<img src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
 						</a>
 					</li>
 
@@ -136,10 +136,12 @@
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
 
-				<div class="content">
+				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<div class="card-body">
+						<form method="post" th:action="@{/editarPerfilPaciente}">
+							<input type="hidden" name="idPatient" th:field="*{usuario.idPatient}">
+							<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
 
@@ -147,20 +149,19 @@
 								<div class="profile-top">
 									<div class="profile-content">
 										<div class="profile-contentimg">
-											<img src="assets_pacient/images/perfil.png" alt="img" id="blah">
+											<img src="../assets_pacient/images/perfil.png" alt="img" id="blah">
 											<div class="profileupload">
 												<input type="file" id="imgInp">
-												<a href="javascript:void(0);" ><img src="assets_pacient/img/icons/edit-set.svg" alt="img"></a>
+												<a href="javascript:void(0);" ><img src="../assets_pacient/img/icons/edit-set.svg" alt="img"></a>
 											</div>
 										</div>
 										<div class="profile-contentname">
-											<h2>William Castillo</h2>
+											<h2 th:text="${usuario.name}"></h2>
 											<h4>Actualiza tu foto y datos personales</h4>
 										</div>
 									</div>
 									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+										<button type="submit" class="btn btn-submit me-2">Guardar</button>
 									</div>
 								</div>
 							</div>
@@ -168,46 +169,47 @@
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input type="text" placeholder="William" readonly>
+										<input name="name" type="text" th:value="${usuario.name}" readonly>
 									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
+
 									<div class="form-group">
 										<label>Apellido</label>
-										<input type="text" placeholder="Castilo" readonly>
+										<input name="lastName"type="text" th:value="${usuario.lastName}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Distrito</label>
-										<select class="select">
+										<select class="select" name="distrit" >
+											<option th:value="${usuario.distrit}" selected ></option>
 											<option>San Miguel</option>
-											<option>Otro distrito</option>
+											<option>Callao</option>
+											<option>Rimac</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Dirección</label>
-										<input type="text" placeholder="Av. universitaria N° 1XX">
+										<input name="location" type="text" th:value="${usuario.location}">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input type="text" placeholder="7729XXXX" readonly>
+										<input name="dni" type="text" th:value="|${usuario.dni}|" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input type="text" placeholder="someone@something.com" readonly>
+										<input name="email" type="text" th:value="${usuario.email}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Seguro</label>
-										<input type="text" placeholder="Seguro X">
+										<input name="insurance" type="text" th:value="${usuario.insurance}">
 									</div>
 								</div>
 								<!-- A futuro puede servir
@@ -222,11 +224,17 @@
 								</div>
 								-->
 								<div class="col-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-									<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+									<button type="submit" class="btn btn-submit me-2">Guardar</button>
+									<a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
 								</div>
+								<script>
+									function regresarPaginaAnterior() {
+										window.history.back();
+									}
+								</script>
 							</div>
 						</div>
+						</form>
 					</div>
 					<!-- /product list -->
 				</div>
@@ -237,30 +245,30 @@
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->
-        <script src="assets_pacient/js/jquery-3.6.0.min.js"></script>
+        <script src="../assets_pacient/js/jquery-3.6.0.min.js"></script>
 
         <!-- Feather Icon JS -->
-		<script src="assets_pacient/js/feather.min.js"></script>
+		<script src="../assets_pacient/js/feather.min.js"></script>
 
 		<!-- Slimscroll JS -->
-		<script src="assets_pacient/js/jquery.slimscroll.min.js"></script>
+		<script src="../assets_pacient/js/jquery.slimscroll.min.js"></script>
 
 		<!-- Datatable JS -->
-		<script src="assets_pacient/js/jquery.dataTables.min.js"></script>
-		<script src="assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+		<script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
+		<script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 		
 		<!-- Bootstrap Core JS -->
-        <script src="assets_pacient/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 		<!-- Select2 JS -->
-		<script src="assets_pacient/plugins/select2/js/select2.min.js"></script>
+		<script src="../assets_pacient/plugins/select2/js/select2.min.js"></script>
 
 		<!-- Sweetalert 2 -->
-		<script src="assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
-		<script src="assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+		<script src="../assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+		<script src="../assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
 		<!-- Custom JS -->
-		<script src="assets_pacient/js/script.js"></script>
+		<script src="../assets_pacient/js/script.js"></script>
 		
     </body>
 </html>

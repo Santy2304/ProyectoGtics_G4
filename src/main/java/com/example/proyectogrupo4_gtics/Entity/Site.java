@@ -13,6 +13,7 @@ public class Site {
     @Column(name="idsite", nullable=false)
     private int idSite;
 
+
     @Column(name = "name", nullable = false)
     private String name;
 

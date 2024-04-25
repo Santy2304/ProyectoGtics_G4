@@ -1,25 +1,30 @@
+/*
+Author       : Dreamguys
+Template Name: POS - Bootstrap Admin Template
+*/
+
 (function($) {
 
   "use strict";
 
   var initPreloader = function() {
     $(document).ready(function($) {
-    var Body = $('body');
-        Body.addClass('preloader-site');
+      var Body = $('body');
+      Body.addClass('preloader-site');
     });
     $(window).load(function() {
-        $('.preloader-wrapper').fadeOut();
-        $('body').removeClass('preloader-site');
+      $('.preloader-wrapper').fadeOut();
+      $('body').removeClass('preloader-site');
     });
   }
 
   // init Chocolat light box
-	var initChocolat = function() {
-		Chocolat(document.querySelectorAll('.image-link'), {
-		  imageSize: 'contain',
-		  loop: true,
-		})
-	}
+  var initChocolat = function() {
+    Chocolat(document.querySelectorAll('.image-link'), {
+      imageSize: 'contain',
+      loop: true,
+    })
+  }
 
   var initSwiper = function() {
 
@@ -112,17 +117,17 @@
       var quantity = 0;
 
       $el_product.find('.quantity-right-plus').click(function(e){
-          e.preventDefault();
-          var quantity = parseInt($el_product.find('#quantity').val());
-          $el_product.find('#quantity').val(quantity + 1);
+        e.preventDefault();
+        var quantity = parseInt($el_product.find('#quantity').val());
+        $el_product.find('#quantity').val(quantity + 1);
       });
 
       $el_product.find('.quantity-left-minus').click(function(e){
-          e.preventDefault();
-          var quantity = parseInt($el_product.find('#quantity').val());
-          if(quantity>0){
-            $el_product.find('#quantity').val(quantity - 1);
-          }
+        e.preventDefault();
+        var quantity = parseInt($el_product.find('#quantity').val());
+        if(quantity>0){
+          $el_product.find('#quantity').val(quantity - 1);
+        }
       });
 
     });
@@ -140,7 +145,7 @@
 
   // document ready
   $(document).ready(function() {
-    
+
     initPreloader();
     initSwiper();
     initProductQty();

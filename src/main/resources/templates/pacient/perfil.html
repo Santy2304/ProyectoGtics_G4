@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -139,7 +139,7 @@
 				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<form method="post" th:action="@{/editarPerfilPaciente}">
+						<form method="post" th:action="@{/editarPerfilPaciente} ">
 							<input type="hidden" name="idPatient" th:field="*{usuario.idPatient}">
 							<div class="card-body">
 							<div class="profile-set">

@@ -71,10 +71,10 @@ public class SuperAdminController {
     @PostMapping("/crearLotesNuevoMedicamento")
     public String crearMedicamento(
                                    @RequestParam("expireDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date expireDate,
-                                   @RequestParam("stockPando1") int stockPando1,
-                                   @RequestParam("stockPando2") int stockPando2,
-                                   @RequestParam("stockPando3") int stockPando3,
-                                   @RequestParam("stockPando4") int stockPando4,
+                                   @RequestParam(value = "stockPando1", required = false, defaultValue = "0") int stockPando1,
+                                   @RequestParam(value = "stockPando2",required = false, defaultValue = "0") int stockPando2,
+                                   @RequestParam(value = "stockPando3",required = false, defaultValue = "0") int stockPando3,
+                                   @RequestParam(value = "stockPando4",required = false, defaultValue = "0") int stockPando4,
                                    @RequestParam("medicineId") int medicineId) {
 
         Medicine medicine = medicineRepository.findById(medicineId).orElse(null);

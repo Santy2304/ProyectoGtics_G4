@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -8,12 +8,8 @@
         <meta name="author" content="Dreamguys - Bootstrap Admin Template">
         <meta name="robots" content="noindex, nofollow">
 		<title>Saint Medic</title>
-
-
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
-
-
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
 
@@ -48,10 +44,10 @@
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
-					<a href="error404.html" class="logo">
+					<a  class="logo">
 						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 					</a>
-					<a href="error404.html" class="logo-small">
+					<a  class="logo-small">
 						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
@@ -244,115 +240,118 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre del Producto</label>
-										<input type="text">
+					<form method="post" th:action="@{/formNewMedicamento}">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Nombre del Producto</label>
+											<input type="text">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Categoría</label>
-										<select class="select">
-											<option>Selecciona categoría</option>
-											<option>Dolor</option>
-											<option>Suplemento</option>
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Categoría</label>
+											<select class="select">
+												<option>Selecciona categoría</option>
+												<option>Dolor</option>
+												<option>Suplemento</option>
+											</select>
+										</div>
 									</div>
-								</div>
 
 
-								<!--
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Unit</label>
-										<select class="select">
-											<option>Choose Unit</option>
-											<option>Unit</option>
-										</select>
+									<!--
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Unit</label>
+											<select class="select">
+												<option>Choose Unit</option>
+												<option>Unit</option>
+											</select>
+										</div>
 									</div>
-								</div>
-								-->
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Lote</label>
-										<input type="text" >
+									-->
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Lote</label>
+											<input type="text" >
+										</div>
 									</div>
-								</div>
-								<!--
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Minimum Qty</label>
-										<input type="text" >
+									<!--
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Minimum Qty</label>
+											<input type="text" >
+										</div>
 									</div>
-								</div>
-								-->
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Fecha de Producción</label>
-										<input type="text">
+									-->
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Fecha de Producción</label>
+											<input type="text">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Fecha de Caducidad</label>
-										<input type="text">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Fecha de Caducidad</label>
+											<input type="text">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Descripción</label>
-										<textarea class="form-control"></textarea>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Descripción</label>
+											<textarea class="form-control"></textarea>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Cantidad</label>
-										<input type="text">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Cantidad</label>
+											<input type="text">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Precio</label>
-										<input type="text">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Precio</label>
+											<input type="text">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Disponibilidad</label>
-										<select class="select">
-											<option>Todos</option>
-											<option>Pando Etapa 1</option>
-											<option>Ninguno</option>
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Disponibilidad</label>
+											<select class="select">
+												<option>Todos</option>
+												<option>Pando Etapa 1</option>
+												<option>Ninguno</option>
+											</select>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Imagen del Producto</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Arrastre y suelte un archivo a subir</h4>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Imagen del Producto</label>
+											<div class="image-upload">
+												<input type="file">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Arrastre y suelte un archivo a subir</h4>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Añadir</a>
-									<a href="listaMedicamentos.html" class="btn btn-cancel">Cancelar</a>
+									<div class="col-lg-12">
+										<a href="javascript:void(0);" class="btn btn-submit me-2">Añadir</a>
+										<a href="listaMedicamentos.html" class="btn btn-cancel">Cancelar</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					<!-- /add -->
+					</form>
 				</div>
 			</div>
         </div>
+
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->

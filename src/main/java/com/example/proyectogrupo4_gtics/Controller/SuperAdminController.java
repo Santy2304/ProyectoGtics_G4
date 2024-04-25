@@ -7,6 +7,7 @@ import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -76,6 +77,11 @@ public class SuperAdminController {
     public String verAddMedicamento() {
         return "superAdmin/añadirMedicamento";
     }
+    @PostMapping("/formNewMedicamento")
+    public String addNewMedicine(Medicine medicine){
+
+        return "redirect:listarMedicamentos";
+    }
     @GetMapping("/verAgregarDoctorSuperAdmin")
     public String verAgregarDoctor() {
         return "superAdmin/AgregarDoctor";
@@ -84,10 +90,6 @@ public class SuperAdminController {
     public String verAgregarAdminSede() {
         return "superAdmin/AgregarAdminSede";
     }
-
-
-
-
 
 
 }

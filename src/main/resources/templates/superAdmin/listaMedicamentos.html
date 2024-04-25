@@ -135,9 +135,9 @@
 									</div>
 								</div>
 								<hr class="m-0">
-								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
+								<a class="dropdown-item" href="/verPerfilSuperAdmin"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
 								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="../signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+								<a class="dropdown-item logout pb-0" href="/inicioSesion"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
 							</div>
 						</div>
 					</li>
@@ -149,8 +149,8 @@
 				<div class="dropdown mobile-user-menu">
 					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="perfil.html">Mi Perfil</a>
-						<a class="dropdown-item" href="../signin.html">Logout</a>
+						<a class="dropdown-item" href="/verPerfilSuperAdmin">Mi Perfil</a>
+						<a class="dropdown-item" href="/inicioSesion">Logout</a>
 					</div>
 				</div>
 				<!-- /Mobile Menu -->
@@ -210,7 +210,7 @@
 							<h6>Administre los productos</h6>
 						</div>
 						<div class="page-btn">
-							<a href="añadirMedicamento.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
+							<a href="/verAñadirMedicamentoSuperAdmin" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
 						</div>
 					</div>
 					
@@ -331,7 +331,7 @@
 											<td th:text="${medicamento.getCantidad()}"></td>
 											<td th:text="${medicamento.getPrecio()}"></td>
 											<td>
-												<a class="me-3" href="detallesProducto.html">
+												<a class="me-3" href="/verDetalleMedicamentosSuperAdmin">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" href="editarMedicamento.html">

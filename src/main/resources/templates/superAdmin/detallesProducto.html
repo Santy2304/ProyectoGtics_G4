@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-        <meta name="description" content="POS - Bootstrap Admin Template">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		<meta name="description" content="POS - Bootstrap Admin Template">
 		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
-        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
-        <meta name="robots" content="noindex, nofollow">
+		<meta name="author" content="Dreamguys - Bootstrap Admin Template">
+		<meta name="robots" content="noindex, nofollow">
 		<title>Saint Medic</title>
 
+		<!-- Favicon -->
 
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
@@ -34,15 +35,15 @@
 		<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 
 	</head>
-    <body>
-		
+	<body>
+
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
 		</div>
-		 
+
+
 		<!-- Main Wrapper -->
-        <div class="main-wrapper">
-			
+		<div class="main-wrapper">
 			<!-- Header -->
 			<div class="header">
 				<!-- Logo -->
@@ -190,8 +191,8 @@
 			</div>
 
 			<!-- Header -->
-			
-           <!-- Sidebar -->
+
+			<!-- Sidebar -->
 			<div class="sidebar" id="sidebar">
 				<div class="sidebar-inner slimscroll">
 					<div id="sidebar-menu" class="sidebar-menu">
@@ -200,7 +201,7 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="/verListadosSuperAdmin" >Listas de Usuairo</a></li>
+									<li><a href="/verListadosSuperAdmin" >Listas de Usuarios</a></li>
 
 								</ul>
 							</li>
@@ -234,115 +235,90 @@
 				</div>
 			</div>
 			<!-- /Sidebar -->
-			
+
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
-							<h4>Detalles del Producto</h4>
-							<h6>Datos completos del producto</h6>
+							<h4>Detalle del Producto</h4>
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="row">
-						<div class="col-lg-8 col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="bar-code-view">
-										<img src="/assets_superAdmin/img/barcode1.png" alt="barcode">
-										<a class="printimg">
-											<img src="/assets_superAdmin/img/icons/printer.svg" alt="print">
-										</a>
-									</div>
-									<div class="productdetails">
-										<ul class="product-bar">
-											<li>
-												<h4>Producto</h4>
-												<h6>Paracetamol</h6>
-											</li>
-											<li>
-												<h4>Categoría</h4>
-												<h6>Dolor</h6>
-											</li>
-											<li>
-												<h4>Subcategoría</h4>
-												<h6>Fiebre</h6>
-											</li>
-											<li>
-												<h4>Marca</h4>
-												<h6>Genérico</h6>
-											</li>
-											<!--
-											<li>
-												<h4>Unidad</h4>
-												<h6>Blister</h6>
-											</li>
-											-->
-											<li>
-												<h4>Lote</h4>
-												<h6>M001</h6>
-											</li>
-											<!--
-											<li>
-												<h4>Minimum Qty</h4>
-												<h6>5</h6>
-											</li>
-											-->
-											<li>
-												<h4>Cantidad</h4>
-												<h6>50</h6>
-											</li>
-											<li>
-												<h4>Fecha de Producción</h4>
-												<h6>X-04-2024</h6>
-											</li>
-											<li>
-												<h4>Fecha de caducidad</h4>
-												<h6>X-06-2024</h6>
-											</li>
-											<li>
-												<h4>Precio</h4>
-												<h6>0.50</h6>
-											</li>
-											<li>
-												<h4>Disponibilidad</h4>
-												<h6>Pando Etapa 1, Pando Etapa 2</h6>
-											</li>
-											<li>
-												<h4>Descripción</h4>
-												<h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</h6>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-4 col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="slider-product-details">
-										<div class="owl-carousel owl-theme product-slide">
-											<div class="slider-product">
-												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
-												<h4>paracetamol.jpg</h4>
-											</div>
-											<div class="slider-product">
-												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
-												<h4>paracetamol2.jpg</h4>
-											</div>
+					<form  th:object="${medicine}">
+						<input type="hidden" th:field="*{idMedicine}">
+
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label >Nombre del Producto</label>
+											<input disabled="disabled" type="text" th:field="*{name}">
 										</div>
 									</div>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Categoría</label>
+											<input disabled="disabled" type="text" th:field="*{category}">
+
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label  >Precio del Producto</label>
+											<input  disabled="disabled" type="text" th:field="*{price}">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label >Descripción</label>
+										<textarea th:field="*{description}" class="form-control" disabled="disabled"></textarea>
+									</div>
+
+
+
+
+
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Imagen del Producto</label>
+
+										</div>
+									</div>
+									<div class="col-12">
+										<div class="product-list">
+											<ul class="row">
+												<li>
+													<div class="productviews">
+														<div class="productviewsimg">
+															<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
+														</div>
+														<div class="productviewscontent">
+															<div class="productviewsname">
+																<h2>paracetamol.jpg</h2>
+																<h3>581kb</h3>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<a th:href="@{/listaMedicamentosSuperAdmin}" class="btn btn-submit me-2" >Regresar</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-						
-					<!-- /add -->
+						<!-- /add -->
+					</form>
 				</div>
 			</div>
-        </div>
+		</div>
 		<!-- /Main Wrapper -->
-		 
+
 		<!-- jQuery -->
 		<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
@@ -368,6 +344,6 @@
 
 		<!-- Custom JS-->
 		<script src="/assets_superAdmin/js/script.js"></script>
-		
-    </body>
+
+	</body>
 </html>

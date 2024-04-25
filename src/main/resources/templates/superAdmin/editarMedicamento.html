@@ -245,144 +245,88 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre del Producto</label>
-										<input type="text" value="Paracetamol" readonly>
+					<form method="post" th:action="@{/guardarCambiosMedicamento}" th:object="${medicine}">
+						<input type="hidden" th:field="*{idMedicine}">
+
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label >Nombre del Producto</label>
+											<input  type="text" th:field="*{name}">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Categoría</label>
-										<select class="select">
-											<option>Dolor</option>
-											<option>Suplemento</option>
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="category">Categoría</label>
+											<select name="category" class="select" id="category">
+												<option>Selecciona categoría</option>
+												<option value="Dolor" th:selected="${medicine.category == 'Dolor'}">Dolor</option>
+												<option value="Suplemento" th:selected="${medicine.category == 'Suplemento'}">Suplemento</option>
+												<option value="Belleza" th:selected="${medicine.category == 'Belleza'}">Belleza</option>
+												<option value="Alergias" th:selected="${medicine.category == 'Alergias'}">Alergias</option>
+												<option value="Otros" th:selected="${medicine.category == 'Otros'}">Otros</option>
+											</select>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Subcategoría</label>
-										<select class="select">
-											<option>Fiebre</option>
-											<option>Antihistamínico</option>
-										</select>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label  >Precio del Producto</label>
+											<input  type="text" th:field="*{price}">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
+
 									<div class="form-group">
-										<label>Marca</label>
-										<input type="text" value="Genérico" readonly>
+										<label >Descripción</label>
+										<textarea th:field="*{description}" class="form-control"></textarea>
 									</div>
-								</div>
-								<!--
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Unit</label>
-										<select class="select">
-											<option>Piece</option>
-											<option>Kg</option>
-										</select>
-									</div>
-								</div>
-								-->
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Lote</label>
-										<input type="text" value="M001" readonly>
-									</div>
-								</div>
-								<!--
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Minimum Qty</label>
-										<input type="text" value="5">
-									</div>
-								</div>
-								-->
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Cantidad</label>
-										<input type="text" value="50">
-									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Descripción</label>
-										<textarea class="form-control">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</textarea>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Fecha de Producción</label>
-										<input type="text" value="X-04-2024">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Fecha de Caducidad</label>
-										<input type="text" value="X-06-2024">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Precio (S/.)</label>
-										<input type="text" value="0.50">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Disponibilidad</label>
-										<select class="select">
-											<option>Pando Etapa 1</option>
-											<option>Todos</option>
-											<option>Ninguno</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Imagen del Producto</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Arrastre y suelte un archivo a subir</h4>
+
+
+
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Imagen del Producto</label>
+											<div class="image-upload">
+												<input type="file">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Arrastre y suelte un archivo a subir</h4>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-12">
-									<div class="product-list">
-										<ul class="row">
-											<li>
-												<div class="productviews">
-													<div class="productviewsimg">
-														<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
-													</div>
-													<div class="productviewscontent">
-														<div class="productviewsname">
-															<h2>paracetamol.jpg</h2>
-															<h3>581kb</h3>
+									<div class="col-12">
+										<div class="product-list">
+											<ul class="row">
+												<li>
+													<div class="productviews">
+														<div class="productviewsimg">
+															<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
 														</div>
-														<a href="javascript:void(0);" class="hideset">x</a>
+														<div class="productviewscontent">
+															<div class="productviewsname">
+																<h2>paracetamol.jpg</h2>
+																<h3>581kb</h3>
+															</div>
+															<a href="javascript:void(0);" class="hideset">x</a>
+														</div>
 													</div>
-												</div>
-											</li>
-										</ul>
+												</li>
+											</ul>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Actualizar</a>
-									<a href="listaMedicamentos.html" class="btn btn-cancel" >Cancelar</a>
+									<div class="col-lg-12">
+										<button type="submit" class="btn btn-submit me-2">Actualizar</button>
+										<a th:href="@{/listaMedicamentosSuperAdmin}" class="btn btn-cancel" >Cancelar</a>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
 					<!-- /add -->
+					</form>
 				</div>
 			</div>
         </div>

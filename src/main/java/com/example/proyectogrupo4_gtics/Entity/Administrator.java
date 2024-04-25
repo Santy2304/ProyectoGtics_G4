@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -40,7 +41,7 @@ public class Administrator{
 
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date creationDate;
+    private LocalDate creationDate;
 
     public int getIdAdministrador() {
         return idAdministrador;
@@ -114,11 +115,11 @@ public class Administrator{
         this.photo = photo;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 }

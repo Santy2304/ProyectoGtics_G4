@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -17,8 +18,8 @@ public class Doctor {
     @Column(name="name")
     private String name;
 
-    @Column(name="lastname")
-    private String lastname;
+    @Column(name="lastname", nullable=false)
+    private String lastName;
 
     @Column(name="dni")
     private String dni;
@@ -31,7 +32,7 @@ public class Doctor {
 
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date creationDate;
+    private LocalDate creationDate;
 
     public int getIdDoctor() {
         return idDoctor;
@@ -49,12 +50,12 @@ public class Doctor {
         this.name = name;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getDni() {
@@ -81,11 +82,11 @@ public class Doctor {
         this.email = email;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 }

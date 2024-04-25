@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.StringWriter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.List;
@@ -186,6 +187,17 @@ public class SuperAdminController {
                                             @RequestParam("disponibilidadPando4") String disponible4) {
         medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
 
+        Calendar calendar = Calendar.getInstance();
+
+        // Obtener la fecha actual
+        Date fechaActual = new Date();
+        calendar.setTime(fechaActual);
+
+        // Agregar tres años a la fecha actual
+        calendar.add(Calendar.YEAR, 3);
+
+        // Obtener la nueva fecha después de agregar tres años
+        Date nuevaFecha = calendar.getTime();
 
         boolean visibilidad1;
         boolean visibilidad2;
@@ -196,40 +208,102 @@ public class SuperAdminController {
         if (disponible1.equals("si")){
             visibilidad1 = true;
 
+            List<String> listaLotesPando1 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 1");
+
+            if (listaLotesPando1.isEmpty()){
+                Lote lote1 = new Lote();
+                lote1.setExpireDate(nuevaFecha);
+                lote1.setStock(50);
+                lote1.setSite("Pando 1");
+                lote1.setMedicine(medicine);
+                lote1.setExpire(false);
+                lote1.setVisible(true);
+                loteRepository.save(lote1);
+            }else{
+                loteRepository.actualizarVisibilidadSede(visibilidad1, medicine.getIdMedicine(),"Pando 1");
+            }
+
         }else{
             visibilidad1 = false;
+            loteRepository.actualizarVisibilidadSede(visibilidad1, medicine.getIdMedicine(),"Pando 1");
+
         }
-        loteRepository.actualizarVisibilidadSede(visibilidad1, medicine.getIdMedicine(),"Pando 1");
 
 
         //Para sede 2
         if (disponible2.equals("si")){
             visibilidad2 = true;
 
+            List<String> listaLotesPando2 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 2");
+
+            if (listaLotesPando2.isEmpty()){
+                Lote lote2 = new Lote();
+                lote2.setExpireDate(nuevaFecha);
+                lote2.setStock(50);
+                lote2.setSite("Pando 1");
+                lote2.setMedicine(medicine);
+                lote2.setExpire(false);
+                lote2.setVisible(true);
+                loteRepository.save(lote2);
+
+            }else{
+                loteRepository.actualizarVisibilidadSede(visibilidad2, medicine.getIdMedicine(),"Pando 2");
+
+            }
         }else{
             visibilidad2 = false;
+            loteRepository.actualizarVisibilidadSede(visibilidad2, medicine.getIdMedicine(),"Pando 2");
+
         }
-        loteRepository.actualizarVisibilidadSede(visibilidad2, medicine.getIdMedicine(),"Pando 2");
 
         //Para sede 3
         if (disponible3.equals("si")){
             visibilidad3 = true;
+            List<String> listaLotesPando3 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 3");
+
+            if (listaLotesPando3.isEmpty()){
+                Lote lote3 = new Lote();
+                lote3.setExpireDate(nuevaFecha);
+                lote3.setStock(50);
+                lote3.setSite("Pando 1");
+                lote3.setMedicine(medicine);
+                lote3.setExpire(false);
+                lote3.setVisible(true);
+                loteRepository.save(lote3);
+            }else{
+                loteRepository.actualizarVisibilidadSede(visibilidad3, medicine.getIdMedicine(),"Pando 3");
+
+            }
 
         }else{
             visibilidad3 = false;
+            loteRepository.actualizarVisibilidadSede(visibilidad3, medicine.getIdMedicine(),"Pando 3");
+
         }
-        loteRepository.actualizarVisibilidadSede(visibilidad3, medicine.getIdMedicine(),"Pando 3");
 
         //Para sede4
         if (disponible4.equals("si")){
             visibilidad4 = true;
+            List<String> listaLotesPando4 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 4");
 
+            if (listaLotesPando4.isEmpty()){
+                Lote lote4 = new Lote();
+                lote4.setExpireDate(nuevaFecha);
+                lote4.setStock(50);
+                lote4.setSite("Pando 1");
+                lote4.setMedicine(medicine);
+                lote4.setExpire(false);
+                lote4.setVisible(true);
+                loteRepository.save(lote4);
+            }else{
+                loteRepository.actualizarVisibilidadSede(visibilidad4, medicine.getIdMedicine(),"Pando 4");
+
+            }
         }else{
             visibilidad4 = false;
+            loteRepository.actualizarVisibilidadSede(visibilidad4, medicine.getIdMedicine(),"Pando 4");
+
         }
-        loteRepository.actualizarVisibilidadSede(visibilidad4, medicine.getIdMedicine(),"Pando 4");
-
-
 
         return "redirect:/listaMedicamentosSuperAdmin";
     }

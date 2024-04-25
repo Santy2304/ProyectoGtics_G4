@@ -17,6 +17,9 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     List<LotesValidosporMedicamento> obtenerLotesValidosPorMedicamento(int idMedicine);
 
 
+    @Query(nativeQuery = true, value = "select l.site from lote l inner join medicine m on m.idMedicine = l.idMedicine where l.idMedicine = ?1 and l.site =?2 GROUP BY l.site\n")
+    List<String> obtenerLoteporSede(int idMedicine, String sede);
+
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE lote SET visible = ?1 WHERE idMedicine = ?2 and site=?3")

@@ -238,7 +238,7 @@
 								<a href="javascript:void(0);"><img src="../../static/assets_admin_sede/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="inventario.html">Inventario</a></li>
-									<li><a href="reposicion.html" class="active">Generar reposición</a></li>
+									<li><a href="reposicion.html">Generar reposición</a></li>
 								</ul>
 							</li>
 							<!--
@@ -259,7 +259,7 @@
 								<a href="javascript:void(0);"><img src="../../static/assets_admin_sede/img/icons/expense1.svg" alt="img"><span>Empleados</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="pharmacistlist.html">Farmacistas</a></li>
-									<li><a href="doctorlist.html">Doctores</a></li>
+									<li><a href="doctorlist.html" class="active">Doctores</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
@@ -279,7 +279,7 @@
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
-							<h4>DOCTORES</h4>
+							<h2>Doctores</h2>
 						</div>
 
 					</div>
@@ -349,17 +349,15 @@
 													<span class="checkmarks"></span>
 												</label>
 											</th>
-											<th>Profile</th>
-											<th>Nombre </th>
+											<th>Foto de perfil</th>
+											<th>Nombre Completo </th>
 											<th>DNI </th>
-											<th>Codigo de Colegiatura </th>
-											<th>Telefono</th>
 											<th>Correo</th>
-											<th>Estado</th>
+
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="doctor:${listaDoctores}">
 											<td>
 												<label class="checkboxs">
 													<input type="checkbox">
@@ -371,17 +369,17 @@
 													<img src="../../static/assets_admin_sede/img/customer/customer1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Francis Estela</td>
-											<td>12345678</td>
-											<td>T35f56g2</td>
-											<td>9999999 </td>
-											<td>festela@gmail.com</td>
+											<td th:text="${doctor.getNombre()+doctor.getLastName()}"></td>
+											<td th:text="${doctor.getDni()}"></td>
+											<td th:text="${doctor.getEmail()}"></td>
+											<!--
 											<td>
 												<div class="status-toggle d-flex justify-content-between align-items-center">
 													<input type="checkbox" id="user1" class="check" >
 													<label for="user1" class="checktoggle">checkbox</label>
 												</div>
 											</td>
+
 
 										</tr>
 										<tr>
@@ -457,6 +455,7 @@
 													<label for="user4" class="checktoggle">checkbox</label>
 												</div>
 											</td>
+											-->
 										</tr>
 									</tbody>
 								</table>

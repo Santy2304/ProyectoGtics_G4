@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="../../static/assets_admin_sede/css/style.css">
 		<style>
 			/* Para el title*/
-
+			/*
 			#text-container {
 				position: relative;
 			}
@@ -43,8 +43,9 @@
 				left: 0;
 				width: 100%;
 				height: 100%;
-				pointer-events: none; /* Evita que el brillo interfiera con el texto */
+				pointer-events: none; /* Evita que el brillo interfiera con el texto
 			}
+			*/
 			/*suave con borrar lo anterior*/
 			table {
 				border-collapse: collapse;
@@ -134,7 +135,7 @@
 					<!-- /Flag -->
 
 					<!-- Notifications -->
-
+					<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 							<img src="../../static/assets_admin_sede/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -333,16 +334,15 @@
 			
 			<div class="page-wrapper">
 				<div class="content">
-					<div class="page-header">
-						<div id="text-container">
-							<svg id="glow">
-								<path fill="none" stroke="#ff8c00" stroke-width="2" id="path"></path>
-							</svg>
-							<h1 id="title">INVENTARIO DE MEDICAMENTOS</h1>
+					<div class="page-header text-center">
+						<div class="page-title text-center">
+							<h2>Inventario de Medicamentos</h2>
 						</div>
+
 						<div class="page-btn">
 							<a href="reposicion.html" class="btn btn-added"><img src="../../static/assets_admin_sede/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
 						</div>
+
 					</div>
 							<div class="table-responsive">
 								<table class="table  datanew">

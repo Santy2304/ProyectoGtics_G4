@@ -10,10 +10,14 @@ public class Site {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="idsite")
+    @Column(name="idsite", nullable=false)
     private int idSite;
+
+
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "address", nullable = false)
     private String address;
 
     public int getIdSite() {

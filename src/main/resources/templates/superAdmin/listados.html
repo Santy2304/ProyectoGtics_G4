@@ -241,7 +241,7 @@
 							<h4>Administradores de Sede</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarAdminSede.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrat Nuevo Administrador</a>
+							<a th:href="@{'verAgregarAdminSedeSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Administrador</a>
 						</div>
 					</div>
 					
@@ -326,18 +326,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="adminSede : ${listaAdminSede}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Josh</td>
-											<td>Yauri</td>
-											<td>Pando 1</td>
-											<td>teamogineill@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
+											<td th:text="${adminSede.name}"></td>
+											<td th:text="${adminSede.lastName}"></td>
+											<td th:text="${adminSede.site}"></td>
+											<td th:text="${adminSede.email}"></td>
+											<td th:text="${adminSede.creationDate}"></td>
+											<td>24/04/2024</td>
 											<td>
 												<div class="status-toggle d-flex justify-content-between align-items-center">
 													<input type="checkbox" id="user1" class="check" >
@@ -356,6 +356,7 @@
 												</a>
 											</td>
 										</tr>
+										<!--
 										<tr>
 
 											<td class="productimgname">
@@ -480,6 +481,7 @@
 												</a>
 											</td>
 										</tr>
+										-->
 									</tbody>
 								</table>
 							</div>
@@ -747,7 +749,7 @@
 							<h4>Doctores</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarDoctor.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
+							<a th:href="@{'verAgregarDoctorSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
 						</div>
 					</div>
 
@@ -815,42 +817,38 @@
 								<table class="table  datanew">
 									<thead>
 										<tr>
-
 											<th></th>
 											<th>Nombre</th>
 											<th>Apellido </th>
 											<th>Sede</th>
 											<th>Correo</th>
 											<th>Fecha de Creación</th>
-											<th>Ultima Edición</th>
 											<th>Acción</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="doctor : ${listaDoctores}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Josh</td>
-											<td>Yauri</td>
-											<td>Pando 1</td>
-											<td>teamogineill@pucp.edu.pe</td>
-
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
+											<td th:text="${doctor.name}"></td>
+											<td th:text="${doctor.lastName}"></td>
+											<td th:text="${doctor.headquarter}"></td>
+											<td th:text="${doctor.email}"></td>
+											<td th:text="${doctor.creationDate}"></td>
 
 											<td>
-
-												<a class="me-3" href="EditarDoctor.html">
+											<a class="me-3" th:href="@{'/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="confirm-text" th:href="@{'/EliminarDoctor?idDoctor =' + ${doctor.idDoctor}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
+										<!--
 										<tr>
 
 											<td class="productimgname">
@@ -947,6 +945,7 @@
 												</a>
 											</td>
 										</tr>
+										-->
 									</tbody>
 								</table>
 							</div>

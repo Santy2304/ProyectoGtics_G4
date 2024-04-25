@@ -339,15 +339,17 @@
 											<td th:text="${medicamento.getCantidad()}"></td>
 											<td th:text="${medicamento.getPrecio()}"></td>
 											<td>
-												<a class="me-3" href="/verDetalleMedicamentosSuperAdmin">
+												<a class="me-3" th:href="@{'/verDetallesProductoSuperAdmin?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" href="editarMedicamento.html">
+												<a class="me-3" th:href="@{'/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
+												<!--
 												<a class="confirm-text" href="javascript:void(0);">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
+												-->
 											</td>
 										</tr>
 									</tbody>

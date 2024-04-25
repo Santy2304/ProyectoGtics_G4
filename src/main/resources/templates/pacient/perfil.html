@@ -140,7 +140,8 @@
 					<!-- /product list -->
 					<div class="card">
 						<form method="post" th:action="@{/editarPerfilPaciente}">
-						<div class="card-body">
+							<input type="hidden" name="idPatient" th:field="*{usuario.idPatient}">
+							<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
 
@@ -166,48 +167,49 @@
 							</div>
 							<div class="row">
 								<div class="col-lg-6 col-sm-12">
-									<input type="hidden" th:field="*{usuario.id}">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input type="text" th:value="${usuario.name}" readonly>
+										<input name="name" type="text" th:value="${usuario.name}" readonly>
 									</div>
 
 									<div class="form-group">
 										<label>Apellido</label>
-										<input type="text" th:value="${usuario.lastName}" readonly>
+										<input name="lastName"type="text" th:value="${usuario.lastName}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Distrito</label>
-										<select class="select">
+										<select class="select" name="distrit" >
+											<option th:value="${usuario.distrit}" selected ></option>
 											<option>San Miguel</option>
-											<option>Otro distrito</option>
+											<option>Callao</option>
+											<option>Rimac</option>
 										</select>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Dirección</label>
-										<input type="text" th:value="${usuario.location}">
+										<input name="location" type="text" th:value="${usuario.location}">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input type="text" th:value="|${usuario.dni}|" readonly>
+										<input name="dni" type="text" th:value="|${usuario.dni}|" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input type="text" th:value="${usuario.email}" readonly>
+										<input name="email" type="text" th:value="${usuario.email}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Seguro</label>
-										<input type="text" th:value="${usuario.insurance}">
+										<input name="insurance" type="text" th:value="${usuario.insurance}">
 									</div>
 								</div>
 								<!-- A futuro puede servir

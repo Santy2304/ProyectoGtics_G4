@@ -10,10 +10,7 @@ import com.example.proyectogrupo4_gtics.Repository.medicamentosPorSedeDTO;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -95,4 +92,14 @@ public class PatientController {
     public String verTrackingPaciente(){
         return "pacient/tracking";
     }
+    @PostMapping("/editarPerfilPaciente")
+    public String editarDatosPaciente(Patient patient){
+        //Actualizar datos cambiados
+        System.out.println(patient.getIdPatient());
+        System.out.println(patient.getLocation());
+        System.out.println(patient.getInsurance());
+        patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
+        return "redirect:verPerfilPaciente";
+    }
+
 }

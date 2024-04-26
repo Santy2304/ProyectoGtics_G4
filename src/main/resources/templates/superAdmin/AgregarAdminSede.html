@@ -240,59 +240,61 @@
 					<!-- /add -->
 					<div class="card">
 						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre</label>
-										<input type="text" >
+							<form method="post" th:action="@{'agregarAdminSede'}">
+								<div class="row">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="name">Nombre</label>
+											<input type="text" id="name" name="name">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Apellidos</label>
-										<input type="text" >
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="lastName">Apellidos</label>
+											<input type="text" id="lastName" name="lastName">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" >
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="dni">DNI</label>
+											<input type="text" id="dni" name="dni">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Correo</label>
-										<input type="text" >
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="correo">Correo</label>
+											<input type="text" id="correo" name="email">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Sede</label>
-										<select class="select">
-											<option>Seleccionar</option>
-											<option>Pando 1</option>
-											<option>Pando 2</option>
-											<option>Pando 3</option>
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="sede">Sede</label>
+											<select class="select" id="sede" name="site">
+												<option selected>Seleccionar</option>
+												<option th:each="sede : ${listaSedes}"
+														th:value="${sede.name}"
+														th:text="${sede.name}"></option>
+											</select>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Foto de Usuario</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Seleccione una imagen</h4>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label for="image">Foto de Usuario</label>
+											<div class="image-upload" id="image">
+												<input type="file" name="photo">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Seleccione una imagen</h4>
+												</div>
 											</div>
 										</div>
 									</div>
+									<div class="col-lg-12">
+										<button class="btn btn-submit me-2" type="submit">Guardar</button>
+										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
+									</div>
 								</div>
-								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-									<a href="listados.html"  class="btn btn-cancel">Cancelar</a>
-								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 					<!-- /add -->

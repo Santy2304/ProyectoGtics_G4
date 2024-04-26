@@ -1,9 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.Entity.Administrator;
-import com.example.proyectogrupo4_gtics.Entity.Doctor;
-import com.example.proyectogrupo4_gtics.Entity.Lote;
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
+import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -12,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,13 +24,15 @@ public class SuperAdminController {
 
     final LoteRepository loteRepository;
     final AdministratorRepository administratorRepository;
+    final SiteRepository siteRepository;
 
-    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository) {
+    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
         this.administratorRepository = administratorRepository;
+        this.siteRepository = siteRepository;
     }
 
     @GetMapping("/listaMedicamentosSuperAdmin")
@@ -373,15 +373,29 @@ public class SuperAdminController {
     public String verEditarFarmacista() {
         return "superAdmin/EditarFarmacista";
     }
-    @GetMapping("/verEditarDoctorSuperAdmin")
-    public String verEditarDoctor() {
-        return "superAdmin/EditarDoctor";
+    @GetMapping("/editarDoctor")
+    public String verEditarDoctor(@RequestParam("idDoctor") int idDoctor , Model model) {
+        Optional<Doctor> doctor =  doctorRepository.findById(idDoctor);
+        if(doctor.isPresent()){
+            model.addAttribute("doctor", doctor.get());
+            return "superAdmin/EditarDoctor";
+        }else{
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
+
+
     @GetMapping("/verEditarAdministradorSuperAdmin")
     public String verEditarAdministrador() {
         return "superAdmin/EditarAdministrador";
     }
 
+    @PostMapping("/editarDoctor")
+    public String editarDoctor(Doctor doctor){
+        //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
+        doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(), doctor.getIdDoctor());
+        return "redirect:/verListadosSuperAdmin";
+    }
 
     @PostMapping("/formNewMedicamento")
     public String addNewMedicine(Medicine medicine){
@@ -389,12 +403,34 @@ public class SuperAdminController {
         return "redirect:listarMedicamentos";
     }
     @GetMapping("/verAgregarDoctorSuperAdmin")
-    public String verAgregarDoctor() {
+    public String verAgregarDoctor(Model model) {
+        List<Site> listaSedes = siteRepository.findAll();
+        model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarDoctor";
     }
+
+    @PostMapping("/agregarDoctor")
+    public String agregarDoctor(Doctor doctor){
+        doctor.setCreationDate(LocalDate.now());
+        doctorRepository.save(doctor);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
     @GetMapping("/verAgregarAdminSedeSuperAdmin")
-    public String verAgregarAdminSede() {
+    public String verAgregarAdminSede(Model model) {
+
+        List<Site> listaSedes = siteRepository.findAll();
+        model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarAdminSede";
+    }
+
+    @PostMapping("/agregarAdminSede")
+    public String agregarAdminSede(Administrator administrator) {
+        administrator.setPassword("passworDefault");
+        administrator.setCreationDate(LocalDate.now());
+        administratorRepository.save(administrator);
+        return "redirect:/verListadosSuperAdmin";
+
     }
 
 

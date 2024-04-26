@@ -241,7 +241,7 @@
 							<h4>Administradores de Sede</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarAdminSede.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrat Nuevo Administrador</a>
+							<a th:href="@{'verAgregarAdminSedeSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Administrador</a>
 						</div>
 					</div>
 					
@@ -749,7 +749,7 @@
 							<h4>Doctores</h4>
 						</div>
 						<div class="page-btn">
-							<a href="AgregarDoctor.html" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
+							<a th:href="@{'verAgregarDoctorSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
 						</div>
 					</div>
 
@@ -823,7 +823,6 @@
 											<th>Sede</th>
 											<th>Correo</th>
 											<th>Fecha de Creación</th>
-											<th>Ultima Edición</th>
 											<th>Acción</th>
 										</tr>
 									</thead>
@@ -835,18 +834,16 @@
 												</a>
 											</td>
 											<td th:text="${doctor.name}"></td>
-											<td th:text="${doctor.lastname}"></td>
+											<td th:text="${doctor.lastName}"></td>
 											<td th:text="${doctor.headquarter}"></td>
 											<td th:text="${doctor.email}"></td>
 											<td th:text="${doctor.creationDate}"></td>
-											<td>21/04/2024</td>
 
 											<td>
-
-												<a class="me-3" href="EditarDoctor.html">
+											<a class="me-3" th:href="@{'/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="confirm-text" th:href="@{'/EliminarDoctor?idDoctor =' + ${doctor.idDoctor}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>

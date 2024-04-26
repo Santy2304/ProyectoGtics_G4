@@ -1,4 +1,7 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
-public interface SiteRepository {
+import com.example.proyectogrupo4_gtics.Entity.Site;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface SiteRepository extends JpaRepository<Site, Integer> {
 }

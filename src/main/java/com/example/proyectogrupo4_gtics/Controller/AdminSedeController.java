@@ -27,11 +27,16 @@ public class AdminSedeController {
         model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede());
         return "admin_sede/doctorlist";
     }
-    @GetMapping("listaFarmacistaAdminSede")
+    @GetMapping("/listaFarmacistaAdminSede")
     public String listPharmacist(Model model) {
         model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede());
         return "admin_sede/pharmacistlist";
     }
+    @GetMapping("/verAddPharmacist")
+    public String verAddPharmacist() {
+        return "admin_sede/addpharmacist";
+    }
+
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("nameFarmacista") String nameFarmacista,
                                    @RequestParam("apellidoFarmacista")String apellidoFarmacista,
@@ -41,8 +46,10 @@ public class AdminSedeController {
                                    @RequestParam("distritoFarmacista") String distritoFarmacista,
                                    @RequestParam("contrasenaFarmacista") String contrasenaFarmacista,
                                    @RequestParam("photoFarmacista") String fotoFarmacista,
+                                   /*@RequestParam("farmacistaId") int idFarmacista,*/
                                    Model model){
         Pharmacist farmacista = new Pharmacist();
+        /*farmacista.setIdFarmacista(idFarmacista);*/
         farmacista.setName(nameFarmacista);
         farmacista.setLastName(apellidoFarmacista);
         farmacista.setDni(dniFarmacista);
@@ -53,27 +60,27 @@ public class AdminSedeController {
         farmacista.setPhoto(fotoFarmacista);
         pharmacistRepository.save(farmacista);
 
-        model.addAttribute("farmacista", farmacista);
+        model.addAttribute("pharmacist", farmacista);
 
-        return "admin_sede/addpharmacist";
+        return "redirect:/listaFarmacistaAdminSede";
     }
     /*Linkear las demás vistas*/
-    @GetMapping("dashboardAdminSede")
+    @GetMapping("/dashboardAdminSede")
     public String verDashboard(Model model) {
-        return "admin_sede/Dashboard";
+        return "admin_sede/dashboard";
     }
 
-    @GetMapping("inventarioAdminSede")
+    @GetMapping("/inventarioAdminSede")
     public String verInventario(Model model) {
         return "admin_sede/inventario";
     }
 
-    @GetMapping("verAddPharmacist")
-    public String verAddPharmacist(Model model) {
-        return "admin_sede/addpharmacist";
-    }
 
-    @GetMapping("verListaReposicion")
+
+
+
+
+    @GetMapping("/verListaReposicion")
     public String listaReposicion(Model model) {
         return "admin_sede/listaReposicion";
     }

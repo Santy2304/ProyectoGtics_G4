@@ -13,7 +13,7 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
 
     List<Lote> findByMedicineIdMedicine(int idMedicine);
 
-    @Query(nativeQuery = true, value = "SELECT l.site as sede, SUM(l.stock) as stock, l.visible FROM Lote l left join medicine m  on m.idMedicine= l.idMedicine AND l.visible = true where m.idMedicine=?1 GROUP BY l.site")
+    @Query(nativeQuery = true, value = "SELECT l.site as sede, SUM(l.stock) as stock, l.visible FROM lote l left join medicine m  on m.idMedicine= l.idMedicine AND l.visible = true where m.idMedicine=?1 GROUP BY l.site")
     List<LotesValidosporMedicamento> obtenerLotesValidosPorMedicamento(int idMedicine);
 
 

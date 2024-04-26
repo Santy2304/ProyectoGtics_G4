@@ -7,7 +7,6 @@ import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
 import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
 import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
 import com.example.proyectogrupo4_gtics.Repository.medicamentosPorSedeDTO;
-import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

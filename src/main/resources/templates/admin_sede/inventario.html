@@ -289,13 +289,13 @@
 					<div id="sidebar-menu" class="sidebar-menu">
 						<ul>
 							<li class="active">
-								<a href="dashboardAdminSede" ><img src="/assets_superAdmin/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
+								<a href="/dashboardAdminSede" ><img src="/assets_superAdmin/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
 							</li>
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="inventarioAdminSede" class="active">Inventario</a></li>
-									<li><a href="verSolicitudReposicion">Generar reposición</a></li>
+									<li><a href="/inventarioAdminSede" class="active">Inventario</a></li>
+									<li><a href="/verSolicitudReposicion">Generar reposición</a></li>
 								</ul>
 							</li>
 							<!--
@@ -315,15 +315,15 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Empleados</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="listaFarmacistaAdminSede">Farmacistas</a></li>
-									<li><a href="listaDoctoresAdminSede">Doctores</a></li>
+									<li><a href="/listaFarmacistaAdminSede">Farmacistas</a></li>
+									<li><a href="/listaDoctoresAdminSede">Doctores</a></li>
 								</ul>
 							</li>
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="verPerfil">Mi perfil</a></li>
-									<li><a href="verNotificaciones">Notificaciones</a></li>
+									<li><a href="/verPerfil">Mi perfil</a></li>
+									<li><a href="/verNotificaciones">Notificaciones</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -343,6 +343,22 @@
 							<a href="verSolicitudReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
 						</div>
 
+					</div>
+					<div class="search-set">
+						<div class="search-path">
+							<a class="btn b	tn-filter" id="filter_search">
+								<img src="assets/img/icons/filter.svg" alt="img">
+								<span><img src="assets/img/icons/closes.svg" alt="img"></span>
+							</a>
+						</div>
+						<div class="search-input">
+							<a class="btn btn-searchset">
+								<img src="assets/img/icons/search-white.svg" alt="img">
+							</a>
+							<div id="DataTables_Table_0_filter" class="dataTables_filter">
+								<label> <input type="search" class="form-control form-control-sm" placeholder="Buscar..." aria-controls="DataTables_Table_0" data-listener-added_4c65a08c="true"></label>
+							</div>
+						</div>
 					</div>
 							<div class="table-responsive">
 								<table class="table  datanew">

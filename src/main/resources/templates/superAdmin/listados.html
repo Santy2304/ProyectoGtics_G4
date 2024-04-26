@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+        <meta name="description" content="POS - Bootstrap Admin Template">
+		<meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+        <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+        <meta name="robots" content="noindex, nofollow">
+		<title>Saint Medic</title>
+
+		<!-- Favicon -->
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
+
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
+		<!-- animation CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
+
+		<!-- Select2 CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
+
+		<!-- Datatable CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
+
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+	</head>
+    <body>
+		<div id="global-loader" >
+			<div class="whirly-loader"> </div>
+		</div>
+		<!-- Main Wrapper -->
+        <div class="main-wrapper">
+			
+			<!-- Header -->
+			<div class="header">
+				<!-- Logo -->
+				<!-- Logo -->
+				<div class="header-left active">
+					<a href="error404.html" class="logo">
+						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
+					</a>
+					<a href="error404.html" class="logo-small">
+						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
+					</a>
+					<a id="toggle_btn" href="javascript:void(0);">
+					</a>
+				</div>
+				<!-- /Logo -->
+
+				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+				</a>
+				<!-- /Logo -->
+
+				<!-- Header Menu -->
+				<ul class="nav user-menu">
+
+					<!-- Search -->
+					<!--
+                    <li class="nav-item">
+                        <div class="top-nav-search">
+
+                            <a href="javascript:void(0);" class="responsive-search">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <form action="#">
+                                <div class="searchinputs">
+                                    <input type="text" placeholder="Search Here ...">
+                                    <div class="search-addon">
+                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
+                                    </div>
+                                </div>
+                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
+                            </form>
+                        </div>
+                    </li>
+                    -->
+					<!-- /Search -->
+
+					<!-- Flag -->
+
+					<!-- /Flag -->
+
+					<!-- Notifications -->
+
+					<li class="nav-item dropdown">
+						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+						</a>
+						<div class="dropdown-menu notifications">
+							<div class="topnav-dropdown-header">
+								<span class="notification-title">Notificaciones</span>
+							</div>
+							<div class="noti-content">
+								<ul class="notification-list">
+
+									<li class="notification-message">
+										<a href="notifications.html">
+											<div class="media d-flex">
+												<span class="avatar flex-shrink-0">
+													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
+												</span>
+												<div class="media-body flex-grow-1">
+													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
+													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+												</div>
+											</div>
+										</a>
+									</li>
+
+
+									<!--Ejemplo completo-->
+									<!--
+                                    <li class="notification-message">
+                                        <a href="notifications.html">
+                                            <div class="media d-flex">
+                                                        <span class="avatar flex-shrink-0">
+                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
+                                                        </span>
+                                                <div class="media-body flex-grow-1">
+                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    -->
+
+
+
+								</ul>
+							</div>
+							<div class="topnav-dropdown-footer">
+								<a href="notifications.html">Mira todas las notificaciones</a>
+							</div>
+						</div>
+					</li>
+					<!-- /Notifications -->
+
+					<li class="nav-item dropdown has-arrow main-drop">
+						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
+							<span class="status online"></span></span>
+						</a>
+						<div class="dropdown-menu menu-drop-user">
+							<div class="profilename">
+								<div class="profileset">
+									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
+									<span class="status online"></span></span>
+									<div class="profilesets">
+										<h6>Joshy Yauri</h6>
+										<h5>SuperAdmin</h5>
+									</div>
+								</div>
+								<hr class="m-0">
+								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
+								<hr class="m-0">
+								<a class="dropdown-item logout pb-0" href="signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+				<!-- /Header Menu -->
+
+				<!-- Mobile Menu -->
+				<div class="dropdown mobile-user-menu">
+					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+					<div class="dropdown-menu dropdown-menu-right">
+						<a class="dropdown-item" href="perfil.html">Mi Perfil</a>
+						<a class="dropdown-item" href="signin.html">Logout</a>
+					</div>
+				</div>
+				<!-- /Mobile Menu -->
+			</div>
+
+			<!-- Header -->
+			
+           <!-- Sidebar -->
+			<div class="sidebar" id="sidebar">
+				<div class="sidebar-inner slimscroll">
+					<div id="sidebar-menu" class="sidebar-menu">
+						<ul>
+
+							<li class="submenu">
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
+								<ul>
+									<li><a href="/verListadosSuperAdmin" class="active">Listas de Usuarios</a></li>
+
+								</ul>
+							</li>
+							<li class="submenu">
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
+								<ul>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
+									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
+
+								</ul>
+
+							</li>
+							<li class="submenu">
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
+								<ul>
+									<li><a href="/listaMedicamentosSuperAdmin">Medicamentos</a></li>
+								</ul>
+							</li>
+
+							<li class="submenu">
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
+								<ul>
+									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
+									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- /Sidebar -->
+			
+			<div class="page-wrapper">
+				<div class="content">
+					<div class="page-header">
+						<div class="page-title">
+							<h4>Administradores de Sede</h4>
+						</div>
+						<div class="page-btn">
+							<a th:href="@{'verAgregarAdminSedeSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Administrador</a>
+						</div>
+					</div>
+					
+
+					<!-- /product list -->
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+								<div class="wordset">
+									<ul>
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<select class="select">
+															<option>Seleccione Sede</option>
+															<option>Pando 1</option>
+															<option>Pando 2</option>
+															<option>Pando 3</option>
+															<option>Pando 4</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+													</div>
+												</div>
+
+
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="table-responsive">
+								<table class="table  datanew">
+									<thead>
+										<tr>
+
+											<th></th>
+											<th>Nombre</th>
+											<th>Apellido </th>
+											<th>Sede</th>
+											<th>Correo</th>
+											<th>Fecha de Creación</th>
+											<th>Ultima Edición</th>
+											<th>Estado</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="adminSede : ${listaAdminSede}">
+											<td class="productimgname" >
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												</a>
+											</td>
+											<td th:text="${adminSede.name}"></td>
+											<td th:text="${adminSede.lastName}"></td>
+											<td th:text="${adminSede.site}"></td>
+											<td th:text="${adminSede.email}"></td>
+											<td th:text="${adminSede.creationDate}"></td>
+											<td>24/04/2024</td>
+											<td>
+												<div class="status-toggle d-flex justify-content-between align-items-center">
+													<input type="checkbox" id="user1" class="check" >
+													<label for="user1" class="checktoggle">checkbox</label>
+												</div>
+											</td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="EditarAdministrador.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<!--
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
+												</a>
+											</td>
+											<td>Alex</td>
+											<td>Segovia</td>
+											<td>Pando 2</td>
+											<td>alex@pucp.edu.pe</td>
+											<td>15/08/2023</td>
+											<td>04/04/2024</td>
+											<td>
+												<div class="status-toggle d-flex justify-content-between align-items-center">
+													<input type="checkbox" id="user2" class="check" >
+													<label for="user2" class="checktoggle">checkbox</label>
+												</div>
+											</td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="EditarAdministrador.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
+												</a>
+											</td>
+											<td>Jean</td>
+											<td>Piere</td>
+											<td>Pando3</td>
+											<td>jean@pucp.edu.pe</td>
+											<td>15/08/2023</td>
+											<td>04/04/2024</td>
+											<td>
+												<div class="status-toggle d-flex justify-content-between align-items-center">
+													<input type="checkbox" id="user3" class="check" >
+													<label for="user3" class="checktoggle">checkbox</label>
+												</div>
+											</td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="EditarAdministrador.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
+												</a>
+											</td>
+											<td>Alonso</td>
+											<td>Escobedo</td>
+											<td>Pando4</td>
+											<td>alonso@pucp.edu.pe</td>
+											<td>15/08/2023</td>
+											<td>04/04/2024</td>
+											<td>
+												<div class="status-toggle d-flex justify-content-between align-items-center">
+													<input type="checkbox" id="user4" class="check" >
+													<label for="user4" class="checktoggle">checkbox</label>
+												</div>
+											</td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="editproduct.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
+												</a>
+											</td>
+											<td>Gabriel</td>
+											<td>Talledo</td>
+											<td>Pando2</td>
+											<td>gabriel@pucp.edu.pe</td>
+											<td>15/08/2023</td>
+											<td>04/04/2024</td>
+											<td>
+												<div class="status-toggle d-flex justify-content-between align-items-center">
+													<input type="checkbox" id="user5" class="check" >
+													<label for="user5" class="checktoggle">checkbox</label>
+												</div>
+											</td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="editproduct.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										-->
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- /product list -->
+
+
+<!--Farmacistas-->
+					<div class="page-header">
+						<div class="page-title">
+							<h4>Farmacistas</h4>
+						</div>
+
+					</div>
+
+
+					<!-- /product list -->
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search1">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+								<div class="wordset">
+									<ul>
+
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+
+									</ul>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs1">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<select class="select">
+															<option>Seleccione Sede</option>
+															<option>Pando 1</option>
+															<option>Pando 2</option>
+															<option>Pando 3</option>
+															<option>Pando 4</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+													</div>
+												</div>
+
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="table-responsive">
+								<table class="table  datanew">
+									<thead>
+										<tr>
+
+											<th></th>
+											<th>Nombre</th>
+											<th>Apellido </th>
+											<th>Sede</th>
+											<th>Correo</th>
+											<th>Fecha de Creación</th>
+											<th>Ultima Edición</th>
+											<th>Estado</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+
+											<td class="productimgname" style="text-align: center;">
+												<a href="#" class="product-img">
+												<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												</a>
+											</td>
+											<td>Hineill</td>
+											<td>Céspedes</td>
+											<td>Pando 1</td>
+											<td>gineil@pucp.edu.pe</td>
+											<td>15/08/2023</td>
+											<td>04/04/2024</td>
+											<td><div class="status-toggle d-flex justify-content-between align-items-center">
+												<input type="checkbox" id="user6" class="check" >
+												<label for="user6" class="checktoggle">checkbox</label>
+											</div></td>
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+												<a class="me-3" href="EditarFarmacista.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+<!--Paciente-->
+
+					<div class="page-header">
+						<div class="page-title">
+							<h4>Pacientes</h4>
+						</div>
+
+					</div>
+
+
+					<!-- /product list -->
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search2">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+								<div class="wordset">
+									<ul>
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs2">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<select class="select">
+															<option>Escoja un Seguro</option>
+															<option>Pacífico</option>
+															<option>Rímac</option>
+															<option>La Positiva</option>
+															<option>Otro</option>
+
+														</select>
+													</div>
+												</div>
+
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="table-responsive">
+								<table class="table  datanew">
+									<thead>
+										<tr>
+
+											<th></th>
+											<th>Nombre</th>
+											<th>Apellido </th>
+											<th>Correo</th>
+											<th>Seguro</th>
+											<th>Fecha de Registro</th>
+											<th>Estado</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="productimgname" >
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												</a>
+											</td>
+											<td>Santiago</td>
+											<td>Yong</td>
+											<td>santy@gmail.com</td>
+											<td>Pacífico</td>
+
+											<td>23/04/2004</td>
+											<td><div class="status-toggle d-flex justify-content-between align-items-center">
+												<input type="checkbox" id="user7" class="check" >
+												<label for="user7" class="checktoggle">checkbox</label>
+											</div></td>
+
+											<td>
+												<a class="me-3" href="product-details.html">
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+												</a>
+
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+<!--Doctores-->
+
+					<div class="page-header">
+						<div class="page-title">
+							<h4>Doctores</h4>
+						</div>
+						<div class="page-btn">
+							<a th:href="@{'verAgregarDoctorSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search3">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+								<div class="wordset">
+									<ul>
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs3">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<select class="select">
+															<option>Seleccione Sede</option>
+															<option>Pando 1</option>
+															<option>Pando 2</option>
+															<option>Pando 3</option>
+															<option>Pando 4</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+													</div>
+												</div>
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="table-responsive">
+								<table class="table  datanew">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Nombre</th>
+											<th>Apellido </th>
+											<th>Sede</th>
+											<th>Correo</th>
+											<th>Fecha de Creación</th>
+											<th>Acción</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="doctor : ${listaDoctores}">
+											<td class="productimgname" >
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												</a>
+											</td>
+											<td th:text="${doctor.name}"></td>
+											<td th:text="${doctor.lastName}"></td>
+											<td th:text="${doctor.headquarter}"></td>
+											<td th:text="${doctor.email}"></td>
+											<td th:text="${doctor.creationDate}"></td>
+
+											<td>
+											<a class="me-3" th:href="@{'/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" th:href="@{'/EliminarDoctor?idDoctor =' + ${doctor.idDoctor}}">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<!--
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
+												</a>
+											</td>
+											<td>Joshy</td>
+											<td>Yauri</td>
+											<td>Pando 2</td>
+											<td>teamoHineill@pucp.edu.pe</td>
+
+											<td>13/12/2023</td>
+											<td>24/03/2024</td>
+
+											<td>
+
+												<a class="me-3" href="editproduct.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
+												</a>
+											</td>
+											<td>Jhoshimar</td>
+											<td>Yauri</td>
+											<td>Pando 4</td>
+											<td>teamoAlex@pucp.edu.pe</td>
+
+											<td>13/12/2023</td>
+											<td>24/03/2024</td>
+
+											<td>
+
+												<a class="me-3" href="EditarDoctor.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
+												</a>
+											</td>
+											<td>Joshua</td>
+											<td>Yauri</td>
+											<td>Pando 3</td>
+											<td>teamoTalledo@pucp.edu.pe</td>
+											<td>13/12/2023</td>
+											<td>24/03/2024</td>
+											<td>
+
+												<a class="me-3" href="EditarDoctor.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										<tr>
+
+											<td class="productimgname">
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
+												</a>
+											</td>
+											<td>Jhostin</td>
+											<td>Yauri</td>
+											<td>Pando 1</td>
+											<td>teamogineill@pucp.edu.pe</td>
+											<td>13/12/2023</td>
+											<td>24/03/2024</td>
+
+											<td>
+												<a class="me-3" href="editproduct.html">
+													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+												</a>
+												<a class="confirm-text" href="javascript:void(0);">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+											</td>
+										</tr>
+										-->
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+        </div>
+		<!-- /Main Wrapper -->
+		 
+		<!-- jQuery -->
+		<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
+
+		<!--Feather Icon JS-->
+		<script src="/assets_superAdmin/js/feather.min.js"></script>
+
+		<!--Slimscroll JS-->
+		<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
+
+		<!-- Datatable JS-->
+		<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+		<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
+
+		<!--Bootstrap Core JS-->
+		<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>-->
+
+		<!--Select2 JS-->
+		<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
+
+		<!-- Sweetalert 2-->
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
+		<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+
+		<!-- Custom JS-->
+		<script src="/assets_superAdmin/js/script.js"></script>
+
+		<script src="/assets_superAdmin/js/moment.min.js"></script>
+		<script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
+
+    </body>
+</html>

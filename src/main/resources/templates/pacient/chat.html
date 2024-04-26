@@ -1,32 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
+		<!--Hola-->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
         <meta name="description" content="POS - Bootstrap Admin Template">
         <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, management, minimal, modern,  html5, responsive">
         <meta name="author" content="Dreamguys - Bootstrap Admin Template">
         <meta name="robots" content="noindex, nofollow">
-        <title>SaintMedic</title>
-        
-        <!-- Favicon -->
-        <!link rel="shortcut icon" type="image/x-icon" href="assets/img/PrimerLogoSinFondo.png">
+		<title>Saint Medic</title>
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" type="image/x-icon" href="../assets_pacient/img/PastillaSinFondo.png">
         
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
         
         <!-- animation CSS -->
-        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" href="../assets_pacient/css/animate.css">
 
         <!-- Datatable CSS -->
-        <link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
         
         <!-- Fontawesome CSS -->
-        <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-        <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+        <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+        <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
         
         <!-- Main CSS -->
-        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="../assets_pacient/css/style.css">
         
 		<style >
 
@@ -39,6 +40,9 @@
 
 
 		  }
+
+
+
 		</style>
     </head>
     <body>
@@ -94,156 +98,97 @@
         <div id="global-loader" >
             <div class="whirly-loader"> </div>
         </div>
+
+
+		<nav class="navbar navbar-expand-custom navbar-mainbg">
+			<a href="principal.html" class="logo">
+				<img src="../assets_pacient/images/LOGO2.png" width="65" height="65">
+			</a>
+
+			<a class="navbar-brand navbar-logo"> Saint Medic</a>
+			<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="fas fa-bars text-white"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+					<li class="nav-item">
+						<a class="nav-link" href="seleccionarSede.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+								<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+							</svg>
+							Elegir sede
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="principal.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+								<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+								<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+							</svg>
+							Home
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="generar_orden_compra.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+								<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+							</svg>
+							Orden de compra
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="historial.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+								<path d="M6 12v-2h3v2z"/>
+								<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+							</svg>
+							Historial
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"  href="tracking.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+								<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+							</svg>
+							Tracking
+						</a>
+					</li>
+					<li class="nav-item active" >
+						<a class="nav-link" href="chat.html">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+								<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+							</svg>
+							Chat
+						</a>
+					</li>
+					<li class="nav-item" >
+						<a  href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="../assets_pacient/images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
+					</li>
+					<li class="nav-item">
+						<a href="#">
+							<img src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+
+
+
+
         <!-- Main Wrapper -->
         <div  class="main-wrapper">
 
             <!-- Header -->
 
 
-			<div style="background-color: #ffe69c;" class="header">
-						
-				<!-- Logo -->
-				 <div class="header-left active">
-					 <a href="principal.html" class="logo">
-						 <img src="images/LogoConLetras.png"  alt="">
-					 </a>
-					 <a href="principal.html" class="logo-small">
-						 <img src="assets/img/logo-small.png"  alt="">
-					 </a>
-					 <a id="toggle_btn" href="javascript:void(0);">
-					 </a>
-				</div>
-				<!-- /Logo -->
-				
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-				
-					<!-- Search -->
-					
-					<!-- /Search -->
-
-					<li class="nav-item">
-						<a href="seleccionarSede.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
-								<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
-							</svg>
-						</a>
-					</li>
-
-					<li class="nav-item">
-						<a href="principal.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
-								<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
-								<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
-							</svg>
-						</a>
-
-					</li>
-
-					<li class="nav-item">
-						<a href="generar_orden_compra.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-								<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-							</svg>
-						</a>
-					</li>
-
-
-					<li class="nav-item">
-						<a href="historial.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
-								<path d="M6 12v-2h3v2z"/>
-								<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
-							</svg>
-						</a>
-
-					</li>
-
-
-					<li class="nav-item">
-						<a href="tracking.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
-								<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
-							</svg>
-						</a>
-
-					</li>
-
-					<li class="nav-item">
-						<a href="chat.html">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
-								<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
-							</svg>
-						</a>
-
-					</li>
-
-
-					<!-- Flag -->
-			
-					<!-- /Flag -->
-				
-					<!-- Notifications -->
-					
-					<!-- /Notifications -->
-					
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="images/perfil.png" alt="">
-							<span class="status online"></span></span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>Patricio</h6>
-										<h5>Paciente</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i> Mi perfil</a>
-								<!--
-								<a class="dropdown-item" href="generalsettings.html"><i class="me-2" data-feather="settings"></i>Settings</a>-->
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-				
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="perfil.html">Mi perfil</a>
-						<a class="dropdown-item" href="generalsettings.html">Configuración</a>
-						<a class="dropdown-item" href="signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
         <!-- Sidebar -->
         
             <!-- /Sidebar -->
-
-           
-                <div class="content" style="margin-top: 7%;">
-                    
-					
+                <div class="content" style="margin-top: 2%;">
 						<div class="row chat-window">
-						
 							<!-- Chat User List -->
 							<div class="col-lg-5 col-xl-4 chat-cont-left">
 								<div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
@@ -252,7 +197,7 @@
 										<a href="javascript:void(0);" class="media d-flex active">
 											<div class="media-img-wrap flex-shrink-0">
 												<div class="avatar avatar-away">
-													<img src="assets/img/customer/customer1.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/customer1.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 											</div>
 											<div class="media-body flex-grow-1">
@@ -269,7 +214,7 @@
 										<a href="javascript:void(0);" class="media d-flex read-chat">
 											<div class="media-img-wrap flex-shrink-0">
 												<div class="avatar avatar-online">
-													<img src="assets/img/customer/customer2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/customer2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 											</div>
 											<div class="media-body flex-grow-1">
@@ -303,7 +248,7 @@
 												<i class="fas fa-chevron-left"></i>
 											</a>
 											<div class="img_cont">
-												<img class="rounded-circle user_img" src="assets/img/customer/profile2.jpg" alt="">
+												<img class="rounded-circle user_img" src="../assets_pacient/img/customer/profile2.jpg" alt="">
 											</div>
 											<div class="user_info">
 												<span><strong id="receiver_name">Farmacista</strong></span>
@@ -316,7 +261,7 @@
 										<ul class="list-unstyled">
 											<li class="media sent d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -336,7 +281,7 @@
 											</li>
 											<li class="media received d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -368,13 +313,13 @@
 														<div>
 															<div class="chat-msg-attachments">
 																<div class="chat-attachment">
-																	<img src="assets/img/product/product12.jpg" alt="Attachment">
+																	<img src="../assets_pacient/img/product/product12.jpg" alt="Attachment">
 																	<a href="" class="chat-attach-download">
 																		<i class="fas fa-download"></i>
 																	</a>
 																</div>
 																<div class="chat-attachment">
-																	<img src="assets/img/product/product13.jpg" alt="Attachment">
+																	<img src="../assets_pacient/img/product/product13.jpg" alt="Attachment">
 																	<a href="" class="chat-attach-download">
 																		<i class="fas fa-download"></i>
 																	</a>
@@ -393,7 +338,7 @@
 											</li>
 											<li class="media sent d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -424,7 +369,7 @@
 														<div>
 															<div class="chat-msg-attachments">
 																<div class="chat-attachment">
-																	<img src="assets/img/product/product15.jpg" alt="Attachment">
+																	<img src="../assets_pacient/img/product/product15.jpg" alt="Attachment">
 																	<a href="" class="chat-attach-download">
 																		<i class="fas fa-download"></i>
 																	</a>
@@ -443,7 +388,7 @@
 											</li>
 											<li class="media received d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -464,7 +409,7 @@
 											<li class="chat-date">Today</li>
 											<li class="media received d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -476,7 +421,6 @@
 																		<span>10:17 AM</span>
 																	</div>
 																</li>
-																<li><a href="javascript:void(0);">Edit</a></li>
 															</ul>
 														</div>
 													</div>
@@ -484,7 +428,7 @@
 											</li>
 											<li class="media sent d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -504,7 +448,6 @@
 																		<span>10:19 AM</span>
 																	</div>
 																</li>
-																<li><a href="javascript:void(0);">Edit</a></li>
 															</ul>
 														</div>
 													</div>
@@ -512,7 +455,7 @@
 											</li>
 											<li class="media received d-flex">
 												<div class="avatar flex-shrink-0">
-													<img src="assets/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+													<img src="../assets_pacient/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 												</div>
 												<div class="media-body flex-grow-1">
 													<div class="msg-box">
@@ -550,27 +493,27 @@
         <!-- /Main Wrapper -->
       
         <!-- jQuery -->
-        <script src="assets/js/jquery-3.6.0.min.js"></script>
+        <script src="../assets_pacient/js/jquery-3.6.0.min.js"></script>
 
         <!-- Feather Icon JS -->
-        <script src="assets/js/feather.min.js"></script>
+        <script src="../assets_pacient/js/feather.min.js"></script>
 
         <!-- Slimscroll JS -->
-        <script src="assets/js/jquery.slimscroll.min.js"></script>
+        <script src="../assets_pacient/js/jquery.slimscroll.min.js"></script>
 
         <!-- Datatable JS -->
-        <script src="assets/js/jquery.dataTables.min.js"></script>
-        <script src="assets/js/dataTables.bootstrap4.min.js"></script>
+        <script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
+        <script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
         
         <!-- Bootstrap Core JS -->
-        <script src="assets/js/bootstrap.bundle.min.js"></script>
+        <script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
 
         <!-- Chart JS -->
-        <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-        <script src="assets/plugins/apexchart/chart-data.js"></script>
+        <script src="../assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
+        <script src="../assets_pacient/plugins/apexchart/chart-data.js"></script>
         
         <!-- Custom JS -->
-        <script src="assets/js/script.js"></script>
+        <script src="../assets_pacient/js/script.js"></script>
 
 
     </body>

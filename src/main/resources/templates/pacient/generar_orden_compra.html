@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -12,22 +12,22 @@
 		<!-- Favicon -->
 		
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
 		
 		<!-- animation CSS -->
-		<link rel="stylesheet" href="assets/css/animate.css">
+		<link rel="stylesheet" href="../assets_pacient/css/animate.css">
 
 		<!-- Datatable CSS -->
-		<link rel="stylesheet" href="assets/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
 		
 		<!-- Fontawesome CSS -->
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-		<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+		<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+		<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
 		
 		<!-- Main CSS -->
-		<link rel="stylesheet" href="assets/css/style.css">
+		<link rel="stylesheet" href="../assets_pacient/css/style.css">
 		
-		<link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css">
+		<link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
 
 
 		<style>
@@ -45,151 +45,114 @@
 		</style>
 
 	</head>
-	<body>
+	<body style="background-image: url('../assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
 		</div>
 		<!-- Main Wrapper -->
-		<div class="main-wrapper">
 
-			<!-- Header -->
-	
-			<div class="header">
-						
-				<!-- Logo -->
-				 <div class="header-left active">
-					<a href="page_compra_prueba.html" class="logo">
-						<img src="images/LogoConLetras.png"  alt="">
-					</a>
-					<a href="page_compra_prueba.html" class="logo-small">
-						<img src="assets/img/logo-small.png"  alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
-				
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
+		<nav class="navbar navbar-expand-custom navbar-mainbg">
+			<a  class="logo">
+				<img src="../assets_pacient/images/LOGO2.png" width="65" height="65">
+			</a>
+
+			<a class="navbar-brand navbar-logo"> Saint Medic</a>
 
 
+			<button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<i class="fas fa-bars text-white"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto">
+					<div class="hori-selector"><div class="left"></div><div class="right"></div></div>
 					<li class="nav-item">
-						<a href="seleccionarSede.html">
+						<a class="nav-link" href="seleccionarSede.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
 								<path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
 							</svg>
+							Elegir sede
 						</a>
 					</li>
-
 					<li class="nav-item">
-						<a href="principal.html">
+						<a class="nav-link" href="principal.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
 								<path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
 								<path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
 							</svg>
+							Home
 						</a>
-
 					</li>
-
-					<li class="nav-item">
-						<a href="generar_orden_compra.html">
+					<li class="nav-item active">
+						<a class="nav-link" href="generar_orden_compra.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
 								<path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
 							</svg>
+							Orden de compra
 						</a>
 					</li>
-
-
 					<li class="nav-item">
-						<a href="historial.html">
+						<a class="nav-link" href="historial.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
 								<path d="M6 12v-2h3v2z"/>
 								<path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
 							</svg>
+							Historial
 						</a>
-
 					</li>
-
-
 					<li class="nav-item">
-						<a href="tracking.html">
+						<a class="nav-link"  href="tracking.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
 								<path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
 							</svg>
+							Tracking
 						</a>
-
 					</li>
-
-					<li class="nav-item">
-						<a href="chat.html">
+					<li class="nav-item" >
+						<a class="nav-link" href="chat.html">
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
 								<path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
 							</svg>
+							Chat
 						</a>
-
 					</li>
-					
 
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="images/perfil.png" alt="">
-							<span class="status online"></span></span>
+
+					<li class="nav-item " >
+						<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"> <img src="../assets_pacient/images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
+					</li>
+					<li class="nav-item">
+						<a href="#">
+							<img src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
 						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>John Doe</h6>
-										<h5>Admin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="perfil.html"> <i class="me-2"  data-feather="user"></i>Mi perfil</a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="assets/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
 					</li>
+
 				</ul>
-				<!-- /Header Menu -->
-				
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="perfil.html">Mi perfil</a>
-						<a class="dropdown-item" href="signin.html">Cerrar sesión</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
+
 			</div>
+		</nav>
+
+
+		<div class="main-wrapper">
+
+			<!-- Header -->
+	
+
 			<!-- Header -->
 			<!-- Sidebar -->
 			<!-- /Sidebar -->
-				<div class="content py-3" style=" margin-top: 4%; background-image: url('images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+				<div class="content py-3" style=" margin-top: 1%">
 					<div class="row mx-1">
 						<div class="col-lg-3 col-sm-6 col-12">
 							<div class="dash-widget">
 								<div class="dash-widgetimg">
-									<span><img src="assets/img/icons/dash1.svg" alt="img"></span>
+									<span><img src="../assets_pacient/img/icons/dash1.svg" alt="img"></span>
 								</div>
 								<div class="dash-widgetcontent">
-									<h5 >S/<span class="counters" data-count="90">S/200</span></h5>
+									<h5 >S/90.00</h5>
 									<h6>Total a Pagar</h6>
 								</div>
 							</div>
 						</div>
-						
 					</div>
 					<!-- Button trigger modal -->
 
@@ -218,7 +181,7 @@
 											</div>
 											<div class="col-md-4 mb-3">
 												<label for="validationServer02">Teléfono</label>
-												<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="Otto" required>
+												<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="998563q" required>
 												<div class="invalid-feedback">
 													Por favor ingrese un número correcto
 												</div>
@@ -228,7 +191,7 @@
 										<div class="form-row row">
 											<div class="col-md-6 mb-3">
 												<label class="mb-2" for="validationServer03">Dirección</label>
-												<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Ciudad" required>
+												<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Casa de Hiro" required>
 												<div class="valid-feedback">
 													Correcto!
 												</div>
@@ -239,7 +202,7 @@
 													<div class="input-groupicon">
 														<input type="text" placeholder="DD-MM-YYYY" class="datetimepicker">
 														<div class="addonset">
-															<img src="assets/img/icons/calendars.svg" alt="img">
+															<img src="../assets_pacient/img/icons/calendars.svg" alt="img">
 														</div>
 													</div>
 												</div>
@@ -254,7 +217,7 @@
 										  </div>
 										</div>
 										
-										<button class="btn btn-primary mt-2" type="submit">Enviar</button>
+										<button class="btn btn-primary mt-2" href="numero_de_orden.html" type="submit">Enviar</button>
 									</form>
 								</div>
 							</div>
@@ -263,50 +226,39 @@
 							<div class="card flex-fill">
 								<div class="card-header pb-0 d-flex justify-content-between align-items-center">
 									<h4 class="card-title mb-0">Carrito</h4>
-									<div class="dropdown">
-										<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
-											<i class="fa fa-ellipsis-v"></i>
-										</a>
-										<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-											<li>
-												<a href="productlist.html" class="dropdown-item">Lista de productos</a>
-											</li>
-											<li>
-												<a href="addproduct.html" class="dropdown-item">Añadir producto</a>
-											</li>
-										</ul>
-									</div>
+
 								</div>
 								<div class="card-body">
 									<div class="table-responsive dataview">
 										<table class="table datatable ">
 											<thead>
 												<tr>
-													<th>N°</th>
 													<th>Productos</th>
-													<th>Precio</th>
+													<th>Cantidad</th>
+													<th>Total</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>2</td>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
-															<img src="images/aspirina.jpeg" alt="product">
+															<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
 														</a>
 														<a href="#">Aspirina 500mg</a>
 													</td>
-													<td>S/36</td>
+													<td>4</td>
+
+													<td>S/36.00</td>
 												</tr>
 												<tr>
-													<td>3</td>
 													<td class="productimgname">
 														<a href="single_product.html" class="product-img">
-															<img src="images/ibuprofeno.png" alt="product">
+															<img src="../assets_pacient/images/ibuprofeno.png" alt="product">
 														</a>
 														<a href="#">Ibuprofeno 800mg </a>
 													</td>
-													<td>S/54</td>
+													<td>6</td>
+													<td>S/54.00</td>
 												</tr>
 											</tbody>
 										</table>
@@ -322,35 +274,35 @@
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->
-		<script src="assets/js/jquery-3.6.0.min.js"></script>
+		<script src="../assets_pacient/js/jquery-3.6.0.min.js"></script>
 
 		<!-- Feather Icon JS -->
-		<script src="assets/js/feather.min.js"></script>
+		<script src="../assets_pacient/js/feather.min.js"></script>
 
 		<!-- Slimscroll JS -->
-		<script src="assets/js/jquery.slimscroll.min.js"></script>
+		<script src="../assets_pacient/js/jquery.slimscroll.min.js"></script>
 
 		<!-- Datatable JS -->
-		<script src="assets/js/jquery.dataTables.min.js"></script>
-		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+		<script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
+		<script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 		
 		<!-- Bootstrap Core JS -->
-		<script src="assets/js/bootstrap.bundle.min.js"></script>
+		<script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 		<!-- Chart JS -->
-		<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-		<script src="assets/plugins/apexchart/chart-data.js"></script>
+		<script src="../assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
+		<script src="../assets_pacient/plugins/apexchart/chart-data.js"></script>
 		
 		<!-- Custom JS -->
-		<script src="assets/js/script.js"></script>
+		<script src="../assets_pacient/js/script.js"></script>
 		
 		<!-- Datetimepicker JS -->
-		<script src="assets/js/moment.min.js"></script>
-		<script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="../assets_pacient/js/moment.min.js"></script>
+		<script src="../assets_pacient/js/bootstrap-datetimepicker.min.js"></script>
 
 
-		<script src="assets/js/jquery.dataTables.min.js"></script>
-		<script src="assets/js/dataTables.bootstrap4.min.js"></script>
+		<script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
+		<script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 
 	</body>
 </html>

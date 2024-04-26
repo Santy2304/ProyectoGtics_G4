@@ -240,7 +240,7 @@ public class SuperAdminController {
                 Lote lote2 = new Lote();
                 lote2.setExpireDate(nuevaFecha);
                 lote2.setStock(50);
-                lote2.setSite("Pando 1");
+                lote2.setSite("Pando 2");
                 lote2.setMedicine(medicine);
                 lote2.setExpire(false);
                 lote2.setVisible(true);
@@ -265,7 +265,7 @@ public class SuperAdminController {
                 Lote lote3 = new Lote();
                 lote3.setExpireDate(nuevaFecha);
                 lote3.setStock(50);
-                lote3.setSite("Pando 1");
+                lote3.setSite("Pando 3");
                 lote3.setMedicine(medicine);
                 lote3.setExpire(false);
                 lote3.setVisible(true);
@@ -290,7 +290,7 @@ public class SuperAdminController {
                 Lote lote4 = new Lote();
                 lote4.setExpireDate(nuevaFecha);
                 lote4.setStock(50);
-                lote4.setSite("Pando 1");
+                lote4.setSite("Pando 4");
                 lote4.setMedicine(medicine);
                 lote4.setExpire(false);
                 lote4.setVisible(true);

@@ -283,11 +283,10 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="POST" th:action="@{/agregarFarmacista}">
+					<form method="post" th:action="@{/agregarFarmacista}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
-									<input type="hidden" th:value="${farmacista.idFarmacista}" name="farmacistaId">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Nombre</label>
@@ -297,7 +296,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Apellido</label>
-											<input name="apellidoFarmacista"  id="apellidoFarmacista"type="text" >
+											<input name="apellidoFarmacista"  id="apellidoFarmacista" type="text" >
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
@@ -322,17 +321,14 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Distrito de residencia</label>
-											<select class="select">
-												<option>Select</option>
-												<option>Owner</option>
-											</select>
+											<input name="distritoFarmacista" id="distritoFarmacista" type="text">
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Contraseña</label>
 											<div class="pass-group">
-												<input type="password" class=" pass-input">
+												<input name="contrasenaFarmacista" id="contrasenaFarmacista" type="password" class=" pass-input">
 												<span class="fas toggle-password fa-eye-slash"></span>
 											</div>
 										</div>
@@ -341,7 +337,7 @@
 										<div class="form-group">
 											<label>Perfil</label>
 											<div class="image-upload">
-												<input type="file">
+												<input name="photoFarmacista" id="photoFarmacista" type="file">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Subir imagen</h4>
@@ -350,8 +346,8 @@
 										</div>
 									</div>
 									<div class="col-lg-12">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Enviar solicitud</a>
-										<a href="userlist.html"  class="btn btn-cancel">Cancelar</a>
+										<button type="submit" class="btn btn-submit me-2">Enviar solicitud</button>
+										<a th:href="@{/listaFarmacistaAdminSede}"  class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

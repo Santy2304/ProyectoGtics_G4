@@ -1,4 +1,4 @@
-package com.example.proyectogrupo4_gtics.Repository;
+package com.example.proyectogrupo4_gtics.DTOs;
 
 public interface DoctorPorSedeDTO {
     int getIdDoctor();

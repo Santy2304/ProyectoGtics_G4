@@ -30,6 +30,8 @@ public class Doctor {
     @Column(name="email")
     private String email;
 
+    private String state;
+
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
@@ -88,5 +90,13 @@ public class Doctor {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

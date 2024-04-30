@@ -358,7 +358,6 @@
 										</tr>
 										<!--
 										<tr>
-
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
@@ -388,99 +387,6 @@
 												</a>
 											</td>
 										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
-												</a>
-											</td>
-											<td>Jean</td>
-											<td>Piere</td>
-											<td>Pando3</td>
-											<td>jean@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
-											<td>
-												<div class="status-toggle d-flex justify-content-between align-items-center">
-													<input type="checkbox" id="user3" class="check" >
-													<label for="user3" class="checktoggle">checkbox</label>
-												</div>
-											</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="EditarAdministrador.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
-												</a>
-											</td>
-											<td>Alonso</td>
-											<td>Escobedo</td>
-											<td>Pando4</td>
-											<td>alonso@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
-											<td>
-												<div class="status-toggle d-flex justify-content-between align-items-center">
-													<input type="checkbox" id="user4" class="check" >
-													<label for="user4" class="checktoggle">checkbox</label>
-												</div>
-											</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="editproduct.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
-												</a>
-											</td>
-											<td>Gabriel</td>
-											<td>Talledo</td>
-											<td>Pando2</td>
-											<td>gabriel@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
-											<td>
-												<div class="status-toggle d-flex justify-content-between align-items-center">
-													<input type="checkbox" id="user5" class="check" >
-													<label for="user5" class="checktoggle">checkbox</label>
-												</div>
-											</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="editproduct.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
 										-->
 									</tbody>
 								</table>
@@ -497,7 +403,6 @@
 						</div>
 
 					</div>
-
 
 					<!-- /product list -->
 					<div class="card">
@@ -625,8 +530,6 @@
 						</div>
 
 					</div>
-
-
 					<!-- /product list -->
 					<div class="card">
 						<div class="card-body">
@@ -823,6 +726,7 @@
 											<th>Sede</th>
 											<th>Correo</th>
 											<th>Fecha de Creación</th>
+											<th>Estado</th>
 											<th>Acción</th>
 										</tr>
 									</thead>
@@ -838,12 +742,13 @@
 											<td th:text="${doctor.headquarter}"></td>
 											<td th:text="${doctor.email}"></td>
 											<td th:text="${doctor.creationDate}"></td>
+											<td th:text="${doctor.state}"></td>
 
 											<td>
 											<a class="me-3" th:href="@{'/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" th:href="@{'/EliminarDoctor?idDoctor =' + ${doctor.idDoctor}}">
+											</a>
+												<a class="me-3" th:href="@{'/EliminarDoctor?idDoctor=' + ${doctor.idDoctor}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
@@ -874,78 +779,7 @@
 												</a>
 											</td>
 										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
-												</a>
-											</td>
-											<td>Jhoshimar</td>
-											<td>Yauri</td>
-											<td>Pando 4</td>
-											<td>teamoAlex@pucp.edu.pe</td>
-
-											<td>13/12/2023</td>
-											<td>24/03/2024</td>
-
-											<td>
-
-												<a class="me-3" href="EditarDoctor.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product7.jpg" alt="product">
-												</a>
-											</td>
-											<td>Joshua</td>
-											<td>Yauri</td>
-											<td>Pando 3</td>
-											<td>teamoTalledo@pucp.edu.pe</td>
-											<td>13/12/2023</td>
-											<td>24/03/2024</td>
-											<td>
-
-												<a class="me-3" href="EditarDoctor.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product17.jpg" alt="product">
-												</a>
-											</td>
-											<td>Jhostin</td>
-											<td>Yauri</td>
-											<td>Pando 1</td>
-											<td>teamogineill@pucp.edu.pe</td>
-											<td>13/12/2023</td>
-											<td>24/03/2024</td>
-
-											<td>
-												<a class="me-3" href="editproduct.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										-->
+									-->
 									</tbody>
 								</table>
 							</div>

@@ -26,4 +26,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     @Query(value = "update doctor set state = 'eliminado'  where idDoctor =?1" , nativeQuery = true)
     void eliminarDoctorPorId(int idDoctor);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM doctor WHERE state <> 'eliminado'")
+    List<Doctor> listarDoctoresValidos();
+
 }

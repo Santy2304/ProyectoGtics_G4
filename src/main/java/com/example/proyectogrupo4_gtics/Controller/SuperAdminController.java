@@ -200,7 +200,6 @@ public class SuperAdminController {
         //Para sede 1
         if (disponible1.equals("si")){
             visibilidad1 = true;
-
             List<String> listaLotesPando1 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 1");
 
             if (listaLotesPando1.isEmpty()){
@@ -226,7 +225,6 @@ public class SuperAdminController {
         //Para sede 2
         if (disponible2.equals("si")){
             visibilidad2 = true;
-
             List<String> listaLotesPando2 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 2");
 
             if (listaLotesPando2.isEmpty()){
@@ -322,7 +320,7 @@ public class SuperAdminController {
     @GetMapping("/verListadosSuperAdmin")
     public String verListados(Model model) {
 
-        List<Doctor> listaDoctores = doctorRepository.findAll();
+        List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
         model.addAttribute("listaDoctores", listaDoctores);
         List<Administrator> listaAdminSede = administratorRepository.findAll();
         model.addAttribute("listaAdminSede", listaAdminSede);

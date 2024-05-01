@@ -564,29 +564,30 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="paciente : ${listaPacientes}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Santiago</td>
-											<td>Yong</td>
-											<td>santy@gmail.com</td>
-											<td>Pacífico</td>
+											<td th:text="${paciente.name}"></td>
+											<td th:text="${paciente.lastName}"></td>
+											<td th:text="${paciente.email}"></td>
+											<td th:text="${paciente.insurance}"></td>
 
-											<td>23/04/2004</td>
-											<td><div class="status-toggle d-flex justify-content-between align-items-center">
-												<input type="checkbox" id="user7" class="check" >
-												<label for="user7" class="checktoggle">checkbox</label>
-											</div></td>
+											<td th:text="${paciente.dateCreationAccount}"></td>
+											<td th:text="${paciente.state}"></td>
 
 											<td>
 												<a class="me-3" href="product-details.html">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="me-3" th:href="@{'/banearPaciente?idPaciente=' + ${paciente.idPatient}}">
+													<img src="/assets_superAdmin/img/icons/slash-circle.svg" alt="img">
+												</a>
+
+												<a class="confirm-text" th:href="@{'/eliminarPaciente?idPaciente=' + ${paciente.idPatient}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>

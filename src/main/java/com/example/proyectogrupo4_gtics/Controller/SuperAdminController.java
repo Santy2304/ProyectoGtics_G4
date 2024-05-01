@@ -324,11 +324,16 @@ public class SuperAdminController {
 
         List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
         model.addAttribute("listaDoctores", listaDoctores);
+
         List<Administrator> listaAdminSede = administratorRepository.listarAdminValidos();
         model.addAttribute("listaAdminSede", listaAdminSede);
 
         List<Pharmacist> listaFarmacistas = pharmacistRepository.listarFarmacistasValidos();
         model.addAttribute("listaFarmacistas",listaFarmacistas);
+
+        List<Patient> listaPacientes = patientRepository.listarPacientesValidos();
+        model.addAttribute("listaPacientes",listaPacientes);
+
         return "superAdmin/listados";
     }
 
@@ -455,6 +460,22 @@ public class SuperAdminController {
 
     //////////////////////////////////
 
+    ////Paciente////////////////////
+
+    @GetMapping("/eliminarPaciente")
+    public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.eliminarPacientePorId(idPaciente);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+    @GetMapping("/banearPaciente")
+    public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.banearPacientePorId(idPaciente);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    ///////////////////////////////////
     @GetMapping("/verDetalleMedicamentosSuperAdmin")
     public String verDetalleMedicamentos() {
         return "superAdmin/DetalleMedicamentos";

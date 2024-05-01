@@ -33,7 +33,7 @@ public class Pharmacist {
 
     private String rejectedReason;
 
-    private Boolean banned;
+    private String state;
 
     private String photo;
 
@@ -125,13 +125,7 @@ public class Pharmacist {
         this.rejectedReason = rejectedReason;
     }
 
-    public Boolean getBanned() {
-        return banned;
-    }
 
-    public void setBanned(Boolean banned) {
-        this.banned = banned;
-    }
 
     public String getPhoto() {
         return photo;

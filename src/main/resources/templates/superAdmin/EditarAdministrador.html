@@ -290,93 +290,110 @@
 			</div>
 			<!-- /Sidebar -->
 
-			<div class="page-wrapper">
-				<div class="content">
-					<div class="page-header">
-						<div class="page-title">
-							<h4>Editar Administrador de Sede</h4>
+			<form method="post" th:action="@{/guardarCambiosAdminSede}" th:object="${adminSede}">
+				<input name="idDoctor"  th:field="*{idAdministrador}" type="hidden">
+				<div class="page-wrapper">
+					<div class="content">
+						<div class="page-header">
+							<div class="page-title">
+								<h4>Editar Administrador de Sede</h4>
+							</div>
 						</div>
-					</div>
-					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre</label>
-										<input type="text" value="Josh">
+						<!-- /add -->
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input name="name" type="text" th:field="${adminSede.name}">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Apellidos</label>
-										<input type="text" value="Yauri">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Apellidos</label>
+											<input name="lastName" type="text" th:field="${adminSede.lastName}">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" value="12345678">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>DNI</label>
+											<input name="dni" type="text" th:field="${adminSede.dni}">
+										</div>
 									</div>
-								</div>
 
 
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Correo</label>
-										<input type="text" value="thomas@mail.com">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Correo</label>
+											<input name="email" type="text" th:field="${adminSede.email}">
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Sede</label>
-										<select class="select">
-											<option>Pando 1</option>
-											<option>Pando 2</option>
-											<option>Pando 3</option>
-											<option>Pando 4</option>
 
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Sede</label>
+											<select name="site" class="select">
+												<option>Selecciona categoría</option>
+												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
+												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
+												<option value="Pando 3" th:selected="${adminSede.site == 'Pando 3'}">Pando 3</option>
+												<option value="Pando 4" th:selected="${adminSede.site == 'Pando 4'}">Pando 4</option>
+											</select>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Foto de Usuario</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Seleccione una imagen</h4>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Estado</label>
+											<select name="state" class="select">
+												<option>Selecciona categoría</option>
+												<option value="activo" th:selected="${adminSede.state == 'activo'}">activo</option>
+												<option value="baneado" th:selected="${adminSede.state == 'baneado'}">baneado</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Foto de Usuario</label>
+											<div class="image-upload">
+												<input type="file">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Seleccione una imagen</h4>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-12">
-									<div class="product-list">
-										<ul class="row">
-											<li class="ps-0">
-												<div class="productviewset">
-													<div class="productviewsimg">
-														<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="img">
+									<div class="col-12">
+										<div class="product-list">
+											<ul class="row">
+												<li class="ps-0">
+													<div class="productviewset">
+														<div class="productviewsimg">
+															<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="img">
+														</div>
+														<div class="productviewscontent">
+															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
+														</div>
 													</div>
-													<div class="productviewscontent">
-														<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
-													</div>
-												</div>
-											</li>
-										</ul>
+												</li>
+											</ul>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<a href="listados.html" class="btn btn-submit me-2">Confirmar</a>
-									<a  href="listados.html" class="btn btn-cancel">Cancelar</a>
+									<div class="col-lg-12">
+										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
+										<button  href="/verListadosSuperAdmin" class="btn btn-cancel">Cancelar</button>
+									</div>
 								</div>
 							</div>
 						</div>
+						<!-- /add -->
 					</div>
-					<!-- /add -->
 				</div>
-			</div>
+			</form>
+
         </div>
 		<!-- /Main Wrapper -->
 		 

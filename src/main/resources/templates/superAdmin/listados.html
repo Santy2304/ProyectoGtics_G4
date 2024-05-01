@@ -320,7 +320,6 @@
 											<th>Sede</th>
 											<th>Correo</th>
 											<th>Fecha de Creación</th>
-											<th>Ultima Edición</th>
 											<th>Estado</th>
 											<th>Acción</th>
 										</tr>
@@ -337,57 +336,19 @@
 											<td th:text="${adminSede.site}"></td>
 											<td th:text="${adminSede.email}"></td>
 											<td th:text="${adminSede.creationDate}"></td>
-											<td>24/04/2024</td>
-											<td>
-												<div class="status-toggle d-flex justify-content-between align-items-center">
-													<input type="checkbox" id="user1" class="check" >
-													<label for="user1" class="checktoggle">checkbox</label>
-												</div>
-											</td>
+											<td th:text="${adminSede.state}"></td>
 											<td>
 												<a class="me-3" href="product-details.html">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" href="EditarAdministrador.html">
+												<a class="me-3" th:href="@{'/editarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="confirm-text" th:href="@{'/eliminarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
 										</tr>
-										<!--
-										<tr>
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
-												</a>
-											</td>
-											<td>Alex</td>
-											<td>Segovia</td>
-											<td>Pando 2</td>
-											<td>alex@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
-											<td>
-												<div class="status-toggle d-flex justify-content-between align-items-center">
-													<input type="checkbox" id="user2" class="check" >
-													<label for="user2" class="checktoggle">checkbox</label>
-												</div>
-											</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
-												</a>
-												<a class="me-3" href="EditarAdministrador.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										-->
 									</tbody>
 								</table>
 							</div>
@@ -472,36 +433,30 @@
 								<table class="table  datanew">
 									<thead>
 										<tr>
-
 											<th></th>
 											<th>Nombre</th>
 											<th>Apellido </th>
 											<th>Sede</th>
 											<th>Correo</th>
 											<th>Fecha de Creación</th>
-											<th>Ultima Edición</th>
 											<th>Estado</th>
 											<th>Acción</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="farmacista : ${listaFarmacistas}">
 
 											<td class="productimgname" style="text-align: center;">
 												<a href="#" class="product-img">
 												<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Hineill</td>
-											<td>Céspedes</td>
-											<td>Pando 1</td>
-											<td>gineil@pucp.edu.pe</td>
-											<td>15/08/2023</td>
-											<td>04/04/2024</td>
-											<td><div class="status-toggle d-flex justify-content-between align-items-center">
-												<input type="checkbox" id="user6" class="check" >
-												<label for="user6" class="checktoggle">checkbox</label>
-											</div></td>
+											<td th:text="${farmacista.name}"></td>
+											<td th:text="${farmacista.lastName}"></td>
+											<td th:text="${farmacista.sede}"></td>
+											<td th:text="${farmacista.email}"></td>
+											<td th:text="${farmacista.cre}"></td>
+											<td></td>
 											<td>
 												<a class="me-3" href="product-details.html">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
@@ -753,33 +708,6 @@
 												</a>
 											</td>
 										</tr>
-										<!--
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
-												</a>
-											</td>
-											<td>Joshy</td>
-											<td>Yauri</td>
-											<td>Pando 2</td>
-											<td>teamoHineill@pucp.edu.pe</td>
-
-											<td>13/12/2023</td>
-											<td>24/03/2024</td>
-
-											<td>
-
-												<a class="me-3" href="editproduct.html">
-													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
-												</a>
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-									-->
 									</tbody>
 								</table>
 							</div>

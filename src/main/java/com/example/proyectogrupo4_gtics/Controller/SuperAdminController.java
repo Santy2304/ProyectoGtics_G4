@@ -425,6 +425,36 @@ public class SuperAdminController {
     ////////////////////////////////
 
 
+    //Farmacista///////////////////////////////
+
+    @GetMapping("/editarFarmacista")
+    public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
+
+        Optional<Pharmacist> pharmacist = pharmacistRepository.findById(idFarmacista);
+        if(pharmacist.isPresent()){
+            model.addAttribute("farmacista", pharmacist.get());
+            return "superAdmin/EditarFarmacista";
+        }else{
+            return "redirect:/verListadosSuperAdmin";
+        }
+    }
+
+    @PostMapping("/guardarCambiosFarmacista")
+    public String editarFarmacista(Pharmacist pharmacist){
+        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    @GetMapping("/eliminarFarmacista")
+    public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+        pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    //////////////////////////////////
+
     @GetMapping("/verDetalleMedicamentosSuperAdmin")
     public String verDetalleMedicamentos() {
         return "superAdmin/DetalleMedicamentos";
@@ -450,8 +480,6 @@ public class SuperAdminController {
     }
 
 
-    @GetMapping("/verEditarFarmacistaSuperAdmin")
-    public String verEditarFarmacista() {
-        return "superAdmin/EditarFarmacista";
-    }
+
+
 }

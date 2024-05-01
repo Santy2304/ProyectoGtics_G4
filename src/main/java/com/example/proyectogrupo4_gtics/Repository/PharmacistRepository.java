@@ -3,7 +3,9 @@ import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -14,5 +16,15 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
 
     @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE state <> 'eliminado'")
     List<Pharmacist> listarFarmacistasValidos();
+
+    @Transactional
+    @Modifying
+    @Query(value = "update pharmacist set name = ?1 , lastName =?2 , dni=?3 , email=?4, site=?5, state = ?6, distrit = ?7 where idPharmacist =?8" , nativeQuery = true)
+    void updateDatosPorId(String name , String lasName , String dni , String email ,String site,String state,String distrit ,int idFarmacista );
+
+    @Transactional
+    @Modifying
+    @Query(value = "update pharmacist set state = 'eliminado'  where idPharmacist =?1" , nativeQuery = true)
+    void eliminarFarmacistaPorId(int idFarmacista);
 
  }

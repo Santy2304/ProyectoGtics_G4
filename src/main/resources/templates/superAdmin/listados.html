@@ -453,18 +453,18 @@
 											</td>
 											<td th:text="${farmacista.name}"></td>
 											<td th:text="${farmacista.lastName}"></td>
-											<td th:text="${farmacista.sede}"></td>
+											<td th:text="${farmacista.site}"></td>
 											<td th:text="${farmacista.email}"></td>
-											<td th:text="${farmacista.cre}"></td>
-											<td></td>
+											<td th:text="${farmacista.creationDate}"></td>
+											<td th:text="${farmacista.state}"></td>
 											<td>
 												<a class="me-3" href="product-details.html">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" href="EditarFarmacista.html">
+												<a class="me-3" th:href="@{'/editarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="confirm-text" th:href="@{'/eliminarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>

@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
+    @Query(nativeQuery = true, value = "SELECT * FROM Patient where email= ?1 and password=?2")
+    Patient buscarPatient (String email , String password);
     Patient findByName(String hineill);
 
     @Transactional

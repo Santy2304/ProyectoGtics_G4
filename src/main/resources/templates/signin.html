@@ -97,6 +97,18 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+
+            $(document).ready(
+                $("button").click(function () {
+                    $.ajax({
+                        method: "POST",
+                        data: {username: $("#username").val()},
+                        url: "http://localhost:8080"
+                    })
+                }
+             )
+            )
+
             function redirigir(event) {
                 var formulario = document.getElementById("miFormulario");
                 var correo = document.getElementById("correo").value;
@@ -105,6 +117,32 @@
                 if(formulario.checkValidity()) {
                     event.preventDefault();
                     if (emailRegex.test(correo) && contrasena !== "") {
+                        var xhr = new XMLHttpRequest ();
+                        xhr.open('POST' , '/validarUsuario' , true );
+                        xhr.setRequestHeader('Content-Type' , 'application/json') ;
+                        xhr.onload = function () {
+                            if(xhr.status === 200 ){
+                                var data = JSON.stringify({username:correo , password:contrasena });
+                                xhr.send(data);
+                            }else{
+                                Swal.fire({
+                                    icon: "error",
+                                    iconColor: "orange",
+                                    title: "¡Correo o contraseña incorrectos!",
+                                    confirmButtonColor: "#dd986a"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirecciona a otra vista
+                                        window.location.href = '/inicioSesion';
+                                    }
+                                });
+                            }
+                        }
+
+                        xhr.onerror = function (){
+                            console.error('Auxilio ');
+                        }
+
                         switch (correo) {
                             //Redirigir a la vista paciente
                             case("primeraVez@gmail.com"):
@@ -146,15 +184,16 @@
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             // Redirecciona a otra vista
-                                            window.location.href = 'signin.html';
+                                            window.location.href = '/inicioSesion';
                                         }
                                     });
                                 }
-                            //ALERTA DE ERROR EN LA CONTRASEÑA
                         }
                     }
                 }
             }
+
+
 
         </script>
 

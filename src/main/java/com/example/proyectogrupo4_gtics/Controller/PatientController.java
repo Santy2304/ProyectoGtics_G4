@@ -30,6 +30,7 @@ public class PatientController {
     @GetMapping("/ElegirSede")
     public String ElegirSede(@RequestParam String  idUser , Model model){
         //Se listan las sedes
+
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
         model.addAttribute("idUser", patient.getIdPatient());
         System.out.println(patient.getName());
@@ -39,8 +40,8 @@ public class PatientController {
     }
 
     @GetMapping("/elegirSedePrimeraVez")
-    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede,@ModelAttribute("idUser") int idUser  ,Model model){
-        model.addAttribute("usuario", idUser);
+    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede,Model model){
+        System.out.println(model.getAttribute("idUser"));
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;

@@ -1,0 +1,246 @@
+
+
+<nav th:fragment="navbar" class="navbar navbar-expand-custom navbar-mainbg">
+    <a  class="logo">
+        <img src="/assets_pacient/images/LOGO2.png" width="65" height="65">
+    </a>
+
+    <a class="navbar-brand navbar-logo"> Saint Medic</a>
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+            <li th:classappend="${activeTab == 'sede' ? 'nav-item active':'nav-item' }">
+                <a class="nav-link" href="/verSeleccionarSedePaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
+                        <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
+                    </svg>
+                    Elegir sede
+                </a>
+            </li>
+            <li th:classappend="${activeTab == 'home' ? 'nav-item active':'nav-item' }">
+                <a class="nav-link" href="/verPrincipalPaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
+                        <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
+                        <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
+                    </svg>
+                    Home
+                </a>
+            </li>
+            <li th:classappend="${activeTab == 'ordenCompra' ? 'nav-item active':'nav-item' }">
+                <a class="nav-link" href="/verGenerarOrdenCompraPaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                    </svg>
+                    Orden de compra
+                </a>
+            </li>
+            <li th:classappend="${activeTab == 'historial' ? 'nav-item active':'nav-item' }">
+                <a class="nav-link" href="verHistorialPaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
+                        <path d="M6 12v-2h3v2z"/>
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
+                    </svg>
+                    Historial
+                </a>
+            </li>
+            <li th:classappend="${activeTab == 'tracking' ? 'nav-item active':'nav-item' }">
+                <a class="nav-link"  href="verTrackingPaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
+                    </svg>
+                    Tracking
+                </a>
+            </li>
+            <li th:classappend="${activeTab == 'chat' ? 'nav-item active':'nav-item' }" >
+                <a class="nav-link" href="verChatPaciente">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
+                        <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
+                    </svg>
+                    Chat
+                </a>
+            </li>
+            <li class="nav-item" >
+                <a  href="/verPerfilPaciente"> <i class="me-2"  data-feather="user"> <img src="pacient/assets_pacient/images/perfil.png" width="35" height="35" > </i> Mi perfil</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">
+                    <img src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+                </a>
+            </li>
+        </ul>
+    </div>
+    <style>
+
+        /*Estilo nuevo para el navbar*/
+        @import url('https://fonts.googleapis.com/css?family=Roboto');
+
+        body{
+            font-family: 'Roboto', sans-serif;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        i {
+            margin-right: 10px;
+        }
+        /*----------bootstrap-navbar-css------------*/
+        .navbar-logo{
+            padding: 15px;
+            color: #fff;
+        }
+        .navbar-mainbg{
+            background-color: #f38a4e;
+            padding: 0px;
+        }
+        #navbarSupportedContent{
+            overflow: hidden;
+            position: relative;
+        }
+        #navbarSupportedContent ul{
+            padding: 0px;
+            margin: 0px;
+        }
+        #navbarSupportedContent ul li a i{
+            margin-right: 10px;
+        }
+        #navbarSupportedContent li {
+            list-style-type: none;
+            float: left;
+        }
+        #navbarSupportedContent ul li a{
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-size: 15px;
+            display: block;
+            padding: 20px 20px;
+            transition-duration:0.6s;
+            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+        }
+        #navbarSupportedContent>ul>li.active>a{
+            color: #dc630f;
+            background-color: transparent;
+            transition: all 0.7s;
+        }
+        #navbarSupportedContent a:not(:only-child):after {
+            content: "\f105";
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 14px;
+            font-family: "Font Awesome 5 Free";
+            display: inline-block;
+            padding-right: 3px;
+            vertical-align: middle;
+            font-weight: 900;
+            transition: 0.5s;
+        }
+        #navbarSupportedContent .active>a:not(:only-child):after {
+            transform: rotate(90deg);
+        }
+        .hori-selector{
+            display:inline-block;
+            position:absolute;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            transition-duration:0.6s;
+            transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            background-color: #fff;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            margin-top: 10px;
+        }
+        .hori-selector .right,
+        .hori-selector .left{
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background-color: #fff;
+            bottom: 10px;
+        }
+        .hori-selector .right{
+            right: -25px;
+        }
+        .hori-selector .left{
+            left: -25px;
+        }
+        .hori-selector .right:before,
+        .hori-selector .left:before{
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f38a4e;
+        }
+        .hori-selector .right:before{
+            bottom: 0;
+            right: -25px;
+        }
+        .hori-selector .left:before{
+            bottom: 0;
+            left: -25px;
+        }
+
+
+        @media(min-width: 992px){
+            .navbar-expand-custom {
+                -ms-flex-flow: row nowrap;
+                flex-flow: row nowrap;
+                -ms-flex-pack: start;
+                justify-content: flex-start;
+            }
+            .navbar-expand-custom .navbar-nav {
+                -ms-flex-direction: row;
+                flex-direction: row;
+            }
+            .navbar-expand-custom .navbar-toggler {
+                display: none;
+            }
+            .navbar-expand-custom .navbar-collapse {
+                display: -ms-flexbox!important;
+                display: flex!important;
+                -ms-flex-preferred-size: auto;
+                flex-basis: auto;
+            }
+        }
+
+
+        @media (max-width: 991px){
+            #navbarSupportedContent ul li a{
+                padding: 12px 30px;
+            }
+            .hori-selector{
+                margin-top: 0px;
+                margin-left: 10px;
+                border-radius: 0;
+                border-top-left-radius: 25px;
+                border-bottom-left-radius: 25px;
+            }
+            .hori-selector .left,
+            .hori-selector .right{
+                right: 10px;
+            }
+            .hori-selector .left{
+                top: -25px;
+                left: auto;
+            }
+            .hori-selector .right{
+                bottom: -25px;
+            }
+            .hori-selector .left:before{
+                left: -25px;
+                top: -25px;
+            }
+            .hori-selector .right:before{
+                bottom: -25px;
+                left: -25px;
+            }
+        }
+    </style>
+</nav>

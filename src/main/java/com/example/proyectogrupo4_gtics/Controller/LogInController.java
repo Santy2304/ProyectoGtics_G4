@@ -130,22 +130,22 @@ public class LogInController {
         Map<String, String > response =  new HashMap<>();
 
         if(!(patient == null)){
-            response.put("response" ,"/ElegirSede");
+            response.put("response" ,"/ElegirSede?idUser="+patient.getIdPatient());
             model.addAttribute("idUser" , patient.getIdPatient());
             return response;
         }
         if( !(admin == null) ) {
-            response.put("response" ,"/listaDoctoresAdminSede");
+            response.put("response" ,"/listaDoctoresAdminSede?idUser="+admin.getIdAdministrador());
             model.addAttribute("idUser" , admin.getIdAdministrador());
             return response;
         }
         if( !(superAdmin == null) ) {
-            response.put("response" ,"/listaDoctoresAdminSede");
+            response.put("response" ,"/listaDoctoresAdminSede?idUser="+ superAdmin.getIdSuperAdmin());
             model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
             return response;
         }
         if( !(pharmacist == null) ) {
-            response.put("response" ,"/verMedicinelistFarmacista");
+            response.put("response" ,"/verMedicinelistFarmacista?idUser"+pharmacist.getIdFarmacista());
             model.addAttribute("idUser" , pharmacist.getIdFarmacista());
             return response;
         }

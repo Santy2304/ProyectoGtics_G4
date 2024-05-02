@@ -37,6 +37,7 @@ public class SuperAdminController {
 
     @GetMapping("/listaMedicamentosSuperAdmin")
     public String listarMedicamentos(Model model) {
+        System.out.println("Estoy en superadmin");
         model.addAttribute("listaMedicamentos", medicineRepository.obtenerDatosMedicamentos());
         return "superAdmin/listaMedicamentos";
     }

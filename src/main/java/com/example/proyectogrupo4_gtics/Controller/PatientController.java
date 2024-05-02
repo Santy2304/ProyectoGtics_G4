@@ -12,9 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
-@SessionAttributes({"usuario","sede"})
+@SessionAttributes({"idUser","idSede"})
 public class PatientController {
     final SiteRepository siteRepository;
     final PatientRepository patientRepository;
@@ -26,10 +27,21 @@ public class PatientController {
         this.medicineRepository = medicineRepository;
     }
 
+    @GetMapping("/ElegirSede")
+    public String ElegirSede(@RequestParam String  idUser , Model model){
+        //Se listan las sedes
+        Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
+        model.addAttribute("idUser", patient.getIdPatient());
+        System.out.println(patient.getName());
+        List<Site> listSite = siteRepository.findAll();
+        model.addAttribute("listSite", listSite);
+        return "elegirSede";
+    }
+
     @GetMapping("/elegirSedePrimeraVez")
-    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede,@ModelAttribute("usuario") Patient patient, Model model){
-        model.addAttribute("usuario", patient);
-        model.addAttribute("sede", siteRepository.findById(Integer.parseInt(idSede)));
+    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede,@ModelAttribute("idUser") int idUser  ,Model model){
+        model.addAttribute("usuario", idUser);
+        model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
         return "pacient/principal";

@@ -57,14 +57,14 @@
                             </div>
                             <div class="form-login">
                                 <div class="alreadyuser">
-                                    <h4><a href="forgetpassword.html" class="hover-a">¿Olvidaste tu contraseña?</a></h4>
+                                    <h4><a href="/forgetPassword" class="hover-a">¿Olvidaste tu contraseña?</a></h4>
                                 </div>
                             </div>
                             <div class="form-login">
-                                <button type="submit" class="btn btn-login" onclick="redirigir(event)" >Inicia sesión</button>
+                                <button class="btn btn-login" onclick="inicioSesion(event)" >Inicia sesión</button>
                             </div>
                             <div class="signinform text-center">
-                                <h4>¿No tienes una cuenta? <a href="signup.html" class="hover-a">Crea una</a></h4>
+                                <h4>¿No tienes una cuenta? <a href="/crearCuenta" class="hover-a">Crea una</a></h4>
                             </div>
                             <!--
                             <div class="form-setlogin">
@@ -98,16 +98,55 @@
 
         <script>
 
-            $(document).ready(
-                $("button").click(function () {
-                    $.ajax({
-                        method: "POST",
-                        data: {username: $("#username").val()},
-                        url: "http://localhost:8080"
-                    })
+            function inicioSesion(event){
+                var formulario = document.getElementById("miFormulario");
+                var email = document.getElementById("correo").value;
+                var password = document.getElementById("contrasena").value;
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (formulario.checkValidity()){
+                    event.preventDefault();
+                    if (emailRegex.test(email) && password !== "") {
+                        const xhttp = new XMLHttpRequest();
+                        const datos = {
+                            correo: email,
+                            password: password
+                        }
+                        const dataJSON = JSON.stringify(datos);
+                        console.log(dataJSON);
+                        xhttp.open("POST", "http://localhost:8080/iniciarSesion", true);
+                        xhttp.setRequestHeader("Content-Type", "application/json");
+// Configurar el evento onreadystatechange para manejar la respuesta del servidor
+                        xhttp.onreadystatechange  = function () {
+                            const quePaso = otherFunction(this);
+                            switch (quePaso){
+                                case "baneado":
+                                    Swal.fire({
+                                        icon: "error",
+                                        iconColor: "orange",
+                                        title: "Su cuenta ha sido baneada",
+                                        confirmButtonColor: "#dd986a"
+                                    })
+                                    break;
+                                case "noIsUser":
+                                    Swal.fire({
+                                        icon: "error",
+                                        iconColor: "orange",
+                                        title: "¡Correo o contraseña incorrectos!",
+                                        confirmButtonColor: "#dd986a"
+                                    })
+                                    break;
+                                default:
+                                    window.location.href = quePaso;
+                            }
+                        }
+                        xhttp.send(dataJSON);
+                    }
                 }
-             )
-            )
+            }
+            function otherFunction(http){
+                return http.responseText;
+            }
+
 
             function redirigir(event) {
                 var formulario = document.getElementById("miFormulario");

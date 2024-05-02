@@ -1,7 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -34,8 +36,12 @@ public class Patient {
 
     private String photo;
 
-    @Column(name="datecreationaccount")
-    private Date dateCreationAccount;
+    @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateCreationAccount;
+
+
+    private String state;
 
     public int getIdPatient() {
         return idPatient;
@@ -125,11 +131,19 @@ public class Patient {
         this.photo = photo;
     }
 
-    public Date getDateCreationAccount() {
+    public LocalDate getDateCreationAccount() {
         return dateCreationAccount;
     }
 
-    public void setDateCreationAccount(Date dateCreationAccount) {
+    public void setDateCreationAccount(LocalDate dateCreationAccount) {
         this.dateCreationAccount = dateCreationAccount;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

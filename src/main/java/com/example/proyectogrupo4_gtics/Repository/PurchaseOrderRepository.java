@@ -1,4 +1,6 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
-public interface PurchaseOrderRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PurchaseOrderRepository{
 }

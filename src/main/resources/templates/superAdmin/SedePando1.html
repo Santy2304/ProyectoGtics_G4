@@ -98,55 +98,6 @@
 
 					<!-- Notifications -->
 
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-
-									<li class="notification-message">
-										<a href="/verNotificationsSuperAdmin">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-
-									<!--Ejemplo completo-->
-									<!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="/verNotificationsSuperAdmin">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
 					<!-- /Notifications -->
 
 					<li class="nav-item dropdown has-arrow main-drop">
@@ -204,10 +155,10 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="/verSedeSuperAdmin" class="active">Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
+									<li><a href="/verSedeSuperAdminPando1" class="active">Pando Etapa 1</a></li>
+									<li><a href="/verSedeSuperAdminPando2">Pando Etapa 2</a></li>
+									<li><a href="/verSedeSuperAdminPando3">Pando Etapa 3</a></li>
+									<li><a href="/verSedeSuperAdminPando4">Pando Etapa 4</a></li>
 
 								</ul>
 
@@ -218,14 +169,13 @@
 									<li><a href="/listaMedicamentosSuperAdmin">Medicamentos</a></li>
 								</ul>
 							</li>
-
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
 								</ul>
 							</li>
+
 						</ul>
 					</div>
 				</div>
@@ -280,18 +230,7 @@
 									<div class="row">
 										<div class="col-lg-12 col-sm-12">
 											<div class="row">
-												<div class="col-lg col-sm-6 col-12">
-													<div class="form-group">
-														<select class="select">
-															<option>Seleccione Sede</option>
-															<option>Pando 1</option>
-															<option>Pando 2</option>
-															<option>Pando 3</option>
-															<option>Pando 4</option>
 
-														</select>
-													</div>
-												</div>
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
 														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Solicitud Inicial" >
@@ -315,36 +254,34 @@
 								</div>
 							</div>
 							<!-- /Filter -->
+
 							<div class="table-responsive">
-								<table class="table  datanew">
+								<table class="table datanew">
 									<thead>
 										<tr>
-
 											<th></th>
 											<th>Nombre</th>
 											<th>Apellido </th>
 											<th>DNI</th>
 											<th>Código</th>
-											<th>Sede</th>
 											<th>Fecha de Solicitud</th>
 											<th>Acción</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr>
+										<tr th:each="solicitud : ${listaSolicitudesFarmacistasPando1}">
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
 												<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Jorge</td>
-											<td>Coronado</td>
-											<td>12345678</td>
+											<td th:text="${solicitud.name}"></td>
+											<td th:text="${solicitud.lastName}"></td>
+											<td th:text="${solicitud.dni}"></td>
 
-											<td>643898</td>
-											<td>Pando 1</td>
-											<td>17/04/2024</td>
+											<td th:text="${solicitud.code}"></td>
+											<td th:text="${solicitud.requestDate}"></td>
 
 											<td>
 												<a class="me-3" href="/verDetalleMedicamentosSuperAdmin">
@@ -356,66 +293,12 @@
 												</a>
 											</td>
 										</tr>
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product2.jpg" alt="product">
-												</a>
-											</td>
-											<td>Mayte</td>
-											<td>Asto</td>
-											<td>12345678</td>
-
-											<td>ewrgr4</td>
-											<td>Pando 4</td>
-											<td>17/04/2024</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
-												</a>
-
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-
-										<tr>
-
-											<td class="productimgname">
-												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
-												</a>
-											</td>
-											<td>Sergio</td>
-											<td>Bustamante</td>
-											<td>12345678</td>
-
-											<td>ewrgr4</td>
-											<td>Pando 4</td>
-											<td>17/04/2024</td>
-											<td>
-												<a class="me-3" href="product-details.html">
-													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
-												</a>
-
-												<a class="confirm-text" href="javascript:void(0);">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-
-
-
-
 									</tbody>
 								</table>
 							</div>
+
 						</div>
 					</div>
-
-
 
 
 
@@ -460,18 +343,7 @@
 									<div class="row">
 										<div class="col-lg-12 col-sm-12">
 											<div class="row">
-												<div class="col-lg col-sm-6 col-12">
-													<div class="form-group">
-														<select class="select">
-															<option>Seleccione Sede</option>
-															<option>Pando 1</option>
-															<option>Pando 2</option>
-															<option>Pando 3</option>
-															<option>Pando 4</option>
 
-														</select>
-													</div>
-												</div>
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
 														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Solicitud Inicial" >
@@ -511,79 +383,28 @@
 										<tr>
 											<th>ID</th>
 											<th>Medicamentos</th>
-											<th>Sede</th>
 											<th>Fecha de Solicitud</th>
 											<th>Estado</th>
-											<th>Tracking</th>
+											<th></th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr style="background-color: #ffda6a">
-											<td >1</td>
+										<tr th:each="repo : ${listaSolicitudesReposicionPando1}">
+											<td th:text="${repo.idReplacementOrder}"></td>
 											<td>
-												<a class="me-3" href="/verDetalleMedicamentosSuperAdmin">
+												<a class="me-3" th:href="@{'/verDetalleRepoSuperAdmin?idRepo=' + ${repo.getIdReplacementOrder()}}">
 												<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
 												</a>
 											</td>
-											<td>Pando 1</td>
-											<td>08/02/2024</td>
-											<td>Solicitado</td>
+											<td th:text="${repo.releaseDate}"></td>
+											<td th:text="${repo.trackingState}"></td>
 											<td>
 												<a class="me-3" href="">
 													<img src="/assets_superAdmin/img/icons/truck.svg" alt="img">
 												</a>
 											</td>
 										</tr>
-										<tr>
 
-											<td>2</td>
-											<td>
-												<a class="me-3" href="DetalleMedicamentos.html">
-													<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
-												</a>
-											</td>
-											<td>Pando 2</td>
-											<td>08/02/2024</td>
-											<td>Finalizado</td>
-
-											<td>---</td>
-										</tr>
-										<tr>
-
-											<td>12</td>
-											<td>
-												<a class="me-3" href="DetalleMedicamentos.html">
-													<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
-												</a>
-											</td>
-											<td>Pando 3</td>
-											<td>09/02/2024</td>
-											<td>Empaquetado</td>
-
-											<td>
-
-												<a class="me-3" href="DetalleMedicamentos.html">
-													<img src="/assets_superAdmin/img/icons/truck.svg" alt="img">
-												</a>
-											</td>
-										</tr>
-										<tr>
-
-											<td>45</td>
-											<td>
-												<a class="me-3" href="DetalleMedicamentos.html">
-													<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
-												</a>
-											</td>
-											<td>Pando 4</td>
-											<td>09/02/2024</td>
-											<td>Empaquetado</td>
-											<td>
-												<a class="me-3" href="DetalleMedicamentos.html">
-													<img src="/assets_superAdmin/img/icons/truck.svg" alt="img">
-												</a>
-											</td>
-										</tr>
 									</tbody>
 								</table>
 							</div>

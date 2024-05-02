@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.time.LocalDateTime;
+
 
 
 import java.util.*;
@@ -157,6 +159,16 @@ public class LogInController {
     }
     @GetMapping("/crearCuenta")
     public String signUp(){
+        return "signup";
+    }
+
+    @PostMapping("/formNuevaCuenta")
+    public String formNuevaCuenta( Patient patient){
+
+        patient.setPassword("DefaultPassword");
+        patient.setChangePassword(1);
+        patient.setDateCreationAccount( LocalDateTime.now());
+        patientRepository.save(patient);
         return "signup";
     }
 

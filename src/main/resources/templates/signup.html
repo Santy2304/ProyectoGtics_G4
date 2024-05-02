@@ -26,7 +26,7 @@
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
 			<div class="account-content">
-				<form class="login-wrapper" id="miFormulario">
+				<form method="POST" th:action="@{/formNuevaCuenta}" class="login-wrapper" id="miFormulario">
                     <div class="login-content">
                         <div class="login-userset">
                             <!--
@@ -40,7 +40,7 @@
                             <div class="form-login">
                                 <label>Nombre completo</label>
                                 <div class="form-addons">
-                                    <input type="text" id="nombre" placeholder="Ingrese su nombre completo" required>
+                                    <input type="text" id="nombre" name="name" placeholder="Ingrese su nombre completo" required>
                                     <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                             <div class="form-login">
                                 <label>Apellidos</label>
                                 <div class="form-addons">
-                                    <input type="text" id="apellidos"placeholder="Ingrese sus apellidos" required>
+                                    <input type="text" id="apellidos" name="lastName" placeholder="Ingrese sus apellidos" required>
                                     <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                             <div class="form-login">
                                 <label>DNI</label>
                                 <div class="form-addons">
-                                    <input type="number" id="dni" placeholder="Ingrese su número de DNI" required>
+                                    <input type="number" id="dni" name="dni" placeholder="Ingrese su número de DNI" required>
                                     <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="form-login">
                                 <label>Correo </label>
                                 <div class="form-addons">
-                                    <input type="email" id="correo" placeholder="Ingrese su correo electrónico" required>
+                                    <input type="email" id="correo" name="email" placeholder="Ingrese su correo electrónico" required>
                                     <img src="/assets_superAdmin/img/icons/mail.svg" alt="img">
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                             <div class="form-login">
                                 <label>Seguro</label>
                                 <div class="form-addons">
-                                    <input type="text" id="seguro" placeholder="Ingrese el nombre de su seguro" required>
+                                    <input type="text" id="seguro" name="insurance" placeholder="Ingrese el nombre de su seguro" required>
                                     <img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">
                                 </div>
                             </div>
@@ -80,7 +80,15 @@
                             <div class="form-login">
                                 <label>Dirección </label>
                                 <div class="form-addons">
-                                    <input type="text" id="direccion" placeholder="Ingresa su dirección" required>
+                                    <input type="text" id="direccion" name="location" placeholder="Ingresa su dirección" required>
+                                    <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
+                                </div>
+                            </div>
+
+                            <div class="form-login">
+                                <label>Distrito </label>
+                                <div class="form-addons">
+                                    <input type="text" id="distrit" name="distrit" placeholder="Ingresa el nombre de tu distrito" required>
                                     <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                                 </div>
                             </div>
@@ -95,7 +103,7 @@
                             </div>
                             -->
                             <div class="form-login">
-                                <button type="submit" class="btn btn-login" onclick="register(event)" >Registrarse</button>
+                                <button  class="btn btn-login" onclick="register(event)" >Registrarse</button>
                             </div>
                             <div class="signinform text-center">
                                 <h4>¿Ya tienes una cuenta? <a href="/inicioSesion" class="hover-a"> Inicia sesión</a></h4>
@@ -143,25 +151,31 @@
                 var correo = document.getElementById("correo").value;
                 var seguro = document.getElementById("seguro").value;
                 var direccion = document.getElementById("direccion").value;
+                var distrit = document.getElementById("distrito").value;
+
                 var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if(formulario.checkValidity()) {
                     event.preventDefault();
                     if (emailRegex.test(correo)) {
-                        switch(correo) {
-                            case "repetido@gmail.com":
-                                Swal.fire({
-                                    icon: "error",
-                                    iconColor: "orange",
-                                    title: "Este correo ya tiene una cuenta asociada",
-                                    confirmButtonColor: "#dd986a"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirecciona a otra vista
-                                        window.location.href = 'signup.html';
-                                    }
-                                });
-                                break;
-                            default:
+
+                        var formData = {
+                            nombre: $("nombre").val(),
+                            apellidos: $("apellidos").val(),
+                            dni: $("dni").val(),
+                            correo: $("correo").val(),
+                            seguro: $("seguro").val(),
+                            direccion: $("direccion").val(),
+                            distrit: $("distrit").val()
+                            // Agregar más campos según sea necesario
+                        };
+
+                        $.ajax({
+                            url: "/formNuevaCuenta",
+                            type: "POST",
+                            data: JSON.stringify(formData),
+                            contentType: "application/json",
+                            success: function(response) {
+                                // Actualizar la interfaz de usuario con los datos recibidos
                                 Swal.fire({
                                     icon: "succes",
                                     iconColor: "orange",
@@ -171,12 +185,26 @@
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // Redirecciona a otra vista
-                                        window.location.href = 'signin.html';
+                                        window.location.href = '/inicioSesion';
                                     }
                                 });
-                                break;
+                            },
+                            error: function(xhr, status, error) {
+                                // Manejar errores de la solicitud AJAX
+                                Swal.fire({
+                                    icon: "error",
+                                    iconColor: "orange",
+                                    title: "Este correo ya tiene una cuenta asociada",
+                                    confirmButtonColor: "#dd986a"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Redirecciona a otra vista
+                                        window.location.href = '/inicioSesion';
+                                    }
+                                });
+                            }
+                        });
 
-                        }
                     }
                 }
 

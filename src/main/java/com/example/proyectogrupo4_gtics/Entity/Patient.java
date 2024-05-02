@@ -2,7 +2,7 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -27,15 +27,15 @@ public class Patient {
 
     private String insurance;
 
-    private String password;
+    private String password = "defaultPassword";
 
     @Column(name="changepassword")
-    private String changePassword;
+    private Integer changePassword;
 
-    private String photo;
+    private String photo = null;
 
     @Column(name="datecreationaccount")
-    private Date dateCreationAccount;
+    private LocalDateTime dateCreationAccount;
 
     public int getIdPatient() {
         return idPatient;
@@ -109,11 +109,12 @@ public class Patient {
         this.password = password;
     }
 
-    public String getChangePassword() {
+
+    public Integer getChangePassword() {
         return changePassword;
     }
 
-    public void setChangePassword(String changePassword) {
+    public void setChangePassword(Integer changePassword) {
         this.changePassword = changePassword;
     }
 
@@ -125,11 +126,11 @@ public class Patient {
         this.photo = photo;
     }
 
-    public Date getDateCreationAccount() {
+    public LocalDateTime getDateCreationAccount() {
         return dateCreationAccount;
     }
 
-    public void setDateCreationAccount(Date dateCreationAccount) {
+    public void setDateCreationAccount(LocalDateTime dateCreationAccount) {
         this.dateCreationAccount = dateCreationAccount;
     }
 }

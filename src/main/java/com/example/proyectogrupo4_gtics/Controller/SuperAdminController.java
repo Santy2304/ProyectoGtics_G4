@@ -1,6 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,8 +28,10 @@ public class SuperAdminController {
     final SiteRepository siteRepository;
 
     final PharmacistRepository pharmacistRepository;
+    private final ReplacementOrderRepository replacementOrderRepository;
 
-    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository) {
+    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
+                                ReplacementOrderRepository replacementOrderRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -36,6 +39,7 @@ public class SuperAdminController {
         this.administratorRepository = administratorRepository;
         this.siteRepository = siteRepository;
         this.pharmacistRepository = pharmacistRepository;
+        this.replacementOrderRepository = replacementOrderRepository;
     }
 
 
@@ -476,21 +480,53 @@ public class SuperAdminController {
 
 
     ///////////////////////////////////
-    @GetMapping("/verDetalleMedicamentosSuperAdmin")
-    public String verDetalleMedicamentos() {
-        return "superAdmin/DetalleMedicamentos";
+
+
+
+    //////////////////LISTADOS SEDES /////////////////////
+    @GetMapping("/verSedeSuperAdminPando1")
+    public String verSedePando1(Model model) {
+        List<Pharmacist> listaSolicitudesFarmacistaPando1 = pharmacistRepository.listarSolicitudesFarmacistaPando1();
+        model.addAttribute("listaSolicitudesFarmacistasPando1",listaSolicitudesFarmacistaPando1);
+        List<ReplacementOrder> listarSolicitudesReposicionPando1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+        model.addAttribute("listaSolicitudesReposicionPando1",listarSolicitudesReposicionPando1);
+        return "superAdmin/SedePando1";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando2")
+    public String verSedePando2(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
+        model.addAttribute("listaSolicitudesFarmacistasPando2",listarSolicitudesFarmacistaPando2);
+        return "superAdmin/SedePando2";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando3")
+    public String verSedePando3(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
+        model.addAttribute("listaSolicitudesFarmacistasPando3",listarSolicitudesFarmacistaPando3);
+        return "superAdmin/SedePando3";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando4")
+    public String verSedePando4(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
+        model.addAttribute("listaSolicitudesFarmacistasPando4",listarSolicitudesFarmacistaPando4);
+        return "superAdmin/SedePando4";
+    }
+
+
+    ///////////////////////////////////////7
+    @GetMapping("/verDetalleRepoSuperAdmin")
+    public String verDetalleMedicamentos(@RequestParam("idRepo") int idRepo,Model model) {
+
+        List<MedicamentosPorReposicionDTO> medicamentosPorReposicion =   replacementOrderRepository.obtenerMedicamentosPorReposicion(idRepo);
+        model.addAttribute("listaMedicamentosPorRepo",medicamentosPorReposicion);
+        return "superAdmin/DetalleRepo";
     }
 
 
     //Solo para poder saltar entre vistas auxiliar de momento
-    @GetMapping("/verSedeSuperAdmin")
-    public String verSede(Model model) {
-        return "superAdmin/Sede";
-    }
-    @GetMapping("/verUserListSuperAdmin")
-    public String verUserList() {
-        return "superAdmin/userlist";
-    }
+
     @GetMapping("/verPerfilSuperAdmin")
     public String verPerfil() {
         return "superAdmin/perfil";
@@ -499,8 +535,5 @@ public class SuperAdminController {
     public String verNotifications() {
         return "superAdmin/notifications";
     }
-
-
-
 
 }

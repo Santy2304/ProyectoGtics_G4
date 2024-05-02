@@ -14,7 +14,7 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(nativeQuery = true,value="select p.idPharmacist as idPharmacist, p.name as name,p.lastName as apellido,p.site as sede,p.dni as dni,p.code as codigo,p.email as email,p.photo as foto from pharmacist p inner join administrator a where a.site=p.site")
     List<FarmacistaPorSedeDTO> listaFarmacistaPorSede();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE state <> 'eliminado'")
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE state <> 'eliminado' and approvalState = 'aceptado'")
     List<Pharmacist> listarFarmacistasValidos();
 
     @Transactional
@@ -26,5 +26,17 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Modifying
     @Query(value = "update pharmacist set state = 'eliminado'  where idPharmacist =?1" , nativeQuery = true)
     void eliminarFarmacistaPorId(int idFarmacista);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 1'")
+    List<Pharmacist> listarSolicitudesFarmacistaPando1();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 2'")
+    List<Pharmacist> listarSolicitudesFarmacistaPando2();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 3'")
+    List<Pharmacist> listarSolicitudesFarmacistaPando3();
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 4'")
+    List<Pharmacist> listarSolicitudesFarmacistaPando4();
 
  }

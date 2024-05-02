@@ -47,6 +47,11 @@ public class Pharmacist {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
+
+    @Column(name = "daterequestaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate requestDate;
+
     public int getIdFarmacista() {
         return idFarmacista;
     }
@@ -158,5 +163,13 @@ public class Pharmacist {
 
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
     }
 }

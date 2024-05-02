@@ -23,4 +23,8 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM Patient where email=?1")
     Optional<Patient> findByEmail(String email );
 
+    @Query(nativeQuery = true, value = "SELECT * FROM Patient where dni=?1")
+    Optional<Patient> findByDni(String dni );
+
+
 }

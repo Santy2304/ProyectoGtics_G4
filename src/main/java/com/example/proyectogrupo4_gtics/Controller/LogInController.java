@@ -7,7 +7,6 @@ import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
 import com.example.proyectogrupo4_gtics.Repository.SuperAdminRepository;
 import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
@@ -44,15 +43,15 @@ public class LogInController {
     //Validar cuenta superadmin
 
     public class MyUser {
-        private String correo;
+        private String email;
         private String password;
 
-        public String getCorreo() {
-            return correo;
+        public String getEmail() {
+            return email;
         }
 
-        public void setCorreo(String correo) {
-            this.correo = correo;
+        public void setEmail(String correo) {
+            this.email = correo;
         }
 
         public String getPassword() {
@@ -117,41 +116,41 @@ public class LogInController {
         }*/
     }
 
-    @PostMapping("/validarUsuario")
-    public Object validarUsuario(@RequestBody String user ,Model  model){
+    @RequestMapping ("/validarUsuario")
+    @ResponseBody
+    public Map<String,String> validarUsuario(MyUser user ,Model  model){
+        System.out.println("HOLAAA");
         System.out.println(user);
-        String correo = null;
-        String password = null;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            JsonNode node = mapper.readTree(user);
-            correo = node.get("correo").asText();password = node.get("password").asText();
-
-        } catch (JsonProcessingException e) {
-            return "signin";
-        }
+        String correo = user.getEmail();
+        String password = user.getPassword();
         Patient patient = patientRepository.buscarPatient(correo , password);
         Administrator admin = administratorRepository.buscarAdmin(correo , password) ;
         SuperAdmin superAdmin = superAdminRepository.buscarSuperAdmin(correo , password) ;
         Pharmacist pharmacist = pharmacistRepository.buscarPharmacist(correo, password);
+        Map<String, String > response =  new HashMap<>();
 
         if(!(patient == null)){
-            model.addAttribute("usuario" , patient);
-            return "redirect:/ElegirSede";
+            response.put("response" ,"/ElegirSede");
+            model.addAttribute("idUser" , patient.getIdPatient());
+            return response;
         }
         if( !(admin == null) ) {
+            response.put("response" ,"/listaDoctoresAdminSede");
             model.addAttribute("idUser" , admin.getIdAdministrador());
-            return "redirect:/listaDoctoresAdminSede";
+            return response;
         }
         if( !(superAdmin == null) ) {
+            response.put("response" ,"/listaDoctoresAdminSede");
             model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
-            return "redirect:/listaMedicamentosSuperAdmin";
+            return response;
         }
         if( !(pharmacist == null) ) {
+            response.put("response" ,"/verMedicinelistFarmacista");
             model.addAttribute("idUser" , pharmacist.getIdFarmacista());
-            return "redirect:/verMedicinelistFarmacista";
+            return response;
         }
-        return "signin";
+        response.put("response" ,"noIsUser");
+        return response;
     }
     @GetMapping("/forgetPassword")
     public String forgetPassword(){
@@ -162,14 +161,25 @@ public class LogInController {
         return "signup";
     }
 
-    @PostMapping("/formNuevaCuenta")
-    public String formNuevaCuenta( Patient patient){
 
-        patient.setPassword("DefaultPassword");
-        patient.setChangePassword(1);
-        patient.setDateCreationAccount( LocalDateTime.now());
-        patientRepository.save(patient);
-        return "signup";
+    @RequestMapping(value = "/formNuevaCuenta")
+    @ResponseBody
+    public Map<String,String > formNuevaCuenta(Patient patient){
+        System.out.println("Holaa");
+        Map<String, String > response =  new HashMap<>();
+        Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
+        Optional<Patient> patientOpt2 =  patientRepository.findByDni(patient.getDni());
+        if(!patientOpt1.isPresent() && !patientOpt2.isPresent()){
+            patient.setPassword("DefaultPassword");
+            patient.setChangePassword(1);
+            patient.setDateCreationAccount( LocalDateTime.now());
+            patientRepository.save(patient);
+            response.put("response" ,"Guardado");
+        }else{
+            response.put("response" ,"YaExiste");
+        }
+
+        return response;
     }
 
 

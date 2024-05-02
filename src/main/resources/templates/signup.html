@@ -26,7 +26,7 @@
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
 			<div class="account-content">
-				<form method="POST" th:action="@{/formNuevaCuenta}" class="login-wrapper" id="miFormulario">
+				<form  class="login-wrapper" id="miFormulario">
                     <div class="login-content">
                         <div class="login-userset">
                             <!--
@@ -103,7 +103,7 @@
                             </div>
                             -->
                             <div class="form-login">
-                                <button  class="btn btn-login" onclick="register(event)" >Registrarse</button>
+                                <button  class="btn btn-login" type="button" id="registro" >Registrarse</button>
                             </div>
                             <div class="signinform text-center">
                                 <h4>¿Ya tienes una cuenta? <a href="/inicioSesion" class="hover-a"> Inicia sesión</a></h4>
@@ -141,76 +141,59 @@
 		<!-- /Main Wrapper -->
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <script>
-            function register(event) {
+        <script type="text/javascript">
+
+            $("#registro").click(function(){
                 var formulario = document.getElementById("miFormulario");
-                var nombre = document.getElementById("nombre").value;
-                var apellidos = document.getElementById("apellidos").value;
-                var dni = document.getElementById("dni").value;
                 var correo = document.getElementById("correo").value;
-                var seguro = document.getElementById("seguro").value;
-                var direccion = document.getElementById("direccion").value;
-                var distrit = document.getElementById("distrito").value;
-
                 var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if(formulario.checkValidity()) {
-                    event.preventDefault();
                     if (emailRegex.test(correo)) {
-
-                        var formData = {
-                            nombre: $("nombre").val(),
-                            apellidos: $("apellidos").val(),
-                            dni: $("dni").val(),
-                            correo: $("correo").val(),
-                            seguro: $("seguro").val(),
-                            direccion: $("direccion").val(),
-                            distrit: $("distrit").val()
-                            // Agregar más campos según sea necesario
-                        };
-
                         $.ajax({
                             url: "/formNuevaCuenta",
                             type: "POST",
-                            data: JSON.stringify(formData),
-                            contentType: "application/json",
-                            success: function(response) {
+                            data: $("#miFormulario").serialize(),
+                            success: function(data) {
+                                switch(data.response){
+                                    case "Guardado":
+                                        Swal.fire({
+                                            icon: "succes",
+                                            iconColor: "orange",
+                                            title: "Bienvenido a SAINT MEDIC",
+                                            text:"te enviamos un enlace a tu correo para que puedas iniciar sesión",
+                                            confirmButtonColor: "#dd986a"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Redirecciona a otra vista
+                                                window.location.href = '/crearCuenta';
+                                            }
+                                        });
+                                        break;
+                                    case "YaExiste":
+                                        Swal.fire({
+                                            icon: "error",
+                                            iconColor: "orange",
+                                            title: "Este correo o DNI ya tiene una cuenta asociada",
+                                            confirmButtonColor: "#dd986a"
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Redirecciona a otra vista
+                                                window.location.href = '/crearCuenta';
+                                            }
+                                        });
+                                        break;
+                                }
                                 // Actualizar la interfaz de usuario con los datos recibidos
-                                Swal.fire({
-                                    icon: "succes",
-                                    iconColor: "orange",
-                                    title: "Bienvenido a SAINT MEDIC",
-                                    text:"te enviamos un enlace a tu correo para que puedas iniciar sesión",
-                                    confirmButtonColor: "#dd986a"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirecciona a otra vista
-                                        window.location.href = '/inicioSesion';
-                                    }
-                                });
+
                             },
-                            error: function(xhr, status, error) {
-                                // Manejar errores de la solicitud AJAX
-                                Swal.fire({
-                                    icon: "error",
-                                    iconColor: "orange",
-                                    title: "Este correo ya tiene una cuenta asociada",
-                                    confirmButtonColor: "#dd986a"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirecciona a otra vista
-                                        window.location.href = '/inicioSesion';
-                                    }
-                                });
-                            }
+
                         });
 
                     }
                 }
-
-
-            }
-
+            })
         </script>
 
 		<!-- jQuery -->

@@ -69,10 +69,11 @@ public class LogInController {
         String correo = null;
         String password = null;
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println(user);
         try {
             JsonNode node = mapper.readTree(user);
-            correo = node.get("correo").asText();password = node.get("password").asText();
-
+            correo = node.get("correo").asText();
+            password = node.get("password").asText();
         } catch (JsonProcessingException e) {
             return "signin";
         }

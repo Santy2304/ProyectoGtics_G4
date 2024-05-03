@@ -164,7 +164,7 @@ CSS STRUCTURE:
 }
 /* Theme Colors */
 :root {
-    --accent-color       : #FFC43F;
+    --accent-color       : #f6800e;
     --dark-color         : #222222;
     --light-dark-color   : #727272;
     --light-color        : #fff;
@@ -650,7 +650,7 @@ h1,h2,h3,h4,h5,h6 {
   transition: all 0.3s ease-out;
 }
 .product-item .btn-wishlist:hover {
-  background: rgb(240, 56, 56);
+  background: rgb(157, 154, 151);
   color: #fff;
 }
 .product-item .qty {

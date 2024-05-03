@@ -45,7 +45,7 @@
 		</style>
 
 	</head>
-	<body style="background-image: url('../assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+	<body style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
 		</div>
@@ -78,122 +78,127 @@
 						</div>
 					</div>
 					<!-- Button trigger modal -->
-
-					<div class="row mx-1">
-						<div class="col-lg-7 col-sm-12 col-12 d-flex">
-							<div class="card">
-								<div class="card-header">
-									<h5 class="card-title">Generar orden de compra</h5>
-									<p class="card-text">Rellene sus datos correctamente, recuerde que el farmacista tiene la potestad de <code>rechazar</code> su orden por datos erroneos.</p>
-								</div>
-								<div class="card-body">
-									<form>
-										<div class="form-row row">
-											<div class="col-md-4 mb-3">
-												<div class="form-group">
-													<label for="customerName">Doctor</label>
-													<div class="row">
-														<div class="col-lg-12">
-															<select class="form-control" id="customerName">
-																<option>Seleccione Doctor</option>
-																<option>Josh Yauri</option>
-															</select>
+					<form th:action="${}">
+							<div>
+								<div class="row mx-1">
+									<div class="col-lg-7 col-sm-12 col-12 d-flex">
+										<div class="card">
+											<div class="card-header">
+												<h5 class="card-title">Generar orden de compra</h5>
+												<p class="card-text">Rellene sus datos correctamente, recuerde que el farmacista tiene la potestad de <code>rechazar</code> su orden por datos erroneos.</p>
+											</div>
+											<div class="card-body">
+												<form>
+													<div class="form-row row">
+														<div class="col-md-4 mb-3">
+															<div class="form-group">
+																<label for="customerName">Doctor</label>
+																<div class="row">
+																	<div class="col-lg-12">
+																		<select class="form-control" id="customerName">
+																			<option>Seleccione Doctor</option>
+																			<option>Josh Yauri</option>
+																		</select>
+																	</div>
+																</div>
+															</div>
 														</div>
-													</div>
-												</div>
-											</div>
-											<div class="col-md-4 mb-3">
-												<label for="validationServer02">Teléfono</label>
-												<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="998563q" required>
-												<div class="invalid-feedback">
-													Por favor ingrese un número correcto
-												</div>
-											</div>
-											
-										</div>
-										<div class="form-row row">
-											<div class="col-md-6 mb-3">
-												<label class="mb-2" for="validationServer03">Dirección</label>
-												<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Casa de Hiro" required>
-												<div class="valid-feedback">
-													Correcto!
-												</div>
-											</div>
-											<div class="col-md-3 mb-3">
-												<div class="form-group">
-													<label>Fecha de entrega</label>
-													<div class="input-groupicon">
-														<input type="text" placeholder="DD-MM-YYYY" class="datetimepicker">
-														<div class="addonset">
-															<img src="../assets_pacient/img/icons/calendars.svg" alt="img">
+														<div class="col-md-4 mb-3">
+															<label for="validationServer02">Teléfono</label>
+															<input type="text" class="form-control is-invalid mt-2" id="validationServer02" placeholder="Teléfono" value="998563q" required>
+															<div class="invalid-feedback">
+																Por favor ingrese un número correcto
+															</div>
 														</div>
+
 													</div>
+													<div class="form-row row">
+														<div class="col-md-6 mb-3">
+															<label class="mb-2" for="validationServer03">Dirección</label>
+															<input type="text" class="form-control is-valid" id="validationServer03" placeholder="Casa de Hiro" required>
+															<div class="valid-feedback">
+																Correcto!
+															</div>
+														</div>
+														<div class="col-md-3 mb-3">
+															<div class="form-group">
+																<label>Fecha de entrega</label>
+																<div class="input-groupicon">
+																	<input type="text" placeholder="DD-MM-YYYY" class="datetimepicker">
+																	<div class="addonset">
+																		<img src="../assets_pacient/img/icons/calendars.svg" alt="img">
+																	</div>
+																</div>
+															</div>
+														</div>
+
+													</div>
+
+													<div class="form-row row">
+														<div class="mb-3">
+															<input type="file" class="form-control" aria-label="file example" required>
+															<div class="invalid-feedback">Example invalid form file feedback</div>
+													  </div>
+													</div>
+
+													<button class="btn btn-primary mt-2" href="numero_de_orden.html" type="submit">Enviar</button>
+												</form>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-5 col-sm-12 col-12 d-flex">
+										<div class="card flex-fill">
+											<div class="card-header pb-0 d-flex justify-content-between align-items-center">
+												<h4 class="card-title mb-0">Carrito</h4>
+
+											</div>
+											<div class="card-body">
+												<div class="table-responsive dataview">
+													<table class="table datatable ">
+														<thead>
+															<tr>
+																<th>Productos</th>
+																<th>Cantidad</th>
+																<th>Total</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td class="productimgname">
+																	<a href="single_product.html" class="product-img">
+																		<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
+																	</a>
+																	<a href="#">Pastillas D</a>
+																	<input id="idMedicina1" name ="medicina1" value="26" type="hidden">
+
+																</td>
+																<td>2</td>
+																<td>S/40.00</td>
+																<input id="cantidad1" name ="cantidad1" value="2" type="hidden">
+
+															</tr>
+															<tr>
+																<td class="productimgname">
+																	<a href="single_product.html" class="product-img">
+																		<img src="../assets_pacient/images/ibuprofeno.png" alt="product">
+																	</a>
+																	<a href="#">Shampoo </a>
+																	<input id="idMedicine2" name ="idMedicine2" value="27" type="hidden">
+																</td>
+																<td>2</td>
+																<td>S/20.00</td>
+																<input id="cantidad2" name ="cantidad2" value="2" type="hidden">
+															</tr>
+														</tbody>
+													</table>
 												</div>
 											</div>
-											
 										</div>
-
-										<div class="form-row row">
-											<div class="mb-3">
-												<input type="file" class="form-control" aria-label="file example" required>
-												<div class="invalid-feedback">Example invalid form file feedback</div>
-										  </div>
-										</div>
-										
-										<button class="btn btn-primary mt-2" href="numero_de_orden.html" type="submit">Enviar</button>
-									</form>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-5 col-sm-12 col-12 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header pb-0 d-flex justify-content-between align-items-center">
-									<h4 class="card-title mb-0">Carrito</h4>
-
-								</div>
-								<div class="card-body">
-									<div class="table-responsive dataview">
-										<table class="table datatable ">
-											<thead>
-												<tr>
-													<th>Productos</th>
-													<th>Cantidad</th>
-													<th>Total</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td class="productimgname">
-														<a href="single_product.html" class="product-img">
-															<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
-														</a>
-														<a href="#">Aspirina 500mg</a>
-													</td>
-													<td>4</td>
-
-													<td>S/36.00</td>
-												</tr>
-												<tr>
-													<td class="productimgname">
-														<a href="single_product.html" class="product-img">
-															<img src="../assets_pacient/images/ibuprofeno.png" alt="product">
-														</a>
-														<a href="#">Ibuprofeno 800mg </a>
-													</td>
-													<td>6</td>
-													<td>S/54.00</td>
-												</tr>
-											</tbody>
-										</table>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					
-				</div>
+					</form>
 			
-		</div>
 		<!-- /Main Wrapper -->
 		
 		<!-- jQuery -->

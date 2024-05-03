@@ -47,22 +47,20 @@
             </div>
 
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4 d-flex" th:each="site : ${listaSede}" th:if="site.idSite != sede.id">
-                        <div class="card flex-fill bg-white">
+                    <div class="col-12 col-md-6 col-lg-4 d-flex" th:each="site : ${listaSede}" th:if="${site.getIdSite()}!=${idSede}">
+                        <div class="card flex-fill bg-white" >
                             <img alt="Card Image" src="../assets_pacient/images/sede1.jpeg" class="card-img-top">
                             <div class="card-header">
                                 <h5 class="card-title mb-0" th:text="${site.name}"></h5>
                             </div>
                             <div class="card-body">
-                                <p class="card-text" th:text="|Dirección: ${site.address}|" ></p>
+                                <!--/*@thymesVar id="idSede" type=""*/-->
+                                <p class="card-text" th:text="|Dirección: ${site.address}|"  ></p>
                                 <a class="btn btn-primary" th:href="|/elegirSedePrimeraVez?idSede=${site.getIdSite()}|">Ir a la tienda</a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
         </section>
 
 

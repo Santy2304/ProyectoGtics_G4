@@ -10,7 +10,7 @@
         <title>SaintMedic</title>
 		
 		<!-- Favicon -->
-        <!link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+		<link rel="icon" href="../assets_pacient/img/PastillaSinFondo.png" >
 		
 		<!-- Bootstrap CSS -->
         <link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
@@ -63,7 +63,7 @@
 					<!-- /product list -->
 					<div class="card">
 						<form method="post" th:action="@{/editarPerfilPaciente} ">
-							<input type="hidden" name="idPatient" th:field="*{usuario.idPatient}">
+							<input type="hidden" name="idPatient" th:field="${paciente.idPatient}">
 							<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
@@ -79,7 +79,7 @@
 											</div>
 										</div>
 										<div class="profile-contentname">
-											<h2 th:text="${usuario.name}"></h2>
+											<h2 th:text="${paciente.name}"></h2>
 											<h4>Actualiza tu foto y datos personales</h4>
 										</div>
 									</div>
@@ -92,47 +92,42 @@
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input name="name" type="text" th:value="${usuario.name}" readonly>
+										<input name="name" type="text" th:value="${paciente.name}" readonly>
 									</div>
 
 									<div class="form-group">
 										<label>Apellido</label>
-										<input name="lastName"type="text" th:value="${usuario.lastName}" readonly>
+										<input name="lastName" type="text" th:value="${paciente.lastName}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Distrito</label>
-										<select class="select" name="distrit" >
-											<option th:value="${usuario.distrit}" selected ></option>
-											<option>San Miguel</option>
-											<option>Callao</option>
-											<option>Rimac</option>
-										</select>
+										<input name="distrit" type="text" th:value="${paciente.distrit}" >
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Dirección</label>
-										<input name="location" type="text" th:value="${usuario.location}">
+										<input name="location" type="text" th:value="${paciente.location}">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input name="dni" type="text" th:value="|${usuario.dni}|" readonly>
+										<input name="dni" type="text" th:value="|${paciente.dni}|" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input name="email" type="text" th:value="${usuario.email}" readonly>
+										<input name="email" type="text" th:value="${paciente.email}" readonly>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Seguro</label>
-										<input name="insurance" type="text" th:value="${usuario.insurance}">
+										<input name="insurance" type="text" th:value="${paciente.insurance}">
 									</div>
 								</div>
 								<!-- A futuro puede servir

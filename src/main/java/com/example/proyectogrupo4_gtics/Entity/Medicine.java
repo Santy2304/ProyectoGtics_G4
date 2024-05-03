@@ -11,6 +11,22 @@ public class Medicine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idmedicine")
     private int idMedicine;
+    private double valoracion;
+    public double getValoracion() {
+        return valoracion;
+    }
+
+    public void setValoracion(double valoracion) {
+        this.valoracion = valoracion;
+    }
+
+    public List<Lote> getLote() {
+        return lote;
+    }
+
+    public void setLote(List<Lote> lote) {
+        this.lote = lote;
+    }
 
     private String name;
 

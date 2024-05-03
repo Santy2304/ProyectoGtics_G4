@@ -38,4 +38,14 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
     void actualizarMedicine(String name,String category,Double price,String description ,int idMedicine);
 
+
+    /*Rol administrador de sede*/
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicina, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(AVG(m.price),2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from administrator where idAdministrator=?1) group by m.idMedicine\n")
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin);
+
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicina, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(AVG(m.price),2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where m.name like concat(?1,'%') and l.site = (select site from administrator where idAdministrator=?2) group by m.idMedicine\n")
+    List<medicamentosPorSedeDTO> listaMedicamentosBuscador(String nameOrCategory, int idAdmin);
+
+
+
 }

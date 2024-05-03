@@ -1,7 +1,10 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -33,9 +36,21 @@ public class Pharmacist {
 
     private String rejectedReason;
 
-    private Boolean banned;
+    private String state;
 
     private String photo;
+
+    @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate creationDate;
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
 
     public int getIdFarmacista() {
         return idFarmacista;
@@ -125,12 +140,12 @@ public class Pharmacist {
         this.rejectedReason = rejectedReason;
     }
 
-    public Boolean getBanned() {
-        return banned;
+    public String getState() {
+        return state;
     }
 
-    public void setBanned(Boolean banned) {
-        this.banned = banned;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getPhoto() {

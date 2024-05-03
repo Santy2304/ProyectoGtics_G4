@@ -48,10 +48,10 @@
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
-					<a href="index.html" class="logo">
+					<a href="#" class="logo">
 						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 					</a>
-					<a href="index.html" class="logo-small">
+					<a href="#" class="logo-small">
 						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
@@ -98,7 +98,7 @@
 					<!-- /Flag -->
 
 					<!-- Notifications -->
-					<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+					<li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -262,7 +262,7 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="verPerfil">Mi perfil</a></li>
 									<li><a href="verNotificaciones">Notificaciones</a></li>
@@ -283,61 +283,61 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{/agregarFarmacista}">
+					<form method="post" th:action="@{'agregarFarmacista'}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Nombre</label>
-											<input name="nameFarmacista" id="nameFarmacista" type="text" >
+											<label for="nameFarmacista">Nombre</label>
+											<input name="name" id="nameFarmacista" type="text" >
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Apellido</label>
-											<input name="apellidoFarmacista"  id="apellidoFarmacista" type="text" >
+											<label for="apellidoFarmacista">Apellido</label>
+											<input name="lastName"  id="apellidoFarmacista" type="text" >
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>DNI</label>
-											<input name="dniFarmacista" id="dniFarmacista" type="text" >
+											<label for="dniFarmacista">DNI</label>
+											<input name="dni" id="dniFarmacista" type="text" >
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Código de colegiatura</label>
-											<input name="codigoFarmacista" id="codigoFarmacista" type="text" >
+											<label for="codigoFarmacista">Código de colegiatura</label>
+											<input name="code" id="codigoFarmacista" type="text" >
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Correo</label>
-											<input name="correoFarmacista" id="correoFarmacista" type="text" >
+											<label for="correoFarmacista">Correo</label>
+											<input name="email" id="correoFarmacista" type="text" >
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Distrito de residencia</label>
-											<input name="distritoFarmacista" id="distritoFarmacista" type="text">
+											<label  for="distritoFarmacista">Distrito de residencia</label>
+											<input name="distrit" id="distritoFarmacista" type="text">
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label>Contraseña</label>
+											<label for="contrasenaFarmacista">Contraseña</label>
 											<div class="pass-group">
-												<input name="contrasenaFarmacista" id="contrasenaFarmacista" type="password" class=" pass-input">
+												<input name="password" id="contrasenaFarmacista" type="password" class=" pass-input">
 												<span class="fas toggle-password fa-eye-slash"></span>
 											</div>
 										</div>
 									</div>
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label>Perfil</label>
+											<label for="photoFarmacista">Perfil</label>
 											<div class="image-upload">
-												<input name="photoFarmacista" id="photoFarmacista" type="file">
+												<input name="photo" id="photoFarmacista" type="file">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Subir imagen</h4>
@@ -346,8 +346,8 @@
 										</div>
 									</div>
 									<div class="col-lg-12">
+										<a th:href="@{'listaFarmacistaAdminSede'}" class="btn btn-cancel">Cancelar</a>
 										<button type="submit" class="btn btn-submit me-2">Enviar solicitud</button>
-										<a th:href="@{/listaFarmacistaAdminSede}"  class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

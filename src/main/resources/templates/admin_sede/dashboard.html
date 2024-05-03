@@ -76,29 +76,10 @@
             <!-- /Search -->
 
             <!-- Flag -->
-            <li class="nav-item dropdown has-arrow flag-nav">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
-                    <img src="/assets_superAdmin/img/flags/us1.png" alt="" height="20">
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/us.png" alt="" height="16"> English
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/fr.png" alt="" height="16"> French
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/es.png" alt="" height="16"> Spanish
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/de.png" alt="" height="16"> German
-                    </a>
-                </div>
-            </li>
             <!-- /Flag -->
 
             <!-- Notifications -->
-            <li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+            <li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
             <li class="nav-item dropdown">
                 <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                     <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -195,9 +176,9 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
                             <div class="profilesets">
-                                <h6>Lancelot Del Lago</h6>
-                                <h5>Administrador</h5>
-                                <h5>Sede Pando</h5>
+                                <h6 th:text="${nombre}"></h6>
+                                <h5 th:text="${rol}"></h5>
+                                <h5 th:text="|Sede ${sede}|"></h5>
                             </div>
                         </div>
                         <hr class="m-0">
@@ -260,7 +241,7 @@
                         </ul>
                     </li>
                     <li class="submenu">
-                        <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
+                        <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
                         <ul>
                             <li><a href="/verPerfil">Mi perfil</a></li>
                             <li><a href="/verNotificaciones">Notificaciones</a></li>
@@ -323,7 +304,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count">
                         <div class="dash-counts">
-                            <h4>Sede 1</h4>
+                            <h4>Sede Pando 1</h4>
                             <h5>Medicamentos vendidos: 4400</h5>
                             <h5>Monto: S/60,000.70</h5>
                         </div>
@@ -335,7 +316,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das1">
                         <div class="dash-counts">
-                            <h4>Sede 2</h4>
+                            <h4>Sede Pando 2</h4>
                             <h5>Medicamentos vendidos: 5500</h5>
                             <h5>Monto: S/73,000.10</h5>
                         </div>
@@ -347,7 +328,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das2">
                         <div class="dash-counts">
-                            <h4>Sede 3</h4>
+                            <h4>Sede Pando 3</h4>
                             <h5>Medicamentos vendidos: 4100 </h5>
                             <h5>Monto: S/50,901.50</h5>
                         </div>
@@ -359,7 +340,7 @@
                 <div class="col-lg-3 col-sm-6 col-12 d-flex">
                     <div class="dash-count das3">
                         <div class="dash-counts">
-                            <h4>Sede 4</h4>
+                            <h4>Sede Pando 4</h4>
                             <h5>Medicamentos vendidos: 1700 </h5>
                             <h5>Monto: S/20,007.30</h5>
                         </div>

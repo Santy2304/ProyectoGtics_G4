@@ -50,10 +50,10 @@
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
-					<a href="index.html" class="logo">
+					<a href="#" class="logo">
 						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 					</a>
-					<a href="index.html" class="logo-small">
+					<a href="#" class="logo-small">
 						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 					</a>
 					<a id="toggle_btn" href="javascript:void(0);">
@@ -100,7 +100,7 @@
 					<!-- /Flag -->
 
 					<!-- Notifications -->
-					<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+					<li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -263,7 +263,7 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="/verPerfil">Mi perfil</a></li>
 									<li><a href="/verNotificaciones">Notificaciones</a></li>
@@ -295,14 +295,17 @@
 											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
-									<div class="search-input">
-										<a class="btn btn-searchset">
-											<img src="/assets_superAdmin/img/icons/search-white.svg" alt="img">
-										</a>
-										<div id="DataTables_Table_0_filter" class="dataTables_filter">
-											<label> <input type="search" class="form-control form-control-sm" placeholder="Buscar..." aria-controls="DataTables_Table_0" data-listener-added_4c65a08c="true"></label>
+									<form method="post" th:href="@{/listaDoctoresAdminSede/buscar}">
+										<div class="search-input">
+											<a class="btn btn-searchset">
+												<img src="/assets_superAdmin/img/icons/search-white.svg" alt="img">
+											</a>
+											<div id="DataTables_Table_0_filter" class="dataTables_filter">
+												<label> <input type="search" name="nombre" class="form-control form-control-sm" placeholder="Buscar nombre" aria-controls="DataTables_Table_0" data-listener-added_4c65a08c="true"></label>
+											</div>
 										</div>
-									</div>
+									</form>
+
 								</div>
 
 							</div>
@@ -372,7 +375,7 @@
 													<img src="/assets_superAdmin/img/customer/customer1.jpg" alt="product">
 												</a>
 											</td>
-											<td th:text="${doctor.getNombre()+doctor.getLastName()}"></td>
+											<td th:text="${doctor.getNombre()}+' '+${doctor.getLastName()}"></td>
 											<td th:text="${doctor.getDni()}"></td>
 											<td th:text="${doctor.getEmail()}"></td>
 											<!--

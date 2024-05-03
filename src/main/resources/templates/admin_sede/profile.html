@@ -89,7 +89,7 @@
 				
 					<!-- Search -->
 
-					<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+					<li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
 					</li>
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
@@ -211,9 +211,9 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 									<div class="profilesets">
-										<h6>Lancelot</h6>
-										<h5>Administrador</h5>
-										<h5>Sede Pando</h5>
+										<h6 th:text="${nombre}"></h6>
+										<h5 th:text="${rol}"></h5>
+										<h5 th:text="|Sede: ${sede}|"></h5>
 									</div>
 								</div>
 								<hr class="m-0">
@@ -276,7 +276,7 @@
 								</ul>
 							</li>
 							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
+								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="/verPerfil" class="active">Mi perfil</a></li>
 									<li><a href="/verNotificaciones">Notificaciones</a></li>
@@ -314,8 +314,8 @@
 											</div>
 										</div>
 										<div class="profile-contentname">
-											<h2>Lancelot</h2>
-											<h4>Aquí podrás editar tus datos personales</h4>
+											<h2 th:text="${nombre}"></h2>
+											<h4>Aquí podrás ver tu información personal</h4>
 										</div>
 									</div>
 									<!---
@@ -329,40 +329,40 @@
 							<div class="row">
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
-										<h5>First Name</h5>
-										<label>Lancelot</label>
+										<h5>Nombre</h5>
+										<label th:text="${nombre}"></label>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
-										<h5>Last Name</h5>
-										<label>Del Lago</label>
+										<h5>Apellido</h5>
+										<label th:text="${apellido}"></label>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="campo">
 										<h5>Email</h5>
-										<span class="lectura">lancelot26Z@hotmail.com</span>
+										<span class="lectura" th:text="${email}"></span>
 										<input type="text" class="edicion" style="display: none;">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="campo">
-										<h5>Phone</h5>
-										<span class="lectura">982812260</span>
+										<h5>DNI</h5>
+										<span class="lectura" th:text="${dni}"></span>
 										<input type="text" class="edicion" style="display: none;">
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<h5>Rol</h5>
-										<label>Administrador</label>
+										<label th:text="${rol}"></label>
 									</div>
 								</div>
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<h5>Sede</h5>
-										<label>Pando</label>
+										<label th:text="${sede}"></label>
 									</div>
 								</div>
 								<div class="col-12">

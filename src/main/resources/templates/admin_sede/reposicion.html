@@ -158,10 +158,10 @@
 		<!-- Logo -->
 		<!-- Logo -->
 		<div class="header-left active">
-			<a href="error404.html" class="logo">
+			<a class="logo">
 				<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 			</a>
-			<a href="error404.html" class="logo-small">
+			<a  class="logo-small">
 				<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 			</a>
 			<a id="toggle_btn" href="javascript:void(0);">
@@ -209,7 +209,7 @@
 			<!-- /Flag -->
 
 			<!-- Notifications -->
-			<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+			<li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
 			<li class="nav-item dropdown">
 				<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 					<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -329,9 +329,9 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 							<div class="profilesets">
-								<h6>Hineill Céspedes</h6>
-								<h5>Farmacista</h5>
-								<h5>Sede Pando</h5>
+								<h6 th:text="${nombre}+' '+ ${apellido}"></h6>
+								<h5 th:text="${rol}"></h5>
+								<h5 th:text="|Sede ${sede}|"></h5>
 							</div>
 						</div>
 						<hr class="m-0">
@@ -396,7 +396,7 @@
 						</ul>
 					</li>
 					<li class="submenu">
-						<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"> Información<span></span> <span class="menu-arrow"></span></a>
+						<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="/verPerfil">Mi perfil</a></li>
 							<li><a href="/verNotificaciones">Notificaciones</a></li>

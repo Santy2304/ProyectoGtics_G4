@@ -5,6 +5,7 @@ import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
+import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
 import com.example.proyectogrupo4_gtics.Repository.DoctorRepository;
 import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
@@ -27,11 +28,13 @@ public class AdminSedeController {
     final DoctorRepository doctorRepository;
     final PharmacistRepository pharmacistRepository;
     final MedicineRepository medicineRepository;
-    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository) {
+    final ReplacementOrder replacementOrder;
+    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrder replacementOrder) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.medicineRepository = medicineRepository;
+        this.replacementOrder = replacementOrder;
     }
 
 
@@ -151,7 +154,7 @@ public class AdminSedeController {
             System.out.println("No se encontro medicina que contenga esa palabra");
         }
         model.addAttribute("medicamentos", listMedicine);
-        return "/inventarioAdminSede";
+        return "admin_sede/inventario";
     }
 
     @GetMapping("/verListaReposicion")
@@ -183,8 +186,15 @@ public class AdminSedeController {
 
         return "admin_sede/reposicion";
     }
+
     @PostMapping("/solicitudReposicion")
-    public String generarReposicion(Model model, @RequestParam("id") int idAdministrator){
+    public String generarReposicion(Model model, @RequestParam("id") int idAdministrator, @RequestParam("idMedicine") int idMedicamento, @RequestParam("cantidad") int cantidad, ReplacementOrder replacementOrder){
+        Administrator admin = new Administrator();
+        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        model.addAttribute("sede", admin.getSite());
+        model.addAttribute("nombre", admin.getName());
+        model.addAttribute("apellido", admin.getLastName());
+
 
         return("redirect:/verListaReposicion");
     }

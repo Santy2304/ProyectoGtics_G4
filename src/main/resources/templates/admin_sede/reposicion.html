@@ -158,10 +158,10 @@
 		<!-- Logo -->
 		<!-- Logo -->
 		<div class="header-left active">
-			<a href="error404.html" class="logo">
+			<a class="logo">
 				<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
 			</a>
-			<a href="error404.html" class="logo-small">
+			<a  class="logo-small">
 				<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
 			</a>
 			<a id="toggle_btn" href="javascript:void(0);">
@@ -209,7 +209,7 @@
 			<!-- /Flag -->
 
 			<!-- Notifications -->
-			<li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
+			<li class="nav-item"><a style="color: orange;" th:text="|Administrador de ${sede}|"></a>
 			<li class="nav-item dropdown">
 				<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 					<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -329,9 +329,9 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
 							<div class="profilesets">
-								<h6>Hineill Céspedes</h6>
-								<h5>Farmacista</h5>
-								<h5>Sede Pando</h5>
+								<h6 th:text="${nombre}+' '+ ${apellido}"></h6>
+								<h5 th:text="${rol}"></h5>
+								<h5 th:text="|Sede ${sede}|"></h5>
 							</div>
 						</div>
 						<hr class="m-0">
@@ -396,7 +396,7 @@
 						</ul>
 					</li>
 					<li class="submenu">
-						<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"> Información<span></span> <span class="menu-arrow"></span></a>
+						<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Información</span> <span class="menu-arrow"></span></a>
 						<ul>
 							<li><a href="/verPerfil">Mi perfil</a></li>
 							<li><a href="/verNotificaciones">Notificaciones</a></li>
@@ -420,7 +420,7 @@
 			</div>
 			-->
 			<h2>Solicitud de Reposición</h2>
-			<form id="pedidoForm" action="submit_form.php" method="POST">
+			<form id="pedidoForm" action="" method="POST">
 				<label for="nombre">Nombre:</label><br>
 				<input type="text" id="nombre" name="nombre" required><br>
 
@@ -430,12 +430,9 @@
 				<fieldset>
 					<legend>Productos a reponer:</legend>
 					<div id="productos">
-						<div>
-							<select id="productoSelect">
-								<option value="" style="color: gray;">Seleccione un medicamento</option>
-								<option value="Medicamento 1">Medicamento 1</option>
-								<option value="Medicamento 2">Medicamento 2</option>
-								<option value="Medicamento 3">Medicamento 3</option>
+						<div class="form-group">
+							<select class="form-control" name="medicine" id="medicine">
+								<option th:each="medicamento: ${listaMedicamentosBS}" th:value="${medicamento.getIdMedicine()}" th:text="${medicamento.getNombreMedicamento()}" style="color: gray;"></option>
 								<!-- Agrega más opciones de productos según sea necesario -->
 							</select>
 						</div>
@@ -469,7 +466,7 @@
 				var productosAgregados = 0;
 
 				function agregarProducto() {
-					var producto = document.getElementById("productoSelect").value;
+					var producto = document.getElementById("medicine").value;
 					var cantidad = document.getElementById("cantidad").value;
 
 					if (producto && cantidad && productosAgregados < 10) {
@@ -485,7 +482,7 @@
 						productosAgregados++;
 
 						if (productosAgregados === 10) {
-							document.getElementById("productoSelect").disabled = true;
+							document.getElementById("medicine").disabled = true;
 							document.getElementById("cantidad").disabled = true;
 							document.querySelector('button').disabled = true;
 						}
@@ -498,7 +495,7 @@
 					var tbody = document.getElementById("pedidoBody");
 					tbody.innerHTML = "";
 					productosAgregados = 0;
-					document.getElementById("productoSelect").disabled = false;
+					document.getElementById("medicine").disabled = false;
 					document.getElementById("cantidad").disabled = false;
 					document.querySelector('button').disabled = false;
 				}

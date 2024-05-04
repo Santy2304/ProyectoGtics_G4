@@ -9,4 +9,8 @@ public interface FarmacistaPorSedeDTO {
     String getCodigo();
     String getEmail();
     String getPhoto();
+    String getEstadoAprobacion();
+    String getRechazo();
+    String getEstado();
+
 }

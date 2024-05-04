@@ -26,4 +26,6 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
     @Query(nativeQuery = true, value = "SELECT * FROM administrator WHERE state <> 'eliminado'")
     List<Administrator> listarAdminValidos();
 
+
+    Administrator getByIdAdministrador(int idAdministrator);
 }

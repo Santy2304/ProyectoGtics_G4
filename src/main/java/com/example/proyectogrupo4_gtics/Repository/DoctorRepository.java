@@ -19,7 +19,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     void updateDatosPorId(String name , String lasName , String dni , String email ,String headquarter,String state ,int idDoctor );
 
 
-    @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email from doctor d inner join administrator a on (a.site=d.headquarter) where a.idAdministrator=?1")
+    @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email, d.state as state, d.dateCreationAccount as creationDate from doctor d inner join administrator a on (a.site=d.headquarter) where a.idAdministrator=?1")
     List<DoctorPorSedeDTO> listaDoctorPorSede(int idAdministrator);
 
     @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email from doctor d inner join administrator a on (a.site=d.headquarter) where lower(d.name) like concat(?1,'%') and a.idAdministrator=?2")

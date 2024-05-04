@@ -39,4 +39,7 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 4'")
     List<Pharmacist> listarSolicitudesFarmacistaPando4();
 
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where email= ?1 and password=?2")
+    Pharmacist buscarPharmacist (String email , String password);
+
  }

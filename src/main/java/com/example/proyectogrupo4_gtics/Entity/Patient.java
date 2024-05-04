@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -32,13 +33,13 @@ public class Patient {
     private String password;
 
     @Column(name="changepassword")
-    private String changePassword;
+    private Integer changePassword;
 
     private String photo;
 
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateCreationAccount;
+    private LocalDateTime dateCreationAccount;
 
 
     private String state;
@@ -115,11 +116,11 @@ public class Patient {
         this.password = password;
     }
 
-    public String getChangePassword() {
+    public Integer getChangePassword() {
         return changePassword;
     }
 
-    public void setChangePassword(String changePassword) {
+    public void setChangePassword(Integer changePassword) {
         this.changePassword = changePassword;
     }
 
@@ -131,11 +132,11 @@ public class Patient {
         this.photo = photo;
     }
 
-    public LocalDate getDateCreationAccount() {
+    public LocalDateTime getDateCreationAccount() {
         return dateCreationAccount;
     }
 
-    public void setDateCreationAccount(LocalDate dateCreationAccount) {
+    public void setDateCreationAccount(LocalDateTime dateCreationAccount) {
         this.dateCreationAccount = dateCreationAccount;
     }
 

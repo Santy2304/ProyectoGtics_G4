@@ -99,7 +99,7 @@
 					<!-- /Flag -->
 
 					<!-- Notifications -->
-
+<!--
 					<li class="nav-item dropdown">
 						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
 							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
@@ -126,7 +126,7 @@
 									</li>
 
 
-									<!--Ejemplo completo-->
+									Ejemplo completo-->
 									<!--
                                     <li class="notification-message">
                                         <a href="notifications.html">
@@ -141,7 +141,7 @@
                                             </div>
                                         </a>
                                     </li>
-                                    -->
+
 
 
 
@@ -152,6 +152,7 @@
 							</div>
 						</div>
 					</li>
+		-->
 					<!-- /Notifications -->
 
 					<li class="nav-item dropdown has-arrow main-drop">
@@ -209,10 +210,10 @@
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
 								<ul>
-									<li><a href="/verSedeSuperAdmin" class="active">Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
+									<li><a href="/verSedeSuperAdminPando1" class="active">Pando Etapa 1</a></li>
+									<li><a href="/verSedeSuperAdminPando2">Pando Etapa 2</a></li>
+									<li><a href="/verSedeSuperAdminPando3">Pando Etapa 3</a></li>
+									<li><a href="/verSedeSuperAdminPando4">Pando Etapa 4</a></li>
 
 								</ul>
 
@@ -223,14 +224,13 @@
 									<li><a href="/listaMedicamentosSuperAdmin"  >Medicamentos</a></li>
 								</ul>
 							</li>
-
 							<li class="submenu">
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
 								</ul>
 							</li>
+
 						</ul>
 					</div>
 				</div>
@@ -238,11 +238,12 @@
 			<!-- /Sidebar -->
 
 			<div class="page-wrapper">
+
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
 							<h4>Detalle</h4>
-							<h6>Medicamentos para la orden ID : 1</h6>
+							<h6>Medicamentos de la orden</h6>
 						</div>
 					</div>
 					<div class="card">
@@ -260,40 +261,21 @@
 
 									</tr>
 
-									<tr class="details" style="border-bottom:1px solid #E9ECEF ;">
-										<td style="padding: 10px;vertical-align: top; display: flex;align-items: center;">
+									<tr th:each="medicamento : ${listaMedicamentosPorRepo}" class="details" style="border-bottom:1px solid #E9ECEF ;">
+										<td style="padding: 10px;vertical-align: top; display: flex;align-items: center;" th:text="${medicamento.getMedicineName()}">
 											<img src="/assets_superAdmin/img/product/product1.jpg" alt="img" class="me-2" style="width:40px;height:40px;">
-											Paracetamol
+
 										</td>
-										<td style="padding: 10px;vertical-align: top; ">
-											10
+										<td th:text="${medicamento.getTotalStock()}" style="padding: 10px;vertical-align: top; ">
 										</td>
 
 									</tr>
-									<tr class="details" style="border-bottom:1px solid #E9ECEF ;">
-										<td style="padding: 10px;vertical-align: top; display: flex;align-items: center;">
-											<img src="/assets_superAdmin/img/product/product7.jpg" alt="img" class="me-2" style="width:40px;height:40px;">
-											Mentolato
-										</td>
-										<td style="padding: 10px;vertical-align: top; ">
-											10
-										</td>
 
-									</tr>
-									<tr class="details" style="border-bottom:1px solid #E9ECEF ;">
-										<td style="padding: 10px;vertical-align: top; display: flex;align-items: center;">
-											<img src="/assets_superAdmin/img/product/product8.jpg" alt="img" class="me-2" style="width:40px;height:40px;">
-											VickVaporu
-										</td>
-										<td style="padding: 10px;vertical-align: top; ">
-											10
-										</td>
-
-									</tr>
-								</tbody></table>
+								</tbody>
+								</table>
 
 							</div>
-
+<!--
 								<div class="row">
 									<div class="col-lg-6 ">
 										<div class="total-order w-100 max-widthauto m-auto mb-4">
@@ -310,8 +292,9 @@
 										</div>
 									</div>
 								</div>
+				-->
 								<div class="col-lg-12">
-									<a href="Sede.html" class="btn btn-submit me-2">Regresar</a>
+									<a th:href="@{/verListadosSuperAdmin}" class="btn btn-submit me-2">Regresar</a>
 								</div>
 
 						</div>

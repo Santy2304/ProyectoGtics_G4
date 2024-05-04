@@ -1,13 +1,11 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
 import com.example.proyectogrupo4_gtics.Entity.Patient;
 import com.example.proyectogrupo4_gtics.Entity.Site;
 import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
 import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
 import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
-import com.example.proyectogrupo4_gtics.Repository.medicamentosPorSedeDTO;
-import jdk.swing.interop.SwingInterOpUtils;
+import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

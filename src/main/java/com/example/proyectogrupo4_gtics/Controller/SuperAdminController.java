@@ -1,5 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.io.StringWriter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -26,24 +27,29 @@ public class SuperAdminController {
     final AdministratorRepository administratorRepository;
     final SiteRepository siteRepository;
 
-    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository) {
+    final PharmacistRepository pharmacistRepository;
+    private final ReplacementOrderRepository replacementOrderRepository;
+
+    public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
+                                ReplacementOrderRepository replacementOrderRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
         this.administratorRepository = administratorRepository;
         this.siteRepository = siteRepository;
+        this.pharmacistRepository = pharmacistRepository;
+        this.replacementOrderRepository = replacementOrderRepository;
     }
+
+
+    //Medicamentos///////////////////////////
 
     @GetMapping("/listaMedicamentosSuperAdmin")
     public String listarMedicamentos(Model model) {
         model.addAttribute("listaMedicamentos", medicineRepository.obtenerDatosMedicamentos());
         return "superAdmin/listaMedicamentos";
     }
-
-
-
-    //Agregar Nuevo Medicamento
     @GetMapping("/verAñadirMedicamentoSuperAdmin")
     public String verAddMedicamento() {
         return "superAdmin/anadirMedicamento";
@@ -69,8 +75,6 @@ public class SuperAdminController {
 
         return "superAdmin/anadirLotesNuevoMedicamento";
     }
-
-
 
     @PostMapping("/crearLotesNuevoMedicamento")
     public String crearLoresNuevoMedicamento(
@@ -131,9 +135,6 @@ public class SuperAdminController {
         return "redirect:/listaMedicamentosSuperAdmin";
     }
 
-
-    //Editar medicamento
-
     @GetMapping("/editarMedicamento")
     public String editarMedicamento(@RequestParam("idMedicine") int idMedicine, Model model) {
 
@@ -177,8 +178,6 @@ public class SuperAdminController {
             return "redirect:/listaMedicamentosSuperAdmin";
         }
     }
-
-
     @PostMapping("/guardarCambiosMedicamento")
     public String guardarCambiosMedicamento(Medicine medicine,
                                             @RequestParam("disponibilidadPando1") String disponible1,
@@ -207,7 +206,6 @@ public class SuperAdminController {
         //Para sede 1
         if (disponible1.equals("si")){
             visibilidad1 = true;
-
             List<String> listaLotesPando1 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 1");
 
             if (listaLotesPando1.isEmpty()){
@@ -233,7 +231,6 @@ public class SuperAdminController {
         //Para sede 2
         if (disponible2.equals("si")){
             visibilidad2 = true;
-
             List<String> listaLotesPando2 = loteRepository.obtenerLoteporSede(medicine.getIdMedicine(), "Pando 2");
 
             if (listaLotesPando2.isEmpty()){
@@ -307,13 +304,6 @@ public class SuperAdminController {
 
         return "redirect:/listaMedicamentosSuperAdmin";
     }
-
-
-
-
-
-    //Detalle
-
     @GetMapping("/verDetallesProductoSuperAdmin")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
 
@@ -321,7 +311,7 @@ public class SuperAdminController {
         if (medicineOptional.isPresent()) {
             Medicine medicine = medicineOptional.get();
             model.addAttribute("medicine", medicine);
-            List<LotesValidosporMedicamento> listaLotesporMedicamento =  loteRepository.obtenerLotesValidosPorMedicamento(idMedicine);
+            List<LotesValidosporMedicamentoDTO> listaLotesporMedicamento =  loteRepository.obtenerLotesValidosPorMedicamento(idMedicine);
 
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "superAdmin/detallesProducto";
@@ -330,49 +320,37 @@ public class SuperAdminController {
         }
 
     }
+    //////////////////////////////////////////////////////////7
 
-
-
-
-
-    @GetMapping("/verDetalleMedicamentosSuperAdmin")
-    public String verDetalleMedicamentos() {
-        return "superAdmin/DetalleMedicamentos";
-    }
-
-
-    //Solo para poder saltar entre vistas auxiliar de momento
-    @GetMapping("/verSedeSuperAdmin")
-    public String verSede(Model model) {
-        return "superAdmin/Sede";
-    }
-    @GetMapping("/verUserListSuperAdmin")
-    public String verUserList() {
-        return "superAdmin/userlist";
-    }
-    @GetMapping("/verPerfilSuperAdmin")
-    public String verPerfil() {
-        return "superAdmin/perfil";
-    }
-    @GetMapping("/verNotificationsSuperAdmin")
-    public String verNotifications() {
-        return "superAdmin/notifications";
-    }
+    //LISTADOS DE USUARIOS
     @GetMapping("/verListadosSuperAdmin")
     public String verListados(Model model) {
 
-        List<Doctor> listaDoctores = doctorRepository.findAll();
+        List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
         model.addAttribute("listaDoctores", listaDoctores);
-        List<Administrator> listaAdminSede = administratorRepository.findAll();
+
+        List<Administrator> listaAdminSede = administratorRepository.listarAdminValidos();
         model.addAttribute("listaAdminSede", listaAdminSede);
+
+        List<Pharmacist> listaFarmacistas = pharmacistRepository.listarFarmacistasValidos();
+        model.addAttribute("listaFarmacistas",listaFarmacistas);
+
+        List<Patient> listaPacientes = patientRepository.listarPacientesValidos();
+        model.addAttribute("listaPacientes",listaPacientes);
 
         return "superAdmin/listados";
     }
 
-    @GetMapping("/verEditarFarmacistaSuperAdmin")
-    public String verEditarFarmacista() {
-        return "superAdmin/EditarFarmacista";
+    ////////////////////////////////////////
+
+    //Doctores/////////////////////7
+    @PostMapping("/guardarCambiosDoctor")
+    public String editarDoctor(Doctor doctor){
+        //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
+        doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(),doctor.getHeadquarter(),doctor.getState() ,doctor.getIdDoctor());
+        return "redirect:/verListadosSuperAdmin";
     }
+
     @GetMapping("/editarDoctor")
     public String verEditarDoctor(@RequestParam("idDoctor") int idDoctor , Model model) {
         Optional<Doctor> doctor =  doctorRepository.findById(idDoctor);
@@ -384,24 +362,6 @@ public class SuperAdminController {
         }
     }
 
-
-    @GetMapping("/verEditarAdministradorSuperAdmin")
-    public String verEditarAdministrador() {
-        return "superAdmin/EditarAdministrador";
-    }
-
-    @PostMapping("/editarDoctor")
-    public String editarDoctor(Doctor doctor){
-        //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
-        doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(), doctor.getIdDoctor());
-        return "redirect:/verListadosSuperAdmin";
-    }
-
-    @PostMapping("/formNewMedicamento")
-    public String addNewMedicine(Medicine medicine){
-
-        return "redirect:listarMedicamentos";
-    }
     @GetMapping("/verAgregarDoctorSuperAdmin")
     public String verAgregarDoctor(Model model) {
         List<Site> listaSedes = siteRepository.findAll();
@@ -412,13 +372,24 @@ public class SuperAdminController {
     @PostMapping("/agregarDoctor")
     public String agregarDoctor(Doctor doctor){
         doctor.setCreationDate(LocalDate.now());
+        doctor.setState("activo");
         doctorRepository.save(doctor);
         return "redirect:/verListadosSuperAdmin";
     }
 
+    @GetMapping("/EliminarDoctor")
+    public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor ) {
+        doctorRepository.eliminarDoctorPorId(idDoctor);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+////////////////////////////////
+
+    //AdministradoresSede///////////////////////////7
+
     @GetMapping("/verAgregarAdminSedeSuperAdmin")
     public String verAgregarAdminSede(Model model) {
-
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarAdminSede";
@@ -428,10 +399,141 @@ public class SuperAdminController {
     public String agregarAdminSede(Administrator administrator) {
         administrator.setPassword("passworDefault");
         administrator.setCreationDate(LocalDate.now());
+        administrator.setState("activo");
         administratorRepository.save(administrator);
         return "redirect:/verListadosSuperAdmin";
 
     }
 
+    @GetMapping("/editarAdminSede")
+    public String verEditarAdminSede(@RequestParam("idAdminSede") int idAdminSede , Model model) {
+
+        Optional<Administrator> administrator = administratorRepository.findById(idAdminSede);
+        if(administrator.isPresent()){
+            model.addAttribute("adminSede", administrator.get());
+            return "superAdmin/EditarAdministrador";
+        }else{
+            return "redirect:/verListadosSuperAdmin";
+        }
+    }
+
+
+    @PostMapping("/guardarCambiosAdminSede")
+    public String editarAdminSede(Administrator administrator){
+        //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
+        administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(),administrator.getDni(), administrator.getEmail(),administrator.getSite(),administrator.getState(),administrator.getIdAdministrador());
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+    @GetMapping("/eliminarAdminSede")
+    public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
+        administratorRepository.eliminarAdminPorId(idAdminSede);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+    ////////////////////////////////
+
+
+    //Farmacista///////////////////////////////
+
+    @GetMapping("/editarFarmacista")
+    public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
+
+        Optional<Pharmacist> pharmacist = pharmacistRepository.findById(idFarmacista);
+        if(pharmacist.isPresent()){
+            model.addAttribute("farmacista", pharmacist.get());
+            return "superAdmin/EditarFarmacista";
+        }else{
+            return "redirect:/verListadosSuperAdmin";
+        }
+    }
+
+    @PostMapping("/guardarCambiosFarmacista")
+    public String editarFarmacista(Pharmacist pharmacist){
+        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    @GetMapping("/eliminarFarmacista")
+    public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+        pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    //////////////////////////////////
+
+    ////Paciente////////////////////
+
+    @GetMapping("/eliminarPaciente")
+    public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.eliminarPacientePorId(idPaciente);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+    @GetMapping("/banearPaciente")
+    public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.banearPacientePorId(idPaciente);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
+
+    ///////////////////////////////////
+
+
+
+    //////////////////LISTADOS SEDES /////////////////////
+    @GetMapping("/verSedeSuperAdminPando1")
+    public String verSedePando1(Model model) {
+        List<Pharmacist> listaSolicitudesFarmacistaPando1 = pharmacistRepository.listarSolicitudesFarmacistaPando1();
+        model.addAttribute("listaSolicitudesFarmacistasPando1",listaSolicitudesFarmacistaPando1);
+        List<ReplacementOrder> listarSolicitudesReposicionPando1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+        model.addAttribute("listaSolicitudesReposicionPando1",listarSolicitudesReposicionPando1);
+        return "superAdmin/SedePando1";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando2")
+    public String verSedePando2(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
+        model.addAttribute("listaSolicitudesFarmacistasPando2",listarSolicitudesFarmacistaPando2);
+        return "superAdmin/SedePando2";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando3")
+    public String verSedePando3(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
+        model.addAttribute("listaSolicitudesFarmacistasPando3",listarSolicitudesFarmacistaPando3);
+        return "superAdmin/SedePando3";
+    }
+
+    @GetMapping("/verSedeSuperAdminPando4")
+    public String verSedePando4(Model model) {
+        List<Pharmacist> listarSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
+        model.addAttribute("listaSolicitudesFarmacistasPando4",listarSolicitudesFarmacistaPando4);
+        return "superAdmin/SedePando4";
+    }
+
+
+    ///////////////////////////////////////7
+    @GetMapping("/verDetalleRepoSuperAdmin")
+    public String verDetalleMedicamentos(@RequestParam("idRepo") int idRepo,Model model) {
+
+        List<MedicamentosPorReposicionDTO> medicamentosPorReposicion =   replacementOrderRepository.obtenerMedicamentosPorReposicion(idRepo);
+        model.addAttribute("listaMedicamentosPorRepo",medicamentosPorReposicion);
+        return "superAdmin/DetalleRepo";
+    }
+
+
+    //Solo para poder saltar entre vistas auxiliar de momento
+
+    @GetMapping("/verPerfilSuperAdmin")
+    public String verPerfil() {
+        return "superAdmin/perfil";
+    }
+    @GetMapping("/verNotificationsSuperAdmin")
+    public String verNotifications() {
+        return "superAdmin/notifications";
+    }
 
 }

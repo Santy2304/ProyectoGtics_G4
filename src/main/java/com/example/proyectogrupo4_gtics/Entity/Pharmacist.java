@@ -1,7 +1,10 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -14,10 +17,11 @@ public class Pharmacist {
 
     private String name;
 
+    @Column(name = "lastname")
     private String lastName;
 
     @Column(name="site")
-    private String sede;
+    private String site;
 
     private String dni;
 
@@ -29,13 +33,24 @@ public class Pharmacist {
 
     private String password;
 
+    @Column(name = "approvalstate")
     private String approvalState;
-
+    @Column(name = "rejectedreason")
     private String rejectedReason;
 
-    private Boolean banned;
+    private String state;
 
     private String photo;
+
+
+    @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate creationDate;
+
+
+    @Column(name = "daterequestaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate requestDate;
 
     public int getIdFarmacista() {
         return idFarmacista;
@@ -61,12 +76,13 @@ public class Pharmacist {
         this.lastName = lastName;
     }
 
-    public String getSede() {
-        return sede;
+
+    public String getSite() {
+        return site;
     }
 
-    public void setSede(String sede) {
-        this.sede = sede;
+    public void setSite(String site) {
+        this.site = site;
     }
 
     public String getDni() {
@@ -125,12 +141,12 @@ public class Pharmacist {
         this.rejectedReason = rejectedReason;
     }
 
-    public Boolean getBanned() {
-        return banned;
+    public String getState() {
+        return state;
     }
 
-    public void setBanned(Boolean banned) {
-        this.banned = banned;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getPhoto() {
@@ -139,5 +155,21 @@ public class Pharmacist {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public LocalDate getRequestDate() {
+        return requestDate;
+    }
+
+    public void setRequestDate(LocalDate requestDate) {
+        this.requestDate = requestDate;
     }
 }

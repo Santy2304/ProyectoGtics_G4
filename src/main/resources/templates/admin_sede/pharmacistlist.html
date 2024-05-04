@@ -59,7 +59,7 @@
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
-							<h2>Farmacistas</h2>
+							<h4>Farmacistas</h4>
 						</div>
 						<div class="page-btn">
 							<a th:href="@{'verAddPharmacist'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
@@ -159,11 +159,105 @@
 
 											</td>
 										</tr>
+
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
+
+
+					<div class="page-header">
+						<div class="page-title">
+							<h4>Solicitudes</h4>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search2">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+								<div class="wordset">
+									<ul>
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs2">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+													</div>
+												</div>
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
+							<div class="table-responsive">
+								<table class="table  datanew">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Nombre</th>
+											<th>Apellido </th>
+											<th>Correo</th>
+											<th>Código</th>
+											<th>Fecha de Solicitud</th> <!--Se refiere al dateRequestCreation-->
+											<th>Estado</th> <!--SE REFIERE AL APROVALSTATE-->
+										</tr>
+									</thead>
+									<tbody>
+										<tr >
+											<td class="productimgname" >
+												<a href="javascript:void(0);" class="product-img">
+													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												</a>
+											</td>
+											<td>Hansel</td>
+											<td>Martinez</td>
+											<td>hansel@pucp.com</td>
+											<td>34485</td>
+											<td>la fecha</td>
+											<td>pendiente</td> <!--Será solo pendienete o rechazado-->
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+
 
 					<!-- /product list -->
 				</div>

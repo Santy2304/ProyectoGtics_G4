@@ -96,7 +96,7 @@ public class AdminSedeController {
 
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(Pharmacist pharmacist,Model model){
-        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());

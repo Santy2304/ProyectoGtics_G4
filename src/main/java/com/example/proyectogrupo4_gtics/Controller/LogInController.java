@@ -131,12 +131,12 @@ public class LogInController {
         Map<String, String > response =  new HashMap<>();
 
         if(!(patient == null)){
-            response.put("response" ,"/ElegirSede?idUser="+patient.getIdPatient());
+            response.put("response" ,"/sessionPatient?idUser="+patient.getIdPatient());
             model.addAttribute("idUser" , patient.getIdPatient());
             return response;
         }
         if( !(admin == null) ) {
-            response.put("response" ,"/dashboardAdminSede?idUser="+admin.getIdAdministrador());
+            response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
             model.addAttribute("idUser" , admin.getIdAdministrador());
             return response;
         }

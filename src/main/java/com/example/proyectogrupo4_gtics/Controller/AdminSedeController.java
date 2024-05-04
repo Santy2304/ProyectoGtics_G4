@@ -49,15 +49,16 @@ public class AdminSedeController {
         return "admin_sede/doctorlist";
     }
     @PostMapping("/listaDoctoresAdminSede/buscar")
-    public String buscarDoctores(Model model, RedirectAttributes attr, @RequestParam("id") int idAdministrator, @RequestParam("nombre") String nombreDoc){
-
+    public String buscarDoctores(Model model, RedirectAttributes attr, @RequestParam("nombre") String nombreDoc){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         List<DoctorPorSedeDTO> listaDoctors = doctorRepository.listaDoctorPorBuscador(nombreDoc,idAdministrator);
         model.addAttribute("listaDoctores", listaDoctors);
 
         return("/listaDoctoresAdminSede");
     }
     @GetMapping("/listaFarmacistaAdminSede")
-    public String listPharmacist(Model model,@RequestParam("id") int idAdministrator) {
+    public String listPharmacist(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser") );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -70,29 +71,33 @@ public class AdminSedeController {
         return "admin_sede/pharmacistlist";
     }
     @PostMapping("/listaFarmacistaAdminSede/buscar")
-    public String buscarFarmacista(Model model,RedirectAttributes attr, @RequestParam("id") int idAdministrator, @RequestParam("buscador") String buscador){
+    public String buscarFarmacista(Model model,RedirectAttributes attr, @RequestParam("buscador") String buscador){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         List<FarmacistaPorSedeDTO> listFarmacista = pharmacistRepository.listaFarmacistaPorBuscador(buscador,idAdministrator);
         model.addAttribute("listaFarmacista", listFarmacista );
         return "/listaFarmacistaAdminSede";
     }
     @GetMapping("/verAddPharmacist")
-    public String verAddPharmacist(Model model, @RequestParam("id") int idAdministrator) {
+    public String verAddPharmacist(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
-        model.addAttribute("sede", admin.getSite());
-        model.addAttribute("nombre", admin.getName());
-        model.addAttribute("apellido", admin.getLastName());
-        if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
-            model.addAttribute("rol","administrador");
+            admin = administratorRepository.getByIdAdministrador(idAdministrator);
+            model.addAttribute("sede", admin.getSite());
+            model.addAttribute("nombre", admin.getName());
+            model.addAttribute("apellido", admin.getLastName());
+            if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
+                model.addAttribute("rol","administrador");
+            }
+
+            return "admin_sede/addpharmacist";
         }
 
-        return "admin_sede/addpharmacist";
-    }
 
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(@RequestParam("id") int idAdministrator,
+    public String agregarFarmacista(
                                    Pharmacist pharmacist,
                                    Model model){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -114,23 +119,29 @@ public class AdminSedeController {
 
     }
     /*Linkear las demás vistas*/
+
+    @GetMapping("/sessionAdmin")
+    public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
+        model.addAttribute("idUser",idAdministrator);
+        return "redirect:/dashboardAdminSede";
+    }
     @GetMapping("/dashboardAdminSede")
-    public String verDashboard(Model model, @RequestParam("idUser") String idAdministrator) {
+    public String verDashboard(Model model) {
         Administrator admin = new Administrator();
+        String idAdministrator = (String) model.getAttribute("idUser");
         admin = administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
-        model.addAttribute("idUser",idAdministrator);
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
         return "admin_sede/dashboard";
     }
 
     @GetMapping("/inventarioAdminSede")
-    public String verInventario(Model model, @RequestParam("id") int idAdministrator) {
+    public String verInventario(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -145,8 +156,8 @@ public class AdminSedeController {
         return "admin_sede/inventario";
     }
     @PostMapping("/inventarioAdminSede/buscar")
-    public String buscarMedicina(Model model, RedirectAttributes attr, @RequestParam("id") int idAdministrator, @RequestParam("nameOrCategory") String palabra){
-
+    public String buscarMedicina(Model model, RedirectAttributes attr, @RequestParam("nameOrCategory") String palabra){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscador(palabra,idAdministrator);
         if(listMedicine.isEmpty()){
             System.out.println("No se encontro medicina que contenga esa palabra");
@@ -156,7 +167,8 @@ public class AdminSedeController {
     }
 
     @GetMapping("/verListaReposicion")
-    public String listaReposicion(Model model, @RequestParam("id") int idAdministrator) {
+    public String listaReposicion(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -170,7 +182,8 @@ public class AdminSedeController {
     }
 
     @GetMapping("/verSolicitudReposicion")
-    public String solicitudReposicion(Model model, @RequestParam("id") int idAdministrator){
+    public String solicitudReposicion(Model model){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -186,19 +199,19 @@ public class AdminSedeController {
     }
 
     @PostMapping("/solicitudReposicion")
-    public String generarReposicion(Model model, @RequestParam("id") int idAdministrator, @RequestParam("idMedicine") int idMedicamento, @RequestParam("cantidad") int cantidad, ReplacementOrder replacementOrder){
+    public String generarReposicion(Model model ,@RequestParam("idMedicine") int idMedicamento, @RequestParam("cantidad") int cantidad, ReplacementOrder replacementOrder){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
-
-
         return("redirect:/verListaReposicion");
     }
 
     @GetMapping("/verNotificaciones")
-    public String notificaciones(Model model, @RequestParam("id") int idAdministrator) {
+    public String notificaciones(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -211,7 +224,8 @@ public class AdminSedeController {
         return "admin_sede/notifications";
     }
     @GetMapping("/verPerfil")
-    public String profile(Model model, @RequestParam("id") int idAdministrator){
+    public String profile(Model model){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
 

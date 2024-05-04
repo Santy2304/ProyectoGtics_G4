@@ -450,7 +450,7 @@ public class SuperAdminController {
 
     @PostMapping("/guardarCambiosFarmacista")
     public String editarFarmacista(Pharmacist pharmacist){
-        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
         return "redirect:/verListadosSuperAdmin";
     }
 

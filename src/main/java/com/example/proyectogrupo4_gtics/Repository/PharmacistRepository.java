@@ -19,8 +19,12 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
 
     @Transactional
     @Modifying
-    @Query(value = "update pharmacist set name = ?1 , lastName =?2 , dni=?3 , email=?4, site=?5, state = ?6, distrit = ?7 where idPharmacist =?8" , nativeQuery = true)
-    void updateDatosPorId(String name , String lasName , String dni , String email ,String site,String state,String distrit ,int idFarmacista );
+    @Query(value = "update pharmacist set name = ?1 , lastName =?2 , email=?3, site=?4, state = ?5, distrit = ?6 where idPharmacist =?7" , nativeQuery = true)
+    void updateDatosPorId(String name , String lasName  , String email ,String site,String state,String distrit ,int idFarmacista );
+
+
+
+
 
     @Transactional
     @Modifying

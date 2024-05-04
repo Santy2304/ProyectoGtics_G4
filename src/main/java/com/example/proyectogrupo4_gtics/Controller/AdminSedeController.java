@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 @SessionAttributes({"idUser"})
 @Controller
 public class AdminSedeController {
@@ -88,15 +90,12 @@ public class AdminSedeController {
             if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
                 model.addAttribute("rol","administrador");
             }
-
             return "admin_sede/addpharmacist";
         }
 
 
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(
-                                   Pharmacist pharmacist,
-                                   Model model){
+    public String agregarFarmacista(Pharmacist pharmacist,Model model){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -106,18 +105,35 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-        if(admin.getState().equalsIgnoreCase("normal")){
+
+            pharmacist.setPassword("default");
             pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
-            pharmacist.setState("activo");
-            pharmacist.setCreationDate(LocalDate.now());
+            pharmacist.setRequestDate(LocalDate.now());
             pharmacistRepository.save(pharmacist);
             return "redirect:/listaFarmacistaAdminSede";
-        }else{
-            return "/listaFarmacistaAdminSede";
-        }
 
     }
+
+
+    @GetMapping("/editFarmacistaAdminSede")
+    public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
+
+        Optional<Pharmacist> pharmacist = pharmacistRepository.findById(idFarmacista);
+        if(pharmacist.isPresent()){
+            model.addAttribute("farmacista", pharmacist.get());
+            return "admin_sede/editFarmacist";
+        }else{
+            return "redirect:/listaFarmacistaAdminSede";
+        }
+    }
+
+    @PostMapping("/saveChangesFarmacista")
+    public String editarFarmacista(Pharmacist pharmacist, Model model){
+        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt( (String)model.getAttribute("idUser") )).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        return "redirect:/listaFarmacistaAdminSede";
+    }
+
     /*Linkear las demás vistas*/
 
     @GetMapping("/sessionAdmin")

@@ -6,40 +6,37 @@ import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
-import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
-import com.example.proyectogrupo4_gtics.Repository.DoctorRepository;
-import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
-import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
+@SessionAttributes({"idUser"})
 @Controller
 public class AdminSedeController {
     final AdministratorRepository administratorRepository;
     final DoctorRepository doctorRepository;
     final PharmacistRepository pharmacistRepository;
     final MedicineRepository medicineRepository;
-    final ReplacementOrder replacementOrder;
-    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrder replacementOrder) {
+    final ReplacementOrderRepository replacementOrderRepository;
+
+    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
+                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.medicineRepository = medicineRepository;
-        this.replacementOrder = replacementOrder;
+        this.replacementOrderRepository = replacementOrderRepository ;
     }
 
 
     @GetMapping("/listaDoctoresAdminSede")
-    public String listDoctors(Model model,@RequestParam("id") int idAdministrator) {
+    public String listDoctors(Model model) {
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
@@ -105,7 +102,7 @@ public class AdminSedeController {
             model.addAttribute("rol","administrador");
         }
         if(admin.getState().equalsIgnoreCase("normal")){
-            pharmacist.setSede(admin.getSite());
+            pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
             pharmacist.setState("activo");
             pharmacist.setCreationDate(LocalDate.now());
@@ -118,12 +115,13 @@ public class AdminSedeController {
     }
     /*Linkear las demás vistas*/
     @GetMapping("/dashboardAdminSede")
-    public String verDashboard(Model model, @RequestParam("id") int idAdministrator) {
+    public String verDashboard(Model model, @RequestParam("idUser") String idAdministrator) {
         Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        admin = administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("idUser",idAdministrator);
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }

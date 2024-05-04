@@ -33,8 +33,7 @@ public class Administrator{
     @Column(name="password")
     private String password;
 
-    @Column(name="banned")
-    private Boolean banned;
+    private String state;
 
     @Column(name="photo")
     private String photo; /*Persistence no me deja poner Blob*/
@@ -99,12 +98,12 @@ public class Administrator{
         this.password = password;
     }
 
-    public Boolean getBanned() {
-        return banned;
+    public String getState() {
+        return state;
     }
 
-    public void setBanned(Boolean banned) {
-        this.banned = banned;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getPhoto() {

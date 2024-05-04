@@ -101,13 +101,16 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
-        pharmacist.setSede(admin.getSite());
-        pharmacist.setApprovalState("pendiente");
-        pharmacist.setState("activo");
-        pharmacist.setCreationDate(LocalDate.now());
-        pharmacistRepository.save(pharmacist);
-        return "redirect:/listaFarmacistaAdminSede";
+        if(admin.getState().equalsIgnoreCase("normal")){
+            pharmacist.setSede(admin.getSite());
+            pharmacist.setApprovalState("pendiente");
+            pharmacist.setState("activo");
+            pharmacist.setCreationDate(LocalDate.now());
+            pharmacistRepository.save(pharmacist);
+            return "redirect:/listaFarmacistaAdminSede";
+        }else{
+            return "/listaFarmacistaAdminSede";
+        }
 
     }
     /*Linkear las demás vistas*/
@@ -165,6 +168,27 @@ public class AdminSedeController {
         return "admin_sede/listaReposicion";
     }
 
+    @GetMapping("/verSolicitudReposicion")
+    public String solicitudReposicion(Model model, @RequestParam("id") int idAdministrator){
+        Administrator admin = new Administrator();
+        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        model.addAttribute("sede", admin.getSite());
+        model.addAttribute("nombre", admin.getName());
+        model.addAttribute("apellido", admin.getLastName());
+        if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
+            model.addAttribute("rol","administrador");
+        }
+
+        model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(idAdministrator));
+
+        return "admin_sede/reposicion";
+    }
+    @PostMapping("/solicitudReposicion")
+    public String generarReposicion(Model model, @RequestParam("id") int idAdministrator){
+
+        return("redirect:/verListaReposicion");
+    }
+
     @GetMapping("/verNotificaciones")
     public String notificaciones(Model model, @RequestParam("id") int idAdministrator) {
         Administrator admin = new Administrator();
@@ -194,18 +218,5 @@ public class AdminSedeController {
         }
         model.addAttribute("sede", admin.getSite());
         return "admin_sede/profile";
-    }
-    @GetMapping("/verSolicitudReposicion")
-    public String solicitudReposicion(Model model, @RequestParam("id") int idAdministrator){
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
-        model.addAttribute("sede", admin.getSite());
-        model.addAttribute("nombre", admin.getName());
-        model.addAttribute("apellido", admin.getLastName());
-        if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
-            model.addAttribute("rol","administrador");
-        }
-
-        return "admin_sede/reposicion";
     }
 }

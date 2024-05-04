@@ -295,7 +295,7 @@
 								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
 								<ul>
 									<li><a href="/inventarioAdminSede" class="active">Inventario</a></li>
-									<li><a href="/verSolicitudReposicion">Generar reposición</a></li>
+									<li><a th:href="@{'verSolicitudReposicion'}">Generar reposición</a></li>
 								</ul>
 							</li>
 							<!--
@@ -340,7 +340,7 @@
 						</div>
 
 						<div class="page-btn">
-							<a href="verSolicitudReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
+							<a th:href="@{'verSolicitudReposicion'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
 						</div>
 
 					</div>

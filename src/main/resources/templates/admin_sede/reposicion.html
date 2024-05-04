@@ -420,7 +420,7 @@
 			</div>
 			-->
 			<h2>Solicitud de Reposición</h2>
-			<form id="pedidoForm" action="submit_form.php" method="POST">
+			<form id="pedidoForm" action="" method="POST">
 				<label for="nombre">Nombre:</label><br>
 				<input type="text" id="nombre" name="nombre" required><br>
 
@@ -430,12 +430,9 @@
 				<fieldset>
 					<legend>Productos a reponer:</legend>
 					<div id="productos">
-						<div>
-							<select id="productoSelect">
-								<option value="" style="color: gray;">Seleccione un medicamento</option>
-								<option value="Medicamento 1">Medicamento 1</option>
-								<option value="Medicamento 2">Medicamento 2</option>
-								<option value="Medicamento 3">Medicamento 3</option>
+						<div class="form-group">
+							<select class="form-control" name="medicine" id="medicine">
+								<option th:each="medicamento: ${listaMedicamentosBS}" th:value="${medicamento.getIdMedicine()}" th:text="${medicamento.getNombreMedicamento()}" style="color: gray;"></option>
 								<!-- Agrega más opciones de productos según sea necesario -->
 							</select>
 						</div>
@@ -469,7 +466,7 @@
 				var productosAgregados = 0;
 
 				function agregarProducto() {
-					var producto = document.getElementById("productoSelect").value;
+					var producto = document.getElementById("medicine").value;
 					var cantidad = document.getElementById("cantidad").value;
 
 					if (producto && cantidad && productosAgregados < 10) {
@@ -485,7 +482,7 @@
 						productosAgregados++;
 
 						if (productosAgregados === 10) {
-							document.getElementById("productoSelect").disabled = true;
+							document.getElementById("medicine").disabled = true;
 							document.getElementById("cantidad").disabled = true;
 							document.querySelector('button').disabled = true;
 						}
@@ -498,7 +495,7 @@
 					var tbody = document.getElementById("pedidoBody");
 					tbody.innerHTML = "";
 					productosAgregados = 0;
-					document.getElementById("productoSelect").disabled = false;
+					document.getElementById("medicine").disabled = false;
 					document.getElementById("cantidad").disabled = false;
 					document.querySelector('button').disabled = false;
 				}

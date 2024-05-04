@@ -184,16 +184,12 @@
 			
 			<div class="page-wrapper">
 				<div class="content">
-
-
-
 					<div class="page-header">
 						<div class="page-title">
 							<h4>Lista de Solicitudes de Farmacistas</h4>
 						</div>
 
 					</div>
-
 
 					<!-- /product list -->
 					<div class="card">
@@ -284,13 +280,14 @@
 											<td th:text="${solicitud.requestDate}"></td>
 
 											<td>
-												<a class="me-3" href="/verDetalleMedicamentosSuperAdmin">
+												<a class="me-3" th:href="@{'/aceptarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
 												</a>
 
-												<a class="confirm-text" href="javascript:void(0);">
+												<a class="confirm-text" th:onclick="|mensajeRechazo(${solicitud.idFarmacista})|">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
+
 											</td>
 										</tr>
 									</tbody>

@@ -31,6 +31,12 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(value = "update pharmacist set state = 'eliminado'  where idPharmacist =?1" , nativeQuery = true)
     void eliminarFarmacistaPorId(int idFarmacista);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update pharmacist set approvalState = 'aceptado', state='activo'  where idPharmacist =?1" , nativeQuery = true)
+    void aceptarFarmacistaPorId(int idFarmacista);
+
+
     @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' and site = 'Pando 1'")
     List<Pharmacist> listarSolicitudesFarmacistaPando1();
 

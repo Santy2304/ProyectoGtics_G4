@@ -461,6 +461,11 @@ public class SuperAdminController {
         return "redirect:/verListadosSuperAdmin";
     }
 
+    @GetMapping("/aceptarFarmacista")
+    public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+        pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
+        return "redirect:/verSedeSuperAdminPando1";
+    }
 
     //////////////////////////////////
 

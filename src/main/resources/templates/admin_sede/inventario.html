@@ -88,81 +88,119 @@
 			<!--sideBar-->
 			<div th:replace="sidebarAdmin :: sidebarAdmin(activeTab = 'inventario')"> </div>
 			<!-- /Sidebar -->
-			
 			<div class="page-wrapper">
 				<div class="content">
-					<div class="page-header text-center">
-						<div class="page-title text-center">
-							<h2>Inventario de Medicamentos</h2>
+					<div class="page-header">
+						<div class="page-header">
+							<div class="page-title">
+								<h2>Inventario de Medicamentos</h2>
+							</div>
 						</div>
-
 						<div class="page-btn">
 							<a th:href="@{'verSolicitudReposicion'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
 						</div>
-
 					</div>
-					<div class="search-set">
 
-						<!--
-						<div class="search-path">
-							<a class="btn b	tn-filter" id="filter_search">
-								<img src="assets/img/icons/filter.svg" alt="img">
-								<span><img src="assets/img/icons/closes.svg" alt="img"></span>
-							</a>
-						</div>
-						-->
-						<form method="post" th:href="@{/inventarioAdminSede/buscar}">
-							<div class="search-input">
-								<a  class="btn btn-searchset">
-									<img src="/assets_superAdmin/img/icons/search-white.svg" alt="img">
-								</a>
-								<div id="DataTables_Table_0_filter" class="dataTables_filter">
-									<label> <input type="search" name="nameOrCategory" class="form-control form-control-sm" placeholder="Buscar medicament." aria-controls="DataTables_Table_0" data-listener-added_4c65a08c="true"></label>
+					<!-- /product list -->
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
 								</div>
-								<!--Falta poner el boton de input-->
+								<div class="wordset">
+									<ul>
+										<li>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+										</li>
+									</ul>
+								</div>
 							</div>
-						</form>
+							<!-- /Filter -->
+							<div class="card mb-0" id="filter_inputs">
+								<div class="card-body pb-0">
+									<div class="row">
+										<div class="col-lg-12 col-sm-12">
+											<div class="row">
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<select class="select">
+															<option>Elegir por tipo </option>
+															<option>Dolor</option>
+															<option>Alergia</option>
+															<option>Suplemento</option>
+															<option>Belleza</option>
+														</select>
+													</div>
+												</div>
+												<div class="col-lg col-sm-6 col-12">
+													<div class="form-group">
+														<input type="text" class="datetimepicker cal-icon" placeholder="nombre del medicamento" >
+													</div>
+												</div>
 
-					</div>
+												<div class="col-lg-1 col-sm-6 col-12">
+													<div class="form-group">
+														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /Filter -->
 							<div class="table-responsive">
 								<table class="table  datanew">
 									<thead>
-										<tr>
-											<th>#</th>
-											<th>Medicamentos</th>
-											<th>Tipo</th>
-											<th>Cantidad </th>
-											<th>Precio unitario</th>
-										</tr>
+									<tr>
+										<th>#</th>
+										<th>Medicamentos</th>
+										<th>foto</th>
+										<th>Tipo</th>
+										<th>Cantidad </th>
+										<th>Precio unitario</th>
+									</tr>
 									</thead>
-									<tbody th:each="medicamento, vEstado: ${medicamentos}">
-										<tr>
-											<td th:text="${vEstado.index+1}"></td>
-											<td th:text="${medicamento.getNombreMedicamento()}"></td>
-											<td th:text="${medicamento.getCategoria()}"></td>
-											<td th:text="${medicamento.getCantidad()}"></td>
-											<td th:text="${medicamento.getPrecio()}"></td>
-										</tr>
-											<!--
-											<!td>
-
-												<a class="me-3" href="editproduct.html">
-													<img src="assets/img/icons/edit.svg" alt="img">
-												</a>
-
-											<!/td>
-											-->
-
+									<tbody >
+									<tr th:each="medicamento, vEstado: ${medicamentos}">
+										<td th:text="${vEstado.index+1}"></td>
+										<td th:text="${medicamento.getNombreMedicamento()}"></td>
+										<td class="productimgname" style="text-align: center;">
+											<a  class="product-img" >
+												<img src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
+											</a>
+										</td>
+										<td th:text="${medicamento.getCategoria()}"></td>
+										<td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
+										<td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
+										<td th:text="${medicamento.getPrecio()}"></td>
+									</tr>
+									<!--
+                                    <!td>
+                                        <a class="me-3" href="editproduct.html">
+                                            <img src="assets/img/icons/edit.svg" alt="img">
+                                        </a>
+                                    <!/td>
+                                    -->
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					<!-- /product list -->
 				</div>
 			</div>
-        </div>
-		<!-- /Main Wrapper -->
+
+
+		</div>
 
 		<script>
 			const text = document.querySelector('#title');
@@ -182,10 +220,12 @@
 			glow.style.transition = 'stroke-dashoffset 2s ease-in-out';
 			glow.style.strokeDashoffset = '0';
 		</script>
-		<!-- jQuery -->
-        <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
-        <!-- Feather Icon JS -->
+
+		<!-- jQuery -->
+		<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
+
+		<!-- Feather Icon JS -->
 		<script src="/assets_superAdmin/js/feather.min.js"></script>
 
 		<!-- Slimscroll JS -->
@@ -194,12 +234,16 @@
 		<!-- Datatable JS -->
 		<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
 		<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
-		
+
 		<!-- Bootstrap Core JS -->
-        <script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
+		<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
 
 		<!-- Select2 JS -->
 		<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
+
+		<!-- Datetimepicker JS -->
+		<script src="/assets_superAdmin/js/moment.min.js"></script>
+		<script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
 
 		<!-- Sweetalert 2 -->
 		<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
@@ -207,6 +251,6 @@
 
 		<!-- Custom JS -->
 		<script src="/assets_superAdmin/js/script.js"></script>
-		
-    </body>
+
+	</body>
 </html>

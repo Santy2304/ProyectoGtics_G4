@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-@SessionAttributes({"idUser"})
+@SessionAttributes({"idUser", "sede"})
 @Controller
 public class AdminSedeController {
     final AdministratorRepository administratorRepository;
@@ -139,6 +139,7 @@ public class AdminSedeController {
     @GetMapping("/sessionAdmin")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
+        model.addAttribute("sede", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getSite()  ));
         return "redirect:/dashboardAdminSede";
     }
     @GetMapping("/dashboardAdminSede")
@@ -257,4 +258,9 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         return "admin_sede/profile";
     }
+
+
+
+
+
 }

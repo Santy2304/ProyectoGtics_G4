@@ -112,8 +112,8 @@
 											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 										</a>
 									</div>
-									<div class="search-input">
-										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									<div class="search-input"  >
+										<a class="btn btn-searchset" placeholder="buscar..." ><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
@@ -129,30 +129,34 @@
 								<div class="card-body pb-0">
 									<div class="row">
 										<div class="col-lg-12 col-sm-12">
-											<div class="row">
-												<div class="col-lg col-sm-6 col-12">
-													<div class="form-group">
-														<select class="select">
-															<option>Elegir por tipo </option>
-															<option>Dolor</option>
-															<option>Alergia</option>
-															<option>Suplemento</option>
-															<option>Belleza</option>
-														</select>
+
+											<form id="Hola" th:action="@{'/inventarioAdminSedeBusca'}"  method="post" >
+												<div class="row">
+													<div class="col-lg col-sm-6 col-12">
+														<div class="form-group">
+															<select class="select" id="categoria" name="categoria">
+																<option>Elegir por tipo </option>
+																<option value="Dolor" >Dolor</option>
+																<option value="Alergia" >Alergia</option>
+																<option value="Suplemento" >Suplemento</option>
+																<option value="Belleza" >Belleza</option>
+															</select>
+														</div>
 													</div>
-												</div>
-												<div class="col-lg col-sm-6 col-12">
-													<div class="form-group">
-														<input type="text" class="datetimepicker cal-icon" placeholder="nombre del medicamento" >
+													<div class="col-lg col-sm-6 col-12">
+														<div class="form-group">
+															<input id="nombre" name="nombre" type="text" placeholder="nombre del medicamento" >
+														</div>
+													</div>
+
+													<div class="col-lg-1 col-sm-6 col-12">
+														<div class="form-group">
+															<button id="buscar" type="submit" class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
+														</div>
 													</div>
 												</div>
 
-												<div class="col-lg-1 col-sm-6 col-12">
-													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
-													</div>
-												</div>
-											</div>
+											</form>
 										</div>
 									</div>
 								</div>

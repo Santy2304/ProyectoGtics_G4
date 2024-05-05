@@ -172,10 +172,31 @@ public class AdminSedeController {
 
         return "admin_sede/inventario";
     }
-    @PostMapping("/inventarioAdminSede/buscar")
-    public String buscarMedicina(Model model, RedirectAttributes attr, @RequestParam("nameOrCategory") String palabra){
+
+    public class Busqueda{
+        private String categoria;
+        private String nombre;
+
+        public String getCategoria() {
+            return categoria;
+        }
+
+        public void setCategoria(String categoria) {
+            this.categoria = categoria;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+    }
+    @PostMapping("/inventarioAdminSedeBusca")
+    public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscador(palabra,idAdministrator);
+        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscador(busqueda.getNombre(),busqueda.getCategoria(),idAdministrator);
         if(listMedicine.isEmpty()){
             System.out.println("No se encontro medicina que contenga esa palabra");
         }
@@ -197,6 +218,19 @@ public class AdminSedeController {
 
         return "admin_sede/listaReposicion";
     }
+
+    @GetMapping("error505AdminSede")
+    public String error(){
+        return "pharmacist/error404";
+    }
+
+    @PostMapping("buscarMedicinaList")
+    public String buscarMedicinaList(){
+
+
+        return "admin_sede/inventario";
+    }
+
 
     @GetMapping("/verSolicitudReposicion")
     public String solicitudReposicion(Model model){

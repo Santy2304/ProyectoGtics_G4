@@ -215,7 +215,8 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
+        int ola  = Integer.parseInt((String)model.getAttribute("idUser"));
+        model.addAttribute("listaReposicion" , replacementOrderRepository.getReplacementOrderBySede(  ((administratorRepository.findById(ola)).get()).getSite() ));
         return "admin_sede/listaReposicion";
     }
 

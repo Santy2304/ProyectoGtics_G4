@@ -20,6 +20,7 @@ public class Lote{
     private boolean expire;
 
     private int stock;
+    private int initialQuantity;
 
     private boolean visible;
     @ManyToOne
@@ -92,5 +93,13 @@ public class Lote{
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public int getInitialQuantity() {
+        return initialQuantity;
+    }
+
+    public void setInitialQuantity(int initialQuantity) {
+        this.initialQuantity = initialQuantity;
     }
 }

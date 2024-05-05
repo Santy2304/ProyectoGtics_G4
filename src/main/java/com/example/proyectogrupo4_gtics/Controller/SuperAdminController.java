@@ -96,6 +96,7 @@ public class SuperAdminController {
                     lote1.setStock(stockPando1);
                     lote1.setExpire(false);
                     lote1.setVisible(true);
+                    lote1.setInitialQuantity(stockPando1);
                     loteRepository.save(lote1);
                 }
 
@@ -107,6 +108,7 @@ public class SuperAdminController {
                     lote2.setStock(stockPando2);
                     lote2.setExpire(false);
                     lote2.setVisible(true);
+                    lote2.setInitialQuantity(stockPando2);
                     loteRepository.save(lote2);
                 }
 
@@ -118,6 +120,7 @@ public class SuperAdminController {
                     lote3.setStock(stockPando3);
                     lote3.setExpire(false);
                     lote3.setVisible(true);
+                    lote3.setInitialQuantity(stockPando3);
                     loteRepository.save(lote3);
                 }
 
@@ -129,6 +132,7 @@ public class SuperAdminController {
                     lote4.setStock(stockPando4);
                     lote4.setExpire(false);
                     lote4.setVisible(true);
+                    lote4.setInitialQuantity(stockPando4);
                     loteRepository.save(lote4);
                 }
 
@@ -216,6 +220,7 @@ public class SuperAdminController {
                 lote1.setMedicine(medicine);
                 lote1.setExpire(false);
                 lote1.setVisible(true);
+                lote1.setInitialQuantity(50);
                 loteRepository.save(lote1);
             }else{
                 loteRepository.actualizarVisibilidadSede(visibilidad1, medicine.getIdMedicine(),"Pando 1");
@@ -241,6 +246,7 @@ public class SuperAdminController {
                 lote2.setMedicine(medicine);
                 lote2.setExpire(false);
                 lote2.setVisible(true);
+                lote2.setInitialQuantity(50);
                 loteRepository.save(lote2);
 
             }else{
@@ -266,6 +272,7 @@ public class SuperAdminController {
                 lote3.setMedicine(medicine);
                 lote3.setExpire(false);
                 lote3.setVisible(true);
+                lote3.setInitialQuantity(50);
                 loteRepository.save(lote3);
             }else{
                 loteRepository.actualizarVisibilidadSede(visibilidad3, medicine.getIdMedicine(),"Pando 3");
@@ -291,6 +298,7 @@ public class SuperAdminController {
                 lote4.setMedicine(medicine);
                 lote4.setExpire(false);
                 lote4.setVisible(true);
+                lote4.setInitialQuantity(50);
                 loteRepository.save(lote4);
             }else{
                 loteRepository.actualizarVisibilidadSede(visibilidad4, medicine.getIdMedicine(),"Pando 4");

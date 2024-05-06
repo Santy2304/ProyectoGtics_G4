@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.sql.Date;
 import java.util.List;
@@ -10,17 +11,30 @@ public class Medicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idmedicine")
+    @NotNull
+    @Digits(integer = 10, fraction = 0)
     private int idMedicine;
 
+    @Column(name = "name", unique = true, nullable = false)
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El nombre no debe tener más de 45 carácteres")
     private String name;
 
+    @Column(name = "category", nullable = false)
+    @NotBlank(message = "Este campo es obligatorio")
     private String category;
 
+    @Column(name = "price", nullable = false)
+    @NotNull(message = "Este campo es obligatorio")
+    @Digits(integer = 10, fraction = 4, message = "Se debe ingresar un número")
+    @Positive(message = "El precio debe ser un valor mayor a cero")
     private double price;
 
     @Column(name = "timessaled")
     private int timesSaled;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 200, message = "La descripción no debe superar los 200 carácteres")
     private String description;
 
 

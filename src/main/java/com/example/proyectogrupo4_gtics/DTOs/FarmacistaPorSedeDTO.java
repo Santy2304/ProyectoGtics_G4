@@ -1,5 +1,7 @@
 package com.example.proyectogrupo4_gtics.DTOs;
 
+import java.time.LocalDate;
+
 public interface FarmacistaPorSedeDTO {
     int getIdPharmacist();
     String getNombre();
@@ -9,4 +11,10 @@ public interface FarmacistaPorSedeDTO {
     String getCodigo();
     String getEmail();
     String getPhoto();
+    String getEstadoAprobacion();
+    String getRechazo();
+    String getEstado();
+
+    LocalDate getCreationDate();
+
 }

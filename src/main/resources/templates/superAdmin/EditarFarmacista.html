@@ -185,7 +185,7 @@
 			<!-- /Sidebar -->
 
 			<form method="post" th:action="@{/guardarCambiosFarmacista}" th:object="${farmacista}">
-				<input name="idDoctor"  th:field="*{idFarmacista}" type="hidden">
+				<input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
 				<div class="page-wrapper">
 					<div class="content">
 						<div class="page-header">
@@ -209,13 +209,6 @@
 											<input name="lastName" type="text" th:field="${farmacista.lastName}">
 										</div>
 									</div>
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="form-group">
-											<label>DNI</label>
-											<input name="dni" type="text" th:field="${farmacista.dni}">
-										</div>
-									</div>
-
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">

@@ -33,7 +33,6 @@ public class Administrator{
     @Column(name="password")
     private String password;
 
-    @Column(name="state")
     private String state;
 
     @Column(name="photo")
@@ -98,7 +97,6 @@ public class Administrator{
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public String getState() {
         return state;

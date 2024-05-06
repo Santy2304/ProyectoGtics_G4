@@ -38,11 +38,17 @@ public class PatientController {
         this.medicineRepository = medicineRepository;
     }
 
+    @GetMapping("/sessionPatient")
+    public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
+        model.addAttribute("idUser",idAdministrator);
+        return "redirect:/ElegirSede";
+    }
+
     @GetMapping("/ElegirSede")
-    public String ElegirSede(@RequestParam String  idUser , Model model){
+    public String ElegirSede( Model model){
         //Se listan las sedes
+        String idUser =  (String) model.getAttribute("idUser");
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
-        model.addAttribute("idUser", patient.getIdPatient());
         System.out.println(patient.getName());
         List<Site> listSite = siteRepository.findAll();
         model.addAttribute("listSite", listSite);

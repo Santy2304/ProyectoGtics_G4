@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -10,7 +11,7 @@
     <title>SaintMedic</title>
 
     <!-- Favicon -->
-    <!link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
@@ -24,7 +25,7 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 </head>
@@ -34,241 +35,16 @@
 </div>
 <!-- Main Wrapper -->
 <div class="main-wrapper">
+    <style>
 
+        </style>
     <!-- Header -->
-    <div class="header">
+    <div th:replace="headerAdminSede"> </div>
 
-        <!-- Logo -->
-        <div class="header-left active">
-            <a class="logo">
-                <img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-            </a>
-            <a  class="logo-small">
-                <img src="/assets_superAdmin/img/logo-small.png" alt="">
-            </a>
-            <a id="toggle_btn" href="javascript:void(0);">
-            </a>
-        </div>
-        <!-- /Logo -->
-
-        <a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-        </a>
-
-        <!-- Header Menu -->
-        <ul class="nav user-menu">
-
-            <!-- Search -->
-            <li class="nav-item">
-                <div class="top-nav-search">
-
-                    <a href="javascript:void(0);" class="responsive-search">
-                        <i class="fa fa-search"></i>
-                    </a>
-
-                </div>
-            </li>
-            <!-- /Search -->
-
-            <!-- Flag -->
-            <li class="nav-item dropdown has-arrow flag-nav">
-                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
-                    <img src="/assets_superAdmin/img/flags/us1.png" alt="" height="20">
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/us.png" alt="" height="16"> English
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/fr.png" alt="" height="16"> French
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/es.png" alt="" height="16"> Spanish
-                    </a>
-                    <a href="javascript:void(0);" class="dropdown-item">
-                        <img src="/assets_superAdmin/img/flags/de.png" alt="" height="16"> German
-                    </a>
-                </div>
-            </li>
-            <!-- /Flag -->
-
-            <!-- Notifications -->
-            <li class="nav-item"><a style="color: orange;">Administrador de Pando 1</a>
-            <li class="nav-item dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                    <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-                </a>
-                <div class="dropdown-menu notifications">
-                    <div class="topnav-dropdown-header">
-                        <span class="notification-title">Notifications</span>
-                        <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
-                    </div>
-                    <div class="noti-content">
-                        <ul class="notification-list">
-                            <li class="notification-message">
-                                <a href="activities.html">
-                                    <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/profiles/avatar-02.jpg">
-												</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                                            <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="notification-message">
-                                <a href="activities.html">
-                                    <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/profiles/avatar-03.jpg">
-												</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                            <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="notification-message">
-                                <a href="activities.html">
-                                    <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/profiles/avatar-06.jpg">
-												</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-                                            <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="notification-message">
-                                <a href="activities.html">
-                                    <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/profiles/avatar-17.jpg">
-												</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
-                                            <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="notification-message">
-                                <a href="activities.html">
-                                    <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/profiles/avatar-13.jpg">
-												</span>
-                                        <div class="media-body flex-grow-1">
-                                            <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
-                                            <p class="noti-time"><span class="notification-time">2 days ago</span></p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topnav-dropdown-footer">
-                        <a href="activities.html">View all Notifications</a>
-                    </div>
-                </div>
-            </li>
-            <!-- /Notifications -->
-
-            <li class="nav-item dropdown has-arrow main-drop">
-                <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-                </a>
-                <div class="dropdown-menu menu-drop-user">
-                    <div class="profilename">
-                        <div class="profileset">
-									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-                            <div class="profilesets">
-                                <h6>Lancelot Del Lago</h6>
-                                <h5>Administrador</h5>
-                                <h5>Sede Pando</h5>
-                            </div>
-                        </div>
-                        <hr class="m-0">
-                        <a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-                        <hr class="m-0">
-                        <a class="dropdown-item logout pb-0" href="signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
-        <!-- /Header Menu -->
-
-        <!-- Mobile Menu -->
-        <div class="dropdown mobile-user-menu">
-            <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item" href="profile.html">My Profile</a>
-                <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                <a class="dropdown-item" href="signin.html">Logout</a>
-            </div>
-        </div>
-        <!-- /Mobile Menu -->
-    </div>
     <!-- Header -->
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-inner slimscroll">
-            <div id="sidebar-menu" class="sidebar-menu">
-                <ul>
-                    <li class="active">
-                        <a href="/dashboardAdminSede" ><img src="/assets_superAdmin/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
-                    </li>
-                    <li class="submenu">
-                        <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="/inventarioAdminSede" class="active">Inventario</a></li>
-                            <li><a href="/verSolicitudReposicion">Generar reposición</a></li>
-                        </ul>
-                    </li>
-                    <!--
-                    <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="productlist.html">Ordenes de venta</a></li>
-                            <li><a href="pos.html">POS</a></li>
-                            <li><a href="pos.html">Reposición</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="submenu">
-                        <a href="javascript:void(0);"><img src="assets/img/icons/purchase1.svg" alt="img"><span>Chatbot</span> <span class="menu-arrow"></span></a>
-                    </li>
-                    -->
-                    <li class="submenu">
-                        <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Empleados</span> <span class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="/listaFarmacistaAdminSede">Farmacistas</a></li>
-                            <li><a href="/listaDoctoresAdminSede">Doctores</a></li>
-                        </ul>
-                    </li>
-                    <li class="submenu">
-                        <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">Información<span></span> <span class="menu-arrow"></span></a>
-                        <ul>
-                            <li><a href="/verPerfil">Mi perfil</a></li>
-                            <li><a href="/verNotificaciones">Notificaciones</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <div th:replace="sidebarAdmin :: sidebarAdmin(activeTab = 'listaReposicion')"> </div>
     <!-- /Sidebar -->
 
     <!-- Button trigger modal -->
@@ -281,65 +57,245 @@
                         <table class="table datatable ">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Código de reposición</th>
+                                <th>Identificador</th>
                                 <th>Detalles</th>
-                                <th>Estado de reposición</th>
                                 <th>Fecha de solicitud</th>
+                                <th>Estado del pedido</th>
+                                <th>Editar</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="javascript:void(0);">IT0001</a></td>
-                                <td class="productimgname">
-                                    <a class="product-img" href="productlist.html">
-                                        <img src="/assets_superAdmin/img/product/product2.jpg" alt="product">
+                            <tbody >
+                            <tr th:each="repo, vEstado: ${listaReposicion}">
+                                <td th:text="${repo.idReplacementOrder}"></td>
+                                <td class="productimgname" style="text-align: center;">
+                                    <a  th:id="|${repo.idReplacementOrder}|"  type="button" class="product-img" >
+                                        <img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
                                     </a>
-                                    <a href="productlist.html"></a>
                                 </td>
-                                <td>En camino</td>
-                                <td>12-12-2022</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="javascript:void(0);">IT0002</a></td>
-                                <td class="productimgname">
-                                    <a class="product-img" href="productlist.html">
-                                        <img src="/assets_superAdmin/img/product/product3.jpg" alt="product">
+                                <!--
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Entregado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'En ruta' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Empaquetado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'En Proceso' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Solicitado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                -->
+                                <td th:text="${repo.getReleaseDate()}"></td>
+                                <td><span class="badges bg-lightgreen" th:text="${repo.getTrackingState()}" ></span></td>
+
+                                <td th:if="${repo.getTrackingState() == 'Solicitado'  || repo.getTrackingState() == 'En Proceso'}">
+                                    <a class="me-3" href="#">
+                                        <img src="/assets_superAdmin/img/icons/edit.svg" th:id="|idPedidoEditar${repo.getIdReplacementOrder()}|" alt="img">
                                     </a>
-                                    <a href="productlist.html"></a>
-                                </td>
-                                <td>En camino</td>
-                                <td>25-11-2022</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><a href="javascript:void(0);">IT0003</a></td>
-                                <td class="productimgname">
-                                    <a class="product-img" href="productlist.html">
-                                        <img src="/assets_superAdmin/img/product/product4.jpg" alt="product">
+                                    <a class="me-3 confirm-text" th:id="|idPedido${repo.getIdReplacementOrder()}|">
+                                        <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                     </a>
-                                    <a href="productlist.html"></a>
                                 </td>
-                                <td>Entregado</td>
-                                <td>19-11-2022</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><a href="javascript:void(0);">IT0004</a></td>
-                                <td class="productimgname">
-                                    <a class="product-img" href="productlist.html">
-                                        <img src="/assets_superAdmin/img/product/product5.jpg" alt="product">
-                                    </a>
-                                    <a href="productlist.html"></a>
+                                <td th:if="${!(repo.getTrackingState() == 'Solicitado'  || repo.getTrackingState() == 'En Proceso')}">
+                                    -
                                 </td>
-                                <td>Entregado</td>
-                                <td>20-11-2022</td>
+                                <script th:inline="javascript" >
+                                    $("#idPedidoEditar" + [[${repo.idReplacementOrder}]]).click( function() { data={
+                                        idPedidoReposicion : [[${repo.idReplacementOrder}]]
+                                    }
+                                        $.ajax({
+                                            url: "/verDetalleRepoMedicamentos",
+                                            type: "POST",
+                                            data: data,
+                                            success:  function (response) {
+                                                console.log(response);
+                                                var Header = '<form id="A'+[[${repo.idReplacementOrder}]] +'" >'+ "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                var rowx;
+                                                var count = 1;
+                                                var rows = "";
+                                                response.forEach(function (producto) {
+                                                    var aux = JSON.parse(producto)
+                                                    rowx =
+                                                        '<tr> ' +
+                                                        '<td>' + count + '</td>'
+                                                        +
+                                                        '<td>' + aux.name + '</td>'
+                                                        +
+
+                                                        '<td>' + 's/.' + aux.price + '</td>'
+
+                                                        +
+                                                        '<td>' + "<input " + "id='" + aux.id + "'" + " type='number' value='" + aux.initial + "'>" + '</td>'
+                                                        +
+                                                        '</tr>'
+                                                    ;
+                                                    rows = rows + rowx + '</form>';
+                                                    count++;
+                                                })
+                                                var final = "</tbody>\n                                                                </table>";
+                                                console.log("HOLAAA1");
+                                                const getInputs = () => {
+                                                    return new Promise ((resolve, rejected)=>{
+                                                        Swal.fire({
+                                                            title: 'Medicamentos de la orden de reposición',
+                                                            html: Header + rows + final,
+                                                            confirmButtonColor: "#dd986a",
+                                                            confirmButtonText: "Editar",
+                                                            cancelButtonText: "Regresar",
+                                                            preConfirm: () => {
+                                                                const inputs = [];
+                                                                const form = document.querySelector('#A'+[[${repo.idReplacementOrder}]]);
+                                                                form.querySelectorAll('input').forEach(input => {
+                                                                    inputs.push(input.value);
+                                                                });
+                                                                resolve(inputs);
+                                                            }
+                                                        })
+                                                    })
+                                                }
+                                                async function esperarPopUp (){
+                                                    try {
+                                                        const datosFetched = await getInputs();
+                                                        console.log("Hola");
+                                                        console.log(datosFetched);
+                                                        const jsonString = JSON.stringify(datosFetched);
+                                                        //Validaciones :D
+                                                        var oli = [];
+                                                        for(let i =0 ;  i<datosFetched.length ; i++ ){
+                                                            try {
+                                                                const numero = parseInt(datosFetched[i]); // Intenta parsear "texto" a un número
+                                                                if(numero<=0){
+                                                                    oli.push("ErrorTipoDeNumero");
+                                                                }
+                                                            } catch (error) {
+                                                                oli.push("ErrorCasteo");
+                                                            }
+                                                        }
+                                                        var countErrorTipoNumero = 0 ;
+                                                        var countErrorCasteo = 0 ;
+                                                        for(let j = 0 ; j<oli.length ;j++ ){
+                                                            if(oli[j] === "ErrorTipoDeNumero" ){
+                                                                countErrorTipoNumero++;
+                                                            }
+                                                            if(oli[j] === "ErrorCasteo" ){
+                                                                countErrorCasteo++;
+                                                            }
+                                                        }
+                                                        if(countErrorCasteo>0 ||countErrorTipoNumero >0 ){
+                                                            Swal.fire({
+                                                                icon: "error",
+                                                                title: "Oops...",
+                                                                text: "Ingresaste una cantidad incoherente!",
+                                                            });
+                                                        }else{
+                                                            datosFetched.push([[${repo.idReplacementOrder}]]);
+                                                            console.log(""+datosFetched);
+                                                            $.ajax({
+                                                                url:"/editarPedidoReposicionAdminSede",
+                                                                data: JSON.stringify({ datos: datosFetched }),
+                                                                type: "POST",
+                                                                contentType: "application/json",
+                                                                success:  window.location.href = "/verListaReposicion"
+                                                            })
+                                                            }
+                                                    } catch (error) {
+                                                        console.error(error);
+                                                    }
+                                                }
+                                                esperarPopUp();
+                                            },
+                                        })
+                                    })
+                                </script>
+                                    <script th:inline="javascript" >
+                                    $("#idPedido" + [[${repo.idReplacementOrder}]]).click( function() {
+                                        const swalWithBootstrapButtons = Swal.mixin({
+                                            customClass: {
+                                                confirmButton: "btn btn-success",
+                                                cancelButton: "btn btn-danger"
+                                            },
+                                            buttonsStyling: false
+                                        });
+                                        swalWithBootstrapButtons.fire({
+                                            title: "¿Estás seguro de cancelar este pedido de reposición #"+ [[${repo.idReplacementOrder}]] + " ?",
+                                            text: "Esta acción es irreversible",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Sí, lo deseo eliminar",
+                                            cancelButtonText: "Regresar",
+                                            reverseButtons: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = '/cancelarPedidoReposicion?id='+ [[${repo.idReplacementOrder}]] ; // Aquí coloca la URL a la que quieres redirigir
+                                            }
+                                        });
+                                    });
+                                </script>
+
+                                    <script th:inline="javascript" >
+                                    $("#" + [[${repo.idReplacementOrder}]]).click( function(){
+                                        data={
+                                            idPedidoReposicion : [[${repo.idReplacementOrder}]]
+                                        }
+                                        console.log("Hola");
+                                        $.ajax({
+                                            url: "/verDetalleRepoMedicamentos",
+                                            type: "POST",
+                                            data: data,
+                                            success: function(response) {
+                                                console.log(response);
+                                                var Header = "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Categoría</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                var rowx ;
+                                                var count = 1;
+                                                var rows ="";
+                                                response.forEach(function(producto){
+                                                    var aux = JSON.parse(producto)
+                                                    rowx = '<tr> ' +
+                                                        '<td>'+ count +'</td>'
+                                                        +
+                                                        '<td>'+ aux.name +'</td>'
+                                                        +
+
+                                                        '<td>'+ aux.price +'</td>'
+                                                        +
+                                                        '<td>'+ aux.category +'</td>'
+                                                        +
+                                                        '<td>'+ aux.initial +'</td>'
+                                                        +
+                                                        '</tr>';
+                                                    rows =rows+rowx;
+                                                    count++;
+                                                })
+                                                var final = "</tbody>\n                                                                </table>";
+
+                                                Swal.fire({
+                                                    title: 'Medicamentos de la orden de reposición',
+                                                    html: Header+rows+final,
+                                                    confirmButtonColor: "#dd986a"
+                                                })
+                                            },
+                                        })
+                                    })
+                                </script>
+
+
+
                             </tr>
+
                             </tbody>
                         </table>
                     </div>
+                    <script>
+                        function verDetalle(id){
+                            $.ajax({
+                                url: "/verDetalleRepoMedicamentos",
+                                type: "POST",
+                                data: id,
+                                success: function(data) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        iconColor: "orange",
+                                        title: "¡Correo o contraseña incorrectos!",
+                                        confirmButtonColor: "#dd986a"
+                                    })
+                                },
+                            })
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -369,6 +325,6 @@
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

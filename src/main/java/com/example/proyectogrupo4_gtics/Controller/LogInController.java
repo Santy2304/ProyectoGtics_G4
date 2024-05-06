@@ -88,7 +88,7 @@ public class LogInController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/ElegirSede?idUser=" + patient.getIdPatient());
             }
             if( !(admin == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/listaDoctoresAdminSede?idUser=" + admin.getIdAdministrador());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/dashboardAdminSede?idUser=" + admin.getIdAdministrador());
             }
             if( !(superAdmin == null) ) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/listaMedicamentosSuperAdmin?idUser=" + superAdmin.getIdSuperAdmin());
@@ -131,12 +131,12 @@ public class LogInController {
         Map<String, String > response =  new HashMap<>();
 
         if(!(patient == null)){
-            response.put("response" ,"/ElegirSede?idUser="+patient.getIdPatient());
+            response.put("response" ,"/sessionPatient?idUser="+patient.getIdPatient());
             model.addAttribute("idUser" , patient.getIdPatient());
             return response;
         }
         if( !(admin == null) ) {
-            response.put("response" ,"/listaDoctoresAdminSede?idUser="+admin.getIdAdministrador());
+            response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
             model.addAttribute("idUser" , admin.getIdAdministrador());
             return response;
         }

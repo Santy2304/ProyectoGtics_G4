@@ -43,12 +43,12 @@ public class Pharmacist {
     private String photo;
 
 
-    @Column(name = "datecreationaccount", nullable = false)
+    @Column(name = "datecreationaccount")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
 
-    @Column(name = "daterequestaccount", nullable = false)
+    @Column(name = "daterequestaccount")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate requestDate;
 

@@ -4,6 +4,7 @@ import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -179,7 +180,7 @@ public class SuperAdminController {
         }
     }
     @PostMapping("/guardarCambiosMedicamento")
-    public String guardarCambiosMedicamento(Medicine medicine,
+    public String guardarCambiosMedicamento(@Valid Medicine medicine,
                                             @RequestParam("disponibilidadPando1") String disponible1,
                                             @RequestParam("disponibilidadPando2") String disponible2,
                                             @RequestParam("disponibilidadPando3") String disponible3,
@@ -345,7 +346,7 @@ public class SuperAdminController {
 
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")
-    public String editarDoctor(Doctor doctor){
+    public String editarDoctor(@Valid Doctor doctor){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(),doctor.getHeadquarter(),doctor.getState() ,doctor.getIdDoctor());
         return "redirect:/verListadosSuperAdmin";
@@ -370,7 +371,7 @@ public class SuperAdminController {
     }
 
     @PostMapping("/agregarDoctor")
-    public String agregarDoctor(Doctor doctor){
+    public String agregarDoctor(@Valid Doctor doctor){
         doctor.setCreationDate(LocalDate.now());
         doctor.setState("activo");
         doctorRepository.save(doctor);
@@ -396,7 +397,7 @@ public class SuperAdminController {
     }
 
     @PostMapping("/agregarAdminSede")
-    public String agregarAdminSede(Administrator administrator) {
+    public String agregarAdminSede(@Valid Administrator administrator) {
         administrator.setPassword("passworDefault");
         administrator.setCreationDate(LocalDate.now());
         administrator.setState("activo");
@@ -419,7 +420,7 @@ public class SuperAdminController {
 
 
     @PostMapping("/guardarCambiosAdminSede")
-    public String editarAdminSede(Administrator administrator){
+    public String editarAdminSede(@Valid Administrator administrator){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(),administrator.getDni(), administrator.getEmail(),administrator.getSite(),administrator.getState(),administrator.getIdAdministrador());
         return "redirect:/verListadosSuperAdmin";

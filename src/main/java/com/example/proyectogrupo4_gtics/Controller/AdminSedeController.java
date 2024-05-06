@@ -251,10 +251,10 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
+        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(idAdministrator));
 
-        return "admin_sede/reposicion";
+        return "admin_sede/generarPedidoReposicion";
     }
 
     @PostMapping("/solicitudReposicion")
@@ -385,6 +385,19 @@ public class AdminSedeController {
 
         return "redirect:/verListaReposicion";
     }
+
+    @PostMapping("/generarReposicionAdminSedeBusca")
+    public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda){
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
+
+        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimintado(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+        if(listMedicine.isEmpty()){
+            System.out.println("No se encontro medicina que contenga esa palabra");
+        }
+        model.addAttribute("listaMedicamentosBS", listMedicine);
+        return "admin_sede/generarPedidoReposicion";
+    }
+
 
 
 

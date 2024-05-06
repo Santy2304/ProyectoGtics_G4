@@ -34,6 +34,12 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+		<style>
+			.disabled {
+				pointer-events: none; /* Deshabilita el clic */
+				opacity: 0.5; /* Opacidad reducida para indicar estado deshabilitado */
+			}
+		</style>
 		
     </head>
 	<body>
@@ -62,7 +68,7 @@
 							<h4>Farmacistas</h4>
 						</div>
 						<div class="page-btn">
-							<a th:href="@{'verAddPharmacist'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
+							<a th:href="@{'verAddPharmacist'}" id="btnAddPharmacist" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
 						</div>
 					</div>
 
@@ -121,7 +127,7 @@
 							</div>
 							<!-- /Filter -->
 							<div class="table-responsive">
-								<table class="table  datanew">
+								<table id="tablaFarmacistas" class="table  datanew">
 									<thead>
 										<tr>
 											<th></th>
@@ -264,7 +270,32 @@
 			</div>
         </div>
 		<!-- /Main Wrapper -->
+		<!--Para la tabla de lista 3 farmacistas-->
+		<script>
+			document.addEventListener("DOMContentLoaded", function (){
 
+				function countPharmacist() {
+					var tabla = document.getElementById("tablaFarmacistas");
+					var numFilas = tabla.getElementsByTagName("tr") - 1; //El -1 es por la cabecera de la tabla
+					return numFilas;
+				}
+
+				//se crea la función para verificar que solo esten 3 farmacistas y desactiva el boton
+				function verifyPharmacist(){
+					var btnCrear = document.getElementById("btnAddPharmacist");
+					if(countPharmacist()>=3){
+						btnCrear.classList.add("disabled"); //disabled es un estilo
+						btnCrear.removeAttribute("href"); //elimina el href por si el JP nos mata
+					}else{
+						btnCrear.classList.remove("disabled");
+						btnCrear.setAttribute("href","@{'verAddPharmacist'}"); //ojito con esto
+
+					}
+				}
+				//Finalmente se llama a la función
+				verifyPharmacist();
+			});
+		</script>
 		<!-- jQuery -->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 

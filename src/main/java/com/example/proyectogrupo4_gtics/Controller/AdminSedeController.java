@@ -347,6 +347,44 @@ public class AdminSedeController {
         }
         return "redirect:/verListaReposicion";
     }
+    public static class ReplacamenteOrderEdit{
+        private ArrayList<Object> datos;
+
+        public ArrayList<Object> getDatos() {
+            return datos;
+        }
+
+        public void setDatos(ArrayList<Object> datos) {
+            this.datos = datos;
+        }
+
+    }
+    @PostMapping("/editarPedidoReposicionAdminSede")
+    public String editarPedidoReposicion(@RequestBody String cuerpo) throws JsonProcessingException {
+        System.out.println("HOLAAAA");
+        System.out.println(cuerpo);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReplacamenteOrderEdit datos = objectMapper.readValue(cuerpo, ReplacamenteOrderEdit.class);
+        String aux ;
+
+        //ACA EMPIEZO
+        ArrayList<String > datosAux =  new ArrayList<>();
+        for(Object u:  datos.getDatos()){
+             datosAux.add(""+u);
+        }
+
+        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt( datosAux.get(datos.getDatos().size()-1)));
+        for(Object u:  datos.getDatos()){
+            aux = ""+u;
+        }
+        int count= 0;
+        for(lotesPorReposicion l :ola){
+            loteRepository.actualizarCantidadInicial(l.getId(),Integer.parseInt(datosAux.get(count)) );
+            count++;
+        }
+
+        return "redirect:/verListaReposicion";
+    }
 
 
 

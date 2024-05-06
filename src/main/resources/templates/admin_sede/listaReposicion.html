@@ -103,13 +103,14 @@
                                             data: data,
                                             success:  function (response) {
                                                 console.log(response);
-                                                var Header = "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                var Header = '<form id="A'+[[${repo.idReplacementOrder}]] +'" >'+ "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
                                                 var rowx;
                                                 var count = 1;
                                                 var rows = "";
                                                 response.forEach(function (producto) {
                                                     var aux = JSON.parse(producto)
-                                                    rowx = '<tr> ' +
+                                                    rowx =
+                                                        '<tr> ' +
                                                         '<td>' + count + '</td>'
                                                         +
                                                         '<td>' + aux.name + '</td>'
@@ -120,37 +121,82 @@
                                                         +
                                                         '<td>' + "<input " + "id='" + aux.id + "'" + " type='number' value='" + aux.initial + "'>" + '</td>'
                                                         +
-                                                        '</tr>';
-                                                    rows = rows + rowx;
+                                                        '</tr>'
+                                                    ;
+                                                    rows = rows + rowx + '</form>';
                                                     count++;
                                                 })
                                                 var final = "</tbody>\n                                                                </table>";
                                                 console.log("HOLAAA1");
-                                                Swal.fire({
-                                                    title: 'Medicamentos de la orden de reposición',
-                                                    html: Header + rows + final,
-                                                    confirmButtonColor: "#dd986a",
-                                                    showCancelButton: true,
-                                                    confirmButtonText: "Editar",
-                                                    cancelButtonText: "Regresar",
-                                                    preConfirm: () => {
-                                                        return [
-                                                            response.forEach(function (producto) {
-                                                                document.getElementById(producto).value
-                                                            })
-                                                        ];
-                                                    }
-                                                }).then((result) => {
-                                                        if(result.isConfirmed){
-                                                            const inputData = result.value;
-                                                            console.log("HOLAAA2");
-                                                            console.log(inputData);
+                                                const getInputs = () => {
+                                                    return new Promise ((resolve, rejected)=>{
+                                                        Swal.fire({
+                                                            title: 'Medicamentos de la orden de reposición',
+                                                            html: Header + rows + final,
+                                                            confirmButtonColor: "#dd986a",
+                                                            confirmButtonText: "Editar",
+                                                            cancelButtonText: "Regresar",
+                                                            preConfirm: () => {
+                                                                const inputs = [];
+                                                                const form = document.querySelector('#A'+[[${repo.idReplacementOrder}]]);
+                                                                form.querySelectorAll('input').forEach(input => {
+                                                                    inputs.push(input.value);
+                                                                });
+                                                                resolve(inputs);
+                                                            }
+                                                        })
+                                                    })
+                                                }
+                                                async function esperarPopUp (){
+                                                    try {
+                                                        const datosFetched = await getInputs();
+                                                        console.log("Hola");
+                                                        console.log(datosFetched);
+                                                        const jsonString = JSON.stringify(datosFetched);
+                                                        //Validaciones :D
+                                                        var oli = [];
+                                                        for(let i =0 ;  i<datosFetched.length ; i++ ){
+                                                            try {
+                                                                const numero = parseInt(datosFetched[i]); // Intenta parsear "texto" a un número
+                                                                if(numero<=0){
+                                                                    oli.push("ErrorTipoDeNumero");
+                                                                }
+                                                            } catch (error) {
+                                                                oli.push("ErrorCasteo");
+                                                            }
                                                         }
+                                                        var countErrorTipoNumero = 0 ;
+                                                        var countErrorCasteo = 0 ;
+                                                        for(let j = 0 ; j<oli.length ;j++ ){
+                                                            if(oli[j] === "ErrorTipoDeNumero" ){
+                                                                countErrorTipoNumero++;
+                                                            }
+                                                            if(oli[j] === "ErrorCasteo" ){
+                                                                countErrorCasteo++;
+                                                            }
+                                                        }
+                                                        if(countErrorCasteo>0 ||countErrorTipoNumero >0 ){
+                                                            Swal.fire({
+                                                                icon: "error",
+                                                                title: "Oops...",
+                                                                text: "Ingresaste una cantidad incoherente!",
+                                                            });
+                                                        }else{
+                                                            datosFetched.push([[${repo.idReplacementOrder}]]);
+                                                            console.log(""+datosFetched);
+                                                            $.ajax({
+                                                                url:"/editarPedidoReposicionAdminSede",
+                                                                data: JSON.stringify({ datos: datosFetched }),
+                                                                type: "POST",
+                                                                contentType: "application/json",
+                                                                success:  window.location.href = "/verListaReposicion"
+                                                            })
+                                                            }
+                                                    } catch (error) {
+                                                        console.error(error);
                                                     }
-                                                )
-
-
-
+                                                }
+                                                esperarPopUp();
                                             },
                                         })
                                     })

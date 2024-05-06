@@ -33,6 +33,14 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     List<lotesPorReposicion> getLoteByReplacementOrderId(int idReplacementOrder);
 
 
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE lote SET initial_quantity = ?2 WHERE  idLote=?1")
+    void actualizarCantidadInicial(int idLote , int initial);
+
+
+
 }
 
 

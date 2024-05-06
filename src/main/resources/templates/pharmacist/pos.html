@@ -60,6 +60,9 @@
 							<h1>NUEVA VENTA</h1>
 							<h6>Escoge los productos que vas a vender.</h6>
 						</div>
+						<div class="page-btn">
+							<a href="javascript:void(0);" class="btn btn-adds btn-xs" data-bs-toggle="modal" data-bs-target="#pre-orden" style="font-size: 17px"><i class="fa fa-plus me-2"></i>Pre-Orden</a>
+						</div>
 
 					</div>
 
@@ -1442,6 +1445,78 @@
 				</div>
 				<div class="col-lg-12">
 					<a class="btn btn-submit me-2">Ingresar</a>
+					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="pre-orden" tabindex="-1" aria-labelledby="pre-orden"  aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" >Pre-Orden</h5>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Nombre</label>
+							<input type="text">
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Apellido</label>
+							<input type="text">
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Edad</label>
+							<input type="text">
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Seguro</label>
+							<input type="text">
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Doctor</label>
+							<input type="text" >
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Medicamento</label>
+							<input type="text" >
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Cantidad</label>
+							<input type="text" >
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Dirección</label>
+							<input type="text" >
+						</div>
+					</div>
+
+				</div>
+				<div class="col-lg-12">
+					<a class="btn btn-submit me-2">Generar</a>
 					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
 				</div>
 			</div>

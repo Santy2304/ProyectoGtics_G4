@@ -6,7 +6,9 @@
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/verMedicinelistFarmacista" th:classappend="${activeTab == 'inventario' ? ' active':'' }">Inventario</a></li>
+                        <!--
                         <li><a href="addproduct.html" >Añadir producto</a></li>
+                        -->
                     </ul>
                 </li>
                 <li class="submenu">
@@ -14,7 +16,6 @@
                     <ul>
                         <li><a href="/verProductListFarmacista" th:classappend="${activeTab == 'ordenesVenta' ? ' active':'' }">Ordenes de venta</a></li>
                         <li><a href="/posFarmacista" th:classappend="${activeTab == 'pos' ? ' active':'' }">POS</a></li>
-                        <li><a href="pos.html" th:classappend="${activeTab == 'pre-orden' ? ' active':'' }">Pre-Orden</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

@@ -330,7 +330,6 @@ public class AdminSedeController {
             System.out.println(json);
             response.add(json);
         }
-
         return response;
     }
     @GetMapping("/cancelarPedidoReposicion")
@@ -389,7 +388,6 @@ public class AdminSedeController {
     @PostMapping("/generarReposicionAdminSedeBusca")
     public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-
         List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimintado(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
         if(listMedicine.isEmpty()){
             System.out.println("No se encontro medicina que contenga esa palabra");
@@ -399,8 +397,46 @@ public class AdminSedeController {
     }
 
 
+    public static class ReplacamenteOrderData{
+        private ArrayList<Object> cantidad;
+        private ArrayList<Object> ids;
 
+        public ArrayList<Object> getCantidad() {
+            return cantidad;
+        }
 
+        public void setCantidad(ArrayList<Object> cantidad) {
+            this.cantidad = cantidad;
+        }
 
+        public ArrayList<Object> getIds() {
+            return ids;
+        }
 
+        public void setIds(ArrayList<Object> ids) {
+            this.ids = ids;
+        }
+    }
+    @RequestMapping ("/generarReposicionAdminSede")
+    @ResponseBody
+    public String validarUsuario( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
+        String response =  "null";
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
+        ArrayList<Object> ids = data.getIds();
+        ArrayList<Object> cantidad = data.getCantidad();
+        ArrayList<String> idsString  = new ArrayList<String>();
+        ArrayList<String> cantidadString  = new ArrayList<String>();
+        for(Object aux: ids){
+            idsString.add(""+aux );
+        }
+        for(Object aux: cantidad){
+            cantidadString.add(""+aux );
+        }
+        System.out.println(idsString);
+        System.out.println(cantidadString);
+        //Poner el metodo para añadir
+        //
+        return response;
+    }
 }

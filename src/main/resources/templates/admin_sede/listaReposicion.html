@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -24,7 +25,7 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 </head>
@@ -34,7 +35,9 @@
 </div>
 <!-- Main Wrapper -->
 <div class="main-wrapper">
+    <style>
 
+        </style>
     <!-- Header -->
     <div th:replace="headerAdminSede"> </div>
 
@@ -54,24 +57,177 @@
                         <table class="table datatable ">
                             <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Código de reposición</th>
+                                <th>Identificador</th>
                                 <th>Detalles</th>
-                                <th>Estado de reposición</th>
                                 <th>Fecha de solicitud</th>
+                                <th>Estado del pedido</th>
+                                <th>Editar</th>
                             </tr>
                             </thead>
                             <tbody >
                             <tr th:each="repo, vEstado: ${listaReposicion}">
-                                <td th:text="${vEstado.index+1}"></td>
                                 <td th:text="${repo.idReplacementOrder}"></td>
                                 <td class="productimgname" style="text-align: center;">
-                                    <a  class="product-img" >
-                                        <img src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
+                                    <a  th:id="|${repo.idReplacementOrder}|"  type="button" class="product-img" >
+                                        <img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
                                     </a>
                                 </td>
-                                <td th:text="${repo.getTrackingState()}"></td>
+                                <!--
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Entregado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'En ruta' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Empaquetado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'En Proceso' " th:text="${repo.getTrackingState()}" ></span></td>
+                                <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Solicitado' " th:text="${repo.getTrackingState()}" ></span></td>
+                                -->
                                 <td th:text="${repo.getReleaseDate()}"></td>
+                                <td><span class="badges bg-lightgreen" th:text="${repo.getTrackingState()}" ></span></td>
+
+                                <td th:if="${repo.getTrackingState() == 'Solicitado'  || repo.getTrackingState() == 'En Proceso'}">
+                                    <a class="me-3" href="#">
+                                        <img src="/assets_superAdmin/img/icons/edit.svg" th:id="|idPedidoEditar${repo.getIdReplacementOrder()}|" alt="img">
+                                    </a>
+                                    <a class="me-3 confirm-text" th:id="|idPedido${repo.getIdReplacementOrder()}|">
+                                        <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                    </a>
+                                </td>
+                                <td th:if="${!(repo.getTrackingState() == 'Solicitado'  || repo.getTrackingState() == 'En Proceso')}">
+                                    -
+                                </td>
+                                <script th:inline="javascript" >
+                                    $("#idPedidoEditar" + [[${repo.idReplacementOrder}]]).click( function() { data={
+                                        idPedidoReposicion : [[${repo.idReplacementOrder}]]
+                                    }
+                                        $.ajax({
+                                            url: "/verDetalleRepoMedicamentos",
+                                            type: "POST",
+                                            data: data,
+                                            success:  function (response) {
+                                                console.log(response);
+                                                var Header = "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                var rowx;
+                                                var count = 1;
+                                                var rows = "";
+                                                response.forEach(function (producto) {
+                                                    var aux = JSON.parse(producto)
+                                                    rowx = '<tr> ' +
+                                                        '<td>' + count + '</td>'
+                                                        +
+                                                        '<td>' + aux.name + '</td>'
+                                                        +
+
+                                                        '<td>' + 's/.' + aux.price + '</td>'
+
+                                                        +
+                                                        '<td>' + "<input " + "id='" + aux.id + "'" + " type='number' value='" + aux.initial + "'>" + '</td>'
+                                                        +
+                                                        '</tr>';
+                                                    rows = rows + rowx;
+                                                    count++;
+                                                })
+                                                var final = "</tbody>\n                                                                </table>";
+                                                console.log("HOLAAA1");
+                                                Swal.fire({
+                                                    title: 'Medicamentos de la orden de reposición',
+                                                    html: Header + rows + final,
+                                                    confirmButtonColor: "#dd986a",
+                                                    showCancelButton: true,
+                                                    confirmButtonText: "Editar",
+                                                    cancelButtonText: "Regresar",
+                                                    preConfirm: () => {
+                                                        return [
+                                                            response.forEach(function (producto) {
+                                                                document.getElementById(producto).value
+                                                            })
+                                                        ];
+                                                    }
+                                                }).then((result) => {
+                                                        if(result.isConfirmed){
+                                                            const inputData = result.value;
+                                                            console.log("HOLAAA2");
+                                                            console.log(inputData);
+                                                        }
+                                                    }
+                                                )
+
+
+
+                                            },
+                                        })
+                                    })
+                                </script>
+                                    <script th:inline="javascript" >
+                                    $("#idPedido" + [[${repo.idReplacementOrder}]]).click( function() {
+                                        const swalWithBootstrapButtons = Swal.mixin({
+                                            customClass: {
+                                                confirmButton: "btn btn-success",
+                                                cancelButton: "btn btn-danger"
+                                            },
+                                            buttonsStyling: false
+                                        });
+                                        swalWithBootstrapButtons.fire({
+                                            title: "¿Estás seguro de cancelar este pedido de reposición #"+ [[${repo.idReplacementOrder}]] + " ?",
+                                            text: "Esta acción es irreversible",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonText: "Sí, lo deseo eliminar",
+                                            cancelButtonText: "Regresar",
+                                            reverseButtons: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = '/cancelarPedidoReposicion?id='+ [[${repo.idReplacementOrder}]] ; // Aquí coloca la URL a la que quieres redirigir
+                                            }
+                                        });
+                                    });
+                                </script>
+
+                                    <script th:inline="javascript" >
+                                    $("#" + [[${repo.idReplacementOrder}]]).click( function(){
+                                        data={
+                                            idPedidoReposicion : [[${repo.idReplacementOrder}]]
+                                        }
+                                        console.log("Hola");
+                                        $.ajax({
+                                            url: "/verDetalleRepoMedicamentos",
+                                            type: "POST",
+                                            data: data,
+                                            success: function(response) {
+                                                console.log(response);
+                                                var Header = "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Nombre</th>\n                                                                                                                                           <th>Precio</th>\n                                                                      <th>Categoría</th>\n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                var rowx ;
+                                                var count = 1;
+                                                var rows ="";
+                                                response.forEach(function(producto){
+                                                    var aux = JSON.parse(producto)
+                                                    rowx = '<tr> ' +
+                                                        '<td>'+ count +'</td>'
+                                                        +
+                                                        '<td>'+ aux.name +'</td>'
+                                                        +
+
+                                                        '<td>'+ aux.price +'</td>'
+                                                        +
+                                                        '<td>'+ aux.category +'</td>'
+                                                        +
+                                                        '<td>'+ aux.initial +'</td>'
+                                                        +
+                                                        '</tr>';
+                                                    rows =rows+rowx;
+                                                    count++;
+                                                })
+                                                var final = "</tbody>\n                                                                </table>";
+
+                                                Swal.fire({
+                                                    title: 'Medicamentos de la orden de reposición',
+                                                    html: Header+rows+final,
+                                                    confirmButtonColor: "#dd986a"
+                                                })
+                                            },
+                                        })
+                                    })
+                                </script>
+
+
+
                             </tr>
                             <!--
                             <!td>
@@ -83,6 +239,23 @@
                             </tbody>
                         </table>
                     </div>
+                    <script>
+                        function verDetalle(id){
+                            $.ajax({
+                                url: "/verDetalleRepoMedicamentos",
+                                type: "POST",
+                                data: id,
+                                success: function(data) {
+                                    Swal.fire({
+                                        icon: "error",
+                                        iconColor: "orange",
+                                        title: "¡Correo o contraseña incorrectos!",
+                                        confirmButtonColor: "#dd986a"
+                                    })
+                                },
+                            })
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -112,6 +285,6 @@
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

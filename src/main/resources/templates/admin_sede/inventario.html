@@ -27,7 +27,7 @@
         <!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<!-- Main CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 		<style>
@@ -168,26 +168,42 @@
 									<tr>
 										<th>#</th>
 										<th>Medicamentos</th>
-										<th>foto</th>
+										<th>Descripcion</th>
 										<th>Tipo</th>
 										<th>Cantidad </th>
 										<th>Precio unitario</th>
 									</tr>
 									</thead>
 									<tbody >
-									<tr th:each="medicamento, vEstado: ${medicamentos}">
+									<tr th:each="  medicamento, vEstado: ${medicamentos}">
 										<td th:text="${vEstado.index+1}"></td>
 										<td th:text="${medicamento.getNombreMedicamento()}"></td>
 										<td class="productimgname" style="text-align: center;">
-											<a  class="product-img" >
-												<img src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
+											<a th:id="|${medicamento.idMedicine}|" class="product-img" >
+												<img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
 											</a>
 										</td>
 										<td th:text="${medicamento.getCategoria()}"></td>
 										<td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
 										<td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
 										<td th:text="${medicamento.getPrecio()}"></td>
-									</tr>
+
+										<script th:inline="javascript" >
+											$("#" + [[${medicamento.idMedicine}]]).click( function(){
+												Swal.fire({
+													title: [[${medicamento.getNombreMedicamento()}]],
+													text: [[${medicamento.getDescription()}]],
+													imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
+													imageWidth: 400,
+													imageHeight: 200,
+													imageAlt: "Custom image" ,
+													confirmButtonColor: "#dd986a"
+												})
+											})
+
+										</script>
+
+											</tr>
 									<!--
                                     <!td>
                                         <a class="me-3" href="editproduct.html">
@@ -207,7 +223,7 @@
 		</div>
 
 		<script>
-			const text = document.querySelector('#title');
+			let text = document.querySelector('#title');
 			const glow = document.querySelector('#path');
 
 			const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
@@ -255,6 +271,8 @@
 
 		<!-- Custom JS -->
 		<script src="/assets_superAdmin/js/script.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 	</body>
 </html>

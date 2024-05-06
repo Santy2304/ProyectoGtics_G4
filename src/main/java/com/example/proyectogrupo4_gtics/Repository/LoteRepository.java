@@ -1,7 +1,9 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.Entity.Lote;
+import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +27,11 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE lote SET visible = ?1 WHERE idMedicine = ?2 and site=?3")
     void actualizarVisibilidadSede(boolean visibilidad, int idMedicine,String sede);
+
+
+    @Query(nativeQuery = true, value = "SELECT l.idLote as id , m.name as name, m.category as category , m.price as price , m.description as description, l.initial_quantity as  initial FROM LOTE l inner join medicine m  WHERE (idPedidosReposicion =?1 and l.idMedicine = m.idMedicine )")
+    List<lotesPorReposicion> getLoteByReplacementOrderId(int idReplacementOrder);
+
 
 }
 

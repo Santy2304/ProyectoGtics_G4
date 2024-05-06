@@ -2,20 +2,25 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
+import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.Entity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -25,14 +30,16 @@ public class AdminSedeController {
     final PharmacistRepository pharmacistRepository;
     final MedicineRepository medicineRepository;
     final ReplacementOrderRepository replacementOrderRepository;
+    final LoteRepository loteRepository;
 
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
-                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository) {
+                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository , LoteRepository loteRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.medicineRepository = medicineRepository;
         this.replacementOrderRepository = replacementOrderRepository ;
+        this.loteRepository =loteRepository;
     }
 
 
@@ -292,6 +299,53 @@ public class AdminSedeController {
         }
         model.addAttribute("sede", admin.getSite());
         return "admin_sede/profile";
+    }
+    class IdPedidoReposicion{
+        String id;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+    }
+    @RequestMapping("/verDetalleRepoMedicamentos")
+    @ResponseBody
+    public ArrayList<String> hola(@RequestParam("idPedidoReposicion") String idPedidoReposicion ) throws JsonProcessingException {
+        System.out.println("HOLAAAA LLEGUE A VER DETALLE DE REPOSICION");
+        System.out.println(idPedidoReposicion);
+        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        for(lotesPorReposicion lotesPorReposicion : ola){
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(lotesPorReposicion);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(json);
+            response.add(json);
+        }
+
+        return response;
+    }
+    @GetMapping("/cancelarPedidoReposicion")
+    public String cancelarPedidoReposicion(@RequestParam("id") String id ){
+        int idRepo = Integer.parseInt(id);
+        Optional<ReplacementOrder> r = replacementOrderRepository.findById(idRepo);
+        if(r.isPresent()) {
+            //Primero debemos borrar todos los lotes que se le asignaron a ese pedido de reposicion
+            List<lotesPorReposicion> l = loteRepository.getLoteByReplacementOrderId(idRepo);
+            for(lotesPorReposicion aux:  l ){
+                loteRepository.deleteById(aux.getId());
+            }
+            replacementOrderRepository.deleteById(r.get().getIdReplacementOrder());
+        }
+        return "redirect:/verListaReposicion";
     }
 
 

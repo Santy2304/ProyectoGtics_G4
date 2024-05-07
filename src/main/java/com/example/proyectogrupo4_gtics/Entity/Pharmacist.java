@@ -1,6 +1,10 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -13,11 +17,17 @@ public class Pharmacist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpharmacist")
+    @NotNull
+    @Digits(integer = 8, fraction = 0)
     private int idFarmacista;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El nombre no debe superar los 45 carácteres")
     private String name;
 
     @Column(name = "lastname")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El apellido no debe superar los 45 carácteres")
     private String lastName;
 
     @Column(name="site")

@@ -24,7 +24,6 @@ public class Medicine {
     @NotBlank(message = "Este campo es obligatorio")
     private String category;
 
-    @Column(name = "price", nullable = false)
     @NotNull(message = "Este campo es obligatorio")
     @Digits(integer = 10, fraction = 4, message = "Se debe ingresar un número")
     @Positive(message = "El precio debe ser un valor mayor a cero")

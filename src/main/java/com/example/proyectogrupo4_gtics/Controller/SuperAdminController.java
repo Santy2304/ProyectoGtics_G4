@@ -180,7 +180,7 @@ public class SuperAdminController {
         }
     }
     @PostMapping("/guardarCambiosMedicamento")
-    public String guardarCambiosMedicamento(@Valid Medicine medicine,
+    public String guardarCambiosMedicamento(Medicine medicine,
                                             @RequestParam("disponibilidadPando1") String disponible1,
                                             @RequestParam("disponibilidadPando2") String disponible2,
                                             @RequestParam("disponibilidadPando3") String disponible3,

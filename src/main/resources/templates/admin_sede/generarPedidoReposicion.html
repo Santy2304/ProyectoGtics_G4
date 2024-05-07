@@ -99,8 +99,70 @@
           </div>
         </div>
         <div class="page-btn">
-          <a th:href="@{'verSolicitudReposicion'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
+          <a id="GenerarReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
         </div>
+        <script>
+          $("#GenerarReposicion").click( function(){
+            var formulario = document.getElementById("MyForm");
+            var inputs = formulario.querySelectorAll('input');
+            var errorNegativo = 0;
+            var errorLetra = 0;
+            var cantidadAceptable = 0;
+            var numeroParseado = 0;
+            var arregloValidoValue = [];
+            var arregloValidoId = [];
+            inputs.forEach(function(input){
+              console.log(input);
+              try {
+                numeroParseado = parseInt(input.value);
+                if(numeroParseado<0){
+                  errorNegativo++;
+                }else{
+                  if(numeroParseado>=0) {
+                    arregloValidoValue.push(input.value);
+                    arregloValidoId.push(input.id);
+                    cantidadAceptable++;
+                  }
+                }
+              } catch (error) {
+                errorLetra++;
+              }
+            });
+
+            if(errorNegativo>0 || errorLetra>0 ) {
+              Swal.fire({
+                icon: "error",
+                title: "Opps",
+                text: "Ingresaste alguna cantidad incoherente",
+                confirmButtonColor: "#dd986a"
+              })
+            }else{
+              if(cantidadAceptable>10){
+                Swal.fire({
+                  icon: "error",
+                  title: "Opps",
+                  text: "No se puede realizar un pedido de reposicion con más de 10 productos",
+                  confirmButtonColor: "#dd986a"
+                });
+              }else{
+                //Se envia la data al controlador:
+                $.ajax({
+                  url:"/generarReposicionAdminSede",
+                  data: JSON.stringify({ cantidad: arregloValidoValue , ids : arregloValidoId }),
+                  type: "POST",
+                  contentType: "application/json",
+                  success: function(data){
+                    window.location.href = data.response;
+                  }
+                })
+                console.log(arregloValidoValue);
+                console.log(arregloValidoId);
+                console.log(cantidadAceptable);
+                console.log("holaFinal");
+              }
+            }
+          })
+        </script>
       </div>
 
       <!-- /product list -->
@@ -150,7 +212,6 @@
                           <input id="nombre" name="nombre" type="text" placeholder="nombre del medicamento" >
                         </div>
                       </div>
-
                       <div class="col-lg-1 col-sm-6 col-12">
                         <div class="form-group">
                           <button id="buscar" type="submit" class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
@@ -163,59 +224,61 @@
               </div>
             </div>
           </div>
+          <form id="MyForm">
           <!-- /Filter -->
-          <div class="table-responsive">
-            <table class="table  datanew">
-              <thead>
-              <tr>
-                <th>Cantidad a solicitar</th>
-                <th>Medicamentos</th>
-                <th>foto</th>
-                <th>Tipo</th>
-                <th>Cantidad actual </th>
-                <th>Precio unitario</th>
-              </tr>
-              </thead>
-              <tbody >
-              <tr th:each="  medicamento, vEstado: ${listaMedicamentosBS}">
-                <td> <input type="number" value="0" > </td>
-                <td th:text="${medicamento.getNombreMedicamento()}"></td>
-                <td class="productimgname" style="text-align: center;">
-                  <a th:id="|${medicamento.idMedicine}|" class="product-img" >
-                    <img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
-                  </a>
-                </td>
-                <td th:text="${medicamento.getCategoria()}"></td>
-                <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
-                <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
-                <td th:text="${medicamento.getPrecio()}"></td>
+                <div class="table-responsive">
+                  <table class="table  datanew">
+                    <thead>
+                    <tr>
+                      <th>Cantidad a solicitar</th>
+                      <th>Medicamentos</th>
+                      <th>foto</th>
+                      <th>Tipo</th>
+                      <th>Cantidad actual </th>
+                      <th>Precio unitario</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr th:each="medicamento, vEstado: ${listaMedicamentosBS}">
+                      <td> <input th:id="|${medicamento.idMedicine}|" type="number" value="0" > </td>
+                      <td th:text="${medicamento.getNombreMedicamento()}"></td>
+                      <td class="productimgname" style="text-align: center;">
+                        <a th:id="|A${medicamento.idMedicine}|" class="product-img" >
+                          <img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
+                        </a>
+                      </td>
+                      <td th:text="${medicamento.getCategoria()}"></td>
+                      <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
+                      <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
+                      <td th:text="${medicamento.getPrecio()}"></td>
 
-                <script th:inline="javascript" >
-                  $("#" + [[${medicamento.idMedicine}]]).click( function(){
-                    Swal.fire({
-                      title: [[${medicamento.getNombreMedicamento()}]],
-                      text: [[${medicamento.getDescription()}]],
-                      imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
-                      imageWidth: 400,
-                      imageHeight: 200,
-                      imageAlt: "Custom image" ,
-                      confirmButtonColor: "#dd986a"
-                    })
-                  })
+                      <script th:inline="javascript" >
+                        $("#A" + [[${medicamento.idMedicine}]]).click( function(){
+                          Swal.fire({
+                            title: [[${medicamento.getNombreMedicamento()}]],
+                            text: [[${medicamento.getDescription()}]],
+                            imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
+                            imageWidth: 400,
+                            imageHeight: 200,
+                            imageAlt: "Custom image" ,
+                            confirmButtonColor: "#dd986a"
+                          })
+                        })
 
-                </script>
+                      </script>
 
-              </tr>
-              <!--
-              <!td>
-                  <a class="me-3" href="editproduct.html">
-                      <img src="assets/img/icons/edit.svg" alt="img">
-                  </a>
-              <!/td>
-              -->
-              </tbody>
-            </table>
-          </div>
+                    </tr>
+                    <!--
+                    <!td>
+                        <a class="me-3" href="editproduct.html">
+                            <img src="assets/img/icons/edit.svg" alt="img">
+                        </a>
+                    <!/td>
+                    -->
+                    </tbody>
+                  </table>
+                </div>
+          </form>
         </div>
       </div>
     </div>

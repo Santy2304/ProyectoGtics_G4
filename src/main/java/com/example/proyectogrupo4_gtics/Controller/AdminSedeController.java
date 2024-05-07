@@ -5,6 +5,7 @@ import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
+import com.example.proyectogrupo4_gtics.Entity.Lote;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.*;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.time.LocalDate;
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -330,7 +332,6 @@ public class AdminSedeController {
             System.out.println(json);
             response.add(json);
         }
-
         return response;
     }
     @GetMapping("/cancelarPedidoReposicion")
@@ -389,7 +390,6 @@ public class AdminSedeController {
     @PostMapping("/generarReposicionAdminSedeBusca")
     public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-
         List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimintado(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
         if(listMedicine.isEmpty()){
             System.out.println("No se encontro medicina que contenga esa palabra");
@@ -399,8 +399,72 @@ public class AdminSedeController {
     }
 
 
+    public static class ReplacamenteOrderData{
+        private ArrayList<Object> cantidad;
+        private ArrayList<Object> ids;
 
+        public ArrayList<Object> getCantidad() {
+            return cantidad;
+        }
 
+        public void setCantidad(ArrayList<Object> cantidad) {
+            this.cantidad = cantidad;
+        }
 
+        public ArrayList<Object> getIds() {
+            return ids;
+        }
 
+        public void setIds(ArrayList<Object> ids) {
+            this.ids = ids;
+        }
+    }
+    @RequestMapping ("/generarReposicionAdminSede")
+    @ResponseBody
+    public String validarUsuario( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
+        String response =  "/verSolicitudReposicion";
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
+        ArrayList<Object> ids = data.getIds();
+        ArrayList<Object> cantidad = data.getCantidad();
+        ArrayList<String> idsString  = new ArrayList<String>();
+        ArrayList<String> cantidadString  = new ArrayList<String>();
+        for(Object aux: ids){
+            idsString.add(""+aux );
+        }
+        for(Object aux: cantidad){
+            cantidadString.add(""+aux );
+        }
+        System.out.println(idsString);
+        System.out.println(cantidadString);
+        //Poner el metodo para añadir
+        //Creamos la orden de reposicion
+        ReplacementOrder r = new ReplacementOrder();
+        r.setTrackingState("Solicitado");
+        r.setSite((String) model.getAttribute("sede"));
+        r.setReleaseDate(LocalDate.now());
+        r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
+        //r.setIdReplacementOrder();
+        ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
+
+        //Creamos los lotes asignados a cada orden
+        String quantity  ;
+        String id ;
+        for(int i = 0 ; i<cantidadString.size() ;  i++){
+            quantity = cantidadString.get(i);
+            id = idsString.get(i);
+            Lote lote = new Lote();
+            lote.setMedicine( medicineRepository.findById(Integer.parseInt(id)).get());
+            //lote.setIdLote();
+            lote.setSite((String) model.getAttribute("sede"));
+            lote.setExpireDate(new Date());
+            lote.setExpire(false);
+            lote.setStock(Integer.parseInt(quantity));
+            lote.setReplacementOrder(newReplacementOrder);
+            lote.setVisible(true);
+            lote.setInitialQuantity(Integer.parseInt(quantity));
+            loteRepository.save(lote);
+        }
+        return response;
+    }
 }

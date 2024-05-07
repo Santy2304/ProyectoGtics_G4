@@ -2,10 +2,9 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
 import com.example.proyectogrupo4_gtics.Entity.Patient;
+import com.example.proyectogrupo4_gtics.Entity.PurchaseHasLote;
 import com.example.proyectogrupo4_gtics.Entity.Site;
-import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
-import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
-import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,10 +31,14 @@ public class PatientController {
     final PatientRepository patientRepository;
     final MedicineRepository medicineRepository;
 
-    public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository) {
+    final PurchaseHasLoteRepository purchaseHasLoteRepository;
+
+    public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
+                              PurchaseHasLoteRepository purchaseHasLoteRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
+        this.purchaseHasLoteRepository = purchaseHasLoteRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -95,7 +98,10 @@ public class PatientController {
         return "pacient/generar_orden_compra";
     }
     @GetMapping("/verHistorialPaciente")
-    public String verHistorial(){
+    public String verHistorial(@SessionAttribute("idUser") String idUser , Model model){
+
+        List<PurchaseHasLote> listaLotesCompra= purchaseHasLoteRepository.listarLotesPorCompra(Integer.parseInt(idUser));
+        model.addAttribute("listaLotesCompra",listaLotesCompra);
         return "pacient/historial";
     }
     @GetMapping("/verNumeroOrdenPaciente")

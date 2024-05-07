@@ -76,13 +76,22 @@
 							<h4>Perfil de usuario</h4>
 						</div>
 					</div>
-					-->
+					<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input name="name" type="text" th:value="${paciente.name}" readonly>
+										</div>
+
+										<div class="form-group">
+											<label>Apellido</label>
+											<input name="lastName" type="text" th:value="${paciente.lastName}" readonly>
+										</div>
+									</div>-->
 					<!-- /product list -->
 					<div class="card">
 						<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
-
 								</div>
 								<div class="profile-top">
 									<div class="profile-content">
@@ -98,15 +107,25 @@
 											<h4>Aquí podrás ver tu información personal</h4>
 										</div>
 									</div>
-									<!---
 									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+										<a href="javascript:void(0);" class="btn btn-submit me-2">Editar datos</a>
 									</div>
-									-->
 								</div>
 							</div>
 							<div class="row">
+								<div class="col-lg-6 col-sm-12">
+									<div class="form-group">
+										<label>Nombre</label>
+										<input name="name" type="text" th:value="${paciente.name}" readonly>
+									</div>
+
+									<div class="form-group">
+										<label>Apellido</label>
+										<input name="lastName" type="text" th:value="${paciente.lastName}" readonly>
+									</div>
+								</div>
+
+
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<h5>Nombre</h5>

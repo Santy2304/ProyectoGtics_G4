@@ -22,10 +22,15 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(value = "update pharmacist set name = ?1 , lastName =?2 , email=?3, site=?4, state = ?5, distrit = ?6 where idPharmacist =?7" , nativeQuery = true)
     void updateDatosPorId(String name , String lasName  , String email ,String site,String state,String distrit ,int idFarmacista );
 
+    /*Farmacista view*/
+    @Transactional
+    @Modifying
+    @Query(value="update pharmacist set email = ?1, distrit = ?2 where idPharmacist = ?3", nativeQuery = true)
+    void updateEmailAndDistritById(String email, String distrit, int idPharmacist);
 
+    Pharmacist getByIdFarmacista(int idPharmacist);
 
-
-
+    /*-----*/
     @Transactional
     @Modifying
     @Query(value = "update pharmacist set state = 'eliminado'  where idPharmacist =?1" , nativeQuery = true)

@@ -54,6 +54,11 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio , sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where (m.name like concat(?2,'%') or m.category like concat(?3 , '%') ) and l.site = (select site from administrator where idAdministrator=?1) group by m.idMedicine having (sum(l.stock)<=25)")
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimintado(  int idAdmin , String nombre, String categoria);
 
+    /*Rol Farmacista*/
+    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) group by m.idMedicine\n")
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
+
+
 
 
 }

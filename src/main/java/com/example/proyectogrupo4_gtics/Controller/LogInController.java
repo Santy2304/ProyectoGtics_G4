@@ -146,7 +146,7 @@ public class LogInController {
             return response;
         }
         if( !(pharmacist == null) ) {
-            response.put("response" ,"/verMedicinelistFarmacista?idUser"+pharmacist.getIdFarmacista());
+            response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
             model.addAttribute("idUser" , pharmacist.getIdFarmacista());
             return response;
         }

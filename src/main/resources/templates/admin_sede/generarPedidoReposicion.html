@@ -112,17 +112,14 @@
             var arregloValidoValue = [];
             var arregloValidoId = [];
             inputs.forEach(function(input){
-              console.log(input);
-              try {
+              try{
                 numeroParseado = parseInt(input.value);
-                if(numeroParseado<0){
+                if(numeroParseado<=0){
                   errorNegativo++;
                 }else{
-                  if(numeroParseado>=0) {
-                    arregloValidoValue.push(input.value);
-                    arregloValidoId.push(input.id);
-                    cantidadAceptable++;
-                  }
+                  arregloValidoValue.push(input.value);
+                  arregloValidoId.push(input.id);
+                  cantidadAceptable++;
                 }
               } catch (error) {
                 errorLetra++;
@@ -152,13 +149,9 @@
                   type: "POST",
                   contentType: "application/json",
                   success: function(data){
-                    window.location.href = data.response;
+                    window.location.href = "/verListaReposicion";
                   }
                 })
-                console.log(arregloValidoValue);
-                console.log(arregloValidoId);
-                console.log(cantidadAceptable);
-                console.log("holaFinal");
               }
             }
           })

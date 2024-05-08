@@ -205,11 +205,30 @@ public class AdminSedeController {
     @PostMapping("/inventarioAdminSedeBusca")
     public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscador(busqueda.getNombre(),busqueda.getCategoria(),idAdministrator);
-        if(listMedicine.isEmpty()){
-            System.out.println("No se encontro medicina que contenga esa palabra");
+        String nombre = busqueda.getNombre();
+        String category = busqueda.getCategoria();
+        if(!nombre.equals("") && !category.equals("Elegir por tipo")){
+            System.out.println("Hola 1");
+            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros( busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
+            model.addAttribute("listaMedicamentosBS", listMedicine);
+        }else{
+            if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
+                if (!nombre.equals("")) {
+                    System.out.println("Hola 2");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorNombre(busqueda.getCategoria(), idAdministrator);
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+                if (!category.equals("Elegir por tipo")) {
+                    System.out.println("Hola 3");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorCategory(busqueda.getCategoria(), idAdministrator);
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+            }else{
+                System.out.println("Hola 4");
+                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+                model.addAttribute("listaMedicamentosBS", listMedicine);
+            }
         }
-        model.addAttribute("medicamentos", listMedicine);
         return "admin_sede/inventario";
     }
 
@@ -362,12 +381,10 @@ public class AdminSedeController {
     }
     @PostMapping("/editarPedidoReposicionAdminSede")
     public String editarPedidoReposicion(@RequestBody String cuerpo) throws JsonProcessingException {
-        System.out.println("HOLAAAA");
         System.out.println(cuerpo);
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderEdit datos = objectMapper.readValue(cuerpo, ReplacamenteOrderEdit.class);
         String aux ;
-
         //ACA EMPIEZO
         ArrayList<String > datosAux =  new ArrayList<>();
         for(Object u:  datos.getDatos()){
@@ -390,11 +407,32 @@ public class AdminSedeController {
     @PostMapping("/generarReposicionAdminSedeBusca")
     public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimintado(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
-        if(listMedicine.isEmpty()){
-            System.out.println("No se encontro medicina que contenga esa palabra");
+        String nombre = busqueda.getNombre();
+        String category = busqueda.getCategoria();
+        System.out.println("Nombre  es " +  nombre);
+        System.out.println("category  es " +  category);
+        if(!nombre.equals("") && !category.equals("Elegir por tipo")){
+            System.out.println("Hola 1");
+            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+            model.addAttribute("listaMedicamentosBS", listMedicine);
+        }else{
+            if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
+                if (!nombre.equals("")) {
+                    System.out.println("Hola 2");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoNombre(idAdministrator, busqueda.getNombre());
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+                if (!category.equals("Elegir por tipo")) {
+                    System.out.println("Hola 3");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoCategory(idAdministrator, busqueda.getCategoria());
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+            }else{
+                System.out.println("Hola 4");
+                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+                model.addAttribute("listaMedicamentosBS", listMedicine);
+            }
         }
-        model.addAttribute("listaMedicamentosBS", listMedicine);
         return "admin_sede/generarPedidoReposicion";
     }
 
@@ -421,8 +459,9 @@ public class AdminSedeController {
     }
     @RequestMapping ("/generarReposicionAdminSede")
     @ResponseBody
-    public String validarUsuario( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
-        String response =  "/verSolicitudReposicion";
+    public Map<String,String> CreateReplacementOrder( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
+        Map<String, String > response =  new HashMap<>();
+        response.put("response" ,"/verSolicitudReposicion");
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
         ArrayList<Object> ids = data.getIds();
@@ -446,24 +485,25 @@ public class AdminSedeController {
         r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
         //r.setIdReplacementOrder();
         ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
-
         //Creamos los lotes asignados a cada orden
         String quantity  ;
         String id ;
         for(int i = 0 ; i<cantidadString.size() ;  i++){
-            quantity = cantidadString.get(i);
-            id = idsString.get(i);
-            Lote lote = new Lote();
-            lote.setMedicine( medicineRepository.findById(Integer.parseInt(id)).get());
-            //lote.setIdLote();
-            lote.setSite((String) model.getAttribute("sede"));
-            lote.setExpireDate(new Date());
-            lote.setExpire(false);
-            lote.setStock(Integer.parseInt(quantity));
-            lote.setReplacementOrder(newReplacementOrder);
-            lote.setVisible(true);
-            lote.setInitialQuantity(Integer.parseInt(quantity));
-            loteRepository.save(lote);
+            if(Integer.parseInt(cantidadString.get(i))>0) {
+                quantity = cantidadString.get(i);
+                id = idsString.get(i);
+                Lote lote = new Lote();
+                lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
+                //lote.setIdLote();
+                lote.setSite((String) model.getAttribute("sede"));
+                lote.setExpireDate(new Date());
+                lote.setExpire(false);
+                lote.setStock(Integer.parseInt(quantity));
+                lote.setReplacementOrder(newReplacementOrder);
+                lote.setVisible(true);
+                lote.setInitialQuantity(Integer.parseInt(quantity));
+                loteRepository.save(lote);
+            }
         }
         return response;
     }

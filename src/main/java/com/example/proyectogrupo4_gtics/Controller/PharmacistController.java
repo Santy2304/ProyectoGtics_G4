@@ -1,10 +1,11 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
-import com.example.proyectogrupo4_gtics.Repository.LoteRepository;
-import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
+import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.Entity.*;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +34,6 @@ public class PharmacistController {
         return "pharmacist/editproduct";
     }
 
-    @GetMapping("/verMedicinelistFarmacista")
-    public String verMedicineList(){
-        return "pharmacist/medicinelist";
-    }
 
     @GetMapping("/verNotificationsFarmacista")
     public String verNotifications(){
@@ -63,10 +60,11 @@ public class PharmacistController {
         return "pharmacist/profile";
     }
 
-    @GetMapping("/listaMedicamentos")
+    @GetMapping("/listaMedicamentosFarmacista")
     public String listaMedicamentosPharmacist(Model model) {
-        model.addAttribute("medicnelist", medicineRepository.obtenerDatosMedicamentos());
-        return "pharmacist/medicnelist";
+        List<Medicine> listMedicine = medicineRepository.findAll();
+        model.addAttribute("listamedicamentosfarm", listMedicine);
+        return "pharmacist/medicinelist";
     }
 
     @GetMapping("/detallesMedicamentos")
@@ -78,7 +76,7 @@ public class PharmacistController {
             List<LotesValidosporMedicamentoDTO> listaLotesporMedicamento =  loteRepository.obtenerLotesValidosPorMedicamento(idMedicine);
 
             model.addAttribute("listaLotes",listaLotesporMedicamento);
-            return "pharmacist/product-details";
+            return "pharmacist/detallesMedicine";
         } else {
             return "redirect:/listaMedicamentosPharmacist";
         }

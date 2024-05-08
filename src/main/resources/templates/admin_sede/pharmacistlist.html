@@ -67,12 +67,14 @@
 						<div class="page-title">
 							<h4>Farmacistas</h4>
 						</div>
-						<div class="page-btn">
-							<a th:href="|@{'verAddPharmacist'}|" id="btnAddPharmacist" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
+						<div class="page-btn" th:if="${listaFarmacista.size()}<3">
+							<a th:href="@{/verAddPharmacist}"  class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
 						</div>
 					</div>
 
 					<!-- /product list -->
+					<!--AQUI EMPIEZA COMENTADO LA ANTERIOR LISTA DE FARMACISTAS-->
+					<!--
 					<div class="card">
 						<div class="card-body">
 							<div class="table-top">
@@ -97,7 +99,7 @@
 									</ul>
 								</div>
 							</div>
-							<!-- /Filter -->
+							 /Filter
 							<div class="card mb-0" id="filter_inputs1">
 								<div class="card-body pb-0">
 									<div class="row">
@@ -125,7 +127,6 @@
 									</div>
 								</div>
 							</div>
-							<!-- /Filter -->
 							<div class="table-responsive">
 								<table id="tablaFarmacistas" class="table  datanew">
 									<thead>
@@ -155,10 +156,10 @@
 											<td th:text="${farmacista.creationDate}"></td>
 											<td th:text="${farmacista.estado}"></td>
 											<td>
-												<!--
+
 												<a class="me-3" href="product-details.html">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
-												</a>-->
+												</a>
 												<a class="me-3" th:href="@{'/editFarmacistaAdminSede?idFarmacista=' + ${farmacista.idPharmacist}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
@@ -168,6 +169,51 @@
 
 									</tbody>
 								</table>
+							</div>
+						</div>
+					</div>
+					-->
+
+					<div class="card">
+						<div class="card-body">
+							<div class="comp-sec-wrapper">
+									<section class="comp-section comp-cards" >
+										<div class="row">
+											<div class="col-12 col-md-6 col-lg-4 d-flex" th:each="farmacista : ${listaFarmacista}">
+												<div class="card flex-fill bg-white">
+													<img alt="Card Image" width="5" height="5" src="../assets_admin_sede/img/Doc.jpg" class="card-img-top">
+													<div class="card-header">
+														<ul role="tablist" class="nav nav-tabs card-header-tabs float-right">
+															<li class="nav-item">
+																<a th:href="|#tab-1${farmacista.getCodigo()}|" data-bs-toggle="tab" class="nav-link active">Datos</a>
+															</li>
+															<li class="nav-item">
+																<a th:href="|#tab-2${farmacista.getCodigo()}|" data-bs-toggle="tab" class="nav-link">Empresa</a>
+															</li>
+															<li class="nav-item">
+																<a th:href="|#tab-3${farmacista.getCodigo()}|" data-bs-toggle="tab" class="nav-link">Edición</a>
+															</li>
+														</ul>
+													</div>
+													<div class="card-body">
+														<div class="tab-content pt-0">
+															<div role="tabpanel" th:id="|tab-1${farmacista.getCodigo()}|" class="tab-pane fade text-center show active">
+																<h5 class="card-title" th:text="|${farmacista.getNombre()} ${farmacista.apellido}|"></h5>
+																<p class="card-text" th:text="|Correo  : ${farmacista.email}|" ></p>
+															</div>
+															<div role="tabpanel" th:id="|tab-2${farmacista.getCodigo()}|" class="tab-pane fade text-center">
+																<p class="card-text" th:text="|Código de colegiatura :${farmacista.codigo}|" ></p>
+																<p class="card-text" th:text="|Ingreso a la empresa el ${farmacista.creationDate}|" ></p>
+															</div>
+															<div role="tabpanel" th:id="|tab-3${farmacista.getCodigo()}|" class="tab-pane fade text-center">
+																<a class="btn btn-primary" th:href="@{'/editFarmacistaAdminSede?idFarmacista=' + ${farmacista.idPharmacist}}">Editar farmacista</a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</section>
 							</div>
 						</div>
 					</div>
@@ -243,18 +289,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr >
+										<tr th:each="solicitud : ${listaSolicitudes}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Hansel</td>
-											<td>Martinez</td>
-											<td>hansel@pucp.com</td>
-											<td>34485</td>
-											<td>la fecha</td>
-											<td>pendiente</td> <!--Será solo pendienete o rechazado-->
+											<td  th:text="${solicitud.name}"></td>
+											<td th:text="${solicitud.lastName}"></td>
+											<td  th:text="${solicitud.email}"></td>
+											<td  th:text="${solicitud.code}"></td>
+											<td  th:text="${solicitud.requestDate}"></td>
+											<td  th:text="${solicitud.approvalState}"> </td> <!--Será solo pendienete o rechazado-->
 										</tr>
 
 									</tbody>

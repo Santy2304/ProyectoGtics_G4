@@ -510,6 +510,8 @@ public class SuperAdminController {
     public String verSedePando2(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
         model.addAttribute("listaSolicitudesFarmacistasPando2",listarSolicitudesFarmacistaPando2);
+        List<ReplacementOrder> listarSolicitudesReposicionPando2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
+        model.addAttribute("listaSolicitudesReposicionPando2",listarSolicitudesReposicionPando2);
         return "superAdmin/SedePando2";
     }
 
@@ -517,6 +519,8 @@ public class SuperAdminController {
     public String verSedePando3(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
         model.addAttribute("listaSolicitudesFarmacistasPando3",listarSolicitudesFarmacistaPando3);
+        List<ReplacementOrder> listarSolicitudesReposicionPando3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
+        model.addAttribute("listaSolicitudesReposicionPando3",listarSolicitudesReposicionPando3);
         return "superAdmin/SedePando3";
     }
 
@@ -524,6 +528,8 @@ public class SuperAdminController {
     public String verSedePando4(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
         model.addAttribute("listaSolicitudesFarmacistasPando4",listarSolicitudesFarmacistaPando4);
+        List<ReplacementOrder> listarSolicitudesReposicionPando4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
+        model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
         return "superAdmin/SedePando4";
     }
 

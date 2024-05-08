@@ -5,6 +5,7 @@ import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
+import com.example.proyectogrupo4_gtics.Entity.Lote;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.*;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.time.LocalDate;
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -77,6 +80,23 @@ public class AdminSedeController {
             model.addAttribute("rol","administrador");
         }
         model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede(idAdministrator));
+        ;
+
+        if (admin.getSite().equals("Pando 1")){
+            model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando1());
+        }else{
+            if(admin.getSite().equals("Pando 2")){
+                model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando2());
+            }else{
+                if (admin.getSite().equals("Pando 3")){
+                    model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando3());
+                }else{
+                    if (admin.getSite().equals("Pando 4")){
+                        model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando4());
+                    }
+                }
+            }
+        }
         return "admin_sede/pharmacistlist";
     }
     @PostMapping("/listaFarmacistaAdminSede/buscar")
@@ -203,11 +223,32 @@ public class AdminSedeController {
     @PostMapping("/inventarioAdminSedeBusca")
     public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscador(busqueda.getNombre(),busqueda.getCategoria(),idAdministrator);
-        if(listMedicine.isEmpty()){
-            System.out.println("No se encontro medicina que contenga esa palabra");
+        String nombre = busqueda.getNombre();
+        String category = busqueda.getCategoria();
+        System.out.println(nombre);
+        System.out.println(category);
+        if(!nombre.equals("") && !category.equals("Elegir por tipo")){
+            System.out.println("Hola 1");
+            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros( busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
+            model.addAttribute("medicamentos", listMedicine);
+        }else{
+            if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
+                if (!nombre.equals("")) {
+                    System.out.println("Hola 2");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorNombre(busqueda.getNombre(), idAdministrator);
+                    model.addAttribute("medicamentos", listMedicine);
+                }
+                if (!category.equals("Elegir por tipo")) {
+                    System.out.println("Hola 3");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorCategory(busqueda.getCategoria(), idAdministrator);
+                    model.addAttribute("medicamentos", listMedicine);
+                }
+            }else{
+                System.out.println("Hola 4");
+                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros(busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
+                model.addAttribute("medicamentos", listMedicine);
+            }
         }
-        model.addAttribute("medicamentos", listMedicine);
         return "admin_sede/inventario";
     }
 
@@ -282,21 +323,16 @@ public class AdminSedeController {
 
         return "admin_sede/notifications";
     }
-    @GetMapping("/verPerfil")
+    @GetMapping("/verPerfilAdminSede")
     public String profile(Model model){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
-
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("email", admin.getEmail());
         model.addAttribute("dni", admin.getDni());
-        if(!(admin.getState().equalsIgnoreCase("baneado"))){
-            model.addAttribute("rol", "Administrador");
-        }else{
-            model.addAttribute("rol", "Se encuentra baneado");//opcional solo para probar
-        }
+        model.addAttribute("rol", "Administrador");
         model.addAttribute("sede", admin.getSite());
         return "admin_sede/profile";
     }
@@ -330,7 +366,6 @@ public class AdminSedeController {
             System.out.println(json);
             response.add(json);
         }
-
         return response;
     }
     @GetMapping("/cancelarPedidoReposicion")
@@ -361,12 +396,10 @@ public class AdminSedeController {
     }
     @PostMapping("/editarPedidoReposicionAdminSede")
     public String editarPedidoReposicion(@RequestBody String cuerpo) throws JsonProcessingException {
-        System.out.println("HOLAAAA");
         System.out.println(cuerpo);
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderEdit datos = objectMapper.readValue(cuerpo, ReplacamenteOrderEdit.class);
         String aux ;
-
         //ACA EMPIEZO
         ArrayList<String > datosAux =  new ArrayList<>();
         for(Object u:  datos.getDatos()){
@@ -389,16 +422,153 @@ public class AdminSedeController {
     @PostMapping("/generarReposicionAdminSedeBusca")
     public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-
-        List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimintado(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
-        if(listMedicine.isEmpty()){
-            System.out.println("No se encontro medicina que contenga esa palabra");
+        String nombre = busqueda.getNombre();
+        String category = busqueda.getCategoria();
+        System.out.println("Nombre  es " +  nombre);
+        System.out.println("category  es " +  category);
+        if(!nombre.equals("") && !category.equals("Elegir por tipo")){
+            System.out.println("Hola 1");
+            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+            model.addAttribute("listaMedicamentosBS", listMedicine);
+        }else{
+            if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
+                if (!nombre.equals("")) {
+                    System.out.println("Hola 2");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoNombre(idAdministrator, busqueda.getNombre());
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+                if (!category.equals("Elegir por tipo")) {
+                    System.out.println("Hola 3");
+                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoCategory(idAdministrator, busqueda.getCategoria());
+                    model.addAttribute("listaMedicamentosBS", listMedicine);
+                }
+            }else{
+                System.out.println("Hola 4");
+                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+                model.addAttribute("listaMedicamentosBS", listMedicine);
+            }
         }
-        model.addAttribute("listaMedicamentosBS", listMedicine);
         return "admin_sede/generarPedidoReposicion";
     }
 
 
+    public static class ReplacamenteOrderData{
+        private ArrayList<Object> cantidad;
+        private ArrayList<Object> ids;
+        private Object date;
+
+        public Object getDate() {
+            return date;
+        }
+
+        public void setDate(Object date) {
+            this.date = date;
+        }
+
+        public ArrayList<Object> getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(ArrayList<Object> cantidad) {
+            this.cantidad = cantidad;
+        }
+
+        public ArrayList<Object> getIds() {
+            return ids;
+        }
+
+        public void setIds(ArrayList<Object> ids) {
+            this.ids = ids;
+        }
+    }
+    @RequestMapping ("/generarReposicionAdminSede")
+    @ResponseBody
+    public Map<String,String> CreateReplacementOrder( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
+        Map<String, String > response =  new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
+
+        System.out.println(data.getDate());
+        ArrayList<Object> ids = data.getIds();
+        ArrayList<Object> cantidad = data.getCantidad();
+        ArrayList<String> idsString  = new ArrayList<String>();
+        ArrayList<String> cantidadString  = new ArrayList<String>();
+        for(Object aux: ids){
+            idsString.add(""+aux );
+        }
+        for(Object aux: cantidad){
+            cantidadString.add(""+aux );
+        }
+        System.out.println(idsString);
+        System.out.println(cantidadString);
+        //Poner el metodo para añadir
+        //Creamos la orden de reposicion
+        ReplacementOrder r = new ReplacementOrder();
+        r.setTrackingState("Solicitado");
+        r.setSite((String) model.getAttribute("sede"));
+        r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
+        //r.setIdReplacementOrder();
+        ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
+        //Creamos los lotes asignados a cada orden
+        String quantity  ;
+        String id ;
+        for(int i = 0 ; i<cantidadString.size() ;  i++){
+            if(Integer.parseInt(cantidadString.get(i))>0) {
+                quantity = cantidadString.get(i);
+                id = idsString.get(i);
+                Lote lote = new Lote();
+                lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
+                //lote.setIdLote();
+                lote.setSite((String) model.getAttribute("sede"));
+                lote.setExpireDate(new Date());
+                lote.setExpire(false);
+                lote.setStock(Integer.parseInt(quantity));
+                lote.setReplacementOrder(newReplacementOrder);
+                lote.setVisible(true);
+                lote.setInitialQuantity(Integer.parseInt(quantity));
+                loteRepository.save(lote);
+            }
+        }
+        response.put("response" ,"/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
+        return response;
+    }
+
+    @GetMapping("/SolicitudDeReposicionCreada")
+    public String SolicitudDeReposicionCreada(@RequestParam("idReplacementOrder") String idReplacementeOrder , Model model){
+        model.addAttribute("idRepo", Integer.parseInt(idReplacementeOrder));
+        return "admin_sede/TicketPedidoReposicion";
+    }
+
+
+    public class DataDoctorListBusca{
+        String date;
+        String nombre;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+    }
+    @PostMapping("/doctorListBuscaAdminSede")
+    public String doctorListBuscaAdminSede(DataDoctorListBusca d , Model model){
+        System.out.println(d.date);
+        System.out.println(d.nombre);
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
+        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        return "/admin_sede/doctorlist";
+    }
 
 
 

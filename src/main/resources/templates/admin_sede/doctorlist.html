@@ -9,6 +9,7 @@
 	<meta name="robots" content="noindex, nofollow">
 	<title>SaintMedic</title>
 
+
 	<!-- Favicon -->
 	<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
 
@@ -21,62 +22,33 @@
 	<!-- Select2 CSS -->
 	<link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
 
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap-datetimepicker.min.css">
+
 	<!-- Datatable CSS -->
 	<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
 
 	<!-- Fontawesome CSS -->
 	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 	<style>
-		/* Para el title*/
-		/*
-        #text-container {
-            position: relative;
-        }
-
-        #glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Evita que el brillo interfiera con el texto
-        }
-        */
-		/*suave con borrar lo anterior*/
-		table {
-			border-collapse: collapse;
-			width: 100%;
-			background-color: #f9f9f9; /* Color de fondo suave */
-			border-radius: 8px; /* Bordes redondeados */
-			overflow: hidden; /* Ocultar bordes redondeados en las esquinas */
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
-		}
-
-		th, td {
-			padding: 12px 15px; /* Espaciado interior */
-			text-align: left; /* Alineación del texto */
-			border-bottom: 1px solid #ddd; /* Borde inferior */
-		}
-
-		th {
-			background-color: #ff8c00; /* Color de fondo de la cabecera */
-			color: white; /* Color del texto de la cabecera */
-		}
-
-		tr:hover {
-			background-color: #f2f2f2; /* Cambio de color al pasar el ratón */
+		.disabled {
+			pointer-events: none; /* Deshabilita el clic */
+			opacity: 0.5; /* Opacidad reducida para indicar estado deshabilitado */
 		}
 	</style>
 
 </head>
 <body>
+
 <div id="global-loader" >
 	<div class="whirly-loader"> </div>
 </div>
+
+
 <!-- Main Wrapper -->
 <div class="main-wrapper">
 
@@ -86,31 +58,29 @@
 	<!-- Header -->
 
 	<!--sideBar-->
-	<div th:replace="sidebarAdmin :: sidebarAdmin(activeTab = 'doctores')"> </div>
+	<div th:replace="sidebarAdmin :: sidebarAdmin(activeTab = 'farmacista')"> </div>
 	<!-- /Sidebar -->
+
 	<div class="page-wrapper">
 		<div class="content">
 			<div class="page-header">
-				<div class="page-header">
-					<div class="page-title">
-						<h2>Lista de doctores</h2>
-					</div>
+				<div class="page-title">
+					<h4>Doctores</h4>
 				</div>
 			</div>
 
-			<!-- /product list -->
 			<div class="card">
 				<div class="card-body">
 					<div class="table-top">
 						<div class="search-set">
 							<div class="search-path">
-								<a class="btn btn-filter" id="filter_search">
+								<a class="btn btn-filter" id="filter_search2">
 									<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
 									<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 								</a>
 							</div>
-							<div class="search-input"  >
-								<a class="btn btn-searchset" placeholder="buscar..." ><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+							<div class="search-input">
+								<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 							</div>
 						</div>
 						<div class="wordset">
@@ -122,37 +92,28 @@
 						</div>
 					</div>
 					<!-- /Filter -->
-					<div class="card mb-0" id="filter_inputs">
+					<div class="card mb-0" id="filter_inputs2">
 						<div class="card-body pb-0">
 							<div class="row">
 								<div class="col-lg-12 col-sm-12">
-									<form id="Hola" th:action="@{'/inventarioAdminSedeBusca'}"  method="post" >
-										<div class="row">
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<select class="select" id="categoria" name="categoria">
-														<option>Elegir por tipo </option>
-														<option value="Dolor" >Dolor</option>
-														<option value="Alergia" >Alergia</option>
-														<option value="Suplemento" >Suplemento</option>
-														<option value="Belleza" >Belleza</option>
-													</select>
-												</div>
-											</div>
-											<div class="col-lg col-sm-6 col-12">
-												<div class="form-group">
-													<input id="nombre" name="nombre" type="text" placeholder="nombre del medicamento" >
-												</div>
-											</div>
+									<div class="row">
 
-											<div class="col-lg-1 col-sm-6 col-12">
-												<div class="form-group">
-													<button id="buscar" type="submit" class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
-												</div>
+										<div class="col-lg col-sm-6 col-12">
+											<div class="form-group">
+												<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Inicial" >
 											</div>
 										</div>
-
-									</form>
+										<div class="col-lg col-sm-6 col-12">
+											<div class="form-group">
+												<input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Registro Final" >
+											</div>
+										</div>
+										<div class="col-lg-1 col-sm-6 col-12">
+											<div class="form-group">
+												<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -166,7 +127,7 @@
 								<th>Nombre</th>
 								<th>Apellido </th>
 								<th>Correo</th>
-								<th>Fecha de Creación</th>
+								<th>Fecha de ingreso</th>
 								<th>Estado</th>
 							</tr>
 							</thead>
@@ -188,32 +149,40 @@
 					</div>
 				</div>
 			</div>
+
+
+
+			<!-- /product list -->
 		</div>
 	</div>
-
-
 </div>
-
+<!-- /Main Wrapper -->
+<!--Para la tabla de lista 3 farmacistas-->
 <script>
-	let text = document.querySelector('#title');
-	const glow = document.querySelector('#path');
+	document.addEventListener("DOMContentLoaded", function (){
 
-	const textPath = document.createElementNS('http://www.w3.org/2000/svg', 'textPath');
-	textPath.setAttribute('href', '#title');
-	textPath.textContent = text.textContent;
+		function countPharmacist() {
+			var tabla = document.getElementById("tablaFarmacistas");
+			var numFilas = tabla.getElementsByTagName("tr") - 1; //El -1 es por la cabecera de la tabla
+			return numFilas;
+		}
 
-	glow.appendChild(textPath);
+		//se crea la función para verificar que solo esten 3 farmacistas y desactiva el boton
+		function verifyPharmacist(){
+			var btnCrear = document.getElementById("btnAddPharmacist");
+			if(countPharmacist()>=3){
+				btnCrear.classList.add("disabled"); //disabled es un estilo
+				btnCrear.removeAttribute("href"); //elimina el href por si el JP nos mata
+			}else{
+				btnCrear.classList.remove("disabled");
+				btnCrear.setAttribute("href","@{'verAddPharmacist'}"); //ojito con esto
 
-	const length = glow.getTotalLength();
-	glow.style.strokeDasharray = length;
-	glow.style.strokeDashoffset = length;
-
-	// Animación
-	glow.style.transition = 'stroke-dashoffset 2s ease-in-out';
-	glow.style.strokeDashoffset = '0';
+			}
+		}
+		//Finalmente se llama a la función
+		verifyPharmacist();
+	});
 </script>
-
-
 <!-- jQuery -->
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
@@ -243,8 +212,6 @@
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 </body>
 </html>

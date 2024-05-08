@@ -42,7 +42,7 @@
 			}
 
 			#editarBtn:hover, #guardarCambiosBtn:hover {
-				background-color: darkorange; /* Cambia el color al pasar el ratón sobre el botón */
+				background-color: #e7bb2b; /* Cambia el color al pasar el ratón sobre el botón */
 			}
 
 
@@ -96,11 +96,12 @@
 								<div class="profile-top">
 									<div class="profile-content">
 										<div class="profile-contentimg">
-											<img src="/assets_superAdmin/img/customer/customer5.jpg" alt="img" id="blah">
-											<div class="profileupload">
+											<img src="/assets_admin_sede/img/Farmacista.jpeg" alt="img" id="blah">
+
+											<!--<div class="profileupload">
 												<input type="file" id="imgInp">
 												<a href="javascript:void(0);" ><img src="/assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
-											</div>
+											</div>-->
 										</div>
 										<div class="profile-contentname">
 											<h2 th:text="${nombre}"></h2>
@@ -108,23 +109,39 @@
 										</div>
 									</div>
 									<div class="ms-auto">
-										<button type="button" id="oe" class="btn btn-submit me-2">Editar</button>
+										<a onclick="cambiarFoto()" class="btn btn-cancel">Cambiar foto</a>
 									</div>
-									<script th:inline="javascript" >
-										$('#oe').click(
-												function () {
-													Swal.fire({
-														title: [[${nombre}]],
-														text: "me muero de sueño",
-														imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
-														imageWidth: 400,
-														imageHeight: 200,
-														imageAlt: "Custom image",
-														confirmButtonColor: "#dd986a"
-													})
+									<script>
+										async function cambiarFoto(){
+											const { value: file } = await Swal.fire({
+												title: "Escoje una nueva foto de perfil",
+												input: "file",
+												confirmButtonColor:"orange",
+												confirmButtonText: "Cambiar" ,
+												cancelButtonText: "Regresar" ,
+												cancelButtonColor:"#E7BB2BFF",
+												showCancelButton: true,
+												inputAttributes: {
+													"accept": "image/*",
+													"aria-label": "Upload your profile picture"
 												}
-										)
+											});
+											if (file) {
+												const reader = new FileReader();
+												reader.onload = (e) => {
+													Swal.fire({
+														title: "Tu nueva foto de perfil",
+														imageUrl: e.target.result,
+														imageAlt: "The uploaded picture",
+														confirmButtonColor:"orange"
+													});
+												};
+												reader.readAsDataURL(file);
+											}
+										}
+
 									</script>
+
 								</div>
 							</div>
 							<div class="row">
@@ -148,8 +165,6 @@
 										<input type="text"  th:placeholder="${email}" readonly>
 									</div>
 								</div>
-
-
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>DNI</label>
@@ -166,7 +181,7 @@
 
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
-										<label>Rol</label>
+										<label>Sede</label>
 										<input type="text"  th:placeholder="${sede}" readonly>
 									</div>
 								</div>

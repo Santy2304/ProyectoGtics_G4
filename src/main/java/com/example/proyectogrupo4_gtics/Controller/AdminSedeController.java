@@ -332,11 +332,7 @@ public class AdminSedeController {
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("email", admin.getEmail());
         model.addAttribute("dni", admin.getDni());
-        if(!(admin.getState().equalsIgnoreCase("baneado"))){
-            model.addAttribute("rol", "Administrador");
-        }else{
-            model.addAttribute("rol", "Se encuentra baneado");//opcional solo para probar
-        }
+        model.addAttribute("rol", "Administrador");
         model.addAttribute("sede", admin.getSite());
         return "admin_sede/profile";
     }
@@ -542,6 +538,36 @@ public class AdminSedeController {
     public String SolicitudDeReposicionCreada(@RequestParam("idReplacementOrder") String idReplacementeOrder , Model model){
         model.addAttribute("idRepo", Integer.parseInt(idReplacementeOrder));
         return "admin_sede/TicketPedidoReposicion";
+    }
+
+
+    public class DataDoctorListBusca{
+        String date;
+        String nombre;
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+    }
+    @PostMapping("/doctorListBuscaAdminSede")
+    public String doctorListBuscaAdminSede(DataDoctorListBusca d , Model model){
+        System.out.println(d.date);
+        System.out.println(d.nombre);
+        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
+        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        return "/admin_sede/doctorlist";
     }
 
 

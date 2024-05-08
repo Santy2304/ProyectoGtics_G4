@@ -153,7 +153,12 @@
 
                   async function auxiliar(){
                     const { value: date } = await Swal.fire({
-                      title: "select departure date",
+                      title: "Escoge la fecha de llegada del pedido de reposción",
+                      confirmButtonText: "Generar",
+                      cancelButtonText: "Regresar",
+                      cancelButtonColor: "rgba(248,215,48,0.87)",
+                      showCancelButton: true,
+                      confirmButtonColor: "#dd986a",
                       input: "date",
                       didOpen: () => {
                         const today = (new Date()).toISOString();

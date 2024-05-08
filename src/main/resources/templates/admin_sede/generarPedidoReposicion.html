@@ -111,10 +111,14 @@
             var numeroParseado = 0;
             var arregloValidoValue = [];
             var arregloValidoId = [];
+            var cantidadCeros = 0;
             inputs.forEach(function(input){
               try{
+                if(0 == input.value){
+                  cantidadCeros++;
+                }
                 numeroParseado = parseInt(input.value);
-                if(numeroParseado<=0){
+                if(numeroParseado<0){
                   errorNegativo++;
                 }else{
                   arregloValidoValue.push(input.value);
@@ -126,34 +130,53 @@
               }
             });
 
-            if(errorNegativo>0 || errorLetra>0 ) {
+            //Se equivoca al escribir algo q no debe , se equivoco por poner más de 10
+            //
+            console.log(arregloValidoValue);
+            console.log(arregloValidoId);
+            if(cantidadCeros === inputs.length){
               Swal.fire({
                 icon: "error",
-                title: "Opps",
-                text: "Ingresaste alguna cantidad incoherente",
+                iconColor: 'brown',
+                text: "Debes ingresar alguna cantidad en los productos para realizar el pedido de reposición",
                 confirmButtonColor: "#dd986a"
               })
             }else{
-              if(cantidadAceptable>10){
+              if(errorNegativo!==0 || errorLetra!==0 ){
                 Swal.fire({
                   icon: "error",
-                  title: "Opps",
-                  text: "No se puede realizar un pedido de reposicion con más de 10 productos",
+                  iconColor: 'brown',
+                  text: "Ingresaste alguna cantidad incoherente!",
                   confirmButtonColor: "#dd986a"
-                });
-              }else{
-                //Se envia la data al controlador:
-                $.ajax({
-                  url:"/generarReposicionAdminSede",
-                  data: JSON.stringify({ cantidad: arregloValidoValue , ids : arregloValidoId }),
-                  type: "POST",
-                  contentType: "application/json",
-                  success: function(data){
-                    window.location.href = "/verListaReposicion";
-                  }
                 })
+              }else{
+                if(cantidadAceptable<=10){
+                  $.ajax({
+                    url:"/generarReposicionAdminSede",
+                    data: JSON.stringify({ cantidad: arregloValidoValue , ids : arregloValidoId }),
+                    type: "POST",
+                    contentType: "application/json",
+                    success: function(data){
+                      window.location.href = data.response;
+                    }
+                  })
+                }else{
+                  Swal.fire({
+                    icon: "error",
+                    iconColor: 'brown',
+                    text: "No se puede realizar un pedido de reposición con más de 10 productos",
+                    confirmButtonColor: "#dd986a"
+                  });
+                }
               }
             }
+
+
+
+
+
+
+
           })
         </script>
       </div>
@@ -225,7 +248,7 @@
                     <tr>
                       <th>Cantidad a solicitar</th>
                       <th>Medicamentos</th>
-                      <th>foto</th>
+                      <th>Foto</th>
                       <th>Tipo</th>
                       <th>Cantidad actual </th>
                       <th>Precio unitario</th>

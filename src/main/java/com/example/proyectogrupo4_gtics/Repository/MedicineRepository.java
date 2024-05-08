@@ -55,7 +55,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
-            "where (m.name like concat(?1,'%') or m.category like concat(?2 , '%') ) \n" +
+            "where (m.name like concat(?1,'%') and m.category like concat(?2 , '%') ) \n" +
             "and \n" +
             "l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
@@ -110,7 +110,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             ", sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
-            "where  (m.name like concat(?2,'%') or m.category like concat(?3 , '%') )  and l.idLote in ( \n" +
+            "where  (m.name like concat(?2,'%') and m.category like concat(?3 , '%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
             "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +

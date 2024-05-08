@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.time.LocalDate;
 
@@ -305,7 +306,7 @@ public class AdminSedeController {
 
         return "admin_sede/notifications";
     }
-    @GetMapping("/verPerfil")
+    @GetMapping("/verPerfilAdminSede")
     public String profile(Model model){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
@@ -442,6 +443,15 @@ public class AdminSedeController {
     public static class ReplacamenteOrderData{
         private ArrayList<Object> cantidad;
         private ArrayList<Object> ids;
+        private Object date;
+
+        public Object getDate() {
+            return date;
+        }
+
+        public void setDate(Object date) {
+            this.date = date;
+        }
 
         public ArrayList<Object> getCantidad() {
             return cantidad;
@@ -465,6 +475,8 @@ public class AdminSedeController {
         Map<String, String > response =  new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
+
+        System.out.println(data.getDate());
         ArrayList<Object> ids = data.getIds();
         ArrayList<Object> cantidad = data.getCantidad();
         ArrayList<String> idsString  = new ArrayList<String>();
@@ -482,7 +494,7 @@ public class AdminSedeController {
         ReplacementOrder r = new ReplacementOrder();
         r.setTrackingState("Solicitado");
         r.setSite((String) model.getAttribute("sede"));
-        r.setReleaseDate(LocalDate.now());
+        r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
         //r.setIdReplacementOrder();
         ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);

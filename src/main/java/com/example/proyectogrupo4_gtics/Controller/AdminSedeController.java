@@ -80,6 +80,23 @@ public class AdminSedeController {
             model.addAttribute("rol","administrador");
         }
         model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede(idAdministrator));
+        ;
+
+        if (admin.getSite().equals("Pando 1")){
+            model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando1());
+        }else{
+            if(admin.getSite().equals("Pando 2")){
+                model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando2());
+            }else{
+                if (admin.getSite().equals("Pando 3")){
+                    model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando3());
+                }else{
+                    if (admin.getSite().equals("Pando 4")){
+                        model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando4());
+                    }
+                }
+            }
+        }
         return "admin_sede/pharmacistlist";
     }
     @PostMapping("/listaFarmacistaAdminSede/buscar")

@@ -289,18 +289,18 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr >
+										<tr th:each="solicitud : ${listaSolicitudes}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
 													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
 												</a>
 											</td>
-											<td>Hansel</td>
-											<td>Martinez</td>
-											<td>hansel@pucp.com</td>
-											<td>34485</td>
-											<td>la fecha</td>
-											<td>pendiente</td> <!--Será solo pendienete o rechazado-->
+											<td  th:text="${solicitud.name}"></td>
+											<td th:text="${solicitud.lastName}"></td>
+											<td  th:text="${solicitud.email}"></td>
+											<td  th:text="${solicitud.code}"></td>
+											<td  th:text="${solicitud.requestDate}"></td>
+											<td  th:text="${solicitud.approvalState}"> </td> <!--Será solo pendienete o rechazado-->
 										</tr>
 
 									</tbody>

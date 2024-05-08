@@ -23,9 +23,6 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     void updateDatosPorId(String name , String lasName  , String email ,String site,String state,String distrit ,int idFarmacista );
 
 
-
-
-
     @Transactional
     @Modifying
     @Query(value = "update pharmacist set state = 'eliminado'  where idPharmacist =?1" , nativeQuery = true)

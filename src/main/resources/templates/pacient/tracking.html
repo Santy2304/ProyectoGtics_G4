@@ -156,75 +156,15 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr style="background-color: #ffda6a">
+							<tr style="background-color: #ffda6a" th:each="compras : ${listaTracking}">
 
-								<td class="text-bolds">1</td>
-								<td><a href="detalle.html">
+								<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+								<td><a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
 									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
 								</a></td>
-								<td>07/04/24</td>
-								<td>550.00</td>
+								<td th:text="${compras.getFecha()}" ></td>
+								<td th:text="${compras.getTotal_price()}" ></td>
 							</tr>
-							<tr>
-
-								<td class="text-bolds">2</td>
-								<td><a href="detalle.html">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-								</a></td>
-								<td>07/04/24</td>
-								<td>410.00</td>
-
-							</tr>
-							<tr>
-
-								<td class="text-bolds">3</td>
-								<td><a href="detalle.html">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-								</a></td>
-								<td>07/04/24</td>
-								<td>210.00</td>
-
-							</tr>
-							<tr>
-
-								<td class="text-bolds">4</td>
-								<td><a href="detalle.html">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-								</a></td>
-								<td>07/04/24</td>
-								<td>210.00</td>
-
-							</tr>
-							<tr>
-
-								<td class="text-bolds">5</td>
-								<td><a href="detalle.html">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-								</a></td>
-								<td>07/04/24</td>
-								<td>210.00</td>
-
-							</tr>
-							<tr>
-
-								<td class="text-bolds">6</td>
-								<td><a href="detalle.html">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-								</a></td>
-								<td>07/04/24</td>
-								<td>210.00</td>
-
-							</tr>
-
-
-
-
 
 							</tbody>
 						</table>

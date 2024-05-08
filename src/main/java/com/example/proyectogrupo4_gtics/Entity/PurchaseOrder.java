@@ -40,7 +40,7 @@ public class PurchaseOrder {
     @Column(name = "approval")
     private String approval;
 
-    @Column(name = "releaseDate")
+    @Column(name = "releasedate")
     private LocalDate releaseDate;
 
     @Column(name = "recurrent")
@@ -52,7 +52,7 @@ public class PurchaseOrder {
     @Column(name = "totalamount", nullable = false, precision = 10)
     private BigDecimal totalAmount;
 
-    @Column(name = "statePaid")
+    @Column(name = "statepaid")
     private String statePaid;
 
     public String getStatePaid() {

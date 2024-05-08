@@ -1,5 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
+import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
 import com.example.proyectogrupo4_gtics.Entity.Patient;
 import com.example.proyectogrupo4_gtics.Entity.PurchaseHasLote;
@@ -33,12 +35,15 @@ public class PatientController {
 
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
 
+    final PurchaseOrderRepository purchaseOrderRepository;
+
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
-                              PurchaseHasLoteRepository purchaseHasLoteRepository) {
+                              PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
         this.purchaseHasLoteRepository = purchaseHasLoteRepository;
+        this.purchaseOrderRepository = purchaseOrderRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -85,25 +90,30 @@ public class PatientController {
         return "pacient/chat";
     }
     @GetMapping("/verDatosPagoPaciente")
-    public String verDatosPago(){
+    public String verDatosPago(@RequestParam("idPurchase") int idPurchase){
         return "pacient/datos_pago";
     }
     //No funciona bien
-    @GetMapping("/verDetallePaciente")
-    public String verDetalle(){
-        return "pacient/detalle";
-    }
+
     @GetMapping("/verGenerarOrdenCompraPaciente")
     public String verGenerarOrdenCompra(){
         return "pacient/generar_orden_compra";
     }
     @GetMapping("/verHistorialPaciente")
     public String verHistorial(@SessionAttribute("idUser") String idUser , Model model){
-
-        List<PurchaseHasLote> listaLotesCompra= purchaseHasLoteRepository.listarLotesPorCompra(Integer.parseInt(idUser));
-        model.addAttribute("listaLotesCompra",listaLotesCompra);
+        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(Integer.parseInt(idUser));
+        model.addAttribute("listaCompras",comprasPorPaciente);
         return "pacient/historial";
     }
+
+    @GetMapping("/verDetalleCompraPatient")
+    public String verDetalleCompra(@SessionAttribute("idUser") String idUser,@RequestParam("idPurchase") int idPurchase , Model model){
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
+        return "pacient/detalle";
+    }
+
+
     @GetMapping("/verNumeroOrdenPaciente")
     public String verNumeroOrdenPaciente(){
         return "pacient/numero_de_orden";
@@ -144,7 +154,12 @@ public class PatientController {
         }
     }
     @GetMapping("/verTrackingPaciente")
-    public String verTrackingPaciente(){
+    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model){
+
+        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(Integer.parseInt(idUser));
+
+        model.addAttribute("listaTracking",tracking);
+
         return "pacient/tracking";
     }
     @PostMapping("/editarPerfilPaciente")

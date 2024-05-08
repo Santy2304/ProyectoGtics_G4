@@ -218,18 +218,21 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr th:each="compras : ${listaLotesCompra}">
+						<tr th:each="compras : ${listaCompras}">
 
-							<td th:text="${compras.getId()}" class="text-bolds"></td>
+							<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
 							<td>
-								<a href="detalle.html">
+								<a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
 								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
 								</a>
 							</td>
-							<td th:text="${compras.getPurchaseOrder().getReleaseDate()}"></td>
-							<td th:text="${compras.getPurchaseOrder().getApproval()}"></td>
-							<td>550.00</td>
-							<td th:text="${compras.getPurchaseOrder().getStatePaid()}"></td>
+							<td th:text="${compras.getFecha()}"></td>
+							<td th:text="${compras.getEstado()}"></td>
+							<td th:text="${compras.getTotal_price()}"></td>
+							<td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
+        <a th:href="@{'/verDatosPagoPaciente?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
+    </span>
+								<span th:unless="${compras.getEstadoPago() eq 'por pagar'}" th:text="${compras.getEstadoPago()}"></span></td>
 						</tr>
 
 							<!--

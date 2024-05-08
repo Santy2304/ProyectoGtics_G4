@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
+import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
@@ -55,5 +56,22 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimintado(  int idAdmin , String nombre, String categoria);
 
 
+    @Query(nativeQuery = true, value="SELECT\n" +
+            "    m.idMedicine,\n" +
+            "    m.name AS medicineName,\n" +
+            "    SUM(purchase_has_lot.cantidad_comprar) AS cantidad\n" +
+            "FROM\n" +
+            "    purchaseorder po\n" +
+            "INNER JOIN\n" +
+            "    purchasehaslot purchase_has_lot ON po.idPurchaseOrder = purchase_has_lot.idPurchase\n" +
+            "INNER JOIN\n" +
+            "    lote l ON purchase_has_lot.idLote = l.idLote\n" +
+            "INNER JOIN\n" +
+            "    medicine m ON l.idMedicine = m.idMedicine\n" +
+            "WHERE\n" +
+            "    po.idPurchaseOrder = ?1\n" +
+            "GROUP BY\n" +
+            "    m.idMedicine, m.name")
+    List<MeciamentosPorCompraDTO> listaMedicamentosPorCompra(int idPurchase);
 
 }

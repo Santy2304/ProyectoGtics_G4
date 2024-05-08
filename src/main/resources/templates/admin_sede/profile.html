@@ -8,13 +8,13 @@
         <meta name="author" content="Dreamguys - Bootstrap Admin Template">
         <meta name="robots" content="noindex, nofollow">
         <title>SaintMedic</title>
-		
+
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
-		
+
 		<!-- Bootstrap CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
-		
+
 		<!-- animation CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
@@ -23,11 +23,11 @@
 
 		<!-- Datatable CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
-		
+
         <!-- Fontawesome CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
 		<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-		
+
 		<!-- Main CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 
@@ -47,23 +47,23 @@
 
 
 		</style>
-		
+
     </head>
     <body>
-		
+
 		<div id="global-loader" >
 			<div class="whirly-loader"> </div>
 		</div>
-	
-	
-		 
+
+
+
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
-			
+
 			<!-- Header -->
 			<div th:replace="headerAdminSede"> </div>
 			<!-- Header -->
-			
+
 			<!-- Sidebar -->
 			<div th:replace="sidebarAdmin :: sidebarAdmin(activeTab = 'perfil')"> </div>
 			<!-- /Sidebar -->
@@ -108,71 +108,67 @@
 										</div>
 									</div>
 									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Editar datos</a>
+										<button type="button" id="oe" class="btn btn-submit me-2">Editar</button>
 									</div>
+									<script th:inline="javascript" >
+										$('#oe').click(
+												function () {
+													Swal.fire({
+														title: [[${nombre}]],
+														text: "me muero de sueño",
+														imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
+														imageWidth: 400,
+														imageHeight: 200,
+														imageAlt: "Custom image",
+														confirmButtonColor: "#dd986a"
+													})
+												}
+										)
+									</script>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input name="name" type="text" th:value="${paciente.name}" readonly>
+										<input type="text"  th:placeholder="${nombre}" readonly>
 									</div>
+								</div>
 
+								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
 										<label>Apellido</label>
-										<input name="lastName" type="text" th:value="${paciente.lastName}" readonly>
+										<input type="text"  th:placeholder="${apellido}" readonly>
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-sm-12">
+									<div class="form-group">
+										<label>Email</label>
+										<input type="text"  th:placeholder="${email}" readonly>
 									</div>
 								</div>
 
 
 								<div class="col-lg-6 col-sm-12">
 									<div class="form-group">
-										<h5>Nombre</h5>
-										<label th:text="${nombre}"></label>
+										<label>DNI</label>
+										<input type="text"  th:placeholder="${dni}" readonly>
 									</div>
 								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<h5>Apellido</h5>
-										<label th:text="${apellido}"></label>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="campo">
-										<h5>Email</h5>
-										<span class="lectura" th:text="${email}"></span>
-										<input type="text" class="edicion" style="display: none;">
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="campo">
-										<h5>DNI</h5>
-										<span class="lectura" th:text="${dni}"></span>
-										<input type="text" class="edicion" style="display: none;">
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<h5>Rol</h5>
-										<label th:text="${rol}"></label>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<h5>Sede</h5>
-										<label th:text="${sede}"></label>
-									</div>
-								</div>
-								<div class="col-12">
-									<!--
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar </a>
-									-->
-									<div id="botones">
-										<button id="editarBtn" onclick="alternarModo()">Editar</button>
-										<button id="guardarCambiosBtn" onclick="guardarCambios()" style="display: none;">Guardar</button>
-									</div>
 
+								<div class="col-lg-6 col-sm-12">
+									<div class="form-group">
+										<label>Rol</label>
+										<input type="text"  th:placeholder="${rol}" readonly>
+									</div>
+								</div>
+
+								<div class="col-lg-6 col-sm-12">
+									<div class="form-group">
+										<label>Rol</label>
+										<input type="text"  th:placeholder="${sede}" readonly>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -182,8 +178,9 @@
 			</div>
         </div>
 
-		
+
 		<!-- /Main Wrapper -->
+		<!--
 		<script>
 			function alternarModo() {
 				var camposLectura = document.getElementsByClassName('lectura');
@@ -232,7 +229,7 @@
 				editarBtn.style.display = 'inline';
 			}
 		</script>
-		 
+-->
 		<!-- jQuery -->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
@@ -245,7 +242,7 @@
 		<!-- Datatable JS -->
 		<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
 		<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
-		
+
 		<!-- Bootstrap Core JS -->
         <script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
 
@@ -255,9 +252,10 @@
 		<!-- Sweetalert 2 -->
 		<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
 		<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 		<!-- Custom JS -->
 		<script src="/assets_superAdmin/js/script.js"></script>
-		
+
     </body>
 </html>

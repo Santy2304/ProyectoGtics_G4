@@ -2,6 +2,7 @@ package com.example.proyectogrupo4_gtics.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 @Entity
@@ -24,10 +25,11 @@ public class Medicine {
     @NotBlank(message = "Este campo es obligatorio")
     private String category;
 
+    @Column(nullable = false)
     @NotNull(message = "Este campo es obligatorio")
     @Digits(integer = 10, fraction = 4, message = "Se debe ingresar un número")
     @Positive(message = "El precio debe ser un valor mayor a cero")
-    private double price;
+    private BigDecimal price;
 
     @Column(name = "timessaled")
     private int timesSaled;
@@ -65,11 +67,11 @@ public class Medicine {
         this.category = category;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

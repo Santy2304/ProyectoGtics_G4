@@ -8,10 +8,13 @@ import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,7 +64,7 @@ public class SuperAdminController {
     public String crearMedicamento(@RequestParam("nameMedicine") String nameMedicine,
                                    @RequestParam("category") String category,
                                    @RequestParam("description") String description,
-                                   @RequestParam("priceMedicine") double priceMedicine,
+                                   @RequestParam("priceMedicine") BigDecimal priceMedicine,
                                    Model model) {
         Medicine medicine = new Medicine();
         medicine.setName(nameMedicine);
@@ -346,10 +349,15 @@ public class SuperAdminController {
 
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")
-    public String editarDoctor(@Valid Doctor doctor){
+    public String editarDoctor(@Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
-        doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(),  doctor.getDni() , doctor.getEmail(),doctor.getHeadquarter(),doctor.getState() ,doctor.getIdDoctor());
-        return "redirect:/verListadosSuperAdmin";
+        if (bindingResult.hasErrors()) {
+            return "redirect:/editarDoctor?idDoctor=" + doctor.getIdDoctor();
+        } else {
+            attributes.addFlashAttribute("msg", "Doctor actualizado correctamente");
+            doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(), doctor.getDni(), doctor.getEmail(), doctor.getHeadquarter(), doctor.getState(), doctor.getIdDoctor());
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
 
     @GetMapping("/editarDoctor")

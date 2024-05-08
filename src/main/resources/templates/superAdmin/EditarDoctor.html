@@ -200,13 +200,19 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Nombre</label>
-										<input name="name" type="text" th:field="${doctor.name}">
+										<input class="form-control" name="name" type="text" th:field="*{name}"
+												th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+												th:errors="*{name}"></div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Apellidos</label>
-										<input name="lastName" type="text" th:field="${doctor.lastName}">
+										<input class="form-control" name="lastName" type="text" th:field="*{lastName}"
+												th:classappend="${#fields.hasErrors('lastName')}? 'is-invalid' : ''">
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}"
+											 th:errors="*{lastName}"></div>
 									</div>
 								</div>
 								<div class="col-lg-3 col-sm-6 col-12">

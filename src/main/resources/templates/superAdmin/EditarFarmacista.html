@@ -200,19 +200,24 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Nombre</label>
-											<input name="name" type="text" th:field="${farmacista.name}">
+											<input class="form-control" name="name" type="text" th:field="${farmacista.name}"
+											 		th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Apellidos</label>
-											<input name="lastName" type="text" th:field="${farmacista.lastName}">
+											<input class="form-control" name="lastName" type="text" th:field="${farmacista.lastName}"
+												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>DNI</label>
-											<input name="dni" type="text" th:field="${farmacista.dni}">
+											<input name="dni" type="hidden" th:field="${farmacista.dni}">
+											<span class="form-text" th:text="*{dni}"></span>
 										</div>
 									</div>
 
@@ -220,38 +225,46 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Correo</label>
-											<input name="email" type="text" th:field="${farmacista.email}">
+											<input class="form-control" name="email" type="text" th:field="${farmacista.email}"
+												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Distrito</label>
-											<input name="distrit" type="text" th:field="${farmacista.distrit}">
+											<input class="form-control" name="distrit" type="text" th:field="${farmacista.distrit}"
+												   th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Sede</label>
-											<select name="site" class="select">
+											<select name="site" class="custom-select"
+													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
 												<option>Selecciona categoría</option>
 												<option value="Pando 1" th:selected="${farmacista.site == 'Pando 1'}">Pando 1</option>
 												<option value="Pando 2" th:selected="${farmacista.site == 'Pando 2'}">Pando 2</option>
 												<option value="Pando 3" th:selected="${farmacista.site == 'Pando 3'}">Pando 3</option>
 												<option value="Pando 4" th:selected="${farmacista.site == 'Pando 4'}">Pando 4</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Estado</label>
-											<select name="state" class="select">
+											<select name="state" class="custom-select"
+													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
 												<option>Selecciona categoría</option>
 												<option value="activo" th:selected="${farmacista.state == 'activo'}">activo</option>
 												<option value="baneado" th:selected="${farmacista.state == 'baneado'}">baneado</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
 										</div>
 									</div>
 

@@ -193,41 +193,51 @@
 					<!-- /add -->
 					<div class="card">
 						<div class="card-body">
-							<form method="post" th:action="@{'agregarAdminSede'}">
+							<form method="post" th:action="@{'agregarAdminSede'}" th:object="${adminSede}">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">Nombre</label>
-											<input type="text" id="name" name="name">
+											<input class="form-control" type="text" id="name" name="name"
+												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="lastName">Apellidos</label>
-											<input type="text" id="lastName" name="lastName">
+											<input class="form-control" type="text" id="lastName" name="lastName"
+												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="dni">DNI</label>
-											<input type="text" id="dni" name="dni">
+											<input class="form-control" type="text" id="dni" name="dni"
+												   th:classappend="${#fields.hasErrors('dni')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="correo">Correo</label>
-											<input type="text" id="correo" name="email">
+											<input class="form-control" type="text" id="correo" name="email"
+												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="sede">Sede</label>
-											<select class="select" id="sede" name="site">
+											<select class="custom-select" id="sede" name="site"
+													th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
 												<option selected>Seleccionar</option>
 												<option th:each="sede : ${listaSedes}"
 														th:value="${sede.name}"
 														th:text="${sede.name}"></option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>
 									</div>
 									<div class="col-lg-12">

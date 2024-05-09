@@ -445,7 +445,7 @@ public class SuperAdminController {
     public String editarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         if (bindingResult.hasErrors()) {
-            return "superAdmin/EditarAdminSede";
+            return "superAdmin/EditarAdministrador";
         }else {
             attributes.addFlashAttribute("msg", "Administrador creado exitosamente");
             administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());

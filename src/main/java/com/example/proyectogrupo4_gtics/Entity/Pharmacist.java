@@ -1,10 +1,7 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -31,14 +28,24 @@ public class Pharmacist {
     private String lastName;
 
     @Column(name="site")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "La sede no debe superar los 45 carácteres")
     private String site;
 
+    @Column(unique = true)
+    @NotBlank(message = "Este campo es obligatorio")
+    @Digits(integer = 8, fraction = 0, message = "El DNI debe ser un número y tener 8 dígitos")
     private String dni;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El distrito no debe superar los 45 carácteres")
     private String distrit;
 
     private String code;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El correo electrónico no debe superar los 45 carácteres")
+    @Email(message = "Se debe ingresar un correo electrónico")
     private String email;
 
     private String password;
@@ -48,6 +55,8 @@ public class Pharmacist {
     @Column(name = "rejectedreason")
     private String rejectedReason;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El estado no debe superar los 45 carácteres")
     private String state;
 
     private String photo;

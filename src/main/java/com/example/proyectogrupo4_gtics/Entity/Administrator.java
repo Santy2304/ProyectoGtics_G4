@@ -29,7 +29,7 @@ public class Administrator{
     private String lastName;
 
     @Column(name="dni")
-    @NotNull(message = "Este campo es obligatorio")
+    @NotBlank(message = "Este campo es obligatorio")
     @Digits(integer = 8, fraction = 0, message = "El DNI debe ser un número y tener 8 dígitos")
     private String dni;
 

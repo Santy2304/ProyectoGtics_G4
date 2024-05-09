@@ -234,7 +234,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="sede">Sede</label>
-											<select class="custom-select" id="sede" name="headquarter"
+											<select class="form-select" id="sede" name="headquarter"
 													th:classappend="${#fields.hasErrors('headquarter')? 'is-invalid' : ''}">
 												<option selected>Seleccionar</option>
 												<option th:each="sede : ${listaSedes}"

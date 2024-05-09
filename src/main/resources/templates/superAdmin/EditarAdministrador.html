@@ -234,7 +234,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Sede</label>
-											<select class="custom-select" name="site" th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
+											<select class="form-select" name="site" th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
 												<option>Selecciona categoría</option>
 												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
 												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
@@ -248,11 +248,11 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Estado</label>
-											<select name="state" class="custom-select"
+											<select name="state" class="form-select"
 													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
 												<option>Selecciona categoría</option>
 												<option value="activo" th:selected="${adminSede.state == 'activo'}">activo</option>
-												<option value="baneado" th:selected="${adminSede.state == 'baneado'}">baneado</option>
+												<option value="baneado1" th:selected="${adminSede.state == 'baneado'}">baneado</option>
 											</select>
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
 										</div>
@@ -288,7 +288,7 @@
 									</div>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<button  href="/verListadosSuperAdmin" class="btn btn-cancel">Cancelar</button>
+										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

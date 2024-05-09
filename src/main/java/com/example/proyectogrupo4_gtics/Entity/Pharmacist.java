@@ -16,6 +16,7 @@ public class Pharmacist {
     @Column(name = "idpharmacist")
     @NotNull
     @Digits(integer = 8, fraction = 0)
+    @PositiveOrZero
     private int idFarmacista;
 
     @NotBlank(message = "Este campo es obligatorio")

@@ -15,7 +15,7 @@ public class Administrator{
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idadministrator")
     @Digits(integer = 10, fraction = 0)
-    @Positive
+    @PositiveOrZero
     private int idAdministrador;
 
     @Column(name="name")

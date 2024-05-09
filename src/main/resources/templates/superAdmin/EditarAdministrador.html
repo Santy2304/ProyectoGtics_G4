@@ -250,9 +250,9 @@
 											<label>Estado</label>
 											<select name="state" class="form-select"
 													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
-												<option>Selecciona categoría</option>
+												<option value="">Selecciona categoría</option>
 												<option value="activo" th:selected="${adminSede.state == 'activo'}">activo</option>
-												<option value="baneado1" th:selected="${adminSede.state == 'baneado'}">baneado</option>
+												<option value="baneado" th:selected="${adminSede.state == 'baneado'}">baneado</option>
 											</select>
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
 										</div>

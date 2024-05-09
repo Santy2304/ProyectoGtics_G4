@@ -238,7 +238,7 @@
 										<label>Sede</label>
 										<select class="form-select" name="headquarter"
 												th:classappend="${#fields.hasErrors('headquarter')? 'is-invalid' : ''}">
-											<option>Selecciona categoría</option>
+											<option value="">Selecciona categoría</option>
 											<option value="Pando 1" th:selected="${doctor.headquarter == 'Pando 1'}">Pando 1</option>
 											<option value="Pando 2" th:selected="${doctor.headquarter == 'Pando 2'}">Pando 2</option>
 											<option value="Pando 3" th:selected="${doctor.headquarter == 'Pando 3'}">Pando 3</option>
@@ -253,7 +253,7 @@
 										<label>Estado</label>
 										<select class="form-select" name="state"
 												th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
-											<option>Selecciona categoría</option>
+											<option value="">Selecciona categoría</option>
 											<option value="activo" th:selected="${doctor.state == 'activo'}">activo</option>
 											<option value="baneado" th:selected="${doctor.state == 'baneado'}">baneado</option>
 										</select>

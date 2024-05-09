@@ -245,7 +245,7 @@
 											<label>Sede</label>
 											<select name="site" class="form-select"
 													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
-												<option>Selecciona categoría</option>
+												<option value="">Selecciona categoría</option>
 												<option value="Pando 1" th:selected="${farmacista.site == 'Pando 1'}">Pando 1</option>
 												<option value="Pando 2" th:selected="${farmacista.site == 'Pando 2'}">Pando 2</option>
 												<option value="Pando 3" th:selected="${farmacista.site == 'Pando 3'}">Pando 3</option>
@@ -260,7 +260,7 @@
 											<label>Estado</label>
 											<select name="state" class="form-select"
 													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
-												<option>Selecciona categoría</option>
+												<option value="">Selecciona categoría</option>
 												<option value="activo" th:selected="${farmacista.state == 'activo'}">activo</option>
 												<option value="baneado" th:selected="${farmacista.state == 'baneado'}">baneado</option>
 											</select>

@@ -236,7 +236,7 @@
 											<label for="sede">Sede</label>
 											<select class="form-select" id="sede" name="headquarter"
 													th:classappend="${#fields.hasErrors('headquarter')? 'is-invalid' : ''}">
-												<option selected>Seleccionar</option>
+												<option selected value="">Seleccionar</option>
 												<option th:each="sede : ${listaSedes}"
 														th:value="${sede.name}"
 														th:text="${sede.name}"></option>

@@ -133,6 +133,7 @@ public class LogInController {
         if(!(patient == null)){
             response.put("response" ,"/sessionPatient?idUser="+patient.getIdPatient());
             model.addAttribute("idUser" , patient.getIdPatient());
+
             return response;
         }
         if( !(admin == null) ) {

@@ -200,19 +200,24 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Nombre</label>
-											<input name="name" type="text" th:field="${adminSede.name}">
+											<input class="form-control" name="name" type="text" th:field="${adminSede.name}"
+													th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Apellidos</label>
-											<input name="lastName" type="text" th:field="${adminSede.lastName}">
+											<input class="form-control" name="lastName" type="text" th:field="${adminSede.lastName}"
+													th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>DNI</label>
-											<input name="dni" type="text" th:field="${adminSede.dni}">
+											<input name="dni" type="hidden" th:field="${adminSede.dni}">
+											<span class="form-text" th:text="*{dni}"></span>
 										</div>
 									</div>
 
@@ -220,31 +225,36 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Correo</label>
-											<input name="email" type="text" th:field="${adminSede.email}">
+											<input class="form-control" name="email" type="text" th:field="${adminSede.email}"
+													th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Sede</label>
-											<select name="site" class="select">
-												<option>Selecciona categoría</option>
+											<select class="form-select" name="site" th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
 												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
 												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
 												<option value="Pando 3" th:selected="${adminSede.site == 'Pando 3'}">Pando 3</option>
 												<option value="Pando 4" th:selected="${adminSede.site == 'Pando 4'}">Pando 4</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label>Estado</label>
-											<select name="state" class="select">
-												<option>Selecciona categoría</option>
+											<select name="state" class="form-select"
+													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
 												<option value="activo" th:selected="${adminSede.state == 'activo'}">activo</option>
 												<option value="baneado" th:selected="${adminSede.state == 'baneado'}">baneado</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
 										</div>
 									</div>
 
@@ -278,7 +288,7 @@
 									</div>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<button  href="/verListadosSuperAdmin" class="btn btn-cancel">Cancelar</button>
+										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

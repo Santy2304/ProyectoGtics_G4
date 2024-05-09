@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
@@ -37,7 +38,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
-    void actualizarMedicine(String name,String category,Double price,String description ,int idMedicine);
+    void actualizarMedicine(String name, String category, BigDecimal price, String description , int idMedicine);
 
 
     /*Rol administrador de sede*/

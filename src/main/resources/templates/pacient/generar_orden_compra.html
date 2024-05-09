@@ -88,7 +88,6 @@
 								<p class="card-text">Rellene sus datos correctamente, recuerde que el farmacista tiene la potestad de <code>rechazar</code> su orden por datos erroneos.</p>
 							</div>
 							<div class="card-body">
-								<form>
 									<div class="form-row row">
 										<div class="col-md-4 mb-3">
 											<div class="form-group">
@@ -106,7 +105,7 @@
 										</div>
 										<div class="col-md-4 mb-3">
 											<label >Teléfono</label>
-											<input type="text" class="form-control mt-2" name="phoneNumber" >
+											<input type="text" class="form-control mt-2" name="phoneNumber" required>
 										<!--	<div class="invalid-feedback">
 												Por favor ingrese un número correcto
 											</div>-->
@@ -116,36 +115,55 @@
 									<div class="form-row row">
 										<div class="col-md-6 mb-3">
 											<label class="mb-2" >Dirección</label>
-											<input th:value="${direccion}" type="text" class="form-control " name="direccion" >
+											<input th:value="${direccion}" type="text" class="form-control " name="direccion" required>
 										<!--	<div class="valid-feedback">
 												Correcto!
 											</div>-->
 										</div>
 										<div class="col-md-3 mb-3">
 											<div class="form-group">
-												<label>Fecha de entrega</label>
-												<div class="input-groupicon">
-													<input type="text" placeholder="DD-MM-YYYY" class="datetimepicker">
-													<div class="addonset">
-														<img src="../assets_pacient/img/icons/calendars.svg" alt="img">
+												<label>Hora de Entrega</label>
+												<div class="row">
+													<div class="col-lg-12">
+														<select  name="Hour"  class="form-control" >
+															<option value="00:00:00">00:00:00</option>
+															<option value="01:00:00">01:00:00</option>
+															<option value="02:00:00">02:00:00</option>
+															<option value="03:00:00">03:00:00</option>
+															<option value="04:00:00">04:00:00</option>
+															<option value="05:00:00">05:00:00</option>
+															<option value="06:00:00">06:00:00</option>
+															<option value="07:00:00">07:00:00</option>
+															<option value="08:00:00">08:00:00</option>
+															<option value="09:00:00">09:00:00</option>
+															<option value="10:00:00">10:00:00</option>
+															<option value="11:00:00">11:00:00</option>
+															<option value="12:00:00">12:00:00</option>
+															<option value="13:00:00">13:00:00</option>
+															<option value="14:00:00">14:00:00</option>
+															<option value="15:00:00">15:00:00</option>
+															<option value="16:00:00">16:00:00</option>
+															<option value="17:00:00">17:00:00</option>
+															<option value="18:00:00">18:00:00</option>
+															<option value="19:00:00">19:00:00</option>
+															<option value="20:00:00">20:00:00</option>
+															<option value="21:00:00">21:00:00</option>
+															<option value="22:00:00">22:00:00</option>
+															<option value="23:00:00">23:00:00</option>
+														</select>
 													</div>
 												</div>
 											</div>
 										</div>
 
 									</div>
-
-
-
 									<div class="form-row row">
 										<div class="mb-3">
-											<input type="file" class="form-control" aria-label="file example" required>
+											<input type="file" class="form-control" aria-label="file example">
 											<div class="invalid-feedback">Example invalid form file feedback</div>
 										</div>
 									</div>
-
 									<button class="btn btn-primary mt-2" href="numero_de_orden.html" type="submit">Enviar</button>
-								</form>
 							</div>
 						</div>
 					</div>
@@ -172,9 +190,12 @@
 													<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
 												</a>
 												<a th:text="*{medicine.getName()}"></a>
-												<input id="idMedicina1" name ="medicina1" value="26" type="hidden">
+												<input name="idMedicine"  th:field="*{medicine.idMedicine}" type="hidden">
+
 											</td>
-											<td>1</td>
+											<td>
+											1	<input type="hidden" name="cantidad" value="1">
+											</td>
 											<td th:text="${medicine.getPrice()}"></td>
 										</tr>
 

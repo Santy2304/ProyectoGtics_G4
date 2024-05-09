@@ -247,6 +247,10 @@
                 <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
                 <h3 class="category-title">Alergias</h3>
               </a>
+              <a href="category.html" class="nav-link category-item swiper-slide">
+                <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
+                <h3 class="category-title">Otros</h3>
+              </a>
               <a  class="nav-link category-item swiper-slide">
                 <img src="..\assets_pacient\img\icons\sales1.svg" width="120" height="95" alt="Category Thumbnail">
                 <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
@@ -254,10 +258,7 @@
                   <span class="cart-total fs-5 fw-bold">S/290.00</span>
                 </button>
               </a>
-              <a href="category.html" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Otros</h3>
-              </a>
+
             </div>
           </div>
 
@@ -380,7 +381,6 @@
                     </figure>
                     <h3 th:text="${medicine.nombreMedicamento}"></h3>
                     <input  name="nombre" th:value="${medicine.nombreMedicamento}" type="hidden" >
-                    <span class="rating" th:text="${medicine.descripcionMedicamento}"></span>
                     <!--/*@thymesVar id="valoracion" type=""*/-->
                     <span class="price" th:text="${medicine.getPrecio()}"></span>
                     <input  name="precio" th:value="${medicine.getPrecio()}" type="hidden" >

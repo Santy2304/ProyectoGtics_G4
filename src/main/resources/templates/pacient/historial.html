@@ -218,31 +218,24 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr>
+						<tr th:each="compras : ${listaCompras}">
 
-							<td class="text-bolds">1</td>
-							<td><a href="detalle.html">
+							<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+							<td>
+								<a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
 								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a></td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>550.00</td>
-							<td>Pagado</td>
+								</a>
+							</td>
+							<td th:text="${compras.getFecha()}"></td>
+							<td th:text="${compras.getEstado()}"></td>
+							<td th:text="${compras.getTotal_price()}"></td>
+							<td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
+        <a th:href="@{'/verDatosPagoPaciente?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
+    </span>
+								<span th:unless="${compras.getEstadoPago() eq 'por pagar'}" th:text="${compras.getEstadoPago()}"></span></td>
 						</tr>
-						<tr>
 
-							<td class="text-bolds">2</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a></td>
-							<td>07/04/24</td>
-							<td>Finalizado</td>
-							<td>410.00</td>
-							<td>---</td>
-
-						</tr>
+							<!--
 						<tr>
 
 							<td class="text-bolds">3</td>
@@ -256,104 +249,8 @@
 							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
 
 						</tr>
-						<tr>
 
-							<td class="text-bolds">4</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a></td>
-							<td>07/04/24</td>
-							<td>En Evaluación</td>
-							<td>210.00</td>
-							<td>---</td>
-
-						</tr>
-						<tr>
-
-							<td class="text-bolds">5</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a></td>
-							<td>07/04/24</td>
-							<td>Rechazado</td>
-							<td>210.00</td>
-							<td>---</td>
-
-						</tr>
-						<tr>
-
-							<td class="text-bolds">6</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a></td>
-							<td>07/04/24</td>
-							<td>Finalizado</td>
-							<td>210.00</td>
-							<td>---</td>
-
-						</tr>
-
-						<tr>
-
-							<td class="text-bolds">29</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a>
-							</td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>410.00</td>
-							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
-
-						</tr>
-						<tr>
-
-							<td class="text-bolds">19</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a>
-							</td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>410.00</td>
-							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
-
-						</tr>
-						<tr>
-
-							<td class="text-bolds">23</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a>
-							</td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>410.00</td>
-							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
-
-						</tr>
-						<tr>
-
-							<td class="text-bolds">34</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
-
-							</a>
-							</td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>410.00</td>
-							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
-
-						</tr>
-
-
+-->
 						</tbody>
 					</table>
 				</div>

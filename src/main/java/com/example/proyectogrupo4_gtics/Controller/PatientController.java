@@ -1,11 +1,9 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
-import com.example.proyectogrupo4_gtics.Entity.Patient;
-import com.example.proyectogrupo4_gtics.Entity.Site;
-import com.example.proyectogrupo4_gtics.Repository.MedicineRepository;
-import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
-import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
+import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
+import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
+import com.example.proyectogrupo4_gtics.Entity.*;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,10 +32,23 @@ public class PatientController {
     final PatientRepository patientRepository;
     final MedicineRepository medicineRepository;
 
-    public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository) {
+    final PurchaseHasLoteRepository purchaseHasLoteRepository;
+
+    final PurchaseOrderRepository purchaseOrderRepository;
+    private final DoctorRepository doctorRepository;
+    private final LoteRepository loteRepository;
+
+    public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
+                              PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
+                              DoctorRepository doctorRepository,
+                              LoteRepository loteRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
+        this.purchaseHasLoteRepository = purchaseHasLoteRepository;
+        this.purchaseOrderRepository = purchaseOrderRepository;
+        this.doctorRepository = doctorRepository;
+        this.loteRepository = loteRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -82,22 +95,97 @@ public class PatientController {
         return "pacient/chat";
     }
     @GetMapping("/verDatosPagoPaciente")
-    public String verDatosPago(){
+    public String verDatosPago(@RequestParam("idPurchase") int idPurchase){
         return "pacient/datos_pago";
     }
     //No funciona bien
-    @GetMapping("/verDetallePaciente")
-    public String verDetalle(){
-        return "pacient/detalle";
-    }
+
+    //////////////////////////ORDENES DE COMPRA///////////////////////
     @GetMapping("/verGenerarOrdenCompraPaciente")
-    public String verGenerarOrdenCompra(){
+    public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model){
+
+        Optional<Site> sede = siteRepository.findById(Integer.parseInt(idSede));
+        model.addAttribute("listaDoctores",doctorRepository.listaDoctorPorSedePaciente(sede.get().getName()));
+
+        Patient paciente = patientRepository.findById(Integer.parseInt(idUser)).get();
+        model.addAttribute("direccion",paciente.getLocation());
+
+        Medicine medicine = medicineRepository.findById(1).get();
+
+        model.addAttribute("medicine",medicine);
         return "pacient/generar_orden_compra";
     }
+
+
+    @PostMapping("/crearOrdenCompra")
+    public String agregarOrdenCompra(PurchaseOrder purchaseOrder, @SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede,
+                                     @RequestParam("Hour") String HourStr,
+                                     @RequestParam("cantidad")int cantidad,
+                                     @RequestParam("idMedicine") int idMedicine,
+                                     Model model){
+
+        Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
+        purchaseOrder.setPatient(patient);
+        purchaseOrder.setApproval("pendiente");
+        Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
+        purchaseOrder.setSite(sede.getName());
+        purchaseOrder.setStatePaid("en espera");
+        purchaseOrder.setTipo("web");
+        LocalTime deliveryHour = LocalTime.parse(HourStr);
+        purchaseOrder.setDeliveryHour(deliveryHour);
+        purchaseOrder.setReleaseDate(LocalDate.now());
+
+        purchaseOrderRepository.save(purchaseOrder);
+
+        PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+        purchaseHasLote.setCantidadComprar(cantidad);
+
+        purchaseHasLote.setPurchaseOrder(purchaseOrder);
+        PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+        purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+
+
+        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad);
+
+        if (listaLotesPosibles.isEmpty()){
+            return "redirect:/verPrincipalPaciente";
+        }
+        purchaseHasLote.setLote(listaLotesPosibles.get(0));
+        purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+
+        purchaseHasLote.setId(purchaseHasLotID);
+
+        purchaseHasLoteRepository.save(purchaseHasLote);
+
+        return "redirect:/verTicket?idCompra="+purchaseOrder.getId();
+    }
+
+
+    @GetMapping("/verTicket")
+    public String verTicket(@SessionAttribute("idUser") String idUser,@RequestParam("idCompra") int idCompra , Model model){
+
+        model.addAttribute("idCompra",idCompra);
+
+        return "pacient/ticketOrdenCompra";
+    }
+
+
+
     @GetMapping("/verHistorialPaciente")
-    public String verHistorial(){
+    public String verHistorial(@SessionAttribute("idUser") String idUser , Model model){
+        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(Integer.parseInt(idUser));
+        model.addAttribute("listaCompras",comprasPorPaciente);
         return "pacient/historial";
     }
+
+    @GetMapping("/verDetalleCompraPatient")
+    public String verDetalleCompra(@SessionAttribute("idUser") String idUser,@RequestParam("idPurchase") int idPurchase , Model model){
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
+        return "pacient/detalle";
+    }
+
+/////////////////////////////////////////////////////////
     @GetMapping("/verNumeroOrdenPaciente")
     public String verNumeroOrdenPaciente(){
         return "pacient/numero_de_orden";
@@ -138,7 +226,12 @@ public class PatientController {
         }
     }
     @GetMapping("/verTrackingPaciente")
-    public String verTrackingPaciente(){
+    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model){
+
+        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(Integer.parseInt(idUser));
+
+        model.addAttribute("listaTracking",tracking);
+
         return "pacient/tracking";
     }
     @PostMapping("/editarPerfilPaciente")

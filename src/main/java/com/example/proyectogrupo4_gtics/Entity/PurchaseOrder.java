@@ -1,105 +1,102 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
+
 import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.Timer;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
-@Table(name="purchaseorder")
+@Table(name = "purchaseorder")
 public class PurchaseOrder {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpurchaseorder", nullable = false)
-    private int idOrdenCompra;
+    private Integer id;
 
-    @Column(name = "phoneNumber")
-    private String numeroTelefono;
+    @Column(name = "phonenumber")
+    private String phoneNumber;
 
-    @Column(name = "deliveryHour")
-    private Date horaDelivery;
+    @Column(name = "deliveryhour", nullable = false)
+    private LocalTime deliveryHour;
 
     @Column(name = "prescription")
-    private String prescripcion;
+    private byte[] prescription;
 
     @ManyToOne
-    @JoinColumn(name="idpatient",nullable = false)
-    private Patient paciente;
+    @JoinColumn(name = "idpatient", nullable = false)
+    private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name="iddoctor",nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "iddoctor")
+    private Doctor idDoctor;
 
-    @Column(name="tracking")
+    @Column(name = "tracking")
     private String tracking;
 
-    @Column(name="approval")
-    private String aprovado;
+    @Column(name = "approval")
+    private String approval;
 
-    @Column(name="releaseDate", nullable = false)
-    private Date fechaRelease;
+    @Column(name = "releasedate")
+    private LocalDate releaseDate;
 
-    @Column(name="recurrent")
-    private Boolean recurrente;
+    @Column(name = "recurrent")
+    private Byte recurrent;
 
-    @Column(name="statePaid")
-    private String estadoPago;
+    @Column(name = "site")
+    private String site;
 
-    @Column(name="tipo")
-    private String tipo;
 
-    @Column(name="direccion")
+
+    @Column(name = "statepaid")
+    private String statePaid;
+
     private String direccion;
 
-    @Column(name="tipoPago")
-    private String tipoPago;
+    private String tipo;
 
-    public int getIdOrdenCompra() {
-        return idOrdenCompra;
+    public String getStatePaid() {
+        return statePaid;
     }
 
-    public void setIdOrdenCompra(int idOrdenCompra) {
-        this.idOrdenCompra = idOrdenCompra;
+    public void setStatePaid(String statePaid) {
+        this.statePaid = statePaid;
     }
 
-    public String getNumeroTelefono() {
-        return numeroTelefono;
+
+    public String getSite() {
+        return site;
     }
 
-    public void setNumeroTelefono(String numeroTelefono) {
-        this.numeroTelefono = numeroTelefono;
+    public void setSite(String site) {
+        this.site = site;
     }
 
-    public Date getHoraDelivery() {
-        return horaDelivery;
+    public Byte getRecurrent() {
+        return recurrent;
     }
 
-    public void setHoraDelivery(Date horaDelivery) {
-        this.horaDelivery = horaDelivery;
+    public void setRecurrent(Byte recurrent) {
+        this.recurrent = recurrent;
     }
 
-    public String getPrescripcion() {
-        return prescripcion;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setPrescripcion(String prescripcion) {
-        this.prescripcion = prescripcion;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
-    public Patient getPaciente() {
-        return paciente;
+    public String getApproval() {
+        return approval;
     }
 
-    public void setPaciente(Patient paciente) {
-        this.paciente = paciente;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setApproval(String approval) {
+        this.approval = approval;
     }
 
     public String getTracking() {
@@ -110,37 +107,61 @@ public class PurchaseOrder {
         this.tracking = tracking;
     }
 
-    public String getAprovado() {
-        return aprovado;
+    public Doctor getIdDoctor() {
+        return idDoctor;
     }
 
-    public void setAprovado(String aprovado) {
-        this.aprovado = aprovado;
+    public void setIdDoctor(Doctor idDoctor) {
+        this.idDoctor = idDoctor;
     }
 
-    public Date getFechaRelease() {
-        return fechaRelease;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setFechaRelease(Date fechaRelease) {
-        this.fechaRelease = fechaRelease;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
-    public Boolean getRecurrente() {
-        return recurrente;
+    public byte[] getPrescription() {
+        return prescription;
     }
 
-    public void setRecurrente(Boolean recurrente) {
-        this.recurrente = recurrente;
+    public void setPrescription(byte[] prescription) {
+        this.prescription = prescription;
+    }
+
+    public LocalTime getDeliveryHour() {
+        return deliveryHour;
+    }
+
+    public void setDeliveryHour(LocalTime deliveryHour) {
+        this.deliveryHour = deliveryHour;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 
-    public String getEstadoPago() {
-        return estadoPago;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setEstadoPago(String estadoPago) {
-        this.estadoPago = estadoPago;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getTipo() {
@@ -151,3 +172,4 @@ public class PurchaseOrder {
         this.tipo = tipo;
     }
 }
+

@@ -210,7 +210,7 @@
 									<div class="form-group">
 										<label>Apellidos</label>
 										<input class="form-control" name="lastName" type="text" th:field="*{lastName}"
-												th:classappend="${#fields.hasErrors('lastName')}? 'is-invalid' : ''">
+												th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
 										<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}"
 											 th:errors="*{lastName}"></div>
 									</div>
@@ -218,7 +218,8 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>DNI</label>
-										<input name="dni" type="text" th:field="${doctor.dni}">
+										<input name="dni" type="hidden" th:field="${doctor.dni}">
+										<span th:text="*{dni}"></span>
 									</div>
 								</div>
 
@@ -226,31 +227,37 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Correo</label>
-										<input name="email" type="text" th:field="${doctor.email}">
+										<input class="form-control" name="email" type="text" th:field="${doctor.email}"
+												th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Sede</label>
-										<select name="headquarter" class="select">
+										<select class="custom-select" name="headquarter" class="select"
+												th:classappend="${#fields.hasErrors('headquarter')? 'is-invalid' : ''}">
 											<option>Selecciona categoría</option>
 											<option value="Pando 1" th:selected="${doctor.headquarter == 'Pando 1'}">Pando 1</option>
 											<option value="Pando 2" th:selected="${doctor.headquarter == 'Pando 2'}">Pando 2</option>
 											<option value="Pando 3" th:selected="${doctor.headquarter == 'Pando 3'}">Pando 3</option>
 											<option value="Pando 4" th:selected="${doctor.headquarter == 'Pando 4'}">Pando 4</option>
 										</select>
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('headquarter')}" th:errors="*{headquarter}"></div>
 									</div>
 								</div>
 
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label>Estado</label>
-										<select name="state" class="select">
+										<select class="custom-select" name="state" class="select"
+												th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
 											<option>Selecciona categoría</option>
 											<option value="activo" th:selected="${doctor.state == 'activo'}">activo</option>
 											<option value="baneado" th:selected="${doctor.state == 'baneado'}">baneado</option>
 										</select>
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
 									</div>
 								</div>
 

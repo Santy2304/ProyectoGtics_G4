@@ -496,7 +496,7 @@ public class SuperAdminController {
             return "superAdmin/EditarFarmacista";
         } else {
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
             return "redirect:/verListadosSuperAdmin";
         }
     }

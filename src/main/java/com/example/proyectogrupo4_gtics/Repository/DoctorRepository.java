@@ -26,6 +26,11 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     List<DoctorPorSedeDTO> listaDoctorPorBuscador(String nombre, int idAdministrator);
 
 
+    @Query(nativeQuery = true, value = "select * from doctor where headquarter=?1")
+    List<Doctor> listaDoctorPorSedePaciente(String sede);
+
+
+
     @Transactional
     @Modifying
     @Query(value = "update doctor set state = 'eliminado'  where idDoctor =?1" , nativeQuery = true)

@@ -36,14 +36,17 @@ public class PatientController {
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
 
     final PurchaseOrderRepository purchaseOrderRepository;
+    private final DoctorRepository doctorRepository;
 
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
-                              PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository) {
+                              PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
+                              DoctorRepository doctorRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
         this.purchaseHasLoteRepository = purchaseHasLoteRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
+        this.doctorRepository = doctorRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -96,7 +99,17 @@ public class PatientController {
     //No funciona bien
 
     @GetMapping("/verGenerarOrdenCompraPaciente")
-    public String verGenerarOrdenCompra(){
+    public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model){
+
+        Optional<Site> sede = siteRepository.findById(Integer.parseInt(idSede));
+        model.addAttribute("listaDoctores",doctorRepository.listaDoctorPorSedePaciente(sede.get().getName()));
+
+        Patient paciente = patientRepository.findById(Integer.parseInt(idUser)).get();
+        model.addAttribute("direccion",paciente.getLocation());
+
+        Medicine medicine = medicineRepository.findById(1).get();
+
+        model.addAttribute("medicine",medicine);
         return "pacient/generar_orden_compra";
     }
     @GetMapping("/verHistorialPaciente")

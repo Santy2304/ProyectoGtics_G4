@@ -55,6 +55,8 @@ public class PurchaseOrder {
     @Column(name = "statepaid")
     private String statePaid;
 
+    private String direccion;
+
     public String getStatePaid() {
         return statePaid;
     }
@@ -157,6 +159,15 @@ public class PurchaseOrder {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 }
 

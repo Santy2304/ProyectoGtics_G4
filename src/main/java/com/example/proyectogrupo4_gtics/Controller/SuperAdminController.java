@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -349,10 +350,10 @@ public class SuperAdminController {
 
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")
-    public String editarDoctor(@Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
+    public String editarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         if (bindingResult.hasErrors()) {
-            return "redirect:/editarDoctor?idDoctor=" + doctor.getIdDoctor();
+            return "superAdmin/editarDoctor";
         } else {
             attributes.addFlashAttribute("msg", "Doctor actualizado correctamente");
             doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(), doctor.getDni(), doctor.getEmail(), doctor.getHeadquarter(), doctor.getState(), doctor.getIdDoctor());
@@ -361,10 +362,11 @@ public class SuperAdminController {
     }
 
     @GetMapping("/editarDoctor")
-    public String verEditarDoctor(@RequestParam("idDoctor") int idDoctor , Model model) {
-        Optional<Doctor> doctor =  doctorRepository.findById(idDoctor);
-        if(doctor.isPresent()){
-            model.addAttribute("doctor", doctor.get());
+    public String verEditarDoctor(@ModelAttribute("doctor") Doctor doctor, @RequestParam("idDoctor") int idDoctor, Model model) {
+        Optional<Doctor> optDoctor =  doctorRepository.findById(idDoctor);
+        if(optDoctor.isPresent()){
+            doctor = optDoctor.get();
+            model.addAttribute("doctor", doctor);
             return "superAdmin/EditarDoctor";
         }else{
             return "redirect:/verListadosSuperAdmin";
@@ -372,14 +374,14 @@ public class SuperAdminController {
     }
 
     @GetMapping("/verAgregarDoctorSuperAdmin")
-    public String verAgregarDoctor(Model model) {
+    public String verAgregarDoctor(@ModelAttribute("doctor") Doctor doctor, Model model) {
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarDoctor";
     }
 
     @PostMapping("/agregarDoctor")
-    public String agregarDoctor(@Valid Doctor doctor){
+    public String agregarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor){
         doctor.setCreationDate(LocalDate.now());
         doctor.setState("activo");
         doctorRepository.save(doctor);

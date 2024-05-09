@@ -137,6 +137,7 @@ public class AdminSedeController {
             pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
             pharmacist.setRequestDate(LocalDate.now());
+            pharmacist.setState("En espera");
             pharmacistRepository.save(pharmacist);
             return "redirect:/listaFarmacistaAdminSede";
 

@@ -121,7 +121,8 @@ public class PatientController {
     public String agregarOrdenCompra(PurchaseOrder purchaseOrder, @SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede,
                                      @RequestParam("Hour") String HourStr,
                                      @RequestParam("cantidad")int cantidad,
-                                     @RequestParam("idMedicine") int idMedicine){
+                                     @RequestParam("idMedicine") int idMedicine,
+                                     Model model){
 
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
         purchaseOrder.setPatient(patient);
@@ -156,9 +157,17 @@ public class PatientController {
 
         purchaseHasLoteRepository.save(purchaseHasLote);
 
-        return "redirect:/verHistorialPaciente";
+        return "redirect:/verTicket?idCompra="+purchaseOrder.getId();
     }
 
+
+    @GetMapping("/verTicket")
+    public String verTicket(@SessionAttribute("idUser") String idUser,@RequestParam("idCompra") int idCompra , Model model){
+
+        model.addAttribute("idCompra",idCompra);
+
+        return "pacient/ticketOrdenCompra";
+    }
 
 
 

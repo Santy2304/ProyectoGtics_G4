@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer> {
 
-    @Query(nativeQuery = true, value = "SELECT * FROM SuperAdmin where email= ?1 and password=?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM superadmin where email= ?1 and password=?2")
     SuperAdmin buscarSuperAdmin (String email , String password);
 
     //Listar administradores

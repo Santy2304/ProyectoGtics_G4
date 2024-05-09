@@ -66,13 +66,13 @@ public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer>
     //Banear administrador
     @Transactional
     @Modifying
-    @Query(value = "update administrator set banned=TRUE where idadministrator=?1", nativeQuery= true)
+    @Query(value = "update administrator set banned=TRUE where idAdministrator=?1", nativeQuery= true)
     void banearAdmin(int idAdmin);
 
     //Registrar administrador
     @Transactional
     @Modifying
-    @Query(value = "insert into administrator (name,lastname,dni,site,email,password,datecreationaccount) values (?1,?2,?3,?4,?5,?6,now())",nativeQuery = true)
+    @Query(value = "insert into administrator (name,lastname,dni,site,email,password,dateCreationAccount) values (?1,?2,?3,?4,?5,?6,now())",nativeQuery = true)
     void agregarAdmin(String name, String lastname, String dni, String site,String email, String password);
 
     //Editar perfil de SuperAdmin

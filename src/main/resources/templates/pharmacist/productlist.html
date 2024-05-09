@@ -55,17 +55,90 @@
 							<h4>ORDEN DE VENTA</h4>
 						</div>
 					</div>
+
+					<div class="card">
+						<div class="card-body">
+							<div class="table-top">
+								<div class="search-set">
+									<div class="search-path">
+										<a class="btn btn-filter" id="filter_search">
+											<img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+											<span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+										</a>
+									</div>
+									<div class="search-input">
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+									</div>
+								</div>
+
+							</div>
+						<div class="card mb-0" id="filter_inputs">
+							<div class="card-body pb-0">
+								<div class="row">
+									<div class="col-lg-12 col-sm-12">
+										<div class="row">
+											<!--
+                                            <div class="col-lg col-sm-6 col-12">
+                                                <div class="form-group">
+                                                    <select class="select">
+                                                        <option>Choose Product</option>
+                                                        <option>Macbook pro</option>
+                                                        <option>Orange</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            -->
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Categoría</option>
+														<option>Dolor</option>
+														<option>Belleza</option>
+														<option>Suplementos</option>
+														<option>Alergías</option>
+														<option>Otros</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="col-lg col-sm-6 col-12">
+												<div class="form-group">
+													<select class="select">
+														<option>Cantidad</option>
+														<option>0 - 25</option>
+														<option>25 - 50</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg col-sm-6 col-12 ">
+												<div class="form-group">
+													<select class="select">
+														<option>Precio (s/.)</option>
+														<option>0.00 - 25.00</option>
+														<option>25.00 - 50.00</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-lg-1 col-sm-6 col-12">
+												<div class="form-group">
+													<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /Filter -->
 							<div class="table-responsive">
 								<table class="table  datanew">
 									<thead>
 										<tr>
 											<th>Boleta</th>
 											<th>Venta</th>
-											<th>Fecha</th>
 											<th>Paciente </th>
 											<th>Total</th>
 											<th>Receta</th>
-											<th>Estado de envío</th>
 											<th>Estado de pago</th>
 											<th>Canal de venta</th>
 											<th>Doctor</th>
@@ -80,15 +153,13 @@
 												</a>
 											</td>
 											<td th:text=" 'PT0'+${purchaseOrder.getIdPurchaseOrder()}"></td>
-											<td th:text="${purchaseOrder.getFechaRelease()}"></td>
 											<td th:text="${purchaseOrder.getNombrePaciente()}"></td>
 											<td th:text="|S/${purchaseOrder.getMonto()}|"></td>
 											<td>
 												<a href="#">REC12354V</a>
 											</td>
-											<td th:text="${purchaseOrder.getTracking()}"></td>
 											<td th:text="${purchaseOrder.getEstadoPago()}"></td>
-											<td th:text="${purchaseOrder.getTipo()}"></td>
+											<td th:text="${purchaseOrder.getTipoCompra()}"></td>
 											<td th:text="${purchaseOrder.getNombreDoctor()}"></td>
 											<td>
 												<a class="me-3" href="/productDetails">

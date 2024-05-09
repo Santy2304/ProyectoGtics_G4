@@ -1,9 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.*;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
-import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
-import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,9 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 @SessionAttributes({"idUser","sede"})
 @Controller
 public class PharmacistController {
@@ -92,7 +93,7 @@ public class PharmacistController {
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
 
-        model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
+        model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
         model.addAttribute("listaDoctores", doctorRepository.listaDoctoresPorSede(pharmacist.getSite()));
         return "pharmacist/pos";
     }

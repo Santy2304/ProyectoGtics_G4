@@ -56,6 +56,17 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where email= ?1 and password=?2")
     Pharmacist buscarPharmacist (String email , String password);
 
+
+    /*Farmacista view*/
+    @Transactional
+    @Modifying
+    @Query(value="update pharmacist set email = ?1, distrit = ?2 where idPharmacist = ?3", nativeQuery = true)
+    void updateEmailAndDistritById(String email, String distrit, int idPharmacist);
+
+    Pharmacist getByIdFarmacista(int idPharmacist);
+
+    /*-----*/
+
  }
 
 

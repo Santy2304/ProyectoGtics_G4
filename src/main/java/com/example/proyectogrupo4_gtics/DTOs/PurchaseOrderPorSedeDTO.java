@@ -13,6 +13,7 @@ public interface PurchaseOrderPorSedeDTO {
     Date getFechaRelease();
     Double getMonto();
     String getEstadoPago();
-    String getTipo();
+    String getTipoCompra();
+    String getTipoPago();
 
 }

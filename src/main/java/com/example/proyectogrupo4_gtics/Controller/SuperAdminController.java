@@ -381,11 +381,17 @@ public class SuperAdminController {
     }
 
     @PostMapping("/agregarDoctor")
-    public String agregarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor){
-        doctor.setCreationDate(LocalDate.now());
-        doctor.setState("activo");
-        doctorRepository.save(doctor);
-        return "redirect:/verListadosSuperAdmin";
+    public String agregarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes, Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("listaSedes", siteRepository.findAll());
+            return "superAdmin/AgregarDoctor";
+        } else {
+            attributes.addFlashAttribute("msg", "Doctor agregado correctamente");
+            doctor.setCreationDate(LocalDate.now());
+            doctor.setState("activo");
+            doctorRepository.save(doctor);
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
 
     @GetMapping("/EliminarDoctor")
@@ -400,28 +406,34 @@ public class SuperAdminController {
     //AdministradoresSede///////////////////////////7
 
     @GetMapping("/verAgregarAdminSedeSuperAdmin")
-    public String verAgregarAdminSede(Model model) {
+    public String verAgregarAdminSede(@ModelAttribute("adminSede") Administrator administrator, Model model) {
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarAdminSede";
     }
 
     @PostMapping("/agregarAdminSede")
-    public String agregarAdminSede(@Valid Administrator administrator) {
-        administrator.setPassword("passworDefault");
-        administrator.setCreationDate(LocalDate.now());
-        administrator.setState("activo");
-        administratorRepository.save(administrator);
-        return "redirect:/verListadosSuperAdmin";
-
+    public String agregarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("listaSedes", siteRepository.findAll());
+            return "superAdmin/AgregarAdminSede";
+        } else {
+            attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
+            administrator.setPassword("passworDefault");
+            administrator.setCreationDate(LocalDate.now());
+            administrator.setState("activo");
+            administratorRepository.save(administrator);
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
 
     @GetMapping("/editarAdminSede")
-    public String verEditarAdminSede(@RequestParam("idAdminSede") int idAdminSede , Model model) {
+    public String verEditarAdminSede(@ModelAttribute("adminSede") Administrator administrator, @RequestParam("idAdminSede") int idAdminSede , Model model) {
 
-        Optional<Administrator> administrator = administratorRepository.findById(idAdminSede);
-        if(administrator.isPresent()){
-            model.addAttribute("adminSede", administrator.get());
+        Optional<Administrator> optionalAdministrator = administratorRepository.findById(idAdminSede);
+        if(optionalAdministrator.isPresent()){
+            administrator = optionalAdministrator.get();
+            model.addAttribute("adminSede", administrator);
             return "superAdmin/EditarAdministrador";
         }else{
             return "redirect:/verListadosSuperAdmin";
@@ -430,10 +442,15 @@ public class SuperAdminController {
 
 
     @PostMapping("/guardarCambiosAdminSede")
-    public String editarAdminSede(@Valid Administrator administrator){
+    public String editarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
-        administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(),administrator.getDni(), administrator.getEmail(),administrator.getSite(),administrator.getState(),administrator.getIdAdministrador());
-        return "redirect:/verListadosSuperAdmin";
+        if (bindingResult.hasErrors()) {
+            return "superAdmin/EditarAdminSede";
+        }else {
+            attributes.addFlashAttribute("msg", "Administrador creado exitosamente");
+            administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
 
     @GetMapping("/eliminarAdminSede")

@@ -127,7 +127,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where  (m.name like concat(?2,'%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ")\n" +
             "group by m.idMedicine \n" +
@@ -140,7 +140,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where  ( m.category like concat(?2 , '%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ")\n" +
             "group by m.idMedicine \n" +

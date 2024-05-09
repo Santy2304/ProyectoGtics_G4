@@ -29,7 +29,7 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     void actualizarVisibilidadSede(boolean visibilidad, int idMedicine,String sede);
 
 
-    @Query(nativeQuery = true, value = "SELECT l.idLote as id , m.name as name, m.category as category , m.price as price , m.description as description, l.initial_quantity as  initial FROM LOTE l inner join medicine m  WHERE (idPedidosReposicion =?1 and l.idMedicine = m.idMedicine )")
+    @Query(nativeQuery = true, value = "SELECT l.idLote as id , m.name as name, m.category as category , m.price as price , m.description as description, l.initial_quantity as  initial FROM lote l inner join medicine m  WHERE (idPedidosReposicion =?1 and l.idMedicine = m.idMedicine )")
     List<lotesPorReposicion> getLoteByReplacementOrderId(int idReplacementOrder);
 
 

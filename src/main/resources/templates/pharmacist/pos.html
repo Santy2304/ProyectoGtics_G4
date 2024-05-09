@@ -159,16 +159,16 @@
 								<h6>Alergia</h6>
 							</div>
 						</li>
-						<li id="analgesico">
+						<li id="dolor">
 							<div class="product-details " >
 								<img src="/assets_superAdmin/img/analgesico.png" alt="img" width="10" height="10" >
-								<h6>Analgésico</h6>
+								<h6>Dolor</h6>
 							</div>
 						</li>
-						<li id="aspirina">
+						<li id="suplemento">
 							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
+								<img src="/assets_superAdmin/img/suplemento.png" alt="img">
+								<h6>Suplemento</h6>
 							</div>
 						</li>
 						<li id="belleza">
@@ -177,41 +177,13 @@
 								<h6>Belleza</h6>
 							</a>
 						</li>
-						<li id="suplemento">
+						<li id="otros">
 							<a class="product-details">
-								<img src="/assets_superAdmin/img/suplemento.png" alt="img">
-								<h6>Suplemento</h6>
+								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+								<h6>Otros</h6>
 							</a>
 						</li>
-						<li id="Snacks">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="watch"><a class="product-details">
-							<img src="/assets_superAdmin/img/suplemento.png" alt="img">
-							<h6>Suplemento</h6>
-						</a>
-						</li>
-						<li id="cycle">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="fruits1">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="headphone1">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
+
 					</ul>
 
 
@@ -219,7 +191,7 @@
 					<div class="tabs_container" >
 
 						<div  class="tab_content active" data-tab="Alergia">
-							<div class="row ">
+							<div class="row" th:each="medicamento : ${listamedicamentosfarm}">
 								<div class="col-lg-3 col-sm-6 d-flex ">
 									<div class="productset flex-fill">
 										<div class="productsetimg">
@@ -230,162 +202,61 @@
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina1</h4>
-											<h6>20.00</h6>
+											<h5 th:if="${medicamento.getCategoria() == 'Alergia'}">Alergia</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}|"></h6>
 										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina2</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina3</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina4</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina5</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina6</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina7</h4>
-											<h6>35.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina8</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina9</h4>
-										<h6>150.00</h6>
-									</div>
-								</div>
-							</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina</h4>
-										<h6>20.00</h6>
 									</div>
 								</div>
 							</div>
+
+							<div class="row" th:each="medicamento : ${listamedicamentosfarm}">
+								<div class="col-lg-3 col-sm-6 d-flex ">
+									<div class="productset flex-fill">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6>Cantidad: 5.00</h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
+											</div>
+										</div>
+										<div class="productsetcontent">
+											<h5 th:if="${medicamento.getCategoria() == 'Alergia'}">Alergia</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}|"></h6>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row" th:each="medicamento : ${listamedicamentosfarm}">
+								<div class="col-lg-3 col-sm-6 d-flex ">
+									<div class="productset flex-fill">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6>Cantidad: 5.00</h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
+											</div>
+										</div>
+										<div class="productsetcontent">
+											<h5 th:if="${medicamento.getCategoria() == 'Alergia'}">Alergia</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}|"></h6>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+
+
+
+						<div class="tab_content" data-tab="dolor">
+							<div class="row " th:each="medicamento : ${listamedicamentosfarm}">
 								<div class="col-lg-3 col-sm-6 d-flex ">
 									<div class="productset flex-fill">
 										<div class="productsetimg">
@@ -396,57 +267,9 @@
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5 th:if="${medicamento.getCategoria() == 'Dolor'}">Dolor</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}|"></h6>
 										</div>
 									</div>
 								</div>
@@ -454,85 +277,9 @@
 						</div>
 
 
-
-
-						<div class="tab_content" data-tab="analgesico">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 1</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Accessories</h5>
-											<h4>Sunglasses</h4>
-											<h6>15.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-							</div>
-						</div>
-
-
-						<div class="tab_content" data-tab="aspirina">
+						<div class="tab_content" data-tab="suplemento">
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
+								<div class="col-lg-3 col-sm-6 d-flex " th:each="medicamento : ${listamedicamentosfarm}">
 									<div class="productset flex-fill">
 										<div class="productsetimg">
 											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
@@ -542,45 +289,13 @@
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5 th:if="${medicamento.getCategoria() == 'Suplemento'}">Suplemento</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}|"></h6>
 										</div>
 									</div>
 								</div>
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>50.00</h6>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 
@@ -1438,13 +1153,18 @@
 
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
-							<label>Doctor</label>
-							<input type="text" >
+							<label for="doctores">Doctor</label>
+							<select id="doctores">
+								<option th:each="doctor :${listaDoctores}"
+										th:value="${doctor.getIdDoctor()}"
+										th:text="${doctor.getName()+' '+${doctor.getLastName()}}">
+								</option>
+							</select>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-12">
-					<a class="btn btn-submit me-2">Ingresar</a>
+					<a type="submit" class="btn btn-submit me-2">Ingresar</a>
 					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
 				</div>
 			</div>

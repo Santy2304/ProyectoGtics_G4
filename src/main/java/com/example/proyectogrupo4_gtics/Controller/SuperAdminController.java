@@ -62,16 +62,16 @@ public class SuperAdminController {
 
 
     @PostMapping("/crearMedicamento")
-    public String crearMedicamento(@RequestParam("nameMedicine") String nameMedicine,
+    public String crearMedicamento(/*@RequestParam("nameMedicine") String nameMedicine,
                                    @RequestParam("category") String category,
                                    @RequestParam("description") String description,
-                                   @RequestParam("priceMedicine") BigDecimal priceMedicine,
-                                   Model model) {
-        Medicine medicine = new Medicine();
+                                   @RequestParam("priceMedicine") BigDecimal priceMedicine,*/
+                                   Medicine medicine, Model model) {
+        /*Medicine medicine = new Medicine();
         medicine.setName(nameMedicine);
         medicine.setCategory(category);
         medicine.setDescription(description);
-        medicine.setPrice(priceMedicine);
+        medicine.setPrice(priceMedicine);*/
         medicine.setTimesSaled(0);
         medicineRepository.save(medicine);
 

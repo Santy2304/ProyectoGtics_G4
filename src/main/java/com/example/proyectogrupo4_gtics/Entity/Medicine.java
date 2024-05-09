@@ -14,6 +14,7 @@ public class Medicine {
     @Column(name = "idmedicine")
     @NotNull
     @Digits(integer = 10, fraction = 0)
+    @PositiveOrZero
     private int idMedicine;
 
     @Column(name = "name", unique = true, nullable = false)

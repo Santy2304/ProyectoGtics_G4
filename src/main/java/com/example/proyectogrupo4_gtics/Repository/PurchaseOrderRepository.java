@@ -26,7 +26,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "INNER JOIN\n" +
             "    medicine m ON l.idMedicine = m.idMedicine\n" +
             " \n" +
-            "where po.idPatient = ?1\n" +
+            "where po.idPatient = ?1 and tipo='web'\n" +
             "    \n" +
             "GROUP BY\n" +
             "    po.idpurchaseorder")
@@ -48,7 +48,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "INNER JOIN\n" +
             "    medicine m ON l.idMedicine = m.idMedicine\n" +
             " \n" +
-            "where po.idPatient = ?1 and po.statePaid='pagado'\n" +
+            "where po.idPatient = ?1 and po.statePaid='pagado' and tipo='web'\n" +
             "    \n" +
             "GROUP BY\n" +
             "    po.idpurchaseorder")

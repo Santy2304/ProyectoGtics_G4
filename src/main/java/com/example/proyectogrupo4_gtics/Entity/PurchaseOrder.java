@@ -23,12 +23,12 @@ public class PurchaseOrder {
     @Column(name = "deliveryhour", nullable = false)
     private LocalTime deliveryHour;
 
-    @Column(name = "prescription", nullable = false)
+    @Column(name = "prescription")
     private byte[] prescription;
 
     @ManyToOne
     @JoinColumn(name = "idpatient", nullable = false)
-    private Patient idPatient;
+    private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "iddoctor")
@@ -49,11 +49,14 @@ public class PurchaseOrder {
     @Column(name = "site")
     private String site;
 
-    @Column(name = "totalamount", nullable = false, precision = 10)
-    private BigDecimal totalAmount;
+
 
     @Column(name = "statepaid")
     private String statePaid;
+
+    private String direccion;
+
+    private String tipo;
 
     public String getStatePaid() {
         return statePaid;
@@ -63,13 +66,6 @@ public class PurchaseOrder {
         this.statePaid = statePaid;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
 
     public String getSite() {
         return site;
@@ -119,12 +115,12 @@ public class PurchaseOrder {
         this.idDoctor = idDoctor;
     }
 
-    public Patient getIdPatient() {
-        return idPatient;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public void setIdPatient(Patient idPatient) {
-        this.idPatient = idPatient;
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public byte[] getPrescription() {
@@ -157,6 +153,23 @@ public class PurchaseOrder {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }
 

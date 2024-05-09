@@ -447,7 +447,7 @@ public class SuperAdminController {
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarAdministrador";
         }else {
-            attributes.addFlashAttribute("msg", "Administrador creado exitosamente");
+            attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
             return "redirect:/verListadosSuperAdmin";
         }
@@ -465,11 +465,12 @@ public class SuperAdminController {
     //Farmacista///////////////////////////////
 
     @GetMapping("/editarFarmacista")
-    public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
+    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
 
-        Optional<Pharmacist> pharmacist = pharmacistRepository.findById(idFarmacista);
-        if(pharmacist.isPresent()){
-            model.addAttribute("farmacista", pharmacist.get());
+        Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
+        if(optionalPharmacist.isPresent()){
+            pharmacist = optionalPharmacist.get();
+            model.addAttribute("farmacista", pharmacist);
             return "superAdmin/EditarFarmacista";
         }else{
             return "redirect:/verListadosSuperAdmin";
@@ -477,9 +478,14 @@ public class SuperAdminController {
     }
 
     @PostMapping("/guardarCambiosFarmacista")
-    public String editarFarmacista(Pharmacist pharmacist){
-        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
-        return "redirect:/verListadosSuperAdmin";
+    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes){
+        if (bindingResult.hasErrors()) {
+            return "superAdmin/EditarFarmacista";
+        } else {
+            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
+            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getDni(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+            return "redirect:/verListadosSuperAdmin";
+        }
     }
 
 

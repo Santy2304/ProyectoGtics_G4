@@ -98,6 +98,21 @@ public class PharmacistController {
         return "pharmacist/pos";
     }
 
+    /*
+    @PostMapping("/generarOrdenCompra")
+    public String generarOrdenCompraFarmacista(Model model, @SessionAttributes("idUser") String idUser, @SessionAttributes("sede") String sede,
+                                               @RequestParam("nombre") String nombre,
+                                               @RequestParam("apellido") String apellido,
+                                               @RequestParam("idDoctor") int idDoctor,
+                                               @RequestParam("dni") String dni,
+                                               @RequestParam("tipoPago") String tipoPago){
+
+        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+
+    }
+
+     */
+
     @GetMapping("/productDetails")
     public String verProductDetails(Model model){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
@@ -108,6 +123,8 @@ public class PharmacistController {
         model.addAttribute("apellido",pharmacist.getLastName());
         return "pharmacist/product-details";
     }
+
+
 
     @GetMapping("/verProductListFarmacista")
     public String verProductList(Model model){

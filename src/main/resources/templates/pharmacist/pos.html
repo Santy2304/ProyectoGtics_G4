@@ -191,27 +191,32 @@
 
 					<div class="tabs_container" >
 						<div class="tab_content active" data-tab="Alergia">
+							<div th:with="alergiaPresente=false"></div>
+
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<!-- Itera sobre un rango de números tengo sueño -->
-								<div th:each="a : ${#numbers.sequence(0, listamedicamentosfarm.size() - 1)}" class="col-lg-4 col-md-4 col-sm-6">
-									<!-- Obtener el medicamento correspondiente basandose en la categoría ojala funcione-->
-									<div th:if="${listamedicamentosfarm[a].getCategoria() == 'Alergia'}">
-										<div th:if="${a % 3 == 0}" class="row"></div>
-										<div class="productset" th:with="medicamento=${listamedicamentosfarm[a]}">
-											<div class="productsetimg">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-												<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
-												<div class="check-product">
-													<i class="fa fa-check"></i>
-												</div>
-											</div>
-											<div class="productsetcontent">
-												<h5 th:if="${medicamento.getCategoria() == 'Alergia'}">Alergia</h5>
-												<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
-												<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Alergia'}">
+
+									<div th:with="alergiaPresente=true"></div>
+
+
+									<div class="productset">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
 											</div>
 										</div>
+										<div class="productsetcontent">
+											<h5>Alergia</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
@@ -219,27 +224,32 @@
 
 
 						<div class="tab_content" data-tab="dolor">
+							<div th:with="dolorPresente=false"></div>
+
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<!-- Itera sobre un rango de números tengo sueño -->
-								<div th:each="b : ${#numbers.sequence(0, listamedicamentosfarm.size() - 1)}" class="col-lg-4 col-md-4 col-sm-6">
-									<!-- Obtener el medicamento correspondiente basandose en la categoría ojala funcione-->
-									<div th:if="${listamedicamentosfarm[b].getCategoria() == 'Dolor'}">
-										<div th:if="${b % 3 == 0}" class="row"></div>
-										<div class="productset" th:with="medicamento=${listamedicamentosfarm[b]}">
-											<div class="productsetimg">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-												<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
-												<div class="check-product">
-													<i class="fa fa-check"></i>
-												</div>
-											</div>
-											<div class="productsetcontent">
-												<h5 th:if="${medicamento.getCategoria() == 'Dolor'}">Dolor</h5>
-												<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
-												<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Dolor'}">
+
+									<div th:with="dolorPresente=true"></div>
+
+
+									<div class="productset">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
 											</div>
 										</div>
+										<div class="productsetcontent">
+											<h5>Dolor</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
@@ -247,27 +257,32 @@
 
 
 						<div class="tab_content" data-tab="belleza">
+							<div th:with="bellezaPresente=false"></div>
+
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<!-- Itera sobre un rango de números tengo sueño -->
-								<div th:each="c : ${#numbers.sequence(0, listamedicamentosfarm.size() - 1)}" class="col-lg-4 col-md-4 col-sm-6">
-									<!-- Obtener el medicamento correspondiente basandose en la categoría ojala funcione-->
-									<div th:if="${listamedicamentosfarm[c].getCategoria() == 'Belleza'}">
-										<div th:if="${c % 3 == 0}" class="row"></div>
-										<div class="productset" th:with="medicamento=${listamedicamentosfarm[c]}">
-											<div class="productsetimg">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-												<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
-												<div class="check-product">
-													<i class="fa fa-check"></i>
-												</div>
-											</div>
-											<div class="productsetcontent">
-												<h5 th:if="${medicamento.getCategoria() == 'Belleza'}">Belleza</h5>
-												<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
-												<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Belleza'}">
+
+									<div th:with="bellezaPresente=true"></div>
+
+
+									<div class="productset">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
 											</div>
 										</div>
+										<div class="productsetcontent">
+											<h5>Belleza</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
@@ -308,27 +323,33 @@
 
 
 						<div class="tab_content" data-tab="otros">
+
+							<div th:with="otrosPresente=false"></div>
+
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<!-- Itera sobre un rango de números tengo sueño -->
-								<div th:each="e : ${#numbers.sequence(0, listamedicamentosfarm.size() - 1)}" class="col-lg-4 col-md-4 col-sm-6">
-									<!-- Obtener el medicamento correspondiente basandose en la categoría ojala funcione-->
-									<div th:if="${listamedicamentosfarm[e].getCategoria() == 'Otros'}">
-										<div th:if="${e % 3 == 0}" class="row"></div>
-										<div class="productset" th:with="medicamento=${listamedicamentosfarm[e]}">
-											<div class="productsetimg">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-												<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
-												<div class="check-product">
-													<i class="fa fa-check"></i>
-												</div>
-											</div>
-											<div class="productsetcontent">
-												<h5 th:if="${medicamento.getCategoria() == 'Otros'}">Otros</h5>
-												<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
-												<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Otros'}">
+
+									<div th:with="otrosPresente=true"></div>
+
+
+									<div class="productset">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
 											</div>
 										</div>
+										<div class="productsetcontent">
+											<h5>Otros</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>

@@ -56,7 +56,7 @@ public class SuperAdminController {
         return "superAdmin/listaMedicamentos";
     }
     @GetMapping("/verAñadirMedicamentoSuperAdmin")
-    public String verAddMedicamento() {
+    public String verAddMedicamento(@ModelAttribute("medicine") Medicine medicine) {
         return "superAdmin/anadirMedicamento";
     }
 
@@ -66,19 +66,24 @@ public class SuperAdminController {
                                    @RequestParam("category") String category,
                                    @RequestParam("description") String description,
                                    @RequestParam("priceMedicine") BigDecimal priceMedicine,*/
-                                   Medicine medicine, Model model) {
+                                   @ModelAttribute("medicine") @Valid Medicine medicine,
+                                   BindingResult bindingResult, Model model) {
         /*Medicine medicine = new Medicine();
         medicine.setName(nameMedicine);
         medicine.setCategory(category);
         medicine.setDescription(description);
         medicine.setPrice(priceMedicine);*/
-        medicine.setTimesSaled(0);
-        medicineRepository.save(medicine);
+        if (bindingResult.hasErrors()) {
+            return "superAdmin/anadirMedicamento";
+        } else {
+            medicine.setTimesSaled(0);
+            medicineRepository.save(medicine);
 
 
-        model.addAttribute("medicine", medicine);
+            model.addAttribute("medicine", medicine);
 
-        return "superAdmin/anadirLotesNuevoMedicamento";
+            return "superAdmin/anadirLotesNuevoMedicamento";
+        }
     }
 
     @PostMapping("/crearLotesNuevoMedicamento")

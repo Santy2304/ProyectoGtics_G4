@@ -161,34 +161,40 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{/crearMedicamento}">
+					<form method="post" th:action="@{/crearMedicamento}" th:object="${medicine}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="nameMedicine">Nombre del Producto</label>
-											<input name="name" type="text" id="nameMedicine">
+											<input class="form-control" name="name" type="text" id="nameMedicine"
+												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="category">Categoría</label>
-											<select name="category" class="select" id="category">
-												<option>Selecciona categoría</option>
+											<select name="category" class="form-select" id="category"
+													th:classappend="${#fields.hasErrors('category')? 'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
 												<option value="Dolor">Dolor</option>
 												<option value="Suplemento">Suplemento</option>
 												<option value="Belleza">Belleza</option>
 												<option value="Alergias">Alergias</option>
 												<option value="Otros">Otros</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="priceMedicine" >Precio del Producto</label>
-											<input name="price" type="text" id="priceMedicine">
+											<input class="form-control" name="price" type="text" id="priceMedicine"
+												   th:classappend="${#fields.hasErrors('price')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 										</div>
 									</div>
 
@@ -218,7 +224,9 @@
 
 									<div class="form-group">
 										<label for="description">Descripción</label>
-										<textarea name="description" id="description" class="form-control"></textarea>
+										<textarea name="description" id="description" class="form-control"
+												  th:classappend="${#fields.hasErrors('description')? 'is-invalid' : ''}"></textarea>
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 									</div>
 
 

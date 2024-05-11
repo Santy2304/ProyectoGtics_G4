@@ -60,59 +60,69 @@
 						<div class="page-title">
 							<h4>DETALLES DE LA VENTA</h4>
 						</div>
+						<div class="page-btn">
+							<a th:href="@{/verProductListFarmacista}" class="btn btn-submit me-2" >Regresar</a>
+						</div>
 					</div>
 					<!-- /add -->
+
 					<div class="row">
 						<div class="col-lg-8 col-sm-12">
-							<div class="card">
-								<div class="card-body">
-									<div class="productdetails">
-										<ul class="product-bar">
-											<li>
-												<h4 style="background-color: #ced4da">Paciente</h4>
-												<h6>Francis Estela</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">DNI</h4>
-												<h6>12345678</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Dirección</h4>
-												<h6>Av. Universitaria 1234</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Distrito</h4>
-												<h6>San Miguel</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Teléfono</h4>
-												<h6>123456789</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Doctor</h4>
-												<h6>Hineill Cespedes</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Seguro</h4>
-												<h6>Rimac</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Modalidad de envío</h4>
-												<h6>Delivery</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Metodo de pago</h4>
-												<h6>VISA</h6>
-											</li>
-											<li>
-												<h4 style="background-color: #ced4da">Hora y día de entrega</h4>
-												<h6>11/04/2024 - 13:00 P.M.</h6>
-											</li>
+							<form th:object="${purchaseOrder}">
+								<input type="hidden" th:field="*{id}">
+								<div class="card">
+									<div class="card-body">
+										<div class="productdetails">
+											<ul class="product-bar">
+												<li>
+													<h4 style="background-color: #ced4da">Paciente</h4>
+													<input disabled="disabled" type="text" th:field="*{patient.name}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">DNI</h4>
+													<input disabled="disabled" type="text" th:field="*{patient.dni}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Dirección</h4>
+													<input disabled="disabled" type="text" th:field="*{patient.location}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Distrito</h4>
+													<input disabled="disabled" type="text" th:field="*{patient.distrit}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Teléfono</h4>
+													<input disabled="disabled"  type="text" th:field="*{phoneNumber}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Doctor</h4>
+													<input disabled="disabled" type="text" th:field="*{idDoctor.name}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Seguro</h4>
+													<input disabled="disabled" type="text" th:field="*{patient.insurance}">
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Modalidad de envío</h4>
+													<span th:if="*{deliveryHour != null}">Delivery</span>
+													<span th:unless="*{deliveryHour != null}">Presencial</span>
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Metodo de pago</h4>
+													<input disabled="disabled" type="text" th:field="*{tipoPago}">
 
-										</ul>
+												</li>
+												<li>
+													<h4 style="background-color: #ced4da">Hora y día de entrega</h4>
+													<input disabled="disabled" type="text" th:field="*{deliveryHour}">
+												</li>
+
+											</ul>
+										</div>
 									</div>
 								</div>
-							</div>
+							</form>
+
 							<div class="card">
 								<div class="card-body">
 									<div class="productdetails">
@@ -322,11 +332,13 @@
 										</div>
 									</div>
 								</div>
+
 							</div>
 						</div>
 					</div>
 						
 					<!-- /add -->
+
 				</div>
 			</div>
         </div>

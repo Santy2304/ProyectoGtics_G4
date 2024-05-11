@@ -58,6 +58,17 @@ public class PurchaseOrder {
 
     private String tipo;
 
+    @Column(name="tipopago")
+    private String tipoPago;
+
+    public String getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
     public String getStatePaid() {
         return statePaid;
     }

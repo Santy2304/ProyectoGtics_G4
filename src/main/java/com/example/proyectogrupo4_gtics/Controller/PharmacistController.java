@@ -198,7 +198,25 @@ public class PharmacistController {
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "pharmacist/detallesMedicine";
         } else {
-            return "redirect:/listaMedicamentosPharmacist";
+            return "redirect:/verMedicinelistFarmacista";
+        }
+    }
+    @GetMapping("/detallesOrdenVenta")
+    public String detallesOrdenVenta(@RequestParam("idPurchaseOrder") int idOrdenVenta, Model model) {
+
+        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        Pharmacist pharmacist = new Pharmacist();
+        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        model.addAttribute("sede", pharmacist.getSite());
+        model.addAttribute("nombre", pharmacist.getName());
+        model.addAttribute("apellido",pharmacist.getLastName());
+        Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idOrdenVenta);
+        if(purchaseOrderOpt.isPresent()){
+            PurchaseOrder purchaseOrder = purchaseOrderOpt.get();
+            model.addAttribute("purchaseOrder", purchaseOrder);
+            return "pharmacist/product-details";
+        }else{
+            return "redirect:/verMedicinelistFarmacista";
         }
     }
 

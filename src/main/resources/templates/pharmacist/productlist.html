@@ -72,6 +72,7 @@
 								</div>
 
 							</div>
+						</div>
 						<div class="card mb-0" id="filter_inputs">
 							<div class="card-body pb-0">
 								<div class="row">
@@ -162,10 +163,11 @@
 											<td th:text="${purchaseOrder.getTipoCompra()}"></td>
 											<td th:text="${purchaseOrder.getNombreDoctor()}"></td>
 											<td>
-												<a class="me-3" href="/productDetails">
+
+												<a class="me-3" th:href="@{'/detallesOrdenVenta?idPurchaseOrder=' + ${purchaseOrder.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" href="/verEditarProductoFarmacista">
+												<a class="me-3" th:href="@{'/verEditarProductoFarmacista?idPurchaseOrder=' + ${purchaseOrder.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">

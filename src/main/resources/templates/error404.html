@@ -38,10 +38,14 @@
             <div class="error-box">
 				<h1>404</h1>
 				<h3 class="h2 mb-3"><i class="fas fa-exclamation-circle"></i> No se encontró la página solicitada!</h3>
-				<p class="h4 font-weight-normal">No se encontró ninguna página</p>
-				<a href="pos.html" class="btn btn-primary">Regresar</a>
+				<a onclick="volverAtras()" class="btn btn-primary">Regresar</a>
 			</div>
         </div>
+        <script>
+            function volverAtras(){
+                window.history.back();
+            }
+        </script>
         <!-- /Main Wrapper -->
        
         <!-- jQuery -->

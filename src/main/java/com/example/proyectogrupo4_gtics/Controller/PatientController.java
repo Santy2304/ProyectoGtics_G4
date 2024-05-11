@@ -103,7 +103,6 @@ public class PatientController {
     //////////////////////////ORDENES DE COMPRA///////////////////////
     @GetMapping("/verGenerarOrdenCompraPaciente")
     public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model){
-
         Optional<Site> sede = siteRepository.findById(Integer.parseInt(idSede));
         model.addAttribute("listaDoctores",doctorRepository.listaDoctorPorSedePaciente(sede.get().getName()));
 

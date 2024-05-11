@@ -1,7 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
-import com.example.proyectogrupo4_gtics.DTOs.FarmacistaPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
@@ -10,20 +9,16 @@ import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.Entity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.time.LocalDate;
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -34,7 +29,6 @@ public class AdminSedeController {
     final MedicineRepository medicineRepository;
     final ReplacementOrderRepository replacementOrderRepository;
     final LoteRepository loteRepository;
-
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository , LoteRepository loteRepository) {
         this.administratorRepository = administratorRepository;
@@ -44,10 +38,9 @@ public class AdminSedeController {
         this.replacementOrderRepository = replacementOrderRepository ;
         this.loteRepository =loteRepository;
     }
-
-
+    //Doctores por sede
     @GetMapping("/listaDoctoresAdminSede")
-    public String listDoctors(Model model) {
+    public String listDoctors(Model model){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -60,14 +53,15 @@ public class AdminSedeController {
         model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
         return "admin_sede/doctorlist";
     }
+    //Buscador de adminSede
     @PostMapping("/listaDoctoresAdminSede/buscar")
     public String buscarDoctores(Model model, RedirectAttributes attr, @RequestParam("nombre") String nombreDoc){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         List<DoctorPorSedeDTO> listaDoctors = doctorRepository.listaDoctorPorBuscador(nombreDoc,idAdministrator);
         model.addAttribute("listaDoctores", listaDoctors);
-
-        return("/listaDoctoresAdminSede");
+        return"/listaDoctoresAdminSede";
     }
+    //Lista Farmacistas por sede junto a las solicitudes de farmacistas de las sedes
     @GetMapping("/listaFarmacistaAdminSede")
     public String listPharmacist(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser") );
@@ -80,8 +74,6 @@ public class AdminSedeController {
             model.addAttribute("rol","administrador");
         }
         model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede(idAdministrator));
-        ;
-
         if (admin.getSite().equals("Pando 1")){
             model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando1());
         }else{
@@ -99,13 +91,7 @@ public class AdminSedeController {
         }
         return "admin_sede/pharmacistlist";
     }
-    @PostMapping("/listaFarmacistaAdminSede/buscar")
-    public String buscarFarmacista(Model model,RedirectAttributes attr, @RequestParam("buscador") String buscador){
-        int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        List<FarmacistaPorSedeDTO> listFarmacista = pharmacistRepository.listaFarmacistaPorBuscador(buscador,idAdministrator);
-        model.addAttribute("listaFarmacista", listFarmacista );
-        return "/listaFarmacistaAdminSede";
-    }
+    //Salta a la vista para crear farmacista (no requiere un validación)
     @GetMapping("/verAddPharmacist")
     public String verAddPharmacist(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
@@ -118,9 +104,8 @@ public class AdminSedeController {
                 model.addAttribute("rol","administrador");
             }
             return "admin_sede/addpharmacist";
-        }
-
-
+    }
+    //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(Pharmacist pharmacist,Model model){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
@@ -132,7 +117,6 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
             pharmacist.setPassword("default");
             pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
@@ -142,8 +126,7 @@ public class AdminSedeController {
             return "redirect:/listaFarmacistaAdminSede";
 
     }
-
-
+    //Faltan agregar validaciones de editar farmacista por sede
     @GetMapping("/editFarmacistaAdminSede")
     public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
 
@@ -155,21 +138,20 @@ public class AdminSedeController {
             return "redirect:/listaFarmacistaAdminSede";
         }
     }
-
+    //Se solicita a superadmin agregar al farmacista
     @PostMapping("/saveChangesFarmacista")
     public String editarFarmacista(Pharmacist pharmacist, Model model){
         pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt( (String)model.getAttribute("idUser") )).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
         return "redirect:/listaFarmacistaAdminSede";
     }
-
-    /*Linkear las demás vistas*/
-
+    //Inicia sesion de admin de sede
     @GetMapping("/sessionAdmin")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
         model.addAttribute("sede", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getSite()  ));
         return "redirect:/dashboardAdminSede";
     }
+    //Se ve el dashboard de admin de sede
     @GetMapping("/dashboardAdminSede")
     public String verDashboard(Model model) {
         Administrator admin = new Administrator();
@@ -183,7 +165,7 @@ public class AdminSedeController {
         }
         return "admin_sede/dashboard";
     }
-
+    //Se listan medicamentos
     @GetMapping("/inventarioAdminSede")
     public String verInventario(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
@@ -195,32 +177,27 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
-
         return "admin_sede/inventario";
     }
-
+    //Filtrado para la busqueda del medicamento
     public class Busqueda{
         private String categoria;
         private String nombre;
-
         public String getCategoria() {
             return categoria;
         }
-
         public void setCategoria(String categoria) {
             this.categoria = categoria;
         }
-
         public String getNombre() {
             return nombre;
         }
-
         public void setNombre(String nombre) {
             this.nombre = nombre;
         }
     }
+    //Filtrado de medicamentos por sede
     @PostMapping("/inventarioAdminSedeBusca")
     public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
@@ -252,7 +229,7 @@ public class AdminSedeController {
         }
         return "admin_sede/inventario";
     }
-
+    //Se ve lista de pedidos de reposición
     @GetMapping("/verListaReposicion")
     public String listaReposicion(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
@@ -276,8 +253,6 @@ public class AdminSedeController {
 
     @PostMapping("buscarMedicinaList")
     public String buscarMedicinaList(){
-
-
         return "admin_sede/inventario";
     }
 
@@ -295,7 +270,6 @@ public class AdminSedeController {
         }
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(idAdministrator));
-
         return "admin_sede/generarPedidoReposicion";
     }
 
@@ -541,27 +515,23 @@ public class AdminSedeController {
         return "admin_sede/TicketPedidoReposicion";
     }
 
-
     public class DataDoctorListBusca{
         String date;
         String nombre;
-
         public String getDate() {
             return date;
         }
-
         public void setDate(String date) {
             this.date = date;
         }
-
         public String getNombre() {
             return nombre;
         }
-
         public void setNombre(String nombre) {
             this.nombre = nombre;
         }
     }
+    //Filtrado de la lista de doctores
     @PostMapping("/doctorListBuscaAdminSede")
     public String doctorListBuscaAdminSede(DataDoctorListBusca d , Model model){
         System.out.println(d.date);
@@ -570,8 +540,11 @@ public class AdminSedeController {
         model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
         return "/admin_sede/doctorlist";
     }
-
-
-
+    //Cerrar Sesion
+    @GetMapping("/CerrarSesionAdminSede")
+    public String CerrarSesionAdminSede(SessionStatus sessionStatus){
+        sessionStatus.setComplete();
+        return "redirect:/inicioSesion";
+    }
 
 }

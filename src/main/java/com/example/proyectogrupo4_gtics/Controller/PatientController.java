@@ -8,17 +8,24 @@ import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @SessionAttributes({"idUser","idSede", "carrito"})
@@ -101,8 +108,31 @@ public class PatientController {
     //No funciona bien
 
     //////////////////////////ORDENES DE COMPRA///////////////////////
-    @GetMapping("/verGenerarOrdenCompraPaciente")
-    public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model){
+    @GetMapping(value = {"/verGenerarOrdenCompraPaciente",""})
+    public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model,RedirectAttributes redirectAttributes){
+
+        if (redirectAttributes != null) {
+            String errorPhone = (String) redirectAttributes.getFlashAttributes().get("errorPhone");
+            String errorDireccion = (String) redirectAttributes.getFlashAttributes().get("errorDireccion");
+            String errorHora = (String) redirectAttributes.getFlashAttributes().get("errorHora");
+            String errorDoctor = (String) redirectAttributes.getFlashAttributes().get("errorDoctor");
+
+
+            if (errorPhone != null) {
+                model.addAttribute("errorPhone", errorPhone);
+            }
+            if (errorDireccion != null) {
+                model.addAttribute("errorDireccion", errorDireccion);
+            }
+            if (errorHora != null) {
+                model.addAttribute("errorHora", errorHora);
+            }
+
+            if (errorDoctor != null) {
+                model.addAttribute("errorDoctor", errorDoctor);
+            }
+        }
+
 
         Optional<Site> sede = siteRepository.findById(Integer.parseInt(idSede));
         model.addAttribute("listaDoctores",doctorRepository.listaDoctorPorSedePaciente(sede.get().getName()));
@@ -118,12 +148,54 @@ public class PatientController {
 
 
     @PostMapping("/crearOrdenCompra")
-    public String agregarOrdenCompra(PurchaseOrder purchaseOrder, @SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede,
+    public String agregarOrdenCompra(@SessionAttribute("idUser") String idUser, @SessionAttribute("idSede") String idSede,
                                      @RequestParam("Hour") String HourStr,
                                      @RequestParam("cantidad")int cantidad,
                                      @RequestParam("idMedicine") int idMedicine,
-                                     Model model){
+                                     @RequestParam("phoneNumber") String phoneNumber,
+                                     @RequestParam("direccion") String direccion,
+                                     @RequestParam("idDoctor") int idDoctor,
+                                     Model model, RedirectAttributes attr){
 
+
+
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(idDoctor);
+
+        boolean fallo = false;
+        if (optionalDoctor.isEmpty()) {
+            fallo = true;
+            attr.addFlashAttribute("errorDoctor", "El doctor no existe");
+
+        }
+
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(phoneNumber);
+        if (!matcher.matches() || phoneNumber.length() != 9) {
+            attr.addFlashAttribute("errorPhone", "El teléfono debe ser de 9 dígitos");
+            fallo=true;
+        }
+        if (direccion==null || direccion.trim().isEmpty()){
+            attr.addFlashAttribute("errorDireccion", "Ingrese una dirección");
+            fallo=true;
+        }
+
+        try {
+            LocalTime deliveryHour = LocalTime.parse(HourStr);
+            purchaseOrder.setDeliveryHour(deliveryHour);
+        } catch (DateTimeParseException e) {
+            attr.addFlashAttribute("errorHora", "Ingrese una hora válida");
+            fallo=true;
+        }
+
+        if (fallo){
+            return "redirect:/verGenerarOrdenCompraPaciente";
+        }
+
+        purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
+        purchaseOrder.setPhoneNumber(phoneNumber);
+        purchaseOrder.setDireccion(direccion);
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
         purchaseOrder.setPatient(patient);
         purchaseOrder.setApproval("pendiente");
@@ -158,6 +230,8 @@ public class PatientController {
         purchaseHasLoteRepository.save(purchaseHasLote);
 
         return "redirect:/verTicket?idCompra="+purchaseOrder.getId();
+
+
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.proyectogrupo4_gtics.Entity;
 import com.mysql.cj.jdbc.Blob;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
@@ -13,26 +14,40 @@ public class Administrator{
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="idadministrator")
+    @Digits(integer = 10, fraction = 0)
+    @PositiveOrZero
     private int idAdministrador;
 
     @Column(name="name")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El nombre no puede pasar más de 45 carácteres")
     private String name;
 
     @Column(name="lastname")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(max = 45, message = "El apellido no puede pasara más de 45 carácteres")
     private String lastName;
 
-    @Column(name="dni")
+    @Column(name="dni", unique = true)
+    @NotBlank(message = "Este campo es obligatorio")
+    @Digits(integer = 8, fraction = 0, message = "El DNI debe ser un número")
+    @Size(min = 8, max = 8, message = "El DNI debe tener 8 dígitos")
     private String dni;
 
     @Column(name = "site")
+    @NotBlank(message = "Este campo es obligatorio")
     private String site;
 
     @Column(name="email")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Email(message = "Se debe ingresar un correo electrónico")
     private String email;
 
     @Column(name="password")
     private String password;
 
+    @Column(name="state")
+    @NotBlank(message = "Este campo es obligatorio")
     private String state;
 
     @Column(name="photo")
@@ -97,6 +112,7 @@ public class Administrator{
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     public String getState() {
         return state;

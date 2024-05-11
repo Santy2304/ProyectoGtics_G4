@@ -129,16 +129,24 @@ public class LogInController {
         SuperAdmin superAdmin = superAdminRepository.buscarSuperAdmin(correo , password) ;
         Pharmacist pharmacist = pharmacistRepository.buscarPharmacist(correo, password);
         Map<String, String > response =  new HashMap<>();
-
+        response.put("response" ,"noIsUser");
         if(!(patient == null)){
-            response.put("response" ,"/sessionPatient?idUser="+patient.getIdPatient());
-            model.addAttribute("idUser" , patient.getIdPatient());
-            return response;
+            if( ! patient.getState().equals("baneado")) {
+                response.put("response", "/sessionPatient?idUser=" + patient.getIdPatient());
+                model.addAttribute("idUser", patient.getIdPatient());
+                return response;
+            }else{
+                response.put("response", "baneado");
+            }
         }
         if( !(admin == null) ) {
-            response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
-            model.addAttribute("idUser" , admin.getIdAdministrador());
-            return response;
+            if( ! admin.getState().equals("baneado")) {
+                response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
+                model.addAttribute("idUser" , admin.getIdAdministrador());
+                return response;
+            }else{
+                response.put("response", "baneado");
+            }
         }
         if( !(superAdmin == null) ) {
             response.put("response" ,"/verListadosSuperAdmin?idUser="+ superAdmin.getIdSuperAdmin());
@@ -146,11 +154,14 @@ public class LogInController {
             return response;
         }
         if( !(pharmacist == null) ) {
-            response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
-            model.addAttribute("idUser" , pharmacist.getIdFarmacista());
-            return response;
+            if( ! pharmacist.getState().equals("baneado")) {
+                response.put("response" ,"/verMedicinelistFarmacista?idUser"+pharmacist.getIdFarmacista());
+                model.addAttribute("idUser" , pharmacist.getIdFarmacista());
+                return response;
+            }else{
+                response.put("response", "baneado");
+            }
         }
-        response.put("response" ,"noIsUser");
         return response;
     }
     @GetMapping("/forgetPassword")

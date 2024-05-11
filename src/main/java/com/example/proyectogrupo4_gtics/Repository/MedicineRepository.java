@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
@@ -37,7 +38,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
-    void actualizarMedicine(String name,String category,Double price,String description ,int idMedicine);
+    void actualizarMedicine(String name, String category, BigDecimal price, String description , int idMedicine);
 
 
     /*Rol administrador de sede*/
@@ -126,7 +127,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where  (m.name like concat(?2,'%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ")\n" +
             "group by m.idMedicine \n" +
@@ -139,7 +140,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where  ( m.category like concat(?2 , '%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ")\n" +
             "group by m.idMedicine \n" +

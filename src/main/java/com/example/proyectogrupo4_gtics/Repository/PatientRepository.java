@@ -33,14 +33,14 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "update patient set state = 'baneado'  where idPatient =?1" , nativeQuery = true)
     void banearPacientePorId(int idPaciente);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Patient where email= ?1 and password=?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where email= ?1 and password=?2")
     Patient buscarPatient (String email , String password);
 
     //findByEmail
-    @Query(nativeQuery = true, value = "SELECT * FROM Patient where email=?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where email=?1")
     Optional<Patient> findByEmail(String email );
 
-    @Query(nativeQuery = true, value = "SELECT * FROM Patient where dni=?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where dni=?1")
     Optional<Patient> findByDni(String dni );
 
 

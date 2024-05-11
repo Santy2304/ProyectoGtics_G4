@@ -2,6 +2,9 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,6 +19,7 @@ public class PurchaseOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpurchaseorder", nullable = false)
     private Integer id;
+
 
     @Column(name = "phonenumber")
     private String phoneNumber;
@@ -48,8 +52,6 @@ public class PurchaseOrder {
 
     @Column(name = "site")
     private String site;
-
-
 
     @Column(name = "statepaid")
     private String statePaid;

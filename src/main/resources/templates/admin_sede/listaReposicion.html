@@ -104,9 +104,8 @@
                     <div class="table-top">
                         <div class="search-set">
                             <div class="search-path">
-                                <a class="btn btn-filter" id="filter_search">
-                                    <img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
-                                    <span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+                                <a class="btn btn-filter" >
+                                    <img src="/assets_superAdmin/img/icons/search-white.svg" alt="img">
                                 </a>
                             </div>
                             <div class="search-input"  >
@@ -121,51 +120,14 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- /Filter -->
-                    <div class="card mb-0" id="filter_inputs">
-                        <div class="card-body pb-0">
-                            <div class="row">
-                                <div class="col-lg-12 col-sm-12">
 
-                                    <form id="Hola" th:action="@{'/inventarioAdminSedeBusca'}"  method="post" >
-                                        <div class="row">
-                                            <div class="col-lg col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <select class="select" id="categoria" name="categoria">
-                                                        <option>Elegir por tipo </option>
-                                                        <option value="Dolor" >Dolor</option>
-                                                        <option value="Alergia" >Alergia</option>
-                                                        <option value="Suplemento" >Suplemento</option>
-                                                        <option value="Belleza" >Belleza</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <input id="nombre" name="nombre" type="text" placeholder="nombre del medicamento" >
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-1 col-sm-6 col-12">
-                                                <div class="form-group">
-                                                    <button id="buscar" type="submit" class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /Filter -->
                     <div class="table-responsive">
                         <table class="table datanew">
                             <thead>
                             <tr>
                                 <th>Identificador</th>
                                 <th>Detalles</th>
-                                <th>Fecha de solicitud</th>
+                                <th>Fecha de llegada</th>
                                 <th>Estado del pedido</th>
                                 <th>Editar</th>
                             </tr>

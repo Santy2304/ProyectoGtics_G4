@@ -30,7 +30,7 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
 
     @Transactional
     @Modifying
-    @Query(value = "update pharmacist set approvalState = 'aceptado', state='activo'  where idPharmacist =?1" , nativeQuery = true)
+    @Query(value = "update pharmacist set approvalState = 'aceptado', dateCreationAccount=now() , state='activo'  where idPharmacist =?1" , nativeQuery = true)
     void aceptarFarmacistaPorId(int idFarmacista);
 
 

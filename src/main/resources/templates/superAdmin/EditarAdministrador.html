@@ -186,6 +186,7 @@
 
 			<form method="post" th:action="@{/guardarCambiosAdminSede}" th:object="${adminSede}">
 				<input name="idAdministrator"  th:field="*{idAdministrador}" type="hidden">
+				<input type="hidden" th:field="*{dni}">
 				<div class="page-wrapper">
 					<div class="content">
 						<div class="page-header">

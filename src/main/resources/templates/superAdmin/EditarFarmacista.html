@@ -198,6 +198,7 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
+										<input type="hidden" th:field="*{dni}">
 										<div class="form-group">
 											<label>Nombre</label>
 											<input class="form-control" name="name" type="text" th:field="${farmacista.name}"
@@ -290,7 +291,7 @@
 									</div>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<button  href="/verListadosSuperAdmin" class="btn btn-cancel">Cancelar</button>
+										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

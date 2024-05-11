@@ -156,13 +156,13 @@
 					<ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
 						<li class="active" id="Alergia">
 							<div class="product-details " >
-								<img src="/assets_superAdmin/img/alergia.png" alt="img" >
+								<img src="/assets_superAdmin/img/alergico.png" alt="img" >
 								<h6>Alergia</h6>
 							</div>
 						</li>
 						<li id="dolor">
 							<div class="product-details " >
-								<img src="/assets_superAdmin/img/analgesico.png" alt="img" width="10" height="10" >
+								<img src="/assets_superAdmin/img/dolor.png" alt="img" width="10" height="10" >
 								<h6>Dolor</h6>
 							</div>
 						</li>
@@ -180,7 +180,7 @@
 						</li>
 						<li id="otros">
 							<a class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
+								<img src="/assets_superAdmin/img/otros.png" alt="img">
 								<h6>Otros</h6>
 							</a>
 						</li>
@@ -495,12 +495,14 @@
 											<img src="/assets_superAdmin/img/icons/cash.svg" alt="img" class="me-2">
 											Efectivo
 										</a>
+                                        <input type="hidden" name="efectivo" value="efectivo">
 									</li>
 									<li>
 										<a  class="paymentmethod">
 											<img src="/assets_superAdmin/img/icons/debitcard.svg" alt="img" class="me-2">
 											Tarjeta
 										</a>
+										<input type="hidden" name="tarjeta" value="tarjeta">
 									</li>
 								</ul>
 							</div>
@@ -693,33 +695,33 @@
 				<div class="row">
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
-							<label>Nombre</label>
-							<input type="text">
+							<label >Nombre</label>
+							<input name="nombre" type="text">
 						</div>
 					</div>
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
 							<label>Apellido</label>
-							<input type="text">
+							<input name="apellido" type="text">
 						</div>
 					</div>
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
-							<label>Edad</label>
-							<input type="text">
+							<label>DNI</label>
+							<input name="dni" type="text">
 						</div>
 					</div>
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
-							<label>Seguro</label>
-							<input type="text">
+							<label>Telefono</label>
+							<input name="numero" type="text">
 						</div>
 					</div>
 
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
 							<label for="doctores">Doctor</label>
-							<select id="doctores">
+							<select name="idDoctor" id="doctores">
 								<option th:each="doctor :${listaDoctores}"
 										th:value="${doctor.getIdDoctor()}"
 										th:text="${doctor.getName()}+' '+${doctor.getLastName()}">

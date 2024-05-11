@@ -44,6 +44,12 @@
 
 
 		}
+		body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
 
 
 	</style>
@@ -51,7 +57,7 @@
 
 
 </head>
-<body style="background-image: url('../assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+<body >
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 	<defs>
 		<symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
@@ -104,7 +110,6 @@
 </div>
 
 <!-- Main Wrapper -->
-<div class="main-wrapper">
 
 	<!-- Header -->
 	<nav th:replace="navbarPaciente :: navbar(activeTab = 'historial')"> </nav>
@@ -119,147 +124,109 @@
 		<!-- /product list -->
 
 
-		<div class="card">
+			<div class="card ms-5 me-5 mt-5">
 
-
-			<div class="card-body">
-				<div class="page-header" style="margin-bottom: 1%">
-					<div class="page-title">
-						<h4>Historial de órdenes</h4>
-					</div>
-				</div>
-
-				<div class="table-top">
-					<div class="search-set">
-						<div class="search-path">
-							<a class="btn btn-filter" id="filter_search">
-								<img src="../assets_pacient/img/icons/filter.svg" alt="img">
-								<span><img src="../assets_pacient/img/icons/closes.svg" alt="img"></span>
-							</a>
-						</div>
-						<div class="search-input">
-							<a class="btn btn-searchset"><img src="../assets_pacient/img/icons/search-white.svg" alt="img"></a>
-						</div>
-						<div id="DataTables_Table_0_filter" class="dataTables_filter">
-							<label>
-								<input type="search" class="form-control form-control-sm" placeholder="Buscar" aria-controls="DataTables_Table_0">
-							</label>
+				<div class="card-body">
+					<div class="page-header" style="margin-bottom: 1%">
+						<div class="page-title">
+							<h4>Historial de órdenes</h4>
 						</div>
 					</div>
-					<!--
-                    <div class="wordset">
-                        <ul>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets/img/icons/pdf.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets/img/icons/excel.svg" alt="img"></a>
-                            </li>
-                            <li>
-                                <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets/img/icons/printer.svg" alt="img"></a>
-                            </li>
-                        </ul>
-                    </div>
-                    -->
-				</div>
-				<!-- /Filter -->
 
-				<!-- /Filter -->
-				<div class="card" id="filter_inputs">
-					<div class="card-body pb-0">
-						<div class="row">
-							<div class="col-lg col-sm-6 col-12">
-								<div class="form-group">
-									<input type="text" class="datetimepicker cal-icon" placeholder="Escoge fecha" >
-								</div>
-							</div>
-							<div class="col-lg col-sm-6 col-12">
-								<div class="form-group">
-									<input type="text" placeholder="Ingrese Número">
-								</div>
-							</div>
-
-							<div class="col-lg col-sm-6 col-12">
-								<div class="form-group">
-									<select class="select">
-										<option>Escoge estado</option>
-										<option>En proceso</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-lg col-sm-6 col-12">
-								<div class="form-group">
-									<select class="select">
-										<option>Escoja estado de pago</option>
-										<option>Estado de pago</option>
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-1 col-sm-6 col-12">
-								<div class="form-group">
-									<a class="btn btn-filters ms-auto"><img src="../assets_pacient/img/icons/search-whites.svg" alt="img"></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- /Filter -->
-				<div class="table-responsive">
-					<table class="table datanew">
-						<thead>
-						<tr>
-							<th>Número de Orden</th>
-							<th>Detalle</th>
-							<th>Fecha de emisión</th>
-							<th>Estado</th>
-							<th>Costo (S/.)</th>
-							<th>Estado de Pago</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr th:each="compras : ${listaCompras}">
-
-							<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
-							<td>
-								<a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+					<div class="table-top">
+						<div class="search-set">
+							<div class="search-path">
+								<a class="btn btn-filter" id="filter_search">
+									<img src="../assets_pacient/img/icons/filter.svg" alt="img">
+									<span><img src="../assets_pacient/img/icons/closes.svg" alt="img"></span>
 								</a>
-							</td>
-							<td th:text="${compras.getFecha()}"></td>
-							<td th:text="${compras.getEstado()}"></td>
-							<td th:text="${compras.getTotal_price()}"></td>
-							<td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
-        <a th:href="@{'/verDatosPagoPaciente?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
-    </span>
-								<span th:unless="${compras.getEstadoPago() eq 'por pagar'}" th:text="${compras.getEstadoPago()}"></span></td>
-						</tr>
+							</div>
+							<div class="search-input">
+								<a class="btn btn-searchset"><img src="../assets_pacient/img/icons/search-white.svg" alt="img"></a>
+							</div>
 
-							<!--
-						<tr>
+						</div>
 
-							<td class="text-bolds">3</td>
-							<td><a href="detalle.html">
-								<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+					</div>
+					<div class="card" id="filter_inputs">
+						<div class="card-body pb-0">
+							<div class="row">
+								<div class="col-lg col-sm-6 col-12">
+									<div class="form-group">
+										<input type="text" class="datetimepicker cal-icon" placeholder="Escoge fecha" >
+									</div>
+								</div>
+								<div class="col-lg col-sm-6 col-12">
+									<div class="form-group">
+										<input type="text" placeholder="Ingrese Número">
+									</div>
+								</div>
 
-							</a></td>
-							<td>07/04/24</td>
-							<td>Aceptado</td>
-							<td>210.00</td>
-							<td><a href="datos_pago.html"><span class="badges bg-lightred">Por pagar</span></a></td>
+								<div class="col-lg col-sm-6 col-12">
+									<div class="form-group">
+										<select class="select">
+											<option>Escoge estado</option>
+											<option>En proceso</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg col-sm-6 col-12">
+									<div class="form-group">
+										<select class="select">
+											<option>Escoja estado de pago</option>
+											<option>Estado de pago</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-lg-1 col-sm-6 col-12">
+									<div class="form-group">
+										<a class="btn btn-filters ms-auto"><img src="../assets_pacient/img/icons/search-whites.svg" alt="img"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-						</tr>
+					<!-- /Filter -->
+					<div class="table-responsive">
+						<table class="table datanew">
+							<thead>
+								<tr>
+									<th>Número de Orden</th>
+									<th>Detalle</th>
+									<th>Fecha de emisión</th>
+									<th>Estado</th>
+									<th>Costo (S/.)</th>
+									<th>Estado de Pago</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="compras : ${listaCompras}">
 
--->
-						</tbody>
-					</table>
+									<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+									<td>
+										<a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
+											<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+										</a>
+									</td>
+									<td th:text="${compras.getFecha()}"></td>
+									<td th:text="${compras.getEstado()}"></td>
+									<td th:text="${compras.getTotal_price()}"></td>
+									<td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
+       						 <a th:href="@{'/verDatosPagoPaciente?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
+    							</span>
+										<span th:unless="${compras.getEstadoPago() eq 'por pagar'}" th:text="${compras.getEstadoPago()}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
-		</div>
+
+
 		<!-- /product list -->
 	</div>
 
-</div>
 <!-- /Main Wrapper -->
 
 <!-- jQuery -->

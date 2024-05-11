@@ -28,8 +28,8 @@ public class Doctor {
     @Size(max = 45, message = "El apellido no debe tener más de 45 carácteres")
     private String lastName;
 
-    @Column(name="dni")
-    @NotNull(message = "Este campo es obligatorio")
+    @Column(name="dni", unique = true)
+    @NotBlank(message = "Este campo es obligatorio")
     @Digits(integer=8, fraction=0, message = "El DNI debe ser un número")
     @Size(min = 8, max = 8, message = "El DNI debe tener 8 dígitos")
     private String dni;

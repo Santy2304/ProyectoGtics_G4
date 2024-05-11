@@ -461,8 +461,14 @@ public class SuperAdminController {
             administrator.setPassword("passworDefault");
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
-            administratorRepository.save(administrator);
-            return "redirect:/verListadosSuperAdmin";
+            if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
+                model.addAttribute("listaSedes", siteRepository.findAll());
+                model.addAttribute("error", "El DNI del administrador ingresado ya existe");
+                return "superAdmin/AgregarAdminSede";
+            } else {
+                administratorRepository.save(administrator);
+                return "redirect:/verListadosSuperAdmin";
+            }
         }
     }
 

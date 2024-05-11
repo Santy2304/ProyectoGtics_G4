@@ -215,8 +215,9 @@
 										<div class="form-group">
 											<label for="dni">DNI</label>
 											<input class="form-control" type="text" id="dni" name="dni"
-												   th:classappend="${#fields.hasErrors('dni')? 'is-invalid' : ''}">
+												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">

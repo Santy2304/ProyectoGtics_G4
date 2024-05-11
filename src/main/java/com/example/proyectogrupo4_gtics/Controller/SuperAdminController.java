@@ -366,7 +366,7 @@ public class SuperAdminController {
     public String editarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         if (bindingResult.hasErrors()) {
-            return "superAdmin/editarDoctor";
+            return "superAdmin/EditarDoctor";
         } else {
             attributes.addFlashAttribute("msg", "Doctor actualizado correctamente");
             doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(), doctor.getDni(), doctor.getEmail(), doctor.getHeadquarter(), doctor.getState(), doctor.getIdDoctor());

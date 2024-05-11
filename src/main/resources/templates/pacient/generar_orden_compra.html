@@ -30,20 +30,6 @@
 	<link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
 
 
-	<style>
-		.user-menu {
-			display: flex;
-			align-items: center; /* Esto centra verticalmente los hijos del contenedor */
-
-
-			gap: 20px; /* Ajusta el valor según necesites */
-
-
-		}
-
-
-	</style>
-
 </head>
 <body style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
 <div id="global-loader" >
@@ -70,7 +56,7 @@
 						<span><img src="../assets_pacient/img/icons/dash1.svg" alt="img"></span>
 					</div>
 					<div class="dash-widgetcontent">
-						<h5 >S/90.00</h5>
+						<h5 th:text="${medicine.getPrice()}">S/</h5>
 						<h6>Total a Pagar</h6>
 					</div>
 				</div>
@@ -96,8 +82,11 @@
 														<select  name="idDoctor"  class="form-control" id="idDoctor">
 															<option th:each="doctor : ${listaDoctores}"
 															th:value="${doctor.idDoctor}"
-															th:text="${doctor.name}"></option>
+															th:text="${doctor.name +' '+doctor.lastName}"></option>
 														</select>
+													</div>
+													<div th:if="${errorDoctor != null}"  class="text-danger" >
+														<span th:text="${errorDoctor}"></span>
 													</div>
 												</div>
 											</div>
@@ -105,6 +94,10 @@
 										<div class="col-md-4 mb-3">
 											<label >Teléfono</label>
 											<input type="text" class="form-control mt-2" name="phoneNumber" required>
+											<div th:if="${errorPhone != null}"  class="text-danger" >
+												<span th:text="${errorPhone}"></span>
+											</div>
+
 										<!--	<div class="invalid-feedback">
 												Por favor ingrese un número correcto
 											</div>-->
@@ -114,10 +107,11 @@
 									<div class="form-row row">
 										<div class="col-md-6 mb-3">
 											<label class="mb-2" >Dirección</label>
-											<input th:value="${direccion}" type="text" class="form-control " name="direccion" required>
-										<!--	<div class="valid-feedback">
-												Correcto!
-											</div>-->
+											<input type="text" class="form-control mt-2" name="direccion" required>
+											<div th:if="${errorDireccion != null}"  class="text-danger" >
+												<span th:text="${errorDireccion}"></span>
+											</div>
+
 										</div>
 										<div class="col-md-3 mb-3">
 											<div class="form-group">
@@ -150,6 +144,9 @@
 															<option value="22:00:00">22:00:00</option>
 															<option value="23:00:00">23:00:00</option>
 														</select>
+													</div>
+													<div th:if="${errorHora != null}"  class="text-danger" >
+														<span th:text="${errorHora}"></span>
 													</div>
 												</div>
 											</div>

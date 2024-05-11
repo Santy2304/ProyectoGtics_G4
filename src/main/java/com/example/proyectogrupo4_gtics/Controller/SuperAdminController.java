@@ -393,6 +393,26 @@ public class SuperAdminController {
         return "superAdmin/AgregarDoctor";
     }
 
+    public boolean verificarUnicidadDni(String dni, String rol) {
+        switch (rol) {
+            case "Doctor":
+                List<Doctor> listaDoctores = doctorRepository.findAll();
+                for (Doctor doctor : listaDoctores) {
+                    if (doctor.getDni().equals(dni)) {
+                        return true;
+                    }
+                }
+            case "Administrator":
+                List<Administrator> listaAdminSede = administratorRepository.findAll();
+                for (Administrator administrator : listaAdminSede) {
+                    if (administrator.getDni().equals(dni)) {
+                        return true;
+                    }
+                }
+            default: return false;
+        }
+    }
+
     @PostMapping("/agregarDoctor")
     public String agregarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
@@ -402,8 +422,14 @@ public class SuperAdminController {
             attributes.addFlashAttribute("msg", "Doctor agregado correctamente");
             doctor.setCreationDate(LocalDate.now());
             doctor.setState("activo");
-            doctorRepository.save(doctor);
-            return "redirect:/verListadosSuperAdmin";
+            if (verificarUnicidadDni(doctor.getDni(), "Doctor")) { //En caso se repita el dni
+                model.addAttribute("listaSedes", siteRepository.findAll());
+                model.addAttribute("error", "El DNI ingresado ya existe");
+                return "superAdmin/AgregarDoctor";
+            } else { //En caso sea único
+                doctorRepository.save(doctor);
+                return "redirect:/verListadosSuperAdmin";
+            }
         }
     }
 

@@ -128,9 +128,6 @@
                 errorLetra++;
               }
             });
-
-            //Se equivoca al escribir algo q no debe , se equivoco por poner más de 10
-            //
             console.log(arregloValidoValue);
             console.log(arregloValidoId);
             if(cantidadCeros === inputs.length){
@@ -150,10 +147,9 @@
                 })
               }else{
                 if(cantidadAceptable<=10){
-
                   async function auxiliar(){
                     const { value: date } = await Swal.fire({
-                      title: "Escoge la fecha de llegada del pedido de reposción",
+                      title: "Escoge la fecha de llegada del pedido de reposición",
                       confirmButtonText: "Generar",
                       cancelButtonText: "Regresar",
                       cancelButtonColor: "rgba(248,215,48,0.87)",
@@ -173,7 +169,54 @@
                         type: "POST",
                         contentType: "application/json",
                         success: function(data){
-                          window.location.href = data.response;
+                          switch(data.error){
+                            case "":
+                              window.location.href = data.response;
+                              break;
+                            case "errorMenorADiez":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Ingresaste más de 10 medicamentos en el pedido de reposición!",
+                              });
+                              break;
+                            case "errorDiferenteCero":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "No ingresaste ningún medicamento en el pedido de reposición!",
+                              });
+                              break;
+                            case "errorMedicamentosNoCoinciden":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "No se pueden pedir reposiciones de medicamentos que tengan un stock mayor a 25 unidades!",
+                              });
+                              break;
+                            case "errorStrings":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Ingresaste algún valor incoherente!",
+                              });
+                              break;
+                            case "ErrorReposicionPermitida":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Debes realizar el pedido de reposición con por lo menos 7 días de anticipación!",
+                              });
+                              break;
+                            case "ErrorVacio":
+                              Swal.fire({
+                                icon: "error",
+                                title: "Oops...",
+                                text: "Ocurrio un error inesperado!",
+                              });
+                              break;
+                          }
+
                         }
                       })
 

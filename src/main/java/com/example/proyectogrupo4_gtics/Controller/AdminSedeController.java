@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @SessionAttributes({"idUser", "sede"})
@@ -64,6 +65,7 @@ public class AdminSedeController {
     //Lista Farmacistas por sede junto a las solicitudes de farmacistas de las sedes
     @GetMapping("/listaFarmacistaAdminSede")
     public String listPharmacist(Model model) {
+        //CONVERSAR CON SANTIAGO SOBRE LA NECESIDAD DE SOLO LISTAR LAS SOLICITUDES NO ATENDIDAS
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser") );
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -141,6 +143,7 @@ public class AdminSedeController {
     //Se solicita a superadmin agregar al farmacista
     @PostMapping("/saveChangesFarmacista")
     public String editarFarmacista(Pharmacist pharmacist, Model model){
+        pharmacist.setState("activo");
         pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt( (String)model.getAttribute("idUser") )).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
         return "redirect:/listaFarmacistaAdminSede";
     }
@@ -169,14 +172,6 @@ public class AdminSedeController {
     @GetMapping("/inventarioAdminSede")
     public String verInventario(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
-        model.addAttribute("sede", admin.getSite());
-        model.addAttribute("nombre", admin.getName());
-        model.addAttribute("apellido", admin.getLastName());
-        if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
-            model.addAttribute("rol","administrador");
-        }
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         return "admin_sede/inventario";
     }
@@ -200,29 +195,25 @@ public class AdminSedeController {
     //Filtrado de medicamentos por sede
     @PostMapping("/inventarioAdminSedeBusca")
     public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda){
+        //VALIDADO EN CUALQUIER CASO ENVIA ALGO
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         String nombre = busqueda.getNombre();
         String category = busqueda.getCategoria();
-        System.out.println(nombre);
-        System.out.println(category);
+        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         if(!nombre.equals("") && !category.equals("Elegir por tipo")){
-            System.out.println("Hola 1");
             List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros( busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
             model.addAttribute("medicamentos", listMedicine);
         }else{
             if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
                 if (!nombre.equals("")) {
-                    System.out.println("Hola 2");
                     List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorNombre(busqueda.getNombre(), idAdministrator);
                     model.addAttribute("medicamentos", listMedicine);
                 }
                 if (!category.equals("Elegir por tipo")) {
-                    System.out.println("Hola 3");
                     List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorCategory(busqueda.getCategoria(), idAdministrator);
                     model.addAttribute("medicamentos", listMedicine);
                 }
             }else{
-                System.out.println("Hola 4");
                 List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros(busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
                 model.addAttribute("medicamentos", listMedicine);
             }
@@ -284,7 +275,7 @@ public class AdminSedeController {
         return("redirect:/verListaReposicion");
     }
 
-    @GetMapping("/verNotificaciones")
+    @GetMapping("/verNotificacionesAdminSede")
     public String notificaciones(Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
@@ -345,9 +336,10 @@ public class AdminSedeController {
     }
     @GetMapping("/cancelarPedidoReposicion")
     public String cancelarPedidoReposicion(@RequestParam("id") String id ){
+        //Validamos q su estado sea uno anterior al de empaquetado
         int idRepo = Integer.parseInt(id);
         Optional<ReplacementOrder> r = replacementOrderRepository.findById(idRepo);
-        if(r.isPresent()) {
+        if(r.isPresent() && (r.get().getTrackingState().equals("Solicitado") || r.get().getTrackingState().equals("En Proceso") )) {
             //Primero debemos borrar todos los lotes que se le asignaron a ese pedido de reposicion
             List<lotesPorReposicion> l = loteRepository.getLoteByReplacementOrderId(idRepo);
             for(lotesPorReposicion aux:  l ){
@@ -370,27 +362,42 @@ public class AdminSedeController {
 
     }
     @PostMapping("/editarPedidoReposicionAdminSede")
-    public String editarPedidoReposicion(@RequestBody String cuerpo) throws JsonProcessingException {
+    public String editarPedidoReposicion(@RequestBody String cuerpo) throws JsonProcessingException{
         System.out.println(cuerpo);
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderEdit datos = objectMapper.readValue(cuerpo, ReplacamenteOrderEdit.class);
         String aux ;
         //ACA EMPIEZO
-        ArrayList<String > datosAux =  new ArrayList<>();
-        for(Object u:  datos.getDatos()){
-             datosAux.add(""+u);
+        ArrayList<String> datosAux = new ArrayList<>();
+        for (Object u : datos.getDatos()) {
+            datosAux.add("" + u);
         }
+        if( replacementOrderRepository.findById(Integer.parseInt( datosAux.get(datos.getDatos().size()-1))).isPresent() &&(replacementOrderRepository.findById(Integer.parseInt( datosAux.get(datos.getDatos().size()-1))).get().getTrackingState().equals("Solicitado") ||
+                replacementOrderRepository.findById(Integer.parseInt( datosAux.get(datos.getDatos().size()-1))).get().getTrackingState().equals("En Proceso") )
+        ) {
+            List<lotesPorReposicion> ola = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(datosAux.get(datos.getDatos().size() - 1)));
+            int countError = 0;
+            int countErrorNegative = 0;
 
-        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt( datosAux.get(datos.getDatos().size()-1)));
-        for(Object u:  datos.getDatos()){
-            aux = ""+u;
+            for (Object u : datos.getDatos()) {
+                try{
+                    int oli =  Integer.parseInt(""+ u);
+                    if(oli<=0){
+                        countErrorNegative++;
+                    }
+                }catch(NumberFormatException err){
+                    countError++;
+                }
+                aux = "" + u;
+            }
+            int count = 0;
+            if(countError==0  && countErrorNegative==0) {
+                for (lotesPorReposicion l : ola) {
+                    loteRepository.actualizarCantidadInicial(l.getId(), Integer.parseInt(datosAux.get(count)));
+                    count++;
+                }
+            }
         }
-        int count= 0;
-        for(lotesPorReposicion l :ola){
-            loteRepository.actualizarCantidadInicial(l.getId(),Integer.parseInt(datosAux.get(count)) );
-            count++;
-        }
-
         return "redirect:/verListaReposicion";
     }
 
@@ -456,56 +463,150 @@ public class AdminSedeController {
             this.ids = ids;
         }
     }
+    //RECONTRA VALIDADO
     @RequestMapping ("/generarReposicionAdminSede")
     @ResponseBody
     public Map<String,String> CreateReplacementOrder( @RequestBody String cuerpo , Model  model) throws JsonProcessingException {
-        Map<String, String > response =  new HashMap<>();
+        int idAdministrator = Integer.parseInt(""+ model.getAttribute("idUser"));
+        //Validar que se ingresen números en lugar de Strings
+        //validar que solo sean medicamentos q esten por debajo de 25 de Stock
+        // validar q ninguno este en cero
+        //Validar q no este vacío y validar que sean menos de 10 medicamentos distintos
+        //Validar la fecha que sea mayor a la que en la q nos encontramos
+        Map<String,String> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
-
         System.out.println(data.getDate());
         ArrayList<Object> ids = data.getIds();
         ArrayList<Object> cantidad = data.getCantidad();
-        ArrayList<String> idsString  = new ArrayList<String>();
-        ArrayList<String> cantidadString  = new ArrayList<String>();
-        for(Object aux: ids){
-            idsString.add(""+aux );
-        }
-        for(Object aux: cantidad){
-            cantidadString.add(""+aux );
-        }
-        System.out.println(idsString);
-        System.out.println(cantidadString);
-        //Poner el metodo para añadir
-        //Creamos la orden de reposicion
-        ReplacementOrder r = new ReplacementOrder();
-        r.setTrackingState("Solicitado");
-        r.setSite((String) model.getAttribute("sede"));
-        r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-        r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
-        //r.setIdReplacementOrder();
-        ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
-        //Creamos los lotes asignados a cada orden
-        String quantity  ;
-        String id ;
-        for(int i = 0 ; i<cantidadString.size() ;  i++){
-            if(Integer.parseInt(cantidadString.get(i))>0) {
-                quantity = cantidadString.get(i);
-                id = idsString.get(i);
-                Lote lote = new Lote();
-                lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
-                //lote.setIdLote();
-                lote.setSite((String) model.getAttribute("sede"));
-                lote.setExpireDate(new Date());
-                lote.setExpire(false);
-                lote.setStock(Integer.parseInt(quantity));
-                lote.setReplacementOrder(newReplacementOrder);
-                lote.setVisible(true);
-                lote.setInitialQuantity(Integer.parseInt(quantity));
-                loteRepository.save(lote);
+        //Validar que se ingresen números en lugar de Strings
+        int errorCount= 0;
+        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+            try{
+                int ola = Integer.parseInt("" + ids.get(idx));
+                int ola2 = Integer.parseInt("" + cantidad.get(idx));
+            }catch(NumberFormatException er){
+                errorCount++;
             }
         }
-        response.put("response" ,"/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
+        boolean errorStrings = errorCount!=0;
+        //validar que solo sean medicamentos q esten por debajo de 25 de Stock
+        List<medicamentosPorSedeDTO> listaMedicinasPocoStock = medicineRepository.listaMedicamentosPocoStock(idAdministrator);
+        int auxCount2 = 0;
+        for(int idx = 0 ;  idx < cantidad.size() ; idx++) {
+            try{
+                int ola = Integer.parseInt("" + ids.get(idx));
+                int auxCount = 0;
+                for(medicamentosPorSedeDTO m : listaMedicinasPocoStock){
+                    if( m.getIdMedicine() == ola) {
+                        auxCount++;
+                    }
+                }
+                if(auxCount==1){
+                    auxCount2++;
+                }
+            }catch(NumberFormatException er){
+                System.out.println("Hola");
+            }
+        }
+        boolean errorMedicamentosNoCoinciden = auxCount2 != cantidad.size();
+        // validar q ninguno este en cero
+        int counterCero = 0;
+        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+            try{
+                int id = Integer.parseInt(""+ids.get(idx));
+                int quantity = Integer.parseInt(""+cantidad.get(idx));
+                if(quantity==0){
+                    counterCero++;
+                }
+            }catch(NumberFormatException er){
+                System.out.println("Hola");
+            }
+        }
+        boolean diferenteCero = counterCero != cantidad.size();
+        //Validar q no este vacío y validar que sean menos de 10 medicamentos distintos
+        boolean vacio = cuerpo.isEmpty();
+        int counterNoCero = 0;
+        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+            try{
+                int id = Integer.parseInt(""+ids.get(idx));
+                int quantity = Integer.parseInt(""+cantidad.get(idx));
+                if(quantity!=0){
+                    counterNoCero++;
+                }
+            }catch(NumberFormatException er){
+                System.out.println("Hola");
+            }
+        }
+        boolean menorADiez = counterNoCero<=10;
+        //Validar la fecha que sea mayor a la que en la q nos encontramos
+        LocalDate ola = LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate fechaActual = LocalDate.now();
+        long diferenciaEnDias = ChronoUnit.DAYS.between(fechaActual, ola);
+        boolean reposicionPermitida = diferenciaEnDias >= 7;
+        if(!vacio){
+            if(reposicionPermitida){
+                if(!errorStrings){
+                    if(!errorMedicamentosNoCoinciden){
+                        if(diferenteCero){
+                            if(menorADiez){
+                                ArrayList<String> idsString  = new ArrayList<String>();
+                                ArrayList<String> cantidadString  = new ArrayList<String>();
+                                for(Object aux: ids){
+                                    idsString.add(""+aux );
+                                }
+                                for(Object aux: cantidad){
+                                    cantidadString.add(""+aux );
+                                }
+                                System.out.println(idsString);
+                                System.out.println(cantidadString);
+                                ReplacementOrder r = new ReplacementOrder();
+                                r.setTrackingState("Solicitado");
+                                r.setSite((String) model.getAttribute("sede"));
+                                r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                                r.setAdministrator(administratorRepository.getByIdAdministrador(Integer.parseInt((String) model.getAttribute("idUser"))));
+                                //r.setIdReplacementOrder();
+                                ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
+                                //Creamos los lotes asignados a cada orden
+                                String quantity  ;
+                                String id ;
+                                for(int i = 0 ; i<cantidadString.size() ;  i++){
+                                    if(Integer.parseInt(cantidadString.get(i))>0) {
+                                        quantity = cantidadString.get(i);
+                                        id = idsString.get(i);
+                                        Lote lote = new Lote();
+                                        lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
+                                        //lote.setIdLote();
+                                        lote.setSite((String) model.getAttribute("sede"));
+                                        lote.setExpireDate(new Date());
+                                        lote.setExpire(false);
+                                        lote.setStock(Integer.parseInt(quantity));
+                                        lote.setReplacementOrder(newReplacementOrder);
+                                        lote.setVisible(true);
+                                        lote.setInitialQuantity(Integer.parseInt(quantity));
+                                        loteRepository.save(lote);
+                                    }
+                                }
+                                response.put("error" ,"");
+                                response.put("response" ,"/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
+                            }else{
+                                response.put("error" ,"errorMenorADiez");
+                            }
+                        }else{
+                            response.put("error" ,"errorDiferenteCero");
+                        }
+                    }else{
+                        response.put("error" ,"errorMedicamentosNoCoinciden");
+                    }
+                }else{
+                    response.put("error" ,"errorStrings");
+                }
+            }else{
+                response.put("error" ,"ErrorReposicionPermitida");
+            }
+        }else{
+            response.put("error" ,"ErrorVacio");
+        }
         return response;
     }
 

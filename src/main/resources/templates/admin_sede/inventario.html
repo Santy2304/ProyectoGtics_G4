@@ -187,7 +187,6 @@
 										<td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
 										<td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
 										<td th:text="${medicamento.getPrecio()}"></td>
-
 										<script th:inline="javascript" >
 											$("#" + [[${medicamento.idMedicine}]]).click( function(){
 												Swal.fire({
@@ -200,9 +199,7 @@
 													confirmButtonColor: "#dd986a"
 												})
 											})
-
 										</script>
-
 											</tr>
 									<!--
                                     <!td>

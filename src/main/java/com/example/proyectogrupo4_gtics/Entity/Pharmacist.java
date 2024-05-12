@@ -43,6 +43,9 @@ public class Pharmacist {
     @Size(max = 45, message = "El distrito no debe superar los 45 carácteres")
     private String distrit;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Digits(integer = 8, fraction = 0, message = "El código debe ser un número")
+    @Size(max = 45, message = "El código no deber superar los 45 carácteres")
     private String code;
 
     @NotBlank(message = "Este campo es obligatorio")

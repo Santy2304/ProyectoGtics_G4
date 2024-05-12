@@ -457,7 +457,6 @@ public class SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
-            attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
             administrator.setPassword("passworDefault");
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
@@ -466,6 +465,7 @@ public class SuperAdminController {
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");
                 return "superAdmin/AgregarAdminSede";
             } else {
+                attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
                 administratorRepository.save(administrator);
                 return "redirect:/verListadosSuperAdmin";
             }

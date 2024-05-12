@@ -186,6 +186,9 @@
 
 			<form method="post" th:action="@{/guardarCambiosFarmacista}" th:object="${farmacista}">
 				<input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
+				<!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
+				<input type="hidden" th:field="*{dni}">
+				<input type="hidden" th:field="*{code}">
 				<div class="page-wrapper">
 					<div class="content">
 						<div class="page-header">
@@ -198,7 +201,6 @@
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
-										<input type="hidden" th:field="*{dni}">
 										<div class="form-group">
 											<label>Nombre</label>
 											<input class="form-control" name="name" type="text" th:field="${farmacista.name}"

@@ -114,6 +114,56 @@ public class PharmacistController {
 
      */
 
+
+    @GetMapping("/solicitudesFarmacista")
+    public String verSolicitudes(Model model){
+        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        Pharmacist pharmacist = new Pharmacist();
+        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        model.addAttribute("sede", pharmacist.getSite());
+        model.addAttribute("nombre", pharmacist.getName());
+        model.addAttribute("apellido",pharmacist.getLastName());
+
+        model.addAttribute("listaSolicitudes",purchaseOrderRepository.listaVentasSolicitudesWEBPorSede(pharmacist.getSite()));
+        model.addAttribute("listaSolicitudesBOT",purchaseOrderRepository.listaVentasSolicitudesBOTPorSede(pharmacist.getSite()));
+
+        return "pharmacist/solicitudesCompra";
+    }
+
+    @GetMapping("/verDetalleSolicitud")
+    public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model) {
+
+        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        Pharmacist pharmacist = new Pharmacist();
+        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        model.addAttribute("sede", pharmacist.getSite());
+        model.addAttribute("nombre", pharmacist.getName());
+        model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idOrdenVenta));
+        Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idOrdenVenta);
+        if(purchaseOrderOpt.isPresent()){
+            PurchaseOrder purchaseOrder = purchaseOrderOpt.get();
+            model.addAttribute("purchaseOrder", purchaseOrder);
+            return "pharmacist/detalleSolicitud";
+        }else{
+            return "redirect:/verMedicinelistFarmacista";
+        }
+    }
+
+    @GetMapping("/aceptarSolicitud")
+    public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
+        purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+        return "redirect:/solicitudesFarmacista";
+    }
+
+
+    @GetMapping("/rechazarSolicitud")
+    public String rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
+        purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
+        return "redirect:/solicitudesFarmacista";
+    }
+
+
     @GetMapping("/productDetails")
     public String verProductDetails(Model model){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
@@ -122,8 +172,6 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
-
 
         return "pharmacist/product-details";
     }

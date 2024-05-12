@@ -96,7 +96,7 @@
 												</li>
 												<li>
 													<h4 style="background-color: #ced4da">Doctor</h4>
-													<input disabled="disabled" type="text" th:field="*{idDoctor.name}">
+													<input disabled="disabled" type="text" th:value="${purchaseOrder.getIdDoctor().getName() + ' ' + purchaseOrder.getIdDoctor().getLastName()}">
 												</li>
 												<li>
 													<h4 style="background-color: #ced4da">Seguro</h4>

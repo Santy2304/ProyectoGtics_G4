@@ -4,7 +4,9 @@ import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchaseOrderPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.PurchaseOrder;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -64,4 +66,31 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
 
     @Query(nativeQuery = true,value = "select po.idPurchaseOrder as idPurchaseOrder, po.phoneNumber as numero, CONCAT(p.name,' ',p.lastName) as nombrePaciente, CONCAT(d.name,'',d.lastName) as nombreDoctor, po.prescription as  prescripcion, po.tracking as tracking, po.releaseDate as fechaRelease, sum(m.price*phl.cantidad_comprar) as monto, po.statePaid as estadoPago, po.tipo as tipoCompra,po.tipoPago as tipoPago, po.releaseDate as fecha from purchaseorder po inner join purchasehaslot phl on phl.idPurchase=po.idPurchaseOrder inner join lote l on phl.idLote = l.idLote inner join medicine m on m.idMedicine=l.idMedicine inner join doctor d on po.idDoctor=d.idDoctor inner join patient p on po.idPatient=p.idPatient where po.site=?1 and po.tipo='bot' and po.approval='aceptado' group by po.idPurchaseOrder")
     List<PurchaseOrderPorSedeDTO> listaVentasBOTPorSede(String sede);
+
+
+
+    @Query(nativeQuery = true,value = "select po.idPurchaseOrder as idPurchaseOrder, po.phoneNumber as numero, CONCAT(p.name,' ',p.lastName) as nombrePaciente, CONCAT(d.name,'',d.lastName) as nombreDoctor, po.prescription as  prescripcion, po.tracking as tracking, po.releaseDate as fechaRelease, sum(m.price*phl.cantidad_comprar) as monto, po.statePaid as estadoPago, po.tipo as tipoCompra,po.tipoPago as tipoPago, po.releaseDate as fecha from purchaseorder po inner join purchasehaslot phl on phl.idPurchase=po.idPurchaseOrder inner join lote l on phl.idLote = l.idLote inner join medicine m on m.idMedicine=l.idMedicine inner join doctor d on po.idDoctor=d.idDoctor inner join patient p on po.idPatient=p.idPatient where po.site=?1 and po.approval='pendiente' and tipo='web' group by po.idPurchaseOrder")
+    List<PurchaseOrderPorSedeDTO> listaVentasSolicitudesWEBPorSede(String sede);
+
+
+    @Query(nativeQuery = true,value = "select po.idPurchaseOrder as idPurchaseOrder, po.phoneNumber as numero, CONCAT(p.name,' ',p.lastName) as nombrePaciente, CONCAT(d.name,'',d.lastName) as nombreDoctor, po.prescription as  prescripcion, po.tracking as tracking, po.releaseDate as fechaRelease, sum(m.price*phl.cantidad_comprar) as monto, po.statePaid as estadoPago, po.tipo as tipoCompra,po.tipoPago as tipoPago, po.releaseDate as fecha from purchaseorder po inner join purchasehaslot phl on phl.idPurchase=po.idPurchaseOrder inner join lote l on phl.idLote = l.idLote inner join medicine m on m.idMedicine=l.idMedicine inner join doctor d on po.idDoctor=d.idDoctor inner join patient p on po.idPatient=p.idPatient where po.site=?1 and po.approval='pendiente' and tipo='bot' group by po.idPurchaseOrder")
+    List<PurchaseOrderPorSedeDTO> listaVentasSolicitudesBOTPorSede(String sede);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set approval = 'aceptado', tracking='solicitado', statePaid='por pagar'  where idPurchaseOrder =?1" , nativeQuery = true)
+    void aceptarSolicitudPorId(int idSolicitud);
+
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set approval = 'rechazado'  where idPurchaseOrder =?1" , nativeQuery = true)
+    void rechazarSolicitudPorId(int idSolicitud);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set approval = 'invalidado'  where idPurchaseOrder =?1" , nativeQuery = true)
+    void invalidarCompraPorId(int idSolicitud);
 }

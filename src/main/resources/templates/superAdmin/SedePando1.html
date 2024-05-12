@@ -284,10 +284,15 @@
 													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
 												</a>
 
-												<a class="confirm-text" th:onclick="|mensajeRechazo(${solicitud.idFarmacista})|">
+												<a class="me-3" th:href="@{'/rechazarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 
+												<!--
+												<a class="confirm-text" th:onclick="|mensajeRechazo(${solicitud.idFarmacista})|">
+													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+												</a>
+-->
 											</td>
 										</tr>
 									</tbody>

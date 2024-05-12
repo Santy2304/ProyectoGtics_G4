@@ -117,7 +117,6 @@
 											<th>Venta</th>
 											<th>Paciente</th>
 											<th>Precio</th>
-											<th>Receta</th>
 											<th>Fecha</th>
 											<th>Acciones</th>
 										</tr>
@@ -133,9 +132,7 @@
 											<td th:text=" 'PS0'+${presencial.getIdPurchaseOrder()}"></td>
 											<td th:text="${presencial.getNombrePaciente()}"></td>
 											<td th:text="|S/${presencial.getMonto()}|"></td>
-											<td>
-												<a href="#">REC12354V</a>
-											</td>
+
 											<td th:text="${presencial.getFecha()}"></td>
 											<td>
 
@@ -225,7 +222,6 @@
 											<th>Venta</th>
 											<th>Paciente </th>
 											<th>Precio</th>
-											<th>Receta</th>
 											<th>Estado de pago</th>
 											<th>Fecha</th>
 											<th>Acciones</th>
@@ -237,9 +233,6 @@
 											<td th:text=" 'WB0'+${web.getIdPurchaseOrder()}"></td>
 											<td th:text="${web.getNombrePaciente()}"></td>
 											<td th:text="|S/${web.getMonto()}|"></td>
-											<td>
-												<a href="#">REC12354V</a>
-											</td>
 											<td th:text="${web.getEstadoPago()}"></td>
 											<td th:text="${web.getFecha()}"></td>
 											<td>
@@ -329,7 +322,6 @@
 											<th>Venta</th>
 											<th>Paciente </th>
 											<th>Precio</th>
-											<th>Receta</th>
 											<th>Estado de pago</th>
 											<th>Fecha</th>
 											<th>Acciones</th>
@@ -340,9 +332,6 @@
 											<td th:text=" 'BT0'+${bot.getIdPurchaseOrder()}"></td>
 											<td th:text="${bot.getNombrePaciente()}"></td>
 											<td th:text="|S/${bot.getMonto()}|"></td>
-											<td>
-												<a href="#">REC12354V</a>
-											</td>
 											<td th:text="${bot.getEstadoPago()}"></td>
 											<td th:text="${bot.getFecha()}"></td>
 											<td>

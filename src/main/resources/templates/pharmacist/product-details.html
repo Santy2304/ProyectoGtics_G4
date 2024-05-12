@@ -102,19 +102,15 @@
 													<h4 style="background-color: #ced4da">Seguro</h4>
 													<input disabled="disabled" type="text" th:field="*{patient.insurance}">
 												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Modalidad de envío</h4>
-													<span th:if="*{deliveryHour != null}">Delivery</span>
-													<span th:unless="*{deliveryHour != null}">Presencial</span>
-												</li>
+
 												<li>
 													<h4 style="background-color: #ced4da">Metodo de pago</h4>
 													<input disabled="disabled" type="text" th:field="*{tipoPago}">
 
 												</li>
 												<li>
-													<h4 style="background-color: #ced4da">Hora y día de entrega</h4>
-													<input disabled="disabled" type="text" th:field="*{deliveryHour}">
+													<h4 style="background-color: #ced4da">Fecha</h4>
+													<input disabled="disabled" type="text" th:field="*{releaseDate}">
 												</li>
 
 											</ul>
@@ -126,189 +122,31 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="productdetails">
-										<h6 style="font-weight: bold">RESUMÉN DE COMPRA</h6>
+										<h6 style="font-weight: bold">RESUMEN DE COMPRA</h6>
 										<br>
 										<ul class="product-bar">
 											<li>
 												<div class="col-md-3" style="background-color: #ced4da">
 													<h6 style="font-weight: bold">Producto</h6>
 												</div>
-												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Marca</h6>
-												</div>
+
 												<div class="col-md-3" style="background-color: #ced4da">
 													<h6 style="font-weight: bold">Cantidad</h6>
 												</div>
 												<div class="col-md-3" style="background-color: #ced4da">
-													<h6 style="font-weight: bold">Precio unitario</h6>
+													<h6 style="font-weight: bold">Precio Unitario</h6>
 												</div>
 											</li>
-											<li>
+											<li th:each="medicamento : ${listaMedicamentos}">
 												<div class="col-md-3">
-													<h6>Paracetamol </h6>
+													<h6  th:text="${medicamento.getMedicineName()}"></h6>
+												</div>
+
+												<div class="col-md-3">
+													<h6 th:text="${medicamento.getCantidad()}"></h6>
 												</div>
 												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>2 tabletas</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>10.00</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>4 tabletas</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>20.00</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
-												</div>
-											</li>
-											<li>
-												<div class="col-md-3">
-													<h6>Paracetamol </h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Marca</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 3</h6>
-												</div>
-												<div class="col-md-3">
-													<h6>Columna 4</h6>
+													<h6 th:text="${medicamento.getPrecio()}"></h6>
 												</div>
 											</li>
 										</ul>
@@ -323,11 +161,11 @@
 										<div class="owl-carousel owl-theme product-slide">
 											<div class="slider-product">
 												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
-												<h4>BOLETA.pdf</h4>
+												<h4>RECETA.pdf</h4>
 											</div>
 											<div class="slider-product">
 												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
-												<h4>receta.pdf</h4>
+												<h4>BOLETA.pdf</h4>
 											</div>
 										</div>
 									</div>

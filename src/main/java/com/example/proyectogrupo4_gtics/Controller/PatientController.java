@@ -194,6 +194,7 @@ public class PatientController {
         }
 
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
+        purchaseOrder.setTipo("tarjeta");
         purchaseOrder.setPhoneNumber(phoneNumber);
         purchaseOrder.setDireccion(direccion);
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();

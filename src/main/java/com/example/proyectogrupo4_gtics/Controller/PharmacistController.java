@@ -4,6 +4,7 @@ import com.example.proyectogrupo4_gtics.DTOs.*;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import org.hibernate.query.ImmutableEntityUpdateQueryHandlingMode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -121,6 +122,9 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+
+
+
         return "pharmacist/product-details";
     }
 
@@ -213,6 +217,7 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idOrdenVenta));
         Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idOrdenVenta);
         if(purchaseOrderOpt.isPresent()){
             PurchaseOrder purchaseOrder = purchaseOrderOpt.get();

@@ -219,7 +219,7 @@ public class PatientController {
         purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
 
 
-        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad);
+        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad, siteRepository.findById(Integer.parseInt(""+ model.getAttribute("idSede"))).get().getName());
 
         if (listaLotesPosibles.isEmpty()){
             return "redirect:/verPrincipalPaciente";

@@ -514,15 +514,20 @@
 									//Ahora enviamos por ajax al servidor
 									$.ajax({
 										url: "/GenerarVentaFarmacista",
-										data: JSON.stringify({
-											idMedicinas: inputMedicine,
+										data: JSON.stringify( {
+											ids: inputMedicine,
 											cantidades: inputCantidad
 										}),
+										contentType: "application/json",
 										type: "POST",
 										success: function(response){
 											switch(response.error){
 												case "":
-
+													Swal.fire({
+														icon: "success",
+														title: "Venta concluida",
+														text: "Se concreto correctamente la venta",
+													});
 													break;
 												case "casteo":
 

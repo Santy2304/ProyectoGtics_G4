@@ -135,7 +135,10 @@ public class PharmacistController {
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
 
-        model.addAttribute("listaPurchaseOrder", purchaseOrderRepository.listaPurchaseOrderPorSede(pharmacist.getSite()));
+        model.addAttribute("listaPurchaseOrderPresencial", purchaseOrderRepository.listaVentasPresencialPorSede(pharmacist.getSite()));
+        model.addAttribute("listaPurchaseOrderWeb", purchaseOrderRepository.listaVentasWEBPorSede(pharmacist.getSite()));
+        model.addAttribute("listaPurchaseOrderBOT", purchaseOrderRepository.listaVentasBOTPorSede(pharmacist.getSite()));
+
         return "pharmacist/productlist";
     }
 

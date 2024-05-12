@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.DTOs;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public interface PurchaseOrderPorSedeDTO {
@@ -15,5 +16,7 @@ public interface PurchaseOrderPorSedeDTO {
     String getEstadoPago();
     String getTipoCompra();
     String getTipoPago();
+
+    LocalDate getFecha();
 
 }

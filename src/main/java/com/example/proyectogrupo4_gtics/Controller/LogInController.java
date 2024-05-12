@@ -155,7 +155,7 @@ public class LogInController {
         }
         if( !(pharmacist == null) ) {
             if( ! pharmacist.getState().equals("baneado")) {
-                response.put("response" ,"/verMedicinelistFarmacista?idUser"+pharmacist.getIdFarmacista());
+                response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
                 model.addAttribute("idUser" , pharmacist.getIdFarmacista());
                 return response;
             }else{

@@ -45,7 +45,7 @@
         <div class="main-wrapper">
 			
 			<!-- Header -->
-			<div class="header">
+			<div class="header"  style="background: linear-gradient(90deg,#e9c614 46%, #f6c32c 70%);">
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
@@ -186,7 +186,9 @@
 			<!-- /Sidebar -->
 			<form method="post" th:action="@{/guardarCambiosDoctor}" th:object="${doctor}">
 				<input name="idDoctor"  th:field="*{idDoctor}" type="hidden">
-			<div class="page-wrapper">
+				<input type="hidden" th:field="*{dni}">
+
+				<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
 						<div class="page-title">
@@ -215,14 +217,6 @@
 											 th:errors="*{lastName}"></div>
 									</div>
 								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input name="dni" type="hidden" th:field="${doctor.dni}">
-										<span class="form-text" th:text="*{dni}"></span>
-									</div>
-								</div>
-
 
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">

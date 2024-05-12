@@ -21,6 +21,11 @@ public class SuperAdmin {
     @Column(name="photo")
     private String photo;
 
+    private String name;
+
+    @Column(name = "lastname")
+    private String lastname;
+
     public int getIdSuperAdmin() {
         return idSuperAdmin;
     }
@@ -53,4 +58,19 @@ public class SuperAdmin {
         this.photo = photo;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
 }

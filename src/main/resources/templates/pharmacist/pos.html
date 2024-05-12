@@ -36,6 +36,7 @@
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 
+
 </head>
 <body >
 
@@ -155,20 +156,20 @@
 					<ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
 						<li class="active" id="Alergia">
 							<div class="product-details " >
-								<img src="/assets_superAdmin/img/alergia.png" alt="img" >
+								<img src="/assets_superAdmin/img/alergico.png" alt="img" >
 								<h6>Alergia</h6>
 							</div>
 						</li>
-						<li id="analgesico">
+						<li id="dolor">
 							<div class="product-details " >
-								<img src="/assets_superAdmin/img/analgesico.png" alt="img" width="10" height="10" >
-								<h6>Analgésico</h6>
+								<img src="/assets_superAdmin/img/dolor.png" alt="img" width="10" height="10" >
+								<h6>Dolor</h6>
 							</div>
 						</li>
-						<li id="aspirina">
+						<li id="suplemento">
 							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
+								<img src="/assets_superAdmin/img/suplemento.png" alt="img">
+								<h6>Suplemento</h6>
 							</div>
 						</li>
 						<li id="belleza">
@@ -177,902 +178,181 @@
 								<h6>Belleza</h6>
 							</a>
 						</li>
-						<li id="suplemento">
+						<li id="otros">
 							<a class="product-details">
-								<img src="/assets_superAdmin/img/suplemento.png" alt="img">
-								<h6>Suplemento</h6>
+								<img src="/assets_superAdmin/img/otros.png" alt="img">
+								<h6>Otros</h6>
 							</a>
 						</li>
-						<li id="Snacks">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="watch"><a class="product-details">
-							<img src="/assets_superAdmin/img/suplemento.png" alt="img">
-							<h6>Suplemento</h6>
-						</a>
-						</li>
-						<li id="cycle">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="fruits1">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="headphone1">
-							<div class="product-details">
-								<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
+
 					</ul>
 
 
 
 					<div class="tabs_container" >
+						<div class="tab_content active" data-tab="Alergia">
+							<div th:with="alergiaPresente=false"></div>
 
-						<div  class="tab_content active" data-tab="Alergia">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5.00</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina1</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina2</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina3</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina4</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina5</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina6</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina7</h4>
-											<h6>35.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina8</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina9</h4>
-										<h6>150.00</h6>
-									</div>
-								</div>
-							</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina</h4>
-										<h6>20.00</h6>
-									</div>
-								</div>
-							</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<div class="tab_content" data-tab="analgesico">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 1</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Accessories</h5>
-											<h4>Sunglasses</h4>
-											<h6>15.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-							</div>
-						</div>
-
-
-						<div class="tab_content" data-tab="aspirina">
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Alergia'}">
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+									<div th:with="alergiaPresente=true"></div>
+
+
+									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
 											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>50.00</h6>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
 
 
+
+						<div class="tab_content" data-tab="dolor">
+							<div th:with="dolorPresente=false"></div>
+
+							<!-- Iniciar la fila -->
+							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Dolor'}">
+
+									<div th:with="dolorPresente=true"></div>
+
+
+									<div class="productset">
+										<div class="productsetimg">
+											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
+											</div>
+										</div>
+										<div class="productsetcontent">
+											<h5>Dolor</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
+									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
+								</div>
+							</div>
+						</div>
 
 
 
 						<div class="tab_content" data-tab="belleza">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+							<div th:with="bellezaPresente=false"></div>
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+							<!-- Iniciar la fila -->
+							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Belleza'}">
+
+									<div th:with="bellezaPresente=true"></div>
+
+
+									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5>Belleza</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
-
 
 
 						<div class="tab_content" data-tab="suplemento">
-							<div class="row"><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina</h4>
-										<h6>20.00</h6>
-									</div>
-								</div>
-							</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+							<!-- Variable de control para saber si hay al menos un medicamento de suplemento -->
+							<div th:with="suplementoPresente=false"></div>
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<div class="tab_content" data-tab="computer">
+							<!-- Iniciar la fila -->
 							<div class="row">
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Suplemento'}">
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+									<div th:with="suplementoPresente=true"></div>
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+
+									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5>Suplemento</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
 
 
 
-						<div class="tab_content" data-tab="Snacks">
+						<div class="tab_content" data-tab="otros">
+
+							<div th:with="otrosPresente=false"></div>
+
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Otros'}">
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+									<div th:with="otrosPresente=true"></div>
+
+
+									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5>Otros</h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
-
-
-
-
-						<div class="tab_content" data-tab="watch">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div class="tab_content" data-tab="cycle">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div  class="tab_content" data-tab="fruits1">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div class="tab_content" data-tab="headphone1">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-
 
 					</div>
 				</div>
@@ -1082,25 +362,29 @@
 				<div class="col-lg-4 col-sm-12 ">
 					<div class="order-list">
 						<div class="orderid">
-							<h4>Número de orden</h4>
-							<h5>#65565</h5>
+							<h4>Orden de venta</h4>
+							<h5 th:if="${fullNamePatient} != null" th:text="|Paciente: ${fullNamePatient}|"></h5>
+							<h5 th:if="${fullNameDoctor} != null" th:text="|Doctor: ${fullNameDoctor}|"></h5>
 						</div>
-						<div class="actionproducts">
+						<div th:if="${fullNamePatient} != null" class="actionproducts">
 							<ul>
 								<li>
-									<a  onclick="return Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Eliminar datos' , cancelButtonText:'Cancelar' })" ><img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a>
+									<a  id="borrador" ><img  src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a>
 									<script>
-										function BorrarTodo(){(
-												Swal.fire({
-													title: "Are you sure?",
-													text: "You won't be able to revert this!",
-													icon: "warning",
-													showCancelButton: true,
-													confirmButtonColor: "#3085d6",
-													cancelButtonColor: "#d33",
-													confirmButtonText: "Yes, delete it!"
-												})
-										)}
+
+										document.getElementById("borrador").onclick = function(){
+											Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?',
+												icon: 'warning',
+												showCancelButton: true
+												, confirmButtonColor: '#d48e15',
+												cancelButtonColor: '#805409',
+												confirmButtonText: 'Eliminar datos' ,
+												cancelButtonText:'Cancelar' }).then(function() {
+												// Redirigir a la vista del controlador
+												window.location.href = "/eliminarPacienteDoctorDesdeFarmacista";
+											});
+										}
+
 									</script>
 								</li>
 								<!--
@@ -1125,7 +409,7 @@
 						</div>
 					</div>
 					<div class="card card-order">
-						<div class="card-body">
+						<div th:if="${fullNamePatient} == null" class="card-body">
 							<div class="row">
 								<div class="col-12">
 									<a href="javascript:void(0);" class="btn btn-adds" data-bs-toggle="modal" data-bs-target="#create"><i class="fa fa-plus me-2"></i>Ingresar datos del cliente</a>
@@ -1136,66 +420,39 @@
 						</div>
 						<div class="card-body pt-0">
 							<div class="totalitem">
-								<h4>Total de productos : 5</h4>
+								<h4 th:text="|Total de productos : ${listaComprar.size()}|"></h4>
 								<a href="javascript:void(0);">Vaciar carrito</a>
 							</div>
-							<div class="product-table">
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
+							<form id="myForm">
+								<div class="product-table">
+									<ul th:each="product : ${listaComprar}" class="product-lists">
+										<li>
+											<div class="productimg">
+												<div class="productimgs">
+													<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
 												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
+												<div class="productcontet">
+													<h4 th:text="${product.name}">
+														<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+													</h4>
+													<div class="productlinkset">
+														<h5 th:text="${product.category}"></h5>
+													</div>
+													<div class="increment-decrement">
+														<div class="input-groups">
+															<input type="button" name="menos" value="-"  class="button-minus dec button">
+															<input type="text" th:name="${product.getIdMedicine()}"  value="1" class="quantity-field">
+															<input type="button" name="mas" value="+"  class="button-plus inc button ">
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-								</ul>
-
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina2
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
-												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
-													</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"--> <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a></li>
-								</ul>
-
-
-							</div>
+										</li>
+										<li th:text="${product.price}"></li>
+										<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+									</ul>
+								</div>
+							</form>
 						</div>
 						<div class="split-card">
 						</div>
@@ -1204,30 +461,89 @@
 								<ul>
 									<li class="total-value">
 										<h5>Total  </h5>
-										<h6>s/.60.00</h6>
+										<h6>s/.100.00</h6>
 									</li>
 								</ul>
 							</div>
 							<div class="setvaluecash">
+								<style>
+									.selected {
+										background-color: #f0f0f0; /* Cambia el color de fondo cuando está seleccionado */
+									}
+									</style>
 								<ul>
 									<li>
-										<a  class="paymentmethod" 	>
+										<a class="paymentmethod" >
 											<img src="/assets_superAdmin/img/icons/cash.svg" alt="img" class="me-2">
 											Efectivo
 										</a>
+                                        <input type="hidden" name="efectivo" value="efectivo">
 									</li>
 									<li>
 										<a  class="paymentmethod">
 											<img src="/assets_superAdmin/img/icons/debitcard.svg" alt="img" class="me-2">
 											Tarjeta
 										</a>
+										<input type="hidden" name="tarjeta" value="tarjeta">
 									</li>
 								</ul>
+
 							</div>
-							<div class="btn-totallabel">
-								<h5>Vender</h5>
+							<div id="venta" style="cursor: pointer;" class="btn-totallabel">
+								<h5  >Vender</h5>
 								<h6>s/60.00</h6>
 							</div>
+							<script>
+								var div = document.getElementById("venta");
+								div.addEventListener("click" ,  function() {
+									var formulario = document.getElementById("myForm");
+									var elementos = formulario.elements;
+									var inputs = Array.from(elementos).filter(function(elemento) {
+										return elemento.tagName === 'INPUT';
+									});
+									var inputMedicine = [ ];
+									var inputCantidad= [ ];
+									inputs.forEach(function(input) {
+										if(input.name !== "mas" && input.name!=="menos"){
+											inputMedicine.push(input.name);
+											inputCantidad.push(input.value);
+										}
+									});
+									console.log(inputMedicine);
+									console.log(inputCantidad);
+									//Ahora enviamos por ajax al servidor
+									$.ajax({
+										url: "/GenerarVentaFarmacista",
+										data: JSON.stringify( {
+											ids: inputMedicine,
+											cantidades: inputCantidad
+										}),
+										contentType: "application/json",
+										type: "POST",
+										success: function(response){
+											switch(response.error){
+												case "":
+													Swal.fire({
+														icon: "success",
+														title: "Venta concluida",
+														text: "Se concreto correctamente la venta",
+													});
+													break;
+												case "casteo":
+
+													break;
+												case "insuficiente":
+
+													break;
+											}
+										}
+									});
+								})
+
+
+							</script>
+
+
 							<!--LUEGO PONER DE NUEVO-->
 							<!--
 							<div class="btn-pos">
@@ -1410,41 +726,72 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Nombre</label>
-							<input type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Apellido</label>
-							<input type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Edad</label>
-							<input type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Seguro</label>
-							<input type="text">
-						</div>
-					</div>
-
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Doctor</label>
-							<input type="text" >
-						</div>
+				<div class="card">
+					<div class="card-body">
+							<div class="row">
+								<div class="col-lg-6 col-sm-12 col-12">
+									<div class="form-group">
+										<label>DNI</label>
+										<input id="dni" name="dni" type="text">
+									</div>
+								</div>
+								<div class="col-lg-3 col-sm-6 col-12">
+									<div class="form-group">
+										<label for="doctor">Doctor</label>
+										<select name="idDoctor" id="doctor">
+											<option th:each="doctor :${listaDoctores}"
+													th:value="${doctor.getIdDoctor()}"
+													th:text="${doctor.getName()}+' '+${doctor.getLastName()}">
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
 					</div>
 				</div>
 				<div class="col-lg-12">
-					<a class="btn btn-submit me-2">Ingresar</a>
+					<button th:id="aux" type="button" class="btn btn-submit me-2" >Ingresar</button>
+					<script>
+						document.getElementById("aux").onclick = function() {
+							data = {
+								 dni :  document.getElementById("dni").value , doctor:document.getElementById("doctor").value
+							}
+							console.log(data);
+							$.ajax({
+								url: "/confirmarDatosPaciente",
+								type: "POST",
+								data: data,
+								success: function(response){
+									console.log(response);
+									var aux ;
+									response.forEach(function (error) {
+										aux = JSON.parse(error);
+									});
+									console.log("Me respondieon");
+									switch(aux.error){
+										case "":
+											window.location.href = "/posFarmacista";
+											//Recarga
+											break;
+										case "noEncontro":
+											Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text: "No se encontró ningún paciente con ese número de dni",
+											});
+											break;
+										case "casteo":
+											Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text: "Se ingreso un número incoherente",
+											});
+											break;
+									}
+								}
+							})
+						}
+					</script>
 					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
 				</div>
 			</div>

@@ -9,10 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
@@ -32,11 +29,12 @@ public class SuperAdminController {
     final AdministratorRepository administratorRepository;
     final SiteRepository siteRepository;
 
+    final SuperAdminRepository superAdminRepository;
     final PharmacistRepository pharmacistRepository;
     private final ReplacementOrderRepository replacementOrderRepository;
 
     public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
-                                ReplacementOrderRepository replacementOrderRepository) {
+                                ReplacementOrderRepository replacementOrderRepository, SuperAdminRepository superAdminRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -45,6 +43,7 @@ public class SuperAdminController {
         this.siteRepository = siteRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.replacementOrderRepository = replacementOrderRepository;
+        this.superAdminRepository = superAdminRepository;
     }
 
 
@@ -540,6 +539,12 @@ public class SuperAdminController {
         return "redirect:/verListadosSuperAdmin";
     }
 
+    @GetMapping("/rechazarFarmacista")
+    public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+        pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
+        return "redirect:/verListadosSuperAdmin";
+    }
+
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
@@ -619,12 +624,19 @@ public class SuperAdminController {
     //Solo para poder saltar entre vistas auxiliar de momento
 
     @GetMapping("/verPerfilSuperAdmin")
-    public String verPerfil() {
+    public String verPerfilSuper( Model model){
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(2);
+        model.addAttribute("superAdmin" , superAdmin.get());
         return "superAdmin/perfil";
     }
-    @GetMapping("/verNotificationsSuperAdmin")
-    public String verNotifications() {
-        return "superAdmin/notifications";
+
+    @PostMapping("/editarPerfilSuper")
+    public String editarDatosSuper(SuperAdmin superAdmin){
+        //Actualizar datos cambiados
+        System.out.println(superAdmin.getIdSuperAdmin());
+        superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname());
+        return "redirect:verPerfilSuperAdmin";
     }
+
 
 }

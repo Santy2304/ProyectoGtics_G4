@@ -327,7 +327,7 @@ chart.render();
 }
 
 // Simple Bar
-if($('#s-bar').length > 0 ){
+if($('#s-bar-l').length > 0 ){
 var sBar = {
     chart: {
         height: 350,
@@ -336,7 +336,7 @@ var sBar = {
           show: false,
         }
     },
-    // colors: ['#4361ee'],
+    colors: ['#4361ee'],
     plotOptions: {
         bar: {
             horizontal: true,
@@ -346,21 +346,55 @@ var sBar = {
         enabled: false
     },
     series: [{
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+        data: [2, 3, 5, 8]
     }],
     xaxis: {
-        categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan', 'United States', 'China', 'Germany'],
+        categories: ['Prolia Denusomab', 'Adiro 100', 'Prednisona', 'diclofenaco'],
     }
 }
 
 var chart = new ApexCharts(
-    document.querySelector("#s-bar"),
+    document.querySelector("#s-bar-l"),
     sBar
 );
 
 chart.render();
 }
 
+// Simple Bar M
+    if($('#s-bar-M').length > 0 ){
+        var sBarM = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: {
+                    show: false,
+                }
+            },
+            colors: ['#4361ee'],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [{
+                data: [30,26, 25, 20]
+            }],
+            xaxis: {
+                categories: ['Paracetamol', 'Panadol', 'Gel limpiador  Cerave Foaming', 'Vick primera defensa'],
+            }
+        }
+
+        var chartM = new ApexCharts(
+            document.querySelector("#s-bar-M"),
+            sBarM
+        );
+
+        chartM.render();
+    }
 // Mixed Chart
 if($('#mixed-chart').length > 0 ){
 var options = {

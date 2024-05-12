@@ -33,13 +33,18 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     List<lotesPorReposicion> getLoteByReplacementOrderId(int idReplacementOrder);
 
 
-    @Query(nativeQuery = true, value = "SELECT * FROM lote WHERE idMedicine=?1 and stock>=?2")
-    List<Lote> listarLotesPosibles(int idMedicine, int stock);
+    @Query(nativeQuery = true, value = "SELECT * FROM lote WHERE idMedicine=?1 and stock>=?2 and site = ?3 ")
+    List<Lote> listarLotesPosibles(int idMedicine, int stock, String site);
 
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE lote SET initial_quantity = ?2 WHERE  idLote=?1")
     void actualizarCantidadInicial(int idLote , int initial);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE lote SET stock = (stock - ?2) WHERE  idLote=?1")
+    void actualizarStockLote(int idLote , int cantidadVendida);
 
 
 

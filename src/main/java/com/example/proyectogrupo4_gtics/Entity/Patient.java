@@ -39,7 +39,7 @@ public class Patient {
 
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime dateCreationAccount;
+    private LocalDate dateCreationAccount;
 
 
     private String state;
@@ -132,11 +132,11 @@ public class Patient {
         this.photo = photo;
     }
 
-    public LocalDateTime getDateCreationAccount() {
+    public LocalDate getDateCreationAccount() {
         return dateCreationAccount;
     }
 
-    public void setDateCreationAccount(LocalDateTime dateCreationAccount) {
+    public void setDateCreationAccount(LocalDate dateCreationAccount) {
         this.dateCreationAccount = dateCreationAccount;
     }
 

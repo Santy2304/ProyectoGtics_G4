@@ -362,25 +362,29 @@
 				<div class="col-lg-4 col-sm-12 ">
 					<div class="order-list">
 						<div class="orderid">
-							<h4>Número de orden</h4>
-							<h5>#65565</h5>
+							<h4>Orden de venta</h4>
+							<h5 th:if="${fullNamePatient} != null" th:text="|Paciente: ${fullNamePatient}|"></h5>
+							<h5 th:if="${fullNameDoctor} != null" th:text="|Doctor: ${fullNameDoctor}|"></h5>
 						</div>
-						<div class="actionproducts">
+						<div th:if="${fullNamePatient} != null" class="actionproducts">
 							<ul>
 								<li>
-									<a  onclick="return Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Eliminar datos' , cancelButtonText:'Cancelar' })" ><img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a>
+									<a  id="borrador" ><img  src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a>
 									<script>
-										function BorrarTodo(){(
-												Swal.fire({
-													title: "Are you sure?",
-													text: "You won't be able to revert this!",
-													icon: "warning",
-													showCancelButton: true,
-													confirmButtonColor: "#3085d6",
-													cancelButtonColor: "#d33",
-													confirmButtonText: "Yes, delete it!"
-												})
-										)}
+
+										document.getElementById("borrador").onclick = function(){
+											Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?',
+												icon: 'warning',
+												showCancelButton: true
+												, confirmButtonColor: '#d48e15',
+												cancelButtonColor: '#805409',
+												confirmButtonText: 'Eliminar datos' ,
+												cancelButtonText:'Cancelar' }).then(function() {
+												// Redirigir a la vista del controlador
+												window.location.href = "/eliminarPacienteDoctorDesdeFarmacista";
+											});
+										}
+
 									</script>
 								</li>
 								<!--
@@ -405,7 +409,7 @@
 						</div>
 					</div>
 					<div class="card card-order">
-						<div class="card-body">
+						<div th:if="${fullNamePatient} == null" class="card-body">
 							<div class="row">
 								<div class="col-12">
 									<a href="javascript:void(0);" class="btn btn-adds" data-bs-toggle="modal" data-bs-target="#create"><i class="fa fa-plus me-2"></i>Ingresar datos del cliente</a>
@@ -416,66 +420,39 @@
 						</div>
 						<div class="card-body pt-0">
 							<div class="totalitem">
-								<h4>Total de productos : 5</h4>
+								<h4 th:text="|Total de productos : ${listaComprar.size()}|"></h4>
 								<a href="javascript:void(0);">Vaciar carrito</a>
 							</div>
-							<div class="product-table">
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
+							<form id="myForm">
+								<div class="product-table">
+									<ul th:each="product : ${listaComprar}" class="product-lists">
+										<li>
+											<div class="productimg">
+												<div class="productimgs">
+													<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
 												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
+												<div class="productcontet">
+													<h4 th:text="${product.name}">
+														<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+													</h4>
+													<div class="productlinkset">
+														<h5 th:text="${product.category}"></h5>
+													</div>
+													<div class="increment-decrement">
+														<div class="input-groups">
+															<input type="button" name="menos" value="-"  class="button-minus dec button">
+															<input type="text" th:name="${product.getIdMedicine()}"  value="1" class="quantity-field">
+															<input type="button" name="mas" value="+"  class="button-plus inc button ">
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-								</ul>
-
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="/assets_superAdmin/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina2
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
-												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
-													</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"--> <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a></li>
-								</ul>
-
-
-							</div>
+										</li>
+										<li th:text="${product.price}"></li>
+										<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+									</ul>
+								</div>
+							</form>
 						</div>
 						<div class="split-card">
 						</div>
@@ -484,14 +461,19 @@
 								<ul>
 									<li class="total-value">
 										<h5>Total  </h5>
-										<h6>s/.60.00</h6>
+										<h6>s/.100.00</h6>
 									</li>
 								</ul>
 							</div>
 							<div class="setvaluecash">
+								<style>
+									.selected {
+										background-color: #f0f0f0; /* Cambia el color de fondo cuando está seleccionado */
+									}
+									</style>
 								<ul>
 									<li>
-										<a  class="paymentmethod" 	>
+										<a class="paymentmethod" >
 											<img src="/assets_superAdmin/img/icons/cash.svg" alt="img" class="me-2">
 											Efectivo
 										</a>
@@ -505,11 +487,58 @@
 										<input type="hidden" name="tarjeta" value="tarjeta">
 									</li>
 								</ul>
+
 							</div>
-							<div class="btn-totallabel">
-								<h5>Vender</h5>
+							<div id="venta" style="cursor: pointer;" class="btn-totallabel">
+								<h5  >Vender</h5>
 								<h6>s/60.00</h6>
 							</div>
+							<script>
+								var div = document.getElementById("venta");
+								div.addEventListener("click" ,  function() {
+									var formulario = document.getElementById("myForm");
+									var elementos = formulario.elements;
+									var inputs = Array.from(elementos).filter(function(elemento) {
+										return elemento.tagName === 'INPUT';
+									});
+									var inputMedicine = [ ];
+									var inputCantidad= [ ];
+									inputs.forEach(function(input) {
+										if(input.name !== "mas" && input.name!=="menos"){
+											inputMedicine.push(input.name);
+											inputCantidad.push(input.value);
+										}
+									});
+									console.log(inputMedicine);
+									console.log(inputCantidad);
+									//Ahora enviamos por ajax al servidor
+									$.ajax({
+										url: "/GenerarVentaFarmacista",
+										data: JSON.stringify({
+											idMedicinas: inputMedicine,
+											cantidades: inputCantidad
+										}),
+										type: "POST",
+										success: function(response){
+											switch(response.error){
+												case "":
+
+													break;
+												case "casteo":
+
+													break;
+												case "insuficiente":
+
+													break;
+											}
+										}
+									});
+								})
+
+
+							</script>
+
+
 							<!--LUEGO PONER DE NUEVO-->
 							<!--
 							<div class="btn-pos">
@@ -692,46 +721,72 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row">
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label >Nombre</label>
-							<input name="nombre" type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Apellido</label>
-							<input name="apellido" type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>DNI</label>
-							<input name="dni" type="text">
-						</div>
-					</div>
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label>Telefono</label>
-							<input name="numero" type="text">
-						</div>
-					</div>
-
-					<div class="col-lg-6 col-sm-12 col-12">
-						<div class="form-group">
-							<label for="doctores">Doctor</label>
-							<select name="idDoctor" id="doctores">
-								<option th:each="doctor :${listaDoctores}"
-										th:value="${doctor.getIdDoctor()}"
-										th:text="${doctor.getName()}+' '+${doctor.getLastName()}">
-								</option>
-							</select>
-						</div>
+				<div class="card">
+					<div class="card-body">
+							<div class="row">
+								<div class="col-lg-6 col-sm-12 col-12">
+									<div class="form-group">
+										<label>DNI</label>
+										<input id="dni" name="dni" type="text">
+									</div>
+								</div>
+								<div class="col-lg-3 col-sm-6 col-12">
+									<div class="form-group">
+										<label for="doctor">Doctor</label>
+										<select name="idDoctor" id="doctor">
+											<option th:each="doctor :${listaDoctores}"
+													th:value="${doctor.getIdDoctor()}"
+													th:text="${doctor.getName()}+' '+${doctor.getLastName()}">
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
 					</div>
 				</div>
 				<div class="col-lg-12">
-					<a type="submit" class="btn btn-submit me-2">Ingresar</a>
+					<button th:id="aux" type="button" class="btn btn-submit me-2" >Ingresar</button>
+					<script>
+						document.getElementById("aux").onclick = function() {
+							data = {
+								 dni :  document.getElementById("dni").value , doctor:document.getElementById("doctor").value
+							}
+							console.log(data);
+							$.ajax({
+								url: "/confirmarDatosPaciente",
+								type: "POST",
+								data: data,
+								success: function(response){
+									console.log(response);
+									var aux ;
+									response.forEach(function (error) {
+										aux = JSON.parse(error);
+									});
+									console.log("Me respondieon");
+									switch(aux.error){
+										case "":
+											window.location.href = "/posFarmacista";
+											//Recarga
+											break;
+										case "noEncontro":
+											Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text: "No se encontró ningún paciente con ese número de dni",
+											});
+											break;
+										case "casteo":
+											Swal.fire({
+												icon: "error",
+												title: "Oops...",
+												text: "Se ingreso un número incoherente",
+											});
+											break;
+									}
+								}
+							})
+						}
+					</script>
 					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
 				</div>
 			</div>

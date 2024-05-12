@@ -4,21 +4,20 @@ import com.example.proyectogrupo4_gtics.DTOs.*;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
-import org.hibernate.query.ImmutableEntityUpdateQueryHandlingMode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@SessionAttributes({"idUser","sede"})
+@SessionAttributes({"idUser","sede" , "idPatient" , "idDoctor"})
 @Controller
 public class PharmacistController {
     final MedicineRepository medicineRepository;
@@ -26,18 +25,23 @@ public class PharmacistController {
     final PharmacistRepository pharmacistRepository;
     private final DoctorRepository doctorRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
+    private final PatientRepository patientRepository;
 
-    public PharmacistController(MedicineRepository medicineRepository, LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository) {
+    public PharmacistController(MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.doctorRepository = doctorRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
+        this.patientRepository = patientRepository;
+
     }
 
     @GetMapping("/sessionPharmacist")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idPharmacist){
         model.addAttribute("idUser",idPharmacist);
+        model.addAttribute("idPatient","");
+        model.addAttribute("idDoctor","");
         return "redirect:/verMedicinelistFarmacista";
     }
 
@@ -95,8 +99,34 @@ public class PharmacistController {
         model.addAttribute("apellido",pharmacist.getLastName());
 
         model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
-        model.addAttribute("listaDoctores", doctorRepository.listaDoctoresPorSede(pharmacist.getSite()));
+        model.addAttribute("listaDoctores", doctorRepository.findAll());
+        if(!(model.getAttribute("idPatient")).equals("") ){
+            model.addAttribute("fullNamePatient" , (patientRepository.findById(Integer.parseInt(""+model.getAttribute("idPatient")))).get().getName()+ " " + (patientRepository.findById(Integer.parseInt(""+model.getAttribute("idPatient")))).get().getLastName());
+            model.addAttribute("fullNameDoctor" , (doctorRepository.findById(Integer.parseInt(""+model.getAttribute("idDoctor")))).get().getName()+ " " + (doctorRepository.findById(Integer.parseInt(""+model.getAttribute("idDoctor")))).get().getLastName());
+        }else{
+            model.addAttribute("fullNamePatient" , null);
+            model.addAttribute("fullNameDoctor" , null);
+        }
+        ArrayList<Integer> ola = new ArrayList<>();
+        ola.add(1);
+        ola.add(3);
+        ola.add(26);
+        ola.add(27);
+        //Enviamos una cantidad de medicamentos con sus cantidades deseadas
+        ArrayList<Medicine> lista = new ArrayList<>() ;
+        for(Integer id :  ola){
+            lista.add(medicineRepository.findById(id).get());
+        }
+        model.addAttribute("listaComprar" , lista);
         return "pharmacist/pos";
+    }
+
+    @RequestMapping("/venderMedicamentos")
+    @ResponseBody
+    public Map<String , String > venderMedicamentos(Model model ){
+
+        Map<String , String>  response =  new HashMap<>();
+        return response;
     }
 
     /*
@@ -172,7 +202,6 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
         return "pharmacist/product-details";
     }
 
@@ -265,7 +294,6 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idOrdenVenta));
         Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idOrdenVenta);
         if(purchaseOrderOpt.isPresent()){
             PurchaseOrder purchaseOrder = purchaseOrderOpt.get();
@@ -276,4 +304,93 @@ public class PharmacistController {
         }
     }
 
+    @RequestMapping("/confirmarDatosPaciente")
+    @ResponseBody
+    public ArrayList<String> confirmarDatosPaciente(@RequestBody String cuerpo , Model  model) throws JsonProcessingException {
+        ArrayList<String> response = new ArrayList<String>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("cuerpo es "+  cuerpo);
+        // Crear un objeto JsonNode para almacenar el JSON resultante
+        JsonNode jsonNode = objectMapper.createObjectNode();
+        errorData erro = new errorData();
+        // Dividir la cadena en pares clave-valor y agregarlos al objeto JsonNode
+        String[] pairs = cuerpo.split("&");
+        String dni = pairs[0].split("=")[1];
+        String idDoctor = pairs[1].split("=")[1];
+        System.out.println(dni);
+        System.out.println(idDoctor);
+        //Verificamos si ingreso un DNI valido tanto por convención de letras como por coincidencias en la bd
+        boolean errorCasteo = false;
+        try{
+            Integer.parseInt(dni);
+        }catch(NumberFormatException err){
+            errorCasteo = true;
+        }
+        //Ahora buscamos al DNI ;
+        Optional<Patient> p = patientRepository.findByDni(dni);
+        Optional<Doctor> d = doctorRepository.findById(Integer.parseInt(idDoctor));
+        if(!errorCasteo){
+            if(p.isPresent() && d.isPresent()){
+                model.addAttribute("idPatient",""+p.get().getIdPatient());
+                model.addAttribute("idDoctor",""+d.get().getIdDoctor());
+                erro.setError("");
+                response.add(objectMapper.writeValueAsString(erro));
+            }else{
+                erro.setError("noEncontro");
+                response.add(objectMapper.writeValueAsString(erro));
+            }
+        }else{
+            erro.setError("casteo");
+            response.add(objectMapper.writeValueAsString(erro));
+        }
+        return response;
+    }
+
+    @GetMapping("/eliminarPacienteDoctorDesdeFarmacista")
+    public String eliminarSessionPaciente(Model model ){
+        model.addAttribute("idPatient" , "");
+        model.addAttribute("idDoctor" , "");
+        return "redirect:/posFarmacista";
+    }
+
+    @RequestMapping("/GenerarVentaFarmacista")
+    @ResponseBody
+    public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model){
+        //Queries para la venta
+        Map<String,String> response = new HashMap<>();
+        return response;
+    }
+
+}
+class errorData{
+    private String error;
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+}
+class patientData{
+    private String dni;
+    private String doctor;
+    public patientData() {
+    }
+    public String getDni() {
+        return dni;
+    }
+
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
 }

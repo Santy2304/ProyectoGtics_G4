@@ -36,14 +36,10 @@
     <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
       <path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
     </symbol>
-
     <symbol  id="products" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path d="M4 20H6V10C6 9.73478 6.10536 9.48043 6.29289 9.29289C6.48043 9.10536 6.73478 9 7 9H19V7C19 6.73478 18.8946 6.48043 18.7071 6.29289C18.5196 6.10536 18.2652 6 18 6H14.949C14.697 3.756 12.81 2 10.5 2C8.19 2 6.303 3.756 6.051 6H3C2.73478 6 2.48043 6.10536 2.29289 6.29289C2.10536 6.48043 2 6.73478 2 7V18C2 18.5304 2.21071 19.0391 2.58579 19.4142C2.96086 19.7893 3.46957 20 4 20ZM10.5 4C11.707 4 12.718 4.86 12.95 6H8.05C8.282 4.86 9.293 4 10.5 4Z" fill="#FF9F43"/>
       <path d="M21 11H9C8.73478 11 8.48043 11.1054 8.29289 11.2929C8.10536 11.4804 8 11.7348 8 12V20C8 20.5304 8.21071 21.0391 8.58579 21.4142C8.96086 21.7893 9.46957 22 10 22H20C20.5304 22 21.0391 21.7893 21.4142 21.4142C21.7893 21.0391 22 20.5304 22 20V12C22 11.7348 21.8946 11.4804 21.7071 11.2929C21.5196 11.1054 21.2652 11 21 11ZM15 18C12.243 18 10 15.757 10 13H12C12 14.654 13.346 16 15 16C16.654 16 18 14.654 18 13H20C20 15.757 17.757 18 15 18Z" fill="#FF9F43"/>
     </symbol>
-
-
-
     <symbol xmlns="http://www.w3.org/2000/svg" id="arrow-right" viewBox="0 0 24 24">
       <path fill="currentColor" d="M17.92 11.62a1 1 0 0 0-.21-.33l-5-5a1 1 0 0 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l5-5a1 1 0 0 0 .21-.33a1 1 0 0 0 0-.76Z"/>
     </symbol>
@@ -370,12 +366,94 @@
 
             <div class="product-grid row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
               <!--Lista medicamentos-->
-              <div class="col" th:each="medicine: ${listaMedicinas}">
-                <form th:id="${medicine.idMedicine}">
-                  <div class="product-item" th:id="${medicine.idMedicine}">
-                    <a th:href="|/verSingleProductPaciente?idMedicamento=${medicine.idMedicine}|" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#products"></use></svg></a>
+              <div  class="col" th:each="medicine: ${listaMedicinas}">
+
+                  <div class="product-item" >
+                    <a  th:id="|${medicine.idMedicine}|" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#products"></use></svg></a>
+                    <script th:inline="javascript" >
+                      document.getElementById([[${medicine.idMedicine}]]).onclick = function (){
+                        data = {idMedicine: [[${medicine.idMedicine}]] }
+                        $.ajax({
+                          url: "/verSingleProductPaciente",
+                          type: "POST",
+                          data: data ,
+                          success : function (response){
+                            var Header =  "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Medicamento</th>\n                                                                                                                                           \n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                            var auxAux;
+                            var count = 1;
+                            var rows = "";
+                            response.forEach(function (producto) {
+                              auxAux = JSON.parse(producto);
+                            })
+                            Swal.fire({
+                              width:  1000,
+                              confirmButtonText: "Regresar",
+                              html: "<section id=\"selling-product\" class=\"single-product mt-0 mt-1 py-5\" style=\" background-image: url('assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover; height: 800%\">\n" +
+                                      "  <div class=\"container-fluid\"  style=\"margin-top: 6%;\">\n" +
+                                      "    <div class=\"row g-5\">\n" +
+                                      "      <div class=\"col-lg-7\">\n" +
+                                      "        <div class=\"row flex-column-reverse flex-lg-row\">\n" +
+                                      "          <div class=\"col-md-12 col-lg-10\">\n" +
+                                      "            <!-- product-large-slider -->\n" +
+                                      "            <div class=\"swiper product-large-slider swiper-fade swiper-initialized swiper-horizontal swiper-watch-progress swiper-backface-hidden\">\n" +
+                                      "              <div class=\"swiper-wrapper\" id=\"swiper-wrapper-143bd5aa0c10e8ca2\" aria-live=\"polite\">\n" +
+                                      "                <div class=\"swiper-slide swiper-slide-visible swiper-slide-active\" role=\"group\" aria-label=\"1 / 5\" style=\"width: 672px; opacity: 1; transform: translate3d(0px, 0px, 0px);\">\n" +
+                                      "                  <div class=\"image-zoom\" data-scale=\"2.5\" data-image=\"images/product-large-1.jpg\"><img src=\"assets_pacient/images/aspirina.jpeg\" width=\"800\" height=\"635\" alt=\"product-large\" class=\"img-fluid\"></div>\n" +
+                                      "                </div>\n" +
+                                      "                <div class=\"swiper-slide swiper-slide-next\" role=\"group\" aria-label=\"2 / 5\" style=\"width: 672px; opacity: 0; transform: translate3d(-672px, 0px, 0px);\">\n" +
+                                      "                  <div class=\"image-zoom\" data-scale=\"2.5\" data-image=\"images/product-large-2.jpg\"><img src=\"../../static/FoodMart%20-%20Free%20eCommerce%20Grocery%20Store%20HTML%20Website%20Template_files/product-large-2.jpg\" alt=\"product-large\" class=\"img-fluid\"></div>\n" +
+                                      "                </div>\n" +
+                                      "                <div class=\"swiper-slide\" role=\"group\" aria-label=\"3 / 5\" style=\"width: 672px; opacity: 0; transform: translate3d(-1344px, 0px, 0px);\">\n" +
+                                      "                  <div class=\"image-zoom\" data-scale=\"2.5\" data-image=\"images/product-large-3.jpg\"><img src=\"../../static/FoodMart%20-%20Free%20eCommerce%20Grocery%20Store%20HTML%20Website%20Template_files/product-large-3.jpg\" alt=\"product-large\" class=\"img-fluid\"></div>\n" +
+                                      "                </div>\n" +
+                                      "                <div class=\"swiper-slide\" role=\"group\" aria-label=\"4 / 5\" style=\"width: 672px; opacity: 0; transform: translate3d(-2016px, 0px, 0px);\">\n" +
+                                      "                  <div class=\"image-zoom\" data-scale=\"2.5\" data-image=\"images/product-large-4.jpg\"><img src=\"../../static/FoodMart%20-%20Free%20eCommerce%20Grocery%20Store%20HTML%20Website%20Template_files/product-large-4.jpg\" alt=\"product-large\" class=\"img-fluid\"></div>\n" +
+                                      "                </div>\n" +
+                                      "                <div class=\"swiper-slide\" role=\"group\" aria-label=\"5 / 5\" style=\"width: 672px; opacity: 0; transform: translate3d(-2688px, 0px, 0px);\">\n" +
+                                      "                  <div class=\"image-zoom\" data-scale=\"2.5\" data-image=\"images/product-large-5.jpg\"><img src=\"../../static/FoodMart%20-%20Free%20eCommerce%20Grocery%20Store%20HTML%20Website%20Template_files/product-large-5.jpg\" alt=\"product-large\" class=\"img-fluid\"></div>\n" +
+                                      "                </div>\n" +
+                                      "              </div>\n" +
+                                      "              <!-- / product-large-slider -->\n" +
+                                      "            </div>\n" +
+                                      "          </div>\n" +
+                                      "        </div>\n" +
+                                      "      </div>\n" +
+                                      "      <div class=\"col-lg-5\">\n" +
+                                      "        <div class=\"product-info\">\n" +
+                                      "          <div class=\"element-header\">\n" +
+                                      "            <h2 itemprop=\"name\" class=\"display-6\">" + auxAux.name +"</h2>\n" +
+                                      "          </div>\n" +
+                                      "          <div class=\"product-price pt-3 pb-3 mt-2 \">\n" +
+                                      "            <strong class=\"text-primary display-6 fw-bold\">"+ "s/."+auxAux.price+"</strong>\n" +
+                                      "            <!--para descuento\n" +
+                                      "            <del class=\"ms-2\">$940.00</del>\n" +
+                                      "          -->\n" +
+                                      "          </div>\n" +
+                                      "          <p class='mt-2'>\n" +
+                                      auxAux.description+
+                                      "</p>" +
+                                      "            <div class=\"meta-item d-flex mt-2 align-items-baseline\">\n" +
+                                      "              <h6 class=\"item-title no-margin pe-2\">Categoría:</h6>\n" +
+                                      "              <ul class=\"select-list list-unstyled d-flex\">\n" +
+                                      "                <li data-value=\"S\" class=\"select-item\">\n" +
+                                      "                  <a>"+ auxAux.category+"</a>\n" +
+                                      "                </li>\n" +
+                                      "              </ul>\n" +
+                                      "            </div>\n" +
+                                      "          </div>\n" +
+                                      "        </div>\n" +
+                                      "      </div>\n" +
+                                      "    </div>\n" +
+                                      "  </div>\n" +
+                                      "</section>\n",
+                              confirmButtonColor: "#dd986a"
+                            })
+                          }
+                        });
+                      }
+                    </script>
                     <figure>
-                      <a href="single-product.html" title="Product Title">
+                      <a  title="Product Title">
                         <img src="../assets_pacient/images/thumb-orange-juice.png" alt="Product Thumbnail" class="tab-image">
                       </a>
                     </figure>
@@ -402,7 +480,6 @@
                       <button th:onclick="|addCart(${medicine.idMedicine})|" type="button" class="nav-link add-to-cart-button">Agregar al carro <svg width="18" height="18"><use xlink:href="#cart"></use></svg></button>
                     </div>
                   </div>
-                </form>
               </div>
             </div>
             <script>
@@ -745,6 +822,8 @@
 <!-- Chart JS -->
 <script src="../assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
 <script src="../assets_pacient/plugins/apexchart/chart-data.js"></script>
+<script src="../assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="../assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <!-- Custom JS -->
 <script src="../assets_pacient/js/script.js"></script>

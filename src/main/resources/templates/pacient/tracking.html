@@ -135,12 +135,48 @@
 							</tr>
 							</thead>
 							<tbody>
-							<tr style="background-color: #ffda6a" th:each="compras : ${listaTracking}">
+							<tr style="background-color: rgba(217,189,110,0.89)" th:each="compras : ${listaTracking}">
 
 								<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
-								<td><a th:href="@{'/verDetalleCompraPatient?idPurchase=' + ${compras.getIdPurchaseOrder()}}">
-									<img src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+								<td><a >
+									<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_pacient/img/icons/prescription2.svg" alt="img">
 								</a></td>
+								<script th:inline="javascript" >
+									document.getElementById([[${compras.getIdPurchaseOrder()}]]).onclick =
+											function() {
+												data = {idPurchase: [[${compras.getIdPurchaseOrder()}]] }
+												$.ajax({
+													url: "/verDetalleCompraPatient",
+													type: "POST",
+													data: data ,
+													success : function (response) {
+														var Header =  "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Medicamento</th>\n                                                                                                                                           \n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+														var rowx;
+														var count = 1;
+														var rows = "";
+														response.forEach(function (producto) {
+															var aux = JSON.parse(producto)
+															rowx =
+																	'<tr> ' +
+																	'<td>' + count + '</td>' +
+																	'<td>' + aux.medicineName + '</td>'
+																	+
+																	'<td>' + aux.cantidad + '</td>'
+																	+
+																	'</tr>'
+															;
+															rows = rows + rowx;
+															count++;
+														})
+														Swal.fire({
+															title: 'Medicamentos de la orden de reposición',
+															html: Header+rows,
+															confirmButtonColor: "#dd986a"
+														})
+													}
+												});
+											}
+								</script>
 								<td th:text="${compras.getFecha()}" ></td>
 								<td th:text="${compras.getTotal_price()}" ></td>
 							</tr>
@@ -260,6 +296,8 @@
 <script src="../assets_pacient/js/bootstrap-datetimepicker.min.js"></script>
 
 <script src="../assets_pacient/plugins/select2/js/select2.min.js"></script>
+<script src="../assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="../assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
 </body>
 </html>

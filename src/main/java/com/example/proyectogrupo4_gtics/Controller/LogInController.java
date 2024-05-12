@@ -31,7 +31,8 @@ public class LogInController {
     final AdministratorRepository administratorRepository;
     final PharmacistRepository pharmacistRepository;
 
-    public LogInController (SiteRepository siteRepository ,PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository ) {
+
+    public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository , SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository, AdminSedeController adminSedeController) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.superAdminRepository = superAdminRepository;
@@ -170,11 +171,46 @@ public class LogInController {
     public String forgetPassword(){
         return "forgetpassword";
     }
+    /*Cambiar contraseña sin enviar correo*/
+    @GetMapping("/changePassword")
+    public String verChangePassword(Model model){
+        return "changePassword";
+    }
+    @PostMapping("/changingPassword")
+    public String changingPassword(Model model, @RequestParam("email") String correo, @RequestParam("password") String newPassword) {
+        //String correo = (String) model.getAttribute("email");
+        Patient patient = patientRepository.buscarPatientEmail(correo);
+        Pharmacist pharmacist = pharmacistRepository.findByEmail(correo);
+        Administrator admin = administratorRepository.findByEmail(correo);
+        SuperAdmin superAdmin = superAdminRepository.findByEmail(correo);
+        if (!(patient == null)) {
+            patientRepository.actualizarContrasena(newPassword, correo);
+            patient.setPassword(newPassword);
+            patientRepository.save(patient);
+        }
+        if (!(admin == null)) {
+            administratorRepository.actualizarContrasena(newPassword, correo);
+            admin.setPassword(newPassword);
+            administratorRepository.save(admin);
+        }
+        if (!(superAdmin == null)) {
+            superAdminRepository.actualizarContrasena(newPassword, correo);
+            superAdmin.setPassword(newPassword);
+            superAdminRepository.save(superAdmin);
+
+        }
+        if (!(pharmacist == null)) {
+            pharmacistRepository.actualizarContrasena(newPassword, correo);
+            pharmacist.setPassword(newPassword);
+            pharmacistRepository.save(pharmacist);
+        }
+        return "/inicioSesion";
+    }
+
     @GetMapping("/crearCuenta")
     public String signUp(){
         return "signup";
     }
-
 
     @RequestMapping(value = "/formNuevaCuenta")
     @ResponseBody

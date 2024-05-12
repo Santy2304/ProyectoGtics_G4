@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AdministratorRepository extends JpaRepository<Administrator, Integer> {
@@ -29,6 +30,14 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 
     Administrator getByIdAdministrador(int idAdministrator);
     @Query(nativeQuery = true, value = "SELECT * FROM administrator where email= ?1 and password=?2")
-    Administrator buscarAdmin (String email , String password);
+    Administrator buscarAdmin(String email , String password);
+
+
+    Administrator findByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update administrator set password= ?1 where email=?2")
+    void actualizarContrasena(String pswrd, String email);
 
 }

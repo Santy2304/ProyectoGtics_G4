@@ -1,6 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -20,6 +23,9 @@ public class Patient {
     @Column(name="lastname")
     private String lastName;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Digits(integer = 8, fraction = 0, message = "El DNI debe ser un número")
+    @Size(min = 8, max = 8, message = "El DNI tiene que tener 8 dígitos")
     private String dni;
 
     private String location;

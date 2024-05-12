@@ -147,14 +147,19 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "having (sum(l.stock)<=25)")
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimitadoCategory(  int idAdmin , String categoria);
 
+    /*Rol Farmacista*/
+    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) and l.visible=true group by m.idMedicine\n")
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
+
+
 
 
     @Query(nativeQuery = true, value="SELECT\n" +
             "    m.idMedicine,\n" +
             "    m.name AS medicineName,\n" +
-            "    SUM(purchase_has_lot.cantidad_comprar) AS cantidad\n" +
+            "    SUM(purchase_has_lot.cantidad_comprar) AS cantidad, m.price*SUM(purchase_has_lot.cantidad_comprar) as precio\n" +
             "FROM\n" +
-            "    purchaseorder po\n" +
+            "purchaseorder po\n" +
             "INNER JOIN\n" +
             "    purchasehaslot purchase_has_lot ON po.idPurchaseOrder = purchase_has_lot.idPurchase\n" +
             "INNER JOIN\n" +

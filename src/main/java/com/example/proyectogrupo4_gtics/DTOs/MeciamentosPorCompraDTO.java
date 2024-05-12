@@ -4,4 +4,5 @@ public interface MeciamentosPorCompraDTO {
     int getIdMedicine();
     String getMedicineName();
     int getCantidad();
+    double getPrecio();
 }

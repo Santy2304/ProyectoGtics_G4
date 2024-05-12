@@ -78,8 +78,8 @@ public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer>
     //Editar perfil de SuperAdmin
     @Transactional
     @Modifying
-    @Query(value = "update superadmin set email = ?1", nativeQuery = true)
-    void actualizarPerfilSuperAdmin(String email);
+    @Query(value = "update superadmin set email = ?1, name=?2 , lastName=?3", nativeQuery = true)
+    void actualizarPerfilSuperAdmin(String email, String name, String lasName);
 
 
 

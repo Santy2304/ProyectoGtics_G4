@@ -192,6 +192,7 @@ public class PatientController {
         }
 
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
+        purchaseOrder.setTipo("tarjeta");
         purchaseOrder.setPhoneNumber(phoneNumber);
         purchaseOrder.setDireccion(direccion);
         Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
@@ -200,6 +201,7 @@ public class PatientController {
         Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
         purchaseOrder.setSite(sede.getName());
         purchaseOrder.setStatePaid("en espera");
+        purchaseOrder.setTracking("en espera");
         purchaseOrder.setTipo("web");
         LocalTime deliveryHour = LocalTime.parse(HourStr);
         purchaseOrder.setDeliveryHour(deliveryHour);
@@ -215,7 +217,7 @@ public class PatientController {
         purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
 
 
-        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad);
+        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad, siteRepository.findById(Integer.parseInt(""+ model.getAttribute("idSede"))).get().getName());
 
         if (listaLotesPosibles.isEmpty()){
             return "redirect:/verPrincipalPaciente";

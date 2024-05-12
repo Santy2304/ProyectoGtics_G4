@@ -45,7 +45,7 @@
         <div class="main-wrapper">
 			
 			<!-- Header -->
-			<div class="header">
+			<div class="header"  style="background: linear-gradient(90deg,#e9c614 46%, #f6c32c 70%);">
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
@@ -186,91 +186,74 @@
 			<!-- /Sidebar -->
 			
 			<div class="page-wrapper" >
-				<div class="content">
-					<div class="page-header">
-						<div class="page-title">
-							<h4>Perfil</h4>
-							<h6>Perfil de usuario</h6>
-						</div>
-					</div>
+
+				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<div class="card-body">
-							<div class="profile-set">
-								<div class="profile-head">
+						<form method="post" th:action="@{/editarPerfilSuper} ">
+							<input type="hidden" name="idSuperAdmin" th:field="${superAdmin.idSuperAdmin}">
+							<div class="card-body">
+								<div class="profile-set">
+									<div class="profile-head">
 
-								</div>
-								<div class="profile-top">
-									<div class="profile-content">
-										<div class="profile-contentimg">
-											<img src="/assets_superAdmin/img/customer/customer5.jpg" alt="img" id="blah">
-											<div class="profileupload">
-												<input type="file" id="imgInp">
-												<a href="javascript:void(0);" ><img src="/assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
+									</div>
+									<div class="profile-top">
+										<div class="profile-content">
+											<div class="profile-contentimg">
+												<img src="../assets_pacient/images/perfil.png" alt="img" id="blah">
+												<div class="profileupload">
+													<input type="file" id="imgInp">
+													<a href="javascript:void(0);" ><img src="../assets_pacient/img/icons/edit-set.svg" alt="img"></a>
+												</div>
+											</div>
+											<div class="profile-contentname">
+												<h2 th:text="${superAdmin.name}"></h2>
+												<h4>Actualiza tu foto y datos personales</h4>
 											</div>
 										</div>
-										<div class="profile-contentname">
-											<h2>William Castillo</h2>
-											<h4>Actualice su foto y datos personales.</h4>
-										</div>
-									</div>
-									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Nombre</label>
-										<input type="text" placeholder="William" readonly>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Apellido</label>
-										<input type="text" placeholder="Castilo" readonly>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Dirección</label>
-										<input type="text" placeholder="Av. somewhere N° ---">
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Correo</label>
-										<input type="text" placeholder="you@example.com">
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" placeholder="7729----" readonly>
-									</div>
-								</div>
-								<!--
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Password</label>
-										<div class="pass-group">
-											<input type="password" class=" pass-input">
-											<span class="fas toggle-password fa-eye-slash"></span>
+										<div class="ms-auto">
+											<button type="submit" class="btn btn-submit me-2">Guardar</button>
 										</div>
 									</div>
 								</div>
-								-->
-								<div class="col-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-									<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+								<div class="row">
+									<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input name="name" type="text" th:value="${superAdmin.name}">
+										</div>
+
+										<div class="form-group">
+											<label>Apellido</label>
+											<input name="lastname" type="text" th:value="${superAdmin.lastname}">
+										</div>
+									</div>
+
+
+									<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Correo</label>
+											<input name="email" type="text" th:value="${superAdmin.email}">
+										</div>
+									</div>
+
+									<div class="col-12">
+										<button type="submit" class="btn btn-submit me-2">Guardar</button>
+										<a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
+									</div>
+									<script>
+										function regresarPaginaAnterior() {
+											window.history.back();
+										}
+									</script>
 								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 					<!-- /product list -->
 				</div>
+
+
 			</div>
         </div>
 

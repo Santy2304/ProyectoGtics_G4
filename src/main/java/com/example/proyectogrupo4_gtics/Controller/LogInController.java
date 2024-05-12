@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -155,7 +157,7 @@ public class LogInController {
         }
         if( !(pharmacist == null) ) {
             if( ! pharmacist.getState().equals("baneado")) {
-                response.put("response" ,"/verMedicinelistFarmacista?idUser"+pharmacist.getIdFarmacista());
+                response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
                 model.addAttribute("idUser" , pharmacist.getIdFarmacista());
                 return response;
             }else{
@@ -184,7 +186,7 @@ public class LogInController {
         if(!patientOpt1.isPresent() && !patientOpt2.isPresent()){
             patient.setPassword("DefaultPassword");
             patient.setChangePassword(1);
-            patient.setDateCreationAccount( LocalDateTime.now());
+            patient.setDateCreationAccount( LocalDate.now());
             patientRepository.save(patient);
             response.put("response" ,"Guardado");
         }else{

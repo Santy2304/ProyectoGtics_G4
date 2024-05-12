@@ -140,9 +140,6 @@
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 
-												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">
-													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
 											</td>
 										</tr>
 
@@ -223,6 +220,7 @@
 											<th>Paciente </th>
 											<th>Precio</th>
 											<th>Estado de pago</th>
+											<th>Tracking</th>
 											<th>Fecha</th>
 											<th>Acciones</th>
 										</tr>
@@ -234,6 +232,7 @@
 											<td th:text="${web.getNombrePaciente()}"></td>
 											<td th:text="|S/${web.getMonto()}|"></td>
 											<td th:text="${web.getEstadoPago()}"></td>
+											<td th:text="${web.getTracking()}"></td>
 											<td th:text="${web.getFecha()}"></td>
 											<td>
 
@@ -323,6 +322,7 @@
 											<th>Paciente </th>
 											<th>Precio</th>
 											<th>Estado de pago</th>
+											<th>Tracking</th>
 											<th>Fecha</th>
 											<th>Acciones</th>
 										</tr>
@@ -333,6 +333,7 @@
 											<td th:text="${bot.getNombrePaciente()}"></td>
 											<td th:text="|S/${bot.getMonto()}|"></td>
 											<td th:text="${bot.getEstadoPago()}"></td>
+											<td th:text="${bot.getTracking()}"></td>
 											<td th:text="${bot.getFecha()}"></td>
 											<td>
 

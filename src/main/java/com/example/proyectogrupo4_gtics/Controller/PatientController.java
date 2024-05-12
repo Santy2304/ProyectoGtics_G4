@@ -203,6 +203,7 @@ public class PatientController {
         Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
         purchaseOrder.setSite(sede.getName());
         purchaseOrder.setStatePaid("en espera");
+        purchaseOrder.setTracking("en espera");
         purchaseOrder.setTipo("web");
         LocalTime deliveryHour = LocalTime.parse(HourStr);
         purchaseOrder.setDeliveryHour(deliveryHour);

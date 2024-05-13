@@ -185,26 +185,21 @@ public class LogInController {
         SuperAdmin superAdmin = superAdminRepository.findByEmail(correo);
         if (!(patient == null)) {
             patientRepository.actualizarContrasena(newPassword, correo);
-            patient.setPassword(newPassword);
-            patientRepository.save(patient);
+
         }
         if (!(admin == null)) {
             administratorRepository.actualizarContrasena(newPassword, correo);
-            admin.setPassword(newPassword);
-            administratorRepository.save(admin);
+
         }
         if (!(superAdmin == null)) {
             superAdminRepository.actualizarContrasena(newPassword, correo);
-            superAdmin.setPassword(newPassword);
-            superAdminRepository.save(superAdmin);
 
         }
         if (!(pharmacist == null)) {
             pharmacistRepository.actualizarContrasena(newPassword, correo);
-            pharmacist.setPassword(newPassword);
-            pharmacistRepository.save(pharmacist);
+
         }
-        return "/inicioSesion";
+        return "redirect:/inicioSesion";
     }
 
     @GetMapping("/crearCuenta")

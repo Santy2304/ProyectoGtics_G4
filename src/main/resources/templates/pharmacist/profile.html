@@ -53,84 +53,75 @@
 			<!-- /Sidebar -->
 
 			<div class="page-wrapper">
-				<div class="content">
-					<div class="page-header">
-						<div class="page-title">
-							<h4>Perfil de usuario</h4>
-						</div>
-					</div>
+				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<div class="card-body">
-							<div class="profile-set">
-								<div class="profile-head">
+						<form method="post" th:action="@{/editarPerfilPharmacist} ">
+							<input type="hidden" name="idPharmacist" th:field="${farmacista}">
+							<div class="card-body">
+								<div class="profile-set">
+									<div class="profile-head">
 
-								</div>
-								<div class="profile-top">
-									<div class="profile-content">
-										<div class="profile-contentimg">
-											<img src="/assets_superAdmin/img/customer/customer5.jpg" alt="img" id="blah">
-											<div class="profileupload">
-												<input type="file" id="imgInp">
-												<a href="javascript:void(0);" ><img src="/assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
+									</div>
+									<div class="profile-top">
+										<div class="profile-content">
+											<div class="profile-contentimg">
+												<img src="../assets_pacient/images/perfil.png" alt="img" id="blah">
+												<div class="profileupload">
+													<input type="file" id="imgInp">
+													<a href="javascript:void(0);" ><img src="../assets_pacient/img/icons/edit-set.svg" alt="img"></a>
+												</div>
+											</div>
+											<div class="profile-contentname">
+												<h2 th:text="${farmacista.name}"></h2>
+												<h4>Actualiza tu foto y datos personales</h4>
 											</div>
 										</div>
-										<div class="profile-contentname">
-											<h2>Hineill Céspedes</h2>
-											<h4>Aquí podrás editar tus datos personales</h4>
-										</div>
-									</div>
-									<div class="ms-auto">
-										<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar</a>
-										<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>First Name</label>
-										<input type="text" placeholder="Hineill" readonly>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Last Name</label>
-										<input type="text" placeholder="Céspedes" readonly>
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Email</label>
-										<input type="text" placeholder="hineill.cespedes@pucp.edu.pe" >
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Phone</label>
-										<input type="text" placeholder="920821483"  >
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Rol</label>
-										<input type="text" placeholder="Farmacista" readonly >
-									</div>
-								</div>
-								<div class="col-lg-6 col-sm-12">
-									<div class="form-group">
-										<label>Sede</label>
-										<div class="pass-group">
-											<input type="text" placeholder="Pando 1" readonly>
+										<div class="ms-auto">
+											<button type="submit" class="btn btn-submit me-2">Guardar</button>
 										</div>
 									</div>
 								</div>
-								<div class="col-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Guardar </a>
-									<a href="javascript:void(0);" class="btn btn-cancel">Cancelar</a>
+								<div class="row">
+									<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input name="name" type="text" th:value="${farmacista.name}" readonly>
+										</div>
+
+										<div class="form-group">
+											<label>Apellido</label>
+											<input name="lastname" type="text" th:value="${farmacista.lastName}" readonly>
+										</div>
+									</div>
+
+
+									<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Correo</label>
+											<input name="email" type="text" th:value="${farmacista.email}">
+										</div>
+									</div>
+
+									<div class="col-lg-6 col-sm-12">
+										<div class="form-group">
+											<label>Distrito</label>
+											<input name="distrit" type="text" th:value="${farmacista.distrit}">
+										</div>
+									</div>
+
+									<div class="col-12">
+										<button type="submit" class="btn btn-submit me-2">Guardar</button>
+										<a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
+									</div>
+									<script>
+										function regresarPaginaAnterior() {
+											window.history.back();
+										}
+									</script>
 								</div>
 							</div>
-						</div>
+						</form>
 					</div>
 					<!-- /product list -->
 				</div>

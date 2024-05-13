@@ -229,6 +229,8 @@ public class PharmacistController {
         return "pharmacist/productlist";
     }
 
+
+
     @GetMapping("/verProfileFarmacista")
     public String verPerfilPharmacist(Model model){
 
@@ -238,12 +240,12 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
+        model.addAttribute("farmacista",pharmacist);
         return "pharmacist/profile";
     }
 
     @PostMapping("/editarPerfilPharmacist")
-    public String editarDatosFarmacista(Model model){
+    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -254,9 +256,13 @@ public class PharmacistController {
         System.out.println(pharmacist.getIdFarmacista());
         System.out.println(pharmacist.getEmail());
         System.out.println(pharmacist.getDistrit());
-        pharmacistRepository.updateEmailAndDistritById(pharmacist.getEmail(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
         return "redirect:verProfileFarmacista";
     }
+
+
+
+
 
     @GetMapping("/verMedicinelistFarmacista")
     public String verMedicineList(Model model){

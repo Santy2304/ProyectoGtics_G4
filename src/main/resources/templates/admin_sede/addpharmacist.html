@@ -128,45 +128,58 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{'agregarFarmacista'}">
+					<form method="post" th:action="@{'agregarFarmacista'}" th:object="${farmacista}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="nameFarmacista">Nombre</label>
-											<input name="name" id="nameFarmacista" type="text" >
+											<input class="form-control" name="name" id="nameFarmacista" type="text" th:field="*{name}"
+												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label >Apellido</label>
-											<input name="lastName"  type="text" >
+											<input class="form-control" name="lastName" type="text" th:field="*{lastName}"
+												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="dniFarmacista">DNI</label>
-											<input name="dni" id="dniFarmacista" type="text" >
+											<input class="form-control" name="dni" id="dniFarmacista" type="text" th:field="*{dni}"
+												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="codigoFarmacista">Código de Colegiatura</label>
-											<input name="code" id="codigoFarmacista" type="text" >
+											<input class="form-control" name="code" id="codigoFarmacista" type="text" th:field="*{code}"
+												   th:classappend="${#fields.hasErrors('code')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="correoFarmacista">Correo</label>
-											<input name="email" id="correoFarmacista" type="text" >
+											<input class="form-control" name="email" id="correoFarmacista" type="text" th:field="*{email}"
+												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label  for="distritoFarmacista">Distrito de residencia</label>
-											<input name="distrit" id="distritoFarmacista" type="text">
+											<label for="distritoFarmacista">Distrito de residencia</label>
+											<input class="form-control" name="distrit" id="distritoFarmacista" type="text" th:field="*{distrit}"
+												   th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
 										</div>
 									</div>
 

@@ -233,7 +233,7 @@
                                     $("#idPedidoEditar" + [[${repo.idReplacementOrder}]]).click( function() { data={
                                         idPedidoReposicion : [[${repo.idReplacementOrder}]]
                                     }
-                                        $.ajax({
+                                    $.ajax({
                                             url: "/verDetalleRepoMedicamentos",
                                             type: "POST",
                                             data: data,

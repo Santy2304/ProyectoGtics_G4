@@ -2,6 +2,7 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
+import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
@@ -20,10 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -254,12 +252,7 @@ public class PatientController {
         return "pacient/historial";
     }
 
-    @GetMapping("/verDetalleCompraPatient")
-    public String verDetalleCompra(@SessionAttribute("idUser") String idUser,@RequestParam("idPurchase") int idPurchase , Model model){
-        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
-        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
-        return "pacient/detalle";
-    }
+
 
 /////////////////////////////////////////////////////////
     @GetMapping("/verNumeroOrdenPaciente")
@@ -290,16 +283,43 @@ public class PatientController {
         model.addAttribute("listaSede", listaSedes);
         return "pacient/seleccionarSede";
     }
-    //Falta corregir
-    @GetMapping("/verSingleProductPaciente")
-    public String verSingleProductPaciente(@RequestParam String idMedicamento , Model model){
-        Optional<Medicine> medicine  = medicineRepository.findById(Integer.parseInt(idMedicamento));
-        if(medicine.isPresent()){
-            model.addAttribute("medicina" , medicine.get());
-            return "pacient/single_product";
-        }else{
-            return "redirect:/verPrincipalPaciente";
+    @RequestMapping("/verDetalleCompraPatient")
+    @ResponseBody
+    public ArrayList<String> verDetalleCompra(@SessionAttribute("idUser") String idUser, @RequestParam("idPurchase") int idPurchase , Model model){
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        for(MeciamentosPorCompraDTO m : meciamentosPorCompra){
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(m);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(json);
+            response.add(json);
         }
+        return response;
+    }
+    //Falta corregir
+    @RequestMapping("/verSingleProductPaciente")
+    @ResponseBody
+    public ArrayList<String>  verSingleProductPaciente(@RequestParam String idMedicine , Model model){
+        Optional<Medicine> medicine  = medicineRepository.findById(Integer.parseInt(idMedicine));
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(medicine.get());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(json);
+            response.add(json);
+            return response;
     }
     @GetMapping("/verTrackingPaciente")
     public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model){

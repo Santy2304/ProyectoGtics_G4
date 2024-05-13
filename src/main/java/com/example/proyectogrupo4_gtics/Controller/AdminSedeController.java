@@ -10,8 +10,10 @@ import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -95,7 +97,7 @@ public class AdminSedeController {
     }
     //Salta a la vista para crear farmacista (no requiere un validación)
     @GetMapping("/verAddPharmacist")
-    public String verAddPharmacist(Model model) {
+    public String verAddPharmacist(@ModelAttribute("farmacista") Pharmacist pharmacist, Model model) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
             admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -107,9 +109,21 @@ public class AdminSedeController {
             }
             return "admin_sede/addpharmacist";
     }
+
+    //Función para determinar la unicidad del DNI del farmacista
+    public boolean verificarDNI(String dni) {
+        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+        for (Pharmacist pharmacist : listaFarmacista) {
+            if (pharmacist.getDni().equals(dni)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(Pharmacist pharmacist,Model model){
+    public String agregarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -124,17 +138,27 @@ public class AdminSedeController {
             pharmacist.setApprovalState("pendiente");
             pharmacist.setRequestDate(LocalDate.now());
             pharmacist.setState("En espera");
-            pharmacistRepository.save(pharmacist);
-            return "redirect:/listaFarmacistaAdminSede";
-
+            if (bindingResult.hasErrors()) {
+                return "admin_sede/addpharmacist";
+            } else {
+                if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
+                    model.addAttribute("error", "El DNI ingresado ya existe");
+                    return "admin_sede/addpharmacist";
+                } else { //Cuando se ingresa un nuevo DNI
+                    attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
+                    pharmacistRepository.save(pharmacist);
+                    return "redirect:/listaFarmacistaAdminSede";
+                }
+            }
     }
     //Faltan agregar validaciones de editar farmacista por sede
     @GetMapping("/editFarmacistaAdminSede")
-    public String verEditarFarmacista(@RequestParam("idFarmacista") int idFarmacista , Model model) {
+    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
 
-        Optional<Pharmacist> pharmacist = pharmacistRepository.findById(idFarmacista);
-        if(pharmacist.isPresent()){
-            model.addAttribute("farmacista", pharmacist.get());
+        Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
+        if(optionalPharmacist.isPresent()){
+            pharmacist = optionalPharmacist.get();
+            model.addAttribute("farmacista", pharmacist);
             return "admin_sede/editFarmacist";
         }else{
             return "redirect:/listaFarmacistaAdminSede";
@@ -142,10 +166,15 @@ public class AdminSedeController {
     }
     //Se solicita a superadmin agregar al farmacista
     @PostMapping("/saveChangesFarmacista")
-    public String editarFarmacista(Pharmacist pharmacist, Model model){
-        pharmacist.setState("activo");
-        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt( (String)model.getAttribute("idUser") )).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
-        return "redirect:/listaFarmacistaAdminSede";
+    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes){
+        if(bindingResult.hasErrors()){
+            return "admin_sede/editFarmacist";
+        } else {
+            pharmacist.setState("activo");
+            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
+            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+            return "redirect:/listaFarmacistaAdminSede";
+        }
     }
     //Inicia sesion de admin de sede
     @GetMapping("/sessionAdmin")

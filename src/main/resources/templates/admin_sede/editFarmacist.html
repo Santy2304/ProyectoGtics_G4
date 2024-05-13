@@ -124,38 +124,49 @@
                 <div class="content">
                     <div class="page-header">
                         <div class="page-title">
-                            <h4>Agregar farmacista</h4>
+                            <h4>Actualizar farmacista</h4>
                         </div>
                     </div>
                     <!-- /add -->
                     <form method="post" th:action="@{'saveChangesFarmacista'}"  th:object="${farmacista}">
                         <input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
+                        <!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
+                        <input type="hidden" th:field="*{dni}">
+                        <input type="hidden" th:field="*{code}">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label >Nombre</label>
-                                            <input name="name"  type="text" th:field="${farmacista.name}" >
+                                            <input class="form-control" name="name"  type="text" th:field="${farmacista.name}"
+                                                   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label >Apellido</label>
-                                            <input name="lastName"  type="text" th:field="${farmacista.lastName}">
+                                            <input class="form-control" name="lastName"  type="text" th:field="${farmacista.lastName}"
+                                                   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
                                             <label for="correoFarmacista">Correo</label>
-                                            <input name="email" id="correoFarmacista" type="text" th:field="${farmacista.email}" >
+                                            <input class="form-control" name="email" id="correoFarmacista" type="text" th:field="${farmacista.email}"
+                                                   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3 col-sm-6 col-12">
                                         <div class="form-group">
-                                            <label  >Distrito de residencia</label>
-                                            <input name="distrit" th:field="${farmacista.distrit}" type="text">
+                                            <label >Distrito de residencia</label>
+                                            <input class="form-control" name="distrit" th:field="${farmacista.distrit}" type="text"
+                                                   th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}">
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
                                         </div>
                                     </div>
 

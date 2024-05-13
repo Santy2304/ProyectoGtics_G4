@@ -72,6 +72,74 @@
         }
     </style>
 
+    <style>
+
+        .btn-shine {
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 12px 48px;
+            color: #fff;
+            background: linear-gradient(to right, #FF9F43 0, #FF6F43 10%, white 10%);
+            background-position: 0;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s infinite linear;
+            animation-fill-mode: forwards;
+            -webkit-text-size-adjust: none;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            white-space: nowrap;
+            font-family: "Poppins", sans-serif;
+        }
+        @-moz-keyframes shine {
+            0% {
+                background-position: 0;
+            }
+            60% {
+                background-position: 180px;
+            }
+            100% {
+                background-position: 180px;
+            }
+        }
+        @-webkit-keyframes shine {
+            0% {
+                background-position: 0;
+            }
+            60% {
+                background-position: 180px;
+            }
+            100% {
+                background-position: 180px;
+            }
+        }
+        @-o-keyframes shine {
+            0% {
+                background-position: 0;
+            }
+            60% {
+                background-position: 180px;
+            }
+            100% {
+                background-position: 180px;
+            }
+        }
+        @keyframes shine {
+            0% {
+                background-position: 0;
+            }
+            60% {
+                background-position: 180px;
+            }
+            100% {
+                background-position: 180px;
+            }
+        }
+    </style>
+
 </head>
 <body>
 <div id="global-loader" >

@@ -631,11 +631,18 @@ public class SuperAdminController {
     }
 
     @PostMapping("/editarPerfilSuper")
-    public String editarDatosSuper(SuperAdmin superAdmin){
+    public String editarDatosSuper(@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr){
         //Actualizar datos cambiados
         System.out.println(superAdmin.getIdSuperAdmin());
-        superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname());
-        return "redirect:verPerfilSuperAdmin";
+
+        if (bindingResult.hasErrors()) {
+            return "superAdmin/perfil";
+        } else {
+            attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
+            superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword());
+            return "redirect:verPerfilSuperAdmin";
+        }
+
     }
 
 

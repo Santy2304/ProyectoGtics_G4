@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer> {
     @Query(nativeQuery = true,value="select p.idPharmacist as idPharmacist, p.name as name,p.lastName as apellido,p.site as sede,p.dni as dni,p.code as codigo,p.email as email,p.photo as foto from pharmacist p inner join administrator a where a.site=p.site")
@@ -72,6 +73,17 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     Pharmacist getByIdFarmacista(int idPharmacist);
 
     /*-----*/
+    Pharmacist findByEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update pharmacist set password= ?1 where email=?2")
+    void actualizarContrasena(String pswrd, String email);
+
+    @Transactional
+    @Modifying
+    @Query(value="update pharmacist set email = ?1, distrit = ?2, name=?3,lastName=?4 where idPharmacist=?5", nativeQuery = true)
+    void actualizarPerfilFarmacista(String email, String distrit, String name, String lastName, int idPharmacist);
 
  }
 

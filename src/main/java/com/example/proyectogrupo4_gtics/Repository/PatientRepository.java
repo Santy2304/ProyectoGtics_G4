@@ -36,6 +36,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM patient where email= ?1 and password=?2")
     Patient buscarPatient (String email , String password);
 
+
     //findByEmail
     @Query(nativeQuery = true, value = "SELECT * FROM patient where email=?1")
     Optional<Patient> findByEmail(String email );
@@ -43,6 +44,14 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM patient where dni=?1")
     Optional<Patient> findByDni(String dni );
 
+    Patient getByEmail(String email);
 
+    @Query(nativeQuery = true, value="select * from patient where email=?1")
+    Patient buscarPatientEmail(String email);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update patient set password= ?1 where email=?2")
+    void actualizarContrasena(String pswrd, String email);
 
 }

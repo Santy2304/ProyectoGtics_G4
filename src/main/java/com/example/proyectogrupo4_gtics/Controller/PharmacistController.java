@@ -8,10 +8,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
@@ -229,7 +231,9 @@ public class PharmacistController {
         return "pharmacist/productlist";
     }
 
-    @GetMapping("/verProfileFarmacista")
+
+
+    @GetMapping(value={"/verProfileFarmacista", ""})
     public String verPerfilPharmacist(Model model){
 
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
@@ -238,12 +242,12 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
+        model.addAttribute("farmacista",pharmacist);
         return "pharmacist/profile";
     }
 
     @PostMapping("/editarPerfilPharmacist")
-    public String editarDatosFarmacista(Model model){
+    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -254,9 +258,26 @@ public class PharmacistController {
         System.out.println(pharmacist.getIdFarmacista());
         System.out.println(pharmacist.getEmail());
         System.out.println(pharmacist.getDistrit());
-        pharmacistRepository.updateEmailAndDistritById(pharmacist.getEmail(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+        pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+
+
+        boolean falloN = false;
+        if (email==null || email.trim().isEmpty()) {
+            falloN = true;
+            attr.addFlashAttribute("errorEm", "El email no debe estar vacío");
+        }
+
+        if (distrit==null || distrit.trim().isEmpty()) {
+            falloN = true;
+            attr.addFlashAttribute("errorD", "El distrito no debe estar vacio");
+        }
+
         return "redirect:verProfileFarmacista";
     }
+
+
+
+
 
     @GetMapping("/verMedicinelistFarmacista")
     public String verMedicineList(Model model){

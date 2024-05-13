@@ -159,7 +159,15 @@ public class AdminSedeController {
         }
         return false;
     }
-
+    public boolean verificarCodigo(String codigo) {
+        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+        for (Pharmacist pharmacist : listaFarmacista) {
+            if (pharmacist.getCode().equals(codigo)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     //Agregar farmacista faltan validaciones correspondientes
@@ -209,15 +217,15 @@ public class AdminSedeController {
 
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(pharmacist.getDni());
-        if (!matcher.matches() || pharmacist.getDni().length() != 8) {
-            attr.addFlashAttribute("errorDNI", "El DNI debe ser de 8 dígitos");
+        if (!matcher.matches() || pharmacist.getDni().length() != 8 || verificarDNI(pharmacist.getDni())) {
+            attr.addFlashAttribute("errorDNI", "El DNI debe ser de 8 dígitos y único");
             fallo=true;
         }
 
         Pattern pattern1 = Pattern.compile("\\d+");
         Matcher matcher1 = pattern.matcher(pharmacist.getCode());
-        if (!matcher1.matches() || pharmacist.getCode().length() != 8) {
-            attr.addFlashAttribute("errorCODE", "El código debe ser de 8 dígitos");
+        if (!matcher1.matches() || pharmacist.getCode().length() != 8 || verificarCodigo(pharmacist.getCode())) {
+            attr.addFlashAttribute("errorCODE", "El código debe ser de 8 dígitos y único");
             fallo=true;
         }
 

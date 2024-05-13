@@ -18,6 +18,7 @@ public class Patient {
     @Column(name="idpatient")
     private int idPatient;
 
+    @Column(name="name")
     @NotBlank(message = "Este campo es obligatorio")
     @Size(min=1,max = 45, message = "El nombre no debe superar los 45 carácteres")
     private String name;
@@ -39,10 +40,16 @@ public class Patient {
     @Size(min=1,max = 45, message = "El correo no debe superar los 45 carácteres")
     private String email;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El distrito no debe superar los 45 carácteres")
     private String distrit;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El seguro no debe superar los 45 carácteres")
     private String insurance;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "La contraseña no debe superar los 45 carácteres")
     private String password;
 
     @Column(name="changepassword")

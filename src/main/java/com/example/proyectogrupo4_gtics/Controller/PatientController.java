@@ -311,13 +311,20 @@ public class PatientController {
         return "pacient/tracking";
     }
     @PostMapping("/editarPerfilPaciente")
-    public String editarDatosPaciente(Patient patient){
+    public String editarDatosPaciente(@ModelAttribute("paciente") @Valid Patient patient, BindingResult bindingResult, Model model, RedirectAttributes attr){
         //Actualizar datos cambiados
         System.out.println(patient.getIdPatient());
         System.out.println(patient.getLocation());
         System.out.println(patient.getInsurance());
-        patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
-        return "redirect:verPerfilPaciente";
+        if (bindingResult.hasErrors()) {
+            return "pacient/perfil";
+        } else {
+            attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+            patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
+            return "redirect:verPerfilPaciente";
+        }
+
+
     }
 
     @GetMapping("/cerrarSesionPaciente")

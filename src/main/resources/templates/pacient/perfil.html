@@ -62,8 +62,8 @@
 	<div class="content" style="margin-left:8% ; margin-right:8%">
 		<!-- /product list -->
 		<div class="card">
-			<form method="post" th:action="@{/editarPerfilPaciente} ">
-				<input type="hidden" name="idPatient" th:field="${paciente.idPatient}">
+			<form method="post" th:action="@{/editarPerfilPaciente}" th:object="${paciente}">
+				<input type="hidden" name="idPatient" th:field="*{idPatient}">
 				<div class="card-body">
 					<div class="profile-set">
 						<div class="profile-head">
@@ -79,7 +79,7 @@
 									</div>
 								</div>
 								<div class="profile-contentname">
-									<h2 th:text="${paciente.name}"></h2>
+									<h2 th:field="*{name}"></h2>
 									<h4>Actualiza tu foto y datos personales</h4>
 								</div>
 							</div>
@@ -92,42 +92,45 @@
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>Nombre</label>
-								<input name="name" type="text" th:value="${paciente.name}" readonly>
+								<input name="name" type="text" th:field="*{name}" readonly>
 							</div>
 
 							<div class="form-group">
 								<label>Apellido</label>
-								<input name="lastName" type="text" th:value="${paciente.lastName}" readonly>
+								<input name="lastName" type="text" th:field="*{lastName}" readonly>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>Distrito</label>
-								<input name="distrit" type="text" th:value="${paciente.distrit}" >
+								<input name="distrit" type="text" th:field="${paciente.distrit}" th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}" >
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>Dirección</label>
-								<input name="location" type="text" th:value="${paciente.location}">
+								<input name="location" type="text" th:field="${paciente.location}" th:classappend="${#fields.hasErrors('location')? 'is-invalid' : ''}" >
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>DNI</label>
-								<input name="dni" type="text" th:value="|${paciente.dni}|" readonly>
+								<input name="dni" type="text" th:field="*{dni}" readonly>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>Correo</label>
-								<input name="email" type="text" th:value="${paciente.email}" readonly>
+								<input name="email" type="text" th:field="*{email}" readonly>
 							</div>
 						</div>
 						<div class="col-lg-6 col-sm-12">
 							<div class="form-group">
 								<label>Seguro</label>
-								<input name="insurance" type="text" th:value="${paciente.insurance}">
+								<input name="insurance" type="text" th:field="${paciente.insurance}" th:classappend="${#fields.hasErrors('insurance')? 'is-invalid' : ''}" >
+								<div class="invalid-feedback" th:if="${#fields.hasErrors('insurance')}" th:errors="*{insurance}"></div>
 							</div>
 						</div>
 						<!-- A futuro puede servir

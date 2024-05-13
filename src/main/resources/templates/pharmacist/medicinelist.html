@@ -159,7 +159,7 @@
 							<tr th:each="medicamento : ${listamedicamentosfarm}">
 								<td class="productimgname">
 									<a class="product-img" onclick="verProducto(event)">
-										<img src="/assets_pharmacist/img/product/product1.jpg" alt="product">
+										<img src="/assets_superAdmin/img/paracetamol.png" alt="product">
 									</a>
 									<span href="javascript:void(0);" th:text="${medicamento.nombreMedicamento}"></span>
 								</td>
@@ -169,7 +169,7 @@
 								<td th:text="${medicamento.cantidad}"></td>
 								<td>
 									<a class="me-3" th:href="@{'/detallesMedicamentos?idMedicine=' + ${medicamento.getIdMedicine()}}">
-										<img src="/assets_pharmacist/img/icons/eye.svg" alt="img">
+										<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 									</a>
 									<!--<a class="me-3" th:href="@{'/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
 										<img src="/assets_spharmacist/img/icons/edit.svg" alt="img">

@@ -134,7 +134,7 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr th:each="solicitud : ${listaSolicitudesFarmacistasPando1}">
+										<tr  th:each="solicitud : ${listaSolicitudesFarmacistasPando1}" th:if="${solicitud.approvalState.equals('pendiente')}">
 
 											<td class="productimgname">
 												<a href="javascript:void(0);" class="product-img">
@@ -148,7 +148,7 @@
 											<td th:text="${solicitud.code}"></td>
 											<td th:text="${solicitud.requestDate}"></td>
 
-											<td>
+											<td >
 												<a class="me-3" th:href="@{'/aceptarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
 												</a>
@@ -163,6 +163,7 @@
 												</a>
 -->
 											</td>
+
 										</tr>
 									</tbody>
 								</table>

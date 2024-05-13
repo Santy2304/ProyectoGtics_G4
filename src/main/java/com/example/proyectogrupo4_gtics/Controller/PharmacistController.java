@@ -258,8 +258,6 @@ public class PharmacistController {
         System.out.println(pharmacist.getIdFarmacista());
         System.out.println(pharmacist.getEmail());
         System.out.println(pharmacist.getDistrit());
-        pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
-
 
         boolean falloN = false;
         if (email==null || email.trim().isEmpty()) {
@@ -272,6 +270,9 @@ public class PharmacistController {
             attr.addFlashAttribute("errorD", "El distrito no debe estar vacio");
         }
 
+        if(!falloN){
+            pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+        }
         return "redirect:verProfileFarmacista";
     }
 

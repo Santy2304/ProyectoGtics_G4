@@ -11,7 +11,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
+                    <a  th:classappend="${activeTab == 'Sede' ? ' active':'' }" href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/verSedeSuperAdminPando1"  th:classappend="${activeTab == 'Pando 1' ? ' active':'' }" >Pando Etapa 1</a></li>
                         <li><a href="/verSedeSuperAdminPando2" th:classappend="${activeTab == 'Pando 2' ? ' active':'' }" >Pando Etapa 2</a></li>

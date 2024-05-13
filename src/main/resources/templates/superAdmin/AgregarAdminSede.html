@@ -48,7 +48,7 @@
 
 
 			<!-- Sidebar -->
-			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'chat')"> </div>
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'medicamentos')"> </div>
 
 			<div class="page-wrapper">
 				<div class="content">
@@ -61,8 +61,6 @@
 					<div class="card">
 						<div class="card-body">
 							<form method="post" th:action="@{'agregarAdminSede'}" th:object="${adminSede}">
-								<input type="hidden"  th:field="*{site}">
-								<input type="hidden"  th:field="*{}">
 								<input type="hidden"  th:field="*{site}">
 
 								<div class="row">
@@ -102,12 +100,14 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="sede">Sede</label>
+
 											<select class="form-select" id="sede" name="site"
-													th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
-												<option selected value="">Seleccionar</option>
-												<option th:each="sede : ${listaSedes}"
-														th:value="${sede.name}"
-														th:text="${sede.name}"></option>
+													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
+												<option value="">Selecciona sede</option>
+												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
+												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
+												<option value="Pando 3" th:selected="${adminSede.site == 'Pando 3'}">Pando 3</option>
+												<option value="Pando 4" th:selected="${adminSede.site == 'Pando 4'}">Pando 4</option>
 											</select>
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>

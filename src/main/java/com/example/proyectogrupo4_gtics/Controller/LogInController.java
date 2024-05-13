@@ -218,6 +218,7 @@ public class LogInController {
             patient.setPassword("DefaultPassword");
             patient.setChangePassword(1);
             patient.setDateCreationAccount( LocalDate.now());
+            patient.setState("activo");
             patientRepository.save(patient);
             response.put("response" ,"Guardado");
         }else{

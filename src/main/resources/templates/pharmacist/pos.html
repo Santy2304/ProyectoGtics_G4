@@ -190,12 +190,12 @@
 
 
 					<div class="tabs_container" >
-						<div class="tab_content active" data-tab="Alergia">
+						<div class="tab_content active" data-tab="Alergias">
 							<div th:with="alergiaPresente=false"></div>
 
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Alergia'}">
+								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
 
 									<div th:with="alergiaPresente=true"></div>
 
@@ -373,16 +373,18 @@
 									<script>
 
 										document.getElementById("borrador").onclick = function(){
-											Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?',
+											Swal.fire({ title:'¿Estás seguro de eliminar los datos del cliente?',
 												icon: 'warning',
 												showCancelButton: true
 												, confirmButtonColor: '#d48e15',
 												cancelButtonColor: '#805409',
 												confirmButtonText: 'Eliminar datos' ,
-												cancelButtonText:'Cancelar' }).then(function() {
-												// Redirigir a la vista del controlador
-												window.location.href = "/eliminarPacienteDoctorDesdeFarmacista";
-											});
+												cancelButtonText:'Cancelar' }).then((result) => {
+												if (result.isConfirmed) {
+													// Redirigir a la vista del controlador
+													window.location.href = "/eliminarPacienteDoctorDesdeFarmacista";
+												}
+											});;
 										}
 
 									</script>
@@ -489,7 +491,7 @@
 								</ul>
 
 							</div>
-							<div id="venta" style="cursor: pointer;" class="btn-totallabel">
+							<div th:if="${fullNamePatient} != null" id="venta" style="cursor: pointer;" class="btn-totallabel">
 								<h5  >Vender</h5>
 								<h6>s/60.00</h6>
 							</div>
@@ -511,33 +513,89 @@
 									});
 									console.log(inputMedicine);
 									console.log(inputCantidad);
-									//Ahora enviamos por ajax al servidor
-									$.ajax({
-										url: "/GenerarVentaFarmacista",
-										data: JSON.stringify( {
-											ids: inputMedicine,
-											cantidades: inputCantidad
-										}),
-										contentType: "application/json",
-										type: "POST",
-										success: function(response){
-											switch(response.error){
-												case "":
-													Swal.fire({
-														icon: "success",
-														title: "Venta concluida",
-														text: "Se concreto correctamente la venta",
-													});
-													break;
-												case "casteo":
 
-													break;
-												case "insuficiente":
+									//Validacion Front (no números negativos)
+									var valoresValidos = true;
 
-													break;
-											}
+// Validar inputMedicine y inputCantidad
+									inputMedicine.forEach(function(valor, indice) {
+										// Verificar si el valor no es un número entero o es negativo
+										if (isNaN(valor) || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+											console.log("El valor en inputMedicine[" + indice + "] no es un número entero positivo.");
+											valoresValidos = false;
 										}
 									});
+
+									inputCantidad.forEach(function(valor, indice) {
+										// Verificar si el valor no es un número entero o es negativo
+										if (isNaN(valor) || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+											console.log("El valor en inputCantidad[" + indice + "] no es un número entero positivo.");
+											valoresValidos = false;
+										}
+									});
+									if(valoresValidos){
+										//Ahora enviamos por ajax al servidor
+										$.ajax({
+											url: "/GenerarVentaFarmacista",
+											data: JSON.stringify( {
+												ids: inputMedicine,
+												cantidades: inputCantidad
+											}),
+											contentType: "application/json",
+											type: "POST",
+											success: function(response){
+												switch(response.error){
+													case "":
+														Swal.fire({
+															icon: "success",
+															iconColor: '#f69b00',
+															showCancelButton: false
+															, confirmButtonColor: '#d48e15',
+															cancelButtonColor: '#805409',
+															title: "Venta concluida",
+															text: "Se concreto correctamente la venta",
+														}).then(function() {
+															window.location.href= "/verProductListFarmacista";
+														});
+														break;
+
+													case "errorInesperado":
+														Swal.fire({
+														icon: "error",
+															iconColor:"#f69b00" ,
+														showCancelButton: false
+														, confirmButtonColor: '#d48e15',
+														cancelButtonColor: '#805409',
+														cancelButtonText: "Salir",
+														text: "Ocurrio un error inesperado ",
+													});
+														break;
+													case "noHaySuficienteStock":
+														Swal.fire({
+															icon: "error",
+															iconColor:"#f69b00" ,
+															showCancelButton: false
+															, confirmButtonColor: '#d48e15',
+															cancelButtonColor: '#805409',
+															cancelButtonText: "Salir",
+															text: "No hay suficiente stock como para realizar esta venta",
+														});
+														break;
+												}
+											}
+										});
+									}else{
+										console.log("holaaaaa");
+										Swal.fire({
+											icon: "warning",
+											showCancelButton: true
+											, confirmButtonColor: '#d48e15',
+											cancelButtonColor: '#805409',
+											cancelButtonText: "Salir",
+											text: "Ingresaste algún monto incoherente",
+										});
+									}
+
 								})
 
 
@@ -775,6 +833,10 @@
 											break;
 										case "noEncontro":
 											Swal.fire({
+												colorIcon:'#805409'  ,
+												showCancelButton: true,
+												confirmButtonColor: '#d48e15',
+												cancelButtonColor: '#805409',
 												icon: "error",
 												title: "Oops...",
 												text: "No se encontró ningún paciente con ese número de dni",

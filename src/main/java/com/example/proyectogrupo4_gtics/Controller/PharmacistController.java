@@ -366,50 +366,68 @@ public class PharmacistController {
     @ResponseBody
     public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model) throws JsonProcessingException {
         //Queries para la venta
-        System.out.println(cuerpo);
-        Map<String,String> response = new HashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        //Contiene toda la data de la venta
-        DataVenta data = objectMapper.readValue(cuerpo, DataVenta.class);
-        //Creamos el purchase order
-        PurchaseOrder purchaseOrder = new PurchaseOrder();
-        purchaseOrder.setDeliveryHour(LocalTime.now());
-        purchaseOrder.setPatient(patientRepository.findById(Integer.parseInt((String)model.getAttribute("idPatient"))).get());
-        purchaseOrder.setIdDoctor(doctorRepository.findById(Integer.parseInt((String) model.getAttribute("idDoctor"))).get());
-        purchaseOrder.setSite(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
-        purchaseOrder.setStatePaid("Pagado");
-        purchaseOrder.setTipo("Presencial");
-        purchaseOrder.setDireccion(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
-        purchaseOrder.setTipoPago("Efectivo");
-        purchaseOrder.setReleaseDate(LocalDate.now());
-        PurchaseOrder p = purchaseOrderRepository.save(purchaseOrder);
+        Map<String, String> response = new HashMap<>();
+        try {
+            System.out.println(cuerpo);
+            ObjectMapper objectMapper = new ObjectMapper();
+            //Contiene toda la data de la venta
+            DataVenta data = objectMapper.readValue(cuerpo, DataVenta.class);
+            //Creamos el purchase order
+            PurchaseOrder purchaseOrder = new PurchaseOrder();
+            purchaseOrder.setDeliveryHour(LocalTime.now());
+            purchaseOrder.setPatient(patientRepository.findById(Integer.parseInt((String) model.getAttribute("idPatient"))).get());
+            purchaseOrder.setIdDoctor(doctorRepository.findById(Integer.parseInt((String) model.getAttribute("idDoctor"))).get());
+            purchaseOrder.setSite(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
+            purchaseOrder.setStatePaid("Pagado");
+            purchaseOrder.setTipo("Presencial");
+            purchaseOrder.setDireccion(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
+            purchaseOrder.setTipoPago("Efectivo");
+            purchaseOrder.setReleaseDate(LocalDate.now());
+            PurchaseOrder p = purchaseOrderRepository.save(purchaseOrder);
 
-        ArrayList<Integer> listaIdMedicine = new ArrayList<>();
-        ArrayList<Integer> listaCantidades = new ArrayList<>();
-        for(int i= 0 ;  i < data.getIds().toArray().length ;  i++ ){
-            listaIdMedicine.add(Integer.parseInt("" + data.getIds().get(i)));
-            listaCantidades.add(Integer.parseInt("" + data.getCantidades().get(i)));
-        }
-
-        for(int idx= 0 ;  idx < data.getIds().toArray().length ;  idx++) {
-            PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
-            purchaseHasLote.setCantidadComprar(listaCantidades.get(idx));
-            purchaseHasLote.setPurchaseOrder(p);
-            PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
-            purchaseHasLotID.setIdPurchase(p.getId());
-            List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx),listaCantidades.get(idx), pharmacistRepository.findById(Integer.parseInt(""+ model.getAttribute("idUser"))).get().getSite());
-            if (listaLotesPosibles.isEmpty()){
-                continue;
+            ArrayList<Integer> listaIdMedicine = new ArrayList<>();
+            ArrayList<Integer> listaCantidades = new ArrayList<>();
+            for (int i = 0; i < data.getIds().toArray().length; i++) {
+                listaIdMedicine.add(Integer.parseInt("" + data.getIds().get(i)));
+                listaCantidades.add(Integer.parseInt("" + data.getCantidades().get(i)));
             }
-            purchaseHasLote.setLote(listaLotesPosibles.get(0));
-            loteRepository.actualizarStockLote(listaLotesPosibles.get(0).getIdLote(),listaCantidades.get(idx));
-            purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
-            purchaseHasLote.setId(purchaseHasLotID);
-            purchaseHasLoteRepository.save(purchaseHasLote);
-            model.addAttribute("idPatient" , "");
-            model.addAttribute("idDoctor" , "");
+
+            boolean suficienteStock= true;
+            for (int idx = 0; idx < data.getIds().toArray().length; idx++) {
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(Integer.parseInt("" + model.getAttribute("idUser"))).get().getSite());
+                if (listaLotesPosibles.isEmpty()) {
+                    suficienteStock= false;
+                    continue;
+                }
+            }
+
+            if(suficienteStock){
+                for (int idx = 0; idx < data.getIds().toArray().length; idx++) {
+                    PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                    purchaseHasLote.setCantidadComprar(listaCantidades.get(idx));
+                    purchaseHasLote.setPurchaseOrder(p);
+                    PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+                    purchaseHasLotID.setIdPurchase(p.getId());
+                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(Integer.parseInt("" + model.getAttribute("idUser"))).get().getSite());
+                    if (listaLotesPosibles.isEmpty()) {
+                        continue;
+                    }
+                    purchaseHasLote.setLote(listaLotesPosibles.get(0));
+                    loteRepository.actualizarStockLote(listaLotesPosibles.get(0).getIdLote(), listaCantidades.get(idx));
+                    purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+                    purchaseHasLote.setId(purchaseHasLotID);
+                    purchaseHasLoteRepository.save(purchaseHasLote);
+                    model.addAttribute("idPatient", "");
+                    model.addAttribute("idDoctor", "");
+                }
+                response.put("error", "");
+            }else{
+                response.put("error", "noHaySuficienteStock");
+            }
+
+        }catch(Exception error){
+            response.put("error", "errorInesperado");
         }
-        response.put("error", "");
         return response;
     }
 

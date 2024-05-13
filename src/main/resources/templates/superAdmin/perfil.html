@@ -45,7 +45,7 @@
         <div class="main-wrapper">
 			
 			<!-- Header -->
-			<div class="header"  style="background: linear-gradient(90deg,#ff9f43 46%, #f6c32c 70%);">
+			<div class="header"  style="background: linear-gradient(90deg,#f6c32c 46%, #ff9f43 70%);">
 				<!-- Logo -->
 				<!-- Logo -->
 				<div class="header-left active">
@@ -190,8 +190,8 @@
 				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<form method="post" th:action="@{/editarPerfilSuper} ">
-							<input type="hidden" name="idSuperAdmin" th:field="${superAdmin.idSuperAdmin}">
+						<form method="post" th:action="@{/editarPerfilSuper}" th:object="${superAdmin}">
+							<input type="hidden" name="idSuperAdmin" th:field="*{idSuperAdmin}">
 							<div class="card-body">
 								<div class="profile-set">
 									<div class="profile-head">
@@ -207,7 +207,7 @@
 												</div>
 											</div>
 											<div class="profile-contentname">
-												<h2 th:text="${superAdmin.name}"></h2>
+												<h2 th:field="*{name}"></h2>
 												<h4>Actualiza tu foto y datos personales</h4>
 											</div>
 										</div>
@@ -220,12 +220,14 @@
 									<div class="col-lg-6 col-sm-12">
 										<div class="form-group">
 											<label>Nombre</label>
-											<input name="name" type="text" th:value="${superAdmin.name}">
+											<input name="name" type="text" th:field="${superAdmin.name}" th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 
 										<div class="form-group">
 											<label>Apellido</label>
-											<input name="lastname" type="text" th:value="${superAdmin.lastname}">
+											<input name="lastname" type="text" th:field="${superAdmin.lastname}" th:classappend="${#fields.hasErrors('lastname')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"></div>
 										</div>
 									</div>
 
@@ -233,7 +235,14 @@
 									<div class="col-lg-6 col-sm-12">
 										<div class="form-group">
 											<label>Correo</label>
-											<input name="email" type="text" th:value="${superAdmin.email}">
+											<input name="email" type="text" th:field="${superAdmin.email}" th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+										</div>
+
+										<div class="form-group">
+											<label>Contraseña</label>
+											<input id="contrasena" name="password" class="pass-input" type="password" th:field="${superAdmin.password}" th:classappend="${#fields.hasErrors('password')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 										</div>
 									</div>
 

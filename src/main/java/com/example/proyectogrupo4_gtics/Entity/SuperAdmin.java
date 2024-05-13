@@ -1,7 +1,8 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -13,17 +14,27 @@ public class SuperAdmin {
     private int idSuperAdmin;
 
     @Column(name="email")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=11,max = 45, message = "El correo no debe tener más de 45 carácteres y no puede ser nulo")
     private String email;
 
     @Column(name = "password")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=5, max = 45, message = "La contraseña no debe tener más de 45 carácteres y ser mayor a 5")
     private String password;
+
 
     @Column(name="photo")
     private String photo;
 
+    @Column(name="name")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1, max = 45, message = "El nombre no debe tener más de 45 carácteres y no puede ser nulo")
     private String name;
 
     @Column(name = "lastname")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El apellido no debe tener más de 45 carácteres y no puede ser nulo")
     private String lastname;
 
     public int getIdSuperAdmin() {

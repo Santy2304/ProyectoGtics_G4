@@ -1,4 +1,4 @@
-<div class="sidebar" id="sidebar">
+<div th:fragment="sideBarSuperAdmin"  class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div id="sidebar-menu" class="sidebar-menu">
             <ul>
@@ -6,17 +6,17 @@
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verListadosSuperAdmin" class="active" >Listas de Usuarios</a></li>
+                        <li><a href="/verListadosSuperAdmin" th:classappend="${activeTab == 'listaUsuarios' ? ' active':'' }" >Listas de Usuarios</a></li>
 
                     </ul>
                 </li>
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verSedeSuperAdminPando1" >Pando Etapa 1</a></li>
-                        <li><a href="/verSedeSuperAdminPando2">Pando Etapa 2</a></li>
-                        <li><a href="/verSedeSuperAdminPando3">Pando Etapa 3</a></li>
-                        <li><a href="/verSedeSuperAdminPando4">Pando Etapa 4</a></li>
+                        <li><a href="/verSedeSuperAdminPando1"  th:classappend="${activeTab == 'Pando 1' ? ' active':'' }" >Pando Etapa 1</a></li>
+                        <li><a href="/verSedeSuperAdminPando2" th:classappend="${activeTab == 'Pando 2' ? ' active':'' }" >Pando Etapa 2</a></li>
+                        <li><a href="/verSedeSuperAdminPando3" th:classappend="${activeTab == 'Pando 3' ? ' active':'' }" >Pando Etapa 3</a></li>
+                        <li><a href="/verSedeSuperAdminPando4" th:classappend="${activeTab == 'Pando 4' ? ' active':'' }" >Pando Etapa 4</a></li>
 
                     </ul>
 
@@ -24,14 +24,14 @@
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/listaMedicamentosSuperAdmin">Medicamentos</a></li>
+                        <li><a href="/listaMedicamentosSuperAdmin" th:classappend="${activeTab == 'medicamentos' ? ' active':'' }" >Medicamentos</a></li>
                     </ul>
                 </li>
 
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verPerfilSuperAdmin">Perfil</a></li>
+                        <li><a href="/verPerfilSuperAdmin"  th:classappend="${activeTab == 'perfil' ? ' active':'' }" >Perfil</a></li>
                     </ul>
                 </li>
             </ul>

@@ -56,8 +56,8 @@
 				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<form method="post" th:action="@{/editarPerfilPharmacist} ">
-							<input type="hidden" name="idPharmacist" th:field="${farmacista}">
+						<form method="post" th:action="@{/editarPerfilPharmacist}">
+							<input type="hidden" name="idPharmacist" th:field="${farmacista.idFarmacista}">
 							<div class="card-body">
 								<div class="profile-set">
 									<div class="profile-head">
@@ -100,15 +100,21 @@
 										<div class="form-group">
 											<label>Correo</label>
 											<input name="email" type="text" th:value="${farmacista.email}">
+											<div th:if="${errorEm != null}"  class="text-danger" >
+												<span th:text="${errorEm}"></span>
+											</div>
 										</div>
-									</div>
 
-									<div class="col-lg-6 col-sm-12">
 										<div class="form-group">
 											<label>Distrito</label>
 											<input name="distrit" type="text" th:value="${farmacista.distrit}">
+											<div th:if="${errorD != null}"  class="text-danger" >
+												<span th:text="${errorD}"></span>
+											</div>
 										</div>
+
 									</div>
+
 
 									<div class="col-12">
 										<button type="submit" class="btn btn-submit me-2">Guardar</button>

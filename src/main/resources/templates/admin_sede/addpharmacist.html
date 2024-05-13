@@ -129,6 +129,8 @@
 					</div>
 					<!-- /add -->
 					<form method="post" th:action="@{'agregarFarmacista'}" th:object="${farmacista}">
+						<input type="hidden" th:field="*{state}" th:value="'valor_estado_predeterminado'">
+						<input type="hidden" th:field="*{site}" th:value="'valor_estado_predeterminado'">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">

@@ -135,51 +135,56 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="nameFarmacista">Nombre</label>
-											<input class="form-control" name="name" id="nameFarmacista" type="text" th:field="*{name}"
-												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+											<input class="form-control" name="name" id="nameFarmacista" type="text" th:field="*{name}">
+											<div th:if="${errorNombre != null}"  class="text-danger" >
+												<span th:text="${errorNombre}"></span>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label >Apellido</label>
-											<input class="form-control" name="lastName" type="text" th:field="*{lastName}"
-												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+											<input class="form-control" name="lastName" type="text" th:field="*{lastName}">
+											<div th:if="${errorApellido != null}"  class="text-danger" >
+												<span th:text="${errorApellido}"></span>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="dniFarmacista">DNI</label>
-											<input class="form-control" name="dni" id="dniFarmacista" type="text" th:field="*{dni}"
-												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
-											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
+											<input class="form-control" name="dni" id="dniFarmacista" type="text" th:field="*{dni}">
+											<div th:if="${errorDNI != null}"  class="text-danger" >
+												<span th:text="${errorDNI}"></span>
+											</div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="codigoFarmacista">Código de Colegiatura</label>
-											<input class="form-control" name="code" id="codigoFarmacista" type="text" th:field="*{code}"
-												   th:classappend="${#fields.hasErrors('code')? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></div>
+											<input class="form-control" name="code" id="codigoFarmacista" type="text" th:field="*{code}">
+											<div th:if="${errorCODE != null}"  class="text-danger" >
+												<span th:text="${errorCODE}"></span>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="correoFarmacista">Correo</label>
-											<input class="form-control" name="email" id="correoFarmacista" type="text" th:field="*{email}"
-												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+											<input class="form-control" name="email" id="correoFarmacista" type="text" th:field="*{email}">
+											<div th:if="${errorEmail != null}"  class="text-danger" >
+												<span th:text="${errorEmail}"></span>
+											</div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="distritoFarmacista">Distrito de residencia</label>
-											<input class="form-control" name="distrit" id="distritoFarmacista" type="text" th:field="*{distrit}"
-												   th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
+											<input class="form-control" name="distrit" id="distritoFarmacista" type="text" th:field="*{distrit}">
+											<div th:if="${errorDistrito != null}"  class="text-danger" >
+												<span th:text="${errorDistrito}"></span>
+											</div>
 										</div>
 									</div>
 

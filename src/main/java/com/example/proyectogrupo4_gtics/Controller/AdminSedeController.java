@@ -3,10 +3,7 @@ package com.example.proyectogrupo4_gtics.Controller;
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
-import com.example.proyectogrupo4_gtics.Entity.Administrator;
-import com.example.proyectogrupo4_gtics.Entity.Lote;
-import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
-import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
+import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,9 +16,13 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -96,10 +97,48 @@ public class AdminSedeController {
         return "admin_sede/pharmacistlist";
     }
     //Salta a la vista para crear farmacista (no requiere un validación)
-    @GetMapping("/verAddPharmacist")
-    public String verAddPharmacist(@ModelAttribute("farmacista") Pharmacist pharmacist, Model model) {
+    @GetMapping(value = {"/verAddPharmacist",""})
+    public String verAddPharmacist(@ModelAttribute("farmacista") Pharmacist pharmacist, Model model,RedirectAttributes redirectAttributes) {
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser")  );
         Administrator admin = new Administrator();
+
+
+        if (redirectAttributes != null) {
+            String errorNombre = (String) redirectAttributes.getFlashAttributes().get("errorNombre");
+            String errorApellido = (String) redirectAttributes.getFlashAttributes().get("errorApellido");
+            String errorDistrito = (String) redirectAttributes.getFlashAttributes().get("errorDistrito");
+            String errorEmail = (String) redirectAttributes.getFlashAttributes().get("errorEmail");
+            String errorDNI = (String) redirectAttributes.getFlashAttributes().get("errorDNI");
+            String errorCODE = (String) redirectAttributes.getFlashAttributes().get("errorCODE");
+
+
+            if (errorNombre != null) {
+                model.addAttribute("errorNombre", errorNombre);
+            }
+            if (errorDistrito != null) {
+                model.addAttribute("errorDireccion", errorDistrito);
+            }
+            if (errorApellido != null) {
+                model.addAttribute("errorApellido", errorApellido);
+            }
+
+            if (errorEmail != null) {
+                model.addAttribute("errorEmail", errorEmail);
+            }
+
+            if (errorDNI != null) {
+                model.addAttribute("errorDNI", errorDNI);
+            }
+
+            if (errorCODE != null) {
+                model.addAttribute("errorCODE", errorCODE);
+            }
+
+
+
+        }
+
+
             admin = administratorRepository.getByIdAdministrador(idAdministrator);
             model.addAttribute("sede", admin.getSite());
             model.addAttribute("nombre", admin.getName());
@@ -121,9 +160,11 @@ public class AdminSedeController {
         return false;
     }
 
+
+
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes){
+    public String agregarFarmacista(@ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr){
         int idAdministrator = Integer.parseInt((String) model.getAttribute("idUser"));
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -138,9 +179,52 @@ public class AdminSedeController {
             pharmacist.setApprovalState("pendiente");
             pharmacist.setRequestDate(LocalDate.now());
             pharmacist.setState("En espera");
-            if (bindingResult.hasErrors()) {
-                return "admin_sede/addpharmacist";
-            } else {
+
+
+
+        boolean fallo = false;
+        if (pharmacist.getName()==null || pharmacist.getName().trim().isEmpty()) {
+            fallo = true;
+            attr.addFlashAttribute("errorNombre", "Coloque un nombre");
+
+        }
+
+        if (pharmacist.getLastName()==null || pharmacist.getLastName().isEmpty()) {
+            fallo = true;
+            attr.addFlashAttribute("errorApellido", "Coloque un apellido");
+
+        }
+
+        if (pharmacist.getEmail()==null || pharmacist.getEmail().isEmpty()) {
+            fallo = true;
+            attr.addFlashAttribute("errorEmail", "Coloque un correo");
+
+        }
+
+        if (pharmacist.getDistrit()==null || pharmacist.getDistrit().isEmpty()) {
+            fallo = true;
+            attr.addFlashAttribute("errorDistrito", "Coloque un distrito");
+
+        }
+
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(pharmacist.getDni());
+        if (!matcher.matches() || pharmacist.getDni().length() != 8) {
+            attr.addFlashAttribute("errorDNI", "El DNI debe ser de 8 dígitos");
+            fallo=true;
+        }
+
+        Pattern pattern1 = Pattern.compile("\\d+");
+        Matcher matcher1 = pattern.matcher(pharmacist.getCode());
+        if (!matcher1.matches() || pharmacist.getCode().length() != 8) {
+            attr.addFlashAttribute("errorCODE", "El código debe ser de 8 dígitos");
+            fallo=true;
+        }
+
+
+        if (fallo) {
+                return "redirect:/verAddPharmacist";
+        } else {
                 if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
                     model.addAttribute("error", "El DNI ingresado ya existe");
                     return "admin_sede/addpharmacist";
@@ -149,7 +233,7 @@ public class AdminSedeController {
                     pharmacistRepository.save(pharmacist);
                     return "redirect:/listaFarmacistaAdminSede";
                 }
-            }
+        }
     }
     //Faltan agregar validaciones de editar farmacista por sede
     @GetMapping("/editFarmacistaAdminSede")

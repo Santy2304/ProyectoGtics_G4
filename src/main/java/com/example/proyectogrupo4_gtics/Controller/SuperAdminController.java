@@ -20,7 +20,7 @@ import java.util.Optional;
 import java.util.List;
 
 @Controller
-public class SuperAdminController {
+public class  SuperAdminController {
     final MedicineRepository medicineRepository;
     final PatientRepository patientRepository;
     final DoctorRepository doctorRepository;

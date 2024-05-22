@@ -54,7 +54,13 @@
 
 
 	</style>
-
+	<script>
+		function numeroOrden7digits() {
+			let orderNumber = Math.floor(1000000 + Math.random() * 9000000);
+			document.getElementById("orderNumber").innerText = "Order Number: " + orderNumber;
+		}
+		window.onload = numeroOrden7digits;
+	</script>
 
 
 </head>
@@ -202,7 +208,7 @@
 									<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
 									<td>
 										<a  type="button">
-											<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+											<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_superAdmin/img/transaccion.png" width="30" alt="img">
 										</a>
 									</td>
 									<script th:inline="javascript" >

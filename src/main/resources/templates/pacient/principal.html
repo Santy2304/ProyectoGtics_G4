@@ -460,7 +460,7 @@
                     <h3 th:text="${medicine.nombreMedicamento}"></h3>
                     <input  name="nombre" th:value="${medicine.nombreMedicamento}" type="hidden" >
                     <!--/*@thymesVar id="valoracion" type=""*/-->
-                    <span class="price" th:text="${medicine.getPrecio()}"></span>
+                    <span class="price" th:text="|S/${medicine.getPrecio()}|"></span>
                     <input  name="precio" th:value="${medicine.getPrecio()}" type="hidden" >
                     <div class="d-flex align-items-center justify-content-between">
                       <div class="input-group product-qty">

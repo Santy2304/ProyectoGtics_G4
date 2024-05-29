@@ -53,7 +53,7 @@
 
 			<!-- /Sidebar -->
 
-			<form method="post" th:action="@{/guardarCambiosFarmacista}" th:object="${farmacista}">
+			<form method="post" th:action="@{/superAdmin/guardarCambiosFarmacista}" th:object="${farmacista}">
 				<input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
 				<!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
 				<input type="hidden" th:field="*{dni}">
@@ -162,7 +162,7 @@
 									</div>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
+										<a th:href="@{'/superAdmin/verListados'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

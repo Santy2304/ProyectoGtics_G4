@@ -233,7 +233,7 @@
                     if (date) {
                       //Poner alguna condicion para las fechas acá
                       $.ajax({
-                        url:"/generarReposicionAdminSede",
+                        url:"/adminSede/generarReposicion",
                         data: JSON.stringify({ cantidad: arregloValidoValue , ids : arregloValidoId ,date:date  }),
                         type: "POST",
                         contentType: "application/json",
@@ -335,7 +335,7 @@
               <div class="row">
                 <div class="col-lg-12 col-sm-12">
 
-                  <form id="Hola" th:action="@{'/generarReposicionAdminSedeBusca'}"  method="post" >
+                  <form id="Hola" th:action="@{'/adminSede/generarReposicionBusca'}"  method="post" >
                     <div class="row">
                       <div class="col-lg col-sm-6 col-12">
                         <div class="form-group">

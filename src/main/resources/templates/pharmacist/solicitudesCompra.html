@@ -128,17 +128,17 @@
                                             <td th:text="|S/${solicitud.getMonto()}|"></td>
                                             <td th:text="${solicitud.getFecha()}"></td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/verDetalleSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="me-3" th:href="@{'/pharmacist/verDetalleSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
                                                 </a>
 
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/aceptarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/rechazarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
 
@@ -229,17 +229,17 @@
                                             <td th:text="|S/${bot.getMonto()}|"></td>
                                             <td th:text="${bot.getFecha()}"></td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/verDetalleSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <a class="me-3" th:href="@{'/pharmacist/verDetalleSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
                                                 </a>
 
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/aceptarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/rechazarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
 

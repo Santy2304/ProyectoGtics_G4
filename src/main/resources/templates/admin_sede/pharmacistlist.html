@@ -136,7 +136,7 @@
 							<h4>Farmacistas</h4>
 						</div>
 						<div class="page-btn" th:if="${listaFarmacista.size()}<3">
-							<a th:href="@{/verAddPharmacist}"  class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
+							<a th:href="@{/adminSede/verAddPharmacist}"  class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Agregar farmacista</a>
 						</div>
 					</div>
 
@@ -274,7 +274,7 @@
 																<p class="card-text" th:text="|Ingreso a la empresa el ${farmacista.creationDate}|" ></p>
 															</div>
 															<div role="tabpanel" th:id="|tab-3${farmacista.getCodigo()}|" class="tab-pane fade text-center">
-																<a class="btn btn-primary" th:href="@{'/editFarmacistaAdminSede?idFarmacista=' + ${farmacista.idPharmacist}}">Editar farmacista</a>
+																<a class="btn btn-primary" th:href="@{'/adminSede/editFarmacista?idFarmacista=' + ${farmacista.idPharmacist}}">Editar farmacista</a>
 															</div>
 														</div>
 													</div>
@@ -402,7 +402,7 @@
 						btnCrear.removeAttribute("href"); //elimina el href por si el JP nos mata
 					}else{
 						btnCrear.classList.remove("disabled");
-						btnCrear.setAttribute("href","@{'verAddPharmacist'}"); //ojito con esto
+						btnCrear.setAttribute("href","@{'/adminSede/verAddPharmacist'}"); //ojito con esto
 
 					}
 				}

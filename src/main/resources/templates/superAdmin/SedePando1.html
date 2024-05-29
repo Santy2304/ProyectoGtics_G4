@@ -149,11 +149,11 @@
 											<td th:text="${solicitud.requestDate}"></td>
 
 											<td >
-												<a class="me-3" th:href="@{'/aceptarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
+												<a class="me-3" th:href="@{'/superAdmin/aceptarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
 												</a>
 
-												<a class="me-3" th:href="@{'/rechazarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
+												<a class="me-3" th:href="@{'/superAdmin/rechazarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 
@@ -264,7 +264,7 @@
 										<tr th:each="repo : ${listaSolicitudesReposicionPando1}">
 											<td th:text="${repo.idReplacementOrder}"></td>
 											<td>
-												<a class="me-3" th:href="@{'/verDetalleRepoSuperAdmin?idRepo=' + ${repo.getIdReplacementOrder()}}">
+												<a class="me-3" th:href="@{'/superAdmin/verDetalle?idRepo=' + ${repo.getIdReplacementOrder()}}">
 												<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
 												</a>
 											</td>

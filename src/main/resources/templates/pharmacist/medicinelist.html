@@ -144,7 +144,7 @@
 								<!--<th>Cantidad</th>-->
 								<th>Precio (S/.)</th>
 								<th>Cantidad</th>
-								<th>Action</th>
+								<th>Acción</th>
 							</tr>
 							</thead>
 							<script>
@@ -168,7 +168,7 @@
 								<td th:text="${medicamento.precio}"></td>
 								<td th:text="${medicamento.cantidad}"></td>
 								<td>
-									<a class="me-3" th:href="@{'/detallesMedicamentos?idMedicine=' + ${medicamento.getIdMedicine()}}">
+									<a class="me-3" th:href="@{'/pharmacist/detallesMedicamentos?idMedicine=' + ${medicamento.getIdMedicine()}}">
 										<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 									</a>
 									<!--<a class="me-3" th:href="@{'/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">

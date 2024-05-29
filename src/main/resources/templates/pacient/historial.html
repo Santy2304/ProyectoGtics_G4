@@ -245,7 +245,7 @@
 									<td th:text="${compras.getEstado()}"></td>
 									<td th:text="${compras.getTotal_price()}"></td>
 									<td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
-       						 <a th:href="@{'/verDatosPagoPaciente?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
+       						 <a th:href="@{'/patient/verDatosPago?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
     							</span>
 										<span th:unless="${compras.getEstadoPago() eq 'por pagar'}" th:text="${compras.getEstadoPago()}"></span></td>
 								</tr>

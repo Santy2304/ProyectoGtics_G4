@@ -57,7 +57,7 @@
 							<h6>Administre los productos</h6>
 						</div>
 						<div class="page-btn">
-							<a href="/verAñadirMedicamentoSuperAdmin" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
+							<a href="/superAdmin/verAñadirMedicamento" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
 						</div>
 					</div>
 					
@@ -158,7 +158,7 @@
 											<th>Categoría</th>
 											<th>Cantidad</th>
 											<th>Precio (S/.)</th>
-											<th>Action</th>
+											<th>Acción</th>
 										</tr>
 									</thead>
 									<script>
@@ -181,10 +181,10 @@
 											<td th:text="${medicamento.getCantidad()}"></td>
 											<td th:text="${medicamento.getPrecio()}"></td>
 											<td>
-												<a class="me-3" th:href="@{'/verDetallesProductoSuperAdmin?idMedicine=' + ${medicamento.getIdMedicine()}}">
+												<a class="me-3" th:href="@{'/superAdmin/verDetallesProducto?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
+												<a class="me-3" th:href="@{'/superAdmin/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<!--

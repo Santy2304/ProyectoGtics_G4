@@ -234,7 +234,7 @@
                                         idPedidoReposicion : [[${repo.idReplacementOrder}]]
                                     }
                                     $.ajax({
-                                            url: "/verDetalleRepoMedicamentos",
+                                            url: "/adminSede/verDetalleRepoMedicamentos",
                                             type: "POST",
                                             data: data,
                                             success:  function (response) {
@@ -324,11 +324,11 @@
                                                             datosFetched.push([[${repo.idReplacementOrder}]]);
                                                             console.log(""+datosFetched);
                                                             $.ajax({
-                                                                url:"/editarPedidoReposicionAdminSede",
+                                                                url:"/adminSede/editarPedidoReposicion",
                                                                 data: JSON.stringify({ datos: datosFetched }),
                                                                 type: "POST",
                                                                 contentType: "application/json",
-                                                                success:  window.location.href = "/verListaReposicion"
+                                                                success:  window.location.href = "/adminSede/verListaReposicion"
                                                             })
                                                         }
                                                     } catch (error) {
@@ -356,7 +356,7 @@
                                             cancelButtonText: "Regresar",
                                         }).then((result) => {
                                             if (result.isConfirmed) {
-                                                window.location.href = '/cancelarPedidoReposicion?id='+ [[${repo.idReplacementOrder}]] ; // Aquí coloca la URL a la que quieres redirigir
+                                                window.location.href = '/adminSede/cancelarPedidoReposicion?id='+ [[${repo.idReplacementOrder}]] ; // Aquí coloca la URL a la que quieres redirigir
                                             }
                                         });
                                     });
@@ -369,7 +369,7 @@
                                         }
                                         console.log("Hola");
                                         $.ajax({
-                                            url: "/verDetalleRepoMedicamentos",
+                                            url: "/adminSede/verDetalleRepoMedicamentos",
                                             type: "POST",
                                             data: data,
                                             success: function(response) {

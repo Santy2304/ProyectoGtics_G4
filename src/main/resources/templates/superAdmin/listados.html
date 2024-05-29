@@ -59,7 +59,7 @@
 							<h4>Administradores de Sede</h4>
 						</div>
 						<div class="page-btn">
-							<a th:href="@{'verAgregarAdminSedeSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Administrador</a>
+							<a th:href="@{'/superAdmin/verAgregarAdminSede'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Administrador</a>
 						</div>
 					</div>
 					<!-- /product list -->
@@ -157,10 +157,10 @@
 												<a class="me-3" href="#">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/editarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
+												<a class="me-3" th:href="@{'/superAdmin/editarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" th:href="@{'/eliminarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
+												<a class="confirm-text" th:href="@{'/superAdmin/eliminarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
@@ -277,10 +277,10 @@
 												<a class="me-3" href="#">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/editarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
+												<a class="me-3" th:href="@{'/superAdmin/editarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" th:href="@{'/eliminarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
+												<a class="confirm-text" th:href="@{'/superAdmin/eliminarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
@@ -425,7 +425,7 @@
 							<h4>Doctores</h4>
 						</div>
 						<div class="page-btn">
-							<a th:href="@{'verAgregarDoctorSuperAdmin'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
+							<a th:href="@{'/superAdmin/verAgregarDoctor'}" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Registrar Nuevo Doctor</a>
 						</div>
 					</div>
 
@@ -518,10 +518,10 @@
 											<td th:text="${doctor.state}"></td>
 
 											<td>
-											<a class="me-3" th:href="@{'/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
+											<a class="me-3" th:href="@{'/superAdmin/editarDoctor?idDoctor=' + ${doctor.idDoctor}}" >
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
-												<a class="me-3" th:href="@{'/EliminarDoctor?idDoctor=' + ${doctor.idDoctor}}">
+												<a class="me-3" th:href="@{'/superAdmin/EliminarDoctor?idDoctor=' + ${doctor.idDoctor}}">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>

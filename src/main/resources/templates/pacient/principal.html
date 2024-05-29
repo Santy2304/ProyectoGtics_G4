@@ -116,7 +116,7 @@
             <strong>$20</strong>
           </li>
         </ul>
-        <button href="/verGenerarOrdenCompraPaciente" class="w-100 btn btn-primary btn-lg" type="button">Continua a la sección de pago</button>
+        <button href="/patient/verGenerarOrdenCompra" class="w-100 btn btn-primary btn-lg" type="button">Continua a la sección de pago</button>
       </div>
     </div>
   </div>
@@ -374,7 +374,7 @@
                       document.getElementById([[${medicine.idMedicine}]]).onclick = function (){
                         data = {idMedicine: [[${medicine.idMedicine}]] }
                         $.ajax({
-                          url: "/verSingleProductPaciente",
+                          url: "/patient/verSingleProduct",
                           type: "POST",
                           data: data ,
                           success : function (response){
@@ -490,7 +490,7 @@
                 cart.push({data})
                 $.ajax({
                   async: true, // Configura la solicitud como asincrónica
-                  url: "/addCart",
+                  url: "/patient/addCart",
                   type: "POST",
                   data: data,
                 })

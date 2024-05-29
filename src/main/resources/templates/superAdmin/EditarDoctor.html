@@ -52,7 +52,7 @@
 			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')"> </div>
 
 			<!-- /Sidebar -->
-			<form method="post" th:action="@{/guardarCambiosDoctor}" th:object="${doctor}">
+			<form method="post" th:action="@{/superAdmin/guardarCambiosDoctor}" th:object="${doctor}">
 				<input name="idDoctor"  th:field="*{idDoctor}" type="hidden">
 				<input type="hidden" th:field="*{dni}">
 
@@ -153,7 +153,7 @@
 								</div>
 								<div class="col-lg-12">
 									<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-									<a  th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
+									<a  th:href="@{'/superAdmin/verListados'}" class="btn btn-cancel">Cancelar</a>
 								</div>
 							</div>
 						</div>

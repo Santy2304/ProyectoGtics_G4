@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.apache.catalina.connector.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -58,9 +59,9 @@ public class PatientController {
     }
 
     @GetMapping("/sessionPatient")
-    public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
+    public String iniciarSesion( Model model, @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
-        return "redirect:patient/ElegirSede";
+        return "redirect:ElegirSede";
     }
 
     @GetMapping("/ElegirSede")

@@ -58,16 +58,16 @@ public class SecurityConfig  {
                     }
                     switch(rol){
                         case ("superadmin") :
-                            response.sendRedirect("/verListadosSuperAdmin");
+                            response.sendRedirect("/superAdmin/verListadosSuperAdmin");
                             break;
                         case ("admin"):
-                            response.sendRedirect("/sessionAdmin?idUser="+2);
+                            response.sendRedirect("/adminSede/sessionAdmin?idUser="+2);
                             break;
                         case ("farmacista"):
-                            response.sendRedirect("/sessionPharmacist?idUser="+2);
+                            response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+2);
                             break;
                         case ("paciente"):
-                            response.sendRedirect("/sessionPatient?idUser="+2);
+                            response.sendRedirect("/patient/sessionPatient?idUser="+2);
                             break;
                     }
 

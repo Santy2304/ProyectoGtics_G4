@@ -86,16 +86,16 @@ public class LogInController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("noIsUser");
         }else {
             if(!(patient == null)){
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/ElegirSede?idUser=" + patient.getIdPatient());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/patient/ElegirSede?idUser=" + patient.getIdPatient());
             }
             if( !(admin == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/dashboardAdminSede?idUser=" + admin.getIdAdministrador());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/adminSede/dashboardAdminSede?idUser=" + admin.getIdAdministrador());
             }
             if( !(superAdmin == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/listaMedicamentosSuperAdmin?idUser=" + superAdmin.getIdSuperAdmin());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/superAdmin/listaMedicamentosSuperAdmin?idUser=" + superAdmin.getIdSuperAdmin());
             }
             if( !(pharmacist == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/verMedicinelistFarmacista?idUser=" + pharmacist.getIdFarmacista());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/pharmacist/verMedicinelistFarmacista?idUser=" + pharmacist.getIdFarmacista());
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("isUser");
         }
@@ -115,7 +115,7 @@ public class LogInController {
         response.put("response" ,"noIsUser");
         if(!(patient == null)){
             if( ! patient.getState().equals("baneado")) {
-                response.put("response", "/sessionPatient?idUser=" + patient.getIdPatient());
+                response.put("response", "/patient/sessionPatient?idUser=" + patient.getIdPatient());
                 model.addAttribute("idUser", patient.getIdPatient());
                 return response;
             }else{
@@ -124,7 +124,7 @@ public class LogInController {
         }
         if( !(admin == null) ) {
             if( ! admin.getState().equals("baneado")) {
-                response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
+                response.put("response" ,"/adminSede/sessionAdmin?idUser="+admin.getIdAdministrador());
                 model.addAttribute("idUser" , admin.getIdAdministrador());
                 return response;
             }else{
@@ -132,13 +132,13 @@ public class LogInController {
             }
         }
         if( !(superAdmin == null) ) {
-            response.put("response" ,"/verListadosSuperAdmin?idUser="+ superAdmin.getIdSuperAdmin());
+            response.put("response" ,"/superAdmin/verListadosSuperAdmin?idUser="+ superAdmin.getIdSuperAdmin());
             model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
             return response;
         }
         if( !(pharmacist == null) ) {
             if( ! pharmacist.getState().equals("baneado")) {
-                response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
+                response.put("response" ,"/pharmacist/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
                 model.addAttribute("idUser" , pharmacist.getIdFarmacista());
                 return response;
             }else{

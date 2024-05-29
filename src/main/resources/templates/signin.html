@@ -26,7 +26,7 @@
 <body class="account-page">
 
 <!-- Main Wrapper -->
-<form class="main-wrapper" id="miFormulario">
+<form method="post" class="main-wrapper" id="miFormulario"  th:action="@{/processLogin}" >
     <div class="account-content">
         <div class="login-wrapper">
             <div class="login-img">
@@ -44,14 +44,14 @@
                     <div class="form-login">
                         <label>Correo</label>
                         <div class="form-addons">
-                            <input id="correo" type="email" name="email" placeholder="Ingresa tu correo" required  >
+                            <input id="email" type="email" name="email" placeholder="Ingresa tu correo" required  >
                             <img src="/assets_superAdmin/img/icons/mail.svg" alt="img">
                         </div>
                     </div>
                     <div class="form-login">
                         <label>Contraseña</label>
                         <div class="pass-group">
-                            <input id="contrasena" type="password" name="password" class="pass-input" placeholder="Ingresa tu contraseña" required>
+                            <input id="password" type="password" name="password" class="pass-input" placeholder="Ingresa tu contraseña" required>
                             <span class="fas toggle-password fa-eye-slash"></span>
                         </div>
                     </div>
@@ -61,14 +61,13 @@
                         </div>
                     </div>
                     <div class="form-login">
-                        <button class="btn btn-login" type="button" id="inicioSesion" >Inicia sesión</button>
+                        <button class="btn btn-login" type="submit" id="inicioSesion" >Inicia sesión</button>
                     </div>
                     <div class="signinform text-center">
                         <h4>¿No tienes una cuenta? <a href="/crearCuenta" class="hover-a">Crea una</a></h4>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </form>
@@ -76,6 +75,20 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
+
+<script type="text/javascript" th:if="${param.error}">
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: "error",
+            iconColor: "orange",
+            title: "¡Correo o contraseña incorrectos!",
+            confirmButtonColor: "#dd986a"
+        })
+    });
+</script>
+
+<!--
 <script type="text/javascript" >
     $("#inicioSesion").click( function(){
             console.log("Holaaa");
@@ -86,7 +99,7 @@
             if (formulario.checkValidity()){
                 if (emailRegex.test(email) && password !== "") {
                     $.ajax({
-                        url: "/validarUsuario",
+                        url: "/auxiliar",
                         type: "POST",
                         data: $("#miFormulario").serialize(),
                         success: function(data) {
@@ -111,15 +124,16 @@
                                     window.location.href = data.response;
                             }
                             // Actualizar la interfaz de usuario con los datos recibidos
-
                         },
+                        error : function (){
 
+                        }
                     });
                 }
             }
         }
     )
-
+-->
 </script>
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 

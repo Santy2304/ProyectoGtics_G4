@@ -30,8 +30,6 @@ public class LogInController {
     final SuperAdminRepository superAdminRepository;
     final AdministratorRepository administratorRepository;
     final PharmacistRepository pharmacistRepository;
-
-
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository , SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository, AdminSedeController adminSedeController) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
@@ -100,30 +98,12 @@ public class LogInController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/verMedicinelistFarmacista?idUser=" + pharmacist.getIdFarmacista());
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("isUser");
-        }/*else{
-            if(!(patient == null)){
-                model.addAttribute("usuario" , patient);
-                return "redirect:/ElegirSede";
-            }
-            if( !(admin == null) ) {
-                model.addAttribute("idUser" , admin.getIdAdministrador());
-                return "redirect:/listaDoctoresAdminSede";
-            }
-            if( !(superAdmin == null) ) {
-                model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
-                return "redirect:/listaMedicamentosSuperAdmin";
-            }
-            if( !(pharmacist == null) ) {
-                model.addAttribute("idUser" , pharmacist.getIdFarmacista());
-                return "redirect:/verMedicinelistFarmacista";
-            }
-        }*/
+        }
     }
 
     @RequestMapping ("/validarUsuario")
     @ResponseBody
     public Map<String,String> validarUsuario(MyUser user ,Model  model){
-        System.out.println("HOLAAA");
         System.out.println(user);
         String correo = user.getEmail();
         String password = user.getPassword();
@@ -227,6 +207,7 @@ public class LogInController {
 
         return response;
     }
+    //Vamos a crear un servicio Rest para consumir autenticacion
 
 
 }

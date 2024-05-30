@@ -4,8 +4,10 @@ import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +28,8 @@ public class  SuperAdminController {
     final PatientRepository patientRepository;
     final DoctorRepository doctorRepository;
 
+    final UserRepository userRepository;
+
     final LoteRepository loteRepository;
     final AdministratorRepository administratorRepository;
     final SiteRepository siteRepository;
@@ -35,7 +39,7 @@ public class  SuperAdminController {
     private final ReplacementOrderRepository replacementOrderRepository;
 
     public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
-                                ReplacementOrderRepository replacementOrderRepository, SuperAdminRepository superAdminRepository) {
+                                ReplacementOrderRepository replacementOrderRepository, SuperAdminRepository superAdminRepository, UserRepository userRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -45,6 +49,7 @@ public class  SuperAdminController {
         this.pharmacistRepository = pharmacistRepository;
         this.replacementOrderRepository = replacementOrderRepository;
         this.superAdminRepository = superAdminRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -146,7 +151,7 @@ public class  SuperAdminController {
                     loteRepository.save(lote4);
                 }
 
-        return "redirect:superAdmin/listaMedicamentos";
+        return "redirect:listaMedicamentos";
     }
 
     @GetMapping("/editarMedicamento")
@@ -189,7 +194,7 @@ public class  SuperAdminController {
 
             return "superAdmin/editarMedicamento";
         } else {
-            return "redirect:superAdmin/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
     }
     @PostMapping("/guardarCambiosMedicamento")
@@ -320,7 +325,7 @@ public class  SuperAdminController {
 
         }
 
-        return "redirect:superAdmin/listaMedicamentos";
+        return "redirect:listaMedicamentos";
     }
     @GetMapping("/verDetallesProducto")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
@@ -334,7 +339,7 @@ public class  SuperAdminController {
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "superAdmin/detallesProducto";
         } else {
-            return "redirect:superAdmin/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
 
     }
@@ -370,7 +375,7 @@ public class  SuperAdminController {
         } else {
             attributes.addFlashAttribute("msg", "Doctor actualizado correctamente");
             doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(), doctor.getDni(), doctor.getEmail(), doctor.getHeadquarter(), doctor.getState(), doctor.getIdDoctor());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -382,7 +387,7 @@ public class  SuperAdminController {
             model.addAttribute("doctor", doctor);
             return "superAdmin/EditarDoctor";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -428,7 +433,7 @@ public class  SuperAdminController {
                 return "superAdmin/AgregarDoctor";
             } else { //En caso sea único
                 doctorRepository.save(doctor);
-                return "redirect:superAdmin/verListados";
+                return "redirect:verListados";
             }
         }
     }
@@ -436,7 +441,7 @@ public class  SuperAdminController {
     @GetMapping("/EliminarDoctor")
     public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor ) {
         doctorRepository.eliminarDoctorPorId(idDoctor);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
 
@@ -467,7 +472,7 @@ public class  SuperAdminController {
             } else {
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
                 administratorRepository.save(administrator);
-                return "redirect:superAdmin/verListados";
+                return "redirect:verListados";
             }
         }
     }
@@ -481,7 +486,7 @@ public class  SuperAdminController {
             model.addAttribute("adminSede", administrator);
             return "superAdmin/EditarAdministrador";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -494,14 +499,14 @@ public class  SuperAdminController {
         }else {
             attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
     @GetMapping("/eliminarAdminSede")
     public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
         administratorRepository.eliminarAdminPorId(idAdminSede);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     ////////////////////////////////
@@ -518,7 +523,7 @@ public class  SuperAdminController {
             model.addAttribute("farmacista", pharmacist);
             return "superAdmin/EditarFarmacista";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -529,7 +534,7 @@ public class  SuperAdminController {
         } else {
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -537,20 +542,20 @@ public class  SuperAdminController {
     @GetMapping("/eliminarFarmacista")
     public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/rechazarFarmacista")
     public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
 
-        return "redirect:superAdmin/verSedeSuperAdminPando1";
+        return "redirect:verSedeSuperAdminPando1";
     }
 
     //////////////////////////////////
@@ -560,13 +565,13 @@ public class  SuperAdminController {
     @GetMapping("/eliminarPaciente")
     public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.eliminarPacientePorId(idPaciente);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/banearPaciente")
     public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.banearPacientePorId(idPaciente);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
 
@@ -632,16 +637,23 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/editarPerfilSuper")
-    public String editarDatosSuper(@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr){
+    public String editarDatosSuper(@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
         //Actualizar datos cambiados
         System.out.println(superAdmin.getIdSuperAdmin());
+        SuperAdmin sessionSuper = (SuperAdmin) httpSession.getAttribute("usuario");
+
+        int idUser = userRepository.encontrarId(sessionSuper.getEmail());
+
 
         if (bindingResult.hasErrors()) {
             return "superAdmin/perfil";
         } else {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(superAdmin.getPassword());
             attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
             superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword());
-            return "redirect:superAdmin/verPerfil";
+            userRepository.actualizar(encryptedPassword,superAdmin.getEmail(),idUser);
+            return "redirect:verPerfil";
         }
 
     }

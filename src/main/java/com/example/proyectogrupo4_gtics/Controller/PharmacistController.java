@@ -8,7 +8,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +36,10 @@ public class PharmacistController {
     private final PatientRepository patientRepository;
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
 
+    final UserRepository userRepository;
 
-    public PharmacistController(PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository) {
+
+    public PharmacistController(PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,UserRepository userRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -43,6 +47,7 @@ public class PharmacistController {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.patientRepository = patientRepository;
         this.purchaseHasLoteRepository = purchaseHasLoteRepository;
+        this.userRepository = userRepository;
 
     }
 
@@ -185,21 +190,21 @@ public class PharmacistController {
             model.addAttribute("purchaseOrder", purchaseOrder);
             return "pharmacist/detalleSolicitud";
         }else{
-            return "redirect:pharmacist/verMedicinelist";
+            return "redirect:verMedicinelist";
         }
     }
 
     @GetMapping("/aceptarSolicitud")
     public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
-        return "redirect:pharmacist/solicitudesFarmacista";
+        return "redirect:solicitudesFarmacista";
     }
 
 
     @GetMapping("/rechazarSolicitud")
     public String rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
-        return "redirect:pharmacist/solicitudesFarmacista";
+        return "redirect:solicitudesFarmacista";
     }
 
 
@@ -248,7 +253,7 @@ public class PharmacistController {
     }
 
     @PostMapping("/editarPerfilPharmacist")
-    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr){
+    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession httpSession){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -272,9 +277,14 @@ public class PharmacistController {
         }
 
         if(!falloN){
+            Pharmacist sessionPharma = (Pharmacist) httpSession.getAttribute("usuario");
+
+            int idUser = userRepository.encontrarId(sessionPharma.getEmail());
             pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+            userRepository.actualizarEmail(email,idUser);
+
         }
-        return "redirect:pharmacist/verProfileFarmacista";
+        return "redirect:verProfileFarmacista";
     }
 
 
@@ -311,7 +321,7 @@ public class PharmacistController {
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "pharmacist/detallesMedicine";
         } else {
-            return "redirect:pharmacist/verMedicinelist";
+            return "redirect:verMedicinelist";
         }
     }
     @GetMapping("/detallesOrdenVenta")
@@ -330,7 +340,7 @@ public class PharmacistController {
             model.addAttribute("purchaseOrder", purchaseOrder);
             return "pharmacist/product-details";
         }else{
-            return "redirect:pharmacist/verMedicinelist";
+            return "redirect:verMedicinelist";
         }
     }
 
@@ -380,7 +390,7 @@ public class PharmacistController {
     public String eliminarSessionPaciente(Model model ){
         model.addAttribute("idPatient" , "");
         model.addAttribute("idDoctor" , "");
-        return "redirect:pharmacist/posFarmacista";
+        return "redirect:posFarmacista";
     }
 
 

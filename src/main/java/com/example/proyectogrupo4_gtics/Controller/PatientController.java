@@ -345,7 +345,7 @@ public class PatientController {
         } else {
             attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
             patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
-            return "redirect:patient/verPerfilPaciente";
+            return "redirect:verPerfilPaciente";
         }
 
 

@@ -9,6 +9,7 @@ import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,24 @@ public class LogInController {
         this.pharmacistRepository = pharmacistRepository;
     }
     @GetMapping("/inicioSesion")
-    public String InicioSesionController(){
+    public String InicioSesionController(HttpSession http ){
+
+        if(http.getAttribute("usuario") != null){
+            if((http.getAttribute("usuario")) instanceof Administrator ){
+                return "redirect:/adminSede/dashboardAdminSede";
+            }
+            if((http.getAttribute("usuario")) instanceof Pharmacist ){
+                return "redirect:/pharmacist/verMedicinelist";
+            }
+            if((http.getAttribute("usuario")) instanceof Patient ){
+                return "redirect:/patient/verPrincipalPaciente";
+            }
+            if((http.getAttribute("usuario")) instanceof SuperAdmin ){
+                return "redirect:/superAdmin/verListados";
+            }
+        }else{
+            return "signin";
+        }
         return "signin";
     }
     //Validar cuenta superadmin

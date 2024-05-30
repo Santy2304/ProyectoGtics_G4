@@ -24,6 +24,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -88,6 +89,9 @@ public class SecurityConfig  {
                             break;
                     }
                 });
+                http
+                .csrf().disable();
+
         http.authorizeHttpRequests()
                 .requestMatchers("/patient/**" ,"/patient" ).hasAnyAuthority("paciente","superadmin")
                 .requestMatchers("/adminSede/**" , "/adminSede" ).hasAnyAuthority("admin","superadmin")

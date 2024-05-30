@@ -6,4 +6,5 @@ public interface cantidadMedicamentosDTO {
     String getCategoria();
     int getCantidad();
     double getPrecio();
+    String getPhoto();
 }

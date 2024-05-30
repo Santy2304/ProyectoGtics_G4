@@ -10,9 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +72,7 @@ public class  SuperAdminController {
                                    @RequestParam("description") String description,
                                    @RequestParam("priceMedicine") BigDecimal priceMedicine,*/
                                    @ModelAttribute("medicine") @Valid Medicine medicine,
-                                   BindingResult bindingResult, Model model) {
+                                   BindingResult bindingResult, Model model, @RequestParam("medicineFile")MultipartFile imagen) {
         /*Medicine medicine = new Medicine();
         medicine.setName(nameMedicine);
         medicine.setCategory(category);
@@ -77,9 +82,23 @@ public class  SuperAdminController {
             return "superAdmin/anadirMedicamento";
         } else {
             medicine.setTimesSaled(0);
+            if(!imagen.isEmpty()){
+                //ruta relativa para la imagen
+                Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+                //ruta relativa para la imagen
+                String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+
+                //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+                try {
+                    byte[] bytesImgMedicine = imagen.getBytes();
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta,bytesImgMedicine);
+                    medicine.setPhoto(imagen.getOriginalFilename());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             medicineRepository.save(medicine);
-
-
             model.addAttribute("medicine", medicine);
 
             return "superAdmin/anadirLotesNuevoMedicamento";

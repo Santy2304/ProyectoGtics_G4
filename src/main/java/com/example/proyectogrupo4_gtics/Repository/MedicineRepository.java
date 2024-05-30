@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
-    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio, l.stock as cantidad from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
+    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
     List<medicamentosPorSedeDTO> getMedicineBySite(int idSede);
 
 
@@ -24,6 +24,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "    m.name AS nombreMedicamento, \n" +
             "    m.category AS categoria, \n" +
             "    m.price AS precio, \n" +
+            "    m.photo AS photo, \n" +
             "    COALESCE(SUM(l.stock), 0) AS cantidad \n" +
             "FROM \n" +
             "    medicine m \n" +
@@ -42,7 +43,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
 
     /*Rol administrador de sede*/
-    @Query(nativeQuery = true, value=  "select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
+    @Query(nativeQuery = true, value=  "select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, m.photo as photo, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
@@ -54,7 +55,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     )
     List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin);
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad,m.photo as photo \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where (m.name like concat(?1,'%') and m.category like concat(?2 , '%') ) \n" +
@@ -67,7 +68,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "group by m.idMedicine")
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorDosParametros(String name , String category, int idAdmin);
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where (m.name like concat(?1,'%') ) \n" +
@@ -81,7 +82,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorNombre(String name , int idAdmin);
 
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where ( m.category like concat(?1 , '%') ) \n" +
@@ -95,7 +96,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorCategory( String category, int idAdmin);
 
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio , sum(l.stock) as cantidad \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio , sum(l.stock) as cantidad, m.photo as photo \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
@@ -108,7 +109,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosPocoStock(int idAdmin);
     //listaMedicamentosBuscadorConStockLimintado
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, m.photo as photo \n" +
             ", sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
@@ -121,7 +122,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "having (sum(l.stock)<=25)")
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimitadoDosParametros(  int idAdmin , String nombre, String categoria);
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, m.photo as photo \n" +
             ", sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
@@ -134,7 +135,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "having (sum(l.stock)<=25)")
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimitadoNombre(  int idAdmin , String nombre);
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio \n" +
+    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, m.photo as photo \n" +
             ", sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
@@ -148,7 +149,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimitadoCategory(  int idAdmin , String categoria);
 
     /*Rol Farmacista*/
-    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) and l.visible=true group by m.idMedicine\n")
+    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) and l.visible=true group by m.idMedicine\n")
     List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
 
 

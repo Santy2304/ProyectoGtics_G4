@@ -57,7 +57,7 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{/superAdmin/crearMedicamento}" th:object="${medicine}">
+					<form method="post" enctype="multipart/form-data" th:action="@{/superAdmin/crearMedicamento}" th:object="${medicine}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
@@ -171,7 +171,7 @@
 										<div class="form-group">
 											<label>Imagen del Producto</label>
 											<div class="image-upload">
-												<input type="file">
+												<input type="file" name="medicineFile" id="imagen">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Arrastre y suelte un archivo a subir</h4>

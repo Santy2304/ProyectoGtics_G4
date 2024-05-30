@@ -156,7 +156,7 @@
 										<div class="form-group">
 											<label>Imagen del Producto</label>
 											<div class="image-upload">
-												<input type="file">
+												<input type="file" name="medicineFile">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Arrastre y suelte un archivo a subir</h4>
@@ -170,12 +170,11 @@
 												<li>
 													<div class="productviews">
 														<div class="productviewsimg">
-															<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
+															<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.getPhoto()}}" alt="img">
 														</div>
 														<div class="productviewscontent">
 															<div class="productviewsname">
-																<h2>paracetamol.jpg</h2>
-																<h3>581kb</h3>
+																<h2 th:field="*{photo}"></h2>
 															</div>
 															<a href="javascript:void(0);" class="hideset">x</a>
 														</div>

@@ -146,7 +146,7 @@
 											function() {
 												data = {idPurchase: [[${compras.getIdPurchaseOrder()}]] }
 												$.ajax({
-													url: "/verDetalleCompraPatient",
+													url: "/patient/verDetalleCompraPatient",
 													type: "POST",
 													data: data ,
 													success : function (response) {

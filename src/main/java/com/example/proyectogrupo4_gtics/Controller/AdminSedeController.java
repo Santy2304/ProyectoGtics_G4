@@ -700,7 +700,7 @@ public class AdminSedeController {
                                         lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
                                         //lote.setIdLote();
                                         lote.setSite((String) model.getAttribute("sede"));
-                                        lote.setExpireDate(new Date());
+                                        lote.setExpireDate(LocalDate.now());
                                         lote.setExpire(false);
                                         lote.setStock(Integer.parseInt(quantity));
                                         lote.setReplacementOrder(newReplacementOrder);

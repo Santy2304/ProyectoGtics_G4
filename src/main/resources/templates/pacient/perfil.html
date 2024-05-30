@@ -63,7 +63,7 @@
 	<div class="content" style="margin-left:8% ; margin-right:8%">
 		<!-- /product list -->
 		<div class="card">
-			<form method="post" th:action="@{/editarPerfilPaciente}" th:object="${paciente}">
+			<form method="post" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
 				<input type="hidden" name="idPatient" th:field="*{idPatient}">
 				<input type="hidden"  th:field="*{state}">
 				<input type="hidden"  th:field="*{dateCreationAccount}">

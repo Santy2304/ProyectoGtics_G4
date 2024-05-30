@@ -9,7 +9,9 @@ import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.apache.catalina.connector.Response;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,7 @@ import java.util.regex.Pattern;
 
 @Controller
 @SessionAttributes({"idUser","idSede", "carrito"})
+@RequestMapping("/patient")
 public class PatientController {
     @ModelAttribute("carrito")
     public ArrayList<Medicamento> carrito() {
@@ -57,9 +60,9 @@ public class PatientController {
     }
 
     @GetMapping("/sessionPatient")
-    public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
+    public String iniciarSesion( Model model, @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
-        return "redirect:/ElegirSede";
+        return "redirect:ElegirSede";
     }
 
     @GetMapping("/ElegirSede")
@@ -99,14 +102,14 @@ public class PatientController {
     public String verChatPaciente(){
         return "pacient/chat";
     }
-    @GetMapping("/verDatosPagoPaciente")
+    @GetMapping("/verDatosPago")
     public String verDatosPago(@RequestParam("idPurchase") int idPurchase){
         return "pacient/datos_pago";
     }
     //No funciona bien
 
     //////////////////////////ORDENES DE COMPRA///////////////////////
-    @GetMapping(value = {"/verGenerarOrdenCompraPaciente",""})
+    @GetMapping(value = {"/verGenerarOrdenCompra",""})
     public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model,RedirectAttributes redirectAttributes){
 
         if (redirectAttributes != null) {
@@ -188,7 +191,7 @@ public class PatientController {
         }
 
         if (fallo){
-            return "redirect:/verGenerarOrdenCompraPaciente";
+            return "redirect:verGenerarOrdenCompra";
         }
 
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
@@ -220,7 +223,7 @@ public class PatientController {
         List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad, siteRepository.findById(Integer.parseInt(""+ model.getAttribute("idSede"))).get().getName());
 
         if (listaLotesPosibles.isEmpty()){
-            return "redirect:/verPrincipalPaciente";
+            return "redirect:verPrincipalPaciente";
         }
         purchaseHasLote.setLote(listaLotesPosibles.get(0));
         purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
@@ -229,7 +232,7 @@ public class PatientController {
 
         purchaseHasLoteRepository.save(purchaseHasLote);
 
-        return "redirect:/verTicket?idCompra="+purchaseOrder.getId();
+        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
 
 
     }
@@ -245,7 +248,7 @@ public class PatientController {
 
 
 
-    @GetMapping("/verHistorialPaciente")
+    @GetMapping("/verHistorial")
     public String verHistorial(@SessionAttribute("idUser") String idUser , Model model){
         List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(Integer.parseInt(idUser));
         model.addAttribute("listaCompras",comprasPorPaciente);
@@ -255,7 +258,7 @@ public class PatientController {
 
 
 /////////////////////////////////////////////////////////
-    @GetMapping("/verNumeroOrdenPaciente")
+    @GetMapping("/verNumeroOrden")
     public String verNumeroOrdenPaciente(){
         return "pacient/numero_de_orden";
     }
@@ -267,13 +270,14 @@ public class PatientController {
         return "pacient/perfil";
     }
     @GetMapping("/verPrincipalPaciente")
-    public String verPrincipalPaciente(Model model , @SessionAttribute String idSede ){
+    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
+        System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
         return "pacient/principal";
     }
     //No funciona bien
-    @GetMapping("/verProductListPaciente")
+    @GetMapping("/verProductList")
     public String verProductListPaciente(){
         return "pacient/productlist";
     }
@@ -283,7 +287,7 @@ public class PatientController {
         model.addAttribute("listaSede", listaSedes);
         return "pacient/seleccionarSede";
     }
-    @RequestMapping("/verDetalleCompraPatient")
+    @RequestMapping("/verDetalleCompra")
     @ResponseBody
     public ArrayList<String> verDetalleCompra(@SessionAttribute("idUser") String idUser, @RequestParam("idPurchase") int idPurchase , Model model){
         List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
@@ -304,7 +308,7 @@ public class PatientController {
         return response;
     }
     //Falta corregir
-    @RequestMapping("/verSingleProductPaciente")
+    @RequestMapping("/verSingleProduct")
     @ResponseBody
     public ArrayList<String>  verSingleProductPaciente(@RequestParam String idMedicine , Model model){
         Optional<Medicine> medicine  = medicineRepository.findById(Integer.parseInt(idMedicine));
@@ -321,7 +325,7 @@ public class PatientController {
             response.add(json);
             return response;
     }
-    @GetMapping("/verTrackingPaciente")
+    @GetMapping("/verTracking")
     public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model){
 
         List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(Integer.parseInt(idUser));
@@ -341,7 +345,7 @@ public class PatientController {
         } else {
             attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
             patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
-            return "redirect:verPerfilPaciente";
+            return "redirect:patient/verPerfilPaciente";
         }
 
 

@@ -72,7 +72,7 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
 
     Pharmacist getByIdFarmacista(int idPharmacist);
 
-    /*-----*/
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where email= ?1 limit 1 ")
     Pharmacist findByEmail(String email);
 
     @Transactional

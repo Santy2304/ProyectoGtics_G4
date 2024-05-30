@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <!-- /add -->
-                    <form method="post" th:action="@{'saveChangesFarmacista'}"  th:object="${farmacista}">
+                    <form method="post" th:action="@{'/adminSede/saveChangesFarmacista'}"  th:object="${farmacista}">
                         <input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
                         <!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
                         <input type="hidden" th:field="*{dni}">
@@ -185,7 +185,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
-                                        <a th:href="@{'listaFarmacistaAdminSede'}" class="btn btn-cancel">Cancelar</a>
+                                        <a th:href="@{'/adminSede/listaFarmacista'}" class="btn btn-cancel">Cancelar</a>
                                         <button type="submit" class="btn btn-submit me-2">Guardar</button>
                                     </div>
                                 </div>

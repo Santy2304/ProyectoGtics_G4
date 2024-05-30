@@ -54,7 +54,7 @@
 			<!-- /Sidebar -->
 
 
-			<form method="post" th:action="@{/guardarCambiosAdminSede}" th:object="${adminSede}">
+			<form method="post" th:action="@{/superAdmin/guardarCambiosAdminSede}" th:object="${adminSede}">
 				<input name="idAdministrator"  th:field="*{idAdministrador}" type="hidden">
 				<input type="hidden" th:field="*{dni}">
 				<div class="page-wrapper">
@@ -153,7 +153,7 @@
 									</div>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
+										<a th:href="@{'/superAdmin/verListados'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

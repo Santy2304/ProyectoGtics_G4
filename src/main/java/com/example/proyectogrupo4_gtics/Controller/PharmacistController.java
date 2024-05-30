@@ -51,7 +51,7 @@ public class PharmacistController {
         model.addAttribute("idUser",idPharmacist);
         model.addAttribute("idPatient","");
         model.addAttribute("idDoctor","");
-        return "redirect:pharmacist/verMedicinelist";
+        return "redirect:verMedicinelist";
     }
 
     @GetMapping("/cerrarSesion")

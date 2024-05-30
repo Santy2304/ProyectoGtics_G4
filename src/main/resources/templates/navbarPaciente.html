@@ -85,11 +85,15 @@
                         <a  href="/patient/verPerfilPaciente"> <i class="me-2"  data-feather="user"> <img src="pacient/assets_pacient/images/perfil.png" width="35" height="35" > </i> Perfil</a>
                     </li>
                     <li class="nav-item">
-                        <a>
-                        <form th:action="@{/logout}" method="post">
-                            <input type="submit" value="(Cerrar Sesión)" src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+
+
+                        <form th:action="@{/logout}" method="post" class="ml-2">
+                            <button class="btn btn-link" type="submit">
+                                <img type="submit" src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+                            </button>
                         </form>
-                        </a>
+
+
                     </li>
                 </ul>
             </div>

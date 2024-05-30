@@ -32,7 +32,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
     @Query(nativeQuery = true, value = "SELECT * FROM administrator where email= ?1 and password=?2")
     Administrator buscarAdmin(String email , String password);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM administrator where email= ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM administrator where email= ?1 ")
     Administrator findByEmail(String email);
 
     @Transactional

@@ -72,7 +72,7 @@ public class SecurityConfig  {
                     switch(rol){
                         case ("superadmin") :
                             session.setAttribute("usuario",superAdminRepository.findByEmail(authentication.getName()));
-                            response.sendRedirect("/superAdmin/verListadosSuperAdmin");
+                            response.sendRedirect("/superAdmin/verListados");
                             break;
                         case ("admin"):
                             session.setAttribute("usuario",administratorRepository.findByEmail(authentication.getName()));

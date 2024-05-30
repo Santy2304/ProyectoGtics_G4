@@ -5,7 +5,7 @@
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verMedicinelistFarmacista" th:classappend="${activeTab == 'inventario' ? ' active':'' }">Inventario</a></li>
+                        <li><a href="/pharmacist/verMedicinelist" th:classappend="${activeTab == 'inventario' ? ' active':'' }">Inventario</a></li>
                         <!--
                         <li><a href="addproduct.html" >Añadir producto</a></li>
                         -->
@@ -14,9 +14,9 @@
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verProductListFarmacista" th:classappend="${activeTab == 'ordenesVenta' ? ' active':'' }">Ordenes de venta</a></li>
-                        <li><a href="/posFarmacista" th:classappend="${activeTab == 'pos' ? ' active':'' }">Generar Venta</a></li>
-                        <li><a href="/solicitudesFarmacista" th:classappend="${activeTab == 'solicitudesVenta' ? ' active':'' }">Solicitudes de Compra</a></li>
+                        <li><a href="/pharmacist/verProductList" th:classappend="${activeTab == 'ordenesVenta' ? ' active':'' }">Ordenes de venta</a></li>
+                        <li><a href="/pharmacist/posFarmacista" th:classappend="${activeTab == 'pos' ? ' active':'' }">Generar Venta</a></li>
+                        <li><a href="/pharmacist/solicitudesFarmacista" th:classappend="${activeTab == 'solicitudesVenta' ? ' active':'' }">Solicitudes de Compra</a></li>
                     </ul>
                 </li>
                 <li class="submenu">
@@ -28,8 +28,8 @@
                 <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verProfileFarmacista" th:classappend="${activeTab == 'perfil' ? ' active':'' }">Mi perfil</a></li>
-                        <li><a href="/verNotificationsFarmacista" th:classappend="${activeTab == 'notificaciones' ? ' active':'' }">Notificaciones</a></li>
+                        <li><a href="/pharmacist/verProfileFarmacista" th:classappend="${activeTab == 'perfil' ? ' active':'' }">Mi perfil</a></li>
+                        <li><a href="/pharmacist/verNotificationsFarmacista" th:classappend="${activeTab == 'notificaciones' ? ' active':'' }">Notificaciones</a></li>
                     </ul>
                 </li>
             </ul>

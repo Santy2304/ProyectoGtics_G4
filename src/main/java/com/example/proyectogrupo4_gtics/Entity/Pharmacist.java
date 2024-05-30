@@ -4,13 +4,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
 
 @Entity
 @Table(name="pharmacist")
-public class Pharmacist {
+public class Pharmacist implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpharmacist")

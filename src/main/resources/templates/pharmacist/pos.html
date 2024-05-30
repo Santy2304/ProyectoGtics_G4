@@ -382,7 +382,7 @@
 												cancelButtonText:'Cancelar' }).then((result) => {
 												if (result.isConfirmed) {
 													// Redirigir a la vista del controlador
-													window.location.href = "/eliminarPacienteDoctorDesdeFarmacista";
+													window.location.href = "/pharmacist/eliminarPacienteDoctorDesdeFarmacista";
 												}
 											});;
 										}
@@ -536,7 +536,7 @@
 									if(valoresValidos){
 										//Ahora enviamos por ajax al servidor
 										$.ajax({
-											url: "/GenerarVentaFarmacista",
+											url: "/pharmacist/GenerarVenta",
 											data: JSON.stringify( {
 												ids: inputMedicine,
 												cantidades: inputCantidad
@@ -555,7 +555,7 @@
 															title: "Venta concluida",
 															text: "Se concreto correctamente la venta",
 														}).then(function() {
-															window.location.href= "/verProductListFarmacista";
+															window.location.href= "/pharmacist/verProductList";
 														});
 														break;
 
@@ -816,7 +816,7 @@
 							}
 							console.log(data);
 							$.ajax({
-								url: "/confirmarDatosPaciente",
+								url: "/pharmacist/confirmarDatosPaciente",
 								type: "POST",
 								data: data,
 								success: function(response){
@@ -828,7 +828,7 @@
 									console.log("Me respondieon");
 									switch(aux.error){
 										case "":
-											window.location.href = "/posFarmacista";
+											window.location.href = "/pharmacist/posFarmacista";
 											//Recarga
 											break;
 										case "noEncontro":

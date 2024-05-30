@@ -24,6 +24,7 @@ import java.util.stream.IntStream;
 
 @SessionAttributes({"idUser","sede" , "idPatient" , "idDoctor"})
 @Controller
+@RequestMapping("/pharmacist")
 public class PharmacistController {
     final MedicineRepository medicineRepository;
     final LoteRepository loteRepository;
@@ -50,10 +51,10 @@ public class PharmacistController {
         model.addAttribute("idUser",idPharmacist);
         model.addAttribute("idPatient","");
         model.addAttribute("idDoctor","");
-        return "redirect:/verMedicinelistFarmacista";
+        return "redirect:verMedicinelist";
     }
 
-    @GetMapping("/cerrarSesionPharmacist")
+    @GetMapping("/cerrarSesion")
     public String eliminarStributo(SessionStatus sessionStatus){
         sessionStatus.setComplete();
         return "redirect:/inicioSesion";
@@ -71,7 +72,7 @@ public class PharmacistController {
         return "pharmacist/chat";
     }
 
-    @GetMapping("/verEditarProductoFarmacista")
+    @GetMapping("/verEditarProducto")
     public String verEditProduct(Model model){
 
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
@@ -184,21 +185,21 @@ public class PharmacistController {
             model.addAttribute("purchaseOrder", purchaseOrder);
             return "pharmacist/detalleSolicitud";
         }else{
-            return "redirect:/verMedicinelistFarmacista";
+            return "redirect:pharmacist/verMedicinelist";
         }
     }
 
     @GetMapping("/aceptarSolicitud")
     public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
-        return "redirect:/solicitudesFarmacista";
+        return "redirect:pharmacist/solicitudesFarmacista";
     }
 
 
     @GetMapping("/rechazarSolicitud")
     public String rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
-        return "redirect:/solicitudesFarmacista";
+        return "redirect:pharmacist/solicitudesFarmacista";
     }
 
 
@@ -215,7 +216,7 @@ public class PharmacistController {
 
 
 
-    @GetMapping("/verProductListFarmacista")
+    @GetMapping("/verProductList")
     public String verProductList(Model model){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
@@ -273,14 +274,14 @@ public class PharmacistController {
         if(!falloN){
             pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
         }
-        return "redirect:verProfileFarmacista";
+        return "redirect:pharmacist/verProfileFarmacista";
     }
 
 
 
 
 
-    @GetMapping("/verMedicinelistFarmacista")
+    @GetMapping("/verMedicinelist")
     public String verMedicineList(Model model){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
@@ -310,7 +311,7 @@ public class PharmacistController {
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "pharmacist/detallesMedicine";
         } else {
-            return "redirect:/verMedicinelistFarmacista";
+            return "redirect:pharmacist/verMedicinelist";
         }
     }
     @GetMapping("/detallesOrdenVenta")
@@ -329,7 +330,7 @@ public class PharmacistController {
             model.addAttribute("purchaseOrder", purchaseOrder);
             return "pharmacist/product-details";
         }else{
-            return "redirect:/verMedicinelistFarmacista";
+            return "redirect:pharmacist/verMedicinelist";
         }
     }
 
@@ -379,12 +380,12 @@ public class PharmacistController {
     public String eliminarSessionPaciente(Model model ){
         model.addAttribute("idPatient" , "");
         model.addAttribute("idDoctor" , "");
-        return "redirect:/posFarmacista";
+        return "redirect:pharmacist/posFarmacista";
     }
 
 
 
-    @RequestMapping("/GenerarVentaFarmacista")
+    @RequestMapping("/GenerarVenta")
     @ResponseBody
     public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model) throws JsonProcessingException {
         //Queries para la venta

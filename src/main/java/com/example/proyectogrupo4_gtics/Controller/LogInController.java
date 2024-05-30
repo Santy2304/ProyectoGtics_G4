@@ -9,6 +9,7 @@ import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,6 @@ public class LogInController {
     final SuperAdminRepository superAdminRepository;
     final AdministratorRepository administratorRepository;
     final PharmacistRepository pharmacistRepository;
-
-
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository , SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository, AdminSedeController adminSedeController) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
@@ -40,7 +39,24 @@ public class LogInController {
         this.pharmacistRepository = pharmacistRepository;
     }
     @GetMapping("/inicioSesion")
-    public String InicioSesionController(){
+    public String InicioSesionController(HttpSession http ){
+
+        if(http.getAttribute("usuario") != null){
+            if((http.getAttribute("usuario")) instanceof Administrator ){
+                return "redirect:/adminSede/dashboardAdminSede";
+            }
+            if((http.getAttribute("usuario")) instanceof Pharmacist ){
+                return "redirect:/pharmacist/verMedicinelist";
+            }
+            if((http.getAttribute("usuario")) instanceof Patient ){
+                return "redirect:/patient/verPrincipalPaciente";
+            }
+            if((http.getAttribute("usuario")) instanceof SuperAdmin ){
+                return "redirect:/superAdmin/verListados";
+            }
+        }else{
+            return "signin";
+        }
         return "signin";
     }
     //Validar cuenta superadmin
@@ -88,42 +104,24 @@ public class LogInController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("noIsUser");
         }else {
             if(!(patient == null)){
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/ElegirSede?idUser=" + patient.getIdPatient());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/patient/ElegirSede?idUser=" + patient.getIdPatient());
             }
             if( !(admin == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/dashboardAdminSede?idUser=" + admin.getIdAdministrador());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/adminSede/dashboardAdminSede?idUser=" + admin.getIdAdministrador());
             }
             if( !(superAdmin == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/listaMedicamentosSuperAdmin?idUser=" + superAdmin.getIdSuperAdmin());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/superAdmin/listaMedicamentosSuperAdmin?idUser=" + superAdmin.getIdSuperAdmin());
             }
             if( !(pharmacist == null) ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/verMedicinelistFarmacista?idUser=" + pharmacist.getIdFarmacista());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("/pharmacist/verMedicinelistFarmacista?idUser=" + pharmacist.getIdFarmacista());
             }
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("isUser");
-        }/*else{
-            if(!(patient == null)){
-                model.addAttribute("usuario" , patient);
-                return "redirect:/ElegirSede";
-            }
-            if( !(admin == null) ) {
-                model.addAttribute("idUser" , admin.getIdAdministrador());
-                return "redirect:/listaDoctoresAdminSede";
-            }
-            if( !(superAdmin == null) ) {
-                model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
-                return "redirect:/listaMedicamentosSuperAdmin";
-            }
-            if( !(pharmacist == null) ) {
-                model.addAttribute("idUser" , pharmacist.getIdFarmacista());
-                return "redirect:/verMedicinelistFarmacista";
-            }
-        }*/
+        }
     }
 
     @RequestMapping ("/validarUsuario")
     @ResponseBody
     public Map<String,String> validarUsuario(MyUser user ,Model  model){
-        System.out.println("HOLAAA");
         System.out.println(user);
         String correo = user.getEmail();
         String password = user.getPassword();
@@ -135,7 +133,7 @@ public class LogInController {
         response.put("response" ,"noIsUser");
         if(!(patient == null)){
             if( ! patient.getState().equals("baneado")) {
-                response.put("response", "/sessionPatient?idUser=" + patient.getIdPatient());
+                response.put("response", "/patient/sessionPatient?idUser=" + patient.getIdPatient());
                 model.addAttribute("idUser", patient.getIdPatient());
                 return response;
             }else{
@@ -144,7 +142,7 @@ public class LogInController {
         }
         if( !(admin == null) ) {
             if( ! admin.getState().equals("baneado")) {
-                response.put("response" ,"/sessionAdmin?idUser="+admin.getIdAdministrador());
+                response.put("response" ,"/adminSede/sessionAdmin?idUser="+admin.getIdAdministrador());
                 model.addAttribute("idUser" , admin.getIdAdministrador());
                 return response;
             }else{
@@ -152,13 +150,13 @@ public class LogInController {
             }
         }
         if( !(superAdmin == null) ) {
-            response.put("response" ,"/verListadosSuperAdmin?idUser="+ superAdmin.getIdSuperAdmin());
+            response.put("response" ,"/superAdmin/verListadosSuperAdmin?idUser="+ superAdmin.getIdSuperAdmin());
             model.addAttribute("idUser" , superAdmin.getIdSuperAdmin());
             return response;
         }
         if( !(pharmacist == null) ) {
             if( ! pharmacist.getState().equals("baneado")) {
-                response.put("response" ,"/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
+                response.put("response" ,"/pharmacist/sessionPharmacist?idUser="+pharmacist.getIdFarmacista());
                 model.addAttribute("idUser" , pharmacist.getIdFarmacista());
                 return response;
             }else{
@@ -227,6 +225,7 @@ public class LogInController {
 
         return response;
     }
+    //Vamos a crear un servicio Rest para consumir autenticacion
 
 
 }

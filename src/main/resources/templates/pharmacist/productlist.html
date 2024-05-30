@@ -136,7 +136,7 @@
 											<td th:text="${presencial.getFecha()}"></td>
 											<td>
 
-												<a class="me-3" th:href="@{'/detallesOrdenVenta?idPurchaseOrder=' + ${presencial.getIdPurchaseOrder()}}">
+												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${presencial.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 
@@ -236,10 +236,10 @@
 											<td th:text="${web.getFecha()}"></td>
 											<td>
 
-												<a class="me-3" th:href="@{'/detallesOrdenVenta?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
+												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/verEditarProductoFarmacista?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
+												<a class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">
@@ -337,10 +337,10 @@
 											<td th:text="${bot.getFecha()}"></td>
 											<td>
 
-												<a class="me-3" th:href="@{'/detallesOrdenVenta?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
+												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/verEditarProductoFarmacista?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
+												<a class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">

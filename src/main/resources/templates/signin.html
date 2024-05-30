@@ -26,7 +26,7 @@
 <body class="account-page">
 
 <!-- Main Wrapper -->
-<form class="main-wrapper" id="miFormulario">
+<form method="post" class="main-wrapper" id="miFormulario"  th:action="@{/processLogin}" >
     <div class="account-content">
         <div class="login-wrapper">
             <div class="login-img">
@@ -44,14 +44,14 @@
                     <div class="form-login">
                         <label>Correo</label>
                         <div class="form-addons">
-                            <input id="correo" type="email" name="email" placeholder="Ingresa tu correo" required  >
+                            <input id="email" type="email" name="email" placeholder="Ingresa tu correo" required  >
                             <img src="/assets_superAdmin/img/icons/mail.svg" alt="img">
                         </div>
                     </div>
                     <div class="form-login">
                         <label>Contraseña</label>
                         <div class="pass-group">
-                            <input id="contrasena" type="password" name="password" class="pass-input" placeholder="Ingresa tu contraseña" required>
+                            <input id="password" type="password" name="password" class="pass-input" placeholder="Ingresa tu contraseña" required>
                             <span class="fas toggle-password fa-eye-slash"></span>
                         </div>
                     </div>
@@ -61,35 +61,13 @@
                         </div>
                     </div>
                     <div class="form-login">
-                        <button class="btn btn-login" type="button" id="inicioSesion" >Inicia sesión</button>
+                        <button class="btn btn-login" type="submit" id="inicioSesion" >Inicia sesión</button>
                     </div>
                     <div class="signinform text-center">
                         <h4>¿No tienes una cuenta? <a href="/crearCuenta" class="hover-a">Crea una</a></h4>
                     </div>
-                    <!--
-                    <div class="form-setlogin">
-                        <h4>Or sign up with</h4>
-                    </div>
-                    <div class="form-sociallink">
-                        <ul>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <img src="assets/img/icons/google.png" class="me-2" alt="google">
-                                    Sign Up using Google
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <img src="assets/img/icons/facebook.png" class="me-2" alt="google">
-                                    Sign Up using Facebook
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    -->
                 </div>
             </div>
-
         </div>
     </div>
 </form>
@@ -97,8 +75,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script type="text/javascript" >
 
+
+<script type="text/javascript" th:if="${param.error}">
+    document.addEventListener('DOMContentLoaded', function() {
+        Swal.fire({
+            icon: "error",
+            iconColor: "orange",
+            title: "¡Correo o contraseña incorrectos!",
+            confirmButtonColor: "#dd986a"
+        })
+    });
+</script>
+
+<!--
+<script type="text/javascript" >
     $("#inicioSesion").click( function(){
             console.log("Holaaa");
             var formulario =  document.getElementById("miFormulario");
@@ -108,7 +99,7 @@
             if (formulario.checkValidity()){
                 if (emailRegex.test(email) && password !== "") {
                     $.ajax({
-                        url: "/validarUsuario",
+                        url: "/auxiliar",
                         type: "POST",
                         data: $("#miFormulario").serialize(),
                         success: function(data) {
@@ -133,160 +124,17 @@
                                     window.location.href = data.response;
                             }
                             // Actualizar la interfaz de usuario con los datos recibidos
-
                         },
+                        error : function (){
 
+                        }
                     });
                 }
             }
         }
     )
-    function inicioSesion(event){
-        var formulario = document.getElementById("miFormulario");
-        var email = document.getElementById("correo").value;
-        var password = document.getElementById("contrasena").value;
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (formulario.checkValidity()){
-            event.preventDefault();
-            if (emailRegex.test(email) && password !== "") {
-                const xhttp = new XMLHttpRequest();
-                const datos = {
-                    correo: email,
-                    password: password
-                }
-                const dataJSON = JSON.stringify(datos);
-                console.log(dataJSON);
-                xhttp.open("POST", "http://localhost:8080/iniciarSesion", true);
-                xhttp.setRequestHeader("Content-Type", "application/json");
-// Configurar el evento onreadystatechange para manejar la respuesta del servidor
-                xhttp.onreadystatechange  = function () {
-                    const quePaso = otherFunction(this);
-                    switch (quePaso){
-                        case "baneado":
-                            Swal.fire({
-                                icon: "error",
-                                iconColor: "orange",
-                                title: "Su cuenta ha sido baneada",
-                                confirmButtonColor: "#dd986a"
-                            })
-                            break;
-                        case "noIsUser":
-                            Swal.fire({
-                                icon: "error",
-                                iconColor: "orange",
-                                title: "¡Correo o contraseña incorrectos!",
-                                confirmButtonColor: "#dd986a"
-                            })
-                            break;
-                        default:
-                            window.location.href = quePaso;
-                    }
-                }
-                xhttp.send(dataJSON);
-            }
-        }
-    }
-    function otherFunction(http){
-        return http.responseText;
-    }
-
-
-    function redirigir(event) {
-        var formulario = document.getElementById("miFormulario");
-        var correo = document.getElementById("correo").value;
-        var contrasena = document.getElementById("contrasena").value;
-        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if(formulario.checkValidity()) {
-            event.preventDefault();
-            if (emailRegex.test(correo) && contrasena !== "") {
-                var xhr = new XMLHttpRequest ();
-                xhr.open('POST' , '/validarUsuario' , true );
-                xhr.setRequestHeader('Content-Type' , 'application/json') ;
-                xhr.onload = function () {
-                    if(xhr.status === 200 ){
-                        var data = JSON.stringify({username:correo , password:contrasena });
-                        xhr.send(data);
-                    }else{
-                        Swal.fire({
-                            icon: "error",
-                            iconColor: "orange",
-                            title: "¡Correo o contraseña incorrectos!",
-                            confirmButtonColor: "#dd986a"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Redirecciona a otra vista
-                                window.location.href = '/inicioSesion';
-                            }
-                        });
-                    }
-                }
-
-                xhr.onerror = function (){
-                    console.error('Auxilio ');
-                }
-
-                switch (correo) {
-                    //Redirigir a la vista paciente
-                    case("primeraVez@gmail.com"):
-                        window.location.href = "changePasswordFirstTime.html";
-                        break;
-                    case("paciente@gmail.com"):
-                        window.location.href = "/ElegirSede";
-                        break;
-                    //Redirigir a la vista farmacista
-                    case("farmacista@gmail.com"):
-                        window.location.href = "pos.html";
-                        break;
-                    case("adminSede@gmail.com"):
-                        window.location.href = "pos.html";
-                        break;
-                    case("superadmin@gmail.com"):
-                        window.location.href = "/listaMedicamentosSuperAdmin";
-                        break;
-                    case("baneado@gmail.com"):
-                        Swal.fire({
-                            icon: "error",
-                            iconColor: "orange",
-                            title: "Su cuenta ha sido baneada",
-                            confirmButtonColor: "#dd986a"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Redirecciona a otra vista
-                                window.location.href = 'signin.html';
-                            }
-                        });
-                        break;
-                    default:
-                        if (contrasena !== "" && correo !== "") {
-                            Swal.fire({
-                                icon: "error",
-                                iconColor: "orange",
-                                title: "¡Correo o contraseña incorrectos!",
-                                confirmButtonColor: "#dd986a"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // Redirecciona a otra vista
-                                    window.location.href = '/inicioSesion';
-                                }
-                            });
-                        }
-                }
-            }
-        }
-    }
-
-
-
+-->
 </script>
-
-<!-- jQuery -->
-<style>
-    /* Personaliza el color del icono de error */
-    .swal2-icon-error {
-        color: black !important;
-    }
-</style>
-
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
 <!-- Feather Icon JS -->
@@ -297,6 +145,5 @@
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
-
 </body>
 </html>

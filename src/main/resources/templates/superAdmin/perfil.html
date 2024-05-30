@@ -59,7 +59,7 @@
 				<div class="content" style="margin-left:8% ; margin-right:8%">
 					<!-- /product list -->
 					<div class="card">
-						<form method="post" th:action="@{/editarPerfilSuper}" th:object="${superAdmin}">
+						<form method="post" th:action="@{/superAdmin/editarPerfilSuper}" th:object="${superAdmin}">
 							<input type="hidden" name="idSuperAdmin" th:field="*{idSuperAdmin}">
 							<div class="card-body">
 								<div class="profile-set">

@@ -1,5 +1,12 @@
 package com.example.proyectogrupo4_gtics.Config;
 
+import com.example.proyectogrupo4_gtics.Entity.Administrator;
+import com.example.proyectogrupo4_gtics.Entity.Patient;
+import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
+import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
+import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
+import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
+import com.example.proyectogrupo4_gtics.Repository.SuperAdminRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -43,7 +50,11 @@ public class SecurityConfig  {
         return users;
     }
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain (HttpSecurity http,
+                                            SuperAdminRepository superAdminRepository,
+                                            AdministratorRepository administratorRepository,
+                                            PharmacistRepository pharmacistRepository,
+                                            PatientRepository patientRepository) throws Exception{
         http.formLogin()
                 .loginPage("/inicioSesion")
                 .loginProcessingUrl("/processLogin")
@@ -51,6 +62,8 @@ public class SecurityConfig  {
                 .passwordParameter("password")
                 //.failureHandler()
                 .successHandler((request, response, authentication) -> {
+
+                    HttpSession session = request.getSession();
                     String rol = "";
                     for(GrantedAuthority role : authentication.getAuthorities()){
                         rol = role.getAuthority();
@@ -58,23 +71,35 @@ public class SecurityConfig  {
                     }
                     switch(rol){
                         case ("superadmin") :
+                            session.setAttribute("usuario",superAdminRepository.findByEmail(authentication.getName()));
                             response.sendRedirect("/superAdmin/verListadosSuperAdmin");
                             break;
                         case ("admin"):
-                            response.sendRedirect("/adminSede/sessionAdmin?idUser="+2);
+                            session.setAttribute("usuario",administratorRepository.findByEmail(authentication.getName()));
+                            response.sendRedirect("/adminSede/sessionAdmin?idUser="+((Administrator) session.getAttribute("usuario")).getIdAdministrador());
                             break;
                         case ("farmacista"):
-                            response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+2);
+                            session.setAttribute("usuario",pharmacistRepository.findByEmail(authentication.getName()));
+                            response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
                             break;
                         case ("paciente"):
-                            response.sendRedirect("/patient/sessionPatient?idUser="+2);
+                            session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get() ));
+                            response.sendRedirect("/patient/sessionPatient?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
                             break;
                     }
-
                 });
+        http.authorizeHttpRequests()
+                .requestMatchers("/patient/**" ,"/patient" ).hasAnyAuthority("paciente","superadmin")
+                .requestMatchers("/adminSede/**" , "/adminSede" ).hasAnyAuthority("admin","superadmin")
+                .requestMatchers("/pharmacist/**" , "/pharmacist" ).hasAnyAuthority("farmacista", "superadmin")
+                .requestMatchers("/superAdmin/**" ,"/superAdmin").hasAuthority("superadmin")
+                .anyRequest().permitAll();
 
 
-
+        http.logout()
+                .logoutSuccessUrl("/inicioSesion")
+                .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true);
 
         return http.build();
 

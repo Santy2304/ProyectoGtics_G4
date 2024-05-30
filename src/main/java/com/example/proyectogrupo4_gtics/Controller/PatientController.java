@@ -9,6 +9,7 @@ import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
 import org.springframework.stereotype.Controller;
@@ -190,7 +191,7 @@ public class PatientController {
         }
 
         if (fallo){
-            return "redirect:patient/verGenerarOrdenCompra";
+            return "redirect:verGenerarOrdenCompra";
         }
 
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
@@ -222,7 +223,7 @@ public class PatientController {
         List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad, siteRepository.findById(Integer.parseInt(""+ model.getAttribute("idSede"))).get().getName());
 
         if (listaLotesPosibles.isEmpty()){
-            return "redirect:patient/verPrincipalPaciente";
+            return "redirect:verPrincipalPaciente";
         }
         purchaseHasLote.setLote(listaLotesPosibles.get(0));
         purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
@@ -231,7 +232,7 @@ public class PatientController {
 
         purchaseHasLoteRepository.save(purchaseHasLote);
 
-        return "redirect:patient/verTicket?idCompra="+purchaseOrder.getId();
+        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
 
 
     }
@@ -269,7 +270,8 @@ public class PatientController {
         return "pacient/perfil";
     }
     @GetMapping("/verPrincipalPaciente")
-    public String verPrincipalPaciente(Model model , @SessionAttribute String idSede ){
+    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
+        System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
         return "pacient/principal";

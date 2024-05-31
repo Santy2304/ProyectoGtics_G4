@@ -232,7 +232,7 @@ public class AdminSedeController {
 
 
         if (fallo) {
-                return "redirect:/verAddPharmacist";
+                return "redirect:verAddPharmacist";
         } else {
                 if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
                     model.addAttribute("error", "El DNI ingresado ya existe");
@@ -240,7 +240,7 @@ public class AdminSedeController {
                 } else { //Cuando se ingresa un nuevo DNI
                     attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
                     pharmacistRepository.save(pharmacist);
-                    return "redirect:/adminSede/listaFarmacista";
+                    return "redirect:listaFarmacista";
                 }
         }
     }
@@ -254,7 +254,7 @@ public class AdminSedeController {
             model.addAttribute("farmacista", pharmacist);
             return "admin_sede/editFarmacist";
         }else{
-            return "redirect:/adminSede/listaFarmacista";
+            return "redirect:listaFarmacista";
         }
     }
     //Se solicita a superadmin agregar al farmacista
@@ -266,7 +266,7 @@ public class AdminSedeController {
             pharmacist.setState("activo");
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
-            return "redirect:/adminSede/listaFarmacista";
+            return "redirect:listaFarmacista";
         }
     }
     //Inicia sesion de admin de sede
@@ -274,7 +274,7 @@ public class AdminSedeController {
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
         model.addAttribute("sede", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getSite()  ));
-        return "redirect:/adminSede/dashboardAdminSede";
+        return "redirect:dashboardAdminSede";
     }
     //Se ve el dashboard de admin de sede
     @GetMapping("/dashboardAdminSede")
@@ -394,7 +394,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
-        return("redirect:/adminSede/verListaReposicion");
+        return("redirect:verListaReposicion");
     }
 
     @GetMapping("/verNotificacionesAdminSede")
@@ -469,7 +469,7 @@ public class AdminSedeController {
             }
             replacementOrderRepository.deleteById(r.get().getIdReplacementOrder());
         }
-        return "redirect:/adminSede/verListaReposicion";
+        return "redirect:verListaReposicion";
     }
     public static class ReplacamenteOrderEdit{
         private ArrayList<Object> datos;
@@ -520,7 +520,7 @@ public class AdminSedeController {
                 }
             }
         }
-        return "redirect:/adminSede/verListaReposicion";
+        return "redirect:verListaReposicion";
     }
 
     @PostMapping("/generarReposicionBusca")

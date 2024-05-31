@@ -19,8 +19,7 @@ public class Rol implements Serializable  {
     @Column(name = "name", length = 45)
     private String name;
 
-    @OneToMany(mappedBy = "idRol")
-    private Set<User> users = new LinkedHashSet<>();
+
 
     public Integer getId() {
         return id;
@@ -38,12 +37,6 @@ public class Rol implements Serializable  {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 
 }

@@ -30,8 +30,8 @@ public class User implements Serializable {
     private Boolean state;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idRol", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "idrol", nullable = false)
     private Rol idRol;
 
     public Integer getId() {

@@ -1,17 +1,14 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.Entity.*;
-import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
-import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
-import com.example.proyectogrupo4_gtics.Repository.SiteRepository;
-import com.example.proyectogrupo4_gtics.Repository.SuperAdminRepository;
-import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
+import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +28,20 @@ public class LogInController {
     final SuperAdminRepository superAdminRepository;
     final AdministratorRepository administratorRepository;
     final PharmacistRepository pharmacistRepository;
-    public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository , SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository, AdminSedeController adminSedeController) {
+
+    final RolRepository rolRepository;
+
+    final UserRepository userRepository;
+    public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
+                            SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
+                            UserRepository userRepository, RolRepository rolRepository ) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.superAdminRepository = superAdminRepository;
         this.administratorRepository =administratorRepository;
         this.pharmacistRepository = pharmacistRepository;
+        this.userRepository = userRepository;
+        this.rolRepository = rolRepository;
     }
     @GetMapping("/inicioSesion")
     public String InicioSesionController(HttpSession http ){
@@ -181,21 +186,24 @@ public class LogInController {
         Pharmacist pharmacist = pharmacistRepository.findByEmail(correo);
         Administrator admin = administratorRepository.findByEmail(correo);
         SuperAdmin superAdmin = superAdminRepository.findByEmail(correo);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+
         if (!(patient == null)) {
             patientRepository.actualizarContrasena(newPassword, correo);
-
+            userRepository.actualizarPassword(encryptedPassword,correo);
         }
         if (!(admin == null)) {
             administratorRepository.actualizarContrasena(newPassword, correo);
-
+            userRepository.actualizarPassword(encryptedPassword,correo);
         }
         if (!(superAdmin == null)) {
             superAdminRepository.actualizarContrasena(newPassword, correo);
-
+            userRepository.actualizarPassword(encryptedPassword,correo);
         }
         if (!(pharmacist == null)) {
             pharmacistRepository.actualizarContrasena(newPassword, correo);
-
+            userRepository.actualizarPassword(encryptedPassword,correo);
         }
         return "redirect:/inicioSesion";
     }
@@ -218,6 +226,16 @@ public class LogInController {
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
             patientRepository.save(patient);
+            User user = new User();
+            Rol rol = new Rol();
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(patient.getPassword());
+            user.setEmail(patient.getEmail());
+            user.setPassword(encryptedPassword);
+            user.setState(true);
+            rol = rolRepository.findById(4).get();
+            user.setIdRol(rol);
+            userRepository.save(user);
             response.put("response" ,"Guardado");
         }else{
             response.put("response" ,"YaExiste");

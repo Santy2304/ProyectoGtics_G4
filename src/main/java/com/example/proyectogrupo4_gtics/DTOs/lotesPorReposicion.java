@@ -7,5 +7,6 @@ public interface lotesPorReposicion {
     double getPrice();
     String getDescription();
     int getId();
+    String getPhoto();
 
 }

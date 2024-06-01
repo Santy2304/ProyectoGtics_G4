@@ -202,7 +202,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -235,7 +235,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -268,7 +268,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -301,7 +301,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -335,7 +335,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -431,7 +431,7 @@
 										<li>
 											<div class="productimg">
 												<div class="productimgs">
-													<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${product.photo}}" alt="img">
 												</div>
 												<div class="productcontet">
 													<h4 th:text="${product.name}">

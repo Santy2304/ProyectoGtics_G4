@@ -157,7 +157,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
     @Query(nativeQuery = true, value="SELECT\n" +
             "    m.idMedicine,\n" +
-            "    m.name AS medicineName,\n" +
+            "    m.name AS medicineName,m.photo as photo,\n" +
             "    SUM(purchase_has_lot.cantidad_comprar) AS cantidad, m.price*SUM(purchase_has_lot.cantidad_comprar) as precio\n" +
             "FROM\n" +
             "purchaseorder po\n" +
@@ -172,5 +172,40 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "GROUP BY\n" +
             "    m.idMedicine, m.name")
     List<MeciamentosPorCompraDTO> listaMedicamentosPorCompra(int idPurchase);
+
+
+    //admin Sede estadisticas
+
+    @Query(nativeQuery = true, value ="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado'")
+    double gananciaTotal();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 1'")
+    double gananciaTotalPando1();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 2'")
+    double gananciaTotalPando2();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 3'")
+    double gananciaTotalPando3();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 4'")
+    double gananciaTotalPando4();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado'")
+    int cantMedicamentosVendidos();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 1'")
+    int cantMedicamentosVendidosPando1();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 2'")
+    int cantMedicamentosVendidosPando2();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 3'")
+    int cantMedicamentosVendidosPando3();
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 4'")
+    int cantMedicamentosVendidosPando4();
+
+    //select l.idMedicine, m.price, phl.cantidad_comprar,m.name from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' order by phl.cantidad_comprar desc;
 
 }

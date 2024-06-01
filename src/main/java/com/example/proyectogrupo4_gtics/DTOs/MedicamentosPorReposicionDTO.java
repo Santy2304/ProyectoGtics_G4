@@ -5,4 +5,5 @@ public interface MedicamentosPorReposicionDTO {
     int getReplaceOrderId();
     String getMedicineName();
     int getTotalStock();
+    String getPhoto();
 }

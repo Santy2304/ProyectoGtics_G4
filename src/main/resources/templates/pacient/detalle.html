@@ -133,7 +133,7 @@
 
 										<tr th:each="medicamento : ${listaMedicamentosPorCompra}" class="details" style="border-bottom:1px solid #E9ECEF ;">
 											<td style="padding: 10px;vertical-align: top; display: flex;align-items: center;" th:text="${medicamento.getMedicineName()}">
-												<img src="/assets_superAdmin/img/product/product1.jpg" alt="img" class="me-2" style="width:40px;height:40px;">
+												<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img" class="me-2" style="width:40px;height:40px;">
 
 											</td>
 											<td th:text="${medicamento.getCantidad()}" style="padding: 10px;vertical-align: top; ">

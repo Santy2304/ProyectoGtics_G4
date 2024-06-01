@@ -183,7 +183,7 @@
 										<tr>
 											<td class="productimgname">
 												<a href="#" class="product-img">
-													<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
+													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="product">
 												</a>
 												<a th:text="*{medicine.getName()}"></a>
 												<input name="idMedicine"  th:field="*{medicine.idMedicine}" type="hidden">

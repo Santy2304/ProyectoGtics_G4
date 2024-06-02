@@ -221,7 +221,6 @@ public class LogInController {
         Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
         Optional<Patient> patientOpt2 =  patientRepository.findByDni(patient.getDni());
         if(!patientOpt1.isPresent() && !patientOpt2.isPresent()){
-            patient.setPassword("DefaultPassword");
             patient.setChangePassword(1);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
@@ -229,7 +228,7 @@ public class LogInController {
             User user = new User();
             Rol rol = new Rol();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encryptedPassword = passwordEncoder.encode(patient.getPassword());
+            String encryptedPassword = passwordEncoder.encode("password");
             user.setEmail(patient.getEmail());
             user.setPassword(encryptedPassword);
             user.setState(true);

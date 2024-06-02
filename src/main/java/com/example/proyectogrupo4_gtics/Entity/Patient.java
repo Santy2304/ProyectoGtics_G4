@@ -51,9 +51,7 @@ public class Patient implements Serializable  {
     @Size(min=1,max = 45, message = "El seguro no debe superar los 45 carácteres")
     private String insurance;
 
-    @NotBlank(message = "Este campo es obligatorio")
-    @Size(min=1,max = 45, message = "La contraseña no debe superar los 45 carácteres")
-    private String password;
+
 
     @Column(name="changepassword")
     private Integer changePassword;
@@ -131,13 +129,7 @@ public class Patient implements Serializable  {
         this.insurance = insurance;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Integer getChangePassword() {
         return changePassword;

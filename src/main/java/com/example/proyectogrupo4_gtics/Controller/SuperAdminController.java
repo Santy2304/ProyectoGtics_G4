@@ -198,7 +198,7 @@ public class  SuperAdminController {
 
             return "superAdmin/editarMedicamento";
         } else {
-            return "redirect:superAdmin/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
     }
     @PostMapping("/guardarCambiosMedicamento")
@@ -329,7 +329,7 @@ public class  SuperAdminController {
 
         }
 
-        return "redirect:superAdmin/listaMedicamentos";
+        return "redirect:listaMedicamentos";
     }
     @GetMapping("/verDetallesProducto")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
@@ -343,7 +343,7 @@ public class  SuperAdminController {
             model.addAttribute("listaLotes",listaLotesporMedicamento);
             return "superAdmin/detallesProducto";
         } else {
-            return "redirect:superAdmin/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
 
     }
@@ -379,7 +379,7 @@ public class  SuperAdminController {
         } else {
             attributes.addFlashAttribute("msg", "Doctor actualizado correctamente");
             doctorRepository.updateDatosPorId(doctor.getName(), doctor.getLastName(), doctor.getDni(), doctor.getEmail(), doctor.getHeadquarter(), doctor.getState(), doctor.getIdDoctor());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -391,7 +391,7 @@ public class  SuperAdminController {
             model.addAttribute("doctor", doctor);
             return "superAdmin/EditarDoctor";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -437,7 +437,7 @@ public class  SuperAdminController {
                 return "superAdmin/AgregarDoctor";
             } else { //En caso sea único
                 doctorRepository.save(doctor);
-                return "redirect:superAdmin/verListados";
+                return "redirect:verListados";
             }
         }
     }
@@ -445,7 +445,7 @@ public class  SuperAdminController {
     @GetMapping("/EliminarDoctor")
     public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor ) {
         doctorRepository.eliminarDoctorPorId(idDoctor);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
 
@@ -476,7 +476,7 @@ public class  SuperAdminController {
             } else {
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
                 administratorRepository.save(administrator);
-                return "redirect:superAdmin/verListados";
+                return "redirect:verListados";
             }
         }
     }
@@ -490,7 +490,7 @@ public class  SuperAdminController {
             model.addAttribute("adminSede", administrator);
             return "superAdmin/EditarAdministrador";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -503,14 +503,14 @@ public class  SuperAdminController {
         }else {
             attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
     @GetMapping("/eliminarAdminSede")
     public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
         administratorRepository.eliminarAdminPorId(idAdminSede);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     ////////////////////////////////
@@ -527,7 +527,7 @@ public class  SuperAdminController {
             model.addAttribute("farmacista", pharmacist);
             return "superAdmin/EditarFarmacista";
         }else{
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -538,7 +538,7 @@ public class  SuperAdminController {
         } else {
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
-            return "redirect:superAdmin/verListados";
+            return "redirect:verListados";
         }
     }
 
@@ -546,20 +546,20 @@ public class  SuperAdminController {
     @GetMapping("/eliminarFarmacista")
     public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/rechazarFarmacista")
     public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
 
-        return "redirect:superAdmin/verSedeSuperAdminPando1";
+        return "redirect:verSedeSuperAdminPando1";
     }
 
     //////////////////////////////////
@@ -569,13 +569,13 @@ public class  SuperAdminController {
     @GetMapping("/eliminarPaciente")
     public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.eliminarPacientePorId(idPaciente);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
     @GetMapping("/banearPaciente")
     public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.banearPacientePorId(idPaciente);
-        return "redirect:superAdmin/verListados";
+        return "redirect:verListados";
     }
 
 
@@ -650,7 +650,7 @@ public class  SuperAdminController {
         } else {
             attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
             superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword());
-            return "redirect:superAdmin/verPerfil";
+            return "redirect:verPerfil";
         }
 
     }

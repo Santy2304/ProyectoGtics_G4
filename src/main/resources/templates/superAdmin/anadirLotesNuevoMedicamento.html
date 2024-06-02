@@ -115,7 +115,9 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="expireDate">Fecha de Vencimiento (ej. 2025-01-21)</label>
-											<input name="expireDate" type="text" id="expireDate">
+											<input class="form-control" name="expireDate" type="text" id="expireDate" placeholder="yyyy-MM-dd"
+												   th:classappend="${(error != null)? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
 										</div>
 									</div>
 									<!--

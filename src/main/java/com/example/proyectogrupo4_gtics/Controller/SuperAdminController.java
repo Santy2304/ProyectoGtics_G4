@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -209,17 +208,17 @@ public class  SuperAdminController {
                                             @RequestParam("disponibilidadPando4") String disponible4) {
         medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
 
-        Calendar calendar = Calendar.getInstance();
+        //Calendar calendar = Calendar.getInstance();
 
         // Obtener la fecha actual
         LocalDate fechaActual = LocalDate.now();
         ;
 
         // Agregar tres años a la fecha actual
-        calendar.add(Calendar.YEAR, 3);
+        //calendar.add(Calendar.YEAR, 3);
 
         // Obtener la nueva fecha después de agregar tres años
-        LocalDate nuevaFecha = LocalDate.ofInstant(calendar.getTime().toInstant(), ZoneId.systemDefault());
+        LocalDate nuevaFecha = fechaActual.plusYears(3);
 
         boolean visibilidad1;
         boolean visibilidad2;

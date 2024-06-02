@@ -54,7 +54,6 @@ public class Pharmacist implements Serializable  {
     @Email(message = "Se debe ingresar un correo electrónico")
     private String email;
 
-    private String password;
 
     @Column(name = "approvalstate")
     private String approvalState;
@@ -140,14 +139,6 @@ public class Pharmacist implements Serializable  {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getApprovalState() {

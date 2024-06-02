@@ -30,6 +30,8 @@ public class  SuperAdminController {
 
     final UserRepository userRepository;
 
+    final RolRepository rolRepository;
+
     final LoteRepository loteRepository;
     final AdministratorRepository administratorRepository;
     final SiteRepository siteRepository;
@@ -39,7 +41,9 @@ public class  SuperAdminController {
     private final ReplacementOrderRepository replacementOrderRepository;
 
     public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
-                                ReplacementOrderRepository replacementOrderRepository, SuperAdminRepository superAdminRepository, UserRepository userRepository) {
+                                ReplacementOrderRepository replacementOrderRepository,
+                                SuperAdminRepository superAdminRepository, UserRepository userRepository,
+                                RolRepository rolRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -50,6 +54,7 @@ public class  SuperAdminController {
         this.replacementOrderRepository = replacementOrderRepository;
         this.superAdminRepository = superAdminRepository;
         this.userRepository = userRepository;
+        this.rolRepository = rolRepository;
     }
 
 
@@ -470,7 +475,6 @@ public class  SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
-            administrator.setPassword("passworDefault");
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
@@ -480,6 +484,14 @@ public class  SuperAdminController {
             } else {
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
                 administratorRepository.save(administrator);
+                User user = new User();
+                user.setEmail(administrator.getEmail());
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                String encryptedPassword = passwordEncoder.encode("password");
+                user.setPassword(encryptedPassword);
+                user.setIdRol(rolRepository.findById(2).get());
+                user.setState(true);
+                userRepository.save(user);
                 return "redirect:verListados";
             }
         }
@@ -562,7 +574,15 @@ public class  SuperAdminController {
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
-
+        User user = new User();
+        Pharmacist pharmacist = pharmacistRepository.getByIdFarmacista(idFarmacista);
+        user.setEmail(pharmacist.getEmail());
+        user.setState(true);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode("password");
+        user.setPassword(encryptedPassword);
+        user.setIdRol(rolRepository.findById(2).get());
+        userRepository.save(user);
         return "redirect:verSedeSuperAdminPando1";
     }
 

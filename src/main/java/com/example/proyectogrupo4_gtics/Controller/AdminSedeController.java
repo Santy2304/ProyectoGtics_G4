@@ -183,7 +183,6 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-            pharmacist.setPassword("default");
             pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
             pharmacist.setRequestDate(LocalDate.now());

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +41,7 @@ public class PatientController {
     final PatientRepository patientRepository;
     final MedicineRepository medicineRepository;
 
+    final UserRepository userRepository;
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
 
     final PurchaseOrderRepository purchaseOrderRepository;
@@ -49,7 +51,8 @@ public class PatientController {
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
-                              LoteRepository loteRepository) {
+                              LoteRepository loteRepository,
+                              UserRepository userRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -57,24 +60,42 @@ public class PatientController {
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/sessionPatient")
-    public String iniciarSesion( Model model, @RequestParam("idUser") String idAdministrator){
-        model.addAttribute("idUser",idAdministrator);
+    public String iniciarSesion( Model model, @RequestParam("idUser") String id){
+        model.addAttribute("idUser",id);
         return "redirect:ElegirSede";
     }
 
     @GetMapping("/ElegirSede")
     public String ElegirSede( Model model){
         //Se listan las sedes
-        String idUser =  (String) model.getAttribute("idUser");
-        Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
-        System.out.println(patient.getName());
+
         List<Site> listSite = siteRepository.findAll();
         model.addAttribute("listSite", listSite);
         return "elegirSede";
     }
+
+    @GetMapping("/cambioObligatorio")
+    public String cambioObligatorio( Model model){
+        //Se listan las sedes
+
+        return "changePasswordFirstTime";
+    }
+
+    @PostMapping("/efectuarCambioContrasena")
+    public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(password);
+        userRepository.actualizarPassword(encryptedPassword,patient.getEmail());
+        patientRepository.updateChangePasswrod(patient.getIdPatient());
+        return "redirect:ElegirSede";
+    }
+
+
 
     @GetMapping("/elegirSedePrimeraVez")
     public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model){

@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Random;
+import java.security.SecureRandom;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -487,7 +489,10 @@ public class  SuperAdminController {
                 User user = new User();
                 user.setEmail(administrator.getEmail());
                 BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                String encryptedPassword = passwordEncoder.encode("password");
+
+                String password = generateRandomWord();
+
+                String encryptedPassword = passwordEncoder.encode(password);
                 user.setPassword(encryptedPassword);
                 user.setIdRol(rolRepository.findById(2).get());
                 user.setState(true);
@@ -578,8 +583,9 @@ public class  SuperAdminController {
         Pharmacist pharmacist = pharmacistRepository.getByIdFarmacista(idFarmacista);
         user.setEmail(pharmacist.getEmail());
         user.setState(true);
+        String password = generateRandomWord();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode("password");
+        String encryptedPassword = passwordEncoder.encode(password);
         user.setPassword(encryptedPassword);
         user.setIdRol(rolRepository.findById(2).get());
         userRepository.save(user);
@@ -684,6 +690,38 @@ public class  SuperAdminController {
             return "redirect:verPerfil";
         }
 
+    }
+
+
+    public String generateRandomWord() {
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String characters = letters + numbers;
+        int wordLength = 8;
+        Random random = new SecureRandom();
+        StringBuilder word = new StringBuilder(wordLength);
+
+        // Ensure at least one letter
+        word.append(letters.charAt(random.nextInt(letters.length())));
+
+        // Ensure at least one number
+        word.append(numbers.charAt(random.nextInt(numbers.length())));
+
+        // Fill the rest of the word with random characters
+        for (int i = 2; i < wordLength; i++) {
+            word.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        // Shuffle the characters to ensure randomness
+        char[] wordArray = word.toString().toCharArray();
+        for (int i = 0; i < wordArray.length; i++) {
+            int randomIndex = random.nextInt(wordArray.length);
+            char temp = wordArray[i];
+            wordArray[i] = wordArray[randomIndex];
+            wordArray[randomIndex] = temp;
+        }
+
+        return new String(wordArray);
     }
 
 

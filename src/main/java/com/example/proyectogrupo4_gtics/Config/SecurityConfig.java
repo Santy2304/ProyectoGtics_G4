@@ -3,6 +3,7 @@ package com.example.proyectogrupo4_gtics.Config;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Patient;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
+import com.example.proyectogrupo4_gtics.Entity.SuperAdmin;
 import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
 import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
 import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
@@ -72,6 +73,7 @@ public class SecurityConfig  {
                     }
                     switch(rol){
                         case ("superadmin") :
+
                             session.setAttribute("usuario",superAdminRepository.findByEmail(authentication.getName()));
                             response.sendRedirect("/superAdmin/verListados");
                             break;
@@ -84,8 +86,12 @@ public class SecurityConfig  {
                             response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
                             break;
                         case ("paciente"):
-                            session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get() ));
-                            response.sendRedirect("/patient/sessionPatient?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get()));
+                            if(patientRepository.findByEmail(authentication.getName()).get().getChangePassword().equals(false)){
+                                response.sendRedirect("/patient/cambioObligatorio?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            }else{
+                                response.sendRedirect("/patient/sessionPatient?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            }
                             break;
                     }
                 });

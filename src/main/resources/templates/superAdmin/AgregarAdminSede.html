@@ -104,10 +104,10 @@
 											<select class="form-select" id="sede" th:field="*{site}"
 													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
 												<option value="">Selecciona sede</option>
-												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
-												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
-												<option value="Pando 3" th:selected="${adminSede.site == 'Pando 3'}">Pando 3</option>
-												<option value="Pando 4" th:selected="${adminSede.site == 'Pando 4'}">Pando 4</option>
+												<option value="Pando 1" th:selected="${adminSede.site =='Pando 1'}">Pando 1</option>
+												<option value="Pando 2" th:selected="${adminSede.site =='Pando 2'}">Pando 2</option>
+												<option value="Pando 3" th:selected="${adminSede.site =='Pando 3'}">Pando 3</option>
+												<option value="Pando 4" th:selected="${adminSede.site =='Pando 4'}">Pando 4</option>
 											</select>
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>

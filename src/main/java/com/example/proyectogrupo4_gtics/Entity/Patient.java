@@ -54,7 +54,7 @@ public class Patient implements Serializable  {
 
 
     @Column(name="changepassword")
-    private Integer changePassword;
+    private Boolean changePassword;
 
     private String photo;
 
@@ -130,12 +130,11 @@ public class Patient implements Serializable  {
     }
 
 
-
-    public Integer getChangePassword() {
+    public Boolean getChangePassword() {
         return changePassword;
     }
 
-    public void setChangePassword(Integer changePassword) {
+    public void setChangePassword(Boolean changePassword) {
         this.changePassword = changePassword;
     }
 

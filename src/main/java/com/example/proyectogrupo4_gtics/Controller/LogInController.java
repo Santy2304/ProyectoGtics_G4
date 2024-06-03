@@ -2,10 +2,12 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import com.example.proyectogrupo4_gtics.Service.EmailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -32,6 +35,9 @@ public class LogInController {
     final RolRepository rolRepository;
 
     final UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
                             SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
                             UserRepository userRepository, RolRepository rolRepository ) {
@@ -221,20 +227,29 @@ public class LogInController {
         Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
         Optional<Patient> patientOpt2 =  patientRepository.findByDni(patient.getDni());
         if(!patientOpt1.isPresent() && !patientOpt2.isPresent()){
-            patient.setChangePassword(1);
+            patient.setChangePassword(false);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();
+            String password = generateRandomWord();
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encryptedPassword = passwordEncoder.encode("password");
+            String encryptedPassword = passwordEncoder.encode(password);
             user.setEmail(patient.getEmail());
             user.setPassword(encryptedPassword);
             user.setState(true);
             rol = rolRepository.findById(4).get();
             user.setIdRol(rol);
             userRepository.save(user);
+
+            emailService.sendSimpleMessage(
+                    patient.getEmail(),
+                    "Bienvenido a Nuestro Servicio",
+                    "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
+            );
+
+
             response.put("response" ,"Guardado");
         }else{
             response.put("response" ,"YaExiste");
@@ -243,6 +258,37 @@ public class LogInController {
         return response;
     }
     //Vamos a crear un servicio Rest para consumir autenticacion
+
+    public String generateRandomWord() {
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String characters = letters + numbers;
+        int wordLength = 8;
+        Random random = new SecureRandom();
+        StringBuilder word = new StringBuilder(wordLength);
+
+        // Ensure at least one letter
+        word.append(letters.charAt(random.nextInt(letters.length())));
+
+        // Ensure at least one number
+        word.append(numbers.charAt(random.nextInt(numbers.length())));
+
+        // Fill the rest of the word with random characters
+        for (int i = 2; i < wordLength; i++) {
+            word.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        // Shuffle the characters to ensure randomness
+        char[] wordArray = word.toString().toCharArray();
+        for (int i = 0; i < wordArray.length; i++) {
+            int randomIndex = random.nextInt(wordArray.length);
+            char temp = wordArray[i];
+            wordArray[i] = wordArray[randomIndex];
+            wordArray[randomIndex] = temp;
+        }
+
+        return new String(wordArray);
+    }
 
 
 }

@@ -4,8 +4,11 @@ import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import com.example.proyectogrupo4_gtics.Service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
 import java.util.Random;
 import java.security.SecureRandom;
 
@@ -30,6 +35,8 @@ public class  SuperAdminController {
     final PatientRepository patientRepository;
     final DoctorRepository doctorRepository;
 
+    @Autowired
+    private EmailService emailService;
     final UserRepository userRepository;
 
     final RolRepository rolRepository;
@@ -497,6 +504,13 @@ public class  SuperAdminController {
                 user.setIdRol(rolRepository.findById(2).get());
                 user.setState(true);
                 userRepository.save(user);
+
+                try {
+                    emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+
                 return "redirect:verListados";
             }
         }
@@ -589,6 +603,13 @@ public class  SuperAdminController {
         user.setPassword(encryptedPassword);
         user.setIdRol(rolRepository.findById(2).get());
         userRepository.save(user);
+
+        try {
+            emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", pharmacist.getName(), password);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:verSedeSuperAdminPando1";
     }
 

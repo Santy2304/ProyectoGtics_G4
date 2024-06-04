@@ -5,7 +5,9 @@ import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -75,6 +77,30 @@ public class Pharmacist implements Serializable  {
     @Column(name = "daterequestaccount")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate requestDate;
+
+    @NotNull
+    @Column(name = "changepassword", nullable = false)
+    private Boolean changePassword;
+
+    @Column(name = "expirationdate")
+    private LocalDateTime expirationDate;
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getChangePassword() {
+        return changePassword;
+    }
+
+    public void setChangePassword(Boolean changePassword) {
+        this.changePassword = changePassword;
+    }
+
 
     public int getIdFarmacista() {
         return idFarmacista;

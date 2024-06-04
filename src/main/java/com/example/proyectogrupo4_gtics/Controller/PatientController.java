@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -61,6 +64,21 @@ public class PatientController {
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
+    }
+
+    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    public void deleteExpiredUsers() {
+        LocalDateTime now = LocalDateTime.now();
+        List<Patient> patients = patientRepository.findAll();
+
+        for (Patient patient : patients) {
+            if (patient.getExpirationDate().isBefore(now) && !patient.getChangePassword()) {
+                // Eliminar el usuario si la contraseña ha expirado
+                userRepository.delete(userRepository.findByEmail(patient.getEmail()));
+                patientRepository.delete(patient);
+                System.out.println("Eliminado usuario con email: " + patient.getEmail());
+            }
+        }
     }
 
     @GetMapping("/sessionPatient")

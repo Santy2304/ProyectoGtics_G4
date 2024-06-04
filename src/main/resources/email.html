@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+        <style>
+            .highlight-password {
+                color: orange; /* Cambia este color al que prefieras */
+                font-weight: bold;
+                font-style: italic;
+                text-decoration: underline;
+            }
+        </style>
+
+    </head>
+    <body>
+        <!-- Banner Image -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="cid:bannerImage" alt="Banner" style="max-width: 100%; height: auto;">
+        </div>
+        <h1 style="color: darkorange; text-align: center" class="text-center">Bienvenido a Saint Medic</h1>
+        <p>Hola, {{name}}!</p>
+        <p>Tu cuenta ha sido creada exitosamente. Tu contraseña inicial es: <span class="highlight-password">{{password}}</span>.</p>
+        <p> Por favor cambia tu contraseña al iniciar sesión por primera vez. Esta es de una duración de solo 10 minutos, pasado el tiempo deberas registrarte nuevamente.</p>
+    </body>
+</html>

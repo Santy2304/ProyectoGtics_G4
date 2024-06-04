@@ -6,6 +6,7 @@ import com.example.proyectogrupo4_gtics.Service.EmailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -230,6 +232,7 @@ public class LogInController {
             patient.setChangePassword(false);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
+            patient.setExpirationDate(LocalDateTime.now().plusMinutes(2)); // Expira en 10 minutos
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();
@@ -243,14 +246,21 @@ public class LogInController {
             user.setIdRol(rol);
             userRepository.save(user);
 
-            emailService.sendSimpleMessage(
-                    patient.getEmail(),
-                    "Bienvenido a Nuestro Servicio",
-                    "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
-            );
+          //  emailService.sendSimpleMessage(
+        //            patient.getEmail(),
+      //              "Bienvenido a Nuestro Servicio",
+    //                "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
+  //          );
 
 
-            response.put("response" ,"Guardado");
+            try {
+                emailService.sendHtmlMessage(patient.getEmail(), "Bienvenido a SaintMedic", patient.getName(), password);
+                response.put("response", "Guardado");
+            } catch (MessagingException | IOException e) {
+                response.put("response", "Error al enviar el correo");
+                e.printStackTrace();
+            }
+
         }else{
             response.put("response" ,"YaExiste");
         }

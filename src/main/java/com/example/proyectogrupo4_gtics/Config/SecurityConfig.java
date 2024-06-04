@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,6 +31,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableScheduling
 public class SecurityConfig  {
     final DataSource dataSource;
     public SecurityConfig(DataSource dataSource) {
@@ -79,6 +81,7 @@ public class SecurityConfig  {
                             break;
                         case ("admin"):
                             session.setAttribute("usuario",administratorRepository.findByEmail(authentication.getName()));
+
                             response.sendRedirect("/adminSede/sessionAdmin?idUser="+((Administrator) session.getAttribute("usuario")).getIdAdministrador());
                             break;
                         case ("farmacista"):

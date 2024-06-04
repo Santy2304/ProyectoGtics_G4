@@ -168,7 +168,7 @@ public class  SuperAdminController {
                 lote4.setInitialQuantity(stockPando4);
                 loteRepository.save(lote4);
             }
-            return "redirect:/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         } else {
             model.addAttribute("error", "Se debe ingresar una fecha válida y con el formato yyyy-MM-dd");
             model.addAttribute("medicine", medicine);

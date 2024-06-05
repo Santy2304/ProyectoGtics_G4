@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -51,12 +52,10 @@ public class Patient implements Serializable  {
     @Size(min=1,max = 45, message = "El seguro no debe superar los 45 carácteres")
     private String insurance;
 
-    @NotBlank(message = "Este campo es obligatorio")
-    @Size(min=1,max = 45, message = "La contraseña no debe superar los 45 carácteres")
-    private String password;
+
 
     @Column(name="changepassword")
-    private Integer changePassword;
+    private Boolean changePassword;
 
     private String photo;
 
@@ -66,6 +65,17 @@ public class Patient implements Serializable  {
 
 
     private String state;
+
+    @Column(name = "expirationdate")
+    private LocalDateTime expirationDate;
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     public int getIdPatient() {
         return idPatient;
@@ -131,19 +141,12 @@ public class Patient implements Serializable  {
         this.insurance = insurance;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getChangePassword() {
+    public Boolean getChangePassword() {
         return changePassword;
     }
 
-    public void setChangePassword(Integer changePassword) {
+    public void setChangePassword(Boolean changePassword) {
         this.changePassword = changePassword;
     }
 

@@ -3,6 +3,7 @@ package com.example.proyectogrupo4_gtics.Config;
 import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Patient;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
+import com.example.proyectogrupo4_gtics.Entity.SuperAdmin;
 import com.example.proyectogrupo4_gtics.Repository.AdministratorRepository;
 import com.example.proyectogrupo4_gtics.Repository.PatientRepository;
 import com.example.proyectogrupo4_gtics.Repository.PharmacistRepository;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +31,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import javax.sql.DataSource;
 
 @Configuration
+@EnableScheduling
 public class SecurityConfig  {
     final DataSource dataSource;
     public SecurityConfig(DataSource dataSource) {
@@ -72,11 +75,13 @@ public class SecurityConfig  {
                     }
                     switch(rol){
                         case ("superadmin") :
+
                             session.setAttribute("usuario",superAdminRepository.findByEmail(authentication.getName()));
                             response.sendRedirect("/superAdmin/verListados");
                             break;
                         case ("admin"):
                             session.setAttribute("usuario",administratorRepository.findByEmail(authentication.getName()));
+
                             response.sendRedirect("/adminSede/sessionAdmin?idUser="+((Administrator) session.getAttribute("usuario")).getIdAdministrador());
                             break;
                         case ("farmacista"):
@@ -84,8 +89,12 @@ public class SecurityConfig  {
                             response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
                             break;
                         case ("paciente"):
-                            session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get() ));
-                            response.sendRedirect("/patient/sessionPatient?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get()));
+                            if(patientRepository.findByEmail(authentication.getName()).get().getChangePassword().equals(false)){
+                                response.sendRedirect("/patient/cambioObligatorio?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            }else{
+                                response.sendRedirect("/patient/sessionPatient?idUser="+ ((Patient) session.getAttribute("usuario")).getIdPatient());
+                            }
                             break;
                     }
                 });

@@ -4,8 +4,11 @@ import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
+import com.example.proyectogrupo4_gtics.Service.EmailService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.io.IOException;
+import java.util.Random;
+import java.security.SecureRandom;
+
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,7 +40,11 @@ public class  SuperAdminController {
     final PatientRepository patientRepository;
     final DoctorRepository doctorRepository;
 
+    @Autowired
+    private EmailService emailService;
     final UserRepository userRepository;
+
+    final RolRepository rolRepository;
 
     final LoteRepository loteRepository;
     final AdministratorRepository administratorRepository;
@@ -44,7 +55,9 @@ public class  SuperAdminController {
     private final ReplacementOrderRepository replacementOrderRepository;
 
     public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
-                                ReplacementOrderRepository replacementOrderRepository, SuperAdminRepository superAdminRepository, UserRepository userRepository) {
+                                ReplacementOrderRepository replacementOrderRepository,
+                                SuperAdminRepository superAdminRepository, UserRepository userRepository,
+                                RolRepository rolRepository) {
         this.medicineRepository = medicineRepository;
         this.patientRepository = patientRepository;
         this.doctorRepository = doctorRepository;
@@ -55,6 +68,7 @@ public class  SuperAdminController {
         this.replacementOrderRepository = replacementOrderRepository;
         this.superAdminRepository = superAdminRepository;
         this.userRepository = userRepository;
+        this.rolRepository = rolRepository;
     }
 
 
@@ -104,73 +118,83 @@ public class  SuperAdminController {
                 }
             }
             medicineRepository.save(medicine);
+
+
             model.addAttribute("medicine", medicine);
 
             return "superAdmin/anadirLotesNuevoMedicamento";
         }
     }
 
+    //Faltan validaciones de los stock
     @PostMapping("/crearLotesNuevoMedicamento")
     public String crearLoresNuevoMedicamento(
-                                   @RequestParam("expireDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date expireDate,
+                                   @RequestParam("expireDate") String expireDateString,
                                    @RequestParam(value = "stockPando1", required = false, defaultValue = "0") int stockPando1,
                                    @RequestParam(value = "stockPando2",required = false, defaultValue = "0") int stockPando2,
                                    @RequestParam(value = "stockPando3",required = false, defaultValue = "0") int stockPando3,
                                    @RequestParam(value = "stockPando4",required = false, defaultValue = "0") int stockPando4,
-                                   @RequestParam("medicineId") int medicineId) {
+                                   @RequestParam("medicineId") int medicineId, Model model) {
 
         Medicine medicine = medicineRepository.findById(medicineId).orElse(null);
 
+        if (expireDateString.matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$")) {
 
-                if (stockPando1 != 0) {
-                    Lote lote1 = new Lote();
-                    lote1.setMedicine(medicine);
-                    lote1.setExpireDate(expireDate);
-                    lote1.setSite("Pando 1");
-                    lote1.setStock(stockPando1);
-                    lote1.setExpire(false);
-                    lote1.setVisible(true);
-                    lote1.setInitialQuantity(stockPando1);
-                    loteRepository.save(lote1);
-                }
+            LocalDate expireDate = LocalDate.parse(expireDateString);
 
-                if (stockPando2 != 0) {
-                    Lote lote2 = new Lote();
-                    lote2.setMedicine(medicine);
-                    lote2.setExpireDate(expireDate);
-                    lote2.setSite("Pando 2");
-                    lote2.setStock(stockPando2);
-                    lote2.setExpire(false);
-                    lote2.setVisible(true);
-                    lote2.setInitialQuantity(stockPando2);
-                    loteRepository.save(lote2);
-                }
+            if (stockPando1 != 0) {
+                Lote lote1 = new Lote();
+                lote1.setMedicine(medicine);
+                lote1.setExpireDate(expireDate);
+                lote1.setSite("Pando 1");
+                lote1.setStock(stockPando1);
+                lote1.setExpire(false);
+                lote1.setVisible(true);
+                lote1.setInitialQuantity(stockPando1);
+                loteRepository.save(lote1);
+            }
 
-                if (stockPando3 != 0) {
-                    Lote lote3 = new Lote();
-                    lote3.setMedicine(medicine);
-                    lote3.setExpireDate(expireDate);
-                    lote3.setSite("Pando 3");
-                    lote3.setStock(stockPando3);
-                    lote3.setExpire(false);
-                    lote3.setVisible(true);
-                    lote3.setInitialQuantity(stockPando3);
-                    loteRepository.save(lote3);
-                }
+            if (stockPando2 != 0) {
+                Lote lote2 = new Lote();
+                lote2.setMedicine(medicine);
+                lote2.setExpireDate(expireDate);
+                lote2.setSite("Pando 2");
+                lote2.setStock(stockPando2);
+                lote2.setExpire(false);
+                lote2.setVisible(true);
+                lote2.setInitialQuantity(stockPando2);
+                loteRepository.save(lote2);
+            }
 
-                if (stockPando4 != 0) {
-                    Lote lote4 = new Lote();
-                    lote4.setMedicine(medicine);
-                    lote4.setExpireDate(expireDate);
-                    lote4.setSite("Pando 4");
-                    lote4.setStock(stockPando4);
-                    lote4.setExpire(false);
-                    lote4.setVisible(true);
-                    lote4.setInitialQuantity(stockPando4);
-                    loteRepository.save(lote4);
-                }
+            if (stockPando3 != 0) {
+                Lote lote3 = new Lote();
+                lote3.setMedicine(medicine);
+                lote3.setExpireDate(expireDate);
+                lote3.setSite("Pando 3");
+                lote3.setStock(stockPando3);
+                lote3.setExpire(false);
+                lote3.setVisible(true);
+                lote3.setInitialQuantity(stockPando3);
+                loteRepository.save(lote3);
+            }
 
-        return "redirect:listaMedicamentos";
+            if (stockPando4 != 0) {
+                Lote lote4 = new Lote();
+                lote4.setMedicine(medicine);
+                lote4.setExpireDate(expireDate);
+                lote4.setSite("Pando 4");
+                lote4.setStock(stockPando4);
+                lote4.setExpire(false);
+                lote4.setVisible(true);
+                lote4.setInitialQuantity(stockPando4);
+                loteRepository.save(lote4);
+            }
+            return "redirect:listaMedicamentos";
+        } else {
+            model.addAttribute("error", "Se debe ingresar una fecha válida y con el formato yyyy-MM-dd");
+            model.addAttribute("medicine", medicine);
+            return "superAdmin/anadirLotesNuevoMedicamento";
+        }
     }
 
     @GetMapping("/editarMedicamento")
@@ -224,17 +248,17 @@ public class  SuperAdminController {
                                             @RequestParam("disponibilidadPando4") String disponible4) {
         medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
 
-        Calendar calendar = Calendar.getInstance();
+        //Calendar calendar = Calendar.getInstance();
 
         // Obtener la fecha actual
-        Date fechaActual = new Date();
-        calendar.setTime(fechaActual);
+        LocalDate fechaActual = LocalDate.now();
+        ;
 
         // Agregar tres años a la fecha actual
-        calendar.add(Calendar.YEAR, 3);
+        //calendar.add(Calendar.YEAR, 3);
 
         // Obtener la nueva fecha después de agregar tres años
-        Date nuevaFecha = calendar.getTime();
+        LocalDate nuevaFecha = fechaActual.plusYears(3);
 
         boolean visibilidad1;
         boolean visibilidad2;
@@ -481,7 +505,6 @@ public class  SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
-            administrator.setPassword("passworDefault");
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
@@ -491,6 +514,24 @@ public class  SuperAdminController {
             } else {
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
                 administratorRepository.save(administrator);
+                User user = new User();
+                user.setEmail(administrator.getEmail());
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+                String password = generateRandomWord();
+
+                String encryptedPassword = passwordEncoder.encode(password);
+                user.setPassword(encryptedPassword);
+                user.setIdRol(rolRepository.findById(2).get());
+                user.setState(true);
+                userRepository.save(user);
+
+                try {
+                    emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+
                 return "redirect:verListados";
             }
         }
@@ -573,6 +614,22 @@ public class  SuperAdminController {
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
+        User user = new User();
+        Pharmacist pharmacist = pharmacistRepository.getByIdFarmacista(idFarmacista);
+        user.setEmail(pharmacist.getEmail());
+        user.setState(true);
+        String password = generateRandomWord();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(password);
+        user.setPassword(encryptedPassword);
+        user.setIdRol(rolRepository.findById(2).get());
+        userRepository.save(user);
+
+        try {
+            emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", pharmacist.getName(), password);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
 
         return "redirect:verSedeSuperAdminPando1";
     }
@@ -675,6 +732,38 @@ public class  SuperAdminController {
             return "redirect:verPerfil";
         }
 
+    }
+
+
+    public String generateRandomWord() {
+        String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String characters = letters + numbers;
+        int wordLength = 8;
+        Random random = new SecureRandom();
+        StringBuilder word = new StringBuilder(wordLength);
+
+        // Ensure at least one letter
+        word.append(letters.charAt(random.nextInt(letters.length())));
+
+        // Ensure at least one number
+        word.append(numbers.charAt(random.nextInt(numbers.length())));
+
+        // Fill the rest of the word with random characters
+        for (int i = 2; i < wordLength; i++) {
+            word.append(characters.charAt(random.nextInt(characters.length())));
+        }
+
+        // Shuffle the characters to ensure randomness
+        char[] wordArray = word.toString().toCharArray();
+        for (int i = 0; i < wordArray.length; i++) {
+            int randomIndex = random.nextInt(wordArray.length);
+            char temp = wordArray[i];
+            wordArray[i] = wordArray[randomIndex];
+            wordArray[randomIndex] = temp;
+        }
+
+        return new String(wordArray);
     }
 
 

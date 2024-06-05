@@ -64,7 +64,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="nameMedicine">Nombre del Producto</label>
-											<input class="form-control" name="name" type="text" id="nameMedicine"
+											<input class="form-control" type="text" id="nameMedicine" th:field="*{name}"
 												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
@@ -72,7 +72,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="category">Categoría</label>
-											<select name="category" class="form-select" id="category"
+											<select class="form-select" id="category" th:field="*{category}"
 													th:classappend="${#fields.hasErrors('category')? 'is-invalid' : ''}">
 												<option value="">Selecciona categoría</option>
 												<option value="Dolor">Dolor</option>
@@ -88,7 +88,7 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="priceMedicine" >Precio del Producto</label>
-											<input class="form-control" name="price" type="text" id="priceMedicine"
+											<input class="form-control" type="text" id="priceMedicine" th:field="*{price}"
 												   th:classappend="${#fields.hasErrors('price')? 'is-invalid' : ''}">
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 										</div>
@@ -120,7 +120,7 @@
 
 									<div class="form-group">
 										<label for="description">Descripción</label>
-										<textarea name="description" id="description" class="form-control"
+										<textarea th:field="*{description}" id="description" class="form-control"
 												  th:classappend="${#fields.hasErrors('description')? 'is-invalid' : ''}"></textarea>
 										<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 									</div>

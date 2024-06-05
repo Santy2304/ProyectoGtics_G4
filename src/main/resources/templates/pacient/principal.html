@@ -26,6 +26,54 @@
   <link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
   <title>Saint Medic</title>
   <link rel="icon" href="../assets_pacient/img/PastillaSinFondo.png" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+  <style>
+    .pagination{
+      text-align: center;
+      margin:30px 30px 60px;
+      user-select: none;
+    }
+
+    .pagination li{
+      display: inline-block;
+      margin: 5px;
+      box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+    }
+
+    .pagination li a{
+      color: black;
+      text-decoration: none;
+      font-size: 1.2em;
+      line-height: 45px;
+    }
+
+    .previous-page, .next-page{
+      background: #f38a4e;
+      width: 80px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .previous-page:hover{
+      transform: translateX(-5px);
+    }
+    .next-page:hover{
+      transform: translateX(5px);
+    }
+
+    .current-page, .dots{
+      background: white;
+      width: 45px;
+      border-radius: 40%;
+      cursor: pointer;
+    }
+    .active{
+      background:#f38a4e;
+    }
+    .disable{
+      background: #cccccc ;
+    }
+  </style>
 </head>
 <body>
 <div id="global-loader" >
@@ -171,7 +219,6 @@
                   </div>
                 </div>
 
-                <div class="swiper-pagination"></div>
 
               </div>
             </div>
@@ -364,7 +411,7 @@
 
             </style>
 
-            <div class="product-grid row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4">
+            <div class="product-grid row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4" id="cardContainer">
               <!--Lista medicamentos-->
               <div  class="col" th:each="medicine: ${listaMedicinas}">
 
@@ -479,9 +526,87 @@
                       <input  name="idMedicina" th:value="${medicine.idMedicine}" type="hidden" >
                       <button th:onclick="|addCart(${medicine.idMedicine})|" type="button" class="nav-link add-to-cart-button">Agregar al carro <svg width="18" height="18"><use xlink:href="#cart"></use></svg></button>
                     </div>
+
                   </div>
+
               </div>
-            </div>
+              </div>
+            <script type="text/javascript">
+              function getPageList(totalPages, page, maxLength){
+                function range(start, end) {
+                  return Array.from(Array(end-start+1), (_,i) => i+start);
+                }
+
+                var sideWidth = maxLength < 9?1:2;
+                var leftWidth = (maxLength - sideWidth*2-3) >>1;
+                var rightWidth = (maxLength - sideWidth*2-3) >>1;
+
+                if(totalPages <= maxLength){
+                  return range(1, totalPages);
+                }
+
+                if(page<= maxLength - sideWidth - 1- rightWidth){
+                  return  range(1, maxLength - sideWidth - 1).concat(0,range(totalPages - sideWidth +1, totalPages));
+                }
+                if(page>= totalPages - sideWidth - 1- rightWidth){
+                  return  range(1, sideWidth).concat(0,range(totalPages - sideWidth -1-rightWidth-leftWidth, totalPages));
+                }
+                return range(1,sideWidth).concat(0, range(page - leftWidth, page+rightWidth),0, range(totalPages - sideWidth +1, totalPages));
+              }
+
+              $(function (){
+                var numberOfItems= $(".col .product-item").length;
+                var limitPerPage = 8;
+                var totalPages = Math.ceil(numberOfItems / limitPerPage);
+                var paginationSize = 5;
+                var currentPage;
+
+                function showPage(wichPage){
+                  if(wichPage < 1 || wichPage > totalPages) return false;
+                  currentPage = wichPage;
+
+                  // Ocultar todos los elementos de la página actual
+                  $(".col .product-item").hide();
+
+                  // Mostrar los elementos correspondientes a la página actual
+                  $(".col .product-item").slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
+
+                  // Limpiar la paginación antes de agregar los nuevos botones
+                  $(".pagination li:not(:first-child, :last-child)").remove();
+
+                  // Generar y agregar los nuevos botones de paginación
+                  getPageList(totalPages, currentPage, paginationSize).forEach(item => {
+                    $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
+                            .toggleClass("active", item === currentPage)
+                            .append($("<a>").addClass("page-link").attr({href: "javascript:void(0)"}).text(item || "..."))
+                            .insertBefore(".next-page");
+                  });
+
+                  // Habilitar o deshabilitar los botones de página anterior y siguiente según la página actual
+                  $(".previous-page").toggleClass("disable", currentPage === 1);
+                  $(".next-page").toggleClass("disable", currentPage === totalPages);
+
+                  return true;
+                }
+
+                $(".pagination").append(
+                        $("<li>").addClass("page-item").addClass("previous-page").append($("<a>").addClass("page-link").attr({href:"javascript:void(0)"}).text("Prev")),
+                        $("<li>").addClass("page-item").addClass("next-page").append($("<a>").addClass("page-link").attr({href:"javascript:void(0)"}).text("Sig"))
+                );
+                $(".product-item").show();
+                showPage(1);
+
+                $(document).on("click", ".pagination li.current-page:not(.active)",function() {
+                  return showPage(+$(this).text());
+                });
+                $(".next-page").on("click", function() {
+                  return showPage(currentPage+1);
+                });
+                $(".previous-page").on("click", function() {
+                  return showPage(currentPage-1);
+                });
+              });
+            </script>
             <script>
               var cart=[];
               function addCart(a){
@@ -559,25 +684,23 @@
               }
             </script>
 
-            <!-- / product-grid -->
-            <nav class="text-center py-4" aria-label="Page navigation">
-              <ul class="pagination d-flex justify-content-center">
-                <li class="page-item disabled">
-                  <a class="page-link bg-none border-0" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item active" aria-current="page"><a class="page-link border-0" href="#">1</a></li>
-                <li class="page-item"><a class="page-link border-0" href="#">2</a></li>
-                <li class="page-item"><a class="page-link border-0" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link border-0" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
+
+
           </main>
+          <!--Paginacion-->
+          <div style="display: flex; justify-content: center;">
+            <div class="pagination">
+              <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+              <li class="page-item current-page active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+              <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
+              <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
+              <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+              <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
+              <li class="page-item next-page"><a class="page-link" href="#">Sig</a></li>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

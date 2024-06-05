@@ -1,7 +1,9 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 @Entity
 @Table(name="lote")
@@ -15,7 +17,8 @@ public class Lote{
     private String site;
 
     @Column(name = "expiredate")
-    private Date expireDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expireDate;
 
     private boolean expire;
 
@@ -47,11 +50,11 @@ public class Lote{
         this.site = site;
     }
 
-    public Date getExpireDate() {
+    public LocalDate getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(LocalDate expireDate) {
         this.expireDate = expireDate;
     }
 

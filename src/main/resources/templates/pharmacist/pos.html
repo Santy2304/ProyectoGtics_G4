@@ -195,14 +195,14 @@
 
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
+								<div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
 
 									<div th:with="alergiaPresente=true"></div>
 
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -214,6 +214,46 @@
 											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											const productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', () => {
+
+												console.log("Holaaaaa")
+												const newProduct = document.createElement('li');
+												newProduct.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>Alergías</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="button-minus dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="button-plus inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${medicamento.getPrecio()}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+`;
+
+												// Añadir el nuevo elemento li a la lista ul
+												productList.appendChild(newProduct);
+											});
+										});
+									</script>
 
 									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
 									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
@@ -228,14 +268,14 @@
 
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Dolor'}">
+								<div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Dolor'}">
 
 									<div th:with="dolorPresente=true"></div>
 
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -248,6 +288,45 @@
 										</div>
 									</div>
 
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											const productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', () => {
+												console.log("Holaaaaa")
+												const newProduct = document.createElement('ul');
+												newProduct.classList.add('product-lists');
+												newProduct.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>dolor</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="button-minus dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="button-plus inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${medicamento.getPrecio()}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+`;
+
+												// Añadir el nuevo elemento li a la lista ul
+												productList.appendChild(newProduct);
+											});
+										});
+									</script>
 									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
 									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
@@ -261,14 +340,14 @@
 
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Belleza'}">
+								<div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Belleza'}">
 
 									<div th:with="bellezaPresente=true"></div>
 
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -280,6 +359,44 @@
 											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											const productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', () => {
+												console.log("Holaaaaa")
+												const newProduct = document.createElement('ul');
+												newProduct.classList.add('product-lists');
+												newDiv.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>belleza</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="button-minus dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="button-plus inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${medicamento.getPrecio()}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+`;
+												// Añadir el nuevo div al contenedor principal
+												productList.appendChild(newDiv);
+											});
+										});
+									</script>
 
 									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
 									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
@@ -294,14 +411,14 @@
 
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Suplemento'}">
+								<div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Suplemento'}">
 
 									<div th:with="suplementoPresente=true"></div>
 
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -314,6 +431,45 @@
 										</div>
 									</div>
 
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											const productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', () => {
+												console.log("Holaaaaa")
+												const newProduct = document.createElement('ul');
+												newProduct.classList.add('product-lists');
+												newDiv.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>suplemento</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="button-minus dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="button-plus inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${medicamento.getPrecio()}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+`;;
+												// Añadir el nuevo div al contenedor principal
+												productList.appendChild(newDiv);
+											});
+										});
+									</script>
+
 									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
 									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
@@ -325,17 +481,14 @@
 						<div class="tab_content" data-tab="otros">
 
 							<div th:with="otrosPresente=false"></div>
-
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Otros'}">
-
+								<div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if="${medicamento.getCategoria() == 'Otros'}">
 									<div th:with="otrosPresente=true"></div>
-
-
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}" th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -347,7 +500,44 @@
 											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
-
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											const productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', () => {
+												console.log("Holaaaaa")
+												const newProduct = document.createElement('ul');
+												newProduct.classList.add('product-lists');
+												newDiv.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5 >otros</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="button-minus dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="button-plus inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${medicamento.getPrecio()}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+`;;
+												// Añadir el nuevo div al contenedor principal
+												productList.appendChild(newDiv);
+											});
+										});
+									</script>
 									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
 									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
@@ -356,6 +546,7 @@
 
 					</div>
 				</div>
+
 
 
 
@@ -426,7 +617,7 @@
 								<a href="javascript:void(0);">Vaciar carrito</a>
 							</div>
 							<form id="myForm">
-								<div class="product-table">
+								<div id='productList' class="product-table">
 									<ul th:each="product : ${listaComprar}" class="product-lists">
 										<li>
 											<div class="productimg">
@@ -452,7 +643,9 @@
 										</li>
 										<li th:text="${product.price}"></li>
 										<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-									</ul>
+
+
+                                    </ul>
 								</div>
 							</form>
 						</div>
@@ -835,16 +1028,24 @@
 											Swal.fire({
 												colorIcon:'#805409'  ,
 												showCancelButton: true,
+												confirmButtonText: 'Ok',
+												cancelButtonText: 'Cancelar',
 												confirmButtonColor: '#d48e15',
 												cancelButtonColor: '#805409',
 												icon: "error",
+												iconColor: '#805409',
 												title: "Oops...",
 												text: "No se encontró ningún paciente con ese número de dni",
 											});
 											break;
 										case "casteo":
 											Swal.fire({
+												colorIcon:'#805409'  ,
+												showCancelButton: true,
+												confirmButtonText: 'Ok',
+												confirmButtonColor: '#d48e15',
 												icon: "error",
+												iconColor: '#805409',
 												title: "Oops...",
 												text: "Se ingreso un número incoherente",
 											});
@@ -1453,6 +1654,23 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	document.addEventListener('click', (event) => {
+		if (event.target.classList.contains('button-minus')) {
+			const quantityField = event.target.nextElementSibling;
+			let currentQuantity = parseInt(quantityField.value);
+			if (currentQuantity > 1) {
+				quantityField.value = currentQuantity - 1;
+			}
+		} else if (event.target.classList.contains('button-plus')) {
+			const quantityField = event.target.previousElementSibling;
+			let currentQuantity = parseInt(quantityField.value);
+			quantityField.value = currentQuantity + 1;
+		}
+	});
+</script>
+
 <!-- jQuery -->
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 

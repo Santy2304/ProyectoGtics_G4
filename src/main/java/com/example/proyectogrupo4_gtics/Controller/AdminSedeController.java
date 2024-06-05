@@ -183,7 +183,6 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-            pharmacist.setPassword("default");
             pharmacist.setSite(admin.getSite());
             pharmacist.setApprovalState("pendiente");
             pharmacist.setRequestDate(LocalDate.now());
@@ -700,7 +699,7 @@ public class AdminSedeController {
                                         lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
                                         //lote.setIdLote();
                                         lote.setSite((String) model.getAttribute("sede"));
-                                        lote.setExpireDate(new Date());
+                                        lote.setExpireDate(LocalDate.now());
                                         lote.setExpire(false);
                                         lote.setStock(Integer.parseInt(quantity));
                                         lote.setReplacementOrder(newReplacementOrder);

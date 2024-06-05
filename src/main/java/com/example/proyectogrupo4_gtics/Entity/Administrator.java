@@ -6,7 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -44,8 +46,7 @@ public class Administrator implements Serializable  {
     @Email(message = "Se debe ingresar un correo electrónico")
     private String email;
 
-    @Column(name="password")
-    private String password;
+
 
     @Column(name="state")
     @NotBlank(message = "Este campo es obligatorio")
@@ -57,6 +58,30 @@ public class Administrator implements Serializable  {
     @Column(name = "datecreationaccount", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
+
+    @NotNull
+    @Column(name = "changepassword", nullable = false)
+    private Boolean changePassword;
+
+    @Column(name = "expirationdate")
+    private LocalDateTime expirationDate;
+
+
+    public Boolean getChangePassword() {
+        return changePassword;
+    }
+
+    public void setChangePassword(Boolean changePassword) {
+        this.changePassword = changePassword;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     public int getIdAdministrador() {
         return idAdministrador;
@@ -106,13 +131,7 @@ public class Administrator implements Serializable  {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
 
     public String getState() {

@@ -4,26 +4,26 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "carrito", schema = "proyectogtics")
-public class Carrito {
+@Table(name = "carritoventa", schema = "proyectogtics")
+public class CarritoVenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idcarrito", nullable = false)
+    @Column(name = "idcarritoventa", nullable = false)
     private Integer id;
 
     @NotNull
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idpatient", nullable = false)
-    private Patient idPatient;
+    @JoinColumn(name = "idpharmacist", nullable = false)
+    private Pharmacist idPharmacist;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idmedicine", nullable = false)
     private Medicine idMedicine;
-
-    @NotNull
-    @Column(name = "cantidad", nullable = false)
-    private Integer cantidad;
 
     public Integer getId() {
         return id;
@@ -33,12 +33,20 @@ public class Carrito {
         this.id = id;
     }
 
-    public Patient getIdPatient() {
-        return idPatient;
+    public Integer getCantidad() {
+        return cantidad;
     }
 
-    public void setIdPatient(Patient idPatient) {
-        this.idPatient = idPatient;
+    public void setCantidad(Integer cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public Pharmacist getIdPharmacist() {
+        return idPharmacist;
+    }
+
+    public void setIdPharmacist(Pharmacist idPharmacist) {
+        this.idPharmacist = idPharmacist;
     }
 
     public Medicine getIdMedicine() {
@@ -47,14 +55,6 @@ public class Carrito {
 
     public void setIdMedicine(Medicine idMedicine) {
         this.idMedicine = idMedicine;
-    }
-
-    public Integer getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
     }
 
 }

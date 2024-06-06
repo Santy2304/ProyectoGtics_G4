@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.lang.reflect.Array;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,11 +37,14 @@ public class PharmacistController {
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final PatientRepository patientRepository;
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
+    final CarritoRepository carritoRepository ;
+    final CarritoVentaRepository carritoVentaRepository ;
+
 
     final UserRepository userRepository;
 
 
-    public PharmacistController(PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,UserRepository userRepository) {
+    public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,UserRepository userRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -48,7 +53,8 @@ public class PharmacistController {
         this.patientRepository = patientRepository;
         this.purchaseHasLoteRepository = purchaseHasLoteRepository;
         this.userRepository = userRepository;
-
+        this.carritoRepository = carritoRepository;
+        this.carritoVentaRepository = carritoVentaRepository;
     }
 
     @GetMapping("/sessionPharmacist")
@@ -104,7 +110,7 @@ public class PharmacistController {
     }
 
     @GetMapping("/posFarmacista")
-    public String verPosPharmacist(Model model){
+    public String verPosPharmacist(Model model , HttpSession session ){
         int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -121,17 +127,8 @@ public class PharmacistController {
             model.addAttribute("fullNamePatient" , null);
             model.addAttribute("fullNameDoctor" , null);
         }
-        ArrayList<Integer> ola = new ArrayList<>();
-        ola.add(1);
-        ola.add(3);
-        ola.add(26);
-        ola.add(27);
-        //Enviamos una cantidad de medicamentos con sus cantidades deseadas
-        ArrayList<Medicine> lista = new ArrayList<>() ;
-        for(Integer id :  ola){
-            lista.add(medicineRepository.findById(id).get());
-        }
-        model.addAttribute("listaComprar" , lista);
+        int idPhar = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
+        model.addAttribute("listaComprar" , carritoVentaRepository.getMedicineListByPharmacist(idPhar));
         return "pharmacist/pos";
     }
 
@@ -463,6 +460,135 @@ public class PharmacistController {
         }
         return response;
     }
+
+
+    //Metodos RestServer
+    @GetMapping(value="/addCarritoVenta")
+    public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            if (idProducto != null) {
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                //Verficamos que no este repetido
+                List<CarritoVenta> lista =  carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
+                boolean existeMecidina =false;
+                for(CarritoVenta c : lista){
+                    if(c.getIdMedicine().getIdMedicine() == idProduct){
+                        existeMecidina = true;
+                    }
+                }
+                if(!existeMecidina){
+                    CarritoVenta car  = new CarritoVenta();
+                    car.setCantidad(1);
+                    car.setIdPharmacist(p);
+                    car.setIdMedicine(medicineRepository.findById(Integer.parseInt(idProducto)).get());
+                    carritoVentaRepository.save(car);
+                    HashMap<String, Object> okey = new HashMap<>();
+                    okey.put("Succes", "Todo good");
+                    return ResponseEntity.ok(okey);
+                }else{
+                    System.out.println("pepepe");
+                    HashMap<String, Object> er = new HashMap<>();
+                    er.put("error", "se repite el medicamento en la lista");
+                    return ResponseEntity.badRequest().body(er);
+                }
+
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
+    ///pharmacist/vaciarCarrito
+    @GetMapping(value="/vaciarCarrito")
+    public Object deleteCarrito( HttpSession session){
+        List<CarritoVenta>list = carritoVentaRepository.getMedicineListByPharmacist(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista());
+        ArrayList<Integer> listaId = new ArrayList<>();
+        for(CarritoVenta c : list ){
+            listaId.add (c.getId());
+        }
+        carritoVentaRepository.deleteAllByIdInBatch(listaId);
+        return "redirect:posFarmacista";
+    }
+
+    @GetMapping(value="/deleteProduct")
+    public Object deleteProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            if (idProducto != null) {
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
+                CarritoVenta cat =  new CarritoVenta();
+                for(CarritoVenta c : listaCart){
+                    if(c.getIdMedicine().getIdMedicine() == idProduct){
+                        cat =  c;
+                    }
+                }
+                carritoVentaRepository.deleteById(cat.getId());
+                HashMap<String, Object> okey = new HashMap<>();
+                okey.put("Succes", "Todo good");
+                return ResponseEntity.ok(okey);
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    //  deleteProductCarritoVenta
+
+    @GetMapping(value="/deleteProductCarritoVenta")
+    public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
+            if (idProducto != null) {
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
+                CarritoVenta cat =  new CarritoVenta();
+                for(CarritoVenta c : listaCart){
+                    if(c.getIdMedicine().getIdMedicine() == m.getIdMedicine()){
+                        cat =  c;
+                    }
+                }
+                carritoVentaRepository.deleteById(cat.getId());
+                HashMap<String, Object> okey = new HashMap<>();
+                okey.put("Succes", "Todo good");
+                return ResponseEntity.ok(okey);
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
 
 }
 class errorData{

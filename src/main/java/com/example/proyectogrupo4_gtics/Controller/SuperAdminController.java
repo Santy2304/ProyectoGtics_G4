@@ -246,7 +246,7 @@ public class  SuperAdminController {
                                             @RequestParam("disponibilidadPando2") String disponible2,
                                             @RequestParam("disponibilidadPando3") String disponible3,
                                             @RequestParam("disponibilidadPando4") String disponible4) {
-        medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
+        medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getPhoto(),medicine.getIdMedicine());
 
         //Calendar calendar = Calendar.getInstance();
 

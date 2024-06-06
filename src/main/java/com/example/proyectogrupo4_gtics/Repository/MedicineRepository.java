@@ -38,8 +38,8 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
-    void actualizarMedicine(String name, String category, BigDecimal price, String description , int idMedicine);
+    @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4, photo=?5  where idMedicine = ?6")
+    void actualizarMedicine(String name, String category, BigDecimal price, String description, String photo, int idMedicine);
 
 
     /*Rol administrador de sede*/

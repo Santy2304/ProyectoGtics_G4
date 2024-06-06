@@ -385,7 +385,7 @@
                       <td th:text="${medicamento.getNombreMedicamento()}"></td>
                       <td class="productimgname" style="text-align: center;">
                         <a th:id="|A${medicamento.idMedicine}|" class="product-img" >
-                          <img  src="/assets_superAdmin/images/gaseovet.jpg" alt="product">
+                          <img  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="product">
                         </a>
                       </td>
                       <td th:text="${medicamento.getCategoria()}"></td>
@@ -393,20 +393,22 @@
                       <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
                       <td th:text="${medicamento.getPrecio()}"></td>
                       <script th:inline="javascript" >
-                        $("#A" + [[${medicamento.idMedicine}]]).click( function(){
-                          Swal.fire({
-                            title: [[${medicamento.getNombreMedicamento()}]],
-                            text: [[${medicamento.getDescription()}]],
-                            imageUrl: "/assets_superAdmin/images/gaseovet.jpg",
-                            imageWidth: 400,
-                            imageHeight: 200,
-                            imageAlt: "Custom image" ,
-                            confirmButtonColor: "#dd986a"
+
+                          $("#A" + [[${medicamento.idMedicine}]]).click(function () {
+                            Swal.fire({
+                              title: [[${medicamento.getNombreMedicamento()}]],
+                              text: [[${medicamento.getDescription()}]],
+                              imageUrl: '/assets_superAdmin/ImagenesMedicina/'+[[${medicamento.getPhoto()}]],
+                              imageWidth: 400,
+                              imageHeight: 200,
+                              imageAlt: "Custom image",
+                              confirmButtonColor: "#dd986a"
+                            })
                           })
-                        })
                       </script>
                     </tr>
                     <!--
+                    th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}"
                     <!td>
                         <a class="me-3" href="editproduct.html">
                             <img src="assets/img/icons/edit.svg" alt="img">

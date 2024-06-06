@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -151,9 +152,6 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) and l.visible=true group by m.idMedicine\n")
     List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
 
-
-
-
     @Query(nativeQuery = true, value="SELECT\n" +
             "    m.idMedicine,\n" +
             "    m.name AS medicineName,\n" +
@@ -172,4 +170,22 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "    m.idMedicine, m.name")
     List<MeciamentosPorCompraDTO> listaMedicamentosPorCompra(int idPurchase);
 
+    /*Rol Paciente*/
+
+    @Query("SELECT m.idMedicine as idMedicine, m.name as nombreMedicamento, m.description as description, m.category as categoria, m.price as precio " +
+            "FROM Medicine m " +
+            "JOIN m.lote l " +
+            "WHERE l.site = :idSede " +
+            "GROUP BY m.idMedicine, m.name, m.description, m.category, m.price")
+    List<medicamentosPorSedeDTO> getMedicinesBySite(@Param("idSede") int idSede);
+
+    @Query("SELECT m.idMedicine as idMedicine, m.name as nombreMedicamento, m.description as description, m.category as categoria, m.price as precio " +
+            "FROM Medicine m " +
+            "JOIN m.lote l " +
+            "WHERE l.site = :idSede AND m.category = :categoria " +
+            "GROUP BY m.idMedicine, m.name, m.description, m.category, m.price")
+    List<medicamentosPorSedeDTO> getMedicineBySiteAndCategory(@Param("idSede") int idSede, @Param("categoria") String categoria);
+
+    @Query("SELECT DISTINCT m.category FROM Medicine m")
+    List<String> findAllCategories();
 }

@@ -274,33 +274,18 @@
         <div class="col-md-12">
           <div class="category-carousel swiper">
             <div class="swiper-wrapper">
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Analgésicos</h3>
+              <a th:each="categoria : ${categorias}" href="#" class="nav-link category-item swiper-slide">
+                <img th:src="@{'../assets_pacient/images/' + ${categoria.toLowerCase() + '.png'}}" width="120" height="95" alt="Category Thumbnail">
+                <h3 class="category-title" th:text="${categoria}"></h3>
               </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/suplemento.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Suplementos</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/belleza.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Belleza</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Alergias</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Otros</h3>
-              </a>
+              <!--carrito oculto
               <a  class="nav-link category-item swiper-slide">
                 <img src="..\assets_pacient\img\icons\sales1.svg" width="120" height="95" alt="Category Thumbnail">
                 <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                   <h3 class="category-title">Carrito</h3>
                   <span class="cart-total fs-5 fw-bold">S/290.00</span>
                 </button>
-              </a>
+              </a>-->
 
             </div>
           </div>
@@ -331,25 +316,13 @@
                   <li class="cat-item">
                     <a href="#">Todas</a>
                   </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Dolor</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Alergia</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Suplemento</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Belleza</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Otro</a>
+                  <li th:each="categoria : ${categorias}" class="cat-item">
+                    <a th:href="'#' + ${categoria.toLowerCase()}" class="nav-link" th:text="${categoria}"></a>
                   </li>
                 </ul>
               </div>
 
-              <div class="widget-price-filter pt-3">
+              <!--<div class="widget-price-filter pt-3">
                 <h5 class="widget-titlewidget-title">Filtrar por precio</h5>
                 <ul class="product-tags sidebar-list list-unstyled">
                   <li class="tags-item">
@@ -368,7 +341,7 @@
                     <a href="#" class="nav-link">S/40.00- S/50.00</a>
                   </li>
                 </ul>
-              </div>
+              </div>-->
             </div>
           </aside>
 
@@ -414,8 +387,7 @@
             <div class="product-grid row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4" id="cardContainer">
               <!--Lista medicamentos-->
               <div  class="col" th:each="medicine: ${listaMedicinas}">
-
-                  <div class="product-item" >
+                  <div class="product-item" th:if="${categoriaSeleccionada == 'Todas' or medicine.categoria == categoriaSeleccionada}" >
                     <a  th:id="|${medicine.idMedicine}|" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#products"></use></svg></a>
                     <script th:inline="javascript" >
                       document.getElementById([[${medicine.idMedicine}]]).onclick = function (){
@@ -530,7 +502,23 @@
                   </div>
 
               </div>
-              </div>
+            </div>
+            <script th:inline="javascript">
+              $(document).ready(function() {
+                $('#selectCategoria').change(function() {
+                  var categoriaSeleccionada = $(this).val();
+                  // Si se selecciona "Todas", mostrar todos los productos
+                  if (categoriaSeleccionada === 'Todas') {
+                    $('.product-item').show();
+                  } else {
+                    // Oculta todos los productos
+                    $('.product-item').hide();
+                    // Muestra solo los productos de la categoría seleccionada
+                    $('.product-item[data-categoria="' + categoriaSeleccionada + '"]').show();
+                  }
+                });
+              });
+            </script>
             <script type="text/javascript">
               function getPageList(totalPages, page, maxLength){
                 function range(start, end) {

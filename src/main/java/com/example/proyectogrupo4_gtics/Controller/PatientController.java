@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.apache.catalina.connector.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,6 +39,8 @@ public class PatientController {
 
     final SiteRepository siteRepository;
     final PatientRepository patientRepository;
+
+    @Autowired
     final MedicineRepository medicineRepository;
 
     final PurchaseHasLoteRepository purchaseHasLoteRepository;
@@ -269,11 +272,29 @@ public class PatientController {
         model.addAttribute("paciente" , patient.get());
         return "pacient/perfil";
     }
+
     @GetMapping("/verPrincipalPaciente")
-    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
+    public String verPrincipalPaciente(HttpSession httpSesion , Model model ,
+                                       @SessionAttribute String idSede,
+                                       @RequestParam(required = false) String categoria){
+        // Verificar que el usuario esté en la sesión
+        Patient patient = (Patient) httpSesion.getAttribute("usuario");
+        if (patient == null) {
+            return "redirect:/login"; // Redirigir a la página de login si no hay usuario en la sesión
+        }
+
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
-        model.addAttribute("listaMedicinas" , listMedicineBySede) ;
+
+        List<medicamentosPorSedeDTO> listMedicineBySede;
+        if (categoria != null && !categoria.isEmpty()) {
+            listMedicineBySede = medicineRepository.getMedicineBySiteAndCategory(Integer.parseInt(idSede), categoria);
+        } else {
+            listMedicineBySede = medicineRepository.getMedicinesBySite(Integer.parseInt(idSede));
+        }
+        List<String> categorias = medicineRepository.findAllCategories();
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("listaMedicinas", listMedicineBySede);
+        model.addAttribute("categoriaActual", categoria);
         return "pacient/principal";
     }
     //No funciona bien
@@ -362,6 +383,12 @@ public class PatientController {
         private String precio;
         private String cantidad;
         private String idMedicina;
+        private String categoria;
+
+        public String getCategoria() {return categoria;}
+
+        public void setCategoria(String categoria) {this.categoria = categoria;}
+
         public String getNombre() {
             return nombre;
         }
@@ -393,6 +420,8 @@ public class PatientController {
         public void setIdMedicina(String idMedicina) {
             this.idMedicina = idMedicina;
         }
+
+
     }
 
 

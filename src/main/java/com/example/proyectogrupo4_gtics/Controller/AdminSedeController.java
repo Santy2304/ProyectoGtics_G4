@@ -7,7 +7,9 @@ import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,15 +36,36 @@ public class AdminSedeController {
     final MedicineRepository medicineRepository;
     final ReplacementOrderRepository replacementOrderRepository;
     final LoteRepository loteRepository;
+    final UserRepository userRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
-                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository , LoteRepository loteRepository) {
+                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
+                               LoteRepository loteRepository,UserRepository userRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.medicineRepository = medicineRepository;
         this.replacementOrderRepository = replacementOrderRepository ;
         this.loteRepository =loteRepository;
+        this.userRepository=userRepository;
     }
+
+
+    @GetMapping("/cambioObligatorio")
+    public String cambioObligatorio( Model model){
+
+        return "admin_sede/changePasswordFirstTime";
+    }
+    @PostMapping("/efectuarCambioContrasena")
+    public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Administrator administrator = (Administrator) httpSession.getAttribute("usuario");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(password);
+        userRepository.actualizarPassword(encryptedPassword,administrator.getEmail());
+        administratorRepository.updateChangePasswrod(administrator.getIdAdministrador());
+        return "redirect:ElegirSede";
+    }
+
+
     //Doctores por sede
     @GetMapping("/listaDoctores")
     public String listDoctors(Model model){
@@ -238,6 +261,7 @@ public class AdminSedeController {
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
                     attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
+                    pharmacist.setChangePassword(false);
                     pharmacistRepository.save(pharmacist);
                     return "redirect:listaFarmacista";
                 }

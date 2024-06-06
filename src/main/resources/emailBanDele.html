@@ -18,6 +18,7 @@
                 color: orange; /* Cambia este color al que prefieras */
                 font-weight: bold;
                 font-style: italic;
+                text-decoration: underline;
             }
         </style>
 
@@ -27,9 +28,8 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="cid:bannerImage" alt="Banner" style="max-width: 100%; height: auto;">
         </div>
-        <h1 style="color: darkorange; text-align: center" class="text-center">Bienvenido a Saint Medic</h1>
-        <p>Hola, {{name}}!</p>
-        <p>Tu cuenta ha sido creada exitosamente. Tu contraseña inicial es: <span class="highlight-password">{{password}}</span>.</p>
-        <p> Por favor cambia tu contraseña al iniciar sesión por primera vez. Esta es de una duración de solo 10 minutos, pasado el tiempo deberas registrarte nuevamente.</p>
+        <h1 style="color: darkorange; text-align: center" class="text-center">{{titulo}}</h1>
+        <p>Hola, {{name}}</p>
+        <p>{{texto}}.</p>
     </body>
 </html>

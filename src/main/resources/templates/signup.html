@@ -162,12 +162,12 @@
                                     icon: "succes",
                                     iconColor: "orange",
                                     title: "Bienvenido a SAINT MEDIC",
-                                    text:"te enviamos un enlace a tu correo para que puedas iniciar sesión",
+                                    text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
                                     confirmButtonColor: "#dd986a"
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // Redirecciona a otra vista
-                                        window.location.href = '/crearCuenta';
+                                        window.location.href = '/inicioSesion';
                                     }
                                 });
                                 break;

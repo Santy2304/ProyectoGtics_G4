@@ -81,12 +81,22 @@ public class SecurityConfig  {
                             break;
                         case ("admin"):
                             session.setAttribute("usuario",administratorRepository.findByEmail(authentication.getName()));
+                            if (administratorRepository.findByEmail(authentication.getName()).getChangePassword().equals(false)){
+                                response.sendRedirect("/adminSede/cambioObligatorio?idUser="+ ((Administrator) session.getAttribute("usuario")).getIdAdministrador());
 
-                            response.sendRedirect("/adminSede/sessionAdmin?idUser="+((Administrator) session.getAttribute("usuario")).getIdAdministrador());
+                            }else {
+                                response.sendRedirect("/adminSede/sessionAdmin?idUser=" + ((Administrator) session.getAttribute("usuario")).getIdAdministrador());
+                            }
                             break;
                         case ("farmacista"):
                             session.setAttribute("usuario",pharmacistRepository.findByEmail(authentication.getName()));
-                            response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
+
+                            if (pharmacistRepository.findByEmail(authentication.getName()).getChangePassword().equals(false)){
+                                response.sendRedirect("/pharmacist/cambioObligatorio?idUser="+ ((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
+
+                            }else{
+                                response.sendRedirect("/pharmacist/sessionPharmacist?idUser="+((Pharmacist) session.getAttribute("usuario")).getIdFarmacista());
+                            }
                             break;
                         case ("paciente"):
                             session.setAttribute("usuario",(patientRepository.findByEmail(authentication.getName()).get()));

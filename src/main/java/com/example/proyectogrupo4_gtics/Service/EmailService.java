@@ -65,7 +65,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         // Carga de la plantilla HTML desde los recursos
-        var resource = new ClassPathResource("emailRechazo");
+        var resource = new ClassPathResource("emailRechazo.html");
         String html = new String(StreamUtils.copyToByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
 
         // Reemplazar marcadores de posición en la plantilla
@@ -89,7 +89,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         // Carga de la plantilla HTML desde los recursos
-        var resource = new ClassPathResource("emailRechazo");
+        var resource = new ClassPathResource("emailBanDele.html");
         String html = new String(StreamUtils.copyToByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
 
         // Reemplazar marcadores de posición en la plantilla
@@ -113,7 +113,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         // Carga de la plantilla HTML desde los recursos
-        var resource = new ClassPathResource("emailRechazo");
+        var resource = new ClassPathResource("emailEditAdminSede.html");
         String html = new String(StreamUtils.copyToByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
 
         // Reemplazar marcadores de posición en la plantilla
@@ -140,7 +140,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         // Carga de la plantilla HTML desde los recursos
-        var resource = new ClassPathResource("emailRechazo");
+        var resource = new ClassPathResource("emailEditFarmacist.html");
         String html = new String(StreamUtils.copyToByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
 
         // Reemplazar marcadores de posición en la plantilla

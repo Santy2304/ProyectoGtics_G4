@@ -551,7 +551,7 @@ public class  SuperAdminController {
 
             }
 
-            if (!administratorPasado.getState().equals("baneado") && administrator.getState().equals("activo")){
+            if (administratorPasado.getState().equals("baneado") && administrator.getState().equals("activo")){
                 try {
                     emailService.sendHtmlBanDele(administrator.getEmail(), "Regreso a Saint Medic", administrator.getName(),"Ha sido desbaneado de Saint Medic","Hemos tomado la decisión de devolverle el acceso a la plataforma, a partir de ahora ya puede ingresar.");
                 } catch (MessagingException | IOException e) {
@@ -628,7 +628,7 @@ public class  SuperAdminController {
 
             }
 
-            if (!pharmacistPasado.getState().equals("baneado") && pharmacist.getState().equals("activo")){
+            if (pharmacistPasado.getState().equals("baneado") && pharmacist.getState().equals("activo")){
                 try {
                     emailService.sendHtmlBanDele(pharmacist.getEmail(), "Regreso a Saint Medic", pharmacist.getName(),"Ha sido desbaneado de Saint Medic","Hemos tomado la decisión de devolverle el acceso a la plataforma, a partir de ahora ya puede ingresar.");
                 } catch (MessagingException | IOException e) {

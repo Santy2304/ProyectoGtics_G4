@@ -62,7 +62,7 @@ public class AdminSedeController {
         String encryptedPassword = passwordEncoder.encode(password);
         userRepository.actualizarPassword(encryptedPassword,administrator.getEmail());
         administratorRepository.updateChangePasswrod(administrator.getIdAdministrador());
-        return "redirect:ElegirSede";
+        return "redirect:dashboardAdminSede";
     }
 
 

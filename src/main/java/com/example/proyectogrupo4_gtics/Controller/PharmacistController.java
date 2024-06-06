@@ -63,7 +63,7 @@ public class PharmacistController {
         String encryptedPassword = passwordEncoder.encode(password);
         userRepository.actualizarPassword(encryptedPassword,pharmacist.getEmail());
         pharmacistRepository.updateChangePasswrod(pharmacist.getIdFarmacista());
-        return "redirect:ElegirSede";
+        return "redirect:verMedicinelist";
     }
     @GetMapping("/sessionPharmacist")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idPharmacist){

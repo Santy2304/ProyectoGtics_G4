@@ -101,6 +101,16 @@ public class LogInController {
     public String forgetPassword(){
         return "forgetpassword";
     }
+
+
+    @GetMapping("/enviarEmailForget")
+    public String enviarCorreoForgot(Model model){
+
+
+
+        return "redirect:inicioSesion";
+    }
+
     /*Cambiar contraseña sin enviar correo*/
     @GetMapping("/changePassword")
     public String verChangePassword(Model model){
@@ -170,7 +180,6 @@ public class LogInController {
       //              "Bienvenido a Nuestro Servicio",
     //                "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
   //          );
-
 
             try {
                 emailService.sendHtmlMessage(patient.getEmail(), "Bienvenido a SaintMedic", patient.getName(), password);

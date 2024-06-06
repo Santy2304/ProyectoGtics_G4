@@ -7,17 +7,18 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "carrito", schema = "proyectogtics")
 public class Carrito {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcarrito", nullable = false)
     private Integer id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idPatient", nullable = false)
+    @JoinColumn(name = "idpatient", nullable = false)
     private Patient idPatient;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idMedicine", nullable = false)
+    @JoinColumn(name = "idmedicine", nullable = false)
     private Medicine idMedicine;
 
     @NotNull

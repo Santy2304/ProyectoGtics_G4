@@ -32,5 +32,14 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     @Query(nativeQuery = true, value="update users set password= ?1 where email=?2")
     void actualizarPassword(String pswrd, String email);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update users set state= 0 where email=?1")
+    void banear(String email);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update users set state= 1 where email=?1")
+    void desbanear(String email);
 
 }

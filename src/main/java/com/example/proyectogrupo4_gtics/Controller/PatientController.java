@@ -98,7 +98,6 @@ public class PatientController {
 
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio( Model model){
-        //Se listan las sedes
 
         return "changePasswordFirstTime";
     }

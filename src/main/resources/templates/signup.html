@@ -105,6 +105,11 @@
                     <div class="form-login">
                         <button  class="btn btn-login" type="button" id="registro" >Registrarse</button>
                     </div>
+
+                    <div class="signinform text-center">
+                        <h4>Espere a la confirmación de creación, esto puede tomar unos segundos</h4>
+                    </div>
+
                     <div class="signinform text-center">
                         <h4>¿Ya tienes una cuenta? <a href="/inicioSesion" class="hover-a"> Inicia sesión</a></h4>
                     </div>
@@ -162,12 +167,12 @@
                                     icon: "succes",
                                     iconColor: "orange",
                                     title: "Bienvenido a SAINT MEDIC",
-                                    text:"te enviamos un enlace a tu correo para que puedas iniciar sesión",
+                                    text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
                                     confirmButtonColor: "#dd986a"
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // Redirecciona a otra vista
-                                        window.location.href = '/crearCuenta';
+                                        window.location.href = '/inicioSesion';
                                     }
                                 });
                                 break;

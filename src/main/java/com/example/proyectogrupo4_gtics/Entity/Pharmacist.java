@@ -78,7 +78,7 @@ public class Pharmacist implements Serializable  {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate requestDate;
 
-    @NotNull
+
     @Column(name = "changepassword", nullable = false)
     private Boolean changePassword;
 

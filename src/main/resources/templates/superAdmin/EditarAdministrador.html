@@ -49,7 +49,8 @@
 
 
 			<!-- Sidebar -->
-			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')"> </div>
+
+			<div th:insert="~{sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')}"></div>
 
 			<!-- /Sidebar -->
 

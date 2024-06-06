@@ -41,16 +41,16 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
 
 
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' or approvalState='rechazado' and site = 'Pando 1'")
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE (approvalState = 'pendiente' or approvalState='rechazado') and site = 'Pando 1'")
     List<Pharmacist> listarSolicitudesFarmacistaPando1();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' or approvalState='rechazado' and site = 'Pando 2'")
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE (approvalState = 'pendiente' or approvalState='rechazado') and site = 'Pando 2'")
     List<Pharmacist> listarSolicitudesFarmacistaPando2();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' or approvalState='rechazado' and site = 'Pando 3'")
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE (approvalState = 'pendiente' or approvalState='rechazado') and site = 'Pando 3'")
     List<Pharmacist> listarSolicitudesFarmacistaPando3();
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE approvalState = 'pendiente' or approvalState='rechazado' and site = 'Pando 4'")
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE (approvalState = 'pendiente' or approvalState='rechazado') and site = 'Pando 4'")
     List<Pharmacist> listarSolicitudesFarmacistaPando4();
 
 
@@ -85,6 +85,11 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(value="update pharmacist set email = ?1, distrit = ?2, name=?3,lastName=?4 where idPharmacist=?5", nativeQuery = true)
     void actualizarPerfilFarmacista(String email, String distrit, String name, String lastName, int idPharmacist);
 
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery= true , value="update pharmacist set changePassword=1 where idPharmacist= ?1")
+    void updateChangePasswrod(int id);
  }
 
 

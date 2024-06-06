@@ -57,6 +57,20 @@ public class PharmacistController {
         this.carritoVentaRepository = carritoVentaRepository;
     }
 
+    @GetMapping("/cambioObligatorio")
+    public String cambioObligatorio(){
+
+        return "pharmacist/changePasswordFirstTime";
+    }
+    @PostMapping("/efectuarCambioContrasena")
+    public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Pharmacist pharmacist = (Pharmacist) httpSession.getAttribute("usuario");
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encryptedPassword = passwordEncoder.encode(password);
+        userRepository.actualizarPassword(encryptedPassword,pharmacist.getEmail());
+        pharmacistRepository.updateChangePasswrod(pharmacist.getIdFarmacista());
+        return "redirect:verMedicinelist";
+    }
     @GetMapping("/sessionPharmacist")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idPharmacist){
         model.addAttribute("idUser",idPharmacist);

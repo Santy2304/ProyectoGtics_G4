@@ -96,10 +96,21 @@ public class LogInController {
     }
 
 
+
     @GetMapping("/forgetPassword")
     public String forgetPassword(){
         return "forgetpassword";
     }
+
+
+    @GetMapping("/enviarEmailForget")
+    public String enviarCorreoForgot(Model model){
+
+
+
+        return "redirect:inicioSesion";
+    }
+
     /*Cambiar contraseña sin enviar correo*/
     @GetMapping("/changePassword")
     public String verChangePassword(Model model){

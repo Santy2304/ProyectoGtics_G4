@@ -18,7 +18,6 @@
                 color: orange; /* Cambia este color al que prefieras */
                 font-weight: bold;
                 font-style: italic;
-                text-decoration: underline;
             }
         </style>
 
@@ -28,9 +27,16 @@
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="cid:bannerImage" alt="Banner" style="max-width: 100%; height: auto;">
         </div>
-        <h1 style="color: darkorange; text-align: center" class="text-center">Bienvenido a Saint Medic</h1>
+        <h1 style="color: darkorange; text-align: center" class="text-center">Cambios a tu usuario en Saint Medic</h1>
         <p>Hola, {{name}}!</p>
-        <p>Tu cuenta ha sido creada exitosamente. Tu contraseña inicial es: <span class="highlight-password">{{password}}</span>. Puedes iniciar sesión <a href="http://34.195.186.64:8080/inicioSesion" style="color: orange; font-style: italic;font-weight: bold"> aquí</a></p>
-        <p>Por favor cambia tu contraseña al iniciar sesión por primera vez. Esta es de una duración de solo 10 minutos, pasado el tiempo deberas registrarte nuevamente.</p>
+        <p>Se ha aplicado cambios a tu usuario en la aplicación Saint Medic, a continuación te mostramos tu datos actualizados.</p>
+        <ul>
+            <li>Nombre(s): {{name}}</li>
+            <li>Apellido(s): {{apellido}}</li>
+            <li>Sede: {{sede}}</li>
+            <li>correo: {{correo}}</li>
+            <li>Distrito de residencia: {{distrito}}</li>
+        </ul>
+
     </body>
 </html>

@@ -6,6 +6,7 @@ import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -486,12 +487,14 @@ public class  SuperAdminController {
         } else {
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
+            administrator.setChangePassword(false);
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
                 model.addAttribute("listaSedes", siteRepository.findAll());
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");
                 return "superAdmin/AgregarAdminSede";
             } else {
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
+
                 administratorRepository.save(administrator);
                 User user = new User();
                 user.setEmail(administrator.getEmail());
@@ -536,8 +539,41 @@ public class  SuperAdminController {
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarAdministrador";
         }else {
+
+            Administrator administratorPasado = administratorRepository.findById(administrator.getIdAdministrador()).get();
+
+            if (!administratorPasado.getSite().equals(administrator.getSite()) || !administratorPasado.getName().equals(administrator.getName()) || !administratorPasado.getLastName().equals(administrator.getLastName()) || !administratorPasado.getEmail().equals(administrator.getEmail())){
+                try {
+                    emailService.sendHtmlEditAdmin(administrator.getEmail(),"Cambios en tu usuario",administrator.getName(),administrator.getLastName(),administrator.getSite(),administrator.getEmail());
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if (administratorPasado.getState().equals("baneado") && administrator.getState().equals("activo")){
+                try {
+                    emailService.sendHtmlBanDele(administrator.getEmail(), "Regreso a Saint Medic", administrator.getName(),"Ha sido desbaneado de Saint Medic","Hemos tomado la decisión de devolverle el acceso a la plataforma, a partir de ahora ya puede ingresar.");
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
             attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
+
+            if (administrator.getState().equals("baneado")){
+                userRepository.banear(administrator.getEmail());
+                try {
+                    emailService.sendHtmlBanDele(administrator.getEmail(), "Ha sido baneado de Saint Medic", administrator.getName(),"Ha sido baneado temporalmente de Saint Medic","Lo sentimos pero hemos decidido restringirle el acceso a la plataforma hasta nuevo aviso, por lo tanto ya no podrá acceder a ella.");
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (administrator.getState().equals("activo")){
+                userRepository.desbanear(administrator.getEmail());
+            }
+
             return "redirect:verListados";
         }
     }
@@ -545,6 +581,15 @@ public class  SuperAdminController {
     @GetMapping("/eliminarAdminSede")
     public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
         administratorRepository.eliminarAdminPorId(idAdminSede);
+        Administrator administrator = administratorRepository.findById(idAdminSede).get();
+        User user = userRepository.findByEmail(administrator.getEmail());
+        userRepository.delete(user);
+        try {
+            emailService.sendHtmlBanDele(administrator.getEmail(), "Ha sido eliminado de Saint Medic", administrator.getName(),"Ha sido eliminado permanentemente de Saint Medic","Lo sentimos pero hemos decidido eliminarlo de forma permanente de la plataforma, por lo tanto ya no podrá acceder a ella. Agradecemos sus servicios a la compañia.");
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:verListados";
     }
 
@@ -571,8 +616,43 @@ public class  SuperAdminController {
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarFarmacista";
         } else {
+
+            Pharmacist pharmacistPasado = pharmacistRepository.findById(pharmacist.getIdFarmacista()).get();
+
+            if (!pharmacistPasado.getSite().equals(pharmacist.getSite()) || !pharmacistPasado.getName().equals(pharmacist.getName()) || !pharmacistPasado.getLastName().equals(pharmacist.getLastName()) || !pharmacistPasado.getEmail().equals(pharmacist.getEmail()) || !pharmacistPasado.getDistrit().equals(pharmacist.getDistrit())){
+                try {
+                    emailService.sendHtmlEditPharma(pharmacist.getEmail(),"Cambios en tu usuario",pharmacist.getName(),pharmacist.getLastName(),pharmacist.getSite(),pharmacist.getEmail(),pharmacist.getDistrit());
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if (pharmacistPasado.getState().equals("baneado") && pharmacist.getState().equals("activo")){
+                try {
+                    emailService.sendHtmlBanDele(pharmacist.getEmail(), "Regreso a Saint Medic", pharmacist.getName(),"Ha sido desbaneado de Saint Medic","Hemos tomado la decisión de devolverle el acceso a la plataforma, a partir de ahora ya puede ingresar.");
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
+
+            if (pharmacist.getState().equals("baneado")){
+                userRepository.banear(pharmacist.getEmail());
+                try {
+                    emailService.sendHtmlBanDele(pharmacist.getEmail(), "Ha sido baneado de Saint Medic", pharmacist.getName(),"Ha sido baneado temporalmente de Saint Medic","Lo sentimos pero hemos decidido restringirle el acceso a la plataforma hasta nuevo aviso, por lo tanto ya no podrá acceder a ella.");
+                } catch (MessagingException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (pharmacist.getState().equals("activo")){
+                userRepository.desbanear(pharmacist.getEmail());
+            }
+
             return "redirect:verListados";
         }
     }
@@ -581,17 +661,34 @@ public class  SuperAdminController {
     @GetMapping("/eliminarFarmacista")
     public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
+        Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
+        User user = userRepository.findByEmail(pharmacist.getEmail());
+        userRepository.delete(user);
+        try {
+            emailService.sendHtmlBanDele(pharmacist.getEmail(), "Eliminado de Saint Medic", pharmacist.getName(),"Ha sido eliminado permanente mente de Saint Medic","Lo sentimos pero hemos decidido eliminarlo de forma permanente de la plataforma, por lo tanto ya no podrá acceder a ella. Agradecemos sus servicios a la compañia.");
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:verListados";
     }
 
     @GetMapping("/rechazarFarmacista")
     public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
+        //pharmacistRepository.deleteById(idFarmacista);
+        Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
+        try {
+            emailService.sendHtmlRechazo(pharmacist.getEmail(), "Ha sido rechazado de Saint Medic", pharmacist.getName(),"me llego al pincho");
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+
         return "redirect:verListados";
     }
 
     @GetMapping("/aceptarFarmacista")
-    public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+    public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista, HttpServletRequest request) {
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
         User user = new User();
         Pharmacist pharmacist = pharmacistRepository.getByIdFarmacista(idFarmacista);
@@ -601,16 +698,16 @@ public class  SuperAdminController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = passwordEncoder.encode(password);
         user.setPassword(encryptedPassword);
-        user.setIdRol(rolRepository.findById(2).get());
+        user.setIdRol(rolRepository.findById(3).get());
         userRepository.save(user);
-
         try {
             emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", pharmacist.getName(), password);
         } catch (MessagingException | IOException e) {
             e.printStackTrace();
         }
 
-        return "redirect:verSedeSuperAdminPando1";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + (referer != null ? referer : "verListados");
     }
 
     //////////////////////////////////
@@ -626,6 +723,8 @@ public class  SuperAdminController {
     @GetMapping("/banearPaciente")
     public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.banearPacientePorId(idPaciente);
+        Patient patient = patientRepository.findById(idPaciente).get();
+        userRepository.banear(patient.getEmail());
         return "redirect:verListados";
     }
 

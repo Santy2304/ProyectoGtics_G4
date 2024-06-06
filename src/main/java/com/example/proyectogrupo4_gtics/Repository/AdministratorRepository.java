@@ -39,5 +39,10 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
     @Modifying
     @Query(nativeQuery = true, value="update administrator set password= ?1 where email=?2")
     void actualizarContrasena(String pswrd, String email);
+    @Transactional
+    @Modifying
+    @Query(nativeQuery= true , value="update administrator set changePassword=1 where idAdministrator= ?1")
+    void updateChangePasswrod(int id);
+
 
 }

@@ -59,7 +59,7 @@ public class Administrator implements Serializable  {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate creationDate;
 
-    @NotNull
+
     @Column(name = "changepassword", nullable = false)
     private Boolean changePassword;
 

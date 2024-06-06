@@ -408,7 +408,7 @@ public class PharmacistController {
 
     @RequestMapping("/GenerarVenta")
     @ResponseBody
-    public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model) throws JsonProcessingException {
+    public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model , HttpSession session) throws JsonProcessingException {
         //Queries para la venta
         Map<String, String> response = new HashMap<>();
         try {
@@ -463,6 +463,10 @@ public class PharmacistController {
                     purchaseHasLoteRepository.save(purchaseHasLote);
                     model.addAttribute("idPatient", "");
                     model.addAttribute("idDoctor", "");
+                }
+                List<CarritoVenta> listaaaa = carritoVentaRepository.getMedicineListByPharmacist(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista());
+                for(CarritoVenta flsmdfr : listaaaa  ){
+                    carritoVentaRepository.deleteById(flsmdfr.getId());
                 }
                 response.put("error", "");
             }else{
@@ -602,6 +606,47 @@ public class PharmacistController {
             return ResponseEntity.badRequest().body(er);
         }
     }
+
+
+    @GetMapping(value="/getAllCarrito")
+    public Object getAllCarrito( HttpSession session){
+        try {
+            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            return ResponseEntity.ok(carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
+
+    @GetMapping(value="/updateCantidad")
+    @ResponseBody
+    public Object updateCantidadA(@RequestParam("idProduct") String idProduct, @RequestParam("newCantidad") String newCantidad,  HttpSession session){
+        try {
+            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            List<CarritoVenta> list = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
+            CarritoVenta aux= new CarritoVenta();
+            for(CarritoVenta c:  list){
+                if(c.getIdMedicine().getIdMedicine()== Integer.parseInt(idProduct)){
+                    aux= c;
+                }
+            }
+            aux.setCantidad(Integer.parseInt(newCantidad));
+            carritoVentaRepository.save(aux);
+            return ResponseEntity.ok(carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
 
 
 }

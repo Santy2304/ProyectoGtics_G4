@@ -107,7 +107,7 @@ public class  SuperAdminController {
                 Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
                 //ruta relativa para la imagen
                 String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-
+                //String rutaAbsoluta = "C://Imagenes//recursos";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();

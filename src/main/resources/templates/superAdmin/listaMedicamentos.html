@@ -161,10 +161,10 @@
 											<th>Acción</th>
 										</tr>
 									</thead>
-									<script>
+									<script th:inline javascript>
 										function verProducto(){
 											Swal.fire({
-												html: "<img src='/assets_admin_sede/ImagenesMedicina/4.jpg' style='max-width:100%;'>",
+												html: "<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] style='max-width:100%;'>",
 
 											})
 										}

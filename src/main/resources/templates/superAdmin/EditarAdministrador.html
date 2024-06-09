@@ -55,7 +55,7 @@
 			<!-- /Sidebar -->
 
 
-			<form method="post" th:action="@{/superAdmin/guardarCambiosAdminSede}" th:object="${adminSede}">
+			<form method="post" enctype="multipart/form-data" th:action="@{/superAdmin/guardarCambiosAdminSede}" th:object="${adminSede}">
 				<input name="idAdministrator"  th:field="*{idAdministrador}" type="hidden">
 				<input type="hidden" th:field="*{dni}">
 				<div class="page-wrapper">
@@ -128,11 +128,12 @@
 										<div class="form-group">
 											<label>Foto de Usuario</label>
 											<div class="image-upload">
-												<input type="file">
+												<input type="file" name="adminFile">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Seleccione una imagen</h4>
 												</div>
+												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
 										</div>
 									</div>
@@ -142,7 +143,7 @@
 												<li class="ps-0">
 													<div class="productviewset">
 														<div class="productviewsimg">
-															<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="img">
+															<img th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${adminSede.photo}}" alt="img">
 														</div>
 														<div class="productviewscontent">
 															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>

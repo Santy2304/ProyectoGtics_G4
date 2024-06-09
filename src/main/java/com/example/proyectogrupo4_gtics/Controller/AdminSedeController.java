@@ -74,8 +74,10 @@ public class AdminSedeController {
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
+        model.addAttribute("admin", admin);
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -100,6 +102,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -168,6 +171,7 @@ public class AdminSedeController {
             model.addAttribute("sede", admin.getSite());
             model.addAttribute("nombre", admin.getName());
             model.addAttribute("apellido", admin.getLastName());
+            model.addAttribute("photo", admin.getPhoto());
             if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
                 model.addAttribute("rol","administrador");
             }
@@ -204,6 +208,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -298,6 +303,7 @@ public class AdminSedeController {
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
         model.addAttribute("sede", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getSite()  ));
+        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getPhoto()));
         return "redirect:dashboardAdminSede";
     }
     //Se ve el dashboard de admin de sede
@@ -309,6 +315,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -318,6 +325,7 @@ public class AdminSedeController {
     @GetMapping("/inventario")
     public String verInventario(Model model , HttpSession session) {
         int idAdministrator = ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
+        model.addAttribute("photo",(administratorRepository.getByIdAdministrador(idAdministrator)).getPhoto());
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         return "admin_sede/inventario";
     }
@@ -376,6 +384,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -403,6 +412,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -419,6 +429,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         return("redirect:verListaReposicion");
     }
 
@@ -431,6 +442,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -449,6 +461,7 @@ public class AdminSedeController {
         model.addAttribute("dni", admin.getDni());
         model.addAttribute("rol", "Administrador");
         model.addAttribute("sede", admin.getSite());
+        model.addAttribute("photo", admin.getPhoto());
         return "admin_sede/profile";
     }
     class IdPedidoReposicion{
@@ -790,6 +803,7 @@ public class AdminSedeController {
         System.out.println(d.nombre);
         int idAdministrator =  ((Administrator) session.getAttribute("usuario")).getIdAdministrador() ;
         model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(idAdministrator).getPhoto()));
         return "/admin_sede/doctorlist";
     }
     //Cerrar Sesion

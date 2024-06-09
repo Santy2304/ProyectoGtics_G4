@@ -574,7 +574,11 @@ public class  SuperAdminController {
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");
                 return "superAdmin/AgregarAdminSede";
             } else {
-                if(!adminFoto.isEmpty()){
+                if (adminFoto.isEmpty()) {
+                    model.addAttribute("imageError", "Debe agregar una imagen");
+                    return "superAdmin/AgregarAdminSede";
+                }
+                else{
 
                     Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
@@ -607,29 +611,30 @@ public class  SuperAdminController {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
+
+                    administratorRepository.save(administrator);
+                    User user = new User();
+                    user.setEmail(administrator.getEmail());
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+                    String password = generateRandomWord();
+
+                    String encryptedPassword = passwordEncoder.encode(password);
+                    user.setPassword(encryptedPassword);
+                    user.setIdRol(rolRepository.findById(2).get());
+                    user.setState(true);
+                    userRepository.save(user);
+
+                    try {
+                        emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
+                    } catch (MessagingException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return "redirect:verListados";
                 }
-                attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
 
-                administratorRepository.save(administrator);
-                User user = new User();
-                user.setEmail(administrator.getEmail());
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-                String password = generateRandomWord();
-
-                String encryptedPassword = passwordEncoder.encode(password);
-                user.setPassword(encryptedPassword);
-                user.setIdRol(rolRepository.findById(2).get());
-                user.setState(true);
-                userRepository.save(user);
-
-                try {
-                    emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
-                } catch (MessagingException | IOException e) {
-                    e.printStackTrace();
-                }
-
-                return "redirect:verListados";
             }
         }
     }

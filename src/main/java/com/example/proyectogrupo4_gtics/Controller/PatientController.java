@@ -365,7 +365,7 @@ public class PatientController {
             return response;
     }
     @GetMapping("/verTracking")
-    public String verTrackingPaciente( Model model, HttpSession session
+    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model, HttpSession session
     ){
 
         List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());

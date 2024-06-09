@@ -105,10 +105,7 @@ public class LogInController {
 
     @GetMapping("/enviarEmailForget")
     public String enviarCorreoForgot(Model model){
-
-
-
-        return "redirect:inicioSesion";
+        return "redirect:/inicioSesion";
     }
 
     /*Cambiar contraseña sin enviar correo*/

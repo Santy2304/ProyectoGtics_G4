@@ -148,7 +148,8 @@ public class PatientController {
 
     //////////////////////////ORDENES DE COMPRA///////////////////////
     @GetMapping(value = {"/verGenerarOrdenCompra",""})
-    public String verGenerarOrdenCompra(@SessionAttribute("idUser") String idUser,@SessionAttribute("idSede") String idSede ,Model model,RedirectAttributes redirectAttributes){
+    public String verGenerarOrdenCompra(@SessionAttribute("idSede") String idSede ,Model model,RedirectAttributes redirectAttributes
+    , HttpSession session){
 
         if (redirectAttributes != null) {
             String errorPhone = (String) redirectAttributes.getFlashAttributes().get("errorPhone");
@@ -176,7 +177,7 @@ public class PatientController {
         Optional<Site> sede = siteRepository.findById(Integer.parseInt(idSede));
         model.addAttribute("listaDoctores",doctorRepository.listaDoctorPorSedePaciente(sede.get().getName()));
 
-        Patient paciente = patientRepository.findById(Integer.parseInt(idUser)).get();
+        Patient paciente = patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient()).get();
         model.addAttribute("direccion",paciente.getLocation());
 
         Medicine medicine = medicineRepository.findById(1).get();
@@ -187,14 +188,14 @@ public class PatientController {
 
 
     @PostMapping("/crearOrdenCompra")
-    public String agregarOrdenCompra(@SessionAttribute("idUser") String idUser, @SessionAttribute("idSede") String idSede,
+    public String agregarOrdenCompra( @SessionAttribute("idSede") String idSede,
                                      @RequestParam("Hour") String HourStr,
                                      @RequestParam("cantidad")int cantidad,
                                      @RequestParam("idMedicine") int idMedicine,
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("direccion") String direccion,
                                      @RequestParam("idDoctor") int idDoctor,
-                                     Model model, RedirectAttributes attr){
+                                     Model model, RedirectAttributes attr, HttpSession session){
 
 
 
@@ -236,7 +237,7 @@ public class PatientController {
         purchaseOrder.setTipo("tarjeta");
         purchaseOrder.setPhoneNumber(phoneNumber);
         purchaseOrder.setDireccion(direccion);
-        Patient patient = patientRepository.findById(Integer.parseInt(idUser)).get();
+        Patient patient = patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient()).get();
         purchaseOrder.setPatient(patient);
         purchaseOrder.setApproval("pendiente");
         Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
@@ -277,7 +278,7 @@ public class PatientController {
 
 
     @GetMapping("/verTicket")
-    public String verTicket(@SessionAttribute("idUser") String idUser,@RequestParam("idCompra") int idCompra , Model model){
+    public String verTicket(@RequestParam("idCompra") int idCompra , Model model){
 
         model.addAttribute("idCompra",idCompra);
 
@@ -287,8 +288,8 @@ public class PatientController {
 
 
     @GetMapping("/verHistorial")
-    public String verHistorial(@SessionAttribute("idUser") String idUser , Model model){
-        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(Integer.parseInt(idUser));
+    public String verHistorial( Model model, HttpSession session){
+        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("listaCompras",comprasPorPaciente);
         return "pacient/historial";
     }
@@ -302,8 +303,8 @@ public class PatientController {
     }
 
     @GetMapping("/verPerfilPaciente")
-    public String verPerfilPaciente( @SessionAttribute("idUser") String idUser , Model model){
-        Optional<Patient>patient=  patientRepository.findById(Integer.parseInt(idUser));
+    public String verPerfilPaciente(  Model model, HttpSession session){
+        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("paciente" , patient.get());
         return "pacient/perfil";
     }
@@ -327,7 +328,7 @@ public class PatientController {
     }
     @RequestMapping("/verDetalleCompra")
     @ResponseBody
-    public ArrayList<String> verDetalleCompra(@SessionAttribute("idUser") String idUser, @RequestParam("idPurchase") int idPurchase , Model model){
+    public ArrayList<String> verDetalleCompra( @RequestParam("idPurchase") int idPurchase , Model model , HttpSession session){
         List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
         model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
         ArrayList<String> response =  new ArrayList<>();
@@ -364,9 +365,10 @@ public class PatientController {
             return response;
     }
     @GetMapping("/verTracking")
-    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model){
+    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model, HttpSession session
+    ){
 
-        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(Integer.parseInt(idUser));
+        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
 
         model.addAttribute("listaTracking",tracking);
 

@@ -86,8 +86,9 @@ public class PharmacistController {
     }
 
     @GetMapping("/verChatFarmacista")
-    public String verChatPharmacist(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verChatPharmacist(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -98,9 +99,10 @@ public class PharmacistController {
     }
 
     @GetMapping("/verEditarProducto")
-    public String verEditProduct(Model model){
+    public String verEditProduct(Model model, HttpSession session
+    ){
 
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -112,8 +114,9 @@ public class PharmacistController {
 
 
     @GetMapping("/verNotificationsFarmacista")
-    public String verNotifications(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verNotifications(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -125,7 +128,7 @@ public class PharmacistController {
 
     @GetMapping("/posFarmacista")
     public String verPosPharmacist(Model model , HttpSession session ){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -171,8 +174,9 @@ public class PharmacistController {
 
 
     @GetMapping("/solicitudesFarmacista")
-    public String verSolicitudes(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verSolicitudes(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -186,9 +190,10 @@ public class PharmacistController {
     }
 
     @GetMapping("/verDetalleSolicitud")
-    public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model) {
+    public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model, HttpSession session
+    ) {
 
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -220,8 +225,9 @@ public class PharmacistController {
 
 
     @GetMapping("/productDetails")
-    public String verProductDetails(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verProductDetails(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -233,8 +239,9 @@ public class PharmacistController {
 
 
     @GetMapping("/verProductList")
-    public String verProductList(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verProductList(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -251,9 +258,10 @@ public class PharmacistController {
 
 
     @GetMapping(value={"/verProfileFarmacista", ""})
-    public String verPerfilPharmacist(Model model){
+    public String verPerfilPharmacist(Model model, HttpSession session
+    ){
 
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -264,8 +272,8 @@ public class PharmacistController {
     }
 
     @PostMapping("/editarPerfilPharmacist")
-    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession httpSession){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession session){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -288,7 +296,7 @@ public class PharmacistController {
         }
 
         if(!falloN){
-            Pharmacist sessionPharma = (Pharmacist) httpSession.getAttribute("usuario");
+            Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
 
             int idUser = userRepository.encontrarId(sessionPharma.getEmail());
             pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
@@ -303,8 +311,9 @@ public class PharmacistController {
 
 
     @GetMapping("/verMedicinelist")
-    public String verMedicineList(Model model){
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String verMedicineList(Model model, HttpSession session
+    ){
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -316,8 +325,9 @@ public class PharmacistController {
     }
 
     @GetMapping("/detallesMedicamentos")
-    public String detallesMedicamentos(@RequestParam("idMedicine") int idMedicine, Model model) {
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+    public String detallesMedicamentos(@RequestParam("idMedicine") int idMedicine, Model model, HttpSession session
+    ) {
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -336,9 +346,10 @@ public class PharmacistController {
         }
     }
     @GetMapping("/detallesOrdenVenta")
-    public String detallesOrdenVenta(@RequestParam("idPurchaseOrder") int idOrdenVenta, Model model) {
+    public String detallesOrdenVenta(@RequestParam("idPurchaseOrder") int idOrdenVenta, Model model, HttpSession session
+    ) {
 
-        int idPharmacist = Integer.parseInt((String) model.getAttribute("idUser"));
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -421,10 +432,10 @@ public class PharmacistController {
             purchaseOrder.setDeliveryHour(LocalTime.now());
             purchaseOrder.setPatient(patientRepository.findById(Integer.parseInt((String) model.getAttribute("idPatient"))).get());
             purchaseOrder.setIdDoctor(doctorRepository.findById(Integer.parseInt((String) model.getAttribute("idDoctor"))).get());
-            purchaseOrder.setSite(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
+            purchaseOrder.setSite(pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
             purchaseOrder.setStatePaid("Pagado");
             purchaseOrder.setTipo("Presencial");
-            purchaseOrder.setDireccion(pharmacistRepository.findById(Integer.parseInt((String) model.getAttribute("idUser"))).get().getSite());
+            purchaseOrder.setDireccion(pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
             purchaseOrder.setTipoPago("Efectivo");
             purchaseOrder.setReleaseDate(LocalDate.now());
             PurchaseOrder p = purchaseOrderRepository.save(purchaseOrder);
@@ -438,7 +449,7 @@ public class PharmacistController {
 
             boolean suficienteStock= true;
             for (int idx = 0; idx < data.getIds().toArray().length; idx++) {
-                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(Integer.parseInt("" + model.getAttribute("idUser"))).get().getSite());
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
                 if (listaLotesPosibles.isEmpty()) {
                     suficienteStock= false;
                     continue;
@@ -452,7 +463,7 @@ public class PharmacistController {
                     purchaseHasLote.setPurchaseOrder(p);
                     PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
                     purchaseHasLotID.setIdPurchase(p.getId());
-                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(Integer.parseInt("" + model.getAttribute("idUser"))).get().getSite());
+                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
                     if (listaLotesPosibles.isEmpty()) {
                         continue;
                     }

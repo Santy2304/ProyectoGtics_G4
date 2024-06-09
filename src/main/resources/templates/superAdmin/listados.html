@@ -144,7 +144,7 @@
 										<tr th:each="adminSede : ${listaAdminSede}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/images/perfil.png" alt="product">
+													<img th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${adminSede.photo}}" style="max-width: 25%;" alt="product">
 												</a>
 											</td>
 											<td th:text="${adminSede.name}"></td>

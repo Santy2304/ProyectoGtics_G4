@@ -560,7 +560,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/agregarAdminSede")
-    public String agregarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
+    public String agregarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
@@ -568,11 +568,46 @@ public class  SuperAdminController {
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);
+
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
                 model.addAttribute("listaSedes", siteRepository.findAll());
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");
                 return "superAdmin/AgregarAdminSede";
             } else {
+                if(!adminFoto.isEmpty()){
+
+                    Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                    String rutaAbsoluta =  directorioImagenPerfil.toFile().getAbsolutePath();
+
+                    try {
+                        byte[] bytesImgPerfil = adminFoto.getBytes();
+                        String fileOriginalName = adminFoto.getOriginalFilename();
+
+                        long fileSize = adminFoto.getSize();
+                        long maxFileSize  = 5*1024*1024;
+
+                        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                        if(fileSize>maxFileSize){
+                            model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                            return "superAdmin/AgregarAdminSede";
+                        }
+                        if(
+                                !fileExtension.equalsIgnoreCase(".jpg") &&
+                                        !fileExtension.equalsIgnoreCase(".png") &&
+                                        !fileExtension.equalsIgnoreCase(".jpeg")
+                        ){
+                            model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                            return "superAdmin/AgregarAdminSede";
+                        }
+
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                        Files.write(rutaCompleta,bytesImgPerfil);
+                        administrator.setPhoto(adminFoto.getOriginalFilename());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
 
                 administratorRepository.save(administrator);

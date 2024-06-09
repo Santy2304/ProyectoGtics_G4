@@ -91,8 +91,9 @@ public class  SuperAdminController {
                                    @RequestParam("category") String category,
                                    @RequestParam("description") String description,
                                    @RequestParam("priceMedicine") BigDecimal priceMedicine,*/
+                                    @RequestParam("medicineFile")MultipartFile imagen,
                                    @ModelAttribute("medicine") @Valid Medicine medicine,
-                                   BindingResult bindingResult, Model model, @RequestParam("medicineFile")MultipartFile imagen) {
+                                   BindingResult bindingResult, Model model) {
         /*Medicine medicine = new Medicine();
         medicine.setName(nameMedicine);
         medicine.setCategory(category);
@@ -105,12 +106,32 @@ public class  SuperAdminController {
             if(!imagen.isEmpty()){
                 //ruta relativa para la imagen
                 Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+                //Path directorioImagenMedicine = Paths.get("images");
                 //ruta relativa para la imagen
                 String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
                 //String rutaAbsoluta = "C://Imagenes//recursos";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize  = 5*1024*1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if(fileSize>maxFileSize){
+                        model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/anadirMedicamento";
+                    }
+                    if(
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                            !fileExtension.equalsIgnoreCase(".png") &&
+                            !fileExtension.equalsIgnoreCase(".jpeg")
+                    ){
+                        model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/anadirMedicamento";
+                    }
+
                     Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                     Files.write(rutaCompleta,bytesImgMedicine);
                     medicine.setPhoto(imagen.getOriginalFilename());
@@ -246,9 +267,46 @@ public class  SuperAdminController {
                                             @RequestParam("disponibilidadPando1") String disponible1,
                                             @RequestParam("disponibilidadPando2") String disponible2,
                                             @RequestParam("disponibilidadPando3") String disponible3,
-                                            @RequestParam("disponibilidadPando4") String disponible4) {
-        medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getPhoto(),medicine.getIdMedicine());
+                                            @RequestParam("disponibilidadPando4") String disponible4,
+                                            @RequestParam("medicineFile") MultipartFile imagenEdit, Model model) {
 
+        if(!imagenEdit.isEmpty()) {
+            //ruta relativa para la imagen
+            Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+            //Path directorioImagenMedicine = Paths.get("images");
+            //ruta relativa para la imagen
+            String rutaAbsoluta = directorioImagenMedicine.toFile().getAbsolutePath();
+            //String rutaAbsoluta = "C://Imagenes//recursos";
+            //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+            String fileOriginalName = imagenEdit.getOriginalFilename();
+            try {
+                byte[] bytesImgMedicine = imagenEdit.getBytes();
+
+                long fileSize = imagenEdit.getSize();
+                long maxFileSize = 5 * 1024 * 1024;
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                if (fileSize > maxFileSize) {
+                    model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                    return "superAdmin/editarMedicamento";
+                }
+                if (
+                        !fileExtension.equalsIgnoreCase(".jpg") &&
+                                !fileExtension.equalsIgnoreCase(".png") &&
+                                !fileExtension.equalsIgnoreCase(".jpeg")
+                ) {
+                    model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                    return "superAdmin/editarMedicamento";
+                }
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagenEdit.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImgMedicine);
+                medicineRepository.actualizarMedicine(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), fileOriginalName, medicine.getIdMedicine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         //Calendar calendar = Calendar.getInstance();
 
         // Obtener la fecha actual
@@ -371,6 +429,7 @@ public class  SuperAdminController {
 
         return "redirect:listaMedicamentos";
     }
+
     @GetMapping("/verDetallesProducto")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
 

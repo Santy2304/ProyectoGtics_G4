@@ -16,9 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -272,7 +277,7 @@ public class PharmacistController {
     }
 
     @PostMapping("/editarPerfilPharmacist")
-    public String editarDatosFarmacista(Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession session){
+    public String editarDatosFarmacista(@RequestParam("pharmacistFile") MultipartFile imagen, Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession session){
         int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -285,25 +290,67 @@ public class PharmacistController {
         System.out.println(pharmacist.getDistrit());
 
         boolean falloN = false;
-        if (email==null || email.trim().isEmpty()) {
-            falloN = true;
-            attr.addFlashAttribute("errorEm", "El email no debe estar vacío");
+
+        try{
+
+
+            if (email==null || email.trim().isEmpty()) {
+                falloN = true;
+                attr.addFlashAttribute("errorEm", "El email no debe estar vacío");
+            }
+
+            if (distrit==null || distrit.trim().isEmpty()) {
+                falloN = true;
+                attr.addFlashAttribute("errorD", "El distrito no debe estar vacio");
+            }
+
+            byte[] bytesImgPerfil = imagen.getBytes();
+            String fileOriginalName = imagen.getOriginalFilename();
+
+            long fileSize = imagen.getSize();
+            long maxFileSize = 5 * 1024 * 1024;
+
+
+            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+            if (fileSize > maxFileSize) {
+                falloN = true;
+                attr.addFlashAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+
+            }
+            if (
+                    !fileExtension.equalsIgnoreCase(".jpg") &&
+                            !fileExtension.equalsIgnoreCase(".png") &&
+                            !fileExtension.equalsIgnoreCase(".jpeg")
+            ) {
+                falloN = true;
+                attr.addFlashAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+
+            }
+
+            if(!falloN){
+                Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImgPerfil);
+
+                int idUser = userRepository.encontrarId(sessionPharma.getEmail());
+
+                pharmacist.setPhoto(imagen.getOriginalFilename());
+                pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+                userRepository.actualizarEmail(email,idUser);
+
+                return "redirect:verProfileFarmacista";
+            }else{
+                return "pharmacist/profile";
+            }
+        }catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
-        if (distrit==null || distrit.trim().isEmpty()) {
-            falloN = true;
-            attr.addFlashAttribute("errorD", "El distrito no debe estar vacio");
-        }
-
-        if(!falloN){
-            Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
-
-            int idUser = userRepository.encontrarId(sessionPharma.getEmail());
-            pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
-            userRepository.actualizarEmail(email,idUser);
-
-        }
-        return "redirect:verProfileFarmacista";
     }
 
 

@@ -177,19 +177,19 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     //admin Sede estadisticas
 
     @Query(nativeQuery = true, value ="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado'")
-    double gananciaTotal();
+    Double gananciaTotal();
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 1'")
-    double gananciaTotalPando1();
+    Double gananciaTotalPando1();
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 2'")
-    double gananciaTotalPando2();
+    Double gananciaTotalPando2();
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 3'")
-    double gananciaTotalPando3();
+    Double gananciaTotalPando3();
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site='Pando 4'")
-    double gananciaTotalPando4();
+    Double gananciaTotalPando4();
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado'")
     int cantMedicamentosVendidos();

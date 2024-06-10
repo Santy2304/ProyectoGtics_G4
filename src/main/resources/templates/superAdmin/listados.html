@@ -383,7 +383,7 @@
 										<tr th:each="paciente : ${listaPacientes}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/images/perfil.png" alt="product">
+													<img  th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${paciente.getPhoto()}}" alt="product">
 												</a>
 											</td>
 											<td th:text="${paciente.name}"></td>

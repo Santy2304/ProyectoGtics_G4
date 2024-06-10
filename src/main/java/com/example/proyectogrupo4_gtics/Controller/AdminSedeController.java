@@ -316,6 +316,46 @@ public class AdminSedeController {
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
+        /*
+        Double ganancia1 = medicineRepository.gananciaTotalPando1();
+        Double ganancia2 = medicineRepository.gananciaTotalPando2();
+        Double ganancia3 = medicineRepository.gananciaTotalPando3();
+        Double ganancia4 = medicineRepository.gananciaTotalPando4();
+
+        double valorGanancia1 = (ganancia1 != null) ? ganancia1 : 0.0;
+        double valorGanancia2 = (ganancia2 != null) ? ganancia2 : 0.0;
+        double valorGanancia3 = (ganancia3 != null) ? ganancia3 : 0.0;
+        double valorGanancia4 = (ganancia4 != null) ? ganancia4 : 0.0;
+
+        int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
+        int cantVend2 = medicineRepository.cantMedicamentosVendidosPando2();
+        int cantVend3 = medicineRepository.cantMedicamentosVendidosPando3();
+        int cantVend4 = medicineRepository.cantMedicamentosVendidosPando4();
+
+        if(cantVend1<1){
+            cantVend1 = 0;
+        }
+        if(cantVend2<1){
+            cantVend2 = 0;
+        }
+        if(cantVend3<1){
+            cantVend3 = 0;
+        }
+        if(cantVend4<1){
+            cantVend4 = 0;
+        }
+        model.addAttribute("gananciaT",medicineRepository.gananciaTotal());
+        model.addAttribute("ganancia1",valorGanancia1);
+        model.addAttribute("ganancia2",valorGanancia2);
+        model.addAttribute("ganancia3",valorGanancia3);
+        model.addAttribute("ganancia4",valorGanancia4);
+        model.addAttribute("medVendidosT", medicineRepository.cantMedicamentosVendidos());
+        model.addAttribute("cantVend1", cantVend1);
+        model.addAttribute("cantVend2", cantVend2);
+        model.addAttribute("cantVend3", cantVend3);
+        model.addAttribute("cantVend4", cantVend4);
+
+         */
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }

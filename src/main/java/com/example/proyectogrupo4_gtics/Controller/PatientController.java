@@ -20,9 +20,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -375,7 +380,7 @@ public class PatientController {
         return "pacient/tracking";
     }
     @PostMapping("/editarPerfilPaciente")
-    public String editarDatosPaciente(@ModelAttribute("paciente") @Valid Patient patient, BindingResult bindingResult, Model model, RedirectAttributes attr){
+    public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen, @ModelAttribute("paciente") @Valid Patient patient, BindingResult bindingResult, Model model, RedirectAttributes attr){
         //Actualizar datos cambiados
         System.out.println(patient.getIdPatient());
         System.out.println(patient.getLocation());
@@ -383,9 +388,53 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             return "pacient/perfil";
         } else {
+            if (imagen.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "pacient/perfil";
+            }
+            else {
+
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                try {
+                    byte[] bytesImgPerfil = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "pacient/perfil";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "pacient/perfil";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //patient.setPhoto(imagen.getOriginalFilename());
+                    attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                    return "redirect:verPerfilPaciente";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            /*
             attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
-            patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
+            patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
             return "redirect:verPerfilPaciente";
+
+             */
         }
 
 

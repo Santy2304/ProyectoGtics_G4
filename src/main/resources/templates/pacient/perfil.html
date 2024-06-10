@@ -63,7 +63,7 @@
 	<div class="content" style="margin-left:8% ; margin-right:8%">
 		<!-- /product list -->
 		<div class="card">
-			<form method="post" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
+			<form method="post" enctype="multipart/form-data" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
 				<input type="hidden" name="idPatient" th:field="*{idPatient}">
 				<input type="hidden"  th:field="*{state}">
 				<input type="hidden"  th:field="*{dateCreationAccount}">
@@ -77,10 +77,10 @@
 						<div class="profile-top">
 							<div class="profile-content">
 								<div class="profile-contentimg">
-									<img src="../assets_pacient/images/perfil.png" alt="img" id="blah">
+									<img  th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${paciente.photo}}" alt="img" id="blah">
 									<div class="profileupload">
-										<input type="file" id="imgInp">
-										<a href="javascript:void(0);" ><img src="../assets_pacient/img/icons/edit-set.svg" alt="img"></a>
+										<input type="file" name="patientFile" id="imgInp">
+										<a href="javascript:void(0);" ><img src="../assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="profile-contentname">

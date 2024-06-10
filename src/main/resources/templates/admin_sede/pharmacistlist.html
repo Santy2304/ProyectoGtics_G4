@@ -249,7 +249,7 @@
 										<div class="row">
 											<div class="col-12 col-md-6 col-lg-4 d-flex" th:each="farmacista : ${listaFarmacista}">
 												<div class="card flex-fill bg-white">
-													<img alt="Card Image" width="5" height="5" src="/assets_admin_sede/img/doc.jpg" class="card-img-top">
+													<img alt="Card Image" width="5" height="5" th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${farmacista.photo}}" class="card-img-top">
 													<div class="card-header">
 														<ul role="tablist" class="nav nav-tabs card-header-tabs float-right">
 															<li class="nav-item">
@@ -360,7 +360,7 @@
 										<tr th:each="solicitud : ${listaSolicitudes}">
 											<td class="productimgname" >
 												<a href="javascript:void(0);" class="product-img">
-													<img src="/assets_superAdmin/images/perfil.png" alt="product">
+													<img th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${solicitud.photo}}" alt="product">
 												</a>
 											</td>
 											<td  th:text="${solicitud.name}"></td>

@@ -759,7 +759,7 @@ public class  SuperAdminController {
 
 
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
+            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getPhoto() ,pharmacist.getIdFarmacista());
 
             if (pharmacist.getState().equals("baneado")){
                 userRepository.banear(pharmacist.getEmail());
@@ -911,7 +911,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/editarPerfilSuper")
-    public String editarDatosSuper(@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
+    public String editarDatosSuper(@RequestParam("superAdminFile") MultipartFile imagen,@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
         //Actualizar datos cambiados
         System.out.println(superAdmin.getIdSuperAdmin());
         SuperAdmin sessionSuper = (SuperAdmin) httpSession.getAttribute("usuario");
@@ -922,12 +922,59 @@ public class  SuperAdminController {
         if (bindingResult.hasErrors()) {
             return "superAdmin/perfil";
         } else {
+            if (imagen.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/perfil";
+            }
+            else {
+
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                try {
+                    byte[] bytesImgPerfil = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/perfil";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/perfil";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //patient.setPhoto(imagen.getOriginalFilename());
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                    String encryptedPassword = passwordEncoder.encode(superAdmin.getPassword());
+                    attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
+                    superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword(), imagen.getOriginalFilename());
+                    userRepository.actualizar(encryptedPassword,superAdmin.getEmail(),idUser);
+                    return "redirect:verPerfil";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            /*
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encryptedPassword = passwordEncoder.encode(superAdmin.getPassword());
             attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
             superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword());
             userRepository.actualizar(encryptedPassword,superAdmin.getEmail(),idUser);
             return "redirect:verPerfil";
+
+             */
         }
 
     }

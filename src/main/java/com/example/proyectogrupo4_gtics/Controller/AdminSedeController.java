@@ -15,8 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -201,7 +206,7 @@ public class AdminSedeController {
 
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(@ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
+    public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -259,6 +264,7 @@ public class AdminSedeController {
         }
 
 
+
         if (fallo) {
                 return "redirect:verAddPharmacist";
         } else {
@@ -266,10 +272,49 @@ public class AdminSedeController {
                     model.addAttribute("error", "El DNI ingresado ya existe");
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
-                    attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
-                    pharmacist.setChangePassword(false);
-                    pharmacistRepository.save(pharmacist);
-                    return "redirect:listaFarmacista";
+                    if(!imagen.isEmpty()){
+                        Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                        String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                        String fileOriginalName = imagen.getOriginalFilename();
+                        try {
+                            byte[] bytesImgMedicine = imagen.getBytes();
+
+                            long fileSize = imagen.getSize();
+                            long maxFileSize = 5 * 1024 * 1024;
+
+                            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                            if (fileSize > maxFileSize) {
+                                model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                                return "admin_sede/addpharmacist";
+                            }
+                            if (
+                                    !fileExtension.equalsIgnoreCase(".jpg") &&
+                                            !fileExtension.equalsIgnoreCase(".png") &&
+                                            !fileExtension.equalsIgnoreCase(".jpeg")
+                            ) {
+                                model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                                return "admin_sede/addpharmacist";
+                            }
+
+                            Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                            Files.write(rutaCompleta, bytesImgMedicine);
+                            pharmacist.setPhoto(imagen.getOriginalFilename());
+
+                            attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
+                            pharmacist.setChangePassword(false);
+                            pharmacistRepository.save(pharmacist);
+                            return "redirect:listaFarmacista";
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }else{
+                        model.addAttribute("errorImage","Se debe ingresar una foto");
+                        return "admin_sede/addpharmacist";
+                    }
                 }
         }
     }
@@ -288,14 +333,50 @@ public class AdminSedeController {
     }
     //Se solicita a superadmin agregar al farmacista
     @PostMapping("/saveChanges")
-    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes , HttpSession session){
+    public String editarFarmacista(@RequestParam("foto") MultipartFile imagen,@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes , HttpSession session){
         if(bindingResult.hasErrors()){
             return "admin_sede/editFarmacist";
         } else {
-            pharmacist.setState("activo");
-            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
-            return "redirect:listaFarmacista";
+            if(!imagen.isEmpty()) {
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                String fileOriginalName = imagen.getOriginalFilename();
+                try {
+                    byte[] bytesImgMedicine = imagen.getBytes();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "admin_sede/editFarmacist";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "admin_sede/editFarmacist";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgMedicine);
+                    pharmacist.setState("activo");
+                    attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
+                    pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(),imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
+                    return "redirect:listaFarmacista";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                model.addAttribute("imageError", "Debe añadir una imagen");
+                return "admin_sede/editFarmacist";
+            }
         }
     }
     //Inicia sesion de admin de sede

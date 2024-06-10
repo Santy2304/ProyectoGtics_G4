@@ -125,7 +125,7 @@ public class LogInController {
         return "changePassword";
     }
     @PostMapping("/changingPassword")
-    public String changingPassword(HttpSession httpSession,@RequestParam("password") String newPassword) {
+    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword) {
         //String correo = (String) model.getAttribute("email");
         String email = (String) httpSession.getAttribute("resetEmail");
 

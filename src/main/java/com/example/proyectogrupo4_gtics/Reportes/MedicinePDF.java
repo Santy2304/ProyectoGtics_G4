@@ -12,11 +12,11 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.List;
 
-public class MedicineReports {
+public class MedicinePDF {
 
     private List<CantidadMedicamentosDTO> listaMedicinas;
 
-    public MedicineReports(List<CantidadMedicamentosDTO> listaMedicinas) {
+    public MedicinePDF(List<CantidadMedicamentosDTO> listaMedicinas) {
         super();
         this.listaMedicinas = listaMedicinas;
     }
@@ -64,7 +64,7 @@ public class MedicineReports {
         fuente.setColor(Color.ORANGE);
         fuente.setSize(18);
 
-        Paragraph titulo = new Paragraph("Lista de medicamentos",fuente);
+        Paragraph titulo = new Paragraph("Lista de Medicamentos",fuente);
         titulo.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(titulo);
         PdfPTable tabla = new PdfPTable(5);

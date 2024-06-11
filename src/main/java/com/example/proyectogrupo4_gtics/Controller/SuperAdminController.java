@@ -4,7 +4,8 @@ import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
-import com.example.proyectogrupo4_gtics.Reportes.MedicineReports;
+import com.example.proyectogrupo4_gtics.Reportes.MedicineExcel;
+import com.example.proyectogrupo4_gtics.Reportes.MedicinePDF;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
 import com.lowagie.text.DocumentException;
@@ -13,9 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.security.SecureRandom;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.List;
@@ -834,7 +831,25 @@ public class  SuperAdminController {
 
         List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
-        MedicineReports exporter = new MedicineReports(medicines);
+        MedicinePDF exporter = new MedicinePDF(medicines);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarMedicamentosExcel")
+    public void exportarMedicamentosExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Medicamentos_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+
+        MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);
     }
 

@@ -28,7 +28,7 @@ public class Medicine {
 
     @Column(nullable = false)
     @NotNull(message = "Este campo es obligatorio")
-    @Digits(integer = 10, fraction = 4, message = "Se debe ingresar un número")
+    @Digits(integer = 5, fraction = 2, message = "Se debe ingresar un número correcto")
     @Positive(message = "El precio debe ser un valor mayor a cero")
     private BigDecimal price;
 

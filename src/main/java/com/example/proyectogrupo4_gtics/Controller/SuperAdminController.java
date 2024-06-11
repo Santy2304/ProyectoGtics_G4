@@ -1,14 +1,19 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
+import com.example.proyectogrupo4_gtics.Reportes.MedicineReports;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
+import com.lowagie.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.security.SecureRandom;
 
@@ -98,8 +105,6 @@ public class  SuperAdminController {
         } else {
             medicine.setTimesSaled(0);
             medicineRepository.save(medicine);
-
-
             model.addAttribute("medicine", medicine);
 
             return "superAdmin/anadirLotesNuevoMedicamento";
@@ -485,6 +490,8 @@ public class  SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
+            String siteCorreccion = administrator.getSite().replaceAll("^,", "");
+            administrator.setSite(siteCorreccion);
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);
@@ -811,6 +818,27 @@ public class  SuperAdminController {
         }
 
     }
+
+
+    /////////REPORTES/////////////////////
+
+    @GetMapping("/exportarMedicamentosPDF")
+    public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+
+        MedicineReports exporter = new MedicineReports(medicines);
+        exporter.exportar(response);
+    }
+
+
 
 
     public String generateRandomWord() {

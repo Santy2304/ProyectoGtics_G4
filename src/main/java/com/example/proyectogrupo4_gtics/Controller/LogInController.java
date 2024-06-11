@@ -103,9 +103,20 @@ public class LogInController {
     }
 
 
-    @GetMapping("/enviarEmailForget")
-    public String enviarCorreoForgot(Model model){
-        return "redirect:/inicioSesion";
+    @PostMapping("/enviarEmailForget")
+    public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
+        Map<String, String > response =  new HashMap<>();
+        try {
+            httpSession.setAttribute("resetEmail", email);
+
+            emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña");
+            response.put("response", "Guardado");
+
+        } catch (MessagingException | IOException e) {
+            response.put("response", "Error al enviar el correo");
+            e.printStackTrace();
+        }
+        return "redirect:inicioSesion";
     }
 
     /*Cambiar contraseña sin enviar correo*/
@@ -114,30 +125,32 @@ public class LogInController {
         return "changePassword";
     }
     @PostMapping("/changingPassword")
-    public String changingPassword(Model model, @RequestParam("email") String correo, @RequestParam("password") String newPassword) {
+    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword) {
         //String correo = (String) model.getAttribute("email");
-        Patient patient = patientRepository.buscarPatientEmail(correo);
-        Pharmacist pharmacist = pharmacistRepository.findByEmail(correo);
-        Administrator admin = administratorRepository.findByEmail(correo);
-        SuperAdmin superAdmin = superAdminRepository.findByEmail(correo);
+        String email = (String) httpSession.getAttribute("resetEmail");
+
+        Patient patient = patientRepository.buscarPatientEmail(email);
+        Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
+        Administrator admin = administratorRepository.findByEmail(email);
+        SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
         if (!(patient == null)) {
-            patientRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+          //  patientRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(admin == null)) {
-            administratorRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+           // administratorRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(superAdmin == null)) {
-            superAdminRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+            superAdminRepository.actualizarContrasena(newPassword, email);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(pharmacist == null)) {
-            pharmacistRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+           // pharmacistRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         return "redirect:/inicioSesion";
     }
@@ -177,7 +190,6 @@ public class LogInController {
       //              "Bienvenido a Nuestro Servicio",
     //                "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
   //          );
-
 
             try {
                 emailService.sendHtmlMessage(patient.getEmail(), "Bienvenido a SaintMedic", patient.getName(), password);

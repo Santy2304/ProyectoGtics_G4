@@ -99,10 +99,9 @@ public class PharmacistController {
     }
 
     @GetMapping("/verEditarProducto")
-    public String verEditProduct(Model model, HttpSession session
-    ){
+    public String verEditProduct(Model model, HttpSession session){
 
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());

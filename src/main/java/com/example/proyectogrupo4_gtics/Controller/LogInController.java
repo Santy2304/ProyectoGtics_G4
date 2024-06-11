@@ -238,5 +238,34 @@ public class LogInController {
         return new String(wordArray);
     }
 
+    @GetMapping(value="/estaBaneado")
+    public Object estaBaneado(@RequestParam("email") String  email , @RequestParam("password") String  password , HttpSession session){
+        System.out.println("Hola Santiago");
+        try {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(password);
+            int idUser = userRepository.encontrarId(email);
+            System.out.println("Hola ");
+            if((userRepository.findById(idUser)).isPresent()){
+                User u = (userRepository.findById(idUser)).get();
+                System.out.println(u.getEmail());
+                System.out.println("Santiago");
+                return ResponseEntity.ok(u);
+            }else{
+                System.out.println("ErrorFatal");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "errorHola");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest();
+        }
+    }
+
 
 }

@@ -3,12 +3,16 @@ package com.example.proyectogrupo4_gtics.Controller;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
+import com.example.proyectogrupo4_gtics.Reportes.MedicineReports;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
+import com.lowagie.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.apache.catalina.filters.ExpiresFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.security.SecureRandom;
 
@@ -811,6 +817,27 @@ public class  SuperAdminController {
         }
 
     }
+
+
+    /////////REPORTES/////////////////////
+
+    @GetMapping("/exportarPDF")
+    public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Empleados_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Medicine> medicines = medicineRepository.findAll();
+
+        MedicineReports exporter = new MedicineReports(medicines);
+        exporter.exportar(response);
+    }
+
+
 
 
     public String generateRandomWord() {

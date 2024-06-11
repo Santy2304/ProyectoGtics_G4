@@ -490,6 +490,8 @@ public class  SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
+            String siteCorreccion = administrator.getSite().replaceAll("^,", "");
+            administrator.setSite(siteCorreccion);
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);

@@ -1,9 +1,9 @@
 package com.example.proyectogrupo4_gtics.DTOs;
 
-public interface cantidadMedicamentosDTO {
+public interface CantidadMedicamentosDTO {
     int getIdMedicine();
     String getNombreMedicamento();
     String getCategoria();
     int getCantidad();
-    double getPrecio();
+    float getPrecio();
 }

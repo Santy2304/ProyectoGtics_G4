@@ -1,7 +1,7 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
 import jakarta.transaction.Transactional;
@@ -31,7 +31,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "    lote l ON m.idMedicine = l.idMedicine \n" +
             "GROUP BY \n" +
             "    m.idMedicine, m.name, m.category, m.price;")
-    List<cantidadMedicamentosDTO> obtenerDatosMedicamentos();
+    List<CantidadMedicamentosDTO> obtenerDatosMedicamentos();
 
 
 

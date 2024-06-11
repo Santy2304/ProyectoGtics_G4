@@ -1,11 +1,10 @@
 package com.example.proyectogrupo4_gtics.Reportes;
 
-import com.example.proyectogrupo4_gtics.Entity.Medicine;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfTable;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,9 +14,9 @@ import java.util.List;
 
 public class MedicineReports {
 
-    private List<Medicine> listaMedicinas;
+    private List<CantidadMedicamentosDTO> listaMedicinas;
 
-    public MedicineReports(List<Medicine> listaMedicinas) {
+    public MedicineReports(List<CantidadMedicamentosDTO> listaMedicinas) {
         super();
         this.listaMedicinas = listaMedicinas;
     }
@@ -47,12 +46,12 @@ public class MedicineReports {
     }
 
     private void escribirDatosDeLaTabla(PdfPTable tabla) {
-        for (Medicine medicine : listaMedicinas) {
+        for (CantidadMedicamentosDTO medicine : listaMedicinas) {
             tabla.addCell(String.valueOf(medicine.getIdMedicine()));
-            tabla.addCell(medicine.getName());
-            tabla.addCell(medicine.getCategory());
-            tabla.addCell(String.valueOf(medicine.getTimesSaled()));
-            tabla.addCell(String.valueOf(medicine.getPrice()));
+            tabla.addCell(medicine.getNombreMedicamento());
+            tabla.addCell(medicine.getCategoria());
+            tabla.addCell(String.valueOf(medicine.getCantidad()));
+            tabla.addCell(String.valueOf(medicine.getPrecio()));
         }
     }
 

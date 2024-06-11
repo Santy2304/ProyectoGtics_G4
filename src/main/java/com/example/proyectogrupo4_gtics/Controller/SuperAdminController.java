@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -104,8 +105,6 @@ public class  SuperAdminController {
         } else {
             medicine.setTimesSaled(0);
             medicineRepository.save(medicine);
-
-
             model.addAttribute("medicine", medicine);
 
             return "superAdmin/anadirLotesNuevoMedicamento";
@@ -175,7 +174,7 @@ public class  SuperAdminController {
                 lote4.setInitialQuantity(stockPando4);
                 loteRepository.save(lote4);
             }
-            return "redirect:/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         } else {
             model.addAttribute("error", "Se debe ingresar una fecha válida y con el formato yyyy-MM-dd");
             model.addAttribute("medicine", medicine);
@@ -821,17 +820,17 @@ public class  SuperAdminController {
 
     /////////REPORTES/////////////////////
 
-    @GetMapping("/exportarPDF")
+    @GetMapping("/exportarMedicamentosPDF")
     public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
 
         String cabecera = "Content-Disposition";
-        String valor = "attachment; filename=Empleados_" + fechaActual + ".pdf";
+        String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<Medicine> medicines = medicineRepository.findAll();
+        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicineReports exporter = new MedicineReports(medicines);
         exporter.exportar(response);

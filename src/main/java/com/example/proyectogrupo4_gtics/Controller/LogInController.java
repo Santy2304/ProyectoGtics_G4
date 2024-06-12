@@ -272,9 +272,10 @@ public class LogInController {
 
 
     @GetMapping(value="/getDni")
-    public Object getDni(@RequestParam("dni") String  dni ) {
+    public Object getDni(@RequestParam("dni") String  dni , Model model ) {
         try {
             PersonaDni p = new DniDao().buscarDatosPorDNI(dni);
+            model.addAttribute("santiago",  p);
             return ResponseEntity.ok(p);
         } catch (Exception err) {
             HashMap<String, Object> er = new HashMap<>();

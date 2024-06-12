@@ -77,8 +77,11 @@
 <script>
 
     $(document).ready(function() {
+        let formSubmitting = false;
+
         $("#miFormulario").submit(function (event) {
             //Validamos si esta baneado el usuario , en caso exista el usuario
+            if (formSubmitting) return;
             event.preventDefault();
             var email = $("#email").val();
             var pass = $("#password").val();
@@ -99,8 +102,9 @@
                             confirmButtonColor: "#dd986a"
                         })
                     } else {
-                        console.log("Esta baneadoooossss")
-                        return;
+                        console.log("Esta baneadoooossss");
+                        formSubmitting = true
+                        $("#miFormulario").submit();
                     }
                 }
                 ,

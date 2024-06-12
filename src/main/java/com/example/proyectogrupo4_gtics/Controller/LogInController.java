@@ -1,5 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Dao.DniDao;
+import com.example.proyectogrupo4_gtics.Dao.PersonaDni;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
@@ -40,6 +42,7 @@ public class LogInController {
 
     @Autowired
     private EmailService emailService;
+
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
                             SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
                             UserRepository userRepository, RolRepository rolRepository ) {
@@ -162,7 +165,7 @@ public class LogInController {
 
     @RequestMapping(value = "/formNuevaCuenta")
     @ResponseBody
-    public Map<String,String > formNuevaCuenta(Patient patient){
+    public Map<String,String> formNuevaCuenta(Patient patient){
         System.out.println("Holaa");
         Map<String, String > response =  new HashMap<>();
         Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
@@ -198,12 +201,12 @@ public class LogInController {
                 response.put("response", "Error al enviar el correo");
                 e.printStackTrace();
             }
-
         }else{
             response.put("response" ,"YaExiste");
         }
-
         return response;
+
+
     }
     //Vamos a crear un servicio Rest para consumir autenticacion
 
@@ -239,7 +242,7 @@ public class LogInController {
     }
 
     @GetMapping(value="/estaBaneado")
-    public Object estaBaneado(@RequestParam("email") String  email , @RequestParam("password") String  password , HttpSession session){
+    public Object estaBaneado(@RequestParam("email") String  email , @RequestParam("password") String  password ){
         System.out.println("Hola Santiago");
         try {
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -267,5 +270,17 @@ public class LogInController {
         }
     }
 
+
+    @GetMapping(value="/getDni")
+    public Object getDni(@RequestParam("dni") String  dni ) {
+        try {
+            PersonaDni p = new DniDao().buscarDatosPorDNI(dni);
+            return ResponseEntity.ok(p);
+        } catch (Exception err) {
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "No se encontro el DNI");
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
 
 }

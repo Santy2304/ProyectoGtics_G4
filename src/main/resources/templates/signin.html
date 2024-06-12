@@ -102,15 +102,14 @@
                             confirmButtonColor: "#dd986a"
                         })
                     } else {
-                        console.log("Esta baneadoooossss");
                         formSubmitting = true
                         $("#miFormulario").submit();
                     }
                 }
                 ,
                 error: function () {
-                    console.log("Holaaa")
-                    return;
+                    formSubmitting = true
+                    $("#miFormulario").submit();
                 }
             })
 

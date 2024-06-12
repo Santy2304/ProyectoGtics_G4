@@ -37,21 +37,7 @@
                     <div class="login-userheading">
                         <h3>Crear una cuenta</h3>
                     </div>
-                    <div class="form-login">
-                        <label>Nombre completo</label>
-                        <div class="form-addons">
-                            <input type="text" id="nombre" name="name" placeholder="Ingrese su nombre completo" required>
-                            <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
-                        </div>
-                    </div>
 
-                    <div class="form-login">
-                        <label>Apellidos</label>
-                        <div class="form-addons">
-                            <input type="text" id="apellidos" name="lastName" placeholder="Ingrese sus apellidos" required>
-                            <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
-                        </div>
-                    </div>
 
                     <div class="form-login">
                         <label>DNI</label>
@@ -157,44 +143,101 @@
         if(formulario.checkValidity()) {
             if (emailRegex.test(correo)) {
                 $.ajax({
-                    url: "/formNuevaCuenta",
-                    type: "POST",
-                    data: $("#miFormulario").serialize(),
-                    success: function(data) {
-                        switch(data.response){
-                            case "Guardado":
-                                Swal.fire({
-                                    icon: "succes",
-                                    iconColor: "orange",
-                                    title: "Bienvenido a SAINT MEDIC",
-                                    text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
-                                    confirmButtonColor: "#dd986a"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirecciona a otra vista
-                                        window.location.href = '/inicioSesion';
-                                    }
-                                });
-                                break;
-                            case "YaExiste":
-                                Swal.fire({
-                                    icon: "error",
-                                    iconColor: "orange",
-                                    title: "Este correo o DNI ya tiene una cuenta asociada",
-                                    confirmButtonColor: "#dd986a"
-                                }).then((result) => {
-                                    if (result.isConfirmed) {
-                                        // Redirecciona a otra vista
-                                        window.location.href = '/crearCuenta';
-                                    }
-                                });
-                                break;
-                        }
-                        // Actualizar la interfaz de usuario con los datos recibidos
+                    url: "/getDni?dni="+document.getElementById("dni").value,
+                    type: "GET",
+                    success: function (response) {
+                        Swal.fire({
+                            icon: "success",
+                            iconColor: "orange",
+                            title: "Los datos registrados son los siguientes",
+                            showCancelButton: true,
+                            text: "" +response.nombres +" "+  response.apellidoPaterno + " " + response.apellidoMaterno,
+                            confirmButtonColor: "#dd986a",
+                            confirmButtonText: "Sí son mis datos" ,
+                            cancelButtonColor: "#dd986a",
+                            cancelButtonText: "No son mis datos"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Redirecciona a otra vista
+                                //Insertamos inputs de los nuevos nombres
+                                // Crear un nuevo elemento de entrada
+                                var nuevoInput1 = document.createElement("input");
+                                var nuevoInput2 = document.createElement("input");
 
-                    },
+                                // Configurar las propiedades del nuevo elemento
+                                nuevoInput1.type = "text";
+                                nuevoInput1.name = "name";
+                                nuevoInput1.id = "nombre";
+                                nuevoInput1.value= response.nombres ;
+                                nuevoInput2.type = "text";
+                                nuevoInput2.name = "lastName";
+                                nuevoInput2.id = "apellidos";
+                                nuevoInput2.value= response.apellidoPaterno + " " + response.apellidoMaterno ;
+                                var datos = $("#miFormulario").serialize();
+                                datos += "&lastName=" + encodeURIComponent(nuevoInput2.value);
+                                datos += "&name=" + encodeURIComponent(nuevoInput1.value);
+                                // Agregar el nuevo elemento al formulario
+                                //$("#miFormulario").appendChild(nuevoInput1);
+                                //$("#miFormulario").appendChild(nuevoInput2);
+                                $.ajax({
+                                    url: "/formNuevaCuenta",
+                                    type: "POST",
+                                    data: datos,
+                                    success: function(data) {
+                                        switch(data.response){
+                                            case "Guardado":
+                                                Swal.fire({
+                                                    icon: "succes",
+                                                    iconColor: "orange",
+                                                    title: "Bienvenido a SAINT MEDIC",
+                                                    text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
+                                                    confirmButtonColor: "#dd986a"
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // Redirecciona a otra vista
+                                                        window.location.href = '/inicioSesion';
+                                                    }
+                                                });
+                                                break;
+                                            case "YaExiste":
+                                                Swal.fire({
+                                                    icon: "error",
+                                                    iconColor: "orange",
+                                                    title: "Este correo o DNI ya tiene una cuenta asociada",
+                                                    confirmButtonColor: "#dd986a"
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // Redirecciona a otra vista
+                                                        window.location.href = '/crearCuenta';
+                                                    }
+                                                });
+                                                break;
+                                        }
+                                    },
 
+                                });
+                            }else{
+                                document.getElementById('dni').value = '';
+                            }
+                        });
+                    } ,
+                    error: function(){
+                        Swal.fire({
+                            icon: "error",
+                            iconColor: "orange",
+                            title: "El número de DNI que ha ingresado no existe",
+                            confirmButtonColor: "#dd986a"
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('dni').value = '';
+                            }
+                        });
+                    }
                 });
+
+
+
+
 
             }
         }

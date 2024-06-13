@@ -100,7 +100,7 @@ public class PacienteExcel {
             celda.setCellStyle(estilo);
 
             celda = fila.createCell(5);
-            celda.setCellValue(patient.getDateCreationAccount());
+            celda.setCellValue(patient.getDateCreationAccount().toString());
             hoja.autoSizeColumn(5);
             celda.setCellStyle(estilo);
 

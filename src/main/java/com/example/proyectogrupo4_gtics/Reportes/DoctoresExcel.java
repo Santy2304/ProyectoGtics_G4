@@ -99,7 +99,7 @@ public class DoctoresExcel {
             celda.setCellStyle(estilo);
 
             celda = fila.createCell(5);
-            celda.setCellValue(doctor.getCreationDate());
+            celda.setCellValue(doctor.getCreationDate().toString());
             hoja.autoSizeColumn(5);
             celda.setCellStyle(estilo);
 

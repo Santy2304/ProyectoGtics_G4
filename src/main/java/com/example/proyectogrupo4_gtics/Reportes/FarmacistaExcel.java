@@ -102,7 +102,7 @@ public class FarmacistaExcel {
             celda.setCellStyle(estilo);
 
             celda = fila.createCell(5);
-            celda.setCellValue(pharmacist.getCreationDate());
+            celda.setCellValue(pharmacist.getCreationDate().toString());
             hoja.autoSizeColumn(5);
             celda.setCellStyle(estilo);
 

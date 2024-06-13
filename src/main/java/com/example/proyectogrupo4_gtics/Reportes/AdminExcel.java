@@ -99,7 +99,7 @@ public class AdminExcel {
             celda.setCellStyle(estilo);
 
             celda = fila.createCell(5);
-            celda.setCellValue(admin.getCreationDate());
+            celda.setCellValue(admin.getCreationDate().toString());
             hoja.autoSizeColumn(5);
             celda.setCellStyle(estilo);
 

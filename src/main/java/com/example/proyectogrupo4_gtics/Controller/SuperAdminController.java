@@ -4,8 +4,7 @@ import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
-import com.example.proyectogrupo4_gtics.Reportes.MedicineExcel;
-import com.example.proyectogrupo4_gtics.Reportes.MedicinePDF;
+import com.example.proyectogrupo4_gtics.Reportes.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
 import com.lowagie.text.DocumentException;
@@ -22,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -817,7 +817,7 @@ public class  SuperAdminController {
     }
 
 
-    /////////REPORTES/////////////////////
+    //////////////////////////////////REPORTES///////////////////////////////////////
 
     @GetMapping("/exportarMedicamentosPDF")
     public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
@@ -853,7 +853,145 @@ public class  SuperAdminController {
         exporter.exportar(response);
     }
 
+    @GetMapping("/exportarAdministradoresPDF")
+    public void exportarAdminPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
 
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Administradores_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Administrator> administrators = administratorRepository.listarAdminValidos();
+
+        AdminPDF exporter = new AdminPDF(administrators);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarAdministradoresExcel")
+    public void exportarAdministradoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Administradores_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+
+        List<Administrator> administrators = administratorRepository.listarAdminValidos();
+
+        AdminExcel exporter = new AdminExcel(administrators);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarFarmacistasPDF")
+    public void exportarFarmaPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Farmacistas_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
+        FarmacistaPDF exporter = new FarmacistaPDF(pharmacists);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarFarmacistasExcel")
+    public void exportarFarmacistasExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Farmacistas_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+
+        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
+
+        FarmacistaExcel exporter = new FarmacistaExcel(pharmacists);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarPacientesPDF")
+    public void exportarPacientesPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Pacientes_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Patient> patients = patientRepository.listarPacientesValidos();
+        PacientePDF exporter = new PacientePDF(patients);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarPacientesExcel")
+    public void exportarPacientesExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Pacientes_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<Patient> patients = patientRepository.listarPacientesValidos();
+
+        PacienteExcel exporter = new PacienteExcel(patients);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarDoctoresPDF")
+    public void exportarDoctoresPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Doctores_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
+        DoctoresPDF exporter = new DoctoresPDF(doctors);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarDoctoresExcel")
+    public void exportarDoctoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Doctores_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
+
+        DoctoresExcel exporter = new DoctoresExcel(doctors);
+        exporter.exportar(response);
+
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////7
 
 
     public String generateRandomWord() {

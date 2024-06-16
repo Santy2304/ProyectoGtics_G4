@@ -28,6 +28,28 @@
   <link rel="icon" href="../assets_pacient/img/PastillaSinFondo.png" >
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
   <style>
+
+    .category-carousel {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .category-item {
+      flex: 0 0 auto;
+      margin-right: 20px;
+    }
+
+    .category-item img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .category-title {
+      text-align: center;
+    }
+
+
     .pagination{
       text-align: center;
       margin:30px 30px 60px;
@@ -140,7 +162,10 @@
 
 </script>
 
-<div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover; ">
+<!-- background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;
+-->
+
+<div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;">
   <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
     <div class="offcanvas-header justify-content-center">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -168,6 +193,7 @@
       </div>
     </div>
   </div>
+  <!--
   <section class="py-5" style=" margin-top: 0.1% ">
     <div class="container-fluid">
       <div class="row">
@@ -250,66 +276,70 @@
       </div>
     </div>
   </section>
-
+-->
   <section class="py-5 overflow-hidden">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
             <h2 class="section-title">Categorías</h2>
-
             <div class="d-flex align-items-center">
+              <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <h3 class="category-title">Carrito</h3>
+                <span class="cart-total fs-5 fw-bold">S/290.00</span>
+              </button>
+              <!--
               <a href="#" class="btn-link text-decoration-none">Todas las categorías</a>
-              <div class="swiper-buttons">
-                <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
-                <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
-              </div>
+-->
             </div>
           </div>
-
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="category-carousel swiper">
-            <div class="swiper-wrapper">
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Analgésicos</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/suplemento.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Suplementos</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/belleza.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Belleza</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Alergias</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Otros</h3>
-              </a>
-              <a  class="nav-link category-item swiper-slide">
-                <img src="..\assets_pacient\img\icons\sales1.svg" width="120" height="95" alt="Category Thumbnail">
-                <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                  <h3 class="category-title">Carrito</h3>
-                  <span class="cart-total fs-5 fw-bold">S/290.00</span>
-                </button>
-              </a>
+          <div class="category-carousel d-flex flex-wrap justify-content-between">
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Todo</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Analgésicos</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/suplemento.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Suplementos</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/belleza.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Belleza</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Alergias</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Otros</h3>
+            </a>
 
-            </div>
+            <!--
+            <a class="nav-link category-item">
+              <img src="../assets_pacient/img/icons/sales1.svg" width="120" height="95" alt="Category Thumbnail">
+              <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <h3 class="category-title">Carrito</h3>
+                <span class="cart-total fs-5 fw-bold">S/290.00</span>
+              </button>
+            </a>
+            -->
           </div>
-
         </div>
       </div>
     </div>
   </section>
-  <section class="py-3" style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+  <!--style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;"
+  -->
+  <section class="py-3" >
     <div class="shopify-grid">
       <div class="container-fluid">
         <div class="row g-5">
@@ -324,29 +354,6 @@
                     </form>
                   </form>
                 </div>
-              </div>
-              <div class="widget-product-categories pt-5">
-                <h5 class="widget-title">Categorías</h5>
-                <ul class="product-categories sidebar-list list-styled">
-                  <li class="cat-item">
-                    <a href="#">Todas</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Dolor</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Alergia</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Suplemento</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Belleza</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Otro</a>
-                  </li>
-                </ul>
               </div>
 
               <div class="widget-price-filter pt-3">
@@ -705,7 +712,7 @@
       </div>
     </div>
   </section>
-
+<!--
   <section class="py-5 overflow-hidden mb-5">
     <div class="container-fluid">
       <div class="row">
@@ -776,7 +783,7 @@
                   </div>
                 </div>
               </div>
-              <!--
+
               <div class="swiper-slide">
                 <div class="card mb-3 p-3 rounded-4 shadow border-0">
                   <div class="row g-0">
@@ -807,7 +814,7 @@
                   </div>
                 </div>
               </div>
-              -->
+
 
             </div>
           </div>
@@ -816,6 +823,7 @@
       </div>
     </div>
   </section>
+  -->
 </div>
 <footer class="py-5">
   <div class="container">

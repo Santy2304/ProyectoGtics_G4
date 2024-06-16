@@ -40,11 +40,17 @@ public class PharmacistController {
     final CarritoRepository carritoRepository ;
     final CarritoVentaRepository carritoVentaRepository ;
 
+    final NotificationsRepository notificationsRepository;
 
     final UserRepository userRepository;
 
 
-    public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,UserRepository userRepository) {
+    public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
+                                PurchaseHasLoteRepository purchaseHasLoteRepository ,
+                                MedicineRepository medicineRepository, PatientRepository patientRepository ,
+                                LoteRepository loteRepository, PharmacistRepository pharmacistRepository,
+                                DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,
+                                UserRepository userRepository, NotificationsRepository notificationsRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -55,6 +61,7 @@ public class PharmacistController {
         this.userRepository = userRepository;
         this.carritoRepository = carritoRepository;
         this.carritoVentaRepository = carritoVentaRepository;
+        this.notificationsRepository = notificationsRepository;
     }
 
     @GetMapping("/cambioObligatorio")
@@ -212,6 +219,11 @@ public class PharmacistController {
     @GetMapping("/aceptarSolicitud")
     public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+        Notifications notifications = new Notifications();
+        notifications.setContent("Su compra con código "+ idSolicitud +" ha sido aceptada, pudede proceder a pagarla en la vista historial");
+        String email= patientRepository.findById(purchaseOrderRepository.idPatient(idSolicitud)).get().getEmail();
+        notifications.setIdUsers(userRepository.findByEmail(email));
+        notificationsRepository.save(notifications);
         return "redirect:solicitudesFarmacista";
     }
 

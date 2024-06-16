@@ -174,7 +174,7 @@ public class LogInController {
             patient.setChangePassword(false);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
-            patient.setExpirationDate(LocalDateTime.now().plusMinutes(2)); // Expira en 10 minutos
+            patient.setExpirationDate(LocalDateTime.now().plusMinutes(4)); // Expira en 10 minutos
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();

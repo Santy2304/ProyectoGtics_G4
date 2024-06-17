@@ -86,10 +86,15 @@
 						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
 					</a>
 					<ul class="dropdown-menu text-small">
-						<li> <p th:text="${nombre}+''+${apellido}"></p></li>
+						<li> <a class="dropdown-item" th:text="${nombre}+''+${apellido}"></a></li>
+						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="#">Profile</a></li>
 						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#">Sign out</a></li>
+						<li><form th:action="@{/logout}" method="post" class="ml-2">
+							<button class="btn btn-link" type="submit">
+								<img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25" >
+							</button>
+						</form></li>
 					</ul>
 				</div>
 			</div>
@@ -330,12 +335,12 @@
 <script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 <!-- Wizard JS -->
-<script src="../assets_pacient/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-<script src="../assets_pacient/plugins/twitter-bootstrap-wizard/prettify.js"></script>
-<script src="../assets_pacient/plugins/twitter-bootstrap-wizard/form-wizard.js"></script>
+<script src="/assets_superAdmin/plugins/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+<script src="/assets_superAdmin/plugins/twitter-bootstrap-wizard/prettify.js"></script>
+<script src="/assets_superAdmin/plugins/twitter-bootstrap-wizard/form-wizard.js"></script>
 
 <!-- Custom JS -->
-<script src="../assets_pacient/js/script.js"></script>
+<script src="/assets_superAdmin/js/script.js"></script>
 
 <!-- Datatable JS -->
 <script src="../assets_pacient/js/jquery.dataTables.min.js"></script>

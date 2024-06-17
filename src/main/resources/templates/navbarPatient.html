@@ -1,221 +1,61 @@
-<div th:fragment="navbarPatient" class="header"  style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="header (title)">
+        <meta charset="UTF-8">
 
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-<!-- Logo -->
-            <div class="header-left active">
-                <a  class="logo">
-                    <img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-                </a>
-                <a class="logo-small">
-                    <img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-                </a>
-                <a id="toggle_btn" href="javascript:void(0);">
-                </a>
-            </div>
-            <!-- /Logo -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-            <a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-            </a>
+        <title th:text="${title}"></title>
 
-            <!-- Header Menu -->
-            <ul class="nav user-menu">
+        <style>
+            .custom-navbar .nav-item.active {
+                border-radius: 15px; /* Ajusta el valor para más o menos redondeo */
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional para un efecto de elevación */
+            }
+            .custom-navbar .logo-img {
+                width: 60px; /* Ajusta el ancho según sea necesario */
+                height: auto; /* Mantiene la proporción de aspecto */
+            }
+            .custom-navbar .logo-small {
+                margin-left: -6%; /* Ajusta el valor negativo para mover el logo a la izquierda */
+            }
+        </style>
+    </head>
 
-                <!--Elegir Sede primera vez-->
-                <li class="nav-item">
-                    <a class="nav-link" href="/patient/verSeleccionarSedePaciente">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-shop" viewBox="0 0 16 16">
-                            <path d="M2.97 1.35A1 1 0 0 1 3.73 1h8.54a1 1 0 0 1 .76.35l2.609 3.044A1.5 1.5 0 0 1 16 5.37v.255a2.375 2.375 0 0 1-4.25 1.458A2.37 2.37 0 0 1 9.875 8 2.37 2.37 0 0 1 8 7.083 2.37 2.37 0 0 1 6.125 8a2.37 2.37 0 0 1-1.875-.917A2.375 2.375 0 0 1 0 5.625V5.37a1.5 1.5 0 0 1 .361-.976zm1.78 4.275a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0 1.375 1.375 0 1 0 2.75 0V5.37a.5.5 0 0 0-.12-.325L12.27 2H3.73L1.12 5.045A.5.5 0 0 0 1 5.37v.255a1.375 1.375 0 0 0 2.75 0 .5.5 0 0 1 1 0M1.5 8.5A.5.5 0 0 1 2 9v6h1v-5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v5h6V9a.5.5 0 0 1 1 0v6h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1V9a.5.5 0 0 1 .5-.5M4 15h3v-5H4zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zm3 0h-2v3h2z"/>
-                        </svg>
-                    </a>
-                </li>
-
-
-                <!--Principal-->
-                <li class="nav-item">
-                    <a class="nav-link" href="/patient/verPrincipalPaciente">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-prescription2" viewBox="0 0 16 16">
-                            <path d="M7 6h2v2h2v2H9v2H7v-2H5V8h2z"/>
-                            <path d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1v10.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 3 14.5V4a1 1 0 0 1-1-1zm2 3v10.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V4zM3 3h10V1H3z"/>
-                        </svg>
-                    </a>
-                </li>
-
-                <!--Ordenar-->
-                <li class="nav-item">
-                    <a class="nav-link" href="/patient/verGenerarOrdenCompra">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-fill" viewBox="0 0 16 16">
-                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                        </svg>
-                    </a>
-                </li>
-
-
-                <!--Historial-->
-                <li class="nav-item">
-                    <a class="nav-link" href="/patient/verHistorial">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-spreadsheet-fill" viewBox="0 0 16 16">
-                            <path d="M6 12v-2h3v2z"/>
-                            <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z"/>
-                        </svg>
-
+    <body>
+        <header th:fragment="navbar" class="custom-navbar p-3 mb-3 border-bottom" style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a class="logo-small" href="/patient/verSeleccionarSedePaciente">
+                        <img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="" class="logo-img">
                     </a>
 
-                </li>
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li class="nav-item active" >
+                            <a href="/patient/verPrincipalPaciente" class="nav-link px-2 link-secondary">Home</a>
+                        </li>
+                        <li  ><a href="/patient/verGenerarOrdenCompra" class="nav-link px-2 link-secondary">Ordenar</a></li>
+                        <li><a href="/patient/verHistorial" class="nav-link px-2 link-secondary">Historial</a></li>
+                        <li><a href="/patient/verTracking" class="nav-link px-2 link-secondary">Tracking</a></li>
+                        <li><a href="/patient/verChatPaciente" class="nav-link px-2 link-secondary">Chats</a></li>
+                    </ul>
 
-                <!--Tracking-->
-                <li class="nav-item">
-                    <a class="nav-link"  href="/patient/verTracking">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
-                        </svg>
-                    </a>
-
-                </li>
-
-                <!--Chat-->
-                <li class="nav-item">
-                    <a class="nav-link" href="/patient/verChatPaciente">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-fill" viewBox="0 0 16 16">
-                            <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"/>
-                        </svg>
-                    </a>
-                </li>
-
-                <!--Carrito-->
-                <li class="nav-item">
-
-
-                </li>
-
-
-                <!-- Flag -->
-                <li class="nav-item dropdown has-arrow flag-nav">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="javascript:void(0);" role="button">
-                        <img src="assets/img/flags/us1.png" alt="" height="20">
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/img/flags/us.png" alt="" height="16"> Pando 1
+                    <div class="dropdown text-end">
+                        <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
                         </a>
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/img/flags/fr.png" alt="" height="16"> Pando 2
-                        </a>
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/img/flags/es.png" alt="" height="16"> Pando 3
-                        </a>
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/img/flags/de.png" alt="" height="16"> Pando 4
-                        </a>
+                        <ul class="dropdown-menu text-small">
+                            <li> <h6 th:text="${nombre}+''+${apellido}"></h6></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
                     </div>
-                </li>
-                <!-- /Flag -->
-
-                <!-- Notifications -->
-                <li class="nav-item dropdown">
-                    <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <img src="assets/img/icons/notification-bing.svg"   alt="img"> <span class="badge rounded-pill">4</span>
-                    </a>
-                    <div class="dropdown-menu notifications">
-                        <div class="topnav-dropdown-header">
-                            <span class="notification-title">Notificaciones</span>
-                            <a href="javascript:void(0)" class="clear-noti">Limpiar todo</a>
-                        </div>
-                        <div class="noti-content">
-                            <ul class="notification-list">
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/profiles/avatar-02.jpg">
-												</span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
-                                                <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/profiles/avatar-03.jpg">
-												</span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="notification-message">
-                                    <a href="activities.html">
-                                        <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/profiles/avatar-06.jpg">
-												</span>
-                                            <div class="media-body flex-grow-1">
-                                                <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
-                                                <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <div class="topnav-dropdown-footer">
-                            <a href="activities.html">Mira todas las notificaciones</a>
-                        </div>
-                    </div>
-                </li>
-                <!-- /Notifications -->
-
-
-                <li class="nav-item dropdown has-arrow main-drop">
-                    <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
-							<span class="status online"></span></span>
-                    </a>
-                    <div class="dropdown-menu menu-drop-user">
-                        <div class="profilename">
-                            <div class="profileset">
-									<span class="user-img"><img src="assets/img/profiles/avator1.jpg" alt="">
-									<span class="status online"></span></span>
-                                <div class="profilesets">
-                                    <h6  th:text="${nombre}+''+${apellido}"></h6>
-                                </div>
-                            </div>
-                            <hr class="m-0">
-                            <a class="dropdown-item" href="/patient/verPerfilPaciente"> <i class="me-2"  data-feather="user"></i> My Profile</a>
-                            <hr class="m-0">
-                            <form th:action="@{/logout}" method="post" class="ml-2">
-                                <button class="btn btn-link" type="submit">
-                                    <a class="dropdown-item logout pb-0" >
-                                        <img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25" >
-                                        Cerrar sesión
-                                    </a>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <!-- /Header Menu -->
-
-            <!-- Mobile Menu -->
-            <div class="dropdown mobile-user-menu">
-                <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="generalsettings.html">Settings</a>
-                    <a class="dropdown-item" href="signin.html">Logout</a>
                 </div>
             </div>
-            <!-- /Mobile Menu -->
-</div>
+        </header>
+
+    </body>
+</html>

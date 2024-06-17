@@ -19,14 +19,29 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets_pacient/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+  <link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
+
+  <!-- animation CSS -->
+  <link rel="stylesheet" href="../assets_pacient/css/animate.css">
+
+  <!-- Datatable CSS -->
   <link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
+
+  <!-- Fontawesome CSS -->
   <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
   <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
-  <title>Saint Medic</title>
-  <link rel="icon" href="../assets_pacient/img/PastillaSinFondo.png" >
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../assets_pacient/css/style.css">
+
+  <link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
   <style>
 
     .category-carousel {
@@ -95,13 +110,67 @@
     .disable{
       background: #cccccc ;
     }
+
+    .custom-navbar .nav-item.active {
+      border-radius: 15px; /* Ajusta el valor para más o menos redondeo */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional para un efecto de elevación */
+    }
+    .custom-navbar .logo-img {
+      width: 70px; /* Ajusta el ancho según sea necesario */
+      height: auto; /* Mantiene la proporción de aspecto */
+    }
+    .custom-navbar .logo-small {
+      margin-left: -16%; /* Ajusta el valor negativo para mover el logo a la izquierda */
+    }
   </style>
+
+
 </head>
 <body>
-<div id="global-loader" >
+  <header class="custom-navbar p-3 mb-3 border-bottom" style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="logo-small" href="/patient/verSeleccionarSedePaciente">
+          <img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="" class="logo-img">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li class="nav-item active">
+            <a href="/patient/verPrincipalPaciente" style="color: white" class="nav-link px-2 link-secondary">Home</a>
+          </li>
+          <li ><a style="color: white" href="/patient/verGenerarOrdenCompra" class="nav-link px-2 link-secondary">Ordenar</a></li>
+          <li><a href="/patient/verHistorial" style="color: white" class="nav-link px-2 link-secondary">Historial</a></li>
+          <li><a href="/patient/verTracking" style="color: white" class="nav-link px-2 link-secondary">Tracking</a></li>
+          <li><a href="/patient/verChatPaciente" style="color: white" class="nav-link px-2 link-secondary">Chats</a></li>
+        </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small">
+            <li> <p th:text="${nombre}+' '+${apellido}"></p></li>
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><form th:action="@{/logout}" method="post" class="ml-2">
+              <button class="btn btn-link" type="submit">
+                <img type="submit" src="../assets_pacient/img/logOut.png" alt="Logout" width="25" height="25" >
+              </button>
+            </form></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="global-loader" >
   <div class="whirly-loader"> </div>
 </div>
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <defs>
     <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
       <path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
@@ -156,16 +225,13 @@
 </svg>
 <!--carrito oculto-->
 
-
-<nav th:replace="navbarPaciente :: navbar(activeTab = 'home')"> </nav>
-<script>
-
-</script>
-
 <!-- background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;
 -->
+  <!--
+  <nav th:replace="navbarPaciente :: navbar(activeTab = 'home')"> </nav>
+-->
 
-<div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;">
+  <div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;">
   <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
     <div class="offcanvas-header justify-content-center">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -279,6 +345,7 @@
 -->
   <section class="py-5 overflow-hidden">
     <div class="container-fluid">
+
       <div class="row">
         <div class="col-md-12">
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
@@ -343,6 +410,7 @@
     <div class="shopify-grid">
       <div class="container-fluid">
         <div class="row g-5">
+          <!--
           <aside class="col-md-2">
             <div class="sidebar">
               <div class="widget-menu">
@@ -378,7 +446,7 @@
               </div>
             </div>
           </aside>
-
+-->
           <main class="col-md-10">
 
             <div class="filter-shop d-flex justify-content-between">
@@ -825,7 +893,7 @@
   </section>
   -->
 </div>
-<footer class="py-5">
+<footer class="py-5" style="background-color: #ffe69c">
   <div class="container">
     <div class="row">
 
@@ -859,6 +927,7 @@
         </div>
       </div>
 
+      <!--
       <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
         <div class="footer-menu">
           <h5 class="widget-title">Ultras</h5>
@@ -912,12 +981,13 @@
       </div>
 
       <div class="col-lg-3 col-md-6">
-        <!-- Agrega aquí más secciones si es necesario -->
+         Agrega aquí más secciones si es necesario
       </div>
-
+-->
     </div>
   </div>
 
+  <!--
   <div class="footer-bottom">
     <div class="container">
       <div class="row">
@@ -926,7 +996,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </footer>
 
 <script src="../js_pacient_nav/jquery-1.11.0.min.js"></script>
@@ -935,29 +1005,29 @@
 <script src="../js_pacient_nav/plugins.js"></script>
 <script src="../js_pacient_nav/script.js"></script>
 <!-- jQuery -->
-<script src="../assets_pacient/js/jquery-3.6.0.min.js"></script>
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
 
 <!-- Feather Icon JS -->
-<script src="../assets_pacient/js/feather.min.js"></script>
+<script src="/assets_pacient/js/feather.min.js"></script>
 
 <!-- Slimscroll JS -->
-<script src="../assets_pacient/js/jquery.slimscroll.min.js"></script>
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
 
 <!-- Datatable JS -->
-<script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
-<script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 
 <!-- Bootstrap Core JS -->
-<script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 <!-- Chart JS -->
-<script src="../assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
-<script src="../assets_pacient/plugins/apexchart/chart-data.js"></script>
-<script src="../assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="../assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="/assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
+<script src="/assets_pacient/plugins/apexchart/chart-data.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <!-- Custom JS -->
-<script src="../assets_pacient/js/script.js"></script>
+<script src="/assets_pacient/js/script.js"></script>
 
 <!--Script para el navbar-->
 </body>

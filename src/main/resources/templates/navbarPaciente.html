@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
         <title th:text="${title}"></title>
@@ -21,9 +22,9 @@
                 }
             </style>
             <a class="navbar-brand navbar-logo fst-italic sede-link" style="padding-right: 250px"  th:if="${idSede}=='1'" > Saint Medic - Sede Pando 1 </a>
-            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='5'" > Saint Medic - Sede Pando 2  </a>
-            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='6'" > Saint Medic - Sede Pando 3  </a>
-            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='7'" > Saint Medic - Sede Pando 4  </a>
+            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='2'" > Saint Medic - Sede Pando 2  </a>
+            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='3'" > Saint Medic - Sede Pando 3  </a>
+            <a class="navbar-brand navbar-logo fst-italic" style="padding-right: 250px"  th:if="${idSede}=='4'" > Saint Medic - Sede Pando 4  </a>
 
             <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fas fa-bars text-white"></i>
@@ -271,7 +272,7 @@
                     text-decoration: none; /* Opcional: elimina el subrayado al pasar el ratón por encima */
                 }
             </style>
-
+<!--
             <script>
                 function test(){
                     var tabsNewAnim = $('#navbarSupportedContent');
@@ -330,6 +331,7 @@
                     target.parent().addClass('active');
                 });
             </script>
+            -->
         </nav>
 
     </body>

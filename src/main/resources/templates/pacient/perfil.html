@@ -60,6 +60,28 @@
 		.custom-navbar .logo-small {
 			margin-left: -16%; /* Ajusta el valor negativo para mover el logo a la izquierda */
 		}
+		.custom-dropdown-menu {
+			min-width: auto; /* Permite que el menú se ajuste al contenido */
+			padding: 0.5rem 1rem; /* Ajusta el relleno según sea necesario */
+		}
+
+		/* Ajuste del tamaño de los elementos dentro del dropdown */
+		.custom-dropdown-menu .dropdown-item,
+		.custom-dropdown-menu hr,
+		.custom-dropdown-menu form {
+			padding: 0.25rem 0; /* Ajusta el relleno de los elementos */
+			margin: 0; /* Elimina márgenes adicionales */
+		}
+
+		/* Ajuste para el botón de formulario */
+		.custom-dropdown-menu form .btn {
+			padding: 0; /* Elimina relleno del botón */
+		}
+
+		.custom-dropdown-menu form .btn img {
+			width: 20px; /* Ajusta el tamaño del ícono */
+			height: 20px; /* Ajusta el tamaño del ícono */
+		}
 	</style>
 </head>
 <body>
@@ -84,7 +106,7 @@
 					<a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
 					</a>
-					<ul class="dropdown-menu text-small">
+					<ul class="dropdown-menu text-small custom-dropdown-menu">
 						<li> <a class="dropdown-item" th:text="${nombre}+' '+${apellido}"></a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="/patient/verPerfilPaciente">Profile</a></li>

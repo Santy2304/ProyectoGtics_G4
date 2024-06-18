@@ -88,9 +88,11 @@ public class PatientController {
     }
 
     @GetMapping("/ElegirSede")
-    public String ElegirSede( Model model){
+    public String ElegirSede( Model model, HttpSession session){
         //Se listan las sedes
-
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         List<Site> listSite = siteRepository.findAll();
         model.addAttribute("listSite", listSite);
         return "elegirSede";
@@ -115,33 +117,45 @@ public class PatientController {
 
 
     @GetMapping("/elegirSedePrimeraVez")
-    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model){
+    public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model,HttpSession session){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/principal";
     }
 
     @GetMapping("/elegirSedeEnPagina")
-    public String elegirSedeEnPagina(@RequestParam("idSede") String nuevoIdSede , Model model,  @SessionAttribute String idSede ){
+    public String elegirSedeEnPagina(@RequestParam("idSede") String nuevoIdSede , Model model,  @SessionAttribute String idSede, HttpSession session ){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(nuevoIdSede)).get()).getIdSite());
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/principal";
     }
 
-
+/*
     @GetMapping("/")
     public String listarMedicamentos(){
         return"";
-    }
+    }*/
     //El chat no es responsive
     @GetMapping("/verChatPaciente")
-    public String verChatPaciente(){
+    public String verChatPaciente(Model model, HttpSession session){
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/chat";
     }
     @GetMapping("/verDatosPago")
-    public String verDatosPago(@RequestParam("idPurchase") int idPurchase){
+    public String verDatosPago(@RequestParam("idPurchase") int idPurchase, Model model, HttpSession session){
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/datos_pago";
     }
     //No funciona bien
@@ -183,6 +197,9 @@ public class PatientController {
         Medicine medicine = medicineRepository.findById(1).get();
 
         model.addAttribute("medicine",medicine);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/generar_orden_compra";
     }
 
@@ -271,8 +288,8 @@ public class PatientController {
 
         purchaseHasLoteRepository.save(purchaseHasLote);
 
-        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
 
+        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
 
     }
 
@@ -291,6 +308,9 @@ public class PatientController {
     public String verHistorial( Model model, HttpSession session){
         List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("listaCompras",comprasPorPaciente);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/historial";
     }
 
@@ -306,6 +326,8 @@ public class PatientController {
     public String verPerfilPaciente(  Model model, HttpSession session){
         Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("paciente" , patient.get());
+        model.addAttribute("nombre",patient.get().getName());
+        model.addAttribute("apellido",patient.get().getLastName());
         return "pacient/perfil";
     }
     @GetMapping("/verPrincipalPaciente")
@@ -313,6 +335,9 @@ public class PatientController {
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
+        Patient patient = (Patient) httpSesion.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/principal";
     }
     //No funciona bien
@@ -321,9 +346,12 @@ public class PatientController {
         return "pacient/productlist";
     }
     @GetMapping("/verSeleccionarSedePaciente")
-    public String verSeleccionarSedePaciente(Model model) {
+    public String verSeleccionarSedePaciente(Model model, HttpSession session) {
         List<Site> listaSedes=  siteRepository.findAll();
         model.addAttribute("listaSede", listaSedes);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/seleccionarSede";
     }
     @RequestMapping("/verDetalleCompra")
@@ -371,15 +399,20 @@ public class PatientController {
         List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
 
         model.addAttribute("listaTracking",tracking);
-
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
         return "pacient/tracking";
     }
     @PostMapping("/editarPerfilPaciente")
-    public String editarDatosPaciente(@ModelAttribute("paciente") @Valid Patient patient, BindingResult bindingResult, Model model, RedirectAttributes attr){
+    public String editarDatosPaciente(@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
         //Actualizar datos cambiados
         System.out.println(patient.getIdPatient());
         System.out.println(patient.getLocation());
         System.out.println(patient.getInsurance());
+        Patient patient1 = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient1.getName());
+        model.addAttribute("apellido",patient1.getLastName());
         if (bindingResult.hasErrors()) {
             return "pacient/perfil";
         } else {

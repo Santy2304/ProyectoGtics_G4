@@ -47,12 +47,12 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
-            "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true\n" +
+            "left join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "where l.site = (select site from administrator where idAdministrator=?1)   and l.visible= true\n" +
             ")\n" +
             "group by m.idMedicine"
     )
-    List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin);
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin); /* and r.trackingState = 'Entregado'*/
 
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
             "from medicine m \n" +
@@ -100,12 +100,12 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
-            "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true\n" +
+            "left join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "where l.site = (select site from administrator where idAdministrator=?1)   and l.visible= true\n" +
             ")\n" +
             "group by m.idMedicine \n" +
             "having sum(l.stock)<=25;")
-    List<medicamentosPorSedeDTO> listaMedicamentosPocoStock(int idAdmin);
+    List<medicamentosPorSedeDTO> listaMedicamentosPocoStock(int idAdmin);/*and r.trackingState = 'Entregado'*/
     //listaMedicamentosBuscadorConStockLimintado
 
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio \n" +

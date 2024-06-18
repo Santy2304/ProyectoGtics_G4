@@ -27,6 +27,10 @@ public class ReplacementOrder {
     @JoinColumn(name="idadministrator")
     private Administrator administrator;
 
+    @ManyToOne
+    @JoinColumn(name="idtrackings")
+    private Tracking idTracking;
+
     public int getIdReplacementOrder() {
         return idReplacementOrder;
     }
@@ -65,5 +69,13 @@ public class ReplacementOrder {
 
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
+    }
+
+    public Tracking getIdTracking() {
+        return idTracking;
+    }
+
+    public void setIdTracking(Tracking idTracking) {
+        this.idTracking = idTracking;
     }
 }

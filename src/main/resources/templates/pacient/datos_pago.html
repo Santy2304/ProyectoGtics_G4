@@ -26,22 +26,23 @@
 	<link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
 	<link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
-	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
 
 	<!-- animation CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
+	<link rel="stylesheet" href="../assets_pacient/css/animate.css">
 
 	<!-- Datatable CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+	<link rel="stylesheet" href="../assets_pacient/css/style.css">
 
-	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
 
 	<style>
 
@@ -59,6 +60,28 @@
 		}
 		.custom-navbar .logo-small {
 			margin-left: -16%; /* Ajusta el valor negativo para mover el logo a la izquierda */
+		}
+		.custom-dropdown-menu {
+			min-width: auto; /* Permite que el menú se ajuste al contenido */
+			padding: 0.5rem 1rem; /* Ajusta el relleno según sea necesario */
+		}
+
+		/* Ajuste del tamaño de los elementos dentro del dropdown */
+		.custom-dropdown-menu .dropdown-item,
+		.custom-dropdown-menu hr,
+		.custom-dropdown-menu form {
+			padding: 0.25rem 0; /* Ajusta el relleno de los elementos */
+			margin: 0; /* Elimina márgenes adicionales */
+		}
+
+		/* Ajuste para el botón de formulario */
+		.custom-dropdown-menu form .btn {
+			padding: 0; /* Elimina relleno del botón */
+		}
+
+		.custom-dropdown-menu form .btn img {
+			width: 20px; /* Ajusta el tamaño del ícono */
+			height: 20px; /* Ajusta el tamaño del ícono */
 		}
 	</style>
 
@@ -78,8 +101,8 @@
 						<a href="/patient/verPrincipalPaciente" style="color: white" class="nav-link px-2 link-secondary">Home</a>
 					</li>
 					<li ><a style="color: white" href="/patient/verGenerarOrdenCompra" class="nav-link px-2 link-secondary">Ordenar</a></li>
-					<li><a href="/patient/verHistorial" style="color: white" class="nav-link px-2 link-secondary">Historial</a></li>
-					<li><a href="/patient/verTracking" style="color: white" class="nav-link px-2 link-secondary">Tracking</a></li>
+					<li class="nav-item active"><a href="/patient/verHistorial" style="color: white" class="nav-link px-2 link-secondary">Historial</a></li>
+					<li ><a href="/patient/verTracking" style="color: white" class="nav-link px-2 link-secondary">Tracking</a></li>
 					<li><a href="/patient/verChatPaciente" style="color: white" class="nav-link px-2 link-secondary">Chats</a></li>
 				</ul>
 
@@ -87,7 +110,7 @@
 					<a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
 					</a>
-					<ul class="dropdown-menu text-small">
+					<ul class="dropdown-menu text-small custom-dropdown-menu">
 						<li> <p th:text="${nombre}+' '+${apellido}"></p></li>
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="/patient/verPerfilPaciente">Profile</a></li>
@@ -107,13 +130,13 @@
 	<div class="whirly-loader"> </div>
 </div>
 
-	<div class="content py-3" style=" margin-top: 1%">
+	<div class="content py-3" >
 
 		<div class="row mx-3 mt-2">
 			<div class="col-lg-3 col-sm-6 col-12">
 				<div class="dash-widget">
 					<div class="dash-widgetimg">
-						<span><img src="assets_pacient/img/icons/dash1.svg" alt="img"></span>
+						<span><img src="/assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
 					</div>
 					<div class="dash-widgetcontent">
 						<h5 >S/20.00</h5>

@@ -44,13 +44,16 @@ public class PharmacistController {
 
     final UserRepository userRepository;
 
+    final TrackingRepository trackingRepository;
+
 
     public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
                                 PurchaseHasLoteRepository purchaseHasLoteRepository ,
                                 MedicineRepository medicineRepository, PatientRepository patientRepository ,
                                 LoteRepository loteRepository, PharmacistRepository pharmacistRepository,
                                 DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,
-                                UserRepository userRepository, NotificationsRepository notificationsRepository) {
+                                UserRepository userRepository, NotificationsRepository notificationsRepository,
+                                TrackingRepository trackingRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -62,6 +65,7 @@ public class PharmacistController {
         this.carritoRepository = carritoRepository;
         this.carritoVentaRepository = carritoVentaRepository;
         this.notificationsRepository = notificationsRepository;
+        this.trackingRepository = trackingRepository;
     }
 
     @GetMapping("/cambioObligatorio")
@@ -219,6 +223,10 @@ public class PharmacistController {
     @GetMapping("/aceptarSolicitud")
     public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+
+        Tracking tracking = new Tracking();
+        tracking.setSolicitudDate(LocalDateTime.now());
+
         Notifications notifications = new Notifications();
         notifications.setContent("Su compra con código "+ idSolicitud +" ha sido aceptada, pudede proceder a pagarla en la vista historial");
         String email= patientRepository.findById(purchaseOrderRepository.idPatient(idSolicitud)).get().getEmail();

@@ -18,6 +18,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -37,9 +38,11 @@ public class AdminSedeController {
     final ReplacementOrderRepository replacementOrderRepository;
     final LoteRepository loteRepository;
     final UserRepository userRepository;
+
+    final TrackingRepository trackingRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
-                               LoteRepository loteRepository,UserRepository userRepository) {
+                               LoteRepository loteRepository,UserRepository userRepository, TrackingRepository trackingRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -47,6 +50,7 @@ public class AdminSedeController {
         this.replacementOrderRepository = replacementOrderRepository ;
         this.loteRepository =loteRepository;
         this.userRepository=userRepository;
+        this.trackingRepository = trackingRepository;
     }
 
 
@@ -717,6 +721,14 @@ public class AdminSedeController {
                                 r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                                 r.setAdministrator(administratorRepository.getByIdAdministrador( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()));
                                 //r.setIdReplacementOrder();
+                                Tracking tracking = new Tracking();
+                                tracking.setSolicitudDate(LocalDateTime.now());
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(10));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(20));
+                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(30));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(40));
+                                trackingRepository.save(tracking);
+                                r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
                                 //Creamos los lotes asignados a cada orden
                                 String quantity  ;
@@ -738,6 +750,8 @@ public class AdminSedeController {
                                         loteRepository.save(lote);
                                     }
                                 }
+
+
                                 response.put("error" ,"");
                                 response.put("response" ,"/adminSede/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
                             }else{

@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -23,13 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import javax.print.Doc;
 import java.util.Random;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.security.SecureRandom;
 
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -996,7 +994,7 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+        List<cantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicinePDF exporter = new MedicinePDF(medicines);
         exporter.exportar(response);
@@ -1014,7 +1012,7 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+        List<cantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
 
         MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);

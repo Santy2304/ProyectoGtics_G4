@@ -1,7 +1,5 @@
 package com.example.proyectogrupo4_gtics.Reportes;
 
-import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
-import com.example.proyectogrupo4_gtics.Entity.Administrator;
 import com.example.proyectogrupo4_gtics.Entity.Pharmacist;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;

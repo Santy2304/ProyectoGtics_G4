@@ -56,11 +56,12 @@ public class PatientController {
     private final DoctorRepository doctorRepository;
     private final LoteRepository loteRepository;
 
+    final TrackingRepository trackingRepository;
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
                               LoteRepository loteRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository, TrackingRepository trackingRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -69,6 +70,7 @@ public class PatientController {
         this.doctorRepository = doctorRepository;
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
+        this.trackingRepository = trackingRepository;
     }
 
     @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
@@ -271,6 +273,14 @@ public class PatientController {
         purchaseOrder.setDeliveryHour(deliveryHour);
         purchaseOrder.setReleaseDate(LocalDate.now());
 
+        Tracking tracking = new Tracking();
+        tracking.setSolicitudDate(LocalDateTime.now());
+        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(10));
+        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(20));
+        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(30));
+        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(40));
+        trackingRepository.save(tracking);
+        purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
 
         PurchaseHasLote purchaseHasLote = new PurchaseHasLote();

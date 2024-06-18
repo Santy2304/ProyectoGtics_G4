@@ -1,7 +1,7 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
-import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.Medicine;
 import jakarta.transaction.Transactional;
@@ -32,7 +32,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "    lote l ON m.idMedicine = l.idMedicine \n" +
             "GROUP BY \n" +
             "    m.idMedicine, m.name, m.category, m.price;")
-    List<CantidadMedicamentosDTO> obtenerDatosMedicamentos();
+    List<cantidadMedicamentosDTO> obtenerDatosMedicamentos();
 
 
 
@@ -48,7 +48,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1) and  r.trackingState = 'Entregado' and l.visible= true\n" +
             ")\n" +
             "group by m.idMedicine"
@@ -62,7 +62,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "and \n" +
             "l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?3)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ") \n" +
             "group by m.idMedicine")
@@ -75,7 +75,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "and \n" +
             "l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?2)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ") \n" +
             "group by m.idMedicine")
@@ -89,7 +89,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "and \n" +
             "l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?2)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ") \n" +
             "group by m.idMedicine")
@@ -101,7 +101,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "left join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "left join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)   and l.visible= true\n" +
             ")\n" +
             "group by m.idMedicine \n" +
@@ -115,7 +115,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "left join lote l on (m.idMedicine=l.idMedicine) \n" +
             "where  (m.name like concat(?2,'%') and m.category like concat(?3 , '%') )  and l.idLote in ( \n" +
             "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idreplacementorder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
+            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
             "where l.site = (select site from administrator where idAdministrator=?1)  and r.trackingState = 'Entregado' and l.visible= true \n" +
             ")\n" +
             "group by m.idMedicine \n" +

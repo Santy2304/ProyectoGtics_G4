@@ -100,12 +100,11 @@
 												<li>
 													<div class="productviews">
 														<div class="productviewsimg">
-															<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
+															<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.getPhoto()}}" alt="img">
 														</div>
 														<div class="productviewscontent">
 															<div class="productviewsname">
-																<h2>paracetamol.jpg</h2>
-																<h3>581kb</h3>
+																<h2 th:field="*{photo}"></h2>
 															</div>
 														</div>
 													</div>

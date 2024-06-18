@@ -39,7 +39,7 @@
 	<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="../assets_pacient/css/style.css">
+	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 
 	<link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
 
@@ -143,7 +143,7 @@
 			<div class="col-lg-3 col-sm-6 col-12">
 				<div class="dash-widget">
 					<div class="dash-widgetimg">
-						<span><img src="../assets_pacient/img/icons/dash1.svg" alt="img"></span>
+						<span><img src="../assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
 					</div>
 					<div class="dash-widgetcontent">
 						<h5 th:text="${medicine.getPrice()}">S/</h5>
@@ -273,7 +273,7 @@
 										<tr>
 											<td class="productimgname">
 												<a href="#" class="product-img">
-													<img src="../assets_pacient/images/aspirina.jpeg" alt="product">
+													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="product">
 												</a>
 												<a th:text="*{medicine.getName()}"></a>
 												<input name="idMedicine"  th:field="*{medicine.idMedicine}" type="hidden">
@@ -282,7 +282,7 @@
 											<td>
 											1	<input type="hidden" name="cantidad" value="1">
 											</td>
-											<td th:text="${medicine.getPrice()}"></td>
+											<td th:text="|S/${medicine.getPrice()}|"></td>
 										</tr>
 
 										</tbody>

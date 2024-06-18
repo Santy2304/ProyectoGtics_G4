@@ -39,6 +39,15 @@ public class Medicine {
     @Size(max = 200, message = "La descripción no debe superar los 200 carácteres")
     private String description;
 
+    private String photo;
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     @OneToMany(mappedBy = "medicine")
     private List<Lote> lote;

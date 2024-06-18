@@ -28,20 +28,34 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
 	<link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
 
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="assets_superAdmin/img/favicon.png">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="../assets_superAdmin/css/bootstrap.min.css">
+
+	<!-- Datetimepicker CSS -->
+	<link rel="stylesheet" href="../assets_superAdmin/css/bootstrap-datetimepicker.min.css">
+
 	<!-- animation CSS -->
-	<link rel="stylesheet" href="../assets_pacient/css/animate.css">
+	<link rel="stylesheet" href="../assets_superAdmin/css/animate.css">
+
+	<!-- Select2 CSS -->
+	<link rel="stylesheet" href="../assets_superAdmin/plugins/select2/css/select2.min.css">
 
 	<!-- Datatable CSS -->
-	<link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="../assets_superAdmin/css/dataTables.bootstrap4.min.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="../assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="../assets_superAdmin/plugins/fontawesome/css/all.min.css">
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="../assets_pacient/css/style.css">
 
 	<link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="../assets_superAdmin/css/style.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../assets_superAdmin/img/PastillaSinFondo.png">
 
 	<style>
 
@@ -83,7 +97,13 @@
 			height: 20px; /* Ajusta el tamaño del ícono */
 		}
 	</style>
-
+	<script>
+		function numeroOrden7digits() {
+			let orderNumber = Math.floor(1000000 + Math.random() * 9000000);
+			document.getElementById("orderNumber").innerText = "Order Number: " + orderNumber;
+		}
+		window.onload = numeroOrden7digits;
+	</script>
 
 
 </head>
@@ -202,12 +222,12 @@
 						<div class="search-set">
 							<div class="search-path">
 								<a class="btn btn-filter" id="filter_search">
-									<img src="../assets_pacient/img/icons/filter.svg" alt="img">
-									<span><img src="../assets_pacient/img/icons/closes.svg" alt="img"></span>
+									<img src="../assets_superAdmin/img/icons/filter.svg" alt="img">
+									<span><img src="../assets_superAdmin/img/icons/closes.svg" alt="img"></span>
 								</a>
 							</div>
 							<div class="search-input">
-								<a class="btn btn-searchset"><img src="../assets_pacient/img/icons/search-white.svg" alt="img"></a>
+								<a class="btn btn-searchset"><img src="../assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 							</div>
 						</div>
 					</div>
@@ -243,7 +263,7 @@
 								</div>
 								<div class="col-lg-1 col-sm-6 col-12">
 									<div class="form-group">
-										<a class="btn btn-filters ms-auto"><img src="../assets_pacient/img/icons/search-whites.svg" alt="img"></a>
+										<a class="btn btn-filters ms-auto"><img src="../assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
 									</div>
 								</div>
 							</div>
@@ -269,7 +289,7 @@
 									<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
 									<td>
 										<a  type="button">
-											<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_pacient/img/icons/prescription2.svg" alt="img">
+											<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_superAdmin/img/transaccion.png" width="30" alt="img">
 										</a>
 									</td>
 									<script th:inline="javascript" >

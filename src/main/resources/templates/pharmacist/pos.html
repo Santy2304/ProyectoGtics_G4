@@ -241,7 +241,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}"  src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -269,7 +269,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -470,7 +470,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}" src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -497,7 +497,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -603,6 +603,8 @@
 							</div>
 						</div>
 
+
+
 						<div class="tab_content" data-tab="belleza">
 							<div th:with="bellezaPresente=false"></div>
 
@@ -615,7 +617,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}" src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -640,7 +642,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -762,7 +764,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}" src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -788,7 +790,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -906,7 +908,8 @@
 									<div th:with="otrosPresente=true"></div>
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}" src="/assets_superAdmin/img/paracetamol.png" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}" th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -932,7 +935,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -1117,7 +1120,7 @@
 										<li>
 											<div class="productimg">
 												<div class="productimgs">
-													<img src="/assets_superAdmin/img/paracetamol.png" alt="img">
+													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${carrito.getIdMedicine().getPhoto()}}" alt="img">
 												</div>
 												<div class="productcontet">
 													<h4 th:text="${carrito.getIdMedicine().getName()}">

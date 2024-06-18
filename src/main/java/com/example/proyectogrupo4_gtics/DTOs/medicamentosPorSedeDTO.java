@@ -6,4 +6,5 @@ public interface medicamentosPorSedeDTO {
     String getCategoria();
     int getCantidad();
     double getPrecio();
+    String getPhoto();
 }

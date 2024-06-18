@@ -15,8 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -78,8 +83,10 @@ public class AdminSedeController {
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
+        model.addAttribute("admin", admin);
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -104,6 +111,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -172,6 +180,7 @@ public class AdminSedeController {
             model.addAttribute("sede", admin.getSite());
             model.addAttribute("nombre", admin.getName());
             model.addAttribute("apellido", admin.getLastName());
+            model.addAttribute("photo", admin.getPhoto());
             if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
                 model.addAttribute("rol","administrador");
             }
@@ -201,13 +210,14 @@ public class AdminSedeController {
 
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
-    public String agregarFarmacista(@ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
+    public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -258,6 +268,7 @@ public class AdminSedeController {
         }
 
 
+
         if (fallo) {
                 return "redirect:verAddPharmacist";
         } else {
@@ -265,10 +276,49 @@ public class AdminSedeController {
                     model.addAttribute("error", "El DNI ingresado ya existe");
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
-                    attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
-                    pharmacist.setChangePassword(false);
-                    pharmacistRepository.save(pharmacist);
-                    return "redirect:listaFarmacista";
+                    if(!imagen.isEmpty()){
+                        Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                        String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                        String fileOriginalName = imagen.getOriginalFilename();
+                        try {
+                            byte[] bytesImgMedicine = imagen.getBytes();
+
+                            long fileSize = imagen.getSize();
+                            long maxFileSize = 5 * 1024 * 1024;
+
+                            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                            if (fileSize > maxFileSize) {
+                                model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                                return "admin_sede/addpharmacist";
+                            }
+                            if (
+                                    !fileExtension.equalsIgnoreCase(".jpg") &&
+                                            !fileExtension.equalsIgnoreCase(".png") &&
+                                            !fileExtension.equalsIgnoreCase(".jpeg")
+                            ) {
+                                model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                                return "admin_sede/addpharmacist";
+                            }
+
+                            Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                            Files.write(rutaCompleta, bytesImgMedicine);
+                            pharmacist.setPhoto(imagen.getOriginalFilename());
+
+                            attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
+                            pharmacist.setChangePassword(false);
+                            pharmacistRepository.save(pharmacist);
+                            return "redirect:listaFarmacista";
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                    }else{
+                        model.addAttribute("errorImage","Se debe ingresar una foto");
+                        return "admin_sede/addpharmacist";
+                    }
                 }
         }
     }
@@ -287,14 +337,50 @@ public class AdminSedeController {
     }
     //Se solicita a superadmin agregar al farmacista
     @PostMapping("/saveChanges")
-    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes , HttpSession session){
+    public String editarFarmacista(@RequestParam("foto") MultipartFile imagen,@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, Model model, RedirectAttributes attributes , HttpSession session){
         if(bindingResult.hasErrors()){
             return "admin_sede/editFarmacist";
         } else {
-            pharmacist.setState("activo");
-            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
-            return "redirect:listaFarmacista";
+            if(!imagen.isEmpty()) {
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                String fileOriginalName = imagen.getOriginalFilename();
+                try {
+                    byte[] bytesImgMedicine = imagen.getBytes();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "admin_sede/editFarmacist";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "admin_sede/editFarmacist";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgMedicine);
+                    pharmacist.setState("activo");
+                    attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
+                    pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(),imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
+                    return "redirect:listaFarmacista";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                model.addAttribute("imageError", "Debe añadir una imagen");
+                return "admin_sede/editFarmacist";
+            }
         }
     }
     //Inicia sesion de admin de sede
@@ -302,6 +388,7 @@ public class AdminSedeController {
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idAdministrator){
         model.addAttribute("idUser",idAdministrator);
         model.addAttribute("sede", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getSite()  ));
+        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator)).getPhoto()));
         return "redirect:dashboardAdminSede";
     }
     //Se ve el dashboard de admin de sede
@@ -313,6 +400,47 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
+        /*
+        Double ganancia1 = medicineRepository.gananciaTotalPando1();
+        Double ganancia2 = medicineRepository.gananciaTotalPando2();
+        Double ganancia3 = medicineRepository.gananciaTotalPando3();
+        Double ganancia4 = medicineRepository.gananciaTotalPando4();
+
+        double valorGanancia1 = (ganancia1 != null) ? ganancia1 : 0.0;
+        double valorGanancia2 = (ganancia2 != null) ? ganancia2 : 0.0;
+        double valorGanancia3 = (ganancia3 != null) ? ganancia3 : 0.0;
+        double valorGanancia4 = (ganancia4 != null) ? ganancia4 : 0.0;
+
+        int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
+        int cantVend2 = medicineRepository.cantMedicamentosVendidosPando2();
+        int cantVend3 = medicineRepository.cantMedicamentosVendidosPando3();
+        int cantVend4 = medicineRepository.cantMedicamentosVendidosPando4();
+
+        if(cantVend1<1){
+            cantVend1 = 0;
+        }
+        if(cantVend2<1){
+            cantVend2 = 0;
+        }
+        if(cantVend3<1){
+            cantVend3 = 0;
+        }
+        if(cantVend4<1){
+            cantVend4 = 0;
+        }
+        model.addAttribute("gananciaT",medicineRepository.gananciaTotal());
+        model.addAttribute("ganancia1",valorGanancia1);
+        model.addAttribute("ganancia2",valorGanancia2);
+        model.addAttribute("ganancia3",valorGanancia3);
+        model.addAttribute("ganancia4",valorGanancia4);
+        model.addAttribute("medVendidosT", medicineRepository.cantMedicamentosVendidos());
+        model.addAttribute("cantVend1", cantVend1);
+        model.addAttribute("cantVend2", cantVend2);
+        model.addAttribute("cantVend3", cantVend3);
+        model.addAttribute("cantVend4", cantVend4);
+
+         */
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -322,6 +450,7 @@ public class AdminSedeController {
     @GetMapping("/inventario")
     public String verInventario(Model model , HttpSession session) {
         int idAdministrator = ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
+        model.addAttribute("photo",(administratorRepository.getByIdAdministrador(idAdministrator)).getPhoto());
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         return "admin_sede/inventario";
     }
@@ -380,6 +509,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -407,6 +537,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -423,6 +554,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         return("redirect:verListaReposicion");
     }
 
@@ -435,6 +567,7 @@ public class AdminSedeController {
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
+        model.addAttribute("photo", admin.getPhoto());
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
@@ -453,6 +586,7 @@ public class AdminSedeController {
         model.addAttribute("dni", admin.getDni());
         model.addAttribute("rol", "Administrador");
         model.addAttribute("sede", admin.getSite());
+        model.addAttribute("photo", admin.getPhoto());
         return "admin_sede/profile";
     }
     class IdPedidoReposicion{
@@ -804,6 +938,7 @@ public class AdminSedeController {
         System.out.println(d.nombre);
         int idAdministrator =  ((Administrator) session.getAttribute("usuario")).getIdAdministrador() ;
         model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(idAdministrator).getPhoto()));
         return "/admin_sede/doctorlist";
     }
     //Cerrar Sesion

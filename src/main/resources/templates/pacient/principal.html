@@ -618,13 +618,13 @@
                     </script>
                     <figure>
                       <a  title="Product Title">
-                        <img src="../assets_pacient/images/thumb-orange-juice.png" alt="Product Thumbnail" class="tab-image">
+                        <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="Product Thumbnail" class="tab-image">
                       </a>
                     </figure>
                     <h3 th:text="${medicine.nombreMedicamento}"></h3>
                     <input  name="nombre" th:value="${medicine.nombreMedicamento}" type="hidden" >
                     <!--/*@thymesVar id="valoracion" type=""*/-->
-                    <span class="price" th:text="${medicine.getPrecio()}"></span>
+                    <span class="price" th:text="|S/${medicine.getPrecio()}|"></span>
                     <input  name="precio" th:value="${medicine.getPrecio()}" type="hidden" >
                     <div class="d-flex align-items-center justify-content-between">
                       <div class="input-group product-qty">
@@ -852,7 +852,7 @@
                 <div class="card mb-3 p-3 rounded-4 shadow border-0">
                   <div class="row g-0">
                     <div class="col-md-4">
-                      <img src="../assets_pacient/images/gaseovet.jpg" class="img-fluid rounded" alt="Card title">
+                      <img src="../assets_superAdmin/images/gaseovet.jpg" class="img-fluid rounded" alt="Card title">
                     </div>
                     <div class="col-md-8">
                       <div class="card-body py-0">
@@ -867,7 +867,7 @@
                 <div class="card mb-3 p-3 rounded-4 shadow border-0">
                   <div class="row g-0">
                     <div class="col-md-4">
-                      <img src="../assets_pacient/images/gelLimpiezSF.png" class="img-fluid rounded" alt="Card title">
+                      <img src="../assets_superAdmin/images/gelLimpiezSF.png" class="img-fluid rounded" alt="Card title">
                     </div>
                     <div class="col-md-8">
                       <div class="card-body py-0">
@@ -882,7 +882,7 @@
                 <div class="card mb-3 p-3 rounded-4 shadow border-0">
                   <div class="row g-0">
                     <div class="col-md-4">
-                      <img src="../assets_pacient/images/vickPrimeraDefensa.jpg" class="img-fluid rounded" alt="Card title">
+                      <img src="../assets_superAdmin/images/vickPrimeraDefensa.jpg" class="img-fluid rounded" alt="Card title">
                     </div>
                     <div class="col-md-8">
                       <div class="card-body py-0">
@@ -941,7 +941,7 @@
 
       <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
         <div class="footer-menu">
-          <img src="../assets_pacient/images/LogoConLetras.png" width="240" height="79" alt="logo">
+          <img src="../assets_superAdmin/images/LogoConLetras.png" width="240" height="79" alt="logo">
           <div class="social-links mt-4">
             <ul class="list-unstyled d-flex gap-2">
               <li>

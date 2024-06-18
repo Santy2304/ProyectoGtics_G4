@@ -19,15 +19,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.print.Doc;
 import java.io.IOException;
+import javax.print.Doc;
+import java.util.Random;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Random;
 import java.security.SecureRandom;
 
+import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
@@ -90,6 +95,7 @@ public class  SuperAdminController {
                                    @RequestParam("category") String category,
                                    @RequestParam("description") String description,
                                    @RequestParam("priceMedicine") BigDecimal priceMedicine,*/
+                                    @RequestParam("medicineFile")MultipartFile imagen,
                                    @ModelAttribute("medicine") @Valid Medicine medicine,
                                    BindingResult bindingResult, Model model) {
         /*Medicine medicine = new Medicine();
@@ -101,6 +107,42 @@ public class  SuperAdminController {
             return "superAdmin/anadirMedicamento";
         } else {
             medicine.setTimesSaled(0);
+            if(!imagen.isEmpty()){
+                //ruta relativa para la imagen
+                Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+                //Path directorioImagenMedicine = Paths.get("images");
+                //ruta relativa para la imagen
+                String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+                //String rutaAbsoluta = "C://Imagenes//recursos";
+                //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+                try {
+                    byte[] bytesImgMedicine = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize  = 5*1024*1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if(fileSize>maxFileSize){
+                        model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/anadirMedicamento";
+                    }
+                    if(
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                            !fileExtension.equalsIgnoreCase(".png") &&
+                            !fileExtension.equalsIgnoreCase(".jpeg")
+                    ){
+                        model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/anadirMedicamento";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta,bytesImgMedicine);
+                    medicine.setPhoto(imagen.getOriginalFilename());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             medicineRepository.save(medicine);
             model.addAttribute("medicine", medicine);
 
@@ -227,9 +269,46 @@ public class  SuperAdminController {
                                             @RequestParam("disponibilidadPando1") String disponible1,
                                             @RequestParam("disponibilidadPando2") String disponible2,
                                             @RequestParam("disponibilidadPando3") String disponible3,
-                                            @RequestParam("disponibilidadPando4") String disponible4) {
-        medicineRepository.actualizarMedicine(medicine.getName(),medicine.getCategory(),medicine.getPrice(),medicine.getDescription(),medicine.getIdMedicine());
+                                            @RequestParam("disponibilidadPando4") String disponible4,
+                                            @RequestParam("medicineFile") MultipartFile imagenEdit, Model model) {
 
+        if(!imagenEdit.isEmpty()) {
+            //ruta relativa para la imagen
+            Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+            //Path directorioImagenMedicine = Paths.get("images");
+            //ruta relativa para la imagen
+            String rutaAbsoluta = directorioImagenMedicine.toFile().getAbsolutePath();
+            //String rutaAbsoluta = "C://Imagenes//recursos";
+            //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+            String fileOriginalName = imagenEdit.getOriginalFilename();
+            try {
+                byte[] bytesImgMedicine = imagenEdit.getBytes();
+
+                long fileSize = imagenEdit.getSize();
+                long maxFileSize = 5 * 1024 * 1024;
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                if (fileSize > maxFileSize) {
+                    model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                    return "superAdmin/editarMedicamento";
+                }
+                if (
+                        !fileExtension.equalsIgnoreCase(".jpg") &&
+                                !fileExtension.equalsIgnoreCase(".png") &&
+                                !fileExtension.equalsIgnoreCase(".jpeg")
+                ) {
+                    model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                    return "superAdmin/editarMedicamento";
+                }
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagenEdit.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImgMedicine);
+                medicineRepository.actualizarMedicine(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), fileOriginalName, medicine.getIdMedicine());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         //Calendar calendar = Calendar.getInstance();
 
         // Obtener la fecha actual
@@ -352,6 +431,7 @@ public class  SuperAdminController {
 
         return "redirect:listaMedicamentos";
     }
+
     @GetMapping("/verDetallesProducto")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
 
@@ -482,7 +562,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/agregarAdminSede")
-    public String agregarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
+    public String agregarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
@@ -492,33 +572,73 @@ public class  SuperAdminController {
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);
+
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
                 model.addAttribute("listaSedes", siteRepository.findAll());
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");
                 return "superAdmin/AgregarAdminSede";
             } else {
-                attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
+                if (adminFoto.isEmpty()) {
+                    model.addAttribute("imageError", "Debe agregar una imagen");
+                    return "superAdmin/AgregarAdminSede";
+                }
+                else{
 
-                administratorRepository.save(administrator);
-                User user = new User();
-                user.setEmail(administrator.getEmail());
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                    Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String password = generateRandomWord();
+                    String rutaAbsoluta =  directorioImagenPerfil.toFile().getAbsolutePath();
 
-                String encryptedPassword = passwordEncoder.encode(password);
-                user.setPassword(encryptedPassword);
-                user.setIdRol(rolRepository.findById(2).get());
-                user.setState(true);
-                userRepository.save(user);
+                    try {
+                        byte[] bytesImgPerfil = adminFoto.getBytes();
+                        String fileOriginalName = adminFoto.getOriginalFilename();
 
-                try {
-                    emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
-                } catch (MessagingException | IOException e) {
-                    e.printStackTrace();
+                        long fileSize = adminFoto.getSize();
+                        long maxFileSize  = 5*1024*1024;
+
+                        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                        if(fileSize>maxFileSize){
+                            model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                            return "superAdmin/AgregarAdminSede";
+                        }
+                        if(
+                                !fileExtension.equalsIgnoreCase(".jpg") &&
+                                        !fileExtension.equalsIgnoreCase(".png") &&
+                                        !fileExtension.equalsIgnoreCase(".jpeg")
+                        ){
+                            model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                            return "superAdmin/AgregarAdminSede";
+                        }
+
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                        Files.write(rutaCompleta,bytesImgPerfil);
+                        administrator.setPhoto(adminFoto.getOriginalFilename());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    attributes.addFlashAttribute("msg", "Administrador agregado correctamente");
+
+                    administratorRepository.save(administrator);
+                    User user = new User();
+                    user.setEmail(administrator.getEmail());
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+                    String password = generateRandomWord();
+
+                    String encryptedPassword = passwordEncoder.encode(password);
+                    user.setPassword(encryptedPassword);
+                    user.setIdRol(rolRepository.findById(2).get());
+                    user.setState(true);
+                    userRepository.save(user);
+
+                    try {
+                        emailService.sendHtmlMessage(user.getEmail(), "Bienvenido a SaintMedic", administrator.getName(), password);
+                    } catch (MessagingException | IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    return "redirect:verListados";
                 }
 
-                return "redirect:verListados";
             }
         }
     }
@@ -643,7 +763,7 @@ public class  SuperAdminController {
 
 
             attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
+            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getPhoto() ,pharmacist.getIdFarmacista());
 
             if (pharmacist.getState().equals("baneado")){
                 userRepository.banear(pharmacist.getEmail());
@@ -795,7 +915,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/editarPerfilSuper")
-    public String editarDatosSuper(@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
+    public String editarDatosSuper(@RequestParam("superAdminFile") MultipartFile imagen,@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
         //Actualizar datos cambiados
         System.out.println(superAdmin.getIdSuperAdmin());
         SuperAdmin sessionSuper = (SuperAdmin) httpSession.getAttribute("usuario");
@@ -806,12 +926,59 @@ public class  SuperAdminController {
         if (bindingResult.hasErrors()) {
             return "superAdmin/perfil";
         } else {
+            if (imagen.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/perfil";
+            }
+            else {
+
+                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                try {
+                    byte[] bytesImgPerfil = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/perfil";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/perfil";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //patient.setPhoto(imagen.getOriginalFilename());
+                    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                    String encryptedPassword = passwordEncoder.encode(superAdmin.getPassword());
+                    attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
+                    superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword(), imagen.getOriginalFilename());
+                    userRepository.actualizar(encryptedPassword,superAdmin.getEmail(),idUser);
+                    return "redirect:verPerfil";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            /*
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encryptedPassword = passwordEncoder.encode(superAdmin.getPassword());
             attr.addFlashAttribute("msg", "SuperAdmin actualizado correctamente");
             superAdminRepository.actualizarPerfilSuperAdmin(superAdmin.getEmail(), superAdmin.getName(), superAdmin.getLastname(), superAdmin.getPassword());
             userRepository.actualizar(encryptedPassword,superAdmin.getEmail(),idUser);
             return "redirect:verPerfil";
+
+             */
         }
 
     }

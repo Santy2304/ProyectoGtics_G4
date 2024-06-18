@@ -128,7 +128,7 @@
                         </div>
                     </div>
                     <!-- /add -->
-                    <form method="post" enctype="multipart/form-data" th:action="@{'/adminSede/saveChangesFarmacista'}"  th:object="${farmacista}">
+                    <form method="post" enctype="multipart/form-data" th:action="@{'/adminSede/saveChanges'}"  th:object="${farmacista}">
                         <input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
                         <!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
                         <input type="hidden" th:field="*{dni}">

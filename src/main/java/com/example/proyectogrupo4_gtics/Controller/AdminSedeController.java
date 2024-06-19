@@ -397,9 +397,32 @@ public class AdminSedeController {
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
-        /*
+
         Double ganancia1 = medicineRepository.gananciaTotalPando1();
-        Double ganancia2 = medicineRepository.gananciaTotalPando2();
+        int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
+
+
+        if(cantVend1<1){
+            cantVend1 = 0;
+            ganancia1=0.00;
+        }
+        model.addAttribute("ganancia1",ganancia1);
+        model.addAttribute("cantVend1", cantVend1);
+
+
+        ///Solo se va a quedar estos códigos, los demás querys son de prueba, porque la bd no está llena en las demás sedes y hay error con el código
+
+        Double gananciaPorSede = medicineRepository.gananciaTotalPorSede(admin.getSite());
+        int cantVendPorSede = medicineRepository.cantMedicamentosVendidosPorSede(admin.getSite());
+
+
+        model.addAttribute("gananciaPorSede",gananciaPorSede);
+        model.addAttribute("cantPorSede", cantVendPorSede);
+
+        ////
+
+        /*
+
         Double ganancia3 = medicineRepository.gananciaTotalPando3();
         Double ganancia4 = medicineRepository.gananciaTotalPando4();
 
@@ -408,17 +431,13 @@ public class AdminSedeController {
         double valorGanancia3 = (ganancia3 != null) ? ganancia3 : 0.0;
         double valorGanancia4 = (ganancia4 != null) ? ganancia4 : 0.0;
 
-        int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
-        int cantVend2 = medicineRepository.cantMedicamentosVendidosPando2();
+
+
         int cantVend3 = medicineRepository.cantMedicamentosVendidosPando3();
         int cantVend4 = medicineRepository.cantMedicamentosVendidosPando4();
 
-        if(cantVend1<1){
-            cantVend1 = 0;
-        }
-        if(cantVend2<1){
-            cantVend2 = 0;
-        }
+
+
         if(cantVend3<1){
             cantVend3 = 0;
         }
@@ -426,15 +445,28 @@ public class AdminSedeController {
             cantVend4 = 0;
         }
         model.addAttribute("gananciaT",medicineRepository.gananciaTotal());
-        model.addAttribute("ganancia1",valorGanancia1);
-        model.addAttribute("ganancia2",valorGanancia2);
+
+
         model.addAttribute("ganancia3",valorGanancia3);
         model.addAttribute("ganancia4",valorGanancia4);
         model.addAttribute("medVendidosT", medicineRepository.cantMedicamentosVendidos());
-        model.addAttribute("cantVend1", cantVend1);
-        model.addAttribute("cantVend2", cantVend2);
+        ;
+
         model.addAttribute("cantVend3", cantVend3);
         model.addAttribute("cantVend4", cantVend4);
+
+
+
+          Double ganancia2 = medicineRepository.gananciaTotalPando2();
+        int cantVend2 = medicineRepository.cantMedicamentosVendidosPando2();
+
+        if(cantVend2<1){
+            cantVend2 = 0;
+            ganancia2=0.00;
+        }
+
+        model.addAttribute("ganancia2",ganancia2);
+        model.addAttribute("cantVend2", cantVend2);
 
          */
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){

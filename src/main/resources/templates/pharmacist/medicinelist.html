@@ -52,7 +52,7 @@
 		<div class="content">
 			<div class="page-header">
 				<div class="page-title">
-					<h4>Medicamentos</h4>
+					<h4>Inventario de medicamentos</h4>
 					<h6>Administre los productos</h6>
 				</div>
 
@@ -139,6 +139,7 @@
 						<table class="table  datanew">
 							<thead>
 							<tr>
+								<th>#</th>
 								<th>Nombre del Producto</th>
 								<th>Categoría</th>
 								<!--<th>Cantidad</th>-->
@@ -147,7 +148,10 @@
 								<th>Acción</th>
 							</tr>
 							</thead>
+							<!--
 							<script>
+							onclick="verProducto(event)"
+
 								function verProducto(){
 									Swal.fire({
 										html: "<img src='/assets_admin_sede/img/Paracetamol1.jpg' style='max-width:100%;'>",
@@ -155,13 +159,30 @@
 									})
 								}
 							</script>
+							-->
+
 							<tbody>
-							<tr th:each="medicamento : ${listamedicamentosfarm}">
-								<td class="productimgname">
-									<a class="product-img" onclick="verProducto(event)">
+							<tr th:each="medicamento, vEstado : ${listamedicamentosfarm}">
+								<script th:inline="javascript" >
+									$("#" + [[${medicamento.idMedicine}]]).click( function(){
+										Swal.fire({
+											title: [[${medicamento.getNombreMedicamento()}]],
+											imageUrl: "/assets_superAdmin/ImagenesMedicina/" + [[${medicamento.photo}]],
+											imageWidth: 400,
+											imageHeight: 200,
+											imageAlt: "Custom image" ,
+											confirmButtonColor: "#dd986a"
+										})
+									})
+								</script>
+								<td th:text="${vEstado.index+1}"></td>
+								<td class="productimgname" style="text-align: center;">
+									<a th:id="|${medicamento.idMedicine}|" class="product-img" >
 										<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.photo}}" alt="product">
 									</a>
+
 									<span href="javascript:void(0);" th:text="${medicamento.nombreMedicamento}"></span>
+
 								</td>
 								<td th:text="${medicamento.categoria}"></td>
 								<!--<td th:text="${medicamento.getCantidad()}"></td>-->
@@ -181,6 +202,7 @@
                                     </a>
                                     -->
 								</td>
+
 							</tr>
 							</tbody>
 						</table>

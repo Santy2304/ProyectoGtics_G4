@@ -952,11 +952,12 @@ public class AdminSedeController {
     public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
 
 
+        replacementOrderRepository.findById(idReplacementeOrder);
 
-        Tracking tracking = new Tracking();
+        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
 
         model.addAttribute("idReplacement",idReplacementeOrder);
-
+        model.addAttribute("Tracking",tracking);
 
         return "admin_sede/trackingPersonal";
     }

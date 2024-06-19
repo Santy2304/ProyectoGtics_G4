@@ -43,17 +43,24 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
 
     /*Rol administrador de sede*/
-    @Query(nativeQuery = true, value=  "select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, m.photo as photo, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad \n" +
-            "from medicine m \n" +
-            "left join lote l on (m.idMedicine=l.idMedicine) \n" +
-            "where l.idLote in ( \n" +
-            "select l.idLote from lote  l  \n" +
-            "inner join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
-            "where l.site = (select site from administrator where idAdministrator=?1) and  r.trackingState = 'Entregado' and l.visible= true\n" +
-            ")\n" +
-            "group by m.idMedicine"
+    @Query(nativeQuery = true, value =
+            "SELECT m.description AS description, m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, m.photo AS photo, " +
+                    "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad " +
+                    "FROM medicine m " +
+                    "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+                    "WHERE l.idLote IN ( " +
+                    "    SELECT l2.idLote " +
+                    "    FROM lote l2 " +
+                    "    LEFT JOIN replacementorder r ON r.idreplacementorder = l2.idPedidosReposicion " +
+                    "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+                    "    WHERE l2.site = (SELECT site FROM administrator WHERE idAdministrator = ?1) " +
+                    "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
+                    "    AND l2.visible = true " +
+                    ") " +
+                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
     )
-    List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin); /* and r.trackingState = 'Entregado'*/
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSede(int idAdmin);
+
 
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad,m.photo as photo \n" +
             "from medicine m \n" +
@@ -96,17 +103,25 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorCategory( String category, int idAdmin);
 
 
-    @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio , sum(l.stock) as cantidad, m.photo as photo \n" +
-            "from medicine m \n" +
-            "left join lote l on (m.idMedicine=l.idMedicine) \n" +
-            "where l.idLote in ( \n" +
-            "select l.idLote from lote  l  \n" +
-            "left join replacementorder r on (r.idReplacementOrder = l.idPedidosReposicion or l.idPedidosReposicion is null) \n" +
-            "where l.site = (select site from administrator where idAdministrator=?1)   and l.visible= true\n" +
-            ")\n" +
-            "group by m.idMedicine \n" +
-            "having sum(l.stock)<=25;")
-    List<medicamentosPorSedeDTO> listaMedicamentosPocoStock(int idAdmin);/*and r.trackingState = 'Entregado'*/
+    @Query(nativeQuery = true, value =
+            "SELECT m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, " +
+                    "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad, m.photo AS photo " +
+                    "FROM medicine m " +
+                    "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+                    "WHERE l.idLote IN ( " +
+                    "    SELECT l2.idLote " +
+                    "    FROM lote l2 " +
+                    "    LEFT JOIN replacementorder r ON r.idReplacementOrder = l2.idPedidosReposicion " +
+                    "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+                    "    WHERE l2.site = (SELECT site FROM administrator WHERE idAdministrator = ?1) " +
+                    "    AND (r.trackingState = 'Entregado' OR r.idReplacementOrder IS NULL) " +
+                    "    AND l2.visible = true " +
+                    ") " +
+                    "GROUP BY m.idMedicine, m.name, m.category, m.price, m.photo " +
+                    "HAVING SUM(l.stock) <= 25"
+    )
+    List<medicamentosPorSedeDTO> listaMedicamentosPocoStock(int idAdmin);
+    /*and r.trackingState = 'Entregado'*/
     //listaMedicamentosBuscadorConStockLimintado
 
     @Query(nativeQuery = true, value="select m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, m.photo as photo \n" +

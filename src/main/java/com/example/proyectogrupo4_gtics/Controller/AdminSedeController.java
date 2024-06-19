@@ -948,4 +948,19 @@ public class AdminSedeController {
         return "redirect:/inicioSesion";
     }
 
+    @GetMapping("/verTrackingPersonal")
+    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
+
+
+
+        Tracking tracking = new Tracking();
+
+        model.addAttribute("idReplacement",idReplacementeOrder);
+
+
+        return "admin_sede/trackingPersonal";
+    }
+
+
+
 }

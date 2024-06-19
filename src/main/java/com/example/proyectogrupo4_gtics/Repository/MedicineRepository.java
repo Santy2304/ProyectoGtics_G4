@@ -164,7 +164,22 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     List<medicamentosPorSedeDTO> listaMedicamentosBuscadorConStockLimitadoCategory(  int idAdmin , String categoria);
 
     /*Rol Farmacista*/
-    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = (select site from pharmacist where idPharmacist=?1) and l.visible=true group by m.idMedicine\n")
+    @Query(nativeQuery = true, value =
+            "SELECT m.description AS description, m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, m.photo AS photo, " +
+                    "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad " +
+                    "FROM medicine m " +
+                    "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+                    "WHERE l.idLote IN ( " +
+                    "    SELECT l2.idLote " +
+                    "    FROM lote l2 " +
+                    "    LEFT JOIN replacementorder r ON r.idreplacementorder = l2.idPedidosReposicion " +
+                    "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+                    "    WHERE l2.site = (SELECT site FROM pharmacist WHERE idPharmacist = ?1) " +
+                    "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
+                    "    AND l2.visible = true " +
+                    ") " +
+                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
+    )
     List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
 
 

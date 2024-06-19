@@ -907,7 +907,7 @@ public class  SuperAdminController {
 
     @GetMapping("/verPerfil")
     public String verPerfilSuper( Model model){
-        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(2);
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
         model.addAttribute("superAdmin" , superAdmin.get());
         return "superAdmin/perfil";
     }

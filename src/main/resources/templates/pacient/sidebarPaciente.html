@@ -1,0 +1,44 @@
+<div th:fragment="sidebarPatient" class="sidebar" id="sidebar">
+<div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+            <ul>
+                <li th:classappend="${activeTab == 'sede' ? ' active':'' }">
+                    <a href="/patient/verSeleccionarSedePaciente" ><img src="/assets_pacient/img/icons/dashboard.svg" alt="img"><span>Elegir sede</span> </a>
+                </li>
+                <li th:classappend="${activeTab == 'principal' ? ' active':'' }">
+                    <a href="/patient/verPrincipalPaciente"><img src="/assets_pacient/img/icons/product.svg" alt="img"><span> Productos </span> </a>
+                </li>
+
+                <li class="submenu">
+                    <a href="#"><img src="/assets_pacient/img/icons/sales1.svg" alt="img"><span> Compras </span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/patient/hola"  th:classappend="${activeTab == 'carrito' ? ' active':'' }" >Carrito de compras </a></li>
+                        <li><a href="/patient/verGenerarOrdenCompra"  th:classappend="${activeTab == 'ordenar' ? ' active':'' }" > Ordenar </a></li>
+                        <li><a href="/patient/verTracking"  th:classappend="${activeTab == 'tracking' ? ' active':'' }" > Tracking </a></li>
+                    </ul>
+                </li>
+
+                <li th:classappend="${activeTab == 'historial' ? ' active':'' }">
+                    <a href="/patient/verHistorial" ><img src="/assets_pacient/img/icons/purchase1.svg" alt="img"><span>Historial de compras</span> </a>
+                </li>
+
+                <li class="submenu">
+                    <a href="javascript:void(0);"><img src="/assets_pacient/img/icons/quotation1.svg" alt="img"><span> Ponte en contacto</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/patient/verChatPaciente" th:classappend="${activeTab == 'chat' ? ' active':'' }" >Chat con farmacista </a></li>
+                        <li><a href="/patient/verChatPaciente" th:classappend="${activeTab == 'chatBot' ? ' active':'' }" >ChatBot</a></li>
+                    </ul>
+                </li>
+                <li class="submenu">
+                    <a href="javascript:void(0);"><img src="/assets_pacient/img/icons/users1.svg" alt="img"><span> Perfil </span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/patient/verPerfilPaciente" th:classappend="${activeTab == 'datos' ? ' active':'' }" >Datos del perfil</a></li>
+                        <li><a href="/patient/verPerfilPaciente" th:classappend="${activeTab == 'pago' ? ' active':'' }" >Información sobre pagos </a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div>

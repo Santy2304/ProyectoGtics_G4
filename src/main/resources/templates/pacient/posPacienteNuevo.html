@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>SaintMedic</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
+
+    <!-- animation CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/animate.css">
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.theme.default.min.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/style.css">
+
+</head>
+    <body>
+        <div id="global-loader" >
+            <div class="whirly-loader"> </div>
+        </div>
+        <!-- Main Wrapper -->
+        <div class="main-wrapper">
+            <!-- Header -->
+            <div th:replace="/pacient/navbarPacienteNuevo.html"></div>
+            <!-- Header -->
+            <!-- Sidebar -->
+            <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'carrito')"> </div>
+            <!-- /Sidebar -->
+
+            <!-- /Sidebar -->
+            <div class="page-wrapper pagehead">
+                <div class="content">
+                    <div class="row">
+                        <div class="col-lg-8 col-sm-12 tabs_wrapper" >
+                            <div class="page-header ">
+                                <div class="page-title">
+                                    <h4>Categorías</h4>
+                                    <h6>Acá podrás seguir seleccionando los artículos que gustes comprar</h6>
+                                </div>
+                            </div>
+                            <ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
+                                <li class="active" id="Alergia">
+                                    <div class="product-details " >
+                                        <img src="/assets_pacient/img/product/product62.png" alt="img">
+                                        <h6>Alergia</h6>
+                                    </div>
+                                </li>
+                                <li id="Dolor">
+                                    <div class="product-details " >
+                                        <img src="/assets_pacient/img/product/product63.png" alt="img">
+                                        <h6>Dolor</h6>
+                                    </div>
+                                </li>
+                                <li id="Suplemento">
+                                    <div class="product-details">
+                                        <img src="/assets_pacient/img/product/product64.png" alt="img">
+                                        <h6>Suplemento</h6>
+                                    </div>
+                                </li>
+
+                                <li id="Belleza">
+                                    <a class="product-details">
+                                        <img src="/assets_pacient/img/product/product66.png" alt="img">
+                                        <h6>Belleza</h6>
+                                    </a>
+                                </li>
+                                <li id="Otros">
+                                    <a class="product-details">
+                                        <img src="/assets_pacient/img/product/product67.png" alt="img">
+                                        <h6>Otros</h6>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tabs_container" >
+                                <div  class="tab_content active" data-tab="Alergia">
+                                    <div th:with="alergiaPresente=false"></div>
+
+                                    <!-- Iniciar la fila -->
+                                    <div class="row">
+                                        <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
+                                            <div th:with="alergiaPresente=true"></div>
+                                            <div class="productset">
+                                                <div class="productsetimg">
+                                                    <img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Alergia</h5>
+                                                    <h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+                                                    <h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+                                                </div>
+                                            </div>
+                                            <script th:inline="javascript" >
+                                                document.addEventListener('DOMContentLoaded', () => {
+                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
+
+                                                    const productList  = document.getElementById('productList');
+                                                    addProduct.addEventListener('click', (event) => {
+                                                        console.log("Holaaaaa")
+                                                        const newProduct = document.createElement('li');
+                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                        var opa = "</script";
+                                                        var ope =">"
+                                                        newProduct.innerHTML = `<li>
+          <div class="productimg">
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>Alergias</h5>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="mas dec button">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="menos inc button ">
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t\t</div>
+\t\t\t\t\t\t\t\t\t\t\t</div>
+</li>
+\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
+\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+<script >
+\t\t\t\t\t\t\t\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => {
+\t\t\t\t\t\t\t\t\t\t\t\tconst addProduct = document.getElementById("delete"+ ` + [[${medicamento.getIdMedicine()}]] + `);
+\t\t\t\t\t\t\t\t\t\t\t\tconst productList  = document.getElementById('productList');
+\t\t\t\t\t\t\t\t\t\t\t\taddProduct.addEventListener('click', (event) => {
+
+\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
+\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/deleteProductCarritoVenta?idProducto='` + [[${medicamento.getIdMedicine()}]] + ` ,
+\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
+\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//Eliminar porcion de HTML
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getNombreMedicamento()}]] + ` );
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',` +
+                                                            `\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar listaMedicamentos = response;
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlet total = 0 ;
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlistaMedicamentos.forEach(function(medicamento) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttotal = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDiv = document.getElementById('total');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDiv.textContent = 'S/.' + total.toFixed(2);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDivTwo = document.getElementById('totalProductojpg');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;` +
+                                                            `\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//productset
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//"${medicamento.getIdMedicine()}"
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar listaMedicamentos = response; ` +
+
+                                                            ` \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// Realiza acciones con los datos, como mostrarlos en la consola
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.log('Lista de medicamentos:', listaMedicamentos);
+
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// También puedes realizar otras acciones, como actualizar la interfaz de usuario
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// Por ejemplo, si quieres mostrar los medicamentos en una lista HTML:
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlet total = 0 ;
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar elementos = document.querySelectorAll(".productset");
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telementos.forEach(function(elemento) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telemento.classList.remove("active");
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t})
+
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlistaMedicamentos.forEach(function(medicamento) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttotal = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar divPadre = imagen.closest('.productset');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tif (divPadre) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tdivPadre.classList.add('active');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t} else {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('No se encontró el div padre');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
+` +
+                                                            ` \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDiv = document.getElementById('total');
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDiv.textContent = 'S/.' + total.toFixed(2);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//productset
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//"${medicamento.getIdMedicine()}"
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telemento.remove();
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
+\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
+\t\t\t\t\t\t\t\t\t\t\t\t\t});
+
+\t\t\t\t\t\t\t\t\t\t\t\t})
+\t\t\t\t\t\t\t\t\t\t\t\t});` +opa;
+
+                                                        let gaaa = structure.children;
+                                                        let ola = false;
+                                                        for (let i = 0; i < gaaa.length; i++) {
+                                                            if (gaaa[i].classList.contains('active')) {
+                                                                ola = true;
+                                                                break;
+                                                            }
+                                                        }
+
+                                                        if (!ola) {
+                                                            $.ajax({
+                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                                type: 'GET',
+                                                                success: function (response) {
+                                                                    productList.appendChild(newProduct);
+                                                                    $.ajax({
+                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        type: 'GET',
+                                                                        success: function (response) {
+                                                                            var listaMedicamentos = response;
+                                                                            let total = 0 ;
+                                                                            listaMedicamentos.forEach(function(medicamento) {
+                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                            });
+                                                                            var miDiv = document.getElementById('total');
+                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                                                            //totalProductojpg
+                                                                            //productset
+                                                                            //"${medicamento.getIdMedicine()}"
+                                                                        },
+                                                                        error: function (error) {
+                                                                            console.error('There was a problem with the request:', error);
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function (error) {
+                                                                    console.error('There was a problem with the request:', error);
+                                                                }
+                                                            });
+                                                        }else{
+                                                            $.ajax({
+                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                                type: 'GET',
+                                                                success: function (response) {
+                                                                    //Eliminar porcion de HTML
+                                                                    const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+                                                                    elemento.remove();
+                                                                    $.ajax({
+                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        type: 'GET',
+                                                                        success: function (response) {
+                                                                            var listaMedicamentos = response;
+                                                                            let total = 0 ;
+                                                                            listaMedicamentos.forEach(function(medicamento) {
+                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                            });
+                                                                            var miDiv = document.getElementById('total');
+                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                                                            //productset
+                                                                            //"${medicamento.getIdMedicine()}"
+                                                                        },
+                                                                        error: function (error) {
+                                                                            console.error('There was a problem with the request:', error);
+                                                                        }
+                                                                    });
+                                                                },
+                                                                error: function (error) {
+                                                                    console.error('There was a problem with the request:', error);
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                });
+                                            </script>
+
+                                            <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+                                            <div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab_content" data-tab="Dolor">
+                                    <div class="row ">
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product44.jpg" alt="img">
+                                                    <h6>Qty: 5.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Headphones</h5>
+                                                    <h4>Earphones</h4>
+                                                    <h6>150.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product45.jpg" alt="img">
+                                                    <h6>Qty: 5.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Headphones</h5>
+                                                    <h4>Earphones</h4>
+                                                    <h6>150.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product36.jpg" alt="img">
+                                                    <h6>Qty: 5.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Headphones</h5>
+                                                    <h4>Earphones</h4>
+                                                    <h6>150.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab_content" data-tab="Suplemento">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product32.jpg" alt="img">
+                                                    <h6>Qty: 1.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Accessories</h5>
+                                                    <h4>Sunglasses</h4>
+                                                    <h6>15.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product46.jpg" alt="img">
+                                                    <h6>Qty: 1.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Accessories</h5>
+                                                    <h4>Pendrive</h4>
+                                                    <h6>150.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product55.jpg" alt="img">
+                                                    <h6>Qty: 1.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Accessories</h5>
+                                                    <h4>Mouse</h4>
+                                                    <h6>150.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab_content" data-tab="Belleza">
+                                    <div class="row">
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product60.jpg" alt="img">
+                                                    <h6>Qty: 1.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Shoes</h5>
+                                                    <h4>Red nike</h4>
+                                                    <h6>1500.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab_content" data-tab="Otros">
+                                    <div class="row">
+
+                                        <div class="col-lg-3 col-sm-6 d-flex ">
+                                            <div class="productset flex-fill">
+                                                <div class="productsetimg">
+                                                    <img src="/assets_pacient/img/product/product56.jpg" alt="img">
+                                                    <h6>Qty: 1.00</h6>
+                                                    <div class="check-product">
+                                                        <i class="fa fa-check"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="productsetcontent">
+                                                    <h5>Computers</h5>
+                                                    <h4>Desktop</h4>
+                                                    <h6>1500.00</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 ">
+
+                            <div class="card card-order">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="select-split ">
+                                                <div class="select-group w-100">
+                                                    <select class="select">
+                                                        <option>Walk-in Customer</option>
+                                                        <option>Chris Moris</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="select-split">
+                                                <div class="select-group w-100">
+                                                    <select class="select">
+                                                        <option>Product </option>
+                                                        <option>Barcode</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="text-end">
+                                                <a class="btn btn-scanner-set"><img src="/assets_pacient/img/icons/filter.svg" alt="img" class="me-2">Aplicar filtro de búsqueda</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="split-card">
+                                </div>
+                                <div class="card-body pt-0">
+                                    <div class="totalitem">
+                                        <h4>Total items : 4</h4>
+                                        <a href="javascript:void(0);">Clear all</a>
+                                    </div>
+                                    <div class="product-table">
+                                        <ul class="product-lists">
+                                            <li>
+                                                <div class="productimg">
+                                                    <div class="productimgs">
+                                                        <img src="/assets_pacient/img/product/product30.jpg" alt="img">
+                                                    </div>
+                                                    <div class="productcontet">
+                                                        <h4>Pineapple
+                                                            <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_pacient/img/icons/edit-5.svg" alt="img"></a>
+                                                        </h4>
+                                                        <div class="productlinkset">
+                                                            <h5>PT001</h5>
+                                                        </div>
+                                                        <div class="increment-decrement">
+                                                            <div class="input-groups">
+                                                                <input type="button" value="-"  class="button-minus dec button">
+                                                                <input type="text" name="child"  value="0" class="quantity-field">
+                                                                <input type="button" value="+"  class="button-plus inc button ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>3000.00	</li>
+                                            <li><a class="confirm-text" href="javascript:void(0);"><img src="/assets_pacient/img/icons/delete-2.svg" alt="img"></a></li>
+                                        </ul>
+                                        <ul class="product-lists">
+                                            <li>
+                                                <div class="productimg">
+                                                    <div class="productimgs">
+                                                        <img src="/assets_pacient/img/product/product34.jpg" alt="img">
+                                                    </div>
+                                                    <div class="productcontet">
+                                                        <h4>Green Nike
+                                                            <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_pacient/img/icons/edit-5.svg" alt="img"></a>
+                                                        </h4>
+                                                        <div class="productlinkset">
+                                                            <h5>PT001</h5>
+                                                        </div>
+                                                        <div class="increment-decrement">
+                                                            <div class="input-groups">
+                                                                <input type="button" value="-"  class="button-minus dec button">
+                                                                <input type="text" name="child"  value="0" class="quantity-field">
+                                                                <input type="button" value="+"  class="button-plus inc button ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>3000.00	</li>
+                                            <li><a class="confirm-text" href="javascript:void(0);"><img src="/assets_pacient/img/icons/delete-2.svg" alt="img"></a></li>
+                                        </ul>
+                                        <ul class="product-lists">
+                                            <li>
+                                                <div class="productimg">
+                                                    <div class="productimgs">
+                                                        <img src="/assets_pacient/img/product/product35.jpg" alt="img">
+                                                    </div>
+                                                    <div class="productcontet">
+                                                        <h4>Banana
+                                                            <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_pacient/img/icons/edit-5.svg" alt="img"></a>
+                                                        </h4>
+                                                        <div class="productlinkset">
+                                                            <h5>PT001</h5>
+                                                        </div>
+                                                        <div class="increment-decrement">
+                                                            <div class="input-groups">
+                                                                <input type="button" value="-"  class="button-minus dec button">
+                                                                <input type="text" name="child"  value="0" class="quantity-field">
+                                                                <input type="button" value="+"  class="button-plus inc button ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>3000.00	</li>
+                                            <li><a class="confirm-text" href="javascript:void(0);"><img src="/assets_pacient/img/icons/delete-2.svg" alt="img"></a></li>
+                                        </ul>
+                                        <ul class="product-lists">
+                                            <li>
+                                                <div class="productimg">
+                                                    <div class="productimgs">
+                                                        <img src="/assets_pacient/img/product/product31.jpg" alt="img">
+                                                    </div>
+                                                    <div class="productcontet">
+                                                        <h4>Strawberry
+                                                            <a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_pacient/img/icons/edit-5.svg" alt="img"></a>
+                                                        </h4>
+                                                        <div class="productlinkset">
+                                                            <h5>PT001</h5>
+                                                        </div>
+                                                        <div class="increment-decrement">
+                                                            <div class="input-groups">
+                                                                <input type="button" value="-"  class="button-minus dec button">
+                                                                <input type="text" name="child"  value="0" class="quantity-field">
+                                                                <input type="button" value="+"  class="button-plus inc button ">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>3000.00	</li>
+                                            <li><a class="confirm-text" href="javascript:void(0);"><img src="/assets_pacient/img/icons/delete-2.svg" alt="img"></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="split-card">
+                                </div>
+                                <div class="card-body pt-0 pb-2">
+                                    <div class="setvalue">
+                                        <ul>
+
+                                            <li class="total-value">
+                                                <h5>Total  </h5>
+                                                <h6>60.00$</h6>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="btn-totallabel">
+                                        <h5>Checkout</h5>
+                                        <h6>60.00$</h6>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- jQuery -->
+        <script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
+
+        <!-- Feather Icon JS -->
+        <script src="/assets_pacient/js/feather.min.js"></script>
+
+        <!-- Slimscroll JS -->
+        <script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
+
+        <!-- Bootstrap Core JS -->
+        <script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Datatable JS -->
+        <script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+        <script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Select2 JS -->
+        <script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
+
+        <!-- Owl JS -->
+        <script src="/assets_pacient/plugins/owlcarousel/owl.carousel.min.js"></script>
+
+        <!-- Sweetalert 2 -->
+        <script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+        <script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+
+        <!-- Custom JS -->
+        <script src="/assets_pacient/js/script.js"></script>
+        
+    </body>
+</html>

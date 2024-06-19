@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>SaintMedic</title>
+    <!-- Favicon -->
+    <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
+
+    <!-- animation CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/animate.css">
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.theme.default.min.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets_pacient/css/style.css">
+
+</head>
+<body>
+<div id="global-loader" >
+    <div class="whirly-loader"> </div>
+</div>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+    <!-- Header -->
+    <div th:replace="/pacient/navbarPacienteNuevo.html"></div>
+    <!-- Header -->
+    <!-- Sidebar -->
+    <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'principal')"> </div>
+    <!-- /Sidebar -->
+
+    <!-- /Sidebar -->
+    <div class="page-wrapper pagehead">
+        <div class="content">
+            <div class="row">
+                <div class="col-lg-4 col-sm-12 ">
+                    <div class="card card-order">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="select-split ">
+                                        <div class="select-group w-100">
+                                            <select class="select">
+                                                <option>Walk-in Customer</option>
+                                                <option>Chris Moris</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="select-split">
+                                        <div class="select-group w-100">
+                                            <select class="select">
+                                                <option>Product </option>
+                                                <option>Barcode</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="text-end">
+                                        <a class="btn btn-scanner-set"><img src="/assets_pacient/img/icons/filter.svg" alt="img" class="me-2">Aplicar filtro de búsqueda</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="split-card">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-sm-12 tabs_wrapper" >
+                    <div class="page-header ">
+                        <div class="page-title">
+                            <h4>Categorías</h4>
+                            <h6>Acá podrás seguir seleccionando los artículos que gustes comprar</h6>
+                        </div>
+                    </div>
+                    <ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
+                        <li class="active" id="fruits">
+                            <div class="product-details " >
+                                <img src="/assets_pacient/img/product/product62.png" alt="img">
+                                <h6>Fruits</h6>
+                            </div>
+                        </li>
+                        <li id="headphone">
+                            <div class="product-details " >
+                                <img src="/assets_pacient/img/product/product63.png" alt="img">
+                                <h6>Headphones</h6>
+                            </div>
+                        </li>
+                        <li id="Accessories">
+                            <div class="product-details">
+                                <img src="/assets_pacient/img/product/product64.png" alt="img">
+                                <h6>Accessories</h6>
+                            </div>
+                        </li>
+                        <li id="Shoes">
+                            <a class="product-details">
+                                <img src="/assets_pacient/img/product/product65.png" alt="img">
+                                <h6>Shoes</h6>
+                            </a>
+                        </li>
+                        <li id="computer">
+                            <a class="product-details">
+                                <img src="/assets_pacient/img/product/product66.png" alt="img">
+                                <h6>Computer</h6>
+                            </a>
+                        </li>
+                        <li id="Snacks">
+                            <a class="product-details">
+                                <img src="/assets_pacient/img/product/product67.png" alt="img">
+                                <h6>Snacks</h6>
+                            </a>
+                        </li>
+                        <li id="watch">
+                            <a class="product-details">
+                                <img src="/assets_pacient/img/product/product68.png" alt="img">
+                                <h6>Watches</h6>
+                            </a>
+                        </li>
+                        <li id="cycle">
+                            <a class="product-details">
+                                <img src="/assets_pacient/img/product/product61.png" alt="img">
+                                <h6>Cycles</h6>
+                            </a>
+                        </li>
+                        <li id="fruits1">
+                            <div class="product-details " >
+                                <img src="/assets_pacient/img/product/product62.png" alt="img">
+                                <h6>Fruits</h6>
+                            </div>
+                        </li>
+                        <li id="headphone1">
+                            <div class="product-details " >
+                                <img src="/assets_pacient/img/product/product63.png" alt="img">
+                                <h6>Headphones</h6>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="tabs_container" >
+                        <div  class="tab_content active" data-tab="fruits">
+                            <div class="row ">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill active">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product29.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Orange</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product31.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Strawberry</h4>
+                                            <h6>15.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product35.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Banana</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product37.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Limon</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product54.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Apple</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="headphone">
+                            <div class="row ">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product44.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product45.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product36.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="Accessories">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product32.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Accessories</h5>
+                                            <h4>Sunglasses</h4>
+                                            <h6>15.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product46.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Accessories</h5>
+                                            <h4>Pendrive</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product55.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Accessories</h5>
+                                            <h4>Mouse</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="Shoes">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product60.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Shoes</h5>
+                                            <h4>Red nike</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="computer">
+                            <div class="row">
+
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product56.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Computers</h5>
+                                            <h4>Desktop</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="Snacks">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product47.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Snacks</h5>
+                                            <h4>Duck Salad</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product48.png" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Snacks</h5>
+                                            <h4>Breakfast board</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product57.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Snacks</h5>
+                                            <h4>California roll</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product58.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Snacks</h5>
+                                            <h4>Sashimi</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="watch">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product49.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h4>Watch</h4>
+                                            <h5>Watch</h5>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product51.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h4>Watch</h4>
+                                            <h5>Watch</h5>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="cycle">
+                            <div class="row">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product52.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h4>Cycle</h4>
+                                            <h5>Cycle</h5>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product53.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h4>Cycle</h4>
+                                            <h5>Cycle</h5>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div  class="tab_content" data-tab="fruits1">
+                            <div class="row ">
+
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product29.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Orange</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product31.jpg" alt="img">
+                                            <h6>Qty: 1.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Strawberry</h4>
+                                            <h6>15.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product35.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Banana</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product37.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Fruits</h5>
+                                            <h4>Limon</h4>
+                                            <h6>1500.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_content" data-tab="headphone1">
+                            <div class="row ">
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product44.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product45.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-6 d-flex ">
+                                    <div class="productset flex-fill">
+                                        <div class="productsetimg">
+                                            <img src="/assets_pacient/img/product/product36.jpg" alt="img">
+                                            <h6>Qty: 5.00</h6>
+                                            <div class="check-product">
+                                                <i class="fa fa-check"></i>
+                                            </div>
+                                        </div>
+                                        <div class="productsetcontent">
+                                            <h5>Headphones</h5>
+                                            <h4>Earphones</h4>
+                                            <h6>150.00</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
+
+<!-- Feather Icon JS -->
+<script src="/assets_pacient/js/feather.min.js"></script>
+
+<!-- Slimscroll JS -->
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
+
+<!-- Datatable JS -->
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
+
+<!-- Owl JS -->
+<script src="/assets_pacient/plugins/owlcarousel/owl.carousel.min.js"></script>
+
+<!-- Sweetalert 2 -->
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+
+<!-- Custom JS -->
+<script src="/assets_pacient/js/script.js"></script>
+
+</body>
+</html>

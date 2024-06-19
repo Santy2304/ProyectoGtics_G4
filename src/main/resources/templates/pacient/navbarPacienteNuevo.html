@@ -1,0 +1,120 @@
+<div  class="header"  style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
+    <!-- Logo -->
+    <!-- Logo -->
+    <div class="header-left active">
+        <a  class="logo">
+            <img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
+        </a>
+        <a  class="logo-small">
+            <img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
+        </a>
+        <a id="toggle_btn" href="javascript:void(0);">
+        </a>
+    </div>
+    <!-- /Logo -->
+    <a id="mobile_btn" class="mobile_btn" >
+					<span class="bar-icon">
+						<span></span>
+						<span></span>
+						<span></span>
+					</span>
+    </a>
+    <!-- Header Menu -->
+    <ul class="nav user-menu">
+        <!-- Search -->
+        <li class="nav-item">
+            <div class="top-nav-search">
+                <a href="javascript:void(0);" class="responsive-search">
+                    <i class="fa fa-search"></i>
+                </a>
+                <form action="#">
+                    <div class="searchinputs">
+                        <input type="text" placeholder="Search Here ...">
+                        <div class="search-addon">
+                            <span><img src="/assets_pacient/img/icons/closes.svg" alt="img"></span>
+                        </div>
+                    </div>
+                    <a class="btn"  id="searchdiv"><img src="/assets_pacient/img/icons/search.svg" alt="img"></a>
+                </form>
+            </div>
+        </li>
+        <!-- /Search -->
+
+        <!-- Flag -->
+        <li class="nav-item dropdown has-arrow flag-nav">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  role="button" th:text="|${session.sede.getName()}|">
+                <img src="/assets_pacient/img/flags/us1.png" alt="" height="20">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a href="#" class="dropdown-item">
+                    <img src="/assets_pacient/img/flags/us.png" alt="" height="16"> Pando 1
+                </a>
+                <a href="#" class="dropdown-item">
+                    <img src="/assets_pacient/img/flags/fr.png" alt="" height="16"> Pando 2
+                </a>
+                <a href="#" class="dropdown-item">
+                    <img src="/assets_pacient/img/flags/es.png" alt="" height="16"> Pando 3
+                </a>
+                <a href="#" class="dropdown-item">
+                    <img src="/assets_pacient/img/flags/de.png" alt="" height="16"> Pando 4
+                </a>
+            </div>
+        </li>
+        <!-- /Flag -->
+
+        <!-- Notifications -->
+        <li class="nav-item dropdown">
+            <a href="/patient/hola" class="dropdown-toggle nav-link" >
+                <img src="/assets_pacient/img/icons/sales1.svg"   alt="img"> <span class="badge rounded-pill">4</span>
+            </a>
+        </li>
+        <!-- /Notifications -->
+        <li class="nav-item dropdown has-arrow main-drop">
+            <a href="#" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+                            <span class="user-img"><img th:src="|/assets_superAdmin/ImagenesPerfil/${session.usuario.photo}|" alt="">
+                            <span class="status online"></span></span>
+            </a>
+            <div class="dropdown-menu menu-drop-user">
+                <div class="profilename">
+                    <div class="profileset">
+                                    <span class="user-img"><img th:src="|/assets_superAdmin/ImagenesPerfil/${session.usuario.photo}|" alt="">
+                                    <span class="status online"></span></span>
+                        <div class="profilesets">
+                            <h6 th:text="|${session.usuario.name}|"></h6>
+                            <h5 th:text="|${session.usuario.lastName}|"></h5>
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                    <a class="dropdown-item" href="/patient/verPerfilPaciente"> <i class="me-2"  data-feather="user"></i> Mi perfil</a>
+                    <hr class="m-0">
+                    <form th:action="@{/logout}" method="post" class="ml-2">
+                        <button class="btn btn-link" type="submit">
+                            <a class="dropdown-item logout pb-0" >
+                                <img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25" >
+                                Cerrar sesión
+                            </a>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <!-- /Header Menu -->
+
+    <!-- Mobile Menu -->
+    <div class="dropdown mobile-user-menu">
+        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="/patient/verPerfilPaciente">My Profile</a>
+            <form th:action="@{/logout}" method="post" class="ml-2">
+                <button class="btn btn-link" type="submit">
+                    <a class="dropdown-item logout pb-0">
+                        <img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25">
+                        Cerrar sesión
+                    </a>
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- /Mobile Menu -->
+</div>

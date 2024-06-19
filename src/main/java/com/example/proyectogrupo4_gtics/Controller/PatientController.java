@@ -200,7 +200,7 @@ public class PatientController {
 
         Medicine medicine = medicineRepository.findById(1).get();
 
-        model.addAttribute("medicine",medicine);
+        model.addAttribute("carrito",medicine);
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());

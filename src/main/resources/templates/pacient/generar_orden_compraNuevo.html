@@ -195,7 +195,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
+                                            <tr th:each="medicine : ${carrito}">
                                                 <td class="productimgname">
                                                     <a href="#" class="product-img">
                                                         <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="product">

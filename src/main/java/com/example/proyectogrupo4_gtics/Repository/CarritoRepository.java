@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 @Repository
-
 public interface CarritoRepository extends JpaRepository<Carrito, Integer>  {
     @Query(nativeQuery = true, value = "select * from carrito where idPatient= ?1 ")
-    List<CarritoVenta> getMedicineListByPatient(int idPatient );
+    List<Carrito> getMedicineListByPatient(int idPatient );
 
 }

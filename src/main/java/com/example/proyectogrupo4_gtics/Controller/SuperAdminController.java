@@ -21,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,6 +57,8 @@ public class  SuperAdminController {
     //Clase para implementar el superlogueo
     @Autowired
     private UserDetailsManager userDetailsManager;
+    @Autowired
+    private SessionRepository<? extends Session> sessionRepository;
 
     final UserRepository userRepository;
 
@@ -87,16 +91,31 @@ public class  SuperAdminController {
 
     //Superlogueo//
     @GetMapping("/superlogueo")
-    public String superlogueo(@RequestParam String username, HttpSession session) {
-        //Guardar la sesión del superadmin
+    public String superlogueo(@RequestParam("username") String username, HttpServletRequest request) {
+        //Guardar la sesión del superadmin y su autenticación
         Authentication originalAuth = SecurityContextHolder.getContext().getAuthentication();
-        session.setAttribute("originalAuth", originalAuth);
+        HttpSession originalSession = request.getSession();
+        originalSession.setAttribute("originalAuth", originalAuth);
+        originalSession.setAttribute("originalUsername", originalAuth.getName());
+
+        /*Falta obtener el usuario (correo) por medio del id
+        para no tener que enviar el correo por la URL*/
+
 
         //Realizar el superlogueo (suplantación)
+        System.out.println(username);
         UserDetails userDetails = userDetailsManager.loadUserByUsername(username);
         Authentication impersonatedAuth = new ImpersonationAuthToken(userDetails);
 
-        return "redirect:/incioSesion";
+        //Invalidar sesión actual y crear una nueva
+        String sessionId = originalSession.getId();
+        sessionRepository.deleteById(sessionId);
+
+        HttpSession impersonatedSession = request.getSession(true);
+        SecurityContextHolder.getContext().setAuthentication(impersonatedAuth);
+        impersonatedSession.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+
+        return "redirect:/inicioSesion";
     }
     //Medicamentos///////////////////////////
 

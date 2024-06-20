@@ -2,18 +2,15 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
-import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.apache.catalina.connector.Response;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,13 +52,15 @@ public class PatientController {
     final PurchaseOrderRepository purchaseOrderRepository;
     private final DoctorRepository doctorRepository;
     private final LoteRepository loteRepository;
+    private final CarritoRepository carritoRepository;
 
     final TrackingRepository trackingRepository;
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
                               LoteRepository loteRepository,
-                              UserRepository userRepository, TrackingRepository trackingRepository) {
+                              UserRepository userRepository, TrackingRepository trackingRepository ,
+                              CarritoRepository carritoRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -71,6 +70,7 @@ public class PatientController {
         this.loteRepository = loteRepository;
         this.userRepository = userRepository;
         this.trackingRepository = trackingRepository;
+        this.carritoRepository = carritoRepository;
     }
 
     @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
@@ -126,12 +126,10 @@ public class PatientController {
     @GetMapping("/elegirSedePrimeraVez")
     public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model,HttpSession session){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
+        session.setAttribute("sede" , (siteRepository.findById(Integer.parseInt(idSede))).get() );
         List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
-        Patient patient = (Patient) session.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        return "pacient/principal";
+        return "pacient/verPrincipalNuevo";
     }
 
     @GetMapping("/elegirSedeEnPagina")
@@ -142,7 +140,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/principal";
+        return "pacient/verPrincipalNuevo";
     }
 
 /*
@@ -156,7 +154,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/chat";
+        return "pacient/chatNuevo";
     }
     @GetMapping("/verDatosPago")
     public String verDatosPago(@RequestParam("idPurchase") int idPurchase, Model model, HttpSession session){
@@ -177,8 +175,6 @@ public class PatientController {
             String errorDireccion = (String) redirectAttributes.getFlashAttributes().get("errorDireccion");
             String errorHora = (String) redirectAttributes.getFlashAttributes().get("errorHora");
             String errorDoctor = (String) redirectAttributes.getFlashAttributes().get("errorDoctor");
-
-
             if (errorPhone != null) {
                 model.addAttribute("errorPhone", errorPhone);
             }
@@ -202,12 +198,11 @@ public class PatientController {
         model.addAttribute("direccion",paciente.getLocation());
 
         Medicine medicine = medicineRepository.findById(1).get();
-
-        model.addAttribute("medicine",medicine);
         Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("carro",carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/generar_orden_compra";
+        return "pacient/generar_orden_compraNuevo";
     }
 
 
@@ -326,7 +321,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/historial";
+        return "pacient/historialNuevo";
     }
 
 
@@ -343,7 +338,7 @@ public class PatientController {
         model.addAttribute("paciente" , patient.get());
         model.addAttribute("nombre",patient.get().getName());
         model.addAttribute("apellido",patient.get().getLastName());
-        return "pacient/perfil";
+        return "pacient/perfilNuevo";
     }
     @GetMapping("/verPrincipalPaciente")
     public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
@@ -353,7 +348,7 @@ public class PatientController {
         Patient patient = (Patient) httpSesion.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/principal";
+        return "pacient/verPrincipalNuevo";
     }
     //No funciona bien
     @GetMapping("/verProductList")
@@ -367,7 +362,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/seleccionarSede";
+        return "pacient/SeleccionarSedeNuevo";
     }
     @RequestMapping("/verDetalleCompra")
     @ResponseBody
@@ -417,7 +412,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
-        return "pacient/tracking";
+        return "pacient/trackingNuevo";
     }
     @PostMapping("/editarPerfilPaciente")
     public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen,@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
@@ -429,11 +424,11 @@ public class PatientController {
         model.addAttribute("nombre",patient1.getName());
         model.addAttribute("apellido",patient1.getLastName());
         if (bindingResult.hasErrors()) {
-            return "pacient/perfil";
+            return "pacient/perfilNuevo";
         } else {
             if (imagen.isEmpty()) {
                 model.addAttribute("imageError", "Debe agregar una imagen");
-                return "pacient/perfil";
+                return "pacient/perfilNuevo";
             }
             else {
 
@@ -451,7 +446,7 @@ public class PatientController {
                     String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
                     if (fileSize > maxFileSize) {
                         model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
-                        return "pacient/perfil";
+                        return "pacient/perfilNuevo";
                     }
                     if (
                             !fileExtension.equalsIgnoreCase(".jpg") &&
@@ -459,7 +454,7 @@ public class PatientController {
                                     !fileExtension.equalsIgnoreCase(".jpeg")
                     ) {
                         model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
-                        return "pacient/perfil";
+                        return "pacient/perfilNuevo";
                     }
 
                     Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
@@ -544,6 +539,149 @@ public class PatientController {
             model.addAttribute("carrito" , carrito.add(m));
         }
     }
+    @GetMapping(value = "/hola")
+    public String verPosPatient(Model model , HttpSession session ){
+        Patient patient = (Patient)session.getAttribute("usuario");
+
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
+        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
+        return "pacient/posPacienteNuevo";
+    }
+    @GetMapping(value = "/hola2")
+    public String vistaPacientea(){
+        return "/pacient/auxiliarPos";
+    }
+
+    @GetMapping(value="/addCarritoVenta")
+    public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            if (idProducto != null) {
+                Patient p = (Patient) session.getAttribute("usuario");
+                //Verficamos que no este repetido
+                List<Carrito> lista =  carritoRepository.getMedicineListByPatient(p.getIdPatient());
+                boolean existeMecidina =false;
+                for(Carrito c : lista){
+                    if(c.getIdMedicine().getIdMedicine() == idProduct){
+                        existeMecidina = true;
+                    }
+                }
+                if(!existeMecidina){
+                    Carrito car  = new Carrito();
+                    car.setCantidad(1);
+                    car.setIdPatient(p);
+                    car.setIdMedicine(medicineRepository.findById(Integer.parseInt(idProducto)).get());
+                    carritoRepository.save(car);
+                    HashMap<String, Object> okey = new HashMap<>();
+                    okey.put("Succes", "Todo good");
+                    return ResponseEntity.ok(okey);
+                }else{
+                    System.out.println("pepepe");
+                    HashMap<String, Object> er = new HashMap<>();
+                    er.put("error", "se repite el medicamento en la lista");
+                    return ResponseEntity.badRequest().body(er);
+                }
+
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
+    @GetMapping(value="/getAllCarrito")
+    public Object getAllCarrito( HttpSession session){
+        try {
+            Patient p =  (Patient)  session.getAttribute("usuario");
+            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
+
+    @GetMapping(value="/deleteProductCarritoVenta")
+    public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
+            if (idProducto != null) {
+                Patient p = (Patient) session.getAttribute("usuario");
+                List<Carrito> listaCart = carritoRepository.getMedicineListByPatient(p.getIdPatient());
+                Carrito cat =  new Carrito();
+                for(Carrito c : listaCart){
+                    if(c.getIdMedicine().getIdMedicine() == m.getIdMedicine()){
+                        cat =  c;
+                    }
+                }
+                carritoRepository.deleteById(cat.getId());
+                HashMap<String, Object> okey = new HashMap<>();
+                okey.put("Succes", "Todo good");
+                return ResponseEntity.ok(okey);
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    @GetMapping(value="/vaciarCarrito")
+    public Object deleteCarrito( HttpSession session){
+        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+        ArrayList<Integer> listaId = new ArrayList<>();
+        for(Carrito c : list ){
+            listaId.add (c.getId());
+        }
+        carritoRepository.deleteAllByIdInBatch(listaId);
+        return "redirect:hola";
+    }
+
+    @GetMapping(value="/updateCantidad")
+    @ResponseBody
+    public Object updateCantidadA(@RequestParam("idProduct") String idProduct, @RequestParam("newCantidad") String newCantidad,  HttpSession session){
+        try {
+            Patient p =  (Patient)  session.getAttribute("usuario");
+            List<Carrito> list = carritoRepository.getMedicineListByPatient(p.getIdPatient());
+            Carrito aux= new Carrito();
+            for(Carrito c:  list){
+                if(c.getIdMedicine().getIdMedicine()== Integer.parseInt(idProduct)){
+                    aux= c;
+                }
+            }
+            aux.setCantidad(Integer.parseInt(newCantidad));
+            carritoRepository.save(aux);
+            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
+
 
 
 }

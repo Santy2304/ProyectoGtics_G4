@@ -2,12 +2,13 @@ package com.example.proyectogrupo4_gtics.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 @Entity
 @Table(name="medicine")
-public class Medicine {
+public class Medicine implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

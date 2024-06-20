@@ -580,7 +580,7 @@ public class  SuperAdminController {
 
                     //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta = "C://SaintMedic//imagenes";
+                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -698,7 +698,7 @@ public class  SuperAdminController {
             else {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -969,7 +969,7 @@ public class  SuperAdminController {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

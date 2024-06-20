@@ -107,11 +107,9 @@ public class  SuperAdminController {
             medicine.setTimesSaled(0);
             if(!imagen.isEmpty()){
                 //ruta relativa para la imagen
-                Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
-                //Path directorioImagenMedicine = Paths.get("images");
-                //ruta relativa para la imagen
-                String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-                //String rutaAbsoluta = "C://Imagenes//recursos";
+                //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+                //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
@@ -272,11 +270,9 @@ public class  SuperAdminController {
 
         if(!imagenEdit.isEmpty()) {
             //ruta relativa para la imagen
-            Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
-            //Path directorioImagenMedicine = Paths.get("images");
-            //ruta relativa para la imagen
-            String rutaAbsoluta = directorioImagenMedicine.toFile().getAbsolutePath();
-            //String rutaAbsoluta = "C://Imagenes//recursos";
+            //Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+
+            String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             String fileOriginalName = imagenEdit.getOriginalFilename();
             try {
@@ -582,9 +578,9 @@ public class  SuperAdminController {
                 }
                 else{
 
-                    Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                    //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta =  directorioImagenPerfil.toFile().getAbsolutePath();
+                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -656,7 +652,7 @@ public class  SuperAdminController {
 
 
     @PostMapping("/guardarCambiosAdminSede")
-    public String editarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes){
+    public String editarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarAdministrador";
@@ -681,8 +677,7 @@ public class  SuperAdminController {
                 }
             }
 
-            attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
-            administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
+
 
             if (administrator.getState().equals("baneado")){
                 userRepository.banear(administrator.getEmail());
@@ -694,6 +689,47 @@ public class  SuperAdminController {
             }
             if (administrator.getState().equals("activo")){
                 userRepository.desbanear(administrator.getEmail());
+            }
+
+            if (adminFoto.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/EditarAdministrador";
+            }
+            else {
+                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
+
+                try {
+                    byte[] bytesImgPerfil = adminFoto.getBytes();
+                    String fileOriginalName = adminFoto.getOriginalFilename();
+
+                    long fileSize = adminFoto.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/EditarAdministrador";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/EditarAdministrador";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                    administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             }
 
             return "redirect:verListados";
@@ -942,9 +978,10 @@ public class  SuperAdminController {
             }
             else {
 
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

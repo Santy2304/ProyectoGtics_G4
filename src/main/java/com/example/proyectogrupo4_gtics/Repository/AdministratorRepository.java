@@ -15,8 +15,8 @@ import java.util.Optional;
 public interface AdministratorRepository extends JpaRepository<Administrator, Integer> {
     @Transactional
     @Modifying
-    @Query(value = "update administrator set name = ?1 , lastName =?2 , dni=?3 , email=?4, site=?5, state = ?6 where idAdministrator =?7" , nativeQuery = true)
-    void updateDatosPorId(String name , String lasName , String dni , String email ,String site,String state ,int idAdminSede );
+    @Query(value = "update administrator set name = ?1 , lastName =?2 , dni=?3 , email=?4, site=?5, state = ?6, photo =?7 where idAdministrator =?8" , nativeQuery = true)
+    void updateDatosPorId(String name , String lasName , String dni , String email ,String site,String state, String photo ,int idAdminSede );
 
     @Transactional
     @Modifying

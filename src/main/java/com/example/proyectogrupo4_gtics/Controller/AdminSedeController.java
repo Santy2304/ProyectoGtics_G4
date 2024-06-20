@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -857,10 +858,10 @@ public class AdminSedeController {
                                 //r.setIdReplacementOrder();
                                 Tracking tracking = new Tracking();
                                 tracking.setSolicitudDate(LocalDateTime.now());
-                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(10));
-                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(20));
-                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(30));
-                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(40));
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
                                 trackingRepository.save(tracking);
                                 r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
@@ -958,8 +959,57 @@ public class AdminSedeController {
 
         model.addAttribute("idReplacement",idReplacementeOrder);
         model.addAttribute("Tracking",tracking);
-
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate());
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate());
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate());
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate());
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate());
         return "admin_sede/trackingPersonal";
+    }
+
+
+    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    public void changeTracking() {
+        LocalDateTime now = LocalDateTime.now();
+        List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
+
+        for (ReplacementOrder replacementOrder : replacamenteOrders) {
+
+            String tracking = replacementOrder.getTrackingState();
+
+            Tracking trackingReal = replacementOrder.getIdTracking();
+
+            switch (tracking){
+
+                case ("Solicitado"):
+                    if (trackingReal.getEnProcesoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Proceso",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Proceso"):
+                    if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Empaquetando",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("Empaquetando"):
+                    if (trackingReal.getEnRutaDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Ruta",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Ruta"):
+                    if (trackingReal.getEntregadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
     }
 
 

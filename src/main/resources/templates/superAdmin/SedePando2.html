@@ -270,7 +270,7 @@
                                             <td th:text="${repo.releaseDate}"></td>
                                             <td th:text="${repo.trackingState}"></td>
                                             <td>
-                                                <a class="me-3" href="">
+                                                <a class="me-3" th:href="@{'/superAdmin/verTrackingPersonal?idRepo=' + ${repo.getIdReplacementOrder()}}">
                                                     <img src="/assets_superAdmin/img/icons/truck.svg" alt="img">
                                                 </a>
                                             </td>

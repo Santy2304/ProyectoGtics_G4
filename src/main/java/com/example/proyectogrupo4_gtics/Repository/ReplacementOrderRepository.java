@@ -2,7 +2,9 @@ package com.example.proyectogrupo4_gtics.Repository;
 
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -34,5 +36,11 @@ public interface ReplacementOrderRepository extends JpaRepository<ReplacementOrd
 
     @Query(nativeQuery = true, value = "select * from replacementorder r where r.site = ?1 ")
     List<ReplacementOrder> getReplacementOrderBySede(String siteName);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "update replacementorder set trackingState = ?1  where idReplacementOrder =?2" , nativeQuery = true)
+    void actualizarTracking(String estado,int id);
 
 }

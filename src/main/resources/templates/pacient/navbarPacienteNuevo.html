@@ -42,30 +42,16 @@
 
         <!-- Flag -->
         <li class="nav-item dropdown has-arrow flag-nav">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  role="button" th:text="|${session.sede.getName()}|">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  role="button" th:text="|Sede ${session.sede.getName()}|">
                 <img src="/assets_pacient/img/flags/us1.png" alt="" height="20">
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <img src="/assets_pacient/img/flags/us.png" alt="" height="16"> Pando 1
-                </a>
-                <a href="#" class="dropdown-item">
-                    <img src="/assets_pacient/img/flags/fr.png" alt="" height="16"> Pando 2
-                </a>
-                <a href="#" class="dropdown-item">
-                    <img src="/assets_pacient/img/flags/es.png" alt="" height="16"> Pando 3
-                </a>
-                <a href="#" class="dropdown-item">
-                    <img src="/assets_pacient/img/flags/de.png" alt="" height="16"> Pando 4
-                </a>
-            </div>
         </li>
         <!-- /Flag -->
 
         <!-- Notifications -->
         <li class="nav-item dropdown">
             <a href="/patient/hola" class="dropdown-toggle nav-link" >
-                <img src="/assets_pacient/img/icons/sales1.svg"   alt="img"> <span class="badge rounded-pill">4</span>
+                <img src="/assets_pacient/img/icons/sales1.svg"   alt="img"> <span id="cantidadCarrito" class="badge rounded-pill"></span>
             </a>
         </li>
         <!-- /Notifications -->
@@ -116,5 +102,37 @@
             </form>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            function logHolaCada2Segundos() {
+                setInterval(() => {
+                    $.ajax({
+                        url: '/patient/getAllCarrito',
+                        type: 'GET',
+                        success: function (response) {
+                            var listaMedicamentos = response;
+
+                            const elemento = document.getElementById("cantidadCarrito");
+                            elemento.innerText = ""+ listaMedicamentos.length;
+                            //productset
+                            //"${medicamento.getIdMedicine()}"
+                        },
+                        error: function (error) {
+                            console.error('There was a problem with the request:', error);
+                        }
+                    });
+                }, 1000); // 2000 milisegundos = 2 segundos
+            }
+            // Llamar a la función para iniciar el intervalo
+            logHolaCada2Segundos();
+        });
+
+
+
+    </script>
+
+
+
     <!-- /Mobile Menu -->
 </div>

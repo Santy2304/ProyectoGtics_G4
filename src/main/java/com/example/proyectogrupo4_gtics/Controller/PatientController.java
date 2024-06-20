@@ -199,8 +199,7 @@ public class PatientController {
 
         Medicine medicine = medicineRepository.findById(1).get();
         Patient patient = (Patient) session.getAttribute("usuario");
-        model.addAttribute("carrito",  carritoRepository.getMedicineListByPatient(patient.getIdPatient())  );
-
+        model.addAttribute("carro",carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
         return "pacient/generar_orden_compraNuevo";

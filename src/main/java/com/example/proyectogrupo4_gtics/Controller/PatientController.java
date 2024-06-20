@@ -127,16 +127,15 @@ public class PatientController {
     public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model,HttpSession session){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         session.setAttribute("sede" , (siteRepository.findById(Integer.parseInt(idSede))).get() );
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
-        model.addAttribute("listaMedicinas" , listMedicineBySede) ;
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
+
         return "pacient/verPrincipalNuevo";
     }
 
     @GetMapping("/elegirSedeEnPagina")
     public String elegirSedeEnPagina(@RequestParam("idSede") String nuevoIdSede , Model model,  @SessionAttribute String idSede, HttpSession session ){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(nuevoIdSede)).get()).getIdSite());
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
-        model.addAttribute("listaMedicinas" , listMedicineBySede);
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
@@ -341,10 +340,9 @@ public class PatientController {
         return "pacient/perfilNuevo";
     }
     @GetMapping("/verPrincipalPaciente")
-    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
+    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede , HttpSession session ){
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
-        model.addAttribute("listaMedicinas" , listMedicineBySede) ;
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
         Patient patient = (Patient) httpSesion.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());

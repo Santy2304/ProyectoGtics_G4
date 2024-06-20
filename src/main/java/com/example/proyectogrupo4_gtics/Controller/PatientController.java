@@ -208,15 +208,12 @@ public class PatientController {
     @PostMapping("/crearOrdenCompra")
     public String agregarOrdenCompra( @SessionAttribute("idSede") String idSede,
                                      @RequestParam("Hour") String HourStr,
-                                     @RequestParam("cantidad")int cantidad,
-                                     @RequestParam("idMedicine") int idMedicine,
+                                     //@RequestParam("cantidad")int cantidad,
+                                     //@RequestParam("idMedicine") int idMedicine,
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("direccion") String direccion,
                                      @RequestParam("idDoctor") int idDoctor,
                                      Model model, RedirectAttributes attr, HttpSession session){
-
-
-
         Optional<Doctor> optionalDoctor = doctorRepository.findById(idDoctor);
 
         boolean fallo = false;
@@ -277,26 +274,33 @@ public class PatientController {
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
 
-        PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
-        purchaseHasLote.setCantidadComprar(cantidad);
+        List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient)session.getAttribute("usuario")).getIdPatient());
+        for(Carrito c :  listaaa) {
+            PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+            purchaseHasLote.setCantidadComprar(c.getCantidad());
 
-        purchaseHasLote.setPurchaseOrder(purchaseOrder);
-        PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
-        purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+            purchaseHasLote.setPurchaseOrder(purchaseOrder);
+            PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+            purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
 
+            List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt("" + model.getAttribute("idSede"))).get().getName());
 
-        List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(idMedicine,cantidad, siteRepository.findById(Integer.parseInt(""+ model.getAttribute("idSede"))).get().getName());
-
-        if (listaLotesPosibles.isEmpty()){
-            return "redirect:verPrincipalPaciente";
+            if (listaLotesPosibles.isEmpty()) {
+                return "redirect:verPrincipalPaciente";
+            }
+            purchaseHasLote.setLote(listaLotesPosibles.get(0));
+            purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+            purchaseHasLote.setId(purchaseHasLotID);
+            purchaseHasLoteRepository.save(purchaseHasLote);
         }
-        purchaseHasLote.setLote(listaLotesPosibles.get(0));
-        purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
 
-        purchaseHasLote.setId(purchaseHasLotID);
-
-        purchaseHasLoteRepository.save(purchaseHasLote);
-
+        //Vaciamos el carrito
+        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+        ArrayList<Integer> listaId = new ArrayList<>();
+        for(Carrito c : list ){
+            listaId.add (c.getId());
+        }
+        carritoRepository.deleteAllByIdInBatch(listaId);
 
         return "redirect:verTicket?idCompra="+purchaseOrder.getId();
 

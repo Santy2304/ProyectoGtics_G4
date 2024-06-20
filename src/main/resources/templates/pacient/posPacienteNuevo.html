@@ -43,7 +43,42 @@
             <!-- Sidebar -->
             <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'carrito')"> </div>
             <!-- /Sidebar -->
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    $.ajax({
+                        url: '/patient/getAllCarrito',
+                        type: 'GET',
+                        success: function (response) {
+                            var listaMedicamentos = response;
 
+                            // Realiza acciones con los datos, como mostrarlos en la consola
+                            console.log('Lista de medicamentos:', listaMedicamentos);
+
+                            // También puedes realizar otras acciones, como actualizar la interfaz de usuario
+                            // Por ejemplo, si quieres mostrar los medicamentos en una lista HTML:
+                            let total = 0 ;
+                            listaMedicamentos.forEach(function(medicamento) {
+                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                var divPadre = imagen.closest('.productset');
+                                if (divPadre) {
+                                    divPadre.classList.add('active');
+                                } else {
+                                    console.error('No se encontró el div padre');
+                                }
+                            });
+
+                            var miDiv = document.getElementById('total');
+                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                            //productset
+                            //"${medicamento.getIdMedicine()}"
+                        },
+                        error: function (error) {
+                            console.error('There was a problem with the request:', error);
+                        }
+                    });
+                });
+            </script>
             <!-- /Sidebar -->
             <div class="page-wrapper pagehead">
                 <div class="content">
@@ -91,7 +126,6 @@
                             <div class="tabs_container" >
                                 <div  class="tab_content active" data-tab="Alergia">
                                     <div th:with="alergiaPresente=false"></div>
-
                                     <!-- Iniciar la fila -->
                                     <div class="row">
                                         <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
@@ -111,120 +145,159 @@
                                                 </div>
                                             </div>
                                             <script th:inline="javascript" >
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
-                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
-
-                                                    const productList  = document.getElementById('productList');
+                                                    var addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                    var structure  = document.getElementById("" + [[${medicamento.getNombreMedicamento()}]]);
                                                     addProduct.addEventListener('click', (event) => {
                                                         console.log("Holaaaaa")
-                                                        const newProduct = document.createElement('li');
-                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
-                                                        var opa = "</script";
-                                                        var ope =">"
-                                                        newProduct.innerHTML = `<li>
-          <div class="productimg">
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>Alergias</h5>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="mas dec button">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="menos inc button ">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t</div>
-</li>
-\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
-\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-<script >
-\t\t\t\t\t\t\t\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => {
-\t\t\t\t\t\t\t\t\t\t\t\tconst addProduct = document.getElementById("delete"+ ` + [[${medicamento.getIdMedicine()}]] + `);
-\t\t\t\t\t\t\t\t\t\t\t\tconst productList  = document.getElementById('productList');
-\t\t\t\t\t\t\t\t\t\t\t\taddProduct.addEventListener('click', (event) => {
+                                                        var adder =  document.createElement('ul');
+                                                        adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                        adder.className = "product-lists";
+                                                        var li = document.createElement('li');
+                                                        var productImgDiv = document.createElement('div');
+                                                        productImgDiv.className = 'productimg';
+                                                        var productImgsDiv = document.createElement('div');
+                                                        productImgsDiv.className = 'productimgs';
+                                                        var img = document.createElement('img');
+                                                        img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                        img.alt = 'img';
+                                                        productImgsDiv.appendChild(img);
+                                                        var productContentDiv = document.createElement('div');
+                                                        productContentDiv.className = 'productcontet';
+                                                        var h4 = document.createElement('h4');
+                                                        h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+                                                        var a = document.createElement('a');
+                                                        a.href = 'javascript:void(0);';
+                                                        a.className = 'ms-2';
+                                                        a.setAttribute('data-bs-toggle', 'modal');
+                                                        a.setAttribute('data-bs-target', '#edit');
+                                                        var editImg = document.createElement('img');
+                                                        editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+                                                        editImg.alt = 'img';
+                                                        a.appendChild(editImg);
+                                                        h4.appendChild(a);
+                                                        var productLinkSetDiv = document.createElement('div');
+                                                        productLinkSetDiv.className = 'productlinkset';
+                                                        var h5 = document.createElement('h5');
+                                                        h5.textContent = "" + [[${medicamento.getCategoria()}]];
+                                                        productLinkSetDiv.appendChild(h5);
+                                                        var incrementDecrementDiv = document.createElement('div');
+                                                        incrementDecrementDiv.className = 'increment-decrement';
+                                                        var inputGroupsDiv = document.createElement('div');
+                                                        inputGroupsDiv.className = 'input-groups';
+                                                        var inputMinus = document.createElement('input');
+                                                        inputMinus.type = 'button';
+                                                        inputMinus.name = 'menos';
+                                                        inputMinus.value = '-';
+                                                        inputMinus.className = 'menos button';
+                                                        var inputQuantity = document.createElement('input');
+                                                        inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+                                                        inputQuantity.type = 'text';
+                                                        inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+                                                        inputQuantity.value = "1";
+                                                        inputQuantity.className = 'quantity-field';
+                                                        var inputPlus = document.createElement('input');
+                                                        inputPlus.type = 'button';
+                                                        inputPlus.name = 'mas';
+                                                        inputPlus.value = '+';
+                                                        inputPlus.className = 'mas button';
+                                                        inputGroupsDiv.appendChild(inputMinus);
+                                                        inputGroupsDiv.appendChild(inputQuantity);
+                                                        inputGroupsDiv.appendChild(inputPlus);
+                                                        incrementDecrementDiv.appendChild(inputGroupsDiv);
+                                                        // Añadir todo al div principal
+                                                        productContentDiv.appendChild(h4);
+                                                        productContentDiv.appendChild(productLinkSetDiv);
+                                                        productContentDiv.appendChild(incrementDecrementDiv);
+                                                        productImgDiv.appendChild(productImgsDiv);
+                                                        productImgDiv.appendChild(productContentDiv);
+                                                        li.appendChild(productImgDiv);
+                                                        // Añadir el precio
+                                                        var priceLi = document.createElement('li');
+                                                        priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+                                                        // Añadir botón de eliminar
+                                                        var deleteLi = document.createElement('li');
+                                                        var deleteA = document.createElement('a');
+                                                        deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+                                                        var deleteImg = document.createElement('img');
+                                                        deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+                                                        deleteImg.alt = 'img';
+                                                        deleteA.appendChild(deleteImg);
+                                                        deleteLi.appendChild(deleteA);
+                                                        console.log(li);
+                                                        console.log(priceLi);
+                                                        console.log(deleteLi);
 
-\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
-\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/deleteProductCarritoVenta?idProducto='` + [[${medicamento.getIdMedicine()}]] + ` ,
-\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
-\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//Eliminar porcion de HTML
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getNombreMedicamento()}]] + ` );
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',` +
-                                                            `\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar listaMedicamentos = response;
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlet total = 0 ;
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlistaMedicamentos.forEach(function(medicamento) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttotal = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDiv = document.getElementById('total');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDiv.textContent = 'S/.' + total.toFixed(2);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDivTwo = document.getElementById('totalProductojpg');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;` +
-                                                            `\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//productset
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//"${medicamento.getIdMedicine()}"
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar listaMedicamentos = response; ` +
+                                                        const script = document.createElement('script');
+                                                        script.type = 'text/javascript';
+                                                        script.text = `
 
-                                                            ` \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// Realiza acciones con los datos, como mostrarlos en la consola
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.log('Lista de medicamentos:', listaMedicamentos);
+                        const addProduct = document.getElementById("delete` + [[${medicamento.getIdMedicine()}]]  +`");
+                        const productList  = document.getElementById('product-list');
+                        addProduct.addEventListener('click', (event) => {
+                            $.ajax({
+                                url: '/patient/deleteProductCarritoVenta?idProducto=' + ` + [[${medicamento.getIdMedicine()}]] + `,
+                                type: 'GET',
+                                success: function (response) {
+                                    // Eliminar porción de HTML
+                                    const elemento = document.getElementById("aux" +"`+ [[${medicamento.getNombreMedicamento()}]] + `");
+                                     elemento.remove();
 
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// También puedes realizar otras acciones, como actualizar la interfaz de usuario
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t// Por ejemplo, si quieres mostrar los medicamentos en una lista HTML:
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlet total = 0 ;
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar elementos = document.querySelectorAll(".productset");
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telementos.forEach(function(elemento) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telemento.classList.remove("active");
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t})
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            let total = 0 ;
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            console.log('Lista de medicamentos:', listaMedicamentos);
+                                            let total = 0 ;
+                                            var elementos = document.querySelectorAll(".productset");
+                                            elementos.forEach(function(elemento) {
+                                                elemento.classList.remove("active");
+                                            });
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                                var divPadre = imagen.closest('.productset');
+                                                if (divPadre) {
+                                                    divPadre.classList.add('active');
+                                                } else {
+                                                    console.error('No se encontró el div padre');
+                                                }
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        });
 
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tlistaMedicamentos.forEach(function(medicamento) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttotal = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                `;
 
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar divPadre = imagen.closest('.productset');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tif (divPadre) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tdivPadre.classList.add('active');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t} else {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('No se encontró el div padre');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
-` +
-                                                            ` \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvar miDiv = document.getElementById('total');
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmiDiv.textContent = 'S/.' + total.toFixed(2);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//productset
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//"${medicamento.getIdMedicine()}"
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t});
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\telemento.remove();
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t},
-\t\t\t\t\t\t\t\t\t\t\t\t\t\terror: function (error) {
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconsole.error('There was a problem with the request:', error);
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t}
-\t\t\t\t\t\t\t\t\t\t\t\t\t});
 
-\t\t\t\t\t\t\t\t\t\t\t\t})
-\t\t\t\t\t\t\t\t\t\t\t\t});` +opa;
 
                                                         let gaaa = structure.children;
                                                         let ola = false;
@@ -237,12 +310,18 @@
 
                                                         if (!ola) {
                                                             $.ajax({
-                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                                url: '/patient/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
                                                                 type: 'GET',
                                                                 success: function (response) {
-                                                                    productList.appendChild(newProduct);
+                                                                    const productList  = document.getElementById('productList');
+                                                                    adder.appendChild(li);
+                                                                    adder.appendChild(priceLi);
+                                                                    adder.appendChild(deleteLi);
+                                                                    adder.appendChild(script);
+                                                                    console.log(adder)
+                                                                    productList.appendChild(adder);
                                                                     $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        url: '/patient/getAllCarrito',
                                                                         type: 'GET',
                                                                         success: function (response) {
                                                                             var listaMedicamentos = response;
@@ -270,14 +349,14 @@
                                                             });
                                                         }else{
                                                             $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                                url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
                                                                 type: 'GET',
                                                                 success: function (response) {
                                                                     //Eliminar porcion de HTML
                                                                     const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
                                                                     elemento.remove();
                                                                     $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        url: '/patient/getAllCarrito',
                                                                         type: 'GET',
                                                                         success: function (response) {
                                                                             var listaMedicamentos = response;
@@ -303,9 +382,8 @@
                                                             });
                                                         }
                                                     });
-                                                });
-                                            </script>
 
+                                            </script>
                                             <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
                                             <div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
                                         </div>
@@ -334,121 +412,247 @@
                                                     <h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
                                                 </div>
                                             </div>
-
                                             <script th:inline="javascript" >
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
-                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
-                                                    const productList  = document.getElementById('productList');
-                                                    addProduct.addEventListener('click', (event) => {
-                                                        console.log("Holaaaaa")
-                                                        const newProduct = document.createElement('ul');
-                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                var addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                var structure  = document.getElementById("" + [[${medicamento.getNombreMedicamento()}]]);
+                                                addProduct.addEventListener('click', (event) => {
+                                                    console.log("Holaaaaa")
+                                                    var adder =  document.createElement('ul');
+                                                    adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                    adder.className = "product-lists";
+                                                    var li = document.createElement('li');
+                                                    var productImgDiv = document.createElement('div');
+                                                    productImgDiv.className = 'productimg';
+                                                    var productImgsDiv = document.createElement('div');
+                                                    productImgsDiv.className = 'productimgs';
+                                                    var img = document.createElement('img');
+                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.alt = 'img';
+                                                    productImgsDiv.appendChild(img);
+                                                    var productContentDiv = document.createElement('div');
+                                                    productContentDiv.className = 'productcontet';
+                                                    var h4 = document.createElement('h4');
+                                                    h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+                                                    var a = document.createElement('a');
+                                                    a.href = 'javascript:void(0);';
+                                                    a.className = 'ms-2';
+                                                    a.setAttribute('data-bs-toggle', 'modal');
+                                                    a.setAttribute('data-bs-target', '#edit');
+                                                    var editImg = document.createElement('img');
+                                                    editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+                                                    editImg.alt = 'img';
+                                                    a.appendChild(editImg);
+                                                    h4.appendChild(a);
+                                                    var productLinkSetDiv = document.createElement('div');
+                                                    productLinkSetDiv.className = 'productlinkset';
+                                                    var h5 = document.createElement('h5');
+                                                    h5.textContent = "" + [[${medicamento.getCategoria()}]];
+                                                    productLinkSetDiv.appendChild(h5);
+                                                    var incrementDecrementDiv = document.createElement('div');
+                                                    incrementDecrementDiv.className = 'increment-decrement';
+                                                    var inputGroupsDiv = document.createElement('div');
+                                                    inputGroupsDiv.className = 'input-groups';
+                                                    var inputMinus = document.createElement('input');
+                                                    inputMinus.type = 'button';
+                                                    inputMinus.name = 'menos';
+                                                    inputMinus.value = '-';
+                                                    inputMinus.className = 'menos button';
+                                                    var inputQuantity = document.createElement('input');
+                                                    inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.type = 'text';
+                                                    inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.value = "1";
+                                                    inputQuantity.className = 'quantity-field';
+                                                    var inputPlus = document.createElement('input');
+                                                    inputPlus.type = 'button';
+                                                    inputPlus.name = 'mas';
+                                                    inputPlus.value = '+';
+                                                    inputPlus.className = 'mas button';
+                                                    inputGroupsDiv.appendChild(inputMinus);
+                                                    inputGroupsDiv.appendChild(inputQuantity);
+                                                    inputGroupsDiv.appendChild(inputPlus);
+                                                    incrementDecrementDiv.appendChild(inputGroupsDiv);
+                                                    // Añadir todo al div principal
+                                                    productContentDiv.appendChild(h4);
+                                                    productContentDiv.appendChild(productLinkSetDiv);
+                                                    productContentDiv.appendChild(incrementDecrementDiv);
+                                                    productImgDiv.appendChild(productImgsDiv);
+                                                    productImgDiv.appendChild(productContentDiv);
+                                                    li.appendChild(productImgDiv);
+                                                    // Añadir el precio
+                                                    var priceLi = document.createElement('li');
+                                                    priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+                                                    // Añadir botón de eliminar
+                                                    var deleteLi = document.createElement('li');
+                                                    var deleteA = document.createElement('a');
+                                                    deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+                                                    var deleteImg = document.createElement('img');
+                                                    deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+                                                    deleteImg.alt = 'img';
+                                                    deleteA.appendChild(deleteImg);
+                                                    deleteLi.appendChild(deleteA);
+                                                    console.log(li);
+                                                    console.log(priceLi);
+                                                    console.log(deleteLi);
 
-                                                        newProduct.classList.add('product-lists');
-                                                        newProduct.innerHTML = `<li>
-          <div class="productimg">
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>dolor</h5>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="menos dec button">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `" name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="mas inc button ">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t</div>
-</li>
-\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
-\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-`;
-                                                        let gaaa = structure.children;
-                                                        let ola = false;
-                                                        for (let i = 0; i < gaaa.length; i++) {
-                                                            if (gaaa[i].classList.contains('active')) {
-                                                                ola = true;
-                                                                break;
+                                                    const script = document.createElement('script');
+                                                    script.type = 'text/javascript';
+                                                    script.text = `
+
+                        const addProduct = document.getElementById("delete` + [[${medicamento.getIdMedicine()}]]  +`");
+                        const productList  = document.getElementById('product-list');
+                        addProduct.addEventListener('click', (event) => {
+                            $.ajax({
+                                url: '/patient/deleteProductCarritoVenta?idProducto=' + ` + [[${medicamento.getIdMedicine()}]] + `,
+                                type: 'GET',
+                                success: function (response) {
+                                    // Eliminar porción de HTML
+                                    const elemento = document.getElementById("aux" +"`+ [[${medicamento.getNombreMedicamento()}]] + `");
+                                     elemento.remove();
+
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            let total = 0 ;
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            console.log('Lista de medicamentos:', listaMedicamentos);
+                                            let total = 0 ;
+                                            var elementos = document.querySelectorAll(".productset");
+                                            elementos.forEach(function(elemento) {
+                                                elemento.classList.remove("active");
+                                            });
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                                var divPadre = imagen.closest('.productset');
+                                                if (divPadre) {
+                                                    divPadre.classList.add('active');
+                                                } else {
+                                                    console.error('No se encontró el div padre');
+                                                }
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        });
+
+                `;
+
+
+
+                                                    let gaaa = structure.children;
+                                                    let ola = false;
+                                                    for (let i = 0; i < gaaa.length; i++) {
+                                                        if (gaaa[i].classList.contains('active')) {
+                                                            ola = true;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (!ola) {
+                                                        $.ajax({
+                                                            url: '/patient/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                const productList  = document.getElementById('productList');
+                                                                adder.appendChild(li);
+                                                                adder.appendChild(priceLi);
+                                                                adder.appendChild(deleteLi);
+                                                                adder.appendChild(script);
+                                                                console.log(adder)
+                                                                productList.appendChild(adder);
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                                                        //totalProductojpg
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
                                                             }
-                                                        }
-
-                                                        if (!ola) {
-                                                            $.ajax({
-                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    productList.appendChild(newProduct);
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }else{
-                                                            $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    //Eliminar porcion de HTML
-                                                                    const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
-                                                                    elemento.remove();
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                        });
+                                                    }else{
+                                                        $.ajax({
+                                                            url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                //Eliminar porcion de HTML
+                                                                const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+                                                                elemento.remove();
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
+                                                            }
+                                                        });
+                                                    }
                                                 });
+
                                             </script>
+
                                             <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
                                             <div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
                                         </div>
@@ -479,118 +683,244 @@
                                                 </div>
                                             </div>
                                             <script th:inline="javascript" >
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
-                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
-                                                    const productList  = document.getElementById('productList');
-                                                    addProduct.addEventListener('click', () => {
-                                                        console.log("Holaaaaa")
-                                                        const newProduct = document.createElement('ul');
-                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
-                                                        newProduct.classList.add('product-lists');
-                                                        newProduct.innerHTML = `<li>
-          <div class="productimg">
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>belleza</h5>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="menos dec button">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `"  name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="mas inc button ">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t</div>
-</li>
-\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
-\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-`;
-                                                        let gaaa = structure.children;
-                                                        let ola = false;
-                                                        for (let i = 0; i < gaaa.length; i++) {
-                                                            if (gaaa[i].classList.contains('active')) {
-                                                                ola = true;
-                                                                break;
+                                                var addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                var structure  = document.getElementById("" + [[${medicamento.getNombreMedicamento()}]]);
+                                                addProduct.addEventListener('click', (event) => {
+                                                    console.log("Holaaaaa")
+                                                    var adder =  document.createElement('ul');
+                                                    adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                    adder.className = "product-lists";
+                                                    var li = document.createElement('li');
+                                                    var productImgDiv = document.createElement('div');
+                                                    productImgDiv.className = 'productimg';
+                                                    var productImgsDiv = document.createElement('div');
+                                                    productImgsDiv.className = 'productimgs';
+                                                    var img = document.createElement('img');
+                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.alt = 'img';
+                                                    productImgsDiv.appendChild(img);
+                                                    var productContentDiv = document.createElement('div');
+                                                    productContentDiv.className = 'productcontet';
+                                                    var h4 = document.createElement('h4');
+                                                    h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+                                                    var a = document.createElement('a');
+                                                    a.href = 'javascript:void(0);';
+                                                    a.className = 'ms-2';
+                                                    a.setAttribute('data-bs-toggle', 'modal');
+                                                    a.setAttribute('data-bs-target', '#edit');
+                                                    var editImg = document.createElement('img');
+                                                    editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+                                                    editImg.alt = 'img';
+                                                    a.appendChild(editImg);
+                                                    h4.appendChild(a);
+                                                    var productLinkSetDiv = document.createElement('div');
+                                                    productLinkSetDiv.className = 'productlinkset';
+                                                    var h5 = document.createElement('h5');
+                                                    h5.textContent = "" + [[${medicamento.getCategoria()}]];
+                                                    productLinkSetDiv.appendChild(h5);
+                                                    var incrementDecrementDiv = document.createElement('div');
+                                                    incrementDecrementDiv.className = 'increment-decrement';
+                                                    var inputGroupsDiv = document.createElement('div');
+                                                    inputGroupsDiv.className = 'input-groups';
+                                                    var inputMinus = document.createElement('input');
+                                                    inputMinus.type = 'button';
+                                                    inputMinus.name = 'menos';
+                                                    inputMinus.value = '-';
+                                                    inputMinus.className = 'menos button';
+                                                    var inputQuantity = document.createElement('input');
+                                                    inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.type = 'text';
+                                                    inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.value = "1";
+                                                    inputQuantity.className = 'quantity-field';
+                                                    var inputPlus = document.createElement('input');
+                                                    inputPlus.type = 'button';
+                                                    inputPlus.name = 'mas';
+                                                    inputPlus.value = '+';
+                                                    inputPlus.className = 'mas button';
+                                                    inputGroupsDiv.appendChild(inputMinus);
+                                                    inputGroupsDiv.appendChild(inputQuantity);
+                                                    inputGroupsDiv.appendChild(inputPlus);
+                                                    incrementDecrementDiv.appendChild(inputGroupsDiv);
+                                                    // Añadir todo al div principal
+                                                    productContentDiv.appendChild(h4);
+                                                    productContentDiv.appendChild(productLinkSetDiv);
+                                                    productContentDiv.appendChild(incrementDecrementDiv);
+                                                    productImgDiv.appendChild(productImgsDiv);
+                                                    productImgDiv.appendChild(productContentDiv);
+                                                    li.appendChild(productImgDiv);
+                                                    // Añadir el precio
+                                                    var priceLi = document.createElement('li');
+                                                    priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+                                                    // Añadir botón de eliminar
+                                                    var deleteLi = document.createElement('li');
+                                                    var deleteA = document.createElement('a');
+                                                    deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+                                                    var deleteImg = document.createElement('img');
+                                                    deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+                                                    deleteImg.alt = 'img';
+                                                    deleteA.appendChild(deleteImg);
+                                                    deleteLi.appendChild(deleteA);
+                                                    console.log(li);
+                                                    console.log(priceLi);
+                                                    console.log(deleteLi);
+
+                                                    const script = document.createElement('script');
+                                                    script.type = 'text/javascript';
+                                                    script.text = `
+
+                        const addProduct = document.getElementById("delete` + [[${medicamento.getIdMedicine()}]]  +`");
+                        const productList  = document.getElementById('product-list');
+                        addProduct.addEventListener('click', (event) => {
+                            $.ajax({
+                                url: '/patient/deleteProductCarritoVenta?idProducto=' + ` + [[${medicamento.getIdMedicine()}]] + `,
+                                type: 'GET',
+                                success: function (response) {
+                                    // Eliminar porción de HTML
+                                    const elemento = document.getElementById("aux" +"`+ [[${medicamento.getNombreMedicamento()}]] + `");
+                                     elemento.remove();
+
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            let total = 0 ;
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            console.log('Lista de medicamentos:', listaMedicamentos);
+                                            let total = 0 ;
+                                            var elementos = document.querySelectorAll(".productset");
+                                            elementos.forEach(function(elemento) {
+                                                elemento.classList.remove("active");
+                                            });
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                                var divPadre = imagen.closest('.productset');
+                                                if (divPadre) {
+                                                    divPadre.classList.add('active');
+                                                } else {
+                                                    console.error('No se encontró el div padre');
+                                                }
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        });
+
+                `;
+
+
+
+                                                    let gaaa = structure.children;
+                                                    let ola = false;
+                                                    for (let i = 0; i < gaaa.length; i++) {
+                                                        if (gaaa[i].classList.contains('active')) {
+                                                            ola = true;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (!ola) {
+                                                        $.ajax({
+                                                            url: '/patient/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                const productList  = document.getElementById('productList');
+                                                                adder.appendChild(li);
+                                                                adder.appendChild(priceLi);
+                                                                adder.appendChild(deleteLi);
+                                                                adder.appendChild(script);
+                                                                console.log(adder)
+                                                                productList.appendChild(adder);
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                                                        //totalProductojpg
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
                                                             }
-                                                        }
-
-                                                        if (!ola) {
-                                                            $.ajax({
-                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    productList.appendChild(newProduct);
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }else{
-                                                            $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    //Eliminar porcion de HTML
-                                                                    const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
-                                                                    elemento.remove();
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                        });
+                                                    }else{
+                                                        $.ajax({
+                                                            url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                //Eliminar porcion de HTML
+                                                                const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+                                                                elemento.remove();
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
+                                                            }
+                                                        });
+                                                    }
                                                 });
+
                                             </script>
 
                                             <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
@@ -625,118 +955,244 @@
                                             </div>
 
                                             <script th:inline="javascript" >
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
-                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
-                                                    const productList  = document.getElementById('productList');
-                                                    addProduct.addEventListener('click', () => {
-                                                        console.log("Holaaaaa")
-                                                        const newProduct = document.createElement('ul');
-                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
-                                                        newProduct.classList.add('product-lists');
-                                                        newProduct.innerHTML = `<li>
-          <div class="productimg">
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>suplemento</h5>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="menos dec button">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text"  id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `"  name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="mas inc button ">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t</div>
-</li>
-\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
-\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-`;
-                                                        let gaaa = structure.children;
-                                                        let ola = false;
-                                                        for (let i = 0; i < gaaa.length; i++) {
-                                                            if (gaaa[i].classList.contains('active')) {
-                                                                ola = true;
-                                                                break;
+                                                var addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                var structure  = document.getElementById("" + [[${medicamento.getNombreMedicamento()}]]);
+                                                addProduct.addEventListener('click', (event) => {
+                                                    console.log("Holaaaaa")
+                                                    var adder =  document.createElement('ul');
+                                                    adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                    adder.className = "product-lists";
+                                                    var li = document.createElement('li');
+                                                    var productImgDiv = document.createElement('div');
+                                                    productImgDiv.className = 'productimg';
+                                                    var productImgsDiv = document.createElement('div');
+                                                    productImgsDiv.className = 'productimgs';
+                                                    var img = document.createElement('img');
+                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.alt = 'img';
+                                                    productImgsDiv.appendChild(img);
+                                                    var productContentDiv = document.createElement('div');
+                                                    productContentDiv.className = 'productcontet';
+                                                    var h4 = document.createElement('h4');
+                                                    h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+                                                    var a = document.createElement('a');
+                                                    a.href = 'javascript:void(0);';
+                                                    a.className = 'ms-2';
+                                                    a.setAttribute('data-bs-toggle', 'modal');
+                                                    a.setAttribute('data-bs-target', '#edit');
+                                                    var editImg = document.createElement('img');
+                                                    editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+                                                    editImg.alt = 'img';
+                                                    a.appendChild(editImg);
+                                                    h4.appendChild(a);
+                                                    var productLinkSetDiv = document.createElement('div');
+                                                    productLinkSetDiv.className = 'productlinkset';
+                                                    var h5 = document.createElement('h5');
+                                                    h5.textContent = "" + [[${medicamento.getCategoria()}]];
+                                                    productLinkSetDiv.appendChild(h5);
+                                                    var incrementDecrementDiv = document.createElement('div');
+                                                    incrementDecrementDiv.className = 'increment-decrement';
+                                                    var inputGroupsDiv = document.createElement('div');
+                                                    inputGroupsDiv.className = 'input-groups';
+                                                    var inputMinus = document.createElement('input');
+                                                    inputMinus.type = 'button';
+                                                    inputMinus.name = 'menos';
+                                                    inputMinus.value = '-';
+                                                    inputMinus.className = 'menos button';
+                                                    var inputQuantity = document.createElement('input');
+                                                    inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.type = 'text';
+                                                    inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.value = "1";
+                                                    inputQuantity.className = 'quantity-field';
+                                                    var inputPlus = document.createElement('input');
+                                                    inputPlus.type = 'button';
+                                                    inputPlus.name = 'mas';
+                                                    inputPlus.value = '+';
+                                                    inputPlus.className = 'mas button';
+                                                    inputGroupsDiv.appendChild(inputMinus);
+                                                    inputGroupsDiv.appendChild(inputQuantity);
+                                                    inputGroupsDiv.appendChild(inputPlus);
+                                                    incrementDecrementDiv.appendChild(inputGroupsDiv);
+                                                    // Añadir todo al div principal
+                                                    productContentDiv.appendChild(h4);
+                                                    productContentDiv.appendChild(productLinkSetDiv);
+                                                    productContentDiv.appendChild(incrementDecrementDiv);
+                                                    productImgDiv.appendChild(productImgsDiv);
+                                                    productImgDiv.appendChild(productContentDiv);
+                                                    li.appendChild(productImgDiv);
+                                                    // Añadir el precio
+                                                    var priceLi = document.createElement('li');
+                                                    priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+                                                    // Añadir botón de eliminar
+                                                    var deleteLi = document.createElement('li');
+                                                    var deleteA = document.createElement('a');
+                                                    deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+                                                    var deleteImg = document.createElement('img');
+                                                    deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+                                                    deleteImg.alt = 'img';
+                                                    deleteA.appendChild(deleteImg);
+                                                    deleteLi.appendChild(deleteA);
+                                                    console.log(li);
+                                                    console.log(priceLi);
+                                                    console.log(deleteLi);
+
+                                                    const script = document.createElement('script');
+                                                    script.type = 'text/javascript';
+                                                    script.text = `
+
+                        const addProduct = document.getElementById("delete` + [[${medicamento.getIdMedicine()}]]  +`");
+                        const productList  = document.getElementById('product-list');
+                        addProduct.addEventListener('click', (event) => {
+                            $.ajax({
+                                url: '/patient/deleteProductCarritoVenta?idProducto=' + ` + [[${medicamento.getIdMedicine()}]] + `,
+                                type: 'GET',
+                                success: function (response) {
+                                    // Eliminar porción de HTML
+                                    const elemento = document.getElementById("aux" +"`+ [[${medicamento.getNombreMedicamento()}]] + `");
+                                     elemento.remove();
+
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            let total = 0 ;
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            console.log('Lista de medicamentos:', listaMedicamentos);
+                                            let total = 0 ;
+                                            var elementos = document.querySelectorAll(".productset");
+                                            elementos.forEach(function(elemento) {
+                                                elemento.classList.remove("active");
+                                            });
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                                var divPadre = imagen.closest('.productset');
+                                                if (divPadre) {
+                                                    divPadre.classList.add('active');
+                                                } else {
+                                                    console.error('No se encontró el div padre');
+                                                }
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        });
+
+                `;
+
+
+
+                                                    let gaaa = structure.children;
+                                                    let ola = false;
+                                                    for (let i = 0; i < gaaa.length; i++) {
+                                                        if (gaaa[i].classList.contains('active')) {
+                                                            ola = true;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (!ola) {
+                                                        $.ajax({
+                                                            url: '/patient/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                const productList  = document.getElementById('productList');
+                                                                adder.appendChild(li);
+                                                                adder.appendChild(priceLi);
+                                                                adder.appendChild(deleteLi);
+                                                                adder.appendChild(script);
+                                                                console.log(adder)
+                                                                productList.appendChild(adder);
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                                                        //totalProductojpg
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
                                                             }
-                                                        }
-
-                                                        if (!ola) {
-                                                            $.ajax({
-                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    productList.appendChild(newProduct);
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }else{
-                                                            $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    //Eliminar porcion de HTML
-                                                                    const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
-                                                                    elemento.remove();
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                        });
+                                                    }else{
+                                                        $.ajax({
+                                                            url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                //Eliminar porcion de HTML
+                                                                const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+                                                                elemento.remove();
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
+                                                            }
+                                                        });
+                                                    }
                                                 });
+
                                             </script>
                                             <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
                                             <div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
@@ -744,7 +1200,6 @@
                                     </div>
                                 </div>
                                 <div class="tab_content" data-tab="Otros">
-
                                     <div th:with="otrosPresente=false"></div>
                                     <!-- Iniciar la fila -->
                                     <div class="row">
@@ -766,119 +1221,244 @@
                                                 </div>
                                             </div>
                                             <script th:inline="javascript" >
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    const addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
-                                                    const structure  = document.getElementById([[${medicamento.getNombreMedicamento()}]]);
+                                                var addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+                                                var structure  = document.getElementById("" + [[${medicamento.getNombreMedicamento()}]]);
+                                                addProduct.addEventListener('click', (event) => {
+                                                    console.log("Holaaaaa")
+                                                    var adder =  document.createElement('ul');
+                                                    adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+                                                    adder.className = "product-lists";
+                                                    var li = document.createElement('li');
+                                                    var productImgDiv = document.createElement('div');
+                                                    productImgDiv.className = 'productimg';
+                                                    var productImgsDiv = document.createElement('div');
+                                                    productImgsDiv.className = 'productimgs';
+                                                    var img = document.createElement('img');
+                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.alt = 'img';
+                                                    productImgsDiv.appendChild(img);
+                                                    var productContentDiv = document.createElement('div');
+                                                    productContentDiv.className = 'productcontet';
+                                                    var h4 = document.createElement('h4');
+                                                    h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+                                                    var a = document.createElement('a');
+                                                    a.href = 'javascript:void(0);';
+                                                    a.className = 'ms-2';
+                                                    a.setAttribute('data-bs-toggle', 'modal');
+                                                    a.setAttribute('data-bs-target', '#edit');
+                                                    var editImg = document.createElement('img');
+                                                    editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+                                                    editImg.alt = 'img';
+                                                    a.appendChild(editImg);
+                                                    h4.appendChild(a);
+                                                    var productLinkSetDiv = document.createElement('div');
+                                                    productLinkSetDiv.className = 'productlinkset';
+                                                    var h5 = document.createElement('h5');
+                                                    h5.textContent = "" + [[${medicamento.getCategoria()}]];
+                                                    productLinkSetDiv.appendChild(h5);
+                                                    var incrementDecrementDiv = document.createElement('div');
+                                                    incrementDecrementDiv.className = 'increment-decrement';
+                                                    var inputGroupsDiv = document.createElement('div');
+                                                    inputGroupsDiv.className = 'input-groups';
+                                                    var inputMinus = document.createElement('input');
+                                                    inputMinus.type = 'button';
+                                                    inputMinus.name = 'menos';
+                                                    inputMinus.value = '-';
+                                                    inputMinus.className = 'menos button';
+                                                    var inputQuantity = document.createElement('input');
+                                                    inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.type = 'text';
+                                                    inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+                                                    inputQuantity.value = "1";
+                                                    inputQuantity.className = 'quantity-field';
+                                                    var inputPlus = document.createElement('input');
+                                                    inputPlus.type = 'button';
+                                                    inputPlus.name = 'mas';
+                                                    inputPlus.value = '+';
+                                                    inputPlus.className = 'mas button';
+                                                    inputGroupsDiv.appendChild(inputMinus);
+                                                    inputGroupsDiv.appendChild(inputQuantity);
+                                                    inputGroupsDiv.appendChild(inputPlus);
+                                                    incrementDecrementDiv.appendChild(inputGroupsDiv);
+                                                    // Añadir todo al div principal
+                                                    productContentDiv.appendChild(h4);
+                                                    productContentDiv.appendChild(productLinkSetDiv);
+                                                    productContentDiv.appendChild(incrementDecrementDiv);
+                                                    productImgDiv.appendChild(productImgsDiv);
+                                                    productImgDiv.appendChild(productContentDiv);
+                                                    li.appendChild(productImgDiv);
+                                                    // Añadir el precio
+                                                    var priceLi = document.createElement('li');
+                                                    priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+                                                    // Añadir botón de eliminar
+                                                    var deleteLi = document.createElement('li');
+                                                    var deleteA = document.createElement('a');
+                                                    deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+                                                    var deleteImg = document.createElement('img');
+                                                    deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+                                                    deleteImg.alt = 'img';
+                                                    deleteA.appendChild(deleteImg);
+                                                    deleteLi.appendChild(deleteA);
+                                                    console.log(li);
+                                                    console.log(priceLi);
+                                                    console.log(deleteLi);
 
-                                                    const productList  = document.getElementById('productList');
-                                                    addProduct.addEventListener('click', () => {
-                                                        console.log("Holaaaaa")
-                                                        const newProduct = document.createElement('ul');
-                                                        newProduct.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
-                                                        newProduct.classList.add('product-lists');
-                                                        newProduct.innerHTML = `<li>
-          <div class="productimg">
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</h4>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="productlinkset">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h5>otros</h5>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="increment-decrement">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="input-groups">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="menos" value="-"  class="menos dec button">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="text" id="` +'awa' + [[${medicamento.getIdMedicine()}]] + `"  name="` + [[${medicamento.getIdMedicine()}]] + `"  value="1" class="quantity-field">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type="button" name="mas" value="+"  class="mas inc button ">
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t\t</div>
-\t\t\t\t\t\t\t\t\t\t\t</div>
-</li>
-\t<li >` + [[${#numbers.formatDecimal(medicamento.getPrecio(), 2, 2)}]] + ` </li>
-\t\t\t\t\t\t\t\t\t\t<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
-`;
-                                                        let gaaa = structure.children;
-                                                        let ola = false;
-                                                        for (let i = 0; i < gaaa.length; i++) {
-                                                            if (gaaa[i].classList.contains('active')) {
-                                                                ola = true;
-                                                                break;
+                                                    const script = document.createElement('script');
+                                                    script.type = 'text/javascript';
+                                                    script.text = `
+
+                        const addProduct = document.getElementById("delete` + [[${medicamento.getIdMedicine()}]]  +`");
+                        const productList  = document.getElementById('product-list');
+                        addProduct.addEventListener('click', (event) => {
+                            $.ajax({
+                                url: '/patient/deleteProductCarritoVenta?idProducto=' + ` + [[${medicamento.getIdMedicine()}]] + `,
+                                type: 'GET',
+                                success: function (response) {
+                                    // Eliminar porción de HTML
+                                    const elemento = document.getElementById("aux" +"`+ [[${medicamento.getNombreMedicamento()}]] + `");
+                                     elemento.remove();
+
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            let total = 0 ;
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                            var miDivTwo = document.getElementById('totalProductojpg');
+                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                    $.ajax({
+                                        url: '/patient/getAllCarrito',
+                                        type: 'GET',
+                                        success: function (response) {
+                                            var listaMedicamentos = response;
+                                            console.log('Lista de medicamentos:', listaMedicamentos);
+                                            let total = 0 ;
+                                            var elementos = document.querySelectorAll(".productset");
+                                            elementos.forEach(function(elemento) {
+                                                elemento.classList.remove("active");
+                                            });
+                                            listaMedicamentos.forEach(function(medicamento) {
+                                                total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+                                                var imagen = document.getElementById(medicamento.idMedicine.idMedicine);
+                                                var divPadre = imagen.closest('.productset');
+                                                if (divPadre) {
+                                                    divPadre.classList.add('active');
+                                                } else {
+                                                    console.error('No se encontró el div padre');
+                                                }
+                                            });
+                                            var miDiv = document.getElementById('total');
+                                            miDiv.textContent = 'S/.' + total.toFixed(2);
+                                        },
+                                        error: function (error) {
+                                            console.error('There was a problem with the request:', error);
+                                        }
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        });
+
+                `;
+
+
+
+                                                    let gaaa = structure.children;
+                                                    let ola = false;
+                                                    for (let i = 0; i < gaaa.length; i++) {
+                                                        if (gaaa[i].classList.contains('active')) {
+                                                            ola = true;
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (!ola) {
+                                                        $.ajax({
+                                                            url: '/patient/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                const productList  = document.getElementById('productList');
+                                                                adder.appendChild(li);
+                                                                adder.appendChild(priceLi);
+                                                                adder.appendChild(deleteLi);
+                                                                adder.appendChild(script);
+                                                                console.log(adder)
+                                                                productList.appendChild(adder);
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                                                        //totalProductojpg
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
                                                             }
-                                                        }
-
-                                                        if (!ola) {
-                                                            $.ajax({
-                                                                url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    productList.appendChild(newProduct);
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }else{
-                                                            $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
-                                                                type: 'GET',
-                                                                success: function (response) {
-                                                                    //Eliminar porcion de HTML
-                                                                    const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
-                                                                    elemento.remove();
-                                                                    $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
-                                                                        type: 'GET',
-                                                                        success: function (response) {
-                                                                            var listaMedicamentos = response;
-                                                                            let total = 0 ;
-                                                                            listaMedicamentos.forEach(function(medicamento) {
-                                                                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                                                                            });
-                                                                            var miDiv = document.getElementById('total');
-                                                                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                                                                            var miDivTwo = document.getElementById('totalProductojpg');
-                                                                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-                                                                            //productset
-                                                                            //"${medicamento.getIdMedicine()}"
-                                                                        },
-                                                                        error: function (error) {
-                                                                            console.error('There was a problem with the request:', error);
-                                                                        }
-                                                                    });
-
-                                                                },
-                                                                error: function (error) {
-                                                                    console.error('There was a problem with the request:', error);
-                                                                }
-                                                            });
-                                                        }
-                                                    });
+                                                        });
+                                                    }else{
+                                                        $.ajax({
+                                                            url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+                                                            type: 'GET',
+                                                            success: function (response) {
+                                                                //Eliminar porcion de HTML
+                                                                const elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+                                                                elemento.remove();
+                                                                $.ajax({
+                                                                    url: '/patient/getAllCarrito',
+                                                                    type: 'GET',
+                                                                    success: function (response) {
+                                                                        var listaMedicamentos = response;
+                                                                        let total = 0 ;
+                                                                        listaMedicamentos.forEach(function(medicamento) {
+                                                                            total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                                                        });
+                                                                        var miDiv = document.getElementById('total');
+                                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
+                                                                        var miDivTwo = document.getElementById('totalProductojpg');
+                                                                        miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                                                        //productset
+                                                                        //"${medicamento.getIdMedicine()}"
+                                                                    },
+                                                                    error: function (error) {
+                                                                        console.error('There was a problem with the request:', error);
+                                                                    }
+                                                                });
+                                                            },
+                                                            error: function (error) {
+                                                                console.error('There was a problem with the request:', error);
+                                                            }
+                                                        });
+                                                    }
                                                 });
+
                                             </script>
                                             <!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
                                             <div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
@@ -887,8 +1467,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-12 ">
 
+
+
+                        <div class="col-lg-4 col-sm-12 ">
                             <div class="card card-order">
                                 <div class="card-body">
                                     <div class="row">
@@ -919,13 +1501,12 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="split-card">
                                 </div>
                                 <div class="card-body pt-0">
                                     <div class="totalitem">
                                         <h4 id="totalProductojpg" th:text="|Total de productos : ${carrito.size()}|"></h4>
-                                        <a href="/pharmacist/vaciarCarrito">Vaciar carrito</a>
+                                        <a href="/patient/vaciarCarrito">Vaciar carrito</a>
                                     </div>
                                     <form id="myForm">
                                         <div id='productList' class="product-table">
@@ -961,13 +1542,13 @@
                                                         addProduct.addEventListener('click', (event) => {
 
                                                             $.ajax({
-                                                                url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${carrito.getIdMedicine().getIdMedicine()}]],
+                                                                url: '/patient/deleteProductCarritoVenta?idProducto=' + [[${carrito.getIdMedicine().getIdMedicine()}]],
                                                                 type: 'GET',
                                                                 success: function (response) {
                                                                     //Eliminar porcion de HTML
                                                                     const elemento = document.getElementById("aux" + [[${carrito.getIdMedicine().getName()}]]);
                                                                     $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        url: '/patient/getAllCarrito',
                                                                         type: 'GET',
                                                                         success: function (response) {
                                                                             var listaMedicamentos = response;
@@ -987,7 +1568,7 @@
                                                                         }
                                                                     });
                                                                     $.ajax({
-                                                                        url: '/pharmacist/getAllCarrito',
+                                                                        url: '/patient/getAllCarrito',
                                                                         type: 'GET',
                                                                         success: function (response) {
                                                                             var listaMedicamentos = response;
@@ -1043,18 +1624,32 @@
                                 <div class="card-body pt-0 pb-2">
                                     <div class="setvalue">
                                         <ul>
-
                                             <li class="total-value">
                                                 <h5>Total  </h5>
-                                                <h6>60.00$</h6>
+                                                <h6 id="total"></h6>
                                             </li>
                                         </ul>
                                     </div>
-
-                                    <div class="btn-totallabel">
-                                        <h5>Checkout</h5>
-                                        <h6>60.00$</h6>
+                                    <div style="cursor: pointer;" id="botonContinuar" class="btn-totallabel">
+                                        <h5>Continuar con el proceso de compra</h5>
                                     </div>
+
+                                    <script>
+                                        // Función para escuchar eventos de clic en el div
+                                        function listenToClick() {
+                                            const clickableDiv = document.getElementById('botonContinuar');
+
+                                            clickableDiv.addEventListener('click', (event) => {
+                                                // Acción a realizar al hacer clic
+                                                window.location.href = "/patient/verGenerarOrdenCompra"
+                                            });
+                                        }
+
+                                        // Llamar a la función para iniciar la escucha del evento
+                                        listenToClick();
+
+
+                                    </script>
 
                                 </div>
                             </div>
@@ -1063,6 +1658,91 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('click', (event) => {
+                if (event.target.classList.contains('menos')) {
+                    const quantityField = event.target.nextElementSibling;
+                    let currentQuantity = parseInt(quantityField.value);
+                    if (currentQuantity > 1) {
+                        quantityField.value = currentQuantity - 1;
+                    }
+                    const idMedicine=  parseInt((quantityField.id).substring(3));
+                    const newCantidad = quantityField.value;
+
+                    $.ajax({
+                        url: '/patient/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
+                        type: 'GET',
+                        success: function (response) {
+                            $.ajax({
+                                url: '/patient/getAllCarrito',
+                                type: 'GET',
+                                success: function (response) {
+                                    var listaMedicamentos = response;
+                                    let total = 0 ;
+                                    listaMedicamentos.forEach(function(medicamento) {
+                                        total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                    });
+                                    var miDiv = document.getElementById('total');
+                                    miDiv.textContent = 'S/.' + total.toFixed(2);
+                                    var miDivTwo = document.getElementById('totalProductojpg');
+                                    miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+                                    //totalProductojpg
+                                    //productset
+                                    //"${medicamento.getIdMedicine()}"
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.error('There was a problem with the request:', error);
+                        }
+                    });
+                } else if (event.target.classList.contains('mas')) {
+                    const quantityField = event.target.previousElementSibling;
+                    let currentQuantity = parseInt(quantityField.value);
+                    quantityField.value = currentQuantity + 1;
+                    const idMedicine=  parseInt((quantityField.id).substring(3));
+                    const newCantidad = quantityField.value;
+
+                    $.ajax({
+                        url: '/patient/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
+                        type: 'GET',
+                        success: function (response) {
+                            $.ajax({
+                                url: '/patient/getAllCarrito',
+                                type: 'GET',
+                                success: function (response) {
+                                    var listaMedicamentos = response;
+                                    let total = 0 ;
+                                    listaMedicamentos.forEach(function(medicamento) {
+                                        total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+                                    });
+                                    var miDiv = document.getElementById('total');
+                                    miDiv.textContent = 'S/.' + total.toFixed(2);
+                                    var miDivTwo = document.getElementById('totalProductojpg');
+                                    miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+                                    //totalProductojpg
+                                    //productset
+                                    //"${medicamento.getIdMedicine()}"
+                                },
+                                error: function (error) {
+                                    console.error('There was a problem with the request:', error);
+                                }
+                            });
+                        },
+                        error: function (error) {
+                            console.error('There was a problem with the request:', error);
+                        }
+                    });
+
+                }
+            });
+        </script>
+
         <!-- jQuery -->
         <script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
 

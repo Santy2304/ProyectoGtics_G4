@@ -71,7 +71,7 @@
                             <span><img src="../assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
                         </div>
                         <div class="dash-widgetcontent">
-                            <h5 th:text="${medicine.getPrice()}">S/</h5>
+                            <h5 >S/</h5>
                             <h6>Total a Pagar</h6>
                         </div>
                     </div>
@@ -195,21 +195,20 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="medicine : ${carrito}">
+                                            <tr th:each=" ite : ${carrito}">
                                                 <td class="productimgname">
                                                     <a href="#" class="product-img">
-                                                        <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="product">
+                                                        <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${ite.idMedicine.getPhoto()}}" alt="product">
                                                     </a>
-                                                    <a th:text="*{medicine.getName()}"></a>
-                                                    <input name="idMedicine"  th:field="*{medicine.idMedicine}" type="hidden">
+                                                    <a th:text="*{ite.idMedicine.getName()}"></a>
+                                                    <input name="idMedicine"  th:field="*{ite.idMedicine.idMedicine}" type="hidden">
 
                                                 </td>
                                                 <td>
-                                                    1	<input type="hidden" name="cantidad" value="1">
+                                                    <input type="hidden" name="cantidad" th:value="${Float.parseFloat(ite.cantidad)}">
                                                 </td>
-                                                <td th:text="|S/${medicine.getPrice()}|"></td>
+                                                <td th:text="|S/${#numbers.formatDecimal(ite.idMedicine.price, 2, 2)}|"></td>
                                             </tr>
-
                                             </tbody>
                                         </table>
                                     </div>

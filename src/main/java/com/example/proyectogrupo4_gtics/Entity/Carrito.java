@@ -14,12 +14,12 @@ public class Carrito implements Serializable {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idpatient", nullable = false)
     private Patient idPatient;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idmedicine", nullable = false)
     private Medicine idMedicine;
 

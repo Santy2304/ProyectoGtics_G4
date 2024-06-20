@@ -277,9 +277,10 @@ public class AdminSedeController {
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
                     if(!imagen.isEmpty()){
-                        Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                        //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                        String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                        //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                        String rutaAbsoluta = "//SaintMedic//imagenes";
 
                         String fileOriginalName = imagen.getOriginalFilename();
                         try {
@@ -342,9 +343,11 @@ public class AdminSedeController {
             return "admin_sede/editFarmacist";
         } else {
             if(!imagen.isEmpty()) {
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 String fileOriginalName = imagen.getOriginalFilename();
                 try {

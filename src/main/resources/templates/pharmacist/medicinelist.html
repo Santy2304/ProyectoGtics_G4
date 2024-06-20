@@ -159,7 +159,7 @@
 							<tr th:each="medicamento : ${listamedicamentosfarm}">
 								<td class="productimgname">
 									<a class="product-img" onclick="verProducto(event)">
-										<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.photo}}" alt="product">
+										<img th:src="@{'/imagenes/' + ${medicamento.photo}}" alt="product">
 									</a>
 									<span href="javascript:void(0);" th:text="${medicamento.nombreMedicamento}"></span>
 								</td>

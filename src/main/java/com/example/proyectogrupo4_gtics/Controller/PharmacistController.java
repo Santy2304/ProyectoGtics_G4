@@ -349,9 +349,10 @@ public class PharmacistController {
 
             if(!falloN){
                 Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

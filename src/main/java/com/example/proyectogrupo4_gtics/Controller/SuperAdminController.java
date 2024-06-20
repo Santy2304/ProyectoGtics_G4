@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -757,7 +757,7 @@ public class  SuperAdminController {
     //Farmacista///////////////////////////////
 
     @GetMapping("/editarFarmacista")
-    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
+    public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
 
         Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
         if(optionalPharmacist.isPresent()){
@@ -770,7 +770,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/guardarCambiosFarmacista")
-    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes){
+    public String editarFarmacista(@RequestParam("foto")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarFarmacista";
         } else {
@@ -795,10 +795,6 @@ public class  SuperAdminController {
             }
 
 
-
-            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getPhoto() ,pharmacist.getIdFarmacista());
-
             if (pharmacist.getState().equals("baneado")){
                 userRepository.banear(pharmacist.getEmail());
                 try {
@@ -809,6 +805,47 @@ public class  SuperAdminController {
             }
             if (pharmacist.getState().equals("activo")){
                 userRepository.desbanear(pharmacist.getEmail());
+            }
+
+            if (farmFoto.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/EditarAdministrador";
+            }
+            else {
+                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
+
+                try {
+                    byte[] bytesImgPerfil = farmFoto.getBytes();
+                    String fileOriginalName = farmFoto.getOriginalFilename();
+
+                    long fileSize = farmFoto.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/EditarAdministrador";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/EditarAdministrador";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + farmFoto.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                    pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), farmFoto.getOriginalFilename() ,pharmacist.getIdFarmacista());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             }
 
             return "redirect:verListados";
@@ -1031,7 +1068,7 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<cantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicinePDF exporter = new MedicinePDF(medicines);
         exporter.exportar(response);
@@ -1049,7 +1086,7 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<cantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
 
         MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);

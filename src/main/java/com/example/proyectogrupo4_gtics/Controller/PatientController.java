@@ -437,9 +437,10 @@ public class PatientController {
             }
             else {
 
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

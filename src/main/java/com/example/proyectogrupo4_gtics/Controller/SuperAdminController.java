@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Config.ImpersonationAuthToken;
 import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
@@ -14,7 +15,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +51,11 @@ public class  SuperAdminController {
 
     @Autowired
     private EmailService emailService;
+
+    //Clase para implementar el superlogueo
+    @Autowired
+    private UserDetailsManager userDetailsManager;
+
     final UserRepository userRepository;
 
     final RolRepository rolRepository;
@@ -74,7 +85,19 @@ public class  SuperAdminController {
         this.rolRepository = rolRepository;
     }
 
+    //Superlogueo//
+    @GetMapping("/superlogueo")
+    public String superlogueo(@RequestParam String username, HttpSession session) {
+        //Guardar la sesión del superadmin
+        Authentication originalAuth = SecurityContextHolder.getContext().getAuthentication();
+        session.setAttribute("originalAuth", originalAuth);
 
+        //Realizar el superlogueo (suplantación)
+        UserDetails userDetails = userDetailsManager.loadUserByUsername(username);
+        Authentication impersonatedAuth = new ImpersonationAuthToken(userDetails);
+
+        return "redirect:/incioSesion";
+    }
     //Medicamentos///////////////////////////
 
     @GetMapping("/listaMedicamentos")

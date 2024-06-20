@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Reportes;
 
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,9 +18,9 @@ public class MedicineExcel {
     private XSSFWorkbook libro;
     private XSSFSheet hoja;
 
-    private List<cantidadMedicamentosDTO> listaMedicamentos;
+    private List<CantidadMedicamentosDTO> listaMedicamentos;
 
-    public MedicineExcel(List<cantidadMedicamentosDTO> listaMedicamentos) {
+    public MedicineExcel(List<CantidadMedicamentosDTO> listaMedicamentos) {
         this.listaMedicamentos = listaMedicamentos;
         libro = new XSSFWorkbook();
         hoja = libro.createSheet("Medicamentos");
@@ -64,7 +64,7 @@ public class MedicineExcel {
         fuente.setFontHeight(14);
         estilo.setFont(fuente);
 
-        for (cantidadMedicamentosDTO medicamentosDTO : listaMedicamentos){
+        for (CantidadMedicamentosDTO medicamentosDTO : listaMedicamentos){
             Row fila = hoja.createRow(nueroFilas ++);
 
             Cell celda = fila.createCell(0);

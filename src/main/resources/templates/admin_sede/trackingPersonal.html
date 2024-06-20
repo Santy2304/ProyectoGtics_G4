@@ -126,11 +126,11 @@
         </div>
         <script th:inline="javascript">
             /*<![CDATA[*/
-            var solicitudDate = /*[[${Tracking.solicitudDate}]]*/;
-            var enProcesoDate = /*[[${Tracking.enProcesoDate}]]*/;
-            var empaquetadoDate = /*[[${Tracking.empaquetadoDate}]]*/;
-            var enRutaDate = /*[[${Tracking.enRutaDate}]]*/;
-            var entregadoDate = /*[[${Tracking.entregadoDate}]]*/;
+            var solicitudDate = /*[[${solicitudDate}]]*/;
+            var enProcesoDate = /*[[${enProcesoDate}]]*/;
+            var empaquetadoDate = /*[[${empaquetadoDate}]]*/;
+            var enRutaDate = /*[[${enRutaDate}]]*/;
+            var entregadoDate = /*[[${entregadoDate}]]*/;
             /*]]>*/
         </script>
 
@@ -138,6 +138,7 @@
             function padToTwoDigits(num) {
                 return num.toString().padStart(2, '0');
             }
+
             function ola(){
                 var currentDate = new Date();
                 var dia = padToTwoDigits(currentDate.getDate());
@@ -165,6 +166,17 @@
             setInterval(ola,1000);
             ola();
 
+            var currentDate = new Date();
+            var dia = padToTwoDigits(currentDate.getDate());
+            var mes = padToTwoDigits(currentDate.getMonth() + 1);
+            var ano = currentDate.getFullYear();
+            var hora = padToTwoDigits(currentDate.getHours());
+            var minutos =  padToTwoDigits(currentDate.getMinutes());
+            var seconds = padToTwoDigits(currentDate.getSeconds());
+            var dateStringrint = ano+"-"+mes+"-"+dia+"T"+hora+":"+minutos+":"+seconds;
+
+            console.log(dateStringrint);
+            console.log(solicitudDate);
         </script>
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
         <!--Feather Icon JS-->

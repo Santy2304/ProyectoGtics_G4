@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -934,7 +934,11 @@ public class  SuperAdminController {
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
         model.addAttribute("idReplacement",idReplacementeOrder);
         model.addAttribute("Tracking",tracking);
-
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         model.addAttribute("activeTab", activeTab);
         return "superAdmin/TrackingPersonalSuperAdmin";
     }
@@ -1043,7 +1047,7 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<cantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicinePDF exporter = new MedicinePDF(medicines);
         exporter.exportar(response);
@@ -1061,7 +1065,7 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<cantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
 
         MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);

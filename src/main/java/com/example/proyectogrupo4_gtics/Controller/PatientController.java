@@ -4,7 +4,7 @@ import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
-import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -127,7 +127,7 @@ public class PatientController {
     public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model,HttpSession session){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         session.setAttribute("sede" , (siteRepository.findById(Integer.parseInt(idSede))).get() );
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
+        List<MedicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
         return "pacient/verPrincipalNuevo";
     }
@@ -135,7 +135,7 @@ public class PatientController {
     @GetMapping("/elegirSedeEnPagina")
     public String elegirSedeEnPagina(@RequestParam("idSede") String nuevoIdSede , Model model,  @SessionAttribute String idSede, HttpSession session ){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(nuevoIdSede)).get()).getIdSite());
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
+        List<MedicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede);
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
@@ -343,7 +343,7 @@ public class PatientController {
     @GetMapping("/verPrincipalPaciente")
     public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede ){
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
-        List<medicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
+        List<MedicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
         model.addAttribute("listaMedicinas" , listMedicineBySede) ;
         Patient patient = (Patient) httpSesion.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());

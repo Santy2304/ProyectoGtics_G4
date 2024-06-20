@@ -2,6 +2,10 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notifications")
@@ -24,6 +28,18 @@ public class Notifications {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idsite")
     private Site idSite;
+
+    @Column(name = "date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime date;
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
 
     public Site getIdSite() {
         return idSite;

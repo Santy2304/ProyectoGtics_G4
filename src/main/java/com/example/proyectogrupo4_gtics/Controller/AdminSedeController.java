@@ -44,11 +44,14 @@ public class AdminSedeController {
     final ReplacementOrderRepository replacementOrderRepository;
     final LoteRepository loteRepository;
     final UserRepository userRepository;
-
+    final NotificationsRepository notificationsRepository;
     final TrackingRepository trackingRepository;
+    final SiteRepository siteRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
-                               LoteRepository loteRepository,UserRepository userRepository, TrackingRepository trackingRepository) {
+                               LoteRepository loteRepository,UserRepository userRepository,
+                               TrackingRepository trackingRepository,NotificationsRepository notificationsRepository,
+                               SiteRepository siteRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -57,6 +60,8 @@ public class AdminSedeController {
         this.loteRepository =loteRepository;
         this.userRepository=userRepository;
         this.trackingRepository = trackingRepository;
+        this.notificationsRepository= notificationsRepository;
+        this.siteRepository=siteRepository;
     }
 
 
@@ -560,8 +565,7 @@ public class AdminSedeController {
     }
 
     @GetMapping("/verNotificacionesAdminSede")
-    public String notificaciones(Model model, HttpSession session
-    ) {
+    public String notificaciones(Model model, HttpSession session) {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -572,7 +576,7 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesSede(admin.getSite()));
         return "admin_sede/notifications";
     }
     @GetMapping("/verPerfilAdminSede")
@@ -968,7 +972,7 @@ public class AdminSedeController {
     }
 
 
-    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada minuto
     public void changeTracking() {
         LocalDateTime now = LocalDateTime.now();
         List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
@@ -1002,6 +1006,11 @@ public class AdminSedeController {
                 case ("En Ruta"):
                     if (trackingReal.getEntregadoDate().isBefore(now)){
                         replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
+                        Notifications notifications = new Notifications();
+                        notifications.setDate(LocalDateTime.now());
+                        notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
+                        notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
+                        notificationsRepository.save(notifications);
                     }
                     break;
 

@@ -893,7 +893,7 @@ public class  SuperAdminController {
     }
 
     @GetMapping("/verTrackingPersonal")
-    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
+    public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
         model.addAttribute("idReplacement",idReplacementeOrder);

@@ -157,7 +157,7 @@
 											<td th:text="${adminSede.creationDate}"></td>
 											<td th:text="${adminSede.state}"></td>
 											<td>
-												<a class="me-3" th:href="@{'/superAdmin/superlogueo?username=' + ${adminSede.email}}">
+												<a class="me-3" th:href="@{'/superAdmin/superlogueo?id=' + ${adminSede.idAdministrador} + '&rol=admin'}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" th:href="@{'/superAdmin/editarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
@@ -279,7 +279,7 @@
 											<td th:text="${farmacista.creationDate}"></td>
 											<td th:text="${farmacista.state}"></td>
 											<td>
-												<a class="me-3" th:href="@{'/superAdmin/superlogueo?username=' + ${farmacista.email}}">
+												<a class="me-3" th:href="@{'/superAdmin/superlogueo?id=' + ${farmacista.idFarmacista} + '&rol=farmacista'}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 												<a class="me-3" th:href="@{'/superAdmin/editarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
@@ -403,7 +403,7 @@
 											<td th:text="${paciente.state}"></td>
 
 											<td>
-												<a class="me-3" th:href="@{'/superAdmin/superlogueo?username=' + ${paciente.email}}">
+												<a class="me-3" th:href="@{'/superAdmin/superlogueo?id=' + ${paciente.idPatient} + '&rol=paciente'}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
 <!--

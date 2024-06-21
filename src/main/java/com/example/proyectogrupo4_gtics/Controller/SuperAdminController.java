@@ -965,6 +965,22 @@ public class  SuperAdminController {
         return "superAdmin/SedePando4";
     }
 
+    @GetMapping("/verTrackingPersonal")
+    public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
+        String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
+        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
+        model.addAttribute("idReplacement",idReplacementeOrder);
+        model.addAttribute("Tracking",tracking);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        model.addAttribute("activeTab", activeTab);
+        return "superAdmin/TrackingPersonalSuperAdmin";
+    }
+
+
 
     ///////////////////////////////////////7
     @GetMapping("/verDetalleRepo")

@@ -133,7 +133,7 @@
 					<div class="activity">
 						<div class="activity-box">
 							<ul class="activity-list">
-								<li> 
+								<li th:each="notifications:${listaNotificaciones}">
 									<div class="activity-user">
 										<a href="/adminSede/verPerfilAdminSede" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
 											<img alt="Lesley Grauer" src="/assets_superAdmin/img/Farmacista.jpeg" class=" img-fluid">
@@ -141,48 +141,8 @@
 									</div>
 									<div class="activity-content">
 										<div class="timeline-content">
-											<a href="/adminSede/verPerfilAdminSede" class="name">Santiago Yong </a> Compró un nuevo producto <a href="javascript:void(0);">jarabe para la tos </a>
-											<span class="time">4 mins ago</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="activity-user">
-										<a href="/verPerfilAdminSede" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-											<img alt="Lesley Grauer" src="/assets_superAdmin/img/Farmacista.jpeg" class=" img-fluid">
-										</a>
-									</div>
-									<div class="activity-content">
-										<div class="timeline-content">
-											<a href="/verPerfilAdminSede" class="name">Josh </a> realizó <a href="javascript:void(0);">un pedido a delivery</a>
-											<span class="time">6 mins ago</span>
-										</div>
-									</div>
-								</li>
-
-								<li>
-									<div class="activity-user">
-										<a href="/verPerfilAdminSedel" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-											<img alt="Lesley Grauer" src="/assets_superAdmin/img/Farmacista.jpeg" class=" img-fluid">
-										</a>
-									</div>
-									<div class="activity-content">
-										<div class="timeline-content">
-											<a href="/verPerfilAdminSede" class="name">Santiago Yong </a> Compró un nuevo producto <a href="javascript:void(0);">jarabe para la tos </a>
-											<span class="time">4 mins ago</span>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="activity-user">
-										<a href="/verPerfilAdminSede" title="" data-toggle="tooltip" data-original-title="Lesley Grauer">
-											<img alt="Lesley Grauer" src="/assets_superAdmin/img/Farmacista.jpeg" class=" img-fluid">
-										</a>
-									</div>
-									<div class="activity-content">
-										<div class="timeline-content">
-											<a href="/verPerfilAdminSede" class="name">Josh </a> realizó <a href="javascript:void(0);">un pedido a delivery</a>
-											<span class="time">6 mins ago</span>
+											<a href="/adminSede/verPerfilAdminSede" class="name" th:text="${notifications.getContent()}"></a>
+											<span class="time" th:text="${notifications.getDate()}"></span>
 										</div>
 									</div>
 								</li>

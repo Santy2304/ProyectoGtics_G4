@@ -156,6 +156,19 @@
 										<img th:src="@{'/imagenes/' + ${medicamento.photo}}" alt="product">
 
 									</a>
+									<script th:inline="javascript">
+										const boton = document.getElementById('' + [[${medicamento.getIdMedicine()}]]);
+										// Añade el listener de evento click
+										boton.addEventListener('click', function() {
+											Swal.fire({
+												imageUrl: '/assets_superAdmin/ImagenesMedicina/'  + [[${medicamento.getPhoto()}]],
+												imageWidth: 400,
+												imageHeight: 200,
+												imageAlt: "Custom image"
+											});
+										});
+
+									</script>
 									<span href="javascript:void(0);" th:text="${medicamento.nombreMedicamento}"></span>
 								</td>
 								<script>

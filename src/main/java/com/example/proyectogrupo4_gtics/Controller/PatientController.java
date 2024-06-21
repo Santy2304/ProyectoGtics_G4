@@ -4,7 +4,7 @@ import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
-import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -127,7 +127,8 @@ public class PatientController {
     public String llevarVistaPrincipal(@RequestParam("idSede") String idSede ,Model model,HttpSession session){
         model.addAttribute("idSede", (siteRepository.findById(Integer.parseInt(idSede)).get()).getIdSite());
         session.setAttribute("sede" , (siteRepository.findById(Integer.parseInt(idSede))).get() );
-        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
+        List<MedicamentosPorSedeDTO> listMedicineBySede = medicineRepository.getMedicineBySite(Integer.parseInt(idSede));
+        model.addAttribute("listaMedicinas" , listMedicineBySede) ;
 
         return "pacient/verPrincipalNuevo";
     }

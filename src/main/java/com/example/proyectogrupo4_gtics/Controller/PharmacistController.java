@@ -231,11 +231,6 @@ public class PharmacistController {
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
 
-        Notifications notifications = new Notifications();
-        notifications.setContent("Su compra con código "+ idSolicitud +" ha sido aceptada, pudede proceder a pagarla en la vista historial");
-        String email= patientRepository.findById(purchaseOrderRepository.idPatient(idSolicitud)).get().getEmail();
-        notifications.setIdUsers(userRepository.findByEmail(email));
-        notificationsRepository.save(notifications);
         return "redirect:solicitudesFarmacista";
     }
 

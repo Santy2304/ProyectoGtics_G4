@@ -176,7 +176,7 @@
                                             <div th:with="alergiaPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
-                                                    <img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/imagenes/'+ ${medicamento.getPhoto()}}" alt="img">
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
                                                     </div>
@@ -201,7 +201,7 @@
                                                     const img = document.createElement('img');
                                                     img.className = 'card-img-top';
                                                     img.alt = 'Card Image';
-                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]];
+                                                    img.src = '/imagenes/' + [[${medicamento.getPhoto()}]];
 
                                                     const cardHeader = document.createElement('div');
                                                     cardHeader.className = 'card-header';
@@ -272,7 +272,7 @@
 
                                             <div class="productset">
                                                 <div class="productsetimg">
-                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
@@ -298,7 +298,7 @@
                                                     var productImgsDiv = document.createElement('div');
                                                     productImgsDiv.className = 'productimgs';
                                                     var img = document.createElement('img');
-                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.src = '/imagenes/' + [[${medicamento.photo}]];
                                                     img.alt = 'img';
                                                     productImgsDiv.appendChild(img);
                                                     var productContentDiv = document.createElement('div');
@@ -542,7 +542,7 @@
 
                                             <div class="productset">
                                                 <div class="productsetimg">
-                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
@@ -568,7 +568,7 @@
                                                     var productImgsDiv = document.createElement('div');
                                                     productImgsDiv.className = 'productimgs';
                                                     var img = document.createElement('img');
-                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.src = '/imagenes/' + [[${medicamento.photo}]];
                                                     img.alt = 'img';
                                                     productImgsDiv.appendChild(img);
                                                     var productContentDiv = document.createElement('div');
@@ -813,7 +813,7 @@
 
                                             <div class="productset">
                                                 <div class="productsetimg">
-                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
@@ -840,7 +840,7 @@
                                                     var productImgsDiv = document.createElement('div');
                                                     productImgsDiv.className = 'productimgs';
                                                     var img = document.createElement('img');
-                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.src = '/imagenes/' + [[${medicamento.photo}]];
                                                     img.alt = 'img';
                                                     productImgsDiv.appendChild(img);
                                                     var productContentDiv = document.createElement('div');
@@ -1079,7 +1079,7 @@
                                             <div th:with="otrosPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
-                                                    <img th:id="${medicamento.getIdMedicine()}" th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+                                                    <img th:id="${medicamento.getIdMedicine()}" th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
                                                     <div class="check-product">
                                                         <i class="fa fa-check"></i>
                                                     </div>
@@ -1104,7 +1104,7 @@
                                                     var productImgsDiv = document.createElement('div');
                                                     productImgsDiv.className = 'productimgs';
                                                     var img = document.createElement('img');
-                                                    img.src = '/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.photo}]];
+                                                    img.src = '/imagenes/' + [[${medicamento.photo}]];
                                                     img.alt = 'img';
                                                     productImgsDiv.appendChild(img);
                                                     var productContentDiv = document.createElement('div');

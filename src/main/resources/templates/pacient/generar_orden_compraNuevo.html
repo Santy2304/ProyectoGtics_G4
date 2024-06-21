@@ -198,7 +198,7 @@
                                             <tr th:each=" ite : ${carro}">
                                                 <td class="productimgname">
                                                     <a href="#" class="product-img">
-                                                        <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${ite.idMedicine.getPhoto()}}" alt="product">
+                                                        <img th:src="@{'/imagenes/' + ${ite.idMedicine.getPhoto()}}" alt="product">
                                                     </a>
                                                     <a th:text="*{ite.idMedicine.getName()}"></a>
                                                 </td>
@@ -228,7 +228,7 @@
                                                         });
 
                                                         var miDiv = document.getElementById('totalPagar');
-                                                        miDiv.textContent = 'S/.' + total;
+                                                        miDiv.textContent = 'S/.' + total.toFixed(2);
                                                         //productset
                                                         //"${medicamento.getIdMedicine()}"
                                                     },

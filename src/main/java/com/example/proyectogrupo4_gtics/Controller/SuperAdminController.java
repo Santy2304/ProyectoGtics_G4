@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -1084,7 +1084,7 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+        List<cantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicinePDF exporter = new MedicinePDF(medicines);
         exporter.exportar(response);
@@ -1102,7 +1102,7 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+        List<cantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
 
         MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);

@@ -152,6 +152,7 @@
 							<tr th:each="medicamento : ${listamedicamentosfarm}">
 								<td class="productimgname">
 									<a th:id="${medicamento.getIdMedicine()}" class="product-img" >
+
 										<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.photo}}" alt="product">
 									</a>
 									<script th:inline="javascript">
@@ -169,6 +170,15 @@
 									</script>
 									<span href="javascript:void(0);" th:text="${medicamento.nombreMedicamento}"></span>
 								</td>
+								<script>
+									function verProducto(){
+										Swal.fire({
+											html: "<img src='/assets_admin_sede/img/Paracetamol1.jpg' style='max-width:100%;'>",
+
+										})
+									}
+								</script>
+
 								<td th:text="${medicamento.categoria}"></td>
 								<!--<td th:text="${medicamento.getCantidad()}"></td>-->
 								<td th:text="${medicamento.precio}"></td>

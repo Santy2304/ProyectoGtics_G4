@@ -298,7 +298,7 @@
 \t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
 \t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//Eliminar porcion de HTML
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getName()}]] + ` );
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getNombreMedicamento()}]] + ` );
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',` +

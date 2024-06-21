@@ -149,7 +149,6 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
         model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
         model.addAttribute("listaDoctores", doctorRepository.findAll());
         if(!(model.getAttribute("idPatient")).equals("") ){

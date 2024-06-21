@@ -182,7 +182,8 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     )
     List<medicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
 
-
+    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = ?1 and l.visible=true group by m.idMedicine\n")
+    List<medicamentosPorSedeDTO> listaMedicamentosPorSedePaciente(String nameSite);
 
 
     @Query(nativeQuery = true, value="SELECT\n" +

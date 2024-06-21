@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>SaintMedic</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="/Food/vendor.css">
+  <link rel="stylesheet" type="text/css" href="/Food/normalize.css">
+  <link rel="stylesheet" type="text/css" href="/Food/style.css">
+  <link rel="stylesheet" type="text/css" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets_pacient/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
+
+  <!-- animation CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/animate.css">
+
+  <!-- Datatable CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/dataTables.bootstrap4.min.css">
+
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/style.css">
+
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+
+</head>
+
+<body>
+<div id="global-loader" >
+  <div class="whirly-loader"> </div>
+</div>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+
+  <!-- Header -->
+  <div th:replace="/pacient/navbarPacienteNuevo.html"></div>
+  <!-- Header -->
+  <!-- Sidebar -->
+  <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'datos')"> </div>
+  <!-- /Sidebar -->
+  <div class="page-wrapper pagehead">
+        <div class="content" style="margin-left:8% ; margin-right:8%">
+    <!-- /product list -->
+    <div class="card">
+      <form method="post" enctype="multipart/form-data" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
+        <input type="hidden" name="idPatient" th:field="*{idPatient}">
+        <input type="hidden"  th:field="*{state}">
+        <input type="hidden"  th:field="*{dateCreationAccount}">
+        <input type="hidden"  th:field="*{changePassword}">
+
+        <div class="card-body">
+          <div class="profile-set">
+            <div class="profile-head">
+
+            </div>
+            <div class="profile-top">
+              <div class="profile-content">
+                <div class="profile-contentimg">
+                  <img  th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${paciente.photo}}" alt="img" id="blah">
+                  <div class="profileupload">
+                    <input type="file" name="patientFile" id="imgInp">
+                    <a href="javascript:void(0);" ><img src="../assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
+                  </div>
+                </div>
+                <div class="profile-contentname">
+                  <h2 th:field="*{name}"></h2>
+                  <h4>Actualiza tu foto y datos personales</h4>
+                </div>
+              </div>
+              <div class="ms-auto">
+                <button type="submit" class="btn btn-submit me-2">Guardar</button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input name="name" type="text" th:field="*{name}" readonly>
+              </div>
+
+              <div class="form-group">
+                <label>Apellido</label>
+                <input name="lastName" type="text" th:field="*{lastName}" readonly>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>Distrito</label>
+                <input name="distrit" type="text" th:field="${paciente.distrit}" th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}" >
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>Dirección</label>
+                <input name="location" type="text" th:field="${paciente.location}" th:classappend="${#fields.hasErrors('location')? 'is-invalid' : ''}" >
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>DNI</label>
+                <input name="dni" type="text" th:field="*{dni}" readonly>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>Correo</label>
+                <input name="email" type="text" th:field="*{email}" readonly>
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-12">
+              <div class="form-group">
+                <label>Seguro</label>
+                <input name="insurance" type="text" th:field="${paciente.insurance}" th:classappend="${#fields.hasErrors('insurance')? 'is-invalid' : ''}" >
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('insurance')}" th:errors="*{insurance}"></div>
+              </div>
+            </div>
+            <!-- A futuro puede servir
+            <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="pass-group">
+                        <input type="password" class=" pass-input">
+                        <span class="fas toggle-password fa-eye-slash"></span>
+                    </div>
+                </div>
+            </div>
+            -->
+            <div class="col-12">
+              <button type="submit" class="btn btn-submit me-2">Guardar</button>
+              <a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
+            </div>
+            <script>
+              function regresarPaginaAnterior() {
+                window.history.back();
+              }
+            </script>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /product list -->
+  </div>
+  </div>
+</div>
+<!-- /Main Wrapper -->
+
+<!-- jQuery -->
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
+
+<!-- Feather Icon JS -->
+<script src="/assets_pacient/js/feather.min.js"></script>
+
+<!-- Slimscroll JS -->
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
+
+<!-- Datatable JS -->
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+
+<!-- Bootstrap Core JS -->
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
+
+<!-- Select2 JS -->
+<script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
+
+<!-- Sweetalert 2 -->
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+
+<!-- Custom JS -->
+<script src="/assets_pacient/js/script.js"></script>
+
+</body>
+</html>

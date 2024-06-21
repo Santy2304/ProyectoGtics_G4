@@ -34,10 +34,10 @@
 <!-- Main Wrapper -->
 <div class="main-wrapper">
     <!-- Header -->
-    <div th:replace="/pacient/navbarPacienteNuevo.html :: navbarPatientNuevo"></div>
+    <div th:replace="navbarPacienteNuevo"></div>
     <!-- Header -->
     <!-- Sidebar -->
-    <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'sede')"> </div>
+    <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'sede')"> </div>
     <!-- /Sidebar -->
     <!-- /Sidebar -->
     <div class="page-wrapper pagehead">

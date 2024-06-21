@@ -38,10 +38,10 @@
 <!-- Main Wrapper -->
 <div class="main-wrapper">
     <!-- Header -->
-    <div th:replace="/pacient/navbarPacienteNuevo.html :: navbarPatientNuevo"></div>
+    <div th:replace="navbarPacienteNuevo"></div>
     <!-- Header -->
     <!-- Sidebar -->
-    <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'principal')"> </div>
+    <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'principal')"> </div>
     <!-- /Sidebar -->
 
     <!-- /Sidebar -->

@@ -55,10 +55,10 @@
 
 
     <!-- Header -->
-    <div th:replace="/pacient/navbarPacienteNuevo.html :: navbarPatientNuevo"></div>
+    <div th:replace="navbarPacienteNuevo"></div>
     <!-- Header -->
     <!-- Sidebar -->
-    <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'ordenar')"> </div>
+    <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'ordenar')"> </div>
     <!-- /Sidebar -->
 
     <div class="page-wrapper pagehead">

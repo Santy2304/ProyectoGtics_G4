@@ -53,10 +53,10 @@
 <div class="main-wrapper">
 
   <!-- Header -->
-  <div th:replace="/pacient/navbarPacienteNuevo.html :: navbarPatientNuevo"></div>
+  <div th:replace="navbarPacienteNuevo"></div>
   <!-- Header -->
   <!-- Sidebar -->
-  <div th:replace="/pacient/sidebarPaciente.html :: sidebarPatient(activeTab = 'datos')"> </div>
+  <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'datos')"> </div>
   <!-- /Sidebar -->
   <div class="page-wrapper pagehead">
         <div class="content" style="margin-left:8% ; margin-right:8%">

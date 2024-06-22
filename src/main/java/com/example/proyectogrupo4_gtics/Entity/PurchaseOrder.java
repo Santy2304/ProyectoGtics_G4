@@ -38,6 +38,10 @@ public class PurchaseOrder {
     @JoinColumn(name = "iddoctor")
     private Doctor idDoctor;
 
+    @ManyToOne
+    @JoinColumn(name = "idtrackings")
+    private Tracking idtracking;
+
     @Column(name = "tracking")
     private String tracking;
 
@@ -183,6 +187,14 @@ public class PurchaseOrder {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Tracking getIdtracking() {
+        return idtracking;
+    }
+
+    public void setIdtracking(Tracking idtracking) {
+        this.idtracking = idtracking;
     }
 }
 

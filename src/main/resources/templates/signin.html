@@ -19,7 +19,8 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
 </head>
@@ -71,6 +72,52 @@
         </div>
     </div>
 </form>
+
+
+<script>
+
+    $(document).ready(function() {
+        let formSubmitting = false;
+
+        $("#miFormulario").submit(function (event) {
+            //Validamos si esta baneado el usuario , en caso exista el usuario
+            if (formSubmitting) return;
+            event.preventDefault();
+            var email = $("#email").val();
+            var pass = $("#password").val();
+            //Consulta ajax
+            $.ajax({
+                url: '/estaBaneado?email=' + email + '&password=' + pass,
+                type: 'GET',
+                success: function (response) {
+                    var user = response;
+                    console.log("hola")
+                    console.log(response)
+                    if ( ! user.state) {
+                        console.log("Esta baneadoooo")
+                        Swal.fire({
+                            icon: "error",
+                            iconColor: "orange",
+                            title: "¡Estás baneado de esta página!",
+                            confirmButtonColor: "#dd986a"
+                        })
+                    } else {
+                        formSubmitting = true
+                        $("#miFormulario").submit();
+                    }
+                }
+                ,
+                error: function () {
+                    formSubmitting = true
+                    $("#miFormulario").submit();
+                }
+            })
+
+
+        });
+    });
+
+</script>
 <!-- /Main Wrapper -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -88,52 +135,6 @@
     });
 </script>
 
-<!--
-<script type="text/javascript" >
-    $("#inicioSesion").click( function(){
-            console.log("Holaaa");
-            var formulario =  document.getElementById("miFormulario");
-            var email = document.getElementById("correo").value;
-            var password = document.getElementById("contrasena").value;
-            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (formulario.checkValidity()){
-                if (emailRegex.test(email) && password !== "") {
-                    $.ajax({
-                        url: "/auxiliar",
-                        type: "POST",
-                        data: $("#miFormulario").serialize(),
-                        success: function(data) {
-                            switch(data.response){
-                                case "baneado":
-                                    Swal.fire({
-                                        icon: "error",
-                                        iconColor: "orange",
-                                        title: "Su cuenta ha sido baneada",
-                                        confirmButtonColor: "#dd986a"
-                                    })
-                                    break;
-                                case "noIsUser":
-                                    Swal.fire({
-                                        icon: "error",
-                                        iconColor: "orange",
-                                        title: "¡Correo o contraseña incorrectos!",
-                                        confirmButtonColor: "#dd986a"
-                                    })
-                                    break;
-                                default:
-                                    window.location.href = data.response;
-                            }
-                            // Actualizar la interfaz de usuario con los datos recibidos
-                        },
-                        error : function (){
-
-                        }
-                    });
-                }
-            }
-        }
-    )
--->
 </script>
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
@@ -145,5 +146,6 @@
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
+
 </body>
 </html>

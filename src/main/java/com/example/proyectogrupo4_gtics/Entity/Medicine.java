@@ -2,12 +2,13 @@ package com.example.proyectogrupo4_gtics.Entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 @Entity
 @Table(name="medicine")
-public class Medicine {
+public class Medicine implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +29,7 @@ public class Medicine {
 
     @Column(nullable = false)
     @NotNull(message = "Este campo es obligatorio")
-    @Digits(integer = 10, fraction = 4, message = "Se debe ingresar un número")
+    @Digits(integer = 5, fraction = 2, message = "Se debe ingresar un número correcto")
     @Positive(message = "El precio debe ser un valor mayor a cero")
     private BigDecimal price;
 

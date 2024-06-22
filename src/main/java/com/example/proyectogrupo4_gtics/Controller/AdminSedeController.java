@@ -2,13 +2,14 @@ package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
-import com.example.proyectogrupo4_gtics.DTOs.medicamentosPorSedeDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,9 +24,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -42,9 +42,14 @@ public class AdminSedeController {
     final ReplacementOrderRepository replacementOrderRepository;
     final LoteRepository loteRepository;
     final UserRepository userRepository;
+    final NotificationsRepository notificationsRepository;
+    final TrackingRepository trackingRepository;
+    final SiteRepository siteRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
-                               LoteRepository loteRepository,UserRepository userRepository) {
+                               LoteRepository loteRepository,UserRepository userRepository,
+                               TrackingRepository trackingRepository,NotificationsRepository notificationsRepository,
+                               SiteRepository siteRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -52,6 +57,9 @@ public class AdminSedeController {
         this.replacementOrderRepository = replacementOrderRepository ;
         this.loteRepository =loteRepository;
         this.userRepository=userRepository;
+        this.trackingRepository = trackingRepository;
+        this.notificationsRepository= notificationsRepository;
+        this.siteRepository=siteRepository;
     }
 
 
@@ -273,9 +281,10 @@ public class AdminSedeController {
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
                     if(!imagen.isEmpty()){
-                        Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                        //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                        String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                        //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                        String rutaAbsoluta = "//SaintMedic//imagenes";
 
                         String fileOriginalName = imagen.getOriginalFilename();
                         try {
@@ -338,9 +347,11 @@ public class AdminSedeController {
             return "admin_sede/editFarmacist";
         } else {
             if(!imagen.isEmpty()) {
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 String fileOriginalName = imagen.getOriginalFilename();
                 try {
@@ -509,20 +520,20 @@ public class AdminSedeController {
         String category = busqueda.getCategoria();
         model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
         if(!nombre.equals("") && !category.equals("Elegir por tipo")){
-            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros( busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
+            List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros( busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
             model.addAttribute("medicamentos", listMedicine);
         }else{
             if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
                 if (!nombre.equals("")) {
-                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorNombre(busqueda.getNombre(), idAdministrator);
+                    List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorNombre(busqueda.getNombre(), idAdministrator);
                     model.addAttribute("medicamentos", listMedicine);
                 }
                 if (!category.equals("Elegir por tipo")) {
-                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorCategory(busqueda.getCategoria(), idAdministrator);
+                    List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorCategory(busqueda.getCategoria(), idAdministrator);
                     model.addAttribute("medicamentos", listMedicine);
                 }
             }else{
-                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros(busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
+                List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorDosParametros(busqueda.getNombre(),busqueda.getCategoria() , idAdministrator);
                 model.addAttribute("medicamentos", listMedicine);
             }
         }
@@ -587,8 +598,7 @@ public class AdminSedeController {
     }
 
     @GetMapping("/verNotificacionesAdminSede")
-    public String notificaciones(Model model, HttpSession session
-    ) {
+    public String notificaciones(Model model, HttpSession session) {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         Administrator admin = new Administrator();
         admin = administratorRepository.getByIdAdministrador(idAdministrator);
@@ -599,7 +609,7 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesSede(admin.getSite()));
         return "admin_sede/notifications";
     }
     @GetMapping("/verPerfilAdminSede")
@@ -726,23 +736,23 @@ public class AdminSedeController {
         System.out.println("category  es " +  category);
         if(!nombre.equals("") && !category.equals("Elegir por tipo")){
             System.out.println("Hola 1");
-            List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+            List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
             model.addAttribute("listaMedicamentosBS", listMedicine);
         }else{
             if(!(nombre.equals("") && category.equals("Elegir por tipo"))) {
                 if (!nombre.equals("")) {
                     System.out.println("Hola 2");
-                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoNombre(idAdministrator, busqueda.getNombre());
+                    List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoNombre(idAdministrator, busqueda.getNombre());
                     model.addAttribute("listaMedicamentosBS", listMedicine);
                 }
                 if (!category.equals("Elegir por tipo")) {
                     System.out.println("Hola 3");
-                    List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoCategory(idAdministrator, busqueda.getCategoria());
+                    List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoCategory(idAdministrator, busqueda.getCategoria());
                     model.addAttribute("listaMedicamentosBS", listMedicine);
                 }
             }else{
                 System.out.println("Hola 4");
-                List<medicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
+                List<MedicamentosPorSedeDTO> listMedicine = medicineRepository.listaMedicamentosBuscadorConStockLimitadoDosParametros(idAdministrator, busqueda.getNombre(),busqueda.getCategoria());
                 model.addAttribute("listaMedicamentosBS", listMedicine);
             }
         }
@@ -808,13 +818,13 @@ public class AdminSedeController {
         }
         boolean errorStrings = errorCount!=0;
         //validar que solo sean medicamentos q esten por debajo de 25 de Stock
-        List<medicamentosPorSedeDTO> listaMedicinasPocoStock = medicineRepository.listaMedicamentosPocoStock(idAdministrator);
+        List<MedicamentosPorSedeDTO> listaMedicinasPocoStock = medicineRepository.listaMedicamentosPocoStock(idAdministrator);
         int auxCount2 = 0;
         for(int idx = 0 ;  idx < cantidad.size() ; idx++) {
             try{
                 int ola = Integer.parseInt("" + ids.get(idx));
                 int auxCount = 0;
-                for(medicamentosPorSedeDTO m : listaMedicinasPocoStock){
+                for(MedicamentosPorSedeDTO m : listaMedicinasPocoStock){
                     if( m.getIdMedicine() == ola) {
                         auxCount++;
                     }
@@ -883,6 +893,14 @@ public class AdminSedeController {
                                 r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                                 r.setAdministrator(administratorRepository.getByIdAdministrador( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()));
                                 //r.setIdReplacementOrder();
+                                Tracking tracking = new Tracking();
+                                tracking.setSolicitudDate(LocalDateTime.now());
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+                                trackingRepository.save(tracking);
+                                r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
                                 //Creamos los lotes asignados a cada orden
                                 String quantity  ;
@@ -904,6 +922,8 @@ public class AdminSedeController {
                                         loteRepository.save(lote);
                                     }
                                 }
+
+
                                 response.put("error" ,"");
                                 response.put("response" ,"/adminSede/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
                             }else{
@@ -966,4 +986,83 @@ public class AdminSedeController {
         return "redirect:/inicioSesion";
     }
 
+    @GetMapping("/verTrackingPersonal")
+    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
+
+
+        replacementOrderRepository.findById(idReplacementeOrder);
+
+        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
+
+        model.addAttribute("idReplacement",idReplacementeOrder);
+        model.addAttribute("Tracking",tracking);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        return "admin_sede/trackingPersonal";
+    }
+
+
+    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    public void changeTracking() {
+        LocalDateTime now = LocalDateTime.now();
+        List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
+
+        for (ReplacementOrder replacementOrder : replacamenteOrders) {
+
+            String tracking = replacementOrder.getTrackingState();
+
+            Tracking trackingReal = replacementOrder.getIdTracking();
+
+            switch (tracking){
+
+                case ("Solicitado"):
+                    if (trackingReal.getEnProcesoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Proceso",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Proceso"):
+                    if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Empaquetando",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("Empaquetando"):
+                    if (trackingReal.getEnRutaDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Ruta",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Ruta"):
+                    if (trackingReal.getEntregadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
+                        Notifications notifications = new Notifications();
+                        notifications.setDate(LocalDateTime.now());
+                        notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
+                        notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
+                        notificationsRepository.save(notifications);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+/*
+    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    public void notificacionesPorEscaso() {
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPocoStockSede("Pando 1");
+
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
+
+        }
+
+
+    }*/
 }

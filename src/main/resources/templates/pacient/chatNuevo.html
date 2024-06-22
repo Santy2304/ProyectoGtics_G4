@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="description" content="POS - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+  <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SaintMedic</title>
+  <!-- Favicon -->
+  <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
+  <!-- animation CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/animate.css">
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.theme.default.min.css">
+  <!-- Select2 CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <!-- Datetimepicker CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/style.css">
+</head>
+<body>
+<div id="global-loader" >
+  <div class="whirly-loader"> </div>
+</div>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+  <!-- Header -->
+  <div th:replace="navbarPacienteNuevo"></div>
+  <!-- Header -->
+  <!-- Sidebar -->
+  <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'chat')"> </div>
+
+  <!-- /Sidebar -->
+  <!-- /Sidebar -->
+  <div class="page-wrapper pagehead">
+
+
+    <div class="content" style="margin-top: 2%;">
+      <div class="row chat-window">
+        <!-- Chat User List -->
+        <div class="col-lg-5 col-xl-4 chat-cont-left">
+          <div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
+
+            <div class="card-body contacts_body chat-users-list chat-scroll">
+              <a href="javascript:void(0);" class="media d-flex active">
+                <div class="media-img-wrap flex-shrink-0">
+                  <div class="avatar avatar-away">
+                    <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                </div>
+                <div class="media-body flex-grow-1">
+                  <div>
+                    <div class="user-name">Farmacista</div>
+                    <div class="user-last-chat">Hola, ¿Cómo estás?</div>
+                  </div>
+                  <div>
+                    <div class="last-chat-time">2 min</div>
+                    <div class="badge badge-success badge-pill">15</div>
+                  </div>
+                </div>
+              </a>
+              <a href="javascript:void(0);" class="media d-flex read-chat">
+                <div class="media-img-wrap flex-shrink-0">
+                  <div class="avatar avatar-online">
+                    <img src="../assets_superAdmin/img/perfilBot.png" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                </div>
+                <div class="media-body flex-grow-1">
+                  <div>
+                    <div class="user-name">BOT</div>
+                    <div class="user-last-chat">Llamen a dios </div>
+                  </div>
+                  <div>
+                    <div class="last-chat-time">8:01 PM</div>
+                  </div>
+                </div>
+              </a>
+
+
+
+
+            </div>
+          </div>
+        </div>
+        <!-- Chat User List -->
+
+        <!-- Chat Content -->
+        <div class="col-lg-7 col-xl-8 chat-cont-right">
+
+          <!-- Chat History -->
+          <div class="card mb-0">
+
+            <div class="card-header msg_head">
+              <div class="d-flex bd-highlight">
+                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="img_cont">
+                  <img class="rounded-circle user_img" src="/assets_superAdmin/img/farmacista.png" alt="">
+                </div>
+                <div class="user_info">
+                  <span><strong id="receiver_name">Farmacista</strong></span>
+                  <p class="mb-0">Mensajes</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body msg_card_body chat-scroll">
+              <ul class="list-unstyled">
+                <li class="media sent d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="/assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Hola. ¿Puedo hacerle una consulta?</p>
+                        <p>Tengo un dolor muy fuerte de cabeza</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:30 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="/assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Hola, claro en que puedo ayudarte </p>
+                        <p>Aquí tengo unas recomendaciones</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:35 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="msg-box">
+                      <div>
+                        <p></p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:40 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="msg-box">
+                      <div>
+                        <div class="chat-msg-attachments">
+                          <div class="chat-attachment">
+                            <img src="../assets_superAdmin/img/product/product12.jpg" alt="Attachment">
+                            <a href="" class="chat-attach-download">
+                              <i class="fas fa-download"></i>
+                            </a>
+                          </div>
+                          <div class="chat-attachment">
+                            <img src="../assets_superAdmin/img/product/product13.jpg" alt="Attachment">
+                            <a href="" class="chat-attach-download">
+                              <i class="fas fa-download"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:41 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media sent d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Sí, estoy aquí</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:42 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="msg-box">
+                      <div>
+                        <p>Mi nombre es Alonso. Según las fotos de las recetas que enviaste, no disponemos de un producto. Sin embargo, tenemos uno similar, le mostraré una foto</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:42 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="msg-box">
+                      <div>
+                        <div class="chat-msg-attachments">
+                          <div class="chat-attachment">
+                            <img src="../assets_superAdmin/img/product/product15.jpg" alt="Attachment">
+                            <a href="" class="chat-attach-download">
+                              <i class="fas fa-download"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:50 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Gracias por la ayuda</p>
+                        <p>¿Qué efectos secundarios presenta ese medicamento?</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:55 PM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="chat-date">Today</li>
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Buenos días, no ha respondido a mi consulta del día de ayer</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>10:17 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media sent d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Lo lamento, tuvimos una caída del sistema. Ahora resolveré sus dudas</p>
+                        <div class="chat-msg-actions dropdown">
+                          <a href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fe fe-elipsis-v"></i>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
+                          </div>
+                        </div>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>10:19 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <div class="msg-typing">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+
+            </div>
+
+            <div class="card-footer">
+              <div class="input-group">
+                <input class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
+                <button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <!-- Chat Content -->
+      </div>
+    </div>
+  </div>
+</div>
+<!-- jQuery -->
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
+<!-- Feather Icon JS -->
+<script src="/assets_pacient/js/feather.min.js"></script>
+<!-- Slimscroll JS -->
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
+<!-- Bootstrap Core JS -->
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
+<!-- Datatable JS -->
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+<!-- Select2 JS -->
+<script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
+<!-- Owl JS -->
+<script src="/assets_pacient/plugins/owlcarousel/owl.carousel.min.js"></script>
+<!-- Sweetalert 2 -->
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+<!-- Custom JS -->
+<script src="/assets_pacient/js/script.js"></script>
+
+</body>
+</html>

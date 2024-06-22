@@ -1,16 +1,19 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
+import com.example.proyectogrupo4_gtics.Reportes.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
+import com.lowagie.text.DocumentException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +23,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.io.IOException;
 import java.util.Random;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.security.SecureRandom;
 
-import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.List;
@@ -105,11 +107,9 @@ public class  SuperAdminController {
             medicine.setTimesSaled(0);
             if(!imagen.isEmpty()){
                 //ruta relativa para la imagen
-                Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
-                //Path directorioImagenMedicine = Paths.get("images");
-                //ruta relativa para la imagen
-                String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-                //String rutaAbsoluta = "C://Imagenes//recursos";
+                //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+                //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
@@ -140,8 +140,6 @@ public class  SuperAdminController {
                 }
             }
             medicineRepository.save(medicine);
-
-
             model.addAttribute("medicine", medicine);
 
             return "superAdmin/anadirLotesNuevoMedicamento";
@@ -272,11 +270,9 @@ public class  SuperAdminController {
 
         if(!imagenEdit.isEmpty()) {
             //ruta relativa para la imagen
-            Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
-            //Path directorioImagenMedicine = Paths.get("images");
-            //ruta relativa para la imagen
-            String rutaAbsoluta = directorioImagenMedicine.toFile().getAbsolutePath();
-            //String rutaAbsoluta = "C://Imagenes//recursos";
+            //Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+
+            String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             String fileOriginalName = imagenEdit.getOriginalFilename();
             try {
@@ -565,6 +561,8 @@ public class  SuperAdminController {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
         } else {
+            String siteCorreccion = administrator.getSite().replaceAll("^,", "");
+            administrator.setSite(siteCorreccion);
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);
@@ -580,9 +578,9 @@ public class  SuperAdminController {
                 }
                 else{
 
-                    Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                    //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta =  directorioImagenPerfil.toFile().getAbsolutePath();
+                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -654,7 +652,7 @@ public class  SuperAdminController {
 
 
     @PostMapping("/guardarCambiosAdminSede")
-    public String editarAdminSede(@ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes){
+    public String editarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarAdministrador";
@@ -679,8 +677,7 @@ public class  SuperAdminController {
                 }
             }
 
-            attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
-            administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
+
 
             if (administrator.getState().equals("baneado")){
                 userRepository.banear(administrator.getEmail());
@@ -692,6 +689,47 @@ public class  SuperAdminController {
             }
             if (administrator.getState().equals("activo")){
                 userRepository.desbanear(administrator.getEmail());
+            }
+
+            if (adminFoto.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/EditarAdministrador";
+            }
+            else {
+                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
+
+                try {
+                    byte[] bytesImgPerfil = adminFoto.getBytes();
+                    String fileOriginalName = adminFoto.getOriginalFilename();
+
+                    long fileSize = adminFoto.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/EditarAdministrador";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/EditarAdministrador";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                    administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
             }
 
             return "redirect:verListados";
@@ -719,7 +757,7 @@ public class  SuperAdminController {
     //Farmacista///////////////////////////////
 
     @GetMapping("/editarFarmacista")
-    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
+    public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
 
         Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
         if(optionalPharmacist.isPresent()){
@@ -732,7 +770,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/guardarCambiosFarmacista")
-    public String editarFarmacista(@ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes){
+    public String editarFarmacista(@RequestParam("foto")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarFarmacista";
         } else {
@@ -757,10 +795,6 @@ public class  SuperAdminController {
             }
 
 
-
-            attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
-            pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getPhoto() ,pharmacist.getIdFarmacista());
-
             if (pharmacist.getState().equals("baneado")){
                 userRepository.banear(pharmacist.getEmail());
                 try {
@@ -771,6 +805,47 @@ public class  SuperAdminController {
             }
             if (pharmacist.getState().equals("activo")){
                 userRepository.desbanear(pharmacist.getEmail());
+            }
+
+            if (farmFoto.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/EditarAdministrador";
+            }
+            else {
+                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                String rutaAbsoluta = "//SaintMedic//imagenes";
+
+                try {
+                    byte[] bytesImgPerfil = farmFoto.getBytes();
+                    String fileOriginalName = farmFoto.getOriginalFilename();
+
+                    long fileSize = farmFoto.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "superAdmin/EditarAdministrador";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "superAdmin/EditarAdministrador";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + farmFoto.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                    pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), farmFoto.getOriginalFilename() ,pharmacist.getIdFarmacista());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             }
 
             return "redirect:verListados";
@@ -890,6 +965,22 @@ public class  SuperAdminController {
         return "superAdmin/SedePando4";
     }
 
+    @GetMapping("/verTrackingPersonal")
+    public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
+        String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
+        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
+        model.addAttribute("idReplacement",idReplacementeOrder);
+        model.addAttribute("Tracking",tracking);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        model.addAttribute("activeTab", activeTab);
+        return "superAdmin/TrackingPersonalSuperAdmin";
+    }
+
+
 
     ///////////////////////////////////////7
     @GetMapping("/verDetalleRepo")
@@ -905,7 +996,7 @@ public class  SuperAdminController {
 
     @GetMapping("/verPerfil")
     public String verPerfilSuper( Model model){
-        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(2);
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
         model.addAttribute("superAdmin" , superAdmin.get());
         return "superAdmin/perfil";
     }
@@ -928,9 +1019,10 @@ public class  SuperAdminController {
             }
             else {
 
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
@@ -978,6 +1070,183 @@ public class  SuperAdminController {
         }
 
     }
+
+
+    //////////////////////////////////REPORTES///////////////////////////////////////
+
+    @GetMapping("/exportarMedicamentosPDF")
+    public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
+
+        MedicinePDF exporter = new MedicinePDF(medicines);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarMedicamentosExcel")
+    public void exportarMedicamentosExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Medicamentos_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+
+        MedicineExcel exporter = new MedicineExcel(medicamentos);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarAdministradoresPDF")
+    public void exportarAdminPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Administradores_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Administrator> administrators = administratorRepository.listarAdminValidos();
+
+        AdminPDF exporter = new AdminPDF(administrators);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarAdministradoresExcel")
+    public void exportarAdministradoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Administradores_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+
+        List<Administrator> administrators = administratorRepository.listarAdminValidos();
+
+        AdminExcel exporter = new AdminExcel(administrators);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarFarmacistasPDF")
+    public void exportarFarmaPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Farmacistas_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
+        FarmacistaPDF exporter = new FarmacistaPDF(pharmacists);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarFarmacistasExcel")
+    public void exportarFarmacistasExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Farmacistas_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+
+        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
+
+        FarmacistaExcel exporter = new FarmacistaExcel(pharmacists);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarPacientesPDF")
+    public void exportarPacientesPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Pacientes_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Patient> patients = patientRepository.listarPacientesValidos();
+        PacientePDF exporter = new PacientePDF(patients);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarPacientesExcel")
+    public void exportarPacientesExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Pacientes_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<Patient> patients = patientRepository.listarPacientesValidos();
+
+        PacienteExcel exporter = new PacienteExcel(patients);
+        exporter.exportar(response);
+
+    }
+
+    @GetMapping("/exportarDoctoresPDF")
+    public void exportarDoctoresPDF(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Doctores_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
+        DoctoresPDF exporter = new DoctoresPDF(doctors);
+        exporter.exportar(response);
+    }
+
+    @GetMapping("/exportarDoctoresExcel")
+    public void exportarDoctoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
+
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Doctores_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
+
+        DoctoresExcel exporter = new DoctoresExcel(doctors);
+        exporter.exportar(response);
+
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////7
 
 
     public String generateRandomWord() {

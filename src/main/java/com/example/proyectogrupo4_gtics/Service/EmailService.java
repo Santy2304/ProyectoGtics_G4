@@ -36,6 +36,27 @@ public class EmailService {
     }
 
 
+    public void sendHtmlForgetPassword(String to, String subject) throws MessagingException, IOException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        // Carga de la plantilla HTML desde los recursos
+        var resource = new ClassPathResource("emailForgotPassword.html");
+        String html = new String(StreamUtils.copyToByteArray(resource.getInputStream()), StandardCharsets.UTF_8);
+
+        // Reemplazar marcadores de posición en la plantilla
+        helper.setFrom("syong7350@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(html, true); // true indica que el mensaje es HTML
+
+        ClassPathResource bannerResource = new ClassPathResource("static/assets_superAdmin/img/banner.png");
+        helper.addInline("bannerImage", bannerResource);
+
+        emailSender.send(message);
+    }
+
+
     public void sendHtmlMessage(String to, String subject, String name, String password) throws MessagingException, IOException {
         MimeMessage message = emailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);

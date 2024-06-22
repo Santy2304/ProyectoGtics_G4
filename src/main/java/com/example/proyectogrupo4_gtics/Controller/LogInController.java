@@ -1,5 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Dao.DniDao;
+import com.example.proyectogrupo4_gtics.Dao.PersonaDni;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.Service.EmailService;
@@ -40,6 +42,7 @@ public class LogInController {
 
     @Autowired
     private EmailService emailService;
+
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
                             SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
                             UserRepository userRepository, RolRepository rolRepository ) {
@@ -103,9 +106,20 @@ public class LogInController {
     }
 
 
-    @GetMapping("/enviarEmailForget")
-    public String enviarCorreoForgot(Model model){
-        return "redirect:/inicioSesion";
+    @PostMapping("/enviarEmailForget")
+    public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
+        Map<String, String > response =  new HashMap<>();
+        try {
+            httpSession.setAttribute("resetEmail", email);
+
+            emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña");
+            response.put("response", "Guardado");
+
+        } catch (MessagingException | IOException e) {
+            response.put("response", "Error al enviar el correo");
+            e.printStackTrace();
+        }
+        return "redirect:inicioSesion";
     }
 
     /*Cambiar contraseña sin enviar correo*/
@@ -114,30 +128,32 @@ public class LogInController {
         return "changePassword";
     }
     @PostMapping("/changingPassword")
-    public String changingPassword(Model model, @RequestParam("email") String correo, @RequestParam("password") String newPassword) {
+    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword) {
         //String correo = (String) model.getAttribute("email");
-        Patient patient = patientRepository.buscarPatientEmail(correo);
-        Pharmacist pharmacist = pharmacistRepository.findByEmail(correo);
-        Administrator admin = administratorRepository.findByEmail(correo);
-        SuperAdmin superAdmin = superAdminRepository.findByEmail(correo);
+        String email = (String) httpSession.getAttribute("resetEmail");
+
+        Patient patient = patientRepository.buscarPatientEmail(email);
+        Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
+        Administrator admin = administratorRepository.findByEmail(email);
+        SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encryptedPassword = passwordEncoder.encode(newPassword);
 
         if (!(patient == null)) {
-            patientRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+          //  patientRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(admin == null)) {
-            administratorRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+           // administratorRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(superAdmin == null)) {
-            superAdminRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+            superAdminRepository.actualizarContrasena(newPassword, email);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         if (!(pharmacist == null)) {
-            pharmacistRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,correo);
+           // pharmacistRepository.actualizarContrasena(newPassword, correo);
+            userRepository.actualizarPassword(encryptedPassword,email);
         }
         return "redirect:/inicioSesion";
     }
@@ -149,7 +165,7 @@ public class LogInController {
 
     @RequestMapping(value = "/formNuevaCuenta")
     @ResponseBody
-    public Map<String,String > formNuevaCuenta(Patient patient){
+    public Map<String,String> formNuevaCuenta(Patient patient){
         System.out.println("Holaa");
         Map<String, String > response =  new HashMap<>();
         Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
@@ -158,7 +174,7 @@ public class LogInController {
             patient.setChangePassword(false);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
-            patient.setExpirationDate(LocalDateTime.now().plusMinutes(2)); // Expira en 10 minutos
+            patient.setExpirationDate(LocalDateTime.now().plusMinutes(4)); // Expira en 10 minutos
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();
@@ -178,7 +194,6 @@ public class LogInController {
     //                "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
   //          );
 
-
             try {
                 emailService.sendHtmlMessage(patient.getEmail(), "Bienvenido a SaintMedic", patient.getName(), password);
                 response.put("response", "Guardado");
@@ -186,12 +201,12 @@ public class LogInController {
                 response.put("response", "Error al enviar el correo");
                 e.printStackTrace();
             }
-
         }else{
             response.put("response" ,"YaExiste");
         }
-
         return response;
+
+
     }
     //Vamos a crear un servicio Rest para consumir autenticacion
 
@@ -226,5 +241,47 @@ public class LogInController {
         return new String(wordArray);
     }
 
+    @GetMapping(value="/estaBaneado")
+    public Object estaBaneado(@RequestParam("email") String  email , @RequestParam("password") String  password ){
+        System.out.println("Hola Santiago");
+        try {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(password);
+            int idUser = userRepository.encontrarId(email);
+            System.out.println("Hola ");
+            if((userRepository.findById(idUser)).isPresent()){
+                User u = (userRepository.findById(idUser)).get();
+                System.out.println(u.getEmail());
+                System.out.println("Santiago");
+                return ResponseEntity.ok(u);
+            }else{
+                System.out.println("ErrorFatal");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "errorHola");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest();
+        }
+    }
+
+
+    @GetMapping(value="/getDni")
+    public Object getDni(@RequestParam("dni") String  dni , Model model ) {
+        try {
+            PersonaDni p = new DniDao().buscarDatosPorDNI(dni);
+            model.addAttribute("santiago",  p);
+            return ResponseEntity.ok(p);
+        } catch (Exception err) {
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "No se encontro el DNI");
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
 
 }

@@ -131,8 +131,6 @@
 					</div>
 					<script>
 
-
-
 						function BuscarMedicamento(event){
 							event.preventDefault();
 							var formulario = document.getElementById("miFormulario");
@@ -189,7 +187,6 @@
 								})
 							}
 						}
-
 					</script>
 
 					<ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
@@ -241,7 +238,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -269,7 +266,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/imagenes/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -301,7 +298,7 @@
 \t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',
 \t\t\t\t\t\t\t\t\t\t\t\t\t\tsuccess: function (response) {
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t//Eliminar porcion de HTML
-\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getName()}]] + ` );
+\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tconst elemento = document.getElementById("aux" ` + [[${medicamento.getNombreMedicamento()}]] + ` );
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t$.ajax({
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: '/pharmacist/getAllCarrito',
 \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\ttype: 'GET',` +
@@ -456,8 +453,6 @@
 							</div>
 						</div>
 
-
-
 						<div class="tab_content" data-tab="dolor">
 							<div th:with="dolorPresente=false"></div>
 
@@ -470,7 +465,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -497,7 +492,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/imagenes/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -603,8 +598,6 @@
 							</div>
 						</div>
 
-
-
 						<div class="tab_content" data-tab="belleza">
 							<div th:with="bellezaPresente=false"></div>
 
@@ -617,7 +610,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -642,7 +635,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/imagenes/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -750,7 +743,6 @@
 							</div>
 						</div>
 
-
 						<div class="tab_content" data-tab="suplemento">
 							<!-- Variable de control para saber si hay al menos un medicamento de suplemento -->
 							<div th:with="suplementoPresente=false"></div>
@@ -764,7 +756,7 @@
 
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}"  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
@@ -790,7 +782,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/imagenes/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -897,8 +889,6 @@
 							</div>
 						</div>
 
-
-
 						<div class="tab_content" data-tab="otros">
 
 							<div th:with="otrosPresente=false"></div>
@@ -908,7 +898,7 @@
 									<div th:with="otrosPresente=true"></div>
 									<div class="productset">
 										<div class="productsetimg">
-											<img th:id="${medicamento.getIdMedicine()}" th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="img">
+											<img th:id="${medicamento.getIdMedicine()}" th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
 
 											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
@@ -935,7 +925,7 @@
 												newProduct.innerHTML = `<li>
           <div class="productimg">
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productimgs">
-\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/assets_superAdmin/ImagenesMedicina/' + [[${medicamento.getPhoto()}]] alt="img">
+\t\t\t\t\t\t\t\t\t\t\t\t\t<img src='/imagenes/' + [[${medicamento.getPhoto()}]] alt="img">
 \t\t\t\t\t\t\t\t\t\t\t\t</div>
 \t\t\t\t\t\t\t\t\t\t\t\t<div class="productcontet">
 \t\t\t\t\t\t\t\t\t\t\t\t\t<h4> ` + [[${medicamento.getNombreMedicamento()}]] + `
@@ -1078,24 +1068,7 @@
 
 									</script>
 								</li>
-								<!--
-								<li>
-									<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset" >
-										<img src="assets/img/icons/ellipise1.svg" alt="img">
-									</a>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-end">
-										<li>
-											<a href="#" class="dropdown-item">Action</a>
-										</li>
-										<li>
-											<a href="#" class="dropdown-item">Another Action</a>
-										</li>
-										<li>
-											<a href="#" class="dropdown-item">Something Elses</a>
-										</li>
-									</ul>
-								</li>
-								-->
+
 							</ul>
 						</div>
 					</div>
@@ -1120,7 +1093,7 @@
 										<li>
 											<div class="productimg">
 												<div class="productimgs">
-													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${carrito.getIdMedicine().getPhoto()}}" alt="img">
+													<img th:src="@{'/imagenes/' + ${carrito.getIdMedicine().getPhoto()}}" alt="img">
 												</div>
 												<div class="productcontet">
 													<h4 th:text="${carrito.getIdMedicine().getName()}">
@@ -1366,21 +1339,7 @@
 									}
 
 								})
-
-
 							</script>
-
-
-							<!--LUEGO PONER DE NUEVO-->
-							<!--
-							<div class="btn-pos">
-								<ul>
-									<li>
-										<a class="btn"  data-bs-toggle="modal" data-bs-target="#recents"><img src="assets/img/icons/transcation.svg" alt="img" class="me-1"> Ventas recientes </a>
-									</li>
-								</ul>
-							</div>
-							-->
 						</div>
 					</div>
 				</div>
@@ -1637,7 +1596,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="modal fade" id="pre-orden" tabindex="-1" aria-labelledby="pre-orden"  aria-hidden="true">
 	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
 		<div class="modal-content">
@@ -2230,7 +2188,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	document.addEventListener('click', (event) => {
 		if (event.target.classList.contains('menos')) {
@@ -2273,11 +2230,6 @@
 					console.error('There was a problem with the request:', error);
 				}
 			});
-
-
-
-
-
 		} else if (event.target.classList.contains('mas')) {
 			const quantityField = event.target.previousElementSibling;
 			let currentQuantity = parseInt(quantityField.value);

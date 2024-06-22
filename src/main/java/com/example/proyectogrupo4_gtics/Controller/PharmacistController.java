@@ -1,15 +1,12 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
-import com.example.proyectogrupo4_gtics.DTOs.*;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -20,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,8 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @SessionAttributes({"idUser","sede" , "idPatient" , "idDoctor"})
 @Controller
@@ -45,11 +39,20 @@ public class PharmacistController {
     final CarritoRepository carritoRepository ;
     final CarritoVentaRepository carritoVentaRepository ;
 
+    final NotificationsRepository notificationsRepository;
 
     final UserRepository userRepository;
 
+    final TrackingRepository trackingRepository;
 
-    public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,PurchaseHasLoteRepository purchaseHasLoteRepository , MedicineRepository medicineRepository, PatientRepository patientRepository ,LoteRepository loteRepository, PharmacistRepository pharmacistRepository, DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,UserRepository userRepository) {
+
+    public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
+                                PurchaseHasLoteRepository purchaseHasLoteRepository ,
+                                MedicineRepository medicineRepository, PatientRepository patientRepository ,
+                                LoteRepository loteRepository, PharmacistRepository pharmacistRepository,
+                                DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,
+                                UserRepository userRepository, NotificationsRepository notificationsRepository,
+                                TrackingRepository trackingRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -60,6 +63,8 @@ public class PharmacistController {
         this.userRepository = userRepository;
         this.carritoRepository = carritoRepository;
         this.carritoVentaRepository = carritoVentaRepository;
+        this.notificationsRepository = notificationsRepository;
+        this.trackingRepository = trackingRepository;
     }
 
     @GetMapping("/cambioObligatorio")
@@ -104,10 +109,9 @@ public class PharmacistController {
     }
 
     @GetMapping("/verEditarProducto")
-    public String verEditProduct(Model model, HttpSession session
-    ){
+    public String verEditProduct(Model model, HttpSession session){
 
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
+        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
         model.addAttribute("sede", pharmacist.getSite());
@@ -139,7 +143,6 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
         model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
         model.addAttribute("listaDoctores", doctorRepository.findAll());
         if(!(model.getAttribute("idPatient")).equals("") ){
@@ -218,6 +221,10 @@ public class PharmacistController {
     @GetMapping("/aceptarSolicitud")
     public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
         purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+
+        Tracking tracking = new Tracking();
+        tracking.setSolicitudDate(LocalDateTime.now());
+
         return "redirect:solicitudesFarmacista";
     }
 
@@ -330,9 +337,10 @@ public class PharmacistController {
 
             if(!falloN){
                 Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
-                Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

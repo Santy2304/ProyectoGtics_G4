@@ -216,7 +216,12 @@
                                 <td><span class="badges bg-lightgreen" th:if="${repo.getTrackingState()} == 'Solicitado' " th:text="${repo.getTrackingState()}" ></span></td>
                                 -->
                                 <td th:text="${repo.getReleaseDate()}"></td>
-                                <td><span class="badges bg-lightgreen" th:text="${repo.getTrackingState()}" ></span></td>
+                                <td>
+                                    <a th:href="@{'/adminSede/verTrackingPersonal?idReplacementOrder=' + ${repo.idReplacementOrder}}">
+                                        <span class="badges bg-lightgreen" th:text="${repo.getTrackingState()}"></span>
+                                    </a>
+
+                                </td>
 
                                 <td th:if="${repo.getTrackingState() == 'Solicitado'  || repo.getTrackingState() == 'En Proceso'}">
                                     <a class="me-3" href="#">

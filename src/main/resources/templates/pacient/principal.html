@@ -10,6 +10,7 @@
   <meta name="author" content="">
   <meta name="keywords" content="">
   <meta name="description" content="">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="/Food/vendor.css">
@@ -19,15 +20,52 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets_pacient/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+  <link rel="stylesheet" href="../assets_pacient/css/bootstrap.min.css">
+
+  <!-- animation CSS -->
+  <link rel="stylesheet" href="../assets_pacient/css/animate.css">
+
+  <!-- Datatable CSS -->
   <link rel="stylesheet" href="../assets_pacient/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
+
+  <!-- Fontawesome CSS -->
   <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
   <link rel="stylesheet" href="../assets_pacient/plugins/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../assets_pacient/plugins/select2/css/select2.min.css">
-  <title>Saint Medic</title>
-  <link rel="icon" href="../assets_pacient/img/PastillaSinFondo.png" >
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="../assets_pacient/css/style.css">
+
+  <link rel="stylesheet" href="../assets_pacient/css/bootstrap-datetimepicker.min.css">
   <style>
+
+    .category-carousel {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+
+    .category-item {
+      flex: 0 0 auto;
+      margin-right: 20px;
+    }
+
+    .category-item img {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .category-title {
+      text-align: center;
+    }
+
+
     .pagination{
       text-align: center;
       margin:30px 30px 60px;
@@ -73,13 +111,93 @@
     .disable{
       background: #cccccc ;
     }
+
+    .custom-navbar .nav-item.active {
+      border-radius: 15px; /* Ajusta el valor para más o menos redondeo */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional para un efecto de elevación */
+    }
+    .custom-navbar .logo-img {
+      width: 70px; /* Ajusta el ancho según sea necesario */
+      height: auto; /* Mantiene la proporción de aspecto */
+    }
+    .custom-navbar .logo-small {
+      margin-left: -16%; /* Ajusta el valor negativo para mover el logo a la izquierda */
+    }
+
+
+    .custom-dropdown-menu {
+      min-width: auto; /* Permite que el menú se ajuste al contenido */
+      padding: 0.5rem 1rem; /* Ajusta el relleno según sea necesario */
+    }
+
+    /* Ajuste del tamaño de los elementos dentro del dropdown */
+    .custom-dropdown-menu .dropdown-item,
+    .custom-dropdown-menu hr,
+    .custom-dropdown-menu form {
+      padding: 0.25rem 0; /* Ajusta el relleno de los elementos */
+      margin: 0; /* Elimina márgenes adicionales */
+    }
+
+    /* Ajuste para el botón de formulario */
+    .custom-dropdown-menu form .btn {
+      padding: 0; /* Elimina relleno del botón */
+    }
+
+    .custom-dropdown-menu form .btn img {
+      width: 20px; /* Ajusta el tamaño del ícono */
+      height: 20px; /* Ajusta el tamaño del ícono */
+    }
+
   </style>
+
+
 </head>
 <body>
-<div id="global-loader" >
+  <header class="custom-navbar p-3 mb-3 border-bottom" style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a class="logo-small" href="/patient/verSeleccionarSedePaciente">
+          <img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="" class="logo-img">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li class="nav-item active">
+            <a href="/patient/verPrincipalPaciente" style="color: white" class="nav-link px-2 link-secondary">Home</a>
+          </li>
+          <li ><a style="color: white" href="/patient/verGenerarOrdenCompra" class="nav-link px-2 link-secondary">Ordenar</a></li>
+          <li><a href="/patient/verHistorial" style="color: white" class="nav-link px-2 link-secondary">Historial</a></li>
+          <li><a href="/patient/verTracking" style="color: white" class="nav-link px-2 link-secondary">Tracking</a></li>
+          <li><a href="/patient/verChatPaciente" style="color: white" class="nav-link px-2 link-secondary">Chats</a></li>
+        </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small custom-dropdown-menu">
+            <li> <a class="dropdown-item" th:text="${nombre}+' '+${apellido}"></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/patient/verPerfilPaciente">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><form th:action="@{/logout}" method="post" class="ml-2">
+              <button class="btn btn-link d-flex justify-content-center align-items-center" type="submit">
+                <img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25" >
+              </button>
+            </form></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="global-loader" >
   <div class="whirly-loader"> </div>
 </div>
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+
+
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <defs>
     <symbol xmlns="http://www.w3.org/2000/svg" id="link" viewBox="0 0 24 24">
       <path fill="currentColor" d="M12 19a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0-4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm-5 0a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm7-12h-1V2a1 1 0 0 0-2 0v1H8V2a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3Zm1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9h16Zm0-11H4V6a1 1 0 0 1 1-1h1v1a1 1 0 0 0 2 0V5h8v1a1 1 0 0 0 2 0V5h1a1 1 0 0 1 1 1ZM7 15a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm0 4a1 1 0 1 0-1-1a1 1 0 0 0 1 1Z"/>
@@ -134,13 +252,13 @@
 </svg>
 <!--carrito oculto-->
 
+<!-- background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;
+-->
+  <!--
+  <nav th:replace="navbarPaciente :: navbar(activeTab = 'home')"> </nav>
+-->
 
-<nav th:replace="navbarPaciente :: navbar(activeTab = 'home')"> </nav>
-<script>
-
-</script>
-
-<div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover; ">
+  <div class="main-wrapper" style="margin-left:1.5% ; margin-right:1.5%;">
   <div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasCart" aria-labelledby="My Cart">
     <div class="offcanvas-header justify-content-center">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -168,6 +286,7 @@
       </div>
     </div>
   </div>
+  <!--
   <section class="py-5" style=" margin-top: 0.1% ">
     <div class="container-fluid">
       <div class="row">
@@ -250,69 +369,76 @@
       </div>
     </div>
   </section>
-
+-->
   <section class="py-5 overflow-hidden">
     <div class="container-fluid">
+
       <div class="row">
         <div class="col-md-12">
-
+          <h2 class="section-title mb-4" style="font-weight: bold; font-style: italic ;color: darkorange;text-decoration: underline; text-decoration-color: darkorange;">Bienvenido a la sede Pando 1</h2>
           <div class="section-header d-flex flex-wrap justify-content-between mb-5">
             <h2 class="section-title">Categorías</h2>
-
             <div class="d-flex align-items-center">
+              <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <h3 class="category-title">Carrito</h3>
+                <span class="cart-total fs-5 fw-bold">S/290.00</span>
+              </button>
+              <!--
               <a href="#" class="btn-link text-decoration-none">Todas las categorías</a>
-              <div class="swiper-buttons">
-                <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
-                <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
-              </div>
+-->
             </div>
           </div>
-
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="category-carousel swiper">
-            <div class="swiper-wrapper">
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Analgésicos</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/suplemento.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Suplementos</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/belleza.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Belleza</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Alergias</h3>
-              </a>
-              <a href="#" class="nav-link category-item swiper-slide">
-                <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
-                <h3 class="category-title">Otros</h3>
-              </a>
-              <a  class="nav-link category-item swiper-slide">
-                <img src="..\assets_pacient\img\icons\sales1.svg" width="120" height="95" alt="Category Thumbnail">
-                <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                  <h3 class="category-title">Carrito</h3>
-                  <span class="cart-total fs-5 fw-bold">S/290.00</span>
-                </button>
-              </a>
+          <div class="category-carousel d-flex flex-wrap justify-content-between">
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Todo</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/analgesico.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Analgésicos</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/suplemento.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Suplementos</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/belleza.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Belleza</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/alergia.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Alergias</h3>
+            </a>
+            <a href="#" class="nav-link category-item">
+              <img src="../assets_pacient/images/otros.png" width="120" height="95" alt="Category Thumbnail">
+              <h3 class="category-title">Otros</h3>
+            </a>
 
-            </div>
+            <!--
+            <a class="nav-link category-item">
+              <img src="../assets_pacient/img/icons/sales1.svg" width="120" height="95" alt="Category Thumbnail">
+              <button class="border-0 bg-transparent d-flex flex-column gap-2 lh-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                <h3 class="category-title">Carrito</h3>
+                <span class="cart-total fs-5 fw-bold">S/290.00</span>
+              </button>
+            </a>
+            -->
           </div>
-
         </div>
       </div>
     </div>
   </section>
-  <section class="py-3" style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;">
+  <!--style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;"
+  -->
+  <section class="py-2" >
     <div class="shopify-grid">
       <div class="container-fluid">
         <div class="row g-5">
+          <!--
           <aside class="col-md-2">
             <div class="sidebar">
               <div class="widget-menu">
@@ -324,29 +450,6 @@
                     </form>
                   </form>
                 </div>
-              </div>
-              <div class="widget-product-categories pt-5">
-                <h5 class="widget-title">Categorías</h5>
-                <ul class="product-categories sidebar-list list-styled">
-                  <li class="cat-item">
-                    <a href="#">Todas</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Dolor</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Alergia</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Suplemento</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Belleza</a>
-                  </li>
-                  <li class="cat-item">
-                    <a href="#" class="nav-link">Otro</a>
-                  </li>
-                </ul>
               </div>
 
               <div class="widget-price-filter pt-3">
@@ -371,7 +474,7 @@
               </div>
             </div>
           </aside>
-
+-->
           <main class="col-md-10">
 
             <div class="filter-shop d-flex justify-content-between">
@@ -407,6 +510,20 @@
               .product-item .btn-wishlist:hover {
                 background: rgb(182, 158, 110);
                 color: #fff;
+              }
+
+              .input-number.no-border {
+                border: none;
+                background: transparent;
+                text-align: center;
+                vertical-align: middle; /* Añadir esta línea */
+                padding: 0; /* Opcional: ajustar padding para mejor alineación */
+                line-height: normal;
+              }
+
+              .input-group.product-qty {
+                display: flex;
+                align-items: center; /* Añadir esta línea para centrar elementos verticalmente */
               }
 
             </style>
@@ -501,7 +618,7 @@
                     </script>
                     <figure>
                       <a  title="Product Title">
-                        <img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicine.photo}}" alt="Product Thumbnail" class="tab-image">
+                        <img th:src="@{'/imagenes/' + ${medicine.photo}}" alt="Product Thumbnail" class="tab-image">
                       </a>
                     </figure>
                     <h3 th:text="${medicine.nombreMedicamento}"></h3>
@@ -516,7 +633,7 @@
                                             <svg width="16" height="16"><use xlink:href="#minus"></use></svg>
                                           </button>
                                       </span>
-                        <input  name="cantidad" th:id="|cantidadMedicina${medicine.idMedicine}|" type="text"  class="form-control input-number quantity" value="1">
+                        <input name="cantidad" th:id="|cantidadMedicina${medicine.idMedicine}|" type="text"  class="form-control input-number no-border quantity" value="1">
                         <span class="input-group-btn">
                                           <button type="button" name="quantity" class="quantity-right-plus btn btn-success btn-number" data-type="plus">
                                               <svg width="16" height="16"><use xlink:href="#plus"></use></svg>
@@ -705,7 +822,7 @@
       </div>
     </div>
   </section>
-
+<!--
   <section class="py-5 overflow-hidden mb-5">
     <div class="container-fluid">
       <div class="row">
@@ -776,7 +893,7 @@
                   </div>
                 </div>
               </div>
-              <!--
+
               <div class="swiper-slide">
                 <div class="card mb-3 p-3 rounded-4 shadow border-0">
                   <div class="row g-0">
@@ -807,7 +924,7 @@
                   </div>
                 </div>
               </div>
-              -->
+
 
             </div>
           </div>
@@ -816,8 +933,9 @@
       </div>
     </div>
   </section>
+  -->
 </div>
-<footer class="py-5">
+<footer class="py-5" style="background-color: #ffe69c">
   <div class="container">
     <div class="row">
 
@@ -851,6 +969,7 @@
         </div>
       </div>
 
+      <!--
       <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
         <div class="footer-menu">
           <h5 class="widget-title">Ultras</h5>
@@ -904,12 +1023,13 @@
       </div>
 
       <div class="col-lg-3 col-md-6">
-        <!-- Agrega aquí más secciones si es necesario -->
+         Agrega aquí más secciones si es necesario
       </div>
-
+-->
     </div>
   </div>
 
+  <!--
   <div class="footer-bottom">
     <div class="container">
       <div class="row">
@@ -918,7 +1038,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </footer>
 
 <script src="../js_pacient_nav/jquery-1.11.0.min.js"></script>
@@ -927,29 +1047,29 @@
 <script src="../js_pacient_nav/plugins.js"></script>
 <script src="../js_pacient_nav/script.js"></script>
 <!-- jQuery -->
-<script src="../assets_pacient/js/jquery-3.6.0.min.js"></script>
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
 
 <!-- Feather Icon JS -->
-<script src="../assets_pacient/js/feather.min.js"></script>
+<script src="/assets_pacient/js/feather.min.js"></script>
 
 <!-- Slimscroll JS -->
-<script src="../assets_pacient/js/jquery.slimscroll.min.js"></script>
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
 
 <!-- Datatable JS -->
-<script src="../assets_pacient/js/jquery.dataTables.min.js"></script>
-<script src="../assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 
 <!-- Bootstrap Core JS -->
-<script src="../assets_pacient/js/bootstrap.bundle.min.js"></script>
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
 
 <!-- Chart JS -->
-<script src="../assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
-<script src="../assets_pacient/plugins/apexchart/chart-data.js"></script>
-<script src="../assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="../assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="/assets_pacient/plugins/apexchart/apexcharts.min.js"></script>
+<script src="/assets_pacient/plugins/apexchart/chart-data.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <!-- Custom JS -->
-<script src="../assets_pacient/js/script.js"></script>
+<script src="/assets_pacient/js/script.js"></script>
 
 <!--Script para el navbar-->
 </body>

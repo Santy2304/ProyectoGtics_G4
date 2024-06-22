@@ -80,14 +80,16 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarMedicamentosPDF}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarMedicamentosExcel}" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
+										<!--
 										<li>
 											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
 										</li>
+										-->
 									</ul>
 								</div>
 							</div>
@@ -173,7 +175,7 @@
 										<tr th:each="medicamento : ${listaMedicamentos}">
 											<td class="productimgname">
 												<a class="product-img" onclick="verProducto(event)">
-													<img th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" style="max-width: 25%;" alt="product">
+													<img th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" style="max-width: 25%;" alt="product">
 												</a>
 												<span href="javascript:void(0);" th:text="${medicamento.getNombreMedicamento()}"></span>
 											</td>

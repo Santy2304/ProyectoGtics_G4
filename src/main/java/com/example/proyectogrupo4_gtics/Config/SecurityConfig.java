@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.authentication.CredentialsExpiredException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -29,6 +31,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.sql.DataSource;
+import java.net.URLEncoder;
 
 @Configuration
 @EnableScheduling
@@ -53,6 +56,8 @@ public class SecurityConfig  {
         users.setAuthoritiesByUsernameQuery(sql2);
         return users;
     }
+
+
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http,
                                             SuperAdminRepository superAdminRepository,
@@ -64,7 +69,6 @@ public class SecurityConfig  {
                 .loginProcessingUrl("/processLogin")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                //.failureHandler()
                 .successHandler((request, response, authentication) -> {
 
                     HttpSession session = request.getSession();

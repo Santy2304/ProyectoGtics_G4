@@ -101,7 +101,6 @@
 										<div class="form-group">
 											<label>Sede</label>
 											<select class="form-select" name="site" th:classappend="${#fields.hasErrors('site')?'is-invalid' : ''}">
-												<option value="">Selecciona Sede</option>
 												<option value="Pando 1" th:selected="${adminSede.site == 'Pando 1'}">Pando 1</option>
 												<option value="Pando 2" th:selected="${adminSede.site == 'Pando 2'}">Pando 2</option>
 												<option value="Pando 3" th:selected="${adminSede.site == 'Pando 3'}">Pando 3</option>
@@ -143,7 +142,7 @@
 												<li class="ps-0">
 													<div class="productviewset">
 														<div class="productviewsimg">
-															<img th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${adminSede.photo}}" alt="img">
+															<img th:src="@{'/imagenes/' + ${adminSede.photo}}" alt="img">
 														</div>
 														<div class="productviewscontent">
 															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>

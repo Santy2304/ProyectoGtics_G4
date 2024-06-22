@@ -1,6 +1,6 @@
 package com.example.proyectogrupo4_gtics.Reportes;
 
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
+import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.PdfPCell;
@@ -14,9 +14,9 @@ import java.util.List;
 
 public class MedicinePDF {
 
-    private List<cantidadMedicamentosDTO> listaMedicinas;
+    private List<CantidadMedicamentosDTO> listaMedicinas;
 
-    public MedicinePDF(List<cantidadMedicamentosDTO> listaMedicinas) {
+    public MedicinePDF(List<CantidadMedicamentosDTO> listaMedicinas) {
         super();
         this.listaMedicinas = listaMedicinas;
     }
@@ -46,7 +46,7 @@ public class MedicinePDF {
     }
 
     private void escribirDatosDeLaTabla(PdfPTable tabla) {
-        for (cantidadMedicamentosDTO medicine : listaMedicinas) {
+        for (CantidadMedicamentosDTO medicine : listaMedicinas) {
             tabla.addCell(String.valueOf(medicine.getIdMedicine()));
             tabla.addCell(medicine.getNombreMedicamento());
             tabla.addCell(medicine.getCategoria());

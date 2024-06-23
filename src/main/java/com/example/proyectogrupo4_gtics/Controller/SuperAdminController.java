@@ -1,7 +1,5 @@
 package com.example.proyectogrupo4_gtics.Controller;
-
 import com.example.proyectogrupo4_gtics.Config.ImpersonationAuthToken;
-import com.example.proyectogrupo4_gtics.DTOs.cantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;

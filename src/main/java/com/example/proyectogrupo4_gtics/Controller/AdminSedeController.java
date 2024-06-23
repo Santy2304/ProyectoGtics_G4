@@ -1023,12 +1023,14 @@ public class AdminSedeController {
 /*
     @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
     public void notificacionesPorEscaso() {
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPocoStockSede("Pando 1");
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
             Notifications notifications = new Notifications();
             notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
-
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
         }
 
 

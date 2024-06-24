@@ -456,6 +456,29 @@ public class PatientController {
         model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
         return "pacient/posPacienteNuevo";
     }
+    //Filtro de la vista principal
+    @PostMapping(value="/filtroMedicinas")
+    public String verPostPatienteFiltrado (Model model , HttpSession session, @RequestParam("medicamento") String medicamento ){
+        Patient patient = (Patient)session.getAttribute("usuario");
+        List<MedicamentosPorSedeDTO> lista = medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() );
+        ArrayList<MedicamentosPorSedeDTO> listaFiltrada = new ArrayList<MedicamentosPorSedeDTO>();
+        if(!medicamento.isEmpty()) {
+            for (MedicamentosPorSedeDTO m : lista) {
+                if (m.getNombreMedicamento().contains(medicamento)) {
+                    listaFiltrada.add(m);
+                }
+            }
+        }else{
+            for (MedicamentosPorSedeDTO m : lista) {
+                    listaFiltrada.add(m);
+            }
+        }
+        //El queri para obtener la cantidad de medicamentos está bien
+        model.addAttribute("listamedicamentosPatient",listaFiltrada);
+        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
+        return "pacient/posPacienteNuevo";
+    }
+
 
     //WebServices de la vista de paciente para compras:
     @GetMapping(value="/updateCantidad")

@@ -1,12 +1,14 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -145,12 +147,17 @@ public class PharmacistController {
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
         model.addAttribute("listaDoctores", doctorRepository.findAll());
-        if(!(model.getAttribute("idPatient")).equals("") ){
-            model.addAttribute("fullNamePatient" , (patientRepository.findById(Integer.parseInt(""+model.getAttribute("idPatient")))).get().getName()+ " " + (patientRepository.findById(Integer.parseInt(""+model.getAttribute("idPatient")))).get().getLastName());
-            model.addAttribute("fullNameDoctor" , (doctorRepository.findById(Integer.parseInt(""+model.getAttribute("idDoctor")))).get().getName()+ " " + (doctorRepository.findById(Integer.parseInt(""+model.getAttribute("idDoctor")))).get().getLastName());
-        }else{
-            model.addAttribute("fullNamePatient" , null);
-            model.addAttribute("fullNameDoctor" , null);
+        try {
+            if (!(model.getAttribute("idPatient")).equals("")) {
+                model.addAttribute("fullNamePatient", (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getName() + " " + (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getLastName());
+                model.addAttribute("fullNameDoctor", (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getName() + " " + (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getLastName());
+            } else {
+                model.addAttribute("fullNamePatient", null);
+                model.addAttribute("fullNameDoctor", null);
+            }
+        }catch (Exception err){
+            model.addAttribute("fullNamePatient", null);
+            model.addAttribute("fullNameDoctor", null);
         }
         int idPhar = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
         model.addAttribute("listaComprar" , carritoVentaRepository.getMedicineListByPharmacist(idPhar));
@@ -230,9 +237,18 @@ public class PharmacistController {
 
 
     @GetMapping("/rechazarSolicitud")
-    public String rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
-        purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
-        return "redirect:solicitudesFarmacista";
+    public Object rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
+        try {
+            purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
+            HashMap<String, Object> okey = new HashMap<>();
+            okey.put("Succes", "Todo good");
+            return ResponseEntity.ok(okey);
+        }catch (Exception err) {
+            System.out.println("pepepe");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "se repite el medicamento en la lista");
+            return ResponseEntity.badRequest().body(er);
+        }
     }
 
 
@@ -377,10 +393,125 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
         model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
         return "pharmacist/medicinelist";
     }
+
+    //Aplicando filtros
+    @PostMapping("/verMedicinelistFiltrado")
+    public String verMedicinelistFiltrado(Model model, HttpSession session ,
+                                          @RequestParam("category") String category ,
+                                          @RequestParam("cantidad") String cantidad ,
+                                          @RequestParam("precio") String precio
+    ){
+        boolean errores = false;
+        //Validamos campos del filtro
+        if(!category.isEmpty()) {
+            if (!(category.contains("Dolor") || category.contains("Belleza") || category.contains("Suplementos") || category.contains("Alergías") || category.contains("Otros"))) {
+                errores = true;
+            }
+        }
+        Integer cantidadInt = 0 ;
+        if(!cantidad.isEmpty()) {
+            try {
+                cantidadInt = Integer.parseInt(cantidad);
+            } catch (NumberFormatException err) {
+                errores = true;
+            }
+        }
+        Double precioFloat = 0.0;
+        if(!precio.isEmpty()) {
+            try {
+                precioFloat = Double.parseDouble(precio);
+            } catch (NumberFormatException err) {
+                errores = true;
+            }
+        }
+
+        if(errores){
+            return "redirect:verMedicineList";
+        }else{
+            int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
+            Pharmacist pharmacist = new Pharmacist();
+            pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+            model.addAttribute("sede", pharmacist.getSite());
+            model.addAttribute("nombre", pharmacist.getName());
+            model.addAttribute("apellido",pharmacist.getLastName());
+            List<MedicamentosPorSedeDTO> listaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist);
+            HashSet<MedicamentosPorSedeDTO> primerFiltro = new HashSet<>();
+            if(!category.isEmpty()) {
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                    if (m.getCategoria().equals(category)) {
+                        primerFiltro.add(m);
+                    }
+                }
+            }else{
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                        primerFiltro.add(m);
+                }
+            }
+            HashSet<MedicamentosPorSedeDTO> segundoFiltro = new HashSet<>();
+            if(!cantidad.isEmpty()) {
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                    switch(cantidadInt){
+                        case 1:
+                            if ( 0< m.getCantidad() &&  m.getCantidad() < 25  ) {
+                                segundoFiltro.add(m);
+                            }
+                            break;
+                        case 2:
+                            if (25< m.getCantidad() &&  m.getCantidad() < 50 ) {
+                                segundoFiltro.add(m);
+                            }
+                            break;
+                        case 3:
+                            if (50< m.getCantidad()  ) {
+                                segundoFiltro.add(m);
+                            }
+                            break;
+                    }
+                }
+            }else{
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                        segundoFiltro.add(m);
+                }
+            }
+
+            HashSet<MedicamentosPorSedeDTO> tercerFiltro = new HashSet<>();
+            if(!precio.isEmpty()) {
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                    switch(cantidadInt){
+                        case 1:
+                            if (0< m.getPrecio() &&  m.getPrecio() < 25 ) {
+                                tercerFiltro.add(m);
+                            }
+                            break;
+                        case 2:
+                            if (25< m.getPrecio() &&  m.getPrecio() < 50) {
+                                tercerFiltro.add(m);
+                            }
+                            break;
+                        case 3:
+                            if (50< m.getPrecio()) {
+                                tercerFiltro.add(m);
+                            }
+                            break;
+                    }
+
+                }
+            }else{
+                for (MedicamentosPorSedeDTO m : listaaa) {
+                        tercerFiltro.add(m);
+                }
+            }
+            primerFiltro.retainAll(segundoFiltro);
+            tercerFiltro.retainAll(primerFiltro);
+            List<MedicamentosPorSedeDTO> listaSinDuplicados = new ArrayList<>(tercerFiltro);
+            model.addAttribute("listamedicamentosfarm", listaSinDuplicados);
+            return "pharmacist/medicinelist";
+        }
+    }
+
 
     @GetMapping("/detallesMedicamentos")
     public String detallesMedicamentos(@RequestParam("idMedicine") int idMedicine, Model model, HttpSession session

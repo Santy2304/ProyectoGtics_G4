@@ -88,6 +88,17 @@
                                     <h4>Bienvenido a SaintMedic </h4>
                                     <h6>Acá podrás observar los productos que tenemos disponibles para ti y seleccionarlos para comprarlos</h6>
                                 </div>
+
+
+                                <div class="top-nav-search" style="width: 100%; margin:-1px">
+                                    <form id="miFormulario" method="post" th:action="@{/patient/filtroMedicinas}" >
+                                        <div class="searchinputs">
+                                            <input id="medicamento" name="medicamento" type="text" placeholder="Buscalos aquí..." style="width: 80%;" required>
+                                            <button type="submit" class="custom-button" id="searchdiv" ><img src="/assets_superAdmin/img/icons/search.svg" alt="img"></button>
+                                        </div>
+                                    </form>
+                                </div>
+
                             </div>
                             <ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
                                 <li class="active" id="Alergia">

@@ -165,7 +165,7 @@
 							<div th:with="alergiaPresente=false"></div>
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' }">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' && medicamento.getCantidad() > 0 }">
 									<div th:with="alergiaPresente=true"></div>
 									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
@@ -398,7 +398,7 @@
 							<div th:with="dolorPresente=false"></div>
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Dolor' }">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Dolor'  && medicamento.getCantidad() > 0 }">
 									<div th:with="dolorPresente=true"></div>
 									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
@@ -631,7 +631,7 @@
 							<div th:with="bellezaPresente=false"></div>
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Belleza' }">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Belleza'  && medicamento.getCantidad() > 0}">
 									<div th:with="bellezaPresente=true"></div>
 									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
@@ -865,7 +865,7 @@
 							<div th:with="suplementoPresente=false"></div>
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Suplemento' }">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Suplemento'  && medicamento.getCantidad() > 0 }">
 									<div th:with="suplementoPresente=true"></div>
 									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
@@ -1098,7 +1098,7 @@
 							<div th:with="otrosPresente=false"></div>
 							<!-- Iniciar la fila -->
 							<div class="row">
-								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Otros' }">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Otros'  && medicamento.getCantidad() > 0 }">
 									<div th:with="otrosPresente=true"></div>
 									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
@@ -1530,7 +1530,24 @@
 											valoresValidos = false;
 										}
 									});
-									if(valoresValidos){
+									var flsmdfr = 0 ;
+									//Validar que haya algo en el carrito
+									$.ajax({
+										url: '/pharmacist/getAllCarrito',
+										type: 'GET',
+										success: function (response) {
+											let listaMedicamentos = response;
+											// Realiza acciones con los datos, como mostrarlos en la consola
+											flsmdfr = listaMedicamentos.length;
+										},
+										error: function (error) {
+											console.error('There was a problem with the request:', error);
+										}
+									});
+
+
+
+									if(valoresValidos && flsmdfr != 0){
 										//Ahora enviamos por ajax al servidor
 										$.ajax({
 											url: "/pharmacist/GenerarVenta",
@@ -1589,7 +1606,7 @@
 											, confirmButtonColor: '#d48e15',
 											cancelButtonColor: '#805409',
 											cancelButtonText: "Salir",
-											text: "Ingresaste algún monto incoherente",
+											text: "Debes escoger algun producto",
 										});
 									}
 

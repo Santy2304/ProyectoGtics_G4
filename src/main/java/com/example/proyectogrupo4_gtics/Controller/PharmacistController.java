@@ -512,6 +512,47 @@ public class PharmacistController {
         }
     }
 
+    @PostMapping(value="/filtradoPost")
+    public String busquedaMedicamentos(Model model , HttpSession session , @RequestParam("medicamento") String medicamento) {
+        int idPharmacist = ((Pharmacist) session.getAttribute("usuario")).getIdFarmacista();
+        Pharmacist pharmacist = new Pharmacist();
+        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        model.addAttribute("sede", pharmacist.getSite());
+        model.addAttribute("nombre", pharmacist.getName());
+        model.addAttribute("apellido", pharmacist.getLastName());
+        List<MedicamentosPorSedeDTO> listaaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist);
+        ArrayList<MedicamentosPorSedeDTO> listaFiltrada = new ArrayList<>();
+        if (!medicamento.isEmpty()) {
+            for (MedicamentosPorSedeDTO m : listaaaa) {
+                if (m.getNombreMedicamento().contains(medicamento)) {
+                    listaFiltrada.add(m);
+                }
+            }
+    }else {
+            for (MedicamentosPorSedeDTO m : listaaaa) {
+                    listaFiltrada.add(m);
+
+            }
+        }
+        model.addAttribute("listamedicamentosfarm",listaFiltrada);
+        model.addAttribute("listaDoctores", doctorRepository.findAll());
+        try {
+            if (!(model.getAttribute("idPatient")).equals("")) {
+                model.addAttribute("fullNamePatient", (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getName() + " " + (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getLastName());
+                model.addAttribute("fullNameDoctor", (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getName() + " " + (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getLastName());
+            } else {
+                model.addAttribute("fullNamePatient", null);
+                model.addAttribute("fullNameDoctor", null);
+            }
+        }catch (Exception err){
+            model.addAttribute("fullNamePatient", null);
+            model.addAttribute("fullNameDoctor", null);
+        }
+        int idPhar = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
+        model.addAttribute("listaComprar" , carritoVentaRepository.getMedicineListByPharmacist(idPhar));
+        return "pharmacist/pos";
+    }
+
 
     @GetMapping("/detallesMedicamentos")
     public String detallesMedicamentos(@RequestParam("idMedicine") int idMedicine, Model model, HttpSession session

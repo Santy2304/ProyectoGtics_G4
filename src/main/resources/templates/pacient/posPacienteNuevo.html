@@ -455,7 +455,7 @@
                                     <!-- Iniciar la fila -->
                                     <div class="row">
                                         <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Dolor' }">
-                                            <div th:with="alergiaPresente=true"></div>
+                                            <div th:with="dolorPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
                                                     <img    th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
@@ -772,7 +772,7 @@
                                     <!-- Iniciar la fila -->
                                     <div class="row">
                                         <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Belleza' }">
-                                            <div th:with="alergiaPresente=true"></div>
+                                            <div th:with="bellezaPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
                                                     <img    th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
@@ -1090,7 +1090,7 @@
                                     <!-- Iniciar la fila -->
                                     <div class="row">
                                         <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Suplemento' }">
-                                            <div th:with="alergiaPresente=true"></div>
+                                            <div th:with="suplementoPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
                                                     <img    th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
@@ -1407,16 +1407,10 @@
                                     <!-- Iniciar la fila -->
                                     <div class="row">
                                         <div th:id="${medicamento.getNombreMedicamento()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosPatient}" th:if=" ${medicamento.getCategoria() == 'Otros' }">
-                                            <div th:with="alergiaPresente=true"></div>
+                                            <div th:with="otrosPresente=true"></div>
                                             <div class="productset">
                                                 <div class="productsetimg">
                                                     <img    th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img">
-                                                    <!--esto debe estar deshabilitado inicialmente-->
-                                                    <!-- <h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
-
-                                                    -->
-
-
                                                 </div>
                                                 <div class="productsetcontent">
                                                     <h5 th:text="${medicamento.getCategoria()}" ></h5>

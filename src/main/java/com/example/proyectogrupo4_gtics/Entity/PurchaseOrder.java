@@ -28,7 +28,7 @@ public class PurchaseOrder {
     private LocalTime deliveryHour;
 
     @Column(name = "prescription")
-    private byte[] prescription;
+    private String prescription;
 
     @ManyToOne
     @JoinColumn(name = "idpatient", nullable = false)
@@ -140,11 +140,11 @@ public class PurchaseOrder {
         this.patient = patient;
     }
 
-    public byte[] getPrescription() {
+    public String getPrescription() {
         return prescription;
     }
 
-    public void setPrescription(byte[] prescription) {
+    public void setPrescription(String prescription) {
         this.prescription = prescription;
     }
 

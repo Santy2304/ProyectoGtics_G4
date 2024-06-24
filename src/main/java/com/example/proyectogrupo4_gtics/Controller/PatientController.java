@@ -481,6 +481,7 @@ public class PatientController {
             return ResponseEntity.badRequest().body(er);
         }
     }
+
     @GetMapping(value="/vaciarCarrito")
     public Object deleteCarrito( HttpSession session){
         List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());

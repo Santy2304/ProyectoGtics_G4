@@ -340,7 +340,10 @@ public class PharmacistController {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //NUBE
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
+                //LOCAL
+                String rutaAbsoluta = "C://SaintMedic//imagenes";
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

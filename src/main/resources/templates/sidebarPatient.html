@@ -5,14 +5,11 @@
                 <li th:classappend="${activeTab == 'sede' ? ' active':'' }">
                     <a href="/patient/verSeleccionarSedePaciente" ><img src="/assets_pacient/img/icons/dashboard.svg" alt="img"><span>Elegir sede</span> </a>
                 </li>
-                <li th:classappend="${activeTab == 'principal' ? ' active':'' }">
-                    <a href="/patient/verPrincipalPaciente"><img src="/assets_pacient/img/icons/product.svg" alt="img"><span> Productos </span> </a>
-                </li>
 
                 <li class="submenu">
                     <a href="#"><img src="/assets_pacient/img/icons/sales1.svg" alt="img"><span> Compras </span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/patient/hola"  th:classappend="${activeTab == 'carrito' ? ' active':'' }" >Carrito de compras </a></li>
+                        <li><a href="/patient/compras"  th:classappend="${activeTab == 'carrito' ? ' active':'' }" >Carrito de compras </a></li>
                         <li><a href="/patient/verGenerarOrdenCompra"  th:classappend="${activeTab == 'ordenar' ? ' active':'' }" > Ordenar </a></li>
                         <li><a href="/patient/verTracking"  th:classappend="${activeTab == 'tracking' ? ' active':'' }" > Tracking </a></li>
                     </ul>

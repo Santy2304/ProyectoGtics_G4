@@ -889,6 +889,36 @@ public class PharmacistController {
     }
 
 
+    //Generar preorden y todos los web services usados
+    @GetMapping(value="/generarPreorden")
+    public String verGenerarPreorden(Model model, HttpSession session){
+        Pharmacist phar = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(phar.getIdFarmacista()));
+        try {
+            if (!(model.getAttribute("idPatient")).equals("")) {
+                model.addAttribute("fullNamePatient", (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getName() + " " + (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getLastName());
+                model.addAttribute("fullNameDoctor", (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getName() + " " + (doctorRepository.findById(Integer.parseInt("" + model.getAttribute("idDoctor")))).get().getLastName());
+            } else {
+                model.addAttribute("fullNamePatient", null);
+                model.addAttribute("fullNameDoctor", null);
+            }
+        }catch (Exception err){
+            model.addAttribute("fullNamePatient", null);
+            model.addAttribute("fullNameDoctor", null);
+        }
+        int idPhar = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
+        model.addAttribute("listaComprar" , carritoVentaRepository.getMedicineListByPharmacist(idPhar));
+        return "pharmacist/generarPreorden";
+    }
+
+    @GetMapping(value="/verPreordenes")
+    public String verPreordenes(Model model, HttpSession session){
+
+        return "/pharmacist/verPreordenes";
+    }
+
+
+
 
 }
 class errorData{

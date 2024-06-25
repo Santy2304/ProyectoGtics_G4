@@ -1020,10 +1020,15 @@ public class AdminSedeController {
             }
         }
     }
-/*
-    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    @Scheduled(fixedRate = 3600000) // Ejecuta la tarea cada 10minutos
     public void notificacionesPorEscaso() {
         List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando2 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 2");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando3 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 3");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando4 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 4");
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
             Notifications notifications = new Notifications();
@@ -1033,6 +1038,28 @@ public class AdminSedeController {
             notificationsRepository.save(notifications);
         }
 
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 2"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando3){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 3"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
 
-    }*/
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando4){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 4"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+
+    }
 }

@@ -54,13 +54,15 @@ public class PatientController {
     private final LoteRepository loteRepository;
     private final CarritoRepository carritoRepository;
 
+    final CreditCardRepository creditCardRepository;
+
     final TrackingRepository trackingRepository;
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
                               LoteRepository loteRepository,
                               UserRepository userRepository, TrackingRepository trackingRepository ,
-                              CarritoRepository carritoRepository) {
+                              CarritoRepository carritoRepository, CreditCardRepository creditCardRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -71,6 +73,7 @@ public class PatientController {
         this.userRepository = userRepository;
         this.trackingRepository = trackingRepository;
         this.carritoRepository = carritoRepository;
+        this.creditCardRepository = creditCardRepository;
     }
 
     @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
@@ -481,6 +484,70 @@ public class PatientController {
 
 
     }
+    @GetMapping(value = {"/verInformacionPago",""})
+    public String verInfoPago(  Model model, HttpSession session){
+        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
+        model.addAttribute("paciente" , patient.get());
+        model.addAttribute("nombre",patient.get().getName());
+        model.addAttribute("apellido",patient.get().getLastName());
+        model.addAttribute("listaTarjetas",creditCardRepository.listaCreditCards(patient.get().getIdPatient()));
+        return "pacient/informacionPago";
+    }
+
+    @PostMapping("/agregarTarjetaUsuario")
+    public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
+
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+
+        CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(creditCard.getNumberCard());
+
+        if (creditCardOptional!=null){
+            int medDb = creditCardOptional.getExpireMonth();
+            int yearDb = creditCardOptional.getExpireYear();
+            if (creditCardOptional.getCvv().equals(creditCard.getCvv()) && medDb==month && yearDb==year && creditCardOptional.getIdPatient()==null){
+                    creditCardOptional.setIdPatient(patient);
+                    creditCardOptional.setPrefered(true);
+                    creditCardRepository.save(creditCardOptional);
+                    List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
+                    for(CreditCard tarjeta:listaTarjetas){
+                        if (!creditCard.getNumberCard().equals(tarjeta.getNumberCard())){
+                            tarjeta.setPrefered(false);
+                            creditCardRepository.save(tarjeta);
+                        }
+                    }
+            }else{
+                attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+            }
+
+        }else{
+            attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+        }
+
+        return "redirect:verInformacionPago";
+    }
+
+
+    @GetMapping("/marcarTarjetaPreferida")
+    public String marcarTarjetaFavorita(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
+
+        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.get().getIdPatient());
+        creditCardRepository.preferirPorid(idTarjeta);
+        for (CreditCard tarjeta: listaTarjetas){
+            if(tarjeta.getIdCredit()!=idTarjeta){
+                tarjeta.setPrefered(false);
+                creditCardRepository.save(tarjeta);
+            }
+        }
+
+        return "redirect:verInformacionPago";
+    }
+
+
+
 
     @GetMapping("/cerrarSesionPaciente")
     public String eliminarStributo(SessionStatus sessionStatus){

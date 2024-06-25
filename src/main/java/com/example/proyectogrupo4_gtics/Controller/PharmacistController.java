@@ -131,7 +131,7 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesSede(pharmacist.getSite()));
         return "pharmacist/notifications";
     }
 

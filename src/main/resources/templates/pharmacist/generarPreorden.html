@@ -48,10 +48,9 @@
     <div th:replace="headerFarmacista"></div>
 
     <!--sideBar-->
-    <div th:replace="sidebarFarmacista:: sidebarFarmacista(activeTab = 'pos')"> </div>
+    <div th:replace="sidebarFarmacista:: sidebarFarmacista(activeTab = 'generarPreorden')"> </div>
 
     <!-- /Sidebar -->
-
         <div class="page-wrapper">
             <div class="content">
                 <div class="page-header">
@@ -66,142 +65,136 @@
                         <a id="GenerarReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
                     </div>
                     <script>
-                        $("#GenerarReposicion").click( function(){
-                            var formulario = document.getElementById("MyForm");
-                            var inputs = formulario.querySelectorAll('input');
-                            var errorNegativo = 0;
-                            var errorLetra = 0;
-                            var cantidadAceptable = 0;
-                            var numeroParseado = 0;
-                            var arregloValidoValue = [];
-                            var arregloValidoId = [];
-                            var cantidadCeros = 0;
-                            inputs.forEach(function(input){
-                                try{
-                                    if(0 == input.value){
-                                        cantidadCeros++;
-                                    }
-                                    numeroParseado = parseInt(input.value);
-                                    if(numeroParseado<0){
-                                        errorNegativo++;
-                                    }else{
-                                        arregloValidoValue.push(input.value);
-                                        arregloValidoId.push(input.id);
-                                        cantidadAceptable++;
-                                    }
-                                } catch (error) {
-                                    errorLetra++;
-                                }
-                            });
-                            console.log(arregloValidoValue);
-                            console.log(arregloValidoId);
-                            if(cantidadCeros === inputs.length){
-                                Swal.fire({
-                                    icon: "error",
-                                    iconColor: 'brown',
-                                    text: "Debes ingresar alguna cantidad en los productos para realizar el pedido de reposición",
-                                    confirmButtonColor: "#dd986a"
-                                })
-                            }else{
-                                if(errorNegativo!==0 || errorLetra!==0 ){
-                                    Swal.fire({
-                                        icon: "error",
-                                        iconColor: 'brown',
-                                        text: "Ingresaste alguna cantidad incoherente!",
-                                        confirmButtonColor: "#dd986a"
-                                    })
-                                }else{
-                                    if(cantidadAceptable<=10){
-                                        async function auxiliar(){
-                                            const { value: date } = await Swal.fire({
-                                                title: "Escoge la fecha de llegada del pedido de reposición",
-                                                confirmButtonText: "Generar",
-                                                cancelButtonText: "Regresar",
-                                                cancelButtonColor: "rgba(248,215,48,0.87)",
-                                                showCancelButton: true,
-                                                confirmButtonColor: "#dd986a",
-                                                input: "date",
-                                                didOpen: () => {
-                                                    const today = (new Date()).toISOString();
-                                                    Swal.getInput().min = today.split("T")[0];
-                                                }
-                                            });
-                                            if (date) {
-                                                //Poner alguna condicion para las fechas acá
-                                                $.ajax({
-                                                    url:"/adminSede/generarReposicion",
-                                                    data: JSON.stringify({ cantidad: arregloValidoValue , ids : arregloValidoId ,date:date  }),
-                                                    type: "POST",
-                                                    contentType: "application/json",
-                                                    success: function(data){
-                                                        switch(data.error){
-                                                            case "":
-                                                                window.location.href = data.response;
-                                                                break;
-                                                            case "errorMenorADiez":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "Ingresaste más de 10 medicamentos en el pedido de reposición!",
-                                                                });
-                                                                break;
-                                                            case "errorDiferenteCero":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "No ingresaste ningún medicamento en el pedido de reposición!",
-                                                                });
-                                                                break;
-                                                            case "errorMedicamentosNoCoinciden":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "No se pueden pedir reposiciones de medicamentos que tengan un stock mayor a 25 unidades!",
-                                                                });
-                                                                break;
-                                                            case "errorStrings":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "Ingresaste algún valor incoherente!",
-                                                                });
-                                                                break;
-                                                            case "ErrorReposicionPermitida":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "Debes realizar el pedido de reposición con por lo menos 7 días de anticipación!",
-                                                                });
-                                                                break;
-                                                            case "ErrorVacio":
-                                                                Swal.fire({
-                                                                    icon: "error",
-                                                                    title: "Oops...",
-                                                                    text: "Ocurrio un error inesperado!",
-                                                                });
-                                                                break;
-                                                        }
+                        // Function to create a column with a form group
+                        function createColDiv(labelText, inputType, options = {}, isFullWidth = false) {
+                            let colDiv = document.createElement('div');
+                            colDiv.className = isFullWidth ? 'col-lg-12' : 'col-lg-3 col-sm-6 col-12';
 
-                                                    }
-                                                })
+                            let formGroupDiv = document.createElement('div');
+                            formGroupDiv.className = 'form-group';
 
-                                            }
-                                        }
-                                        auxiliar();
-                                    }else{
-                                        Swal.fire({
-                                            icon: "error",
-                                            iconColor: 'brown',
-                                            text: "No se puede realizar un pedido de reposición con más de 10 productos",
-                                            confirmButtonColor: "#dd986a"
-                                        });
-                                    }
+                            let label = document.createElement('label');
+                            label.textContent = labelText;
+                            formGroupDiv.appendChild(label);
+
+                            if (inputType === 'select') {
+                                let select = document.createElement('select');
+                                select.className = 'select';
+                                options.options.forEach(optionText => {
+                                    let option = document.createElement('option');
+                                    option.textContent = optionText;
+                                    select.appendChild(option);
+                                });
+                                formGroupDiv.appendChild(select);
+                            } else if (inputType === 'textarea') {
+                                let textarea = document.createElement('textarea');
+                                textarea.className = 'form-control';
+                                formGroupDiv.appendChild(textarea);
+                            } else {
+                                let inputGroupDiv = document.createElement('div');
+                                inputGroupDiv.className = 'input-groupicon';
+
+                                let input = document.createElement('input');
+                                input.type = inputType;
+                                if (options.placeholder) {
+                                    input.placeholder = options.placeholder;
                                 }
+                                inputGroupDiv.appendChild(input);
+
+                                if (options.iconSrc) {
+                                    let addonSetDiv = document.createElement('div');
+                                    addonSetDiv.className = 'addonset';
+
+                                    let img = document.createElement('img');
+                                    img.src = options.iconSrc;
+                                    img.alt = 'img';
+
+                                    addonSetDiv.appendChild(img);
+                                    inputGroupDiv.appendChild(addonSetDiv);
+                                }
+
+                                formGroupDiv.appendChild(inputGroupDiv);
                             }
-                        })
-                    </script>
-                </div>
 
+                            colDiv.appendChild(formGroupDiv);
+                            return colDiv;
+                        }
+                        document.addEventListener('DOMContentLoaded', () => {
+                            let okey = document.getElementById("GenerarReposicion");
+                            okey.addEventListener('click', () =>{
+
+                                let cardDiv = document.createElement('div');
+                                cardDiv.className = 'card';
+
+                                let cardBodyDiv = document.createElement('div');
+                                cardBodyDiv.className = 'card-body';
+
+                                let rowDiv = document.createElement('div');
+                                rowDiv.className = 'row';
+
+                                // Creación de los col-lg-3 col-sm-6 col-12 para cada input
+                                let col1 = createColDiv('Expense Category', 'select', {
+                                    options: ['Choose Category', 'Category']
+                                });
+
+                                let col2 = createColDiv('Expense Date', 'text', {
+                                    placeholder: 'Choose Date',
+                                    iconSrc: 'assets/img/icons/calendars.svg'
+                                });
+
+                                let col3 = createColDiv('Amount', 'text', {
+                                    iconSrc: 'assets/img/icons/dollar.svg'
+                                });
+
+                                let col4 = createColDiv('Reference No.', 'text');
+
+                                let col5 = createColDiv('Expense for', 'text', {}, true);
+                                let col6 = createColDiv('Description', 'textarea', {}, true);
+
+                                let col7 = document.createElement('div');
+                                col7.className = 'col-lg-12';
+                                let submitButton = document.createElement('a');
+                                submitButton.href = 'javascript:void(0);';
+                                submitButton.className = 'btn btn-submit me-2';
+                                submitButton.textContent = 'Submit';
+                                col7.appendChild(submitButton);
+
+                                let cancelButton = document.createElement('a');
+                                cancelButton.href = 'expenselist.html';
+                                cancelButton.className = 'btn btn-cancel';
+                                cancelButton.textContent = 'Cancel';
+                                col7.appendChild(cancelButton);
+
+                                // Append all created columns to the row
+                                rowDiv.append(col1, col2, col3, col4, col5, col6, col7);
+
+                                // Append the row to the card body
+                                cardBodyDiv.appendChild(rowDiv);
+
+                                // Append the card body to the card
+                                cardDiv.appendChild(cardBodyDiv);
+
+                                // Append the card to the body or any other container
+                                swal.fire({
+                                    html:cardDiv,
+                                    showConfirmButton: false ,
+                                    customClass: {
+                                        popup: 'large-swal-popup'
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                    <style>
+                        /* Define el tamaño del popup de SweetAlert */
+                        .large-swal-popup {
+                            width: 600px !important; /* Ancho personalizado */
+                            height: auto; /* Auto ajustable */
+                            padding: 20px !important; /* Relleno personalizado */
+                            font-size: 1.2em; /* Tamaño de fuente personalizado */
+                        }
+                    </style>
+                </div>
                 <!-- /product list -->
                 <div class="card">
                     <div class="card-body">
@@ -230,8 +223,8 @@
                             <div class="card-body pb-0">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12">
-
-                                        <form id="Hola" th:action="@{'/adminSede/generarReposicionBusca'}"  method="post" >
+                                        <!--Falta incluir el filtro-->
+                                        <form id="Hola"  method="post" >
                                             <div class="row">
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
@@ -255,13 +248,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <form id="MyForm">
                             <!-- /Filter -->
                             <div class="table-responsive">
                                 <table class="table  datanew">
@@ -277,44 +268,31 @@
                                     </thead>
                                     <tbody >
                                     <tr th:each="medicamento, vEstado: ${listaMedicamentosBS}">
-                                        <td> <input th:id="|${medicamento.idMedicine}|" type="number" value="0" > </td>
+                                        <td> <input th:id="${medicamento.getIdMedicine()}" type="number" value="0" > </td>
+                                        <script th:inline="javascript">
+                                            document.addEventListener('DOMContentLoaded', () => {
+                                               let input = document.getElementById('' +[[${medicamento.getIdMedicine()}]]) ;
+                                               input.addEventListener('change', () => {
+                                                 if(input.value<0){
+                                                     input.value = 0;
+                                                 }
+                                               });
+                                            });
+                                        </script>
                                         <td th:text="${medicamento.getNombreMedicamento()}"></td>
                                         <td class="productimgname" style="text-align: center;">
                                             <a th:id="|A${medicamento.idMedicine}|" class="product-img" >
-                                                <img  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="product">
+                                                <img  th:src="|/imagenes/${medicamento.getPhoto()}|" alt="product">
                                             </a>
                                         </td>
                                         <td th:text="${medicamento.getCategoria()}"></td>
                                         <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
                                         <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
                                         <td th:text="${medicamento.getPrecio()}"></td>
-                                        <script th:inline="javascript" >
-
-                                            $("#A" + [[${medicamento.idMedicine}]]).click(function () {
-                                                Swal.fire({
-                                                    title: [[${medicamento.getNombreMedicamento()}]],
-                                                    text: [[${medicamento.getDescription()}]],
-                                                    imageUrl: '/assets_superAdmin/ImagenesMedicina/'+[[${medicamento.getPhoto()}]],
-                                                    imageWidth: 400,
-                                                    imageHeight: 200,
-                                                    imageAlt: "Custom image",
-                                                    confirmButtonColor: "#dd986a"
-                                                })
-                                            })
-                                        </script>
                                     </tr>
-                                    <!--
-                                    th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}"
-                                    <!td>
-                                        <a class="me-3" href="editproduct.html">
-                                            <img src="assets/img/icons/edit.svg" alt="img">
-                                        </a>
-                                    <!/td>
-                                    -->
                                     </tbody>
                                 </table>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -1248,30 +1226,22 @@
 
 <!-- jQuery -->
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
-
 <!-- Feather Icon JS -->
 <script src="/assets_superAdmin/js/feather.min.js"></script>
-
 <!-- Slimscroll JS -->
 <script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
-
 <!-- Bootstrap Core JS -->
 <script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
-
 <!-- Datatable JS -->
 <script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
 <script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
-
 <!-- Select2 JS -->
 <script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
-
 <!-- Owl JS -->
 <script src="/assets_superAdmin/plugins/owlcarousel/owl.carousel.min.js"></script>
-
 <!-- Sweetalert 2 -->
 <script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
-
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
 

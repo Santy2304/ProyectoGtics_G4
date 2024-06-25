@@ -1489,8 +1489,7 @@
 
 							</div>
 							<div th:if="${fullNamePatient} != null" id="venta" style="cursor: pointer;" class="btn-totallabel">
-								<h5  >Vender</h5>
-								<h6>s/60.00</h6>
+								<h5>Vender</h5>
 							</div>
 							<script>
 								var div = document.getElementById("venta");
@@ -1530,15 +1529,77 @@
 											valoresValidos = false;
 										}
 									});
-									var flsmdfr = 0 ;
 									//Validar que haya algo en el carrito
 									$.ajax({
 										url: '/pharmacist/getAllCarrito',
 										type: 'GET',
 										success: function (response) {
+											let flsmdfr = 0 ;
 											let listaMedicamentos = response;
 											// Realiza acciones con los datos, como mostrarlos en la consola
 											flsmdfr = listaMedicamentos.length;
+											if(valoresValidos && flsmdfr !== 0){
+												//Ahora enviamos por ajax al servidor
+												$.ajax({
+													url: "/pharmacist/GenerarVenta",
+													data: JSON.stringify( {
+														ids: inputMedicine,
+														cantidades: inputCantidad
+													}),
+													contentType: "application/json",
+													type: "POST",
+													success: function(response){
+														switch(response.error){
+															case "":
+																Swal.fire({
+																	icon: "success",
+																	iconColor: '#f69b00',
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	title: "Venta concluida",
+																	text: "Se concreto correctamente la venta",
+																}).then(function() {
+																	window.location.href= "/pharmacist/verProductList";
+																});
+																break;
+
+															case "errorInesperado":
+																Swal.fire({
+																	icon: "error",
+																	iconColor:"#f69b00" ,
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	cancelButtonText: "Salir",
+																	text: "Ocurrio un error inesperado ",
+																});
+																break;
+															case "noHaySuficienteStock":
+																Swal.fire({
+																	icon: "error",
+																	iconColor:"#f69b00" ,
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	cancelButtonText: "Salir",
+																	text: "No hay suficiente stock como para realizar esta venta",
+																});
+																break;
+														}
+													}
+												});
+											}else{
+												console.log("holaaaaa");
+												Swal.fire({
+													icon: "warning",
+													showCancelButton: true
+													, confirmButtonColor: '#d48e15',
+													cancelButtonColor: '#805409',
+													cancelButtonText: "Salir",
+													text: "Debes escoger algun producto",
+												});
+											}
 										},
 										error: function (error) {
 											console.error('There was a problem with the request:', error);
@@ -1547,70 +1608,8 @@
 
 
 
-									if(valoresValidos && flsmdfr != 0){
-										//Ahora enviamos por ajax al servidor
-										$.ajax({
-											url: "/pharmacist/GenerarVenta",
-											data: JSON.stringify( {
-												ids: inputMedicine,
-												cantidades: inputCantidad
-											}),
-											contentType: "application/json",
-											type: "POST",
-											success: function(response){
-												switch(response.error){
-													case "":
-														Swal.fire({
-															icon: "success",
-															iconColor: '#f69b00',
-															showCancelButton: false
-															, confirmButtonColor: '#d48e15',
-															cancelButtonColor: '#805409',
-															title: "Venta concluida",
-															text: "Se concreto correctamente la venta",
-														}).then(function() {
-															window.location.href= "/pharmacist/verProductList";
-														});
-														break;
 
-													case "errorInesperado":
-														Swal.fire({
-														icon: "error",
-															iconColor:"#f69b00" ,
-														showCancelButton: false
-														, confirmButtonColor: '#d48e15',
-														cancelButtonColor: '#805409',
-														cancelButtonText: "Salir",
-														text: "Ocurrio un error inesperado ",
-													});
-														break;
-													case "noHaySuficienteStock":
-														Swal.fire({
-															icon: "error",
-															iconColor:"#f69b00" ,
-															showCancelButton: false
-															, confirmButtonColor: '#d48e15',
-															cancelButtonColor: '#805409',
-															cancelButtonText: "Salir",
-															text: "No hay suficiente stock como para realizar esta venta",
-														});
-														break;
-												}
-											}
-										});
-									}else{
-										console.log("holaaaaa");
-										Swal.fire({
-											icon: "warning",
-											showCancelButton: true
-											, confirmButtonColor: '#d48e15',
-											cancelButtonColor: '#805409',
-											cancelButtonText: "Salir",
-											text: "Debes escoger algun producto",
-										});
-									}
-
-								})
+								});
 							</script>
 						</div>
 					</div>

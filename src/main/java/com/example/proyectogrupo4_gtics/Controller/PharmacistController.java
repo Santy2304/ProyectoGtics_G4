@@ -679,10 +679,22 @@ public class PharmacistController {
 
             boolean suficienteStock= true;
             for (int idx = 0; idx < data.getIds().toArray().length; idx++) {
-                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
-                if (listaLotesPosibles.isEmpty()) {
-                    suficienteStock= false;
-                    continue;
+                int id  = listaIdMedicine.get(idx);
+                int cantidad = listaCantidades.get(idx);
+                String site = pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite();
+                List<MedicamentosPorSedeDTO> listaaaaaaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista());
+                for (MedicamentosPorSedeDTO m : listaaaaaaaa) {
+                    if(m.getIdMedicine() == id){
+                        if(m.getCantidad()>=cantidad){
+                            suficienteStock = true;
+                            break;
+                        }else{
+                            suficienteStock = false;
+                            break;
+                        }
+                    }else{
+                        continue;
+                    }
                 }
             }
 
@@ -893,7 +905,15 @@ public class PharmacistController {
     @GetMapping(value="/generarPreorden")
     public String verGenerarPreorden(Model model, HttpSession session){
         Pharmacist phar = (Pharmacist) session.getAttribute("usuario");
-        model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(phar.getIdFarmacista()));
+        List<MedicamentosPorSedeDTO> lista =  medicineRepository.listaMedicamentosPorSedeFarmacista(phar.getIdFarmacista());
+        ArrayList<MedicamentosPorSedeDTO> listaFiltrada=  new ArrayList<>();
+        for( MedicamentosPorSedeDTO  m : lista ){
+            if(m.getCantidad()==0){
+                listaFiltrada.add(m);
+            }
+        }
+
+        model.addAttribute("listaMedicamentosBS",listaFiltrada );
         try {
             if (!(model.getAttribute("idPatient")).equals("")) {
                 model.addAttribute("fullNamePatient", (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getName() + " " + (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getLastName());

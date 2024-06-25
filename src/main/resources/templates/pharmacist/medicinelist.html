@@ -175,7 +175,8 @@
 								<td th:text="${medicamento.categoria}"></td>
 								<!--<td th:text="${medicamento.getCantidad()}"></td>-->
 								<td th:text="${medicamento.precio}"></td>
-								<td th:text="${medicamento.cantidad}"></td>
+								<td th:if="medicamento.cantidad != 0" th:text="${medicamento.cantidad}"></td>
+								<td th:if="medicamento.cantidad == 0" > Agotado </td>
 								<td>
 									<a class="me-3" th:id="|${medicamento.getIdMedicine()}|">
 										<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">

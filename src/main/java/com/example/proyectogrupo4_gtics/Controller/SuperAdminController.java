@@ -923,10 +923,11 @@ public class  SuperAdminController {
         return "redirect:verListados";
     }
 
-    //Falta implementar el método para desbanear Paciente
-
     @GetMapping("/desbanearPaciente")
     public String desbanearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.desbanearPacientePorId(idPaciente);
+        Patient patient = patientRepository.findById(idPaciente).get();
+        userRepository.desbanear(patient.getEmail());
         return "redirect:verListados";
     }
 

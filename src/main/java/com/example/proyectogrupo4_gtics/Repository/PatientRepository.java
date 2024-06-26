@@ -32,6 +32,11 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "update patient set state = 'baneado'  where idPatient =?1" , nativeQuery = true)
     void banearPacientePorId(int idPaciente);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update patient set state = 'activo' where idPatient =?1", nativeQuery = true)
+    void desbanearPacientePorId(int idPaciente);
+
     @Query(nativeQuery = true, value = "SELECT * FROM patient where email= ?1 and password=?2")
     Patient buscarPatient (String email , String password);
 

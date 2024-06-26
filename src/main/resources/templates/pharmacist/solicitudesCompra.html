@@ -138,9 +138,40 @@
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="confirm-text" th:id="|delete${solicitud.idPurchaseOrder}|" >
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let dele = document.getElementById(  'delete' + [[${solicitud.idPurchaseOrder}]]);
+                                                        dele.addEventListener('click', ()=> {
+                                                            Swal.fire({
+                                                                title:'¿Estás seguro de invalidar esta venta? Ingresa el motivo',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d48e15',
+                                                                cancelButtonColor: '#805409',
+                                                                confirmButtonText: 'Invalidar' ,
+                                                                cancelButtonText:'Cancelar',
+                                                                input: 'text'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    $.ajax({
+                                                                        type : 'GET' ,
+                                                                        url : '/pharmacist/rechazarSolicitud?idSolicitud=' + [[${solicitud.idPurchaseOrder}]] ,
+                                                                        success : function (response) {
+                                                                           window.location.href = '/pharmacist/solicitudesFarmacista';
+                                                                        } ,
+                                                                        error: function(response){
+                                                                            console.log('eppepepep');
+                                                                        }
+                                                                    })
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
 
                                             </td>
                                         </tr>
@@ -285,10 +316,13 @@
         <!-- Sweetalert 2 -->
         <script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
         <script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
-
+        <!-- Sweetalert 2 -->
+        <script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+        <script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
         <!-- Custom JS -->
         <script src="/assets_superAdmin/js/script.js"></script>
-
+        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
         <script src="/assets_superAdmin/js/moment.min.js"></script>
         <script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
 

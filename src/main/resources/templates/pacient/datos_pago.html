@@ -26,366 +26,144 @@
 	<link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
 	<link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" charset="UTF-8"></script>
-
-	<!-- Favicon -->
-
-	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="assets_pacient/css/bootstrap.min.css">
-	<link rel="shortcut icon" type="image/x-icon" href="../assets_pacient/img/PastillaSinFondo.png">
+	<link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
 
 	<!-- animation CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
+	<link rel="stylesheet" href="/assets_pacient/css/animate.css">
 
 	<!-- Datatable CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="/assets_pacient/css/dataTables.bootstrap4.min.css">
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+	<link rel="stylesheet" href="/assets_pacient/css/style.css">
 
-	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap-datetimepicker.min.css">
-
-
-	<style>
-
-
-		.active{
-			background:#f38a4e;
-		}
-
-		.custom-navbar .nav-item.active {
-			border-radius: 15px; /* Ajusta el valor para más o menos redondeo */
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra opcional para un efecto de elevación */
-		}
-		.custom-navbar .logo-img {
-			width: 70px; /* Ajusta el ancho según sea necesario */
-			height: auto; /* Mantiene la proporción de aspecto */
-		}
-		.custom-navbar .logo-small {
-			margin-left: -16%; /* Ajusta el valor negativo para mover el logo a la izquierda */
-		}
-		.custom-dropdown-menu {
-			min-width: auto; /* Permite que el menú se ajuste al contenido */
-			padding: 0.5rem 1rem; /* Ajusta el relleno según sea necesario */
-		}
-
-		/* Ajuste del tamaño de los elementos dentro del dropdown */
-		.custom-dropdown-menu .dropdown-item,
-		.custom-dropdown-menu hr,
-		.custom-dropdown-menu form {
-			padding: 0.25rem 0; /* Ajusta el relleno de los elementos */
-			margin: 0; /* Elimina márgenes adicionales */
-		}
-		.flip-card {
-			background-color: transparent;
-			width: 240px;
-			height: 154px;
-			perspective: 1000px;
-			color: white;
-		}
-
-		.heading_8264 {
-			position: absolute;
-			letter-spacing: .2em;
-			font-size: 0.5em;
-			top: 2em;
-			left: 18.6em;
-		}
-
-		.logo {
-			position: absolute;
-			top: 6.8em;
-			left: 11.7em;
-		}
-
-		.chip {
-			position: absolute;
-			top: 2.3em;
-			left: 1.5em;
-		}
-
-		.contactless {
-			position: absolute;
-			top: 3.5em;
-			left: 12.4em;
-		}
-
-		.number {
-			position: absolute;
-			font-weight: bold;
-			font-size: .6em;
-			top: 8.3em;
-			left: 1.6em;
-		}
-
-		.valid_thru {
-			position: absolute;
-			font-weight: bold;
-			top: 635.8em;
-			font-size: .01em;
-			left: 140.3em;
-		}
-
-		.date_8264 {
-			position: absolute;
-			font-weight: bold;
-			font-size: 0.5em;
-			top: 13.6em;
-			left: 3.2em;
-		}
-
-		.name {
-			position: absolute;
-			font-weight: bold;
-			font-size: 0.5em;
-			top: 16.1em;
-			left: 2em;
-		}
-
-		.strip {
-			position: absolute;
-			background-color: black;
-			width: 15em;
-			height: 1.5em;
-			top: 2.4em;
-			background: repeating-linear-gradient(
-					45deg,
-					#303030,
-					#303030 10px,
-					#202020 10px,
-					#202020 20px
-			);
-		}
-
-		.mstrip {
-			position: absolute;
-			background-color: rgb(255, 255, 255);
-			width: 8em;
-			height: 0.8em;
-			top: 5em;
-			left: .8em;
-			border-radius: 2.5px;
-		}
-
-		.sstrip {
-			position: absolute;
-			background-color: rgb(255, 255, 255);
-			width: 4.1em;
-			height: 0.8em;
-			top: 5em;
-			left: 10em;
-			border-radius: 2.5px;
-		}
-
-		.code {
-			font-weight: bold;
-			text-align: center;
-			margin: .2em;
-			color: black;
-		}
-
-		.flip-card-inner {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			text-align: center;
-			transition: transform 0.8s;
-			transform-style: preserve-3d;
-		}
-
-		.flip-card:hover .flip-card-inner {
-			transform: rotateY(180deg);
-		}
-
-		.flip-card-front, .flip-card-back {
-			box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
-			position: absolute;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			width: 100%;
-			height: 100%;
-			-webkit-backface-visibility: hidden;
-			backface-visibility: hidden;
-			border-radius: 1rem;
-		}
-
-		.flip-card-front {
-			box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-			background-color: #171717;
-		}
-
-		.flip-card-back {
-			box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-			background-color: #171717;
-			transform: rotateY(180deg);
-		}
-
-		/* Ajuste para el botón de formulario */
-		.custom-dropdown-menu form .btn {
-			padding: 0; /* Elimina relleno del botón */
-		}
-
-		.custom-dropdown-menu form .btn img {
-			width: 20px; /* Ajusta el tamaño del ícono */
-			height: 20px; /* Ajusta el tamaño del ícono */
-		}
-
-	</style>
+	<link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
 
 </head>
 
-	<!--style="background-image: url('/assets_pacient/images/background-pattern.jpg');background-repeat: no-repeat;background-size: cover;"-->
 <body>
-	<header class="custom-navbar p-3 mb-3 border-bottom" style="background: linear-gradient(90deg,#f6c32c 25%, #ff9f43 50%);">
-		<div class="container">
-			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-				<a class="logo-small" href="/patient/verSeleccionarSedePaciente">
-					<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="" class="logo-img">
-				</a>
-
-				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-					<li>
-						<a href="/patient/verPrincipalPaciente" style="color: white" class="nav-link px-2 link-secondary">Home</a>
-					</li>
-					<li ><a style="color: white" href="/patient/verGenerarOrdenCompra" class="nav-link px-2 link-secondary">Ordenar</a></li>
-					<li class="nav-item active"><a href="/patient/verHistorial" style="color: white" class="nav-link px-2 link-secondary">Historial</a></li>
-					<li ><a href="/patient/verTracking" style="color: white" class="nav-link px-2 link-secondary">Tracking</a></li>
-					<li><a href="/patient/verChatPaciente" style="color: white" class="nav-link px-2 link-secondary">Chats</a></li>
-				</ul>
-
-				<div class="dropdown text-end">
-					<a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-						<img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
-					</a>
-					<ul class="dropdown-menu text-small custom-dropdown-menu">
-						<li> <p th:text="${nombre}+' '+${apellido}"></p></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="/patient/verPerfilPaciente">Profile</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><form th:action="@{/logout}" method="post" class="ml-2">
-							<button class="btn btn-link" type="submit">
-								<img type="submit" src="/assets_superAdmin/img/icons/log-out.svg" alt="Logout" width="25" height="25" >
-							</button>
-						</form></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</header>
-
 <div id="global-loader" >
 	<div class="whirly-loader"> </div>
 </div>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
 
-	<div class="content py-3" >
-
-		<div class="row mx-3 mt-2">
-			<div class="col-lg-3 col-sm-6 col-12">
-				<div class="dash-widget">
-					<div class="dash-widgetimg">
-						<span><img src="/assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
-					</div>
-					<div class="dash-widgetcontent">
-						<h5 >S/20.00</h5>
-						<h6>Total a Pagar</h6>
-					</div>
-				</div>
-			</div>
-
-		</div>
-		<!-- Button trigger modal -->
-
-		<div class="row mx-3">
-			<div class="col-lg-7 col-sm-12 col-12 d-flex">
-				<div class="card">
-					<div class="card-header">
-						<h5 class="card-title">Generar orden de compra</h5>
-						<p class="card-text">Elija un metodo de pago y rellene sus datos correctamente para realizar la compra. También puede agregar un nuevo método de pago</p>
-					</div>
-					<div class="card-body">
-						<form>
-							<h5 class="card-title">Tarjetas Guardadas</h5>
-
-							<div class="card-body">
-
-								<div class="table-responsive">
-
-									<table class="table mb-0">
-										<thead>
-										<tr>
-											<th>#</th>
-											<th>Número de Tarjeta</th>
-											<th>Tipo</th>
-										</tr>
-										</thead>
-										<tbody>
-										<tr>
-											<td>1</td>
-											<td>1234 **** **** **34</td>
-											<td>Crédito</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>f445 **** **** **54</td>
-											<td>Débito</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>34rg **** **** **67</td>
-											<td>Crédito</td>
-										</tr>
-										</tbody>
-									</table>
-								</div>
+	<!-- Header -->
+	<div th:replace="navbarPacienteNuevo"></div>
+	<!-- Header -->
+	<!-- Sidebar -->
+	<div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'datos')"> </div>
+	<!-- /Sidebar -->
+	<div class="page-wrapper pagehead">
+		<div class="content" style="margin-left:8% ; margin-right:8%">
+			<!-- /product list -->
+			<div class="content py-3" >
+				<div class="row mx-3 mt-2">
+					<div class="col-lg-3 col-sm-6 col-12">
+						<div class="dash-widget">
+							<div class="dash-widgetimg">
+								<span><img src="/assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
 							</div>
+							<div class="dash-widgetcontent">
+								<h5 >S/20.00</h5>
+								<h6>Total a Pagar</h6>
+							</div>
+						</div>
+					</div>
 
+				</div>
+				<!-- Button trigger modal -->
+				<div class="row mx-3">
+					<div class="col-lg-7 col-sm-12 col-12 d-flex">
+						<div class="card">
+							<div class="card-header">
+								<h5 class="card-title">Generar orden de compra</h5>
+								<p class="card-text">Elija un metodo de pago y rellene sus datos correctamente para realizar la compra. También puede agregar un nuevo método de pago</p>
+							</div>
+							<div class="card-body">
+								<form>
+									<h5 class="card-title">Tarjetas Guardadas</h5>
 
+									<div class="card-body">
 
-							<div class="container">
-								<div class="col">
-									<h5 class="card-title">Usar y agregar otra tarjeta</h5>
-									<div class="form-row row mx-1">
-										<div class="col-md-6 mb-3">
-											<label class="mb-2" for="validationServer01">Nueva Tarjeta</label>
-											<input type="text" class="form-control" id="validationServer01" placeholder="*** *** ***" required>
+										<div class="table-responsive">
 
+											<table class="table mb-0">
+												<thead>
+												<tr>
+													<th>#</th>
+													<th>Número de Tarjeta</th>
+													<th>Tipo</th>
+												</tr>
+												</thead>
+												<tbody>
+												<tr>
+													<td>1</td>
+													<td>1234 **** **** **34</td>
+													<td>Crédito</td>
+												</tr>
+												<tr>
+													<td>2</td>
+													<td>f445 **** **** **54</td>
+													<td>Débito</td>
+												</tr>
+												<tr>
+													<td>3</td>
+													<td>34rg **** **** **67</td>
+													<td>Crédito</td>
+												</tr>
+												</tbody>
+											</table>
 										</div>
 									</div>
 
-									<h5 class="card-title">Credenciales</h5>
 
 
-									<div class="form-row row mx-1">
+									<div class="container">
+										<div class="col">
+											<h5 class="card-title">Usar y agregar otra tarjeta</h5>
+											<div class="form-row row mx-1">
+												<div class="col-md-6 mb-3">
+													<label class="mb-2" for="validationServer01">Nueva Tarjeta</label>
+													<input type="text" class="form-control" id="validationServer01" placeholder="*** *** ***" required>
 
-										<div class="col-md-4 mb-3">
-											<input type="text" class="form-control" id="validationServer02" placeholder="CVV" required>
+												</div>
+											</div>
 
+											<h5 class="card-title">Credenciales</h5>
+
+
+											<div class="form-row row mx-1">
+
+												<div class="col-md-4 mb-3">
+													<input type="text" class="form-control" id="validationServer02" placeholder="CVV" required>
+
+												</div>
+
+												<div class="col-md-4 mb-3">
+													<input type="text" class="form-control" id="validationServer03" placeholder="Fecha de Vencimiento ( / )" required>
+
+												</div>
+
+
+											</div>
+
+											<button class="btn btn-primary mt-2" type="submit">Aceptar</button>
 										</div>
 
-										<div class="col-md-4 mb-3">
-											<input type="text" class="form-control" id="validationServer03" placeholder="Fecha de Vencimiento ( / )" required>
-
-										</div>
-
-
-									</div>
-
-									<button class="btn btn-primary mt-2" type="submit">Aceptar</button>
-								</div>
-
-								<div class="col">
-									<div class="flip-card">
-										<div class="flip-card-inner">
-											<div class="flip-card-front">
-												<p class="heading_8264">MASTERCARD</p>
-												<svg class="logo" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="36" height="36" viewBox="0 0 48 48">
-													<path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path><path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path><path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path>
-												</svg>
-												<svg version="1.1" class="chip" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 50 50" xml:space="preserve">  <image id="image0" width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+										<div class="col">
+											<div class="flip-card">
+												<div class="flip-card-inner">
+													<div class="flip-card-front">
+														<p class="heading_8264">MASTERCARD</p>
+														<svg class="logo" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="36" height="36" viewBox="0 0 48 48">
+															<path fill="#ff9800" d="M32 10A14 14 0 1 0 32 38A14 14 0 1 0 32 10Z"></path><path fill="#d50000" d="M16 10A14 14 0 1 0 16 38A14 14 0 1 0 16 10Z"></path><path fill="#ff3d00" d="M18,24c0,4.755,2.376,8.95,6,11.48c3.624-2.53,6-6.725,6-11.48s-2.376-8.95-6-11.48 C20.376,15.05,18,19.245,18,24z"></path>
+														</svg>
+														<svg version="1.1" class="chip" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 50 50" xml:space="preserve">  <image id="image0" width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
               AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAB6VBMVEUAAACNcTiVeUKVeUOY
               fEaafEeUeUSYfEWZfEaykleyklaXe0SWekSZZjOYfEWYe0WXfUWXe0WcgEicfkiXe0SVekSXekSW
               ekKYe0a9nF67m12ZfUWUeEaXfESVekOdgEmVeUWWekSniU+VeUKVeUOrjFKYfEWliE6WeESZe0GS
@@ -412,7 +190,7 @@
               MjMtMDItMTNUMDg6MTU6MjkrMDA6MDA0eo8JAAAAKHRFWHRkYXRlOnRpbWVzdGFtcAAyMDIzLTAy
               LTEzVDA4OjE1OjI5KzAwOjAwY2+u1gAAAABJRU5ErkJggg=="></image>
             </svg>
-												<svg version="1.1" class="contactless" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 50 50" xml:space="preserve">  <image id="image0" width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
+														<svg version="1.1" class="contactless" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 50 50" xml:space="preserve">  <image id="image0" width="50" height="50" x="0" y="0" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAQAAAC0NkA6AAAABGdBTUEAALGPC/xhBQAAACBjSFJN
               AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAJcEhZ
               cwAACxMAAAsTAQCanBgAAAAHdElNRQfnAg0IEzgIwaKTAAADDklEQVRYw+1XS0iUURQ+f5qPyjQf
               lGRFEEFK76koKGxRbWyVVLSOgsCgwjZBJJYuKogSIoOonUK4q3U0WVBWFPZYiIE6kuArG3VGzK/F
@@ -433,102 +211,107 @@
               OjU2KzAwOjAw0ssWdwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyMy0wMi0xM1QwODoxOTo1Nisw
               MDowMIXeN6gAAAAASUVORK5CYII="></image>
             </svg>
-												<p class="number">XXXX XXXX XXXX XXXX</p>
-												<p class="valid_thru">VALID THRU</p>
-												<p class="date_8264">m/y</p>
-												<p class="name">Propietario</p>
-											</div>
-											<div class="flip-card-back">
-												<div class="strip"></div>
-												<div class="mstrip"></div>
-												<div class="sstrip">
-													<p class="code">***</p>
+														<p class="number">XXXX XXXX XXXX XXXX</p>
+														<p class="valid_thru">VALID THRU</p>
+														<p class="date_8264">m/y</p>
+														<p class="name">Propietario</p>
+													</div>
+													<div class="flip-card-back">
+														<div class="strip"></div>
+														<div class="mstrip"></div>
+														<div class="sstrip">
+															<p class="code">***</p>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+
+
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-5 col-sm-12 col-12 d-flex">
+						<div class="card flex-fill">
+							<div class="card-header pb-0 d-flex justify-content-between align-items-center">
+								<h4 class="card-title mb-0">Carrito</h4>
+
+							</div>
+							<div class="card-body">
+								<div class="table-responsive dataview">
+									<table class="table datatable ">
+										<thead>
+										<tr>
+											<th>Productos</th>
+											<th>Cantidad</th>
+											<th>Total</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td class="productimgname">
+												<a href="#" class="product-img">
+													<img src="assets_superAdmin/images/aspirina.jpeg" alt="product">
+												</a>
+												<a href="#">Aspirina 500mg</a>
+											</td>
+											<td>4</td>
+
+											<td>S/36.00</td>
+										</tr>
+										<tr>
+											<td class="productimgname">
+												<a href="#" class="product-img">
+													<img src="assets_superAdmin/images/ibuprofeno.png" alt="product">
+												</a>
+												<a href="#">Ibuprofeno 800mg </a>
+											</td>
+											<td>6</td>
+											<td>S/54.00</td>
+										</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
-
-
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-5 col-sm-12 col-12 d-flex">
-				<div class="card flex-fill">
-					<div class="card-header pb-0 d-flex justify-content-between align-items-center">
-						<h4 class="card-title mb-0">Carrito</h4>
-
-					</div>
-					<div class="card-body">
-						<div class="table-responsive dataview">
-							<table class="table datatable ">
-								<thead>
-								<tr>
-									<th>Productos</th>
-									<th>Cantidad</th>
-									<th>Total</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr>
-									<td class="productimgname">
-										<a href="#" class="product-img">
-											<img src="assets_superAdmin/images/aspirina.jpeg" alt="product">
-										</a>
-										<a href="#">Aspirina 500mg</a>
-									</td>
-									<td>4</td>
-
-									<td>S/36.00</td>
-								</tr>
-								<tr>
-									<td class="productimgname">
-										<a href="#" class="product-img">
-											<img src="assets_superAdmin/images/ibuprofeno.png" alt="product">
-										</a>
-										<a href="#">Ibuprofeno 800mg </a>
-									</td>
-									<td>6</td>
-									<td>S/54.00</td>
-								</tr>
-								</tbody>
-							</table>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- /product list -->
 		</div>
-
 	</div>
-
+</div>
 <!-- /Main Wrapper -->
 
-	<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
+<!-- jQuery -->
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
 
-	<!--Feather Icon JS-->
-	<script src="/assets_superAdmin/js/feather.min.js"></script>
+<!-- Feather Icon JS -->
+<script src="/assets_pacient/js/feather.min.js"></script>
 
-	<!--Slimscroll JS-->
-	<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
+<!-- Slimscroll JS -->
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
 
-	<!-- Datatable JS-->
-	<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
-	<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
+<!-- Datatable JS -->
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
 
-	<!--Bootstrap Core JS-->
-	<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>-->
+<!-- Bootstrap Core JS -->
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
 
-	<!--Select2 JS-->
-	<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
+<!-- Select2 JS -->
+<script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
 
-	<!-- Sweetalert 2-->
-	<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
-	<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+<!-- Sweetalert 2 -->
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
 
-	<!-- Custom JS-->
-	<script src="/assets_superAdmin/js/script.js"></script>
+<!-- Custom JS -->
+<script src="/assets_pacient/js/script.js"></script>
 
 </body>
 </html>
+
+

@@ -110,7 +110,7 @@
                                             <label >Teléfono</label>
                                             <input type="text" class="form-control mt-2" name="phoneNumber" required>
                                             <div th:if="${errorPhone != null}"  class="text-danger" >
-                                                <span th:text="${errorPhone}"></span>
+                                                <span style="color:red" th:text="${errorPhone}"></span>
                                             </div>
 
                                             <!--	<div class="invalid-feedback">

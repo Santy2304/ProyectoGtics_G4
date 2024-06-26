@@ -411,6 +411,29 @@ public class AdminSedeController {
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
+
+
+        Double ganancia1 = medicineRepository.gananciaTotalPando1();
+        int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
+
+
+        if(cantVend1<1){
+            cantVend1 = 0;
+            ganancia1=0.00;
+        }
+        model.addAttribute("ganancia1",ganancia1);
+        model.addAttribute("cantVend1", cantVend1);
+
+
+        ///Solo se va a quedar estos códigos, los demás querys son de prueba, porque la bd no está llena en las demás sedes y hay error con el código
+
+        Double gananciaPorSede = medicineRepository.gananciaTotalPorSede(admin.getSite());
+        int cantVendPorSede = medicineRepository.cantMedicamentosVendidosPorSede(admin.getSite());
+
+
+        model.addAttribute("gananciaPorSede",gananciaPorSede);
+        model.addAttribute("cantPorSede", cantVendPorSede);
+
         /*
         Double ganancia1 = medicineRepository.gananciaTotalPando1();
         Double ganancia2 = medicineRepository.gananciaTotalPando2();

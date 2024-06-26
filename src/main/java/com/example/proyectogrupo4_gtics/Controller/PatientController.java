@@ -509,11 +509,13 @@ public class PatientController {
         return "redirect:verInformacionPago";
     }
 
-
-
-
-
-
+    @GetMapping("/eliminarTarjeta")
+    public String eliminarTarjeta(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+       CreditCard creditCard = creditCardRepository.findById(idTarjeta).get();
+       creditCard.setIdPatient(null);
+       creditCardRepository.save(creditCard);
+        return "redirect:verInformacionPago";
+    }
 
     //Vista principal que requiere interacción con los webservices Uu
     @GetMapping(value = "/compras")

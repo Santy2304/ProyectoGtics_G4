@@ -360,7 +360,7 @@ public class PharmacistController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //LOCAL
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

@@ -287,7 +287,7 @@ public class AdminSedeController {
                         //NUBE
                         //String rutaAbsoluta = "//SaintMedic//imagenes";
                         //LOCAL
-                        String rutaAbsoluta = "C://SaintMedic//imagenes";
+                        String rutaAbsoluta = "//SaintMedic//imagenes";
 
                         String fileOriginalName = imagen.getOriginalFilename();
                         try {
@@ -596,7 +596,57 @@ public class AdminSedeController {
         model.addAttribute("rol", "Administrador");
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("photo", admin.getPhoto());
+        model.addAttribute("admin", admin);
         return "admin_sede/profile";
+    }
+
+    @PostMapping("/editarPerfilAdminSede")
+    public String editProfilePhoto(@RequestParam("adminFile") MultipartFile imagen, Model model,  RedirectAttributes attr, HttpSession session){
+        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
+        Administrator admin = administratorRepository.getByIdAdministrador(idAdministrator);
+
+            if (imagen.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "superAdmin/perfil";
+            } else {
+
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
+                String rutaAbsoluta = "//SaintMedic//imagenes";
+
+                try {
+                    byte[] bytesImgPerfil = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "admin_sede/profile";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "admin_sede/profile";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    admin.setPhoto(imagen.getOriginalFilename());
+                    attr.addFlashAttribute("msg", "Foto de perfil actualizado correctamente");
+                    return "redirect:verPerfilAdminSede";
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
     }
     class IdPedidoReposicion{
         String id;

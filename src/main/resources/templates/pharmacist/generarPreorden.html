@@ -62,9 +62,12 @@
                         </div>
                     </div>
                     <div class="page-btn">
-                        <a id="GenerarReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar reposición</a>
+                        <a id="GenerarReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar Preorden</a>
                     </div>
                     <script>
+
+
+
                         // Function to create a column with a form group
                         function createColDiv(labelText, inputType, options = {}, isFullWidth = false) {
                             let colDiv = document.createElement('div');
@@ -99,6 +102,10 @@
                                 if (options.placeholder) {
                                     input.placeholder = options.placeholder;
                                 }
+                                if(labelText === 'Expense Date'){
+                                    input.className =  'datetimepicker';
+                                }
+
                                 inputGroupDiv.appendChild(input);
 
                                 if (options.iconSrc) {
@@ -119,71 +126,6 @@
                             colDiv.appendChild(formGroupDiv);
                             return colDiv;
                         }
-                        document.addEventListener('DOMContentLoaded', () => {
-                            let okey = document.getElementById("GenerarReposicion");
-                            okey.addEventListener('click', () =>{
-
-                                let cardDiv = document.createElement('div');
-                                cardDiv.className = 'card';
-
-                                let cardBodyDiv = document.createElement('div');
-                                cardBodyDiv.className = 'card-body';
-
-                                let rowDiv = document.createElement('div');
-                                rowDiv.className = 'row';
-
-                                // Creación de los col-lg-3 col-sm-6 col-12 para cada input
-                                let col1 = createColDiv('Expense Category', 'select', {
-                                    options: ['Choose Category', 'Category']
-                                });
-
-                                let col2 = createColDiv('Expense Date', 'text', {
-                                    placeholder: 'Choose Date',
-                                    iconSrc: 'assets/img/icons/calendars.svg'
-                                });
-
-                                let col3 = createColDiv('Amount', 'text', {
-                                    iconSrc: 'assets/img/icons/dollar.svg'
-                                });
-
-                                let col4 = createColDiv('Reference No.', 'text');
-
-                                let col5 = createColDiv('Expense for', 'text', {}, true);
-                                let col6 = createColDiv('Description', 'textarea', {}, true);
-
-                                let col7 = document.createElement('div');
-                                col7.className = 'col-lg-12';
-                                let submitButton = document.createElement('a');
-                                submitButton.href = 'javascript:void(0);';
-                                submitButton.className = 'btn btn-submit me-2';
-                                submitButton.textContent = 'Submit';
-                                col7.appendChild(submitButton);
-
-                                let cancelButton = document.createElement('a');
-                                cancelButton.href = 'expenselist.html';
-                                cancelButton.className = 'btn btn-cancel';
-                                cancelButton.textContent = 'Cancel';
-                                col7.appendChild(cancelButton);
-
-                                // Append all created columns to the row
-                                rowDiv.append(col1, col2, col3, col4, col5, col6, col7);
-
-                                // Append the row to the card body
-                                cardBodyDiv.appendChild(rowDiv);
-
-                                // Append the card body to the card
-                                cardDiv.appendChild(cardBodyDiv);
-
-                                // Append the card to the body or any other container
-                                swal.fire({
-                                    html:cardDiv,
-                                    showConfirmButton: false ,
-                                    customClass: {
-                                        popup: 'large-swal-popup'
-                                    }
-                                });
-                            });
-                        });
                     </script>
                     <style>
                         /* Define el tamaño del popup de SweetAlert */
@@ -254,7 +196,7 @@
                             </div>
                         </div>
                             <!-- /Filter -->
-                            <div class="table-responsive">
+                            <div id = "tabla" class="table-responsive">
                                 <table class="table  datanew">
                                     <thead>
                                     <tr>
@@ -387,68 +329,141 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" >Edit Order</h5>
+                <h5 class="modal-title" >Ingresar datos del paciente y preorden</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <form id="myForm">
                     <div class="col-lg-6 col-sm-12 col-12">
                         <div class="form-group">
-                            <label>Product Price</label>
-                            <input type="text" value="20">
+                            <label>DNI</label>
+                            <input id="dniA" placeholder="Ingresar DNI" type="text">
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () =>{
+                           let dni =  document.getElementById("dniA");
+                           dni.addEventListener("change", () =>{
+                              if(dni.value.length>=8){
+                                  console.log(dni.value);
+                                $.ajax({
+                                   url: "/pharmacist/getUsuarioPorDni?dni="+dni.value ,
+                                   type: "get" ,
+                                    success: function(response){
+                                        let name = document.getElementById("name");
+                                        let lastName = document.getElementById("lastName");
+                                        name.placeholder = response.name;
+                                        lastName.placeholder = response.lastName;
+                                        let errorName = document.getElementById("errorName");
+                                        errorName.remove();
+                                        let errorLastName = document.getElementById("errorLastName");
+                                        errorLastName.remove();
+                                    },
+                                    error: function (response) {
+                                       let errorName =`
+                                        <div id='errorName' class="invalid-tooltip">
+                                            No se encontró el nombre.
+                                        </div>`;
+                                        let errorLastName =`
+                                        <div id='errorLastName' class="invalid-tooltip">
+                                            No se encontró el apellido.
+                                        </div>`;
+                                        let uno = document.getElementById("uno");
+                                        let dos = document.getElementById("dos");
+                                        uno.innerHTML = errorName;
+                                        dos.innerHTML = errorLastName;
+                                    }
+                                });
+                              };
+                           });
+                        });
+                    </script>
+
+
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Fecha tentativa de entrega</label>
+                            <input id="date" placeholder="Ingresar fecha" type="date" >
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-12">
-                        <div class="form-group">
-                            <label>Product Price</label>
-                            <select class="select">
-                                <option>Exclusive</option>
-                                <option>Inclusive</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 col-12">
-                        <div class="form-group">
-                            <label> Tax</label>
+                        <div id="uno" class="form-group">
+                            <label> Nombres </label>
                             <div class="input-group">
-                                <input type="text">
-                                <a class="scanner-set input-group-text">
-                                    %
-                                </a>
+                                <input id="name" readonly type="text">
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-12">
-                        <div class="form-group">
-                            <label>Discount Type</label>
-                            <select class="select">
-                                <option>Fixed</option>
-                                <option>Percentage</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 col-12">
-                        <div class="form-group">
-                            <label>Discount</label>
-                            <input type="text" value="20">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-12 col-12">
-                        <div class="form-group">
-                            <label>Sales Unit</label>
-                            <select class="select">
-                                <option>Kilogram</option>
-                                <option>Grams</option>
-                            </select>
+                        <div id="dos" class="form-group">
+                            <label> Apellidos </label>
+                            <div class="input-group">
+                                <input id="lastName" readonly type="text">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-12">
-                    <a class="btn btn-submit me-2">Submit</a>
-                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
+                    <a id="crearPreorden" class="btn btn-submit me-2">Crear</a>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
                 </div>
+                </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                       let id  = document.getElementById("crearPreorden");
+                       id.addEventListener('click', ()=>{
+                           let divContenedor = document.getElementById('tabla');
+                           // Obtener todos los inputs dentro del div
+                           let inputs = divContenedor.querySelectorAll('input');
+                           var cantidad = 0 ;
+                           let inputsIds = [ ];
+                           let inputsCantidad = [ ];
+                           // Iterar sobre los inputs y hacer algo con cada uno
+                           inputs.forEach(function(input) {
+                               if(input.value>0){
+                                   inputsIds.push(input.id);
+                                   inputsCantidad.push(input.value);
+                               } // Por ejemplo, imprimir el valor de cada input
+                           });
+                           let form = document.getElementById("myForm");
+                           let dni =  document.getElementById("dniA");
+                           let date =  document.getElementById("date");
+
+                           let json = {
+                               "name" : dni.value  ,
+                               "date" : date.value ,
+                               "ids" : inputsIds,
+                               "cantidad" : inputsCantidad
+                           }
+                           if(form.checkValidity()) {
+                               $.ajax({
+                                   url: "/pharmacist/generarPreordenPost",
+                                   type : "POST",
+                                   data: json,
+                                   success: function(response){
+                                        swal.fire({
+                                            title:"Todo ok"
+                                        })
+                                   },
+                                   error: function(response){
+                                       swal.fire({
+                                           title:"pepe"
+                                       })
+                                   }
+                               })
+                           }else{
+                               swal.fire({
+                                   title: "cuidado"
+                               })
+                           }
+                       });
+                    });
+
+                </script>
+
             </div>
         </div>
     </div>
@@ -1139,89 +1154,43 @@
         </div>
     </div>
 </div>
+
 <script>
-    document.addEventListener('click', (event) => {
-        if (event.target.classList.contains('menos')) {
-            const quantityField = event.target.nextElementSibling;
-            let currentQuantity = parseInt(quantityField.value);
-            if (currentQuantity > 1) {
-                quantityField.value = currentQuantity - 1;
+    document.addEventListener('DOMContentLoaded' , () => {
+        const openModalButton = document.getElementById('GenerarReposicion');
+        // Agregar un evento de clic al botón
+        openModalButton.addEventListener('click', function() {
+            let divContenedor = document.getElementById('tabla');
+            // Obtener todos los inputs dentro del div
+            let inputs = divContenedor.querySelectorAll('input');
+            var cantidad = 0 ;
+            // Iterar sobre los inputs y hacer algo con cada uno
+            inputs.forEach(function(input) {
+                if(input.value>0){
+                    cantidad = cantidad +1 ;
+                } // Por ejemplo, imprimir el valor de cada input
+            });
+            if(cantidad>0){
+                //Procede a realizar la preorden
+                const modal = document.getElementById('edit');
+                const modalInstance = new bootstrap.Modal(modal);
+                modalInstance.show();
+            }else{
+                //No se le permite realizar la preorden
+                swal.fire({
+                    icon: "error",
+                    iconColor: "orange",
+                    title: "Debes ingresar alguna cantidad a los productos" ,
+                    showConfirmButton: true,
+                    confirmButtonColor: "brown",
+                    confirmButtonText: "Regresar"
+                });
             }
-            const idMedicine=  parseInt((quantityField.id).substring(3));
-            const newCantidad = quantityField.value;
+            // Obtener referencia al modal y mostrarlo
+        });
 
-            $.ajax({
-                url: '/pharmacist/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
-                type: 'GET',
-                success: function (response) {
-                    $.ajax({
-                        url: '/pharmacist/getAllCarrito',
-                        type: 'GET',
-                        success: function (response) {
-                            var listaMedicamentos = response;
-                            let total = 0 ;
-                            listaMedicamentos.forEach(function(medicamento) {
-                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                            });
-                            var miDiv = document.getElementById('total');
-                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                            var miDivTwo = document.getElementById('totalProductojpg');
-                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                            //totalProductojpg
-                            //productset
-                            //"${medicamento.getIdMedicine()}"
-                        },
-                        error: function (error) {
-                            console.error('There was a problem with the request:', error);
-                        }
-                    });
-                },
-                error: function (error) {
-                    console.error('There was a problem with the request:', error);
-                }
-            });
-        } else if (event.target.classList.contains('mas')) {
-            const quantityField = event.target.previousElementSibling;
-            let currentQuantity = parseInt(quantityField.value);
-            quantityField.value = currentQuantity + 1;
-            const idMedicine=  parseInt((quantityField.id).substring(3));
-            const newCantidad = quantityField.value;
-
-            $.ajax({
-                url: '/pharmacist/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
-                type: 'GET',
-                success: function (response) {
-                    $.ajax({
-                        url: '/pharmacist/getAllCarrito',
-                        type: 'GET',
-                        success: function (response) {
-                            var listaMedicamentos = response;
-                            let total = 0 ;
-                            listaMedicamentos.forEach(function(medicamento) {
-                                total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
-                            });
-                            var miDiv = document.getElementById('total');
-                            miDiv.textContent = 'S/.' + total.toFixed(2);
-                            var miDivTwo = document.getElementById('totalProductojpg');
-                            miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
-
-                            //totalProductojpg
-                            //productset
-                            //"${medicamento.getIdMedicine()}"
-                        },
-                        error: function (error) {
-                            console.error('There was a problem with the request:', error);
-                        }
-                    });
-                },
-                error: function (error) {
-                    console.error('There was a problem with the request:', error);
-                }
-            });
-
-        }
     });
+
 </script>
 
 <!-- jQuery -->
@@ -1244,6 +1213,8 @@
 <script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>
+<!-- Bootstrap CSS -->
+
 
 </body>
 </html>

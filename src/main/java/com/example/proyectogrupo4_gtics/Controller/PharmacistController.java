@@ -48,6 +48,7 @@ public class PharmacistController {
     final TrackingRepository trackingRepository;
 
 
+
     public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
                                 PurchaseHasLoteRepository purchaseHasLoteRepository ,
                                 MedicineRepository medicineRepository, PatientRepository patientRepository ,
@@ -938,6 +939,111 @@ public class PharmacistController {
     }
 
 
+
+
+    @GetMapping(value="/getUsuarioPorDni")
+    public Object getUsuarioPorDni(@RequestParam(value = "dni") String dni){
+        try{
+        Patient p  =  patientRepository.findByDni(dni).get();
+        return ResponseEntity.ok(p);
+        } catch(Exception err ){
+            err.printStackTrace();
+            HashMap<String , Object> has = new HashMap<>();
+            has.put("error", "error");
+            return ResponseEntity.badRequest().body(has);
+        }
+    }
+
+
+
+    @PostMapping(value="/generarPreordenPost")
+    public Object generarPreordenPost(Preorden p, HttpSession session){
+        try {
+            Pharmacist phar = (Pharmacist) session.getAttribute("usuario");
+            //Primero se crean los lotes necesarios para luego venderlos a la persona
+            String[] ids = p.getIds();
+            String[] cantidades = p.getCantidad();
+            ArrayList<Integer> listaa = new ArrayList<>();
+            for (int idx = 0; idx < ids.length; idx++) {
+                int id = Integer.parseInt(ids[idx]);
+                int cantidad = Integer.parseInt(cantidades[idx]);
+                Lote lo = new Lote();
+                lo.setMedicine((medicineRepository.findById(id).get()));
+                lo.setSite(phar.getSite());
+                LocalDate fechaActual = LocalDate.now();
+                LocalDate fechaFutura = fechaActual.plusMonths(5);
+                lo.setExpireDate(fechaFutura);
+                lo.setExpire(false);
+                lo.setStock(0);
+                lo.setInitialQuantity(cantidad);
+                lo.setVisible(true);
+                Lote l = loteRepository.save(lo);
+                listaa.add(l.getIdLote());
+            }
+            PurchaseOrder pur = new PurchaseOrder();
+            pur.setPatient(patientRepository.findByDni(p.getName()).get());
+            pur.setIdDoctor((doctorRepository.listaDoctorPorSedePaciente(phar.getSite())).get(0));
+            pur.setTipo("Preorden");
+            pur.setReleaseDate(LocalDate.now());
+            pur.setSite(phar.getSite());
+            PurchaseOrder purchase = purchaseOrderRepository.save(pur);
+            for (int idx = 0; idx < ids.length; idx++) {
+                PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                int id = Integer.parseInt(ids[idx]);
+                int cantidad = Integer.parseInt(cantidades[idx]);
+                purchaseHasLote.setCantidadComprar(cantidad);
+                purchaseHasLote.setPurchaseOrder(purchase);
+                purchaseHasLote.setLote(loteRepository.findById(listaa.get(idx)).get());
+            }
+            HashMap<String , Object> has = new HashMap<>();
+            has.put("status", "Todo en orden");
+            return ResponseEntity.ok(has);
+        }catch(Exception err){
+            err.printStackTrace();
+            HashMap<String , Object> has = new HashMap<>();
+            has.put("error", "error");
+            return ResponseEntity.badRequest().body(has);
+        }
+    }
+
+    public class Preorden{
+        private String name;
+        private String date;
+        private String[] ids;
+        private String[] cantidad;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDate() {
+            return date;
+        }
+
+        public void setDate(String date) {
+            this.date = date;
+        }
+
+        public String[] getIds() {
+            return ids;
+        }
+
+        public void setIds(String[] ids) {
+            this.ids = ids;
+        }
+
+        public String[] getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(String[] cantidad) {
+            this.cantidad = cantidad;
+        }
+    }
 
 
 }

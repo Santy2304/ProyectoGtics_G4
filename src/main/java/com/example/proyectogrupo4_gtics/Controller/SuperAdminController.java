@@ -923,6 +923,13 @@ public class  SuperAdminController {
         return "redirect:verListados";
     }
 
+    //Falta implementar el método para desbanear Paciente
+
+    @GetMapping("/desbanearPaciente")
+    public String desbanearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        return "redirect:verListados";
+    }
+
 
     ///////////////////////////////////
 

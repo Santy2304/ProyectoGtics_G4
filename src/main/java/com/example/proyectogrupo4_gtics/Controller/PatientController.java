@@ -156,11 +156,16 @@ public class PatientController {
         model.addAttribute("apellido",patient.getLastName());
         return "pacient/chatNuevo";
     }
-    @GetMapping("/verDatosPago")
+    @GetMapping( value = {"/verDatosPago",""})
     public String verDatosPago(@RequestParam("idPurchase") int idPurchase, Model model, HttpSession session){
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosCompra",meciamentosPorCompra);
+        model.addAttribute("purchaseDTO",purchaseOrderRepository.obtenerPurchasePorId(idPurchase));
+        model.addAttribute("idPurchase",idPurchase);
+        model.addAttribute("tarjetaElejida",creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient()));
         return "pacient/datos_pago";
     }
 
@@ -378,7 +383,7 @@ public class PatientController {
     }
     @GetMapping("/verTracking")
     public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model, HttpSession session){
-        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
+        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("listaTracking",tracking);
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
@@ -515,6 +520,45 @@ public class PatientController {
        creditCard.setIdPatient(null);
        creditCardRepository.save(creditCard);
         return "redirect:verInformacionPago";
+    }
+
+    @PostMapping("/pagarFinal")
+    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+        if (tarjetaNueva.isEmpty()){
+            CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
+            int medDb = creditCard.getExpireMonth();
+            int yearDb = creditCard.getExpireYear();
+            if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                model.addAttribute("idPurchase",idPurchase);
+                return "redirect:verDatosPago";
+            }
+        }else{
+            CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
+            if (creditCardOptional!=null){
+                int medDb = creditCardOptional.getExpireMonth();
+                int yearDb = creditCardOptional.getExpireYear();
+
+                if (creditCardOptional.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                    purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                }else{
+                    attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                    model.addAttribute("idPurchase",idPurchase);
+                    return "redirect:verDatosPago";
+                }
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                model.addAttribute("idPurchase",idPurchase);
+                return "redirect:verDatosPago";
+            }
+        }
+        return "redirect:verHistorial";
     }
 
     //Vista principal que requiere interacción con los webservices Uu

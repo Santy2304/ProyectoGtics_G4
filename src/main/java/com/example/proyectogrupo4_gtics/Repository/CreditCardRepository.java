@@ -21,5 +21,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
     @Query(value = "update creditcard set prefered = 1  where idCreditCard=?1" , nativeQuery = true)
     void preferirPorid(int id);
 
+    @Query(nativeQuery = true, value = "select * from creditcard where idPatient=?1 and prefered=1")
+    CreditCard encontrarCreditCardFavorita(int idPatient);
 
 }

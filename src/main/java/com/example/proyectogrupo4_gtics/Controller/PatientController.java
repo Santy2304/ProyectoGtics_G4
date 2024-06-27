@@ -351,8 +351,8 @@ public class PatientController {
             carritoRepository.deleteAllByIdInBatch(listaId);
             return "redirect:verTicket?idCompra="+purchaseOrder.getId();
         }else{
-            model.addAttribute("insuficienteStock" , true);
-            return "pacient/generar_orden_compraNuevo";
+            model.addAttribute("ola",1);
+            return "redirect:verGenerarOrdenCompra";
         }
     }
 

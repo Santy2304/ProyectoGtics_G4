@@ -433,7 +433,7 @@ public class PatientController {
             return response;
     }
     @GetMapping("/verTracking")
-    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model, HttpSession session){
+    public String verTrackingPaciente( Model model, HttpSession session){
         List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("listaTracking",tracking);
         Patient patient = (Patient) session.getAttribute("usuario");

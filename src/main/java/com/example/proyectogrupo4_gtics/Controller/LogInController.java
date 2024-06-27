@@ -65,7 +65,7 @@ public class LogInController {
                 return "redirect:/pharmacist/verMedicinelist";
             }
             if((http.getAttribute("usuario")) instanceof Patient ){
-                return "redirect:/patient/verPrincipalPaciente";
+                return "redirect:/patient/ElegirSede";
             }
             if((http.getAttribute("usuario")) instanceof SuperAdmin ){
                 return "redirect:/superAdmin/verListados";

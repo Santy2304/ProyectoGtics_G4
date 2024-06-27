@@ -302,37 +302,49 @@ public class PatientController {
         trackingRepository.save(tracking);
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
-
+        boolean validar=  true;
         List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient)session.getAttribute("usuario")).getIdPatient());
         for(Carrito c :  listaaa) {
             PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
             purchaseHasLote.setCantidadComprar(c.getCantidad());
-
             purchaseHasLote.setPurchaseOrder(purchaseOrder);
             PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
             purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-
             List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt("" + model.getAttribute("idSede"))).get().getName());
-
             if (listaLotesPosibles.isEmpty()) {
-                return "redirect:verPrincipalPaciente";
+                validar = false;
+                break;
             }
-            purchaseHasLote.setLote(listaLotesPosibles.get(0));
-            purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
-            purchaseHasLote.setId(purchaseHasLotID);
-            purchaseHasLoteRepository.save(purchaseHasLote);
         }
+        if(validar){
+            for(Carrito c :  listaaa) {
+                PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                purchaseHasLote.setCantidadComprar(c.getCantidad());
+                purchaseHasLote.setPurchaseOrder(purchaseOrder);
+                PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+                purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt("" + model.getAttribute("idSede"))).get().getName());
+                if (listaLotesPosibles.isEmpty()) {
+                    return "redirect:verPrincipalPaciente";
+                }
+                purchaseHasLote.setLote(listaLotesPosibles.get(0));
+                purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+                purchaseHasLote.setId(purchaseHasLotID);
+                purchaseHasLoteRepository.save(purchaseHasLote);
+            }
 
-        //Vaciamos el carrito
-        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
-        ArrayList<Integer> listaId = new ArrayList<>();
-        for(Carrito c : list ){
-            listaId.add (c.getId());
+            //Vaciamos el carrito
+            List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+            ArrayList<Integer> listaId = new ArrayList<>();
+            for(Carrito c : list ){
+                listaId.add (c.getId());
+            }
+            carritoRepository.deleteAllByIdInBatch(listaId);
+            return "redirect:verTicket?idCompra="+purchaseOrder.getId();
+        }else{
+            model.addAttribute("insuficienteStock" , true);
+            return "pacient/generar_orden_compraNuevo";
         }
-        carritoRepository.deleteAllByIdInBatch(listaId);
-
-        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
-
     }
 
     @GetMapping("/verTicket")

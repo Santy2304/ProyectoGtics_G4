@@ -274,6 +274,9 @@ public class PatientController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }else{
+            model.addAttribute("imageError","Se debe agregar una receta");
+            return "redirect:verGenerarOrdenCompra";
         }
 
         /////

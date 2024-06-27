@@ -7,6 +7,7 @@ import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -30,6 +31,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 @SessionAttributes({"idUser", "sede"})
 @Controller
@@ -412,6 +414,31 @@ public class AdminSedeController {
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
 
+        model.addAttribute("medicinaMayor", medicineRepository.medicinaMayor(admin.getSite()));
+        model.addAttribute("medicinaMenor", medicineRepository.medicinaMenor(admin.getSite()));
+
+        model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(admin.getIdAdministrador()));
+
+        model.addAttribute("med7dias1", medicineRepository.medicinaMayor7("Pando 1"));
+        model.addAttribute("med7dias2", medicineRepository.medicinaMayor7("Pando 2"));
+        model.addAttribute("med7dias3", medicineRepository.medicinaMayor7("Pando 3"));
+        model.addAttribute("med7dias4", medicineRepository.medicinaMayor7("Pando 4"));
+
+        model.addAttribute("med15dias1", medicineRepository.medicinaMayor15("Pando 1"));
+        model.addAttribute("med15dias2", medicineRepository.medicinaMayor15("Pando 2"));
+        model.addAttribute("med15dias3", medicineRepository.medicinaMayor15("Pando 3"));
+        model.addAttribute("med15dias4", medicineRepository.medicinaMayor15("Pando 4"));
+
+        model.addAttribute("med3meses1", medicineRepository.medicinaMayor3meses("Pando 1"));
+        model.addAttribute("med3meses2", medicineRepository.medicinaMayor3meses("Pando 2"));
+        model.addAttribute("med3meses3", medicineRepository.medicinaMayor3meses("Pando 3"));
+        model.addAttribute("med3meses4", medicineRepository.medicinaMayor3meses("Pando 4"));
+
+        int[] montos = new int[]{Integer.parseInt(medicineRepository.monto1mesSede("Pando 1")),55,60,17};
+
+        String montosJson = new Gson().toJson(montos);
+
+        model.addAttribute("montos",montosJson);
 
         Double ganancia1 = medicineRepository.gananciaTotalPando1();
         int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();

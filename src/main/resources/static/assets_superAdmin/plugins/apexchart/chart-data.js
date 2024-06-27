@@ -449,7 +449,10 @@ chart.render();
 
 // Donut Chart
 
-if($('#donut-chart').length > 0 ){
+if(document.querySelector('#donut-chart')){
+
+    const chartElement = document.querySelector("#donut-chart");
+    const seriesData = JSON.parse(chartElement.getAttribute('data-series'));
 var donutChart = {
     chart: {
         height: 350,
@@ -459,7 +462,7 @@ var donutChart = {
         }
     },
     // colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
-    series: [44, 55, 41, 17],
+    series: seriesData,
     responsive: [{
         breakpoint: 480,
         options: {
@@ -473,10 +476,7 @@ var donutChart = {
     }]
 }
 
-var donut = new ApexCharts(
-    document.querySelector("#donut-chart"),
-    donutChart
-);
+var donut = new ApexCharts(chartElement,donutChart);
 
 donut.render();
 }

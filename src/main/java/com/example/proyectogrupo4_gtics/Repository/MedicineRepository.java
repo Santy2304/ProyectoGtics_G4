@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Repository;
 
+import com.example.proyectogrupo4_gtics.DTOs.DashboardDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
@@ -282,4 +283,82 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
     @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site= ?1")
     int cantMedicamentosVendidosPorSede(String sede);
+
+    //Se obtiene cantidad, nombre y precio del producto con mayor compra
+    @Query(nativeQuery = true, value =" select sum(phl.cantidad_comprar) as cantidad, m.name as name, m.price as price from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by cantidad desc limit 1")
+    List<DashboardDTO> listaDashboardPorSedeMayor(String sede);
+
+    @Query(nativeQuery = true, value =" select sum(phl.cantidad_comprar) from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) desc limit 1")
+    int cantidadMayor(String sede);
+
+    @Query(nativeQuery = true, value ="select m.name as name from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) desc limit 1")
+    String  medicinaMayor(String sede);
+
+    @Query(nativeQuery = true, value ="select m.price as price from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) desc limit 1")
+    double priceMayor(String sede);
+
+    @Query(nativeQuery = true, value =" select sum(phl.cantidad_comprar) as cantidad, m.name as name, m.price as price from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) asc limit 1")
+    List<DashboardDTO> listaDashboardPorSedeMenor(String sede);
+
+    @Query(nativeQuery = true, value =" select sum(phl.cantidad_comprar) from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) asc limit 1")
+    int cantidadMenor(String sede);
+
+    @Query(nativeQuery = true, value ="select m.name from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) asc limit 1")
+    String  medicinaMenor(String sede);
+
+    @Query(nativeQuery = true, value ="select m.price from lote l inner join medicine m on m.idMedicine = l.idMedicine left join purchasehaslot phl on phl.idLote = l.idLote left join purchaseorder po on po.idPurchaseOrder = phl.idPurchase where l.site = ?1 and po.statePaid='pagado' group by m.name order by sum(phl.cantidad_comprar) asc limit 1")
+    double priceMenor(String sede);
+
+    @Query(nativeQuery = true, value = "SELECT m.name\n" +
+            "FROM lote l\n" +
+            "INNER JOIN medicine m ON m.idMedicine = l.idMedicine\n" +
+            "LEFT JOIN purchasehaslot phl ON phl.idLote = l.idLote\n" +
+            "LEFT JOIN purchaseorder po ON po.idPurchaseOrder = phl.idPurchase\n" +
+            "WHERE l.site = ?1\n" +
+            "  AND po.statePaid = 'pagado'\n" +
+            "  AND FLOOR(DATEDIFF(CURRENT_DATE(), po.releaseDate)) <8\n" +
+            "GROUP BY m.name, m.price\n" +
+            "ORDER BY SUM(phl.cantidad_comprar) DESC\n" +
+            "LIMIT 1")
+    String medicinaMayor7(String sede);
+
+    @Query(nativeQuery = true, value = "SELECT m.name\n" +
+            "FROM lote l\n" +
+            "INNER JOIN medicine m ON m.idMedicine = l.idMedicine\n" +
+            "LEFT JOIN purchasehaslot phl ON phl.idLote = l.idLote\n" +
+            "LEFT JOIN purchaseorder po ON po.idPurchaseOrder = phl.idPurchase\n" +
+            "WHERE l.site = ?1\n" +
+            "  AND po.statePaid = 'pagado'\n" +
+            "  AND FLOOR(DATEDIFF(CURRENT_DATE(), po.releaseDate)) < 16\n" +
+            "GROUP BY m.name, m.price\n" +
+            "ORDER BY SUM(phl.cantidad_comprar) DESC\n" +
+            "LIMIT 1")
+    String medicinaMayor15(String sede);
+
+    @Query(nativeQuery = true, value = "SELECT m.name\n" +
+            "FROM lote l\n" +
+            "INNER JOIN medicine m ON m.idMedicine = l.idMedicine\n" +
+            "LEFT JOIN purchasehaslot phl ON phl.idLote = l.idLote\n" +
+            "LEFT JOIN purchaseorder po ON po.idPurchaseOrder = phl.idPurchase\n" +
+            "WHERE l.site = ?1\n" +
+            "  AND po.statePaid = 'pagado'\n" +
+            "  AND FLOOR(DATEDIFF(CURRENT_DATE(), po.releaseDate)) < 92\n" +
+            "GROUP BY m.name, m.price\n" +
+            "ORDER BY SUM(phl.cantidad_comprar) DESC\n" +
+            "LIMIT 1")
+    String medicinaMayor3meses(String sede);
+
+    @Query(nativeQuery = true, value = "SELECT sum(phl.cantidad_comprar)\n" +
+            "FROM lote l\n" +
+            "INNER JOIN medicine m ON m.idMedicine = l.idMedicine\n" +
+            "LEFT JOIN purchasehaslot phl ON phl.idLote = l.idLote\n" +
+            "LEFT JOIN purchaseorder po ON po.idPurchaseOrder = phl.idPurchase\n" +
+            "WHERE l.site = ?1\n" +
+            "  AND po.statePaid = 'pagado'\n" +
+            "  AND FLOOR(DATEDIFF(CURRENT_DATE(), po.releaseDate)) <31\n" +
+            "GROUP BY m.name, m.price\n" +
+            "ORDER BY SUM(phl.cantidad_comprar) DESC\n" +
+            "LIMIT 1")
+    String monto1mesSede(String sede);
+
 }

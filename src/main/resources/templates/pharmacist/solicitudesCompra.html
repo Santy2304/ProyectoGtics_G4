@@ -134,9 +134,32 @@
 
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="me-3" th:id="${solicitud.idPurchaseOrder}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
+
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let alert = document.getElementById(  '' + [[${solicitud.idPurchaseOrder}]]);
+                                                        alert.addEventListener('click', ()=> {
+                                                            $.ajax({
+                                                                url:"/pharmacist/aceptarSolicitud?idSolicitud="+[[${solicitud.idPurchaseOrder}]],
+                                                                type:"GET",
+                                                                success:function(response){window.location.href="/pharmacist/solicitudesFarmacista"},
+                                                                error:function(response){
+                                                                    Swal.fire({
+                                                                        icon: "error",
+                                                                        iconColor: "orange",
+                                                                        background: "white",
+                                                                        confirmButtonColor: "orange",
+                                                                        title: "Oops",
+                                                                        text: "No hay suficientes medicamentos para esta compra!",
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
 
                                                 <a class="confirm-text" th:id="|delete${solicitud.idPurchaseOrder}|" >
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
@@ -293,6 +316,16 @@
             </div>
         </div>
         <!-- /Main Wrapper -->
+        <script type="text/javascript" th:if="${alerta!=null}">
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "orange",
+                    title: "¡No hay suficientes Medicamentos!",
+                    confirmButtonColor: "#dd986a"
+                })
+            });
+        </script>
 
         <!-- jQuery -->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>

@@ -536,8 +536,7 @@ public class PatientController {
                 purchaseOrderRepository.pagarOrdenCompra(idPurchase);
             }else{
                 attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                model.addAttribute("idPurchase",idPurchase);
-                return "redirect:verDatosPago";
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
             }
         }else{
             CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
@@ -549,13 +548,11 @@ public class PatientController {
                     purchaseOrderRepository.pagarOrdenCompra(idPurchase);
                 }else{
                     attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                    model.addAttribute("idPurchase",idPurchase);
-                    return "redirect:verDatosPago";
+                    return "redirect:verDatosPago?idPurchase="+idPurchase;
                 }
             }else{
                 attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                model.addAttribute("idPurchase",idPurchase);
-                return "redirect:verDatosPago";
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
             }
         }
         return "redirect:verHistorial";

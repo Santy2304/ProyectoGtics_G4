@@ -1,6 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
@@ -207,7 +208,6 @@ public class PharmacistController {
     @GetMapping("/verDetalleSolicitud")
     public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model, HttpSession session
     ) {
-
         int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -225,14 +225,39 @@ public class PharmacistController {
         }
     }
 
+    @ResponseBody
     @GetMapping("/aceptarSolicitud")
-    public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
-        purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
-
+    public Object aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud,Model model) {
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
+        List<MeciamentosPorCompraDTO> Listamedicamentos = medicineRepository.listaMedicamentosPorCompra(idSolicitud);
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idSolicitud).get();
+        Boolean centinela = true;
+        for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+            List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+            if (lotesPosibles.isEmpty()){
+                centinela=false;
+                break;
+            }
+        }
 
-        return "redirect:solicitudesFarmacista";
+        if(centinela){
+            for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+                List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+                Lote loteDescuento = lotesPosibles.get(0);
+                loteRepository.actualizarStockLote(loteDescuento.getIdLote(),medicamento.getCantidad());
+            }
+            purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("ok","daaa");
+            return ResponseEntity.ok(hashMap);
+
+        }else{
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("error","ola");
+            return ResponseEntity.badRequest();
+        }
+
     }
 
 

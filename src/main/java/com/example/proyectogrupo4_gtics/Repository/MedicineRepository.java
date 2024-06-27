@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
-    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
+    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad " +
+            "from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
     List<MedicamentosPorSedeDTO> getMedicineBySite(int idSede);
 
 
@@ -203,7 +204,22 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     )
     List<MedicamentosPorSedeDTO> listaMedicamentosPorSedeFarmacista(int idPharmacist);
 
-    @Query(nativeQuery = true, value="select m.description as description, m.idMedicine as idMedicine, m.name as nombreMedicamento,m.category as categoria, count(m.name) as cantLote, TRUNCATE(m.price,2) as precio, sum(l.stock) as cantidad, m.photo as photo from medicine m left join lote l on (m.idMedicine=l.idMedicine) where l.site = ?1 and l.visible=true group by m.idMedicine\n")
+    @Query(nativeQuery = true, value= "SELECT m.description AS description, m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, m.photo AS photo, " +
+            "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad " +
+            "FROM medicine m " +
+            "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+            "WHERE l.idLote IN ( " +
+            "    SELECT l2.idLote " +
+            "    FROM lote l2 " +
+            "    LEFT JOIN replacementorder r ON r.idreplacementorder = l2.idPedidosReposicion " +
+            "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+            "    WHERE l2.site = ?1 " +
+            "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
+            "    AND l2.visible = true " +
+            "    AND l.stock>0" +
+            ") " +
+            "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
+    )
     List<MedicamentosPorSedeDTO> listaMedicamentosPorSedePaciente(String nameSite);
 
 
@@ -224,6 +240,25 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "GROUP BY\n" +
             "    m.idMedicine, m.name")
     List<MeciamentosPorCompraDTO> listaMedicamentosPorCompra(int idPurchase);
+
+
+    @Query(nativeQuery = true, value =
+            "SELECT m.description AS description, m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, m.photo AS photo, " +
+                    "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad " +
+                    "FROM medicine m " +
+                    "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+                    "WHERE l.idLote IN ( " +
+                    "    SELECT l2.idLote " +
+                    "    FROM lote l2 " +
+                    "    LEFT JOIN replacementorder r ON r.idreplacementorder = l2.idPedidosReposicion " +
+                    "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+                    "    WHERE l2.site = ?1 " +
+                    "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
+                    "    AND l2.visible = true " +
+                    ") " +
+                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
+    )
+    List<MedicamentosPorSedeDTO> listaMedicamentosPorSedeNoti(String sede);
 
 
     //admin Sede estadisticas
@@ -260,4 +295,11 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
     //select l.idMedicine, m.price, phl.cantidad_comprar,m.name from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' order by phl.cantidad_comprar desc;
 
+    //Este es el query más optimo para las ganancias y cantidades
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar*m.price) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site=?1")
+    Double gananciaTotalPorSede(String sede);
+
+    @Query(nativeQuery = true, value="select sum(phl.cantidad_comprar) as Ganancia from purchasehaslot phl left join purchaseorder po on  po.idPurchaseOrder = phl.idPurchase left join lote l on l.idLote = phl.idLote inner join medicine m on m.idMedicine=l.idMedicine where po.statePaid = 'pagado' and l.site= ?1")
+    int cantMedicamentosVendidosPorSede(String sede);
 }

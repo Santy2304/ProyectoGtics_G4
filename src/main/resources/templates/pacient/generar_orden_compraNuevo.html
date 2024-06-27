@@ -78,7 +78,7 @@
                 </div>
             </div>
             <!-- Button trigger modal -->
-            <form method="post"  th:action="@{/patient/crearOrdenCompra}">
+            <form method="post" enctype="multipart/form-data" th:action="@{/patient/crearOrdenCompra}">
                 <div>
                     <div class="row mx-3">
                         <div class="col-lg-7 col-sm-12 col-12 d-flex">
@@ -110,7 +110,7 @@
                                             <label >Teléfono</label>
                                             <input type="text" class="form-control mt-2" name="phoneNumber" required>
                                             <div th:if="${errorPhone != null}"  class="text-danger" >
-                                                <span th:text="${errorPhone}"></span>
+                                                <span style="color:red" th:text="${errorPhone}"></span>
                                             </div>
 
                                             <!--	<div class="invalid-feedback">
@@ -169,10 +169,13 @@
 
                                     </div>
                                     <div class="form-row row">
+                                        <label>Ingrese la receta</label>
+                                        <label>El formato debe ser en png, jpeg o jpg y menor a 5MB</label>
                                         <div class="mb-3">
-                                            <input type="file" class="form-control" aria-label="file example">
+                                            <input type="file" class="form-control" name="receta" aria-label="file example">
                                             <div class="invalid-feedback">Example invalid form file feedback</div>
                                         </div>
+                                        <div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
                                     </div>
                                     <button class="btn btn-primary mt-2" href="#" type="submit">Enviar</button>
                                 </div>

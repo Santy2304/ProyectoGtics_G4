@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="POS - Bootstrap Admin Template">
+    <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+    <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Saint Medic</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
+    <!-- animation CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
+
+    <!-- Owl Carousel CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/plugins/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets_superAdmin/plugins/owlcarousel/owl.theme.default.min.css">
+
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
+
+    <!-- Datetimepicker CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap-datetimepicker.min.css">
+
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+
+</head>
+<body >
+
+<div id="global-loader" >
+    <div class="whirly-loader"> </div>
+</div>
+
+<div class="main-wrappers">
+    <div th:replace="headerFarmacista"></div>
+
+    <!--sideBar-->
+    <div th:replace="sidebarFarmacista:: sidebarFarmacista(activeTab = 'generarPreorden')"> </div>
+
+    <!-- /Sidebar -->
+        <div class="page-wrapper">
+            <div class="content">
+                <div class="page-header">
+                    <div class="page-header">
+                        <div class="page-title">
+                            <h2>Generar preorden</h2>
+                            <h6>La solicitud de preorden se debe realizar por lo menos 3 días de anticipación</h6>
+                            <h6>Aquí aparecen listados solo los medicamentos que no tienen stock<br> Ingresa directamente la cantidad del medicamento que deseas pedir y presiona el botón "Generar Preorden"</h6>
+                        </div>
+                    </div>
+                    <div class="page-btn">
+                        <a id="GenerarReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Generar Preorden</a>
+                    </div>
+                    <script>
+
+
+
+                        // Function to create a column with a form group
+                        function createColDiv(labelText, inputType, options = {}, isFullWidth = false) {
+                            let colDiv = document.createElement('div');
+                            colDiv.className = isFullWidth ? 'col-lg-12' : 'col-lg-3 col-sm-6 col-12';
+
+                            let formGroupDiv = document.createElement('div');
+                            formGroupDiv.className = 'form-group';
+
+                            let label = document.createElement('label');
+                            label.textContent = labelText;
+                            formGroupDiv.appendChild(label);
+
+                            if (inputType === 'select') {
+                                let select = document.createElement('select');
+                                select.className = 'select';
+                                options.options.forEach(optionText => {
+                                    let option = document.createElement('option');
+                                    option.textContent = optionText;
+                                    select.appendChild(option);
+                                });
+                                formGroupDiv.appendChild(select);
+                            } else if (inputType === 'textarea') {
+                                let textarea = document.createElement('textarea');
+                                textarea.className = 'form-control';
+                                formGroupDiv.appendChild(textarea);
+                            } else {
+                                let inputGroupDiv = document.createElement('div');
+                                inputGroupDiv.className = 'input-groupicon';
+
+                                let input = document.createElement('input');
+                                input.type = inputType;
+                                if (options.placeholder) {
+                                    input.placeholder = options.placeholder;
+                                }
+                                if(labelText === 'Expense Date'){
+                                    input.className =  'datetimepicker';
+                                }
+
+                                inputGroupDiv.appendChild(input);
+
+                                if (options.iconSrc) {
+                                    let addonSetDiv = document.createElement('div');
+                                    addonSetDiv.className = 'addonset';
+
+                                    let img = document.createElement('img');
+                                    img.src = options.iconSrc;
+                                    img.alt = 'img';
+
+                                    addonSetDiv.appendChild(img);
+                                    inputGroupDiv.appendChild(addonSetDiv);
+                                }
+
+                                formGroupDiv.appendChild(inputGroupDiv);
+                            }
+
+                            colDiv.appendChild(formGroupDiv);
+                            return colDiv;
+                        }
+                    </script>
+                    <style>
+                        /* Define el tamaño del popup de SweetAlert */
+                        .large-swal-popup {
+                            width: 600px !important; /* Ancho personalizado */
+                            height: auto; /* Auto ajustable */
+                            padding: 20px !important; /* Relleno personalizado */
+                            font-size: 1.2em; /* Tamaño de fuente personalizado */
+                        }
+                    </style>
+                </div>
+                <!-- /product list -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-top">
+                            <div class="search-set">
+                                <div class="search-path">
+                                    <a class="btn btn-filter" id="filter_search">
+                                        <img src="/assets_superAdmin/img/icons/filter.svg" alt="img">
+                                        <span><img src="/assets_superAdmin/img/icons/closes.svg" alt="img"></span>
+                                    </a>
+                                </div>
+                                <div class="search-input"  >
+                                    <a class="btn btn-searchset" placeholder="buscar..." ><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+                                </div>
+                            </div>
+                            <div class="wordset">
+                                <ul>
+                                    <li>
+                                        <a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /Filter -->
+                        <div class="card mb-0" id="filter_inputs">
+                            <div class="card-body pb-0">
+                                <div class="row">
+                                    <div class="col-lg-12 col-sm-12">
+                                        <!--Falta incluir el filtro-->
+                                        <form id="Hola"  method="post" >
+                                            <div class="row">
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <select class="select" id="categoria" name="categoria">
+                                                            <option>Elegir por tipo </option>
+                                                            <option value="Dolor" >Dolor</option>
+                                                            <option value="Alergia" >Alergia</option>
+                                                            <option value="Suplemento" >Suplemento</option>
+                                                            <option value="Belleza" >Belleza</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <input id="nombre" name="nombre" type="text" placeholder="nombre del medicamento" >
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-1 col-sm-6 col-12">
+                                                    <div class="form-group">
+                                                        <button id="buscar" type="submit" class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- /Filter -->
+                            <div id = "tabla" class="table-responsive">
+                                <table class="table  datanew">
+                                    <thead>
+                                    <tr>
+                                        <th>Cantidad a solicitar</th>
+                                        <th>Medicamentos</th>
+                                        <th>Foto</th>
+                                        <th>Tipo</th>
+                                        <th>Cantidad actual </th>
+                                        <th>Precio unitario</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody >
+                                    <tr th:each="medicamento, vEstado: ${listaMedicamentosBS}">
+                                        <td> <input th:id="${medicamento.getIdMedicine()}" type="number" value="0" > </td>
+                                        <script th:inline="javascript">
+                                            document.addEventListener('DOMContentLoaded', () => {
+                                               let input = document.getElementById('' +[[${medicamento.getIdMedicine()}]]) ;
+                                               input.addEventListener('change', () => {
+                                                 if(input.value<0){
+                                                     input.value = 0;
+                                                 }
+                                               });
+                                            });
+                                        </script>
+                                        <td th:text="${medicamento.getNombreMedicamento()}"></td>
+                                        <td class="productimgname" style="text-align: center;">
+                                            <a th:id="|A${medicamento.idMedicine}|" class="product-img" >
+                                                <img  th:src="|/imagenes/${medicamento.getPhoto()}|" alt="product">
+                                            </a>
+                                        </td>
+                                        <td th:text="${medicamento.getCategoria()}"></td>
+                                        <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
+                                        <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
+                                        <td th:text="${medicamento.getPrecio()}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="modal fade" id="calculator" tabindex="-1"   aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Define Quantity</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="calculator-set">
+                    <div class="calculatortotal">
+                        <h4>0</h4>
+                    </div>
+                    <ul>
+                        <li>
+                            <a href="javascript:void(0);">1</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">2</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">3</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">4</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">5</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">6</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">7</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">8</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">9</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn btn-closes"><img src="/assets_superAdmin/img/icons/close-circle.svg" alt="img"></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);">0</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" class="btn btn-reverse"><img src="/assets_superAdmin/img/icons/reverse.svg" alt="img"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="holdsales" tabindex="-1"    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Hold order</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="hold-order">
+                    <h2>4500.00</h2>
+                </div>
+                <div class="form-group">
+                    <label>Order Reference</label>
+                    <input type="text">
+                </div>
+                <div class="para-set">
+                    <p>The current order will be set on hold. You can retreive this order from the pending order button. Providing a reference to it might help you to identify the order more quickly.</p>
+                </div>
+                <div class="col-lg-12">
+                    <a class="btn btn-submit me-2">Submit</a>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit" tabindex="-1"    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Ingresar datos del paciente y preorden</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="myForm">
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>DNI</label>
+                            <input id="dniA" placeholder="Ingresar DNI" type="text">
+                        </div>
+                    </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () =>{
+                           let dni =  document.getElementById("dniA");
+                           dni.addEventListener("change", () =>{
+                              if(dni.value.length>=8){
+                                  console.log(dni.value);
+                                $.ajax({
+                                   url: "/pharmacist/getUsuarioPorDni?dni="+dni.value ,
+                                   type: "get" ,
+                                    success: function(response){
+                                        let name = document.getElementById("name");
+                                        let lastName = document.getElementById("lastName");
+                                        name.placeholder = response.name;
+                                        lastName.placeholder = response.lastName;
+                                        let errorName = document.getElementById("errorName");
+                                        errorName.remove();
+                                        let errorLastName = document.getElementById("errorLastName");
+                                        errorLastName.remove();
+                                    },
+                                    error: function (response) {
+                                       let errorName =`
+                                        <div id='errorName' class="invalid-tooltip">
+                                            No se encontró el nombre.
+                                        </div>`;
+                                        let errorLastName =`
+                                        <div id='errorLastName' class="invalid-tooltip">
+                                            No se encontró el apellido.
+                                        </div>`;
+                                        let uno = document.getElementById("uno");
+                                        let dos = document.getElementById("dos");
+                                        uno.innerHTML = errorName;
+                                        dos.innerHTML = errorLastName;
+                                    }
+                                });
+                              };
+                           });
+                        });
+                    </script>
+
+
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Fecha tentativa de entrega</label>
+                            <input id="date" placeholder="Ingresar fecha" type="date" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div id="uno" class="form-group">
+                            <label> Nombres </label>
+                            <div class="input-group">
+                                <input id="name" readonly type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div id="dos" class="form-group">
+                            <label> Apellidos </label>
+                            <div class="input-group">
+                                <input id="lastName" readonly type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <a id="crearPreorden" class="btn btn-submit me-2">Crear</a>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
+                </div>
+                </form>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                       let id  = document.getElementById("crearPreorden");
+                       id.addEventListener('click', ()=>{
+                           let divContenedor = document.getElementById('tabla');
+                           // Obtener todos los inputs dentro del div
+                           let inputs = divContenedor.querySelectorAll('input');
+                           var cantidad = 0 ;
+                           let inputsIds = [ ];
+                           let inputsCantidad = [ ];
+                           // Iterar sobre los inputs y hacer algo con cada uno
+                           inputs.forEach(function(input) {
+                               if(input.value>0){
+                                   inputsIds.push(input.id);
+                                   inputsCantidad.push(input.value);
+                               } // Por ejemplo, imprimir el valor de cada input
+                           });
+                           let form = document.getElementById("myForm");
+                           let dni =  document.getElementById("dniA");
+                           let date =  document.getElementById("date");
+
+                           let json = {
+                               "name" : dni.value  ,
+                               "date" : date.value ,
+                               "ids" : inputsIds,
+                               "cantidad" : inputsCantidad
+                           }
+                           if(form.checkValidity()) {
+                               $.ajax({
+                                   url: "/pharmacist/generarPreordenPost",
+                                   type : "POST",
+                                   data: json,
+                                   success: function(response){
+                                        swal.fire({
+                                            title:"Todo ok"
+                                        })
+                                   },
+                                   error: function(response){
+                                       swal.fire({
+                                           title:"pepe"
+                                       })
+                                   }
+                               })
+                           }else{
+                               swal.fire({
+                                   title: "cuidado"
+                               })
+                           }
+                       });
+                    });
+
+                </script>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="create" tabindex="-1" aria-labelledby="create"  aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Ingresar cliente</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12 col-12">
+                                <div class="form-group">
+                                    <label>DNI</label>
+                                    <input id="dni" name="dni" type="text">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="doctor">Doctor</label>
+                                    <select name="idDoctor" id="doctor">
+                                        <option th:each="doctor :${listaDoctores}"
+                                                th:value="${doctor.getIdDoctor()}"
+                                                th:text="${doctor.getName()}+' '+${doctor.getLastName()}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <button th:id="aux" type="button" class="btn btn-submit me-2" >Ingresar</button>
+                    <script>
+                        document.getElementById("aux").onclick = function() {
+                            data = {
+                                dni :  document.getElementById("dni").value , doctor:document.getElementById("doctor").value
+                            }
+                            console.log(data);
+                            $.ajax({
+                                url: "/pharmacist/confirmarDatosPaciente",
+                                type: "POST",
+                                data: data,
+                                success: function(response){
+                                    console.log(response);
+                                    var aux ;
+                                    response.forEach(function (error) {
+                                        aux = JSON.parse(error);
+                                    });
+                                    console.log("Me respondieon");
+                                    switch(aux.error){
+                                        case "":
+                                            window.location.href = "/pharmacist/posFarmacista";
+                                            //Recarga
+                                            break;
+                                        case "noEncontro":
+                                            Swal.fire({
+                                                colorIcon:'#805409'  ,
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Ok',
+                                                cancelButtonText: 'Cancelar',
+                                                confirmButtonColor: '#d48e15',
+                                                cancelButtonColor: '#805409',
+                                                icon: "error",
+                                                iconColor: '#805409',
+                                                title: "Oops...",
+                                                text: "No se encontró ningún paciente con ese número de dni",
+                                            });
+                                            break;
+                                        case "casteo":
+                                            Swal.fire({
+                                                colorIcon:'#805409'  ,
+                                                showCancelButton: true,
+                                                confirmButtonText: 'Ok',
+                                                confirmButtonColor: '#d48e15',
+                                                icon: "error",
+                                                iconColor: '#805409',
+                                                title: "Oops...",
+                                                text: "Se ingreso un número incoherente",
+                                            });
+                                            break;
+                                    }
+                                }
+                            })
+                        }
+                    </script>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="pre-orden" tabindex="-1" aria-labelledby="pre-orden"  aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Pre-Orden</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Apellido</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Edad</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Seguro</label>
+                            <input type="text">
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Doctor</label>
+                            <input type="text" >
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Medicamento</label>
+                            <input type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Cantidad</label>
+                            <input type="text" >
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-12">
+                        <div class="form-group">
+                            <label>Dirección</label>
+                            <input type="text" >
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-12">
+                    <a class="btn btn-submit me-2">Generar</a>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete" tabindex="-1"    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Order Deletion</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-order">
+                    <img src="/assets_superAdmin/img/icons/close-circle1.svg" alt="img">
+                </div>
+                <div class="para-set text-center">
+                    <p>The current order will be deleted as no payment has been <br> made so far.</p>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <a class="btn btn-danger me-2">Yes</a>
+                    <a class="btn btn-cancel" data-bs-dismiss="modal">No</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="recents" tabindex="-1"    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Recent Transactions</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs-sets">
+                    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="purchase-tab" data-bs-toggle="tab" data-bs-target="#purchase" type="button"   aria-controls="purchase" aria-selected="true" role="tab">Purchase</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="payment-tab" data-bs-toggle="tab" data-bs-target="#payment" type="button"   aria-controls="payment" aria-selected="false" role="tab">Payment</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="return-tab" data-bs-toggle="tab" data-bs-target="#return" type="button"   aria-controls="return" aria-selected="false" role="tab">Return</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" >
+                        <div class="tab-pane fade show active" id="purchase" role="tabpanel" aria-labelledby="purchase-tab">
+                            <div class="table-top">
+                                <div class="search-set">
+                                    <div class="search-input">
+                                        <a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+                                    </div>
+                                </div>
+                                <div class="wordset">
+                                    <ul>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table datanew">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Reference</th>
+                                        <th>Customer</th>
+                                        <th>Amount	</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>INV/SL0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="payment" role="tabpanel" >
+                            <div class="table-top">
+                                <div class="search-set">
+                                    <div class="search-input">
+                                        <a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+                                    </div>
+                                </div>
+                                <div class="wordset">
+                                    <ul>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table datanew">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Reference</th>
+                                        <th>Customer</th>
+                                        <th>Amount	</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0102</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0103</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0104</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0105</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0106</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0107</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="return" role="tabpanel" >
+                            <div class="table-top">
+                                <div class="search-set">
+                                    <div class="search-input">
+                                        <a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
+                                    </div>
+                                </div>
+                                <div class="wordset">
+                                    <ul>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+                                        </li>
+                                        <li>
+                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table datanew">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Reference</th>
+                                        <th>Customer</th>
+                                        <th>Amount	</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0101</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0102</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0103</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0104</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0105</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0106</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022-03-07	</td>
+                                        <td>0107</td>
+                                        <td>Walk-in Customer</td>
+                                        <td>$ 1500.00</td>
+                                        <td>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+                                            </a>
+                                            <a class="me-3" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
+                                            </a>
+                                            <a class="me-3 confirm-text" href="javascript:void(0);">
+                                                <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded' , () => {
+        const openModalButton = document.getElementById('GenerarReposicion');
+        // Agregar un evento de clic al botón
+        openModalButton.addEventListener('click', function() {
+            let divContenedor = document.getElementById('tabla');
+            // Obtener todos los inputs dentro del div
+            let inputs = divContenedor.querySelectorAll('input');
+            var cantidad = 0 ;
+            // Iterar sobre los inputs y hacer algo con cada uno
+            inputs.forEach(function(input) {
+                if(input.value>0){
+                    cantidad = cantidad +1 ;
+                } // Por ejemplo, imprimir el valor de cada input
+            });
+            if(cantidad>0){
+                //Procede a realizar la preorden
+                const modal = document.getElementById('edit');
+                const modalInstance = new bootstrap.Modal(modal);
+                modalInstance.show();
+            }else{
+                //No se le permite realizar la preorden
+                swal.fire({
+                    icon: "error",
+                    iconColor: "orange",
+                    title: "Debes ingresar alguna cantidad a los productos" ,
+                    showConfirmButton: true,
+                    confirmButtonColor: "brown",
+                    confirmButtonText: "Regresar"
+                });
+            }
+            // Obtener referencia al modal y mostrarlo
+        });
+
+    });
+
+</script>
+
+<!-- jQuery -->
+<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
+<!-- Feather Icon JS -->
+<script src="/assets_superAdmin/js/feather.min.js"></script>
+<!-- Slimscroll JS -->
+<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
+<!-- Bootstrap Core JS -->
+<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
+<!-- Datatable JS -->
+<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
+<!-- Select2 JS -->
+<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
+<!-- Owl JS -->
+<script src="/assets_superAdmin/plugins/owlcarousel/owl.carousel.min.js"></script>
+<!-- Sweetalert 2 -->
+<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+<!-- Custom JS -->
+<script src="/assets_superAdmin/js/script.js"></script>
+<!-- Bootstrap CSS -->
+
+
+</body>
+</html>

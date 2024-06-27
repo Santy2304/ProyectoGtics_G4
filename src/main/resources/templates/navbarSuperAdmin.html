@@ -30,7 +30,7 @@
         </li>
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
+                            <span class="user-img"><img th:src="|/imagenes/${session.usuario.photo}|" alt="">
 							<span class="status online"></span></span>
             </a>
             <div class="dropdown-menu menu-drop-user">

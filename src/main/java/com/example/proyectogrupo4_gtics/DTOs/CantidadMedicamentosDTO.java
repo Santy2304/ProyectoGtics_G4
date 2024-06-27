@@ -7,6 +7,4 @@ public interface CantidadMedicamentosDTO {
     int getCantidad();
     float getPrecio();
     String getPhoto();
-
-
 }

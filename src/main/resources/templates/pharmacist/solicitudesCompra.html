@@ -134,13 +134,67 @@
 
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <a class="me-3" th:id="${solicitud.idPurchaseOrder}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let alert = document.getElementById(  '' + [[${solicitud.idPurchaseOrder}]]);
+                                                        alert.addEventListener('click', ()=> {
+                                                            $.ajax({
+                                                                url:"/pharmacist/aceptarSolicitud?idSolicitud="+[[${solicitud.idPurchaseOrder}]],
+                                                                type:"GET",
+                                                                success:function(response){window.location.href="/pharmacist/solicitudesFarmacista"},
+                                                                error:function(response){
+                                                                    Swal.fire({
+                                                                        icon: "error",
+                                                                        iconColor: "orange",
+                                                                        background: "white",
+                                                                        confirmButtonColor: "orange",
+                                                                        title: "Oops",
+                                                                        text: "No hay suficientes medicamentos para esta compra!",
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
+                                                <a class="confirm-text" th:id="|delete${solicitud.idPurchaseOrder}|" >
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let dele = document.getElementById(  'delete' + [[${solicitud.idPurchaseOrder}]]);
+                                                        dele.addEventListener('click', ()=> {
+                                                            Swal.fire({
+                                                                title:'¿Estás seguro de invalidar esta venta? Ingresa el motivo',
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d48e15',
+                                                                cancelButtonColor: '#805409',
+                                                                confirmButtonText: 'Invalidar' ,
+                                                                cancelButtonText:'Cancelar',
+                                                                input: 'text'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    $.ajax({
+                                                                        type : 'GET' ,
+                                                                        url : '/pharmacist/rechazarSolicitud?idSolicitud=' + [[${solicitud.idPurchaseOrder}]] ,
+                                                                        success : function (response) {
+                                                                           window.location.href = '/pharmacist/solicitudesFarmacista';
+                                                                        } ,
+                                                                        error: function(response){
+                                                                            console.log('eppepepep');
+                                                                        }
+                                                                    })
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
 
                                             </td>
                                         </tr>
@@ -262,6 +316,16 @@
             </div>
         </div>
         <!-- /Main Wrapper -->
+        <script type="text/javascript" th:if="${alerta!=null}">
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: "error",
+                    iconColor: "orange",
+                    title: "¡No hay suficientes Medicamentos!",
+                    confirmButtonColor: "#dd986a"
+                })
+            });
+        </script>
 
         <!-- jQuery -->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
@@ -285,10 +349,13 @@
         <!-- Sweetalert 2 -->
         <script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
         <script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
-
+        <!-- Sweetalert 2 -->
+        <script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+        <script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
         <!-- Custom JS -->
         <script src="/assets_superAdmin/js/script.js"></script>
-
+        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
         <script src="/assets_superAdmin/js/moment.min.js"></script>
         <script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
 

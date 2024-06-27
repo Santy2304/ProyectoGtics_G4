@@ -157,6 +157,7 @@
 									</div>-->
 					<!-- /product list -->
 					<div class="card">
+						<form method="post" enctype="multipart/form-data" th:action="@{/adminSede/editarPerfilAdminSede}">
 						<div class="card-body">
 							<div class="profile-set">
 								<div class="profile-head">
@@ -164,12 +165,13 @@
 								<div class="profile-top">
 									<div class="profile-content">
 										<div class="profile-contentimg">
-											<img th:src="@{'/imagenes/' + ${photo}}" alt="img" id="blah">
+											<img th:src="@{'/imagenes/' + ${admin.photo}}" alt="img" id="blah">
 
-											<!--<div class="profileupload">
+											<div class="profileupload" name="adminFile">
 												<input type="file" id="imgInp">
 												<a href="javascript:void(0);" ><img src="/assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
-											</div>-->
+											</div>
+											<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 										</div>
 										<div class="profile-contentname">
 											<h2 th:text="${nombre}"></h2>
@@ -177,39 +179,8 @@
 										</div>
 									</div>
 									<div class="ms-auto">
-										<a onclick="cambiarFoto()" class="btn btn-cancel">Cambiar foto</a>
+										<button type="submit" class="btn btn-cancel">Cambiar foto</button>
 									</div>
-									<script>
-										async function cambiarFoto(){
-											const { value: file } = await Swal.fire({
-												title: "Escoje una nueva foto de perfil",
-												input: "file",
-												confirmButtonColor:"orange",
-												confirmButtonText: "Cambiar" ,
-												cancelButtonText: "Regresar" ,
-												cancelButtonColor:"#E7BB2BFF",
-												showCancelButton: true,
-												inputAttributes: {
-													"accept": "image/*",
-													"aria-label": "Upload your profile picture"
-												}
-											});
-											if (file) {
-												const reader = new FileReader();
-												reader.onload = (e) => {
-													Swal.fire({
-														title: "Tu nueva foto de perfil",
-														imageUrl: e.target.result,
-														imageAlt: "The uploaded picture",
-														confirmButtonColor:"orange"
-													});
-												};
-												reader.readAsDataURL(file);
-											}
-										}
-
-									</script>
-
 								</div>
 							</div>
 							<div class="row">

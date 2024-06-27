@@ -12,7 +12,7 @@
                     </ul>
                 </li>
                 <li class="submenu">
-                    <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
+                    <a ><img src="/assets_superAdmin/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/pharmacist/verProductList" th:classappend="${activeTab == 'ordenesVenta' ? ' active':'' }">Ordenes de venta</a></li>
                         <li><a href="/pharmacist/posFarmacista" th:classappend="${activeTab == 'pos' ? ' active':'' }">Generar Venta</a></li>
@@ -20,9 +20,18 @@
                     </ul>
                 </li>
                 <li class="submenu">
+                    <a ><img src="/assets_superAdmin/img/icons/sales1.svg" alt="img"><span>Pedidos</span> <span class="menu-arrow"></span></a>
+                    <ul>
+                        <li><a href="/pharmacist/generarPreorden" th:classappend="${activeTab == 'generarPreorden' ? ' active':'' }">Generar preorden</a></li>
+                        <li><a href="/pharmacist/verPreordenes" th:classappend="${activeTab == 'verPreordenes' ? ' active':'' }">Ver preordenes</a></li>
+                    </ul>
+                </li>
+
+
+                <li class="submenu">
                     <a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/purchase1.svg" alt="img"><span>Chats</span> <span class="menu-arrow"></span></a>
                     <ul>
-                        <li><a href="/verChatFarmacista" th:classappend="${activeTab == 'chat' ? ' active':'' }" >Chats con pacientes</a></li>
+                        <li><a href="/pharmacist/verChatFarmacista" th:classappend="${activeTab == 'chat' ? ' active':'' }" >Chats con pacientes</a></li>
                     </ul>
                 </li>
                 <li class="submenu">

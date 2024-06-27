@@ -15,14 +15,14 @@ public class Error implements ErrorController {
         if(status != null){
             Integer statusCode = Integer.valueOf(status.toString());
             if(statusCode == HttpStatus.NOT_FOUND.value()){
-                return "/error404";
+                return "error404";
             }else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
-                return "/error500";
+                return "error500";
             }else if(statusCode == HttpStatus.FORBIDDEN.value())
             {
-                return "/error403";
+                return "error403";
             }
         }
-        return "/error404";
+        return "error404";
     }
 }

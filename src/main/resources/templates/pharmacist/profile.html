@@ -71,6 +71,7 @@
 													<input type="file" id="imgInp" name="pharmacistFile">
 													<a href="javascript:void(0);" ><img src="../assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
 												</div>
+												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
 											<div class="profile-contentname">
 												<h2 th:text="${farmacista.name}"></h2>

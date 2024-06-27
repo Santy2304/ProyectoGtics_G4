@@ -216,6 +216,7 @@ public class PatientController {
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("direccion") String direccion,
                                      @RequestParam("idDoctor") int idDoctor,
+                                     @RequestParam("receta") MultipartFile receta,
                                      Model model, RedirectAttributes attr, HttpSession session){
         Optional<Doctor> optionalDoctor = doctorRepository.findById(idDoctor);
         boolean fallo = false;
@@ -248,6 +249,44 @@ public class PatientController {
             return "redirect:verGenerarOrdenCompra";
         }
 
+        if(!receta.isEmpty()){
+            //ruta relativa para la imagen
+            //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+            //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+            String rutaAbsoluta = "C://SaintMedic//imagenes";
+            //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+            try {
+                byte[] bytesImgMedicine = receta.getBytes();
+                String fileOriginalName = receta.getOriginalFilename();
+
+                long fileSize = receta.getSize();
+                long maxFileSize  = 5*1024*1024;
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                if(fileSize>maxFileSize){
+                    model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                    return "redirect:verGenerarOrdenCompra";
+                }
+                if(
+                        !fileExtension.equalsIgnoreCase(".jpg") &&
+                                !fileExtension.equalsIgnoreCase(".png") &&
+                                !fileExtension.equalsIgnoreCase(".jpeg")
+                ){
+                    model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                    return "redirect:verGenerarOrdenCompra";
+                }
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + receta.getOriginalFilename());
+                Files.write(rutaCompleta,bytesImgMedicine);
+                //se guarda la preescripcion
+                purchaseOrder.setPrescription(receta.getOriginalFilename());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        /////
+
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
         purchaseOrder.setTipo("tarjeta");
         purchaseOrder.setPhoneNumber(phoneNumber);
@@ -272,37 +311,49 @@ public class PatientController {
         trackingRepository.save(tracking);
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
-
+        boolean validar=  true;
         List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient)session.getAttribute("usuario")).getIdPatient());
         for(Carrito c :  listaaa) {
             PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
             purchaseHasLote.setCantidadComprar(c.getCantidad());
-
             purchaseHasLote.setPurchaseOrder(purchaseOrder);
             PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
             purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-
             List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt("" + model.getAttribute("idSede"))).get().getName());
-
             if (listaLotesPosibles.isEmpty()) {
-                return "redirect:verPrincipalPaciente";
+                validar = false;
+                break;
             }
-            purchaseHasLote.setLote(listaLotesPosibles.get(0));
-            purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
-            purchaseHasLote.setId(purchaseHasLotID);
-            purchaseHasLoteRepository.save(purchaseHasLote);
         }
+        if(validar){
+            for(Carrito c :  listaaa) {
+                PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                purchaseHasLote.setCantidadComprar(c.getCantidad());
+                purchaseHasLote.setPurchaseOrder(purchaseOrder);
+                PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+                purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt("" + model.getAttribute("idSede"))).get().getName());
+                if (listaLotesPosibles.isEmpty()) {
+                    return "redirect:verPrincipalPaciente";
+                }
+                purchaseHasLote.setLote(listaLotesPosibles.get(0));
+                purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+                purchaseHasLote.setId(purchaseHasLotID);
+                purchaseHasLoteRepository.save(purchaseHasLote);
+            }
 
-        //Vaciamos el carrito
-        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
-        ArrayList<Integer> listaId = new ArrayList<>();
-        for(Carrito c : list ){
-            listaId.add (c.getId());
+            //Vaciamos el carrito
+            List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+            ArrayList<Integer> listaId = new ArrayList<>();
+            for(Carrito c : list ){
+                listaId.add (c.getId());
+            }
+            carritoRepository.deleteAllByIdInBatch(listaId);
+            return "redirect:verTicket?idCompra="+purchaseOrder.getId();
+        }else{
+            model.addAttribute("insuficienteStock" , true);
+            return "pacient/generar_orden_compraNuevo";
         }
-        carritoRepository.deleteAllByIdInBatch(listaId);
-
-        return "redirect:verTicket?idCompra="+purchaseOrder.getId();
-
     }
 
     @GetMapping("/verTicket")

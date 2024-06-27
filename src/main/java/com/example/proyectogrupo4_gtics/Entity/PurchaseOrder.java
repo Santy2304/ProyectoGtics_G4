@@ -67,6 +67,8 @@ public class PurchaseOrder {
     @Column(name="tipopago")
     private String tipoPago;
 
+
+
     public String getTipoPago() {
         return tipoPago;
     }

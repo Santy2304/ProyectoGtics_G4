@@ -8,5 +8,6 @@ public interface PurchasePorPatientDTO {
     String getEstado();
     String getEstadoPago();
     LocalDate getFecha();
+    String getTracking();
 
 }

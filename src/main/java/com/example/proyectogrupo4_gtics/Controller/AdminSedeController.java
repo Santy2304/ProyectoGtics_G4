@@ -1111,7 +1111,8 @@ public class AdminSedeController {
             notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
-            notificationsRepository.save(notifications);
+
+           // notificationsRepository.save(notifications);
         }
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){

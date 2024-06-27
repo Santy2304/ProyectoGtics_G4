@@ -959,6 +959,8 @@ public class PharmacistController {
 
     @GetMapping(value="/verPreordenes")
     public String verPreordenes(Model model, HttpSession session){
+        Pharmacist phar =(Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaPreordenes",purchaseOrderRepository.listaPurchaseOrderBySite(phar.getSite()));
 
         return "/pharmacist/verPreordenes";
     }
@@ -1009,8 +1011,18 @@ public class PharmacistController {
             pur.setPatient(patientRepository.findByDni(p.getName()).get());
             pur.setIdDoctor((doctorRepository.listaDoctorPorSedePaciente(phar.getSite())).get(0));
             pur.setTipo("Preorden");
-            pur.setReleaseDate(LocalDate.now());
+            pur.setReleaseDate(p.getDate());
             pur.setSite(phar.getSite());
+            pur.setTipoPago("Efectivo");
+            Tracking tracking = new Tracking();
+            tracking.setSolicitudDate(LocalDateTime.now());
+            tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+            tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+            tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+            tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+            Tracking tra = trackingRepository.save(tracking);
+            pur.setIdtracking(tra);
+            pur.setTracking("solicitado");
             PurchaseOrder purchase = purchaseOrderRepository.save(pur);
             for (int idx = 0; idx < ids.length; idx++) {
                 PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
@@ -1033,7 +1045,7 @@ public class PharmacistController {
 
     public class Preorden{
         private String name;
-        private String date;
+        private LocalDate date;
         private String[] ids;
         private String[] cantidad;
 
@@ -1045,11 +1057,11 @@ public class PharmacistController {
             this.name = name;
         }
 
-        public String getDate() {
+        public LocalDate getDate() {
             return date;
         }
 
-        public void setDate(String date) {
+        public void setDate(LocalDate date) {
             this.date = date;
         }
 

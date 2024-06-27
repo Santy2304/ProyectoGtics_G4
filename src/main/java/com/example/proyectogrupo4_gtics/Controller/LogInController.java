@@ -128,34 +128,47 @@ public class LogInController {
         return "changePassword";
     }
     @PostMapping("/changingPassword")
-    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword) {
+    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword, Model model) {
         //String correo = (String) model.getAttribute("email");
-        String email = (String) httpSession.getAttribute("resetEmail");
+        //Regex para verificar que la contraseña cumpla con requisitos de seguridad
+        String passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\\d$@$!%*?&#.$($)$-$_]{8,15}$/";
+        //Verificar que la nueva contraseña cumpla los requisitos
+        if (newPassword.matches(passwordPattern)) { //Cuando cumple
+            String email = (String) httpSession.getAttribute("resetEmail");
 
-        Patient patient = patientRepository.buscarPatientEmail(email);
-        Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
-        Administrator admin = administratorRepository.findByEmail(email);
-        SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(newPassword);
+            Patient patient = patientRepository.buscarPatientEmail(email);
+            Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
+            Administrator admin = administratorRepository.findByEmail(email);
+            SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(newPassword);
 
-        if (!(patient == null)) {
-          //  patientRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,email);
+            if (!(patient == null)) {
+                //  patientRepository.actualizarContrasena(newPassword, correo);
+                userRepository.actualizarPassword(encryptedPassword, email);
+            }
+            if (!(admin == null)) {
+                // administratorRepository.actualizarContrasena(newPassword, correo);
+                userRepository.actualizarPassword(encryptedPassword, email);
+            }
+            if (!(superAdmin == null)) {
+                superAdminRepository.actualizarContrasena(newPassword, email);
+                userRepository.actualizarPassword(encryptedPassword, email);
+            }
+            if (!(pharmacist == null)) {
+                // pharmacistRepository.actualizarContrasena(newPassword, correo);
+                userRepository.actualizarPassword(encryptedPassword, email);
+            }
+            return "redirect:/inicioSesion";
+        } else { //La contraseña no cumple con los requerimientos
+            String mensajeError = "La contraseña debe cumplir con:\n" +
+                    "- Tener entre 8 y 15 carácteres\n" +
+                    "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
+                    "- No espacios en blanco\n" +
+                    "- Al menos un caracter especial";
+            model.addAttribute("msg", mensajeError);
+            return "redirect:/changePassword";
         }
-        if (!(admin == null)) {
-           // administratorRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,email);
-        }
-        if (!(superAdmin == null)) {
-            superAdminRepository.actualizarContrasena(newPassword, email);
-            userRepository.actualizarPassword(encryptedPassword,email);
-        }
-        if (!(pharmacist == null)) {
-           // pharmacistRepository.actualizarContrasena(newPassword, correo);
-            userRepository.actualizarPassword(encryptedPassword,email);
-        }
-        return "redirect:/inicioSesion";
     }
 
     @GetMapping("/crearCuenta")

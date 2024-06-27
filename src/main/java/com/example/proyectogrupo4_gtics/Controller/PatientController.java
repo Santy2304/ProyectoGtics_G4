@@ -207,6 +207,7 @@ public class PatientController {
                                      @RequestParam("phoneNumber") String phoneNumber,
                                      @RequestParam("direccion") String direccion,
                                      @RequestParam("idDoctor") int idDoctor,
+                                     @RequestParam("receta") MultipartFile receta,
                                      Model model, RedirectAttributes attr, HttpSession session){
         Optional<Doctor> optionalDoctor = doctorRepository.findById(idDoctor);
         boolean fallo = false;
@@ -238,6 +239,44 @@ public class PatientController {
         if (fallo){
             return "redirect:verGenerarOrdenCompra";
         }
+
+        if(!receta.isEmpty()){
+            //ruta relativa para la imagen
+            //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
+            //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
+            String rutaAbsoluta = "C://SaintMedic//imagenes";
+            //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
+            try {
+                byte[] bytesImgMedicine = receta.getBytes();
+                String fileOriginalName = receta.getOriginalFilename();
+
+                long fileSize = receta.getSize();
+                long maxFileSize  = 5*1024*1024;
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                if(fileSize>maxFileSize){
+                    model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
+                    return "redirect:verGenerarOrdenCompra";
+                }
+                if(
+                        !fileExtension.equalsIgnoreCase(".jpg") &&
+                                !fileExtension.equalsIgnoreCase(".png") &&
+                                !fileExtension.equalsIgnoreCase(".jpeg")
+                ){
+                    model.addAttribute("imageError","El formato de la imagen debe ser jpg, jpeg o png");
+                    return "redirect:verGenerarOrdenCompra";
+                }
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + receta.getOriginalFilename());
+                Files.write(rutaCompleta,bytesImgMedicine);
+                //se guarda la preescripcion
+                purchaseOrder.setPrescription(receta.getOriginalFilename());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        /////
 
         purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
         purchaseOrder.setTipo("tarjeta");

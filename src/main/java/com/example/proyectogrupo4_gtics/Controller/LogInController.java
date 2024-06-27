@@ -131,7 +131,7 @@ public class LogInController {
     public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword, Model model) {
         //String correo = (String) model.getAttribute("email");
         //Regex para verificar que la contraseña cumpla con requisitos de seguridad
-        String passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\\d$@$!%*?&#.$($)$-$_]{8,15}$/";
+        String passwordPattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\\d$@$!%*?&#.$($)$-$_]{8,16}$/";
         //Verificar que la nueva contraseña cumpla los requisitos
         if (newPassword.matches(passwordPattern)) { //Cuando cumple
             String email = (String) httpSession.getAttribute("resetEmail");
@@ -162,7 +162,7 @@ public class LogInController {
             return "redirect:/inicioSesion";
         } else { //La contraseña no cumple con los requerimientos
             String mensajeError = "La contraseña debe cumplir con:\n" +
-                    "- Tener entre 8 y 15 carácteres\n" +
+                    "- Tener entre 8 y 16 carácteres\n" +
                     "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
                     "- No espacios en blanco\n" +
                     "- Al menos un caracter especial";

@@ -483,7 +483,7 @@ public class PatientController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //Local
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
                     String fileOriginalName = imagen.getOriginalFilename();

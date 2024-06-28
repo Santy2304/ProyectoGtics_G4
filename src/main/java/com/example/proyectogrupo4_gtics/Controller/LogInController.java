@@ -55,7 +55,8 @@ public class LogInController {
         this.rolRepository = rolRepository;
     }
     @GetMapping("/inicioSesion")
-    public String InicioSesionController(HttpSession http ){
+    public String InicioSesionController(HttpSession http , Model model){
+        model.addAttribute("FechaNube", LocalDate.now());
 
         if(http.getAttribute("usuario") != null){
             if((http.getAttribute("usuario")) instanceof Administrator ){

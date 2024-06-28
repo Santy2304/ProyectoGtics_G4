@@ -14,7 +14,7 @@
     <name>ProyectoGrupo4_GTICS</name>
     <description>ProyectoGrupo4_GTICS</description>
     <properties>
-        <java.version>22</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>

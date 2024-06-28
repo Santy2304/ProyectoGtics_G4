@@ -256,7 +256,7 @@ public class PatientController {
             //ruta relativa para la imagen
             //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
             //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-            String rutaAbsoluta = "C://SaintMedic//imagenes";
+            String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             try {
                 byte[] bytesImgMedicine = receta.getBytes();
@@ -839,40 +839,39 @@ public class PatientController {
                 String tracking = purchaseOrder.getTracking();
 
                 Tracking trackingReal = purchaseOrder.getIdtracking();
+                if(tracking !=null){
+                    switch (tracking){
+                        case ("Solicitado"):
+                            if (trackingReal.getEnProcesoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Proceso",purchaseOrder.getId());
+                            }
+                            break;
 
-                switch (tracking){
+                        case ("En Proceso"):
+                            if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Empaquetando",purchaseOrder.getId());
+                            }
+                            break;
+                        case ("Empaquetando"):
+                            if (trackingReal.getEnRutaDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Ruta",purchaseOrder.getId());
+                            }
+                            break;
 
-                    case ("Solicitado"):
-                        if (trackingReal.getEnProcesoDate().isBefore(now)){
-                            purchaseOrderRepository.actualizarTrackingPurchase("En Proceso",purchaseOrder.getId());
-                        }
-                        break;
-
-                    case ("En Proceso"):
-                        if (trackingReal.getEmpaquetadoDate().isBefore(now)){
-                            purchaseOrderRepository.actualizarTrackingPurchase("Empaquetando",purchaseOrder.getId());
-                        }
-                        break;
-
-                    case ("Empaquetando"):
-                        if (trackingReal.getEnRutaDate().isBefore(now)){
-                            purchaseOrderRepository.actualizarTrackingPurchase("En Ruta",purchaseOrder.getId());
-                        }
-                        break;
-
-                    case ("En Ruta"):
-                        if (trackingReal.getEntregadoDate().isBefore(now)){
-                            purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
-                            Notifications notifications = new Notifications();
-                            notifications.setDate(LocalDateTime.now());
-                            notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
-                            String email = purchaseOrder.getPatient().getEmail();
-                            notifications.setIdUsers(userRepository.findByEmail(email));
-                            notificationsRepository.save(notifications);
-                        }
-                        break;
-                    default:
-                        break;
+                        case ("En Ruta"):
+                            if (trackingReal.getEntregadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
+                                Notifications notifications = new Notifications();
+                                notifications.setDate(LocalDateTime.now());
+                                notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
+                                String email = purchaseOrder.getPatient().getEmail();
+                                notifications.setIdUsers(userRepository.findByEmail(email));
+                                notificationsRepository.save(notifications);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
 

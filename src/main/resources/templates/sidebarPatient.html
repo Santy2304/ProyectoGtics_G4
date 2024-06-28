@@ -30,7 +30,9 @@
                     <a href="javascript:void(0);"><img src="/assets_pacient/img/icons/users1.svg" alt="img"><span> Perfil </span> <span class="menu-arrow"></span></a>
                     <ul>
                         <li><a href="/patient/verPerfilPaciente" th:classappend="${activeTab == 'datos' ? ' active':'' }" >Datos del perfil</a></li>
-                        <li><a href="/patient/verInformacionPago" th:classappend="${activeTab == 'pago' ? ' active':'' }" >Información sobre pagos </a></li>
+                        <li><a href="/patient/verInformacionPago" th:classappend="${activeTab == 'pago' ? ' active':'' }" >Información sobre pagos </a>
+                        <li><a href="/patient/verNoti" th:classappend="${activeTab == 'noti' ? ' active':'' }" >Notificaciones</a></li>
+
                     </ul>
                 </li>
 

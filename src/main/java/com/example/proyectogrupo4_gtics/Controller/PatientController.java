@@ -385,6 +385,22 @@ public class PatientController {
         model.addAttribute("apellido",patient.get().getLastName());
         return "pacient/perfilNuevo";
     }
+
+
+    @GetMapping("/verNoti")
+    public String verNotifications(Model model, HttpSession session
+    ){
+        Patient patient = ((Patient)session.getAttribute("usuario"));
+        model.addAttribute("nombre", patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+
+        User user = userRepository.findByEmail(patient.getEmail());
+
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesUser(user.getId()));
+        return "pacient/notificacionesPaciente";
+    }
+
+
     @GetMapping("/verPrincipalPaciente")
     public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede , HttpSession session ){
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );

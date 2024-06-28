@@ -80,10 +80,14 @@ public class  SuperAdminController {
     @GetMapping("/listaMedicamentos")
     public String listarMedicamentos(Model model) {
         model.addAttribute("listaMedicamentos", medicineRepository.obtenerDatosMedicamentos());
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
         return "superAdmin/listaMedicamentos";
     }
     @GetMapping("/verAñadirMedicamento")
-    public String verAddMedicamento(@ModelAttribute("medicine") Medicine medicine) {
+    public String verAddMedicamento(@ModelAttribute("medicine") Medicine medicine, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
         return "superAdmin/anadirMedicamento";
     }
 
@@ -109,7 +113,7 @@ public class  SuperAdminController {
                 //ruta relativa para la imagen
                 //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
                 //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
@@ -138,6 +142,9 @@ public class  SuperAdminController {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+            }else{
+                model.addAttribute("imageError","Debe agregar una imagen para el medicamento");
+                return "superAdmin/anadirMedicamento";
             }
             medicineRepository.save(medicine);
             model.addAttribute("medicine", medicine);
@@ -219,6 +226,8 @@ public class  SuperAdminController {
 
     @GetMapping("/editarMedicamento")
     public String editarMedicamento(@RequestParam("idMedicine") int idMedicine, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         Optional<Medicine> medicineOptional = medicineRepository.findById(idMedicine);
         if (medicineOptional.isPresent()) {
@@ -428,6 +437,8 @@ public class  SuperAdminController {
 
     @GetMapping("/verDetallesProducto")
     public String verDetallesProducto(@RequestParam("idMedicine") int idMedicine, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         Optional<Medicine> medicineOptional = medicineRepository.findById(idMedicine);
         if (medicineOptional.isPresent()) {
@@ -447,6 +458,8 @@ public class  SuperAdminController {
     //LISTADOS DE USUARIOS
     @GetMapping("/verListados")
     public String verListados(Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
         model.addAttribute("listaDoctores", listaDoctores);
@@ -480,6 +493,10 @@ public class  SuperAdminController {
 
     @GetMapping("/editarDoctor")
     public String verEditarDoctor(@ModelAttribute("doctor") Doctor doctor, @RequestParam("idDoctor") int idDoctor, Model model) {
+
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         Optional<Doctor> optDoctor =  doctorRepository.findById(idDoctor);
         if(optDoctor.isPresent()){
             doctor = optDoctor.get();
@@ -492,6 +509,8 @@ public class  SuperAdminController {
 
     @GetMapping("/verAgregarDoctor")
     public String verAgregarDoctor(@ModelAttribute("doctor") Doctor doctor, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarDoctor";
@@ -538,7 +557,9 @@ public class  SuperAdminController {
     }
 
     @GetMapping("/EliminarDoctor")
-    public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor ) {
+    public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor, Model model ) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
         doctorRepository.eliminarDoctorPorId(idDoctor);
         return "redirect:verListados";
     }
@@ -550,6 +571,9 @@ public class  SuperAdminController {
 
     @GetMapping("/verAgregarAdminSede")
     public String verAgregarAdminSede(@ModelAttribute("adminSede") Administrator administrator, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarAdminSede";
@@ -639,6 +663,8 @@ public class  SuperAdminController {
 
     @GetMapping("/editarAdminSede")
     public String verEditarAdminSede(@ModelAttribute("adminSede") Administrator administrator, @RequestParam("idAdminSede") int idAdminSede , Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         Optional<Administrator> optionalAdministrator = administratorRepository.findById(idAdminSede);
         if(optionalAdministrator.isPresent()){
@@ -700,7 +726,7 @@ public class  SuperAdminController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //LOCAL
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -739,7 +765,11 @@ public class  SuperAdminController {
     }
 
     @GetMapping("/eliminarAdminSede")
-    public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
+    public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede, Model model) {
+
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         administratorRepository.eliminarAdminPorId(idAdminSede);
         Administrator administrator = administratorRepository.findById(idAdminSede).get();
         User user = userRepository.findByEmail(administrator.getEmail());
@@ -760,6 +790,8 @@ public class  SuperAdminController {
 
     @GetMapping("/editarFarmacista")
     public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
         if(optionalPharmacist.isPresent()){
@@ -856,7 +888,11 @@ public class  SuperAdminController {
 
 
     @GetMapping("/eliminarFarmacista")
-    public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+    public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista,Model model) {
+
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
         Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
         User user = userRepository.findByEmail(pharmacist.getEmail());
@@ -871,7 +907,10 @@ public class  SuperAdminController {
     }
 
     @GetMapping("/rechazarFarmacista")
-    public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
+    public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
         //pharmacistRepository.deleteById(idFarmacista);
         Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
@@ -885,7 +924,10 @@ public class  SuperAdminController {
     }
 
     @GetMapping("/aceptarFarmacista")
-    public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista, HttpServletRequest request) {
+    public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista, HttpServletRequest request, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         pharmacistRepository.aceptarFarmacistaPorId(idFarmacista);
         User user = new User();
         Pharmacist pharmacist = pharmacistRepository.getByIdFarmacista(idFarmacista);
@@ -912,13 +954,19 @@ public class  SuperAdminController {
     ////Paciente////////////////////
 
     @GetMapping("/eliminarPaciente")
-    public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
+    public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         patientRepository.eliminarPacientePorId(idPaciente);
         return "redirect:verListados";
     }
 
     @GetMapping("/banearPaciente")
-    public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
+    public String banearPaciente(@RequestParam("idPaciente") int idPaciente, Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         patientRepository.banearPacientePorId(idPaciente);
         Patient patient = patientRepository.findById(idPaciente).get();
         userRepository.banear(patient.getEmail());
@@ -933,6 +981,9 @@ public class  SuperAdminController {
     //////////////////LISTADOS SEDES /////////////////////
     @GetMapping("/verSedeSuperAdminPando1")
     public String verSedePando1(Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         List<Pharmacist> listaSolicitudesFarmacistaPando1 = pharmacistRepository.listarSolicitudesFarmacistaPando1();
         model.addAttribute("listaSolicitudesFarmacistasPando1",listaSolicitudesFarmacistaPando1);
         List<ReplacementOrder> listarSolicitudesReposicionPando1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
@@ -942,6 +993,9 @@ public class  SuperAdminController {
 
     @GetMapping("/verSedeSuperAdminPando2")
     public String verSedePando2(Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         List<Pharmacist> listarSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
         model.addAttribute("listaSolicitudesFarmacistasPando2",listarSolicitudesFarmacistaPando2);
         List<ReplacementOrder> listarSolicitudesReposicionPando2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
@@ -951,6 +1005,9 @@ public class  SuperAdminController {
 
     @GetMapping("/verSedeSuperAdminPando3")
     public String verSedePando3(Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         List<Pharmacist> listarSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
         model.addAttribute("listaSolicitudesFarmacistasPando3",listarSolicitudesFarmacistaPando3);
         List<ReplacementOrder> listarSolicitudesReposicionPando3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
@@ -960,6 +1017,9 @@ public class  SuperAdminController {
 
     @GetMapping("/verSedeSuperAdminPando4")
     public String verSedePando4(Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         List<Pharmacist> listarSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
         model.addAttribute("listaSolicitudesFarmacistasPando4",listarSolicitudesFarmacistaPando4);
         List<ReplacementOrder> listarSolicitudesReposicionPando4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
@@ -969,6 +1029,9 @@ public class  SuperAdminController {
 
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
+
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
         model.addAttribute("idReplacement",idReplacementeOrder);
@@ -987,6 +1050,8 @@ public class  SuperAdminController {
     ///////////////////////////////////////7
     @GetMapping("/verDetalleRepo")
     public String verDetalleMedicamentos(@RequestParam("idRepo") int idRepo,Model model) {
+        Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
 
         List<MedicamentosPorReposicionDTO> medicamentosPorReposicion =   replacementOrderRepository.obtenerMedicamentosPorReposicion(idRepo);
         model.addAttribute("listaMedicamentosPorRepo",medicamentosPorReposicion);
@@ -998,8 +1063,12 @@ public class  SuperAdminController {
 
     @GetMapping("/verPerfil")
     public String verPerfilSuper( Model model){
+
+
         Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
+        model.addAttribute("photo",superAdmin.get().getPhoto());
         model.addAttribute("superAdmin" , superAdmin.get());
+
         return "superAdmin/perfil";
     }
 

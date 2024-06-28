@@ -244,7 +244,7 @@ public class PatientController {
             //ruta relativa para la imagen
             //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
             //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-            String rutaAbsoluta = "C://SaintMedic//imagenes";
+            String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             try {
                 byte[] bytesImgMedicine = receta.getBytes();
@@ -458,7 +458,7 @@ public class PatientController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //Local
-                String rutaAbsoluta = "C://SaintMedic//imagenes";
+                String rutaAbsoluta = "//SaintMedic//imagenes";
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
                     String fileOriginalName = imagen.getOriginalFilename();

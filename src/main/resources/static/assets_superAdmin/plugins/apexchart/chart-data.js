@@ -461,8 +461,9 @@ var donutChart = {
           show: false,
         }
     },
-    // colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
+    colors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
     series: seriesData,
+    labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
     responsive: [{
         breakpoint: 480,
         options: {

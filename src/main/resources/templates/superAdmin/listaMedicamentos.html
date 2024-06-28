@@ -166,7 +166,7 @@
 									<script >
 										function verProducto(){
 											Swal.fire({
-												html: "<img src='/assets_superAdmin/img/Paracetamol1.jpg' style='max-width:100%;'>",
+												html: "<img th:src=\"@{'/imagenes/' + ${medicamento.getPhoto()}}\" style='max-width:100%;'>",
 
 											})
 										}

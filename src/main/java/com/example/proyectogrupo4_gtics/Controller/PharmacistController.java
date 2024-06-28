@@ -337,6 +337,11 @@ public class PharmacistController {
 
             String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
 
+            if(imagen.isEmpty()){
+                falloN = true;
+                attr.addFlashAttribute("imageError", "Debe ingresar una foto de perfil");
+            }
+
             if (fileSize > maxFileSize) {
                 falloN = true;
                 attr.addFlashAttribute("imageError", "El tamaño de la imagen excede a 5MB");

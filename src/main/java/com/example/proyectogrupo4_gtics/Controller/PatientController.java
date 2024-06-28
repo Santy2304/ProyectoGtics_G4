@@ -485,6 +485,7 @@ public class PatientController {
                     //patient.setPhoto(imagen.getOriginalFilename());
                     attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
                     patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                    session.setAttribute("usuario",patientRepository.findById(patient1.getIdPatient()).get());
                     return "redirect:verPerfilPaciente";
                 } catch (IOException e) {
                     throw new RuntimeException(e);

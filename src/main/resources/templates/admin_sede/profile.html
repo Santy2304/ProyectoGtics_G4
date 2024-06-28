@@ -168,7 +168,7 @@
 											<img th:src="@{'/imagenes/' + ${admin.photo}}" alt="img" id="blah">
 
 											<div class="profileupload" name="adminFile">
-												<input type="file" id="imgInp">
+												<input type="file" id="imgInp" name="adminFile">
 												<a href="javascript:void(0);" ><img src="/assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
 											</div>
 											<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
@@ -179,7 +179,7 @@
 										</div>
 									</div>
 									<div class="ms-auto">
-										<button type="submit" class="btn btn-cancel">Cambiar foto</button>
+										<button type="submit" class="btn btn-submit me-2">Cambiar foto</button>
 									</div>
 								</div>
 							</div>

@@ -655,9 +655,10 @@ public class AdminSedeController {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         Administrator admin = administratorRepository.getByIdAdministrador(idAdministrator);
 
+
             if (imagen.isEmpty()) {
                 model.addAttribute("imageError", "Debe agregar una imagen");
-                return "superAdmin/perfil";
+                return "admin_sede/profile";
             } else {
 
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
@@ -690,6 +691,7 @@ public class AdminSedeController {
                     Files.write(rutaCompleta, bytesImgPerfil);
                     admin.setPhoto(imagen.getOriginalFilename());
                     attr.addFlashAttribute("msg", "Foto de perfil actualizado correctamente");
+                    session.setAttribute("usuario",administratorRepository.findById(admin.getIdAdministrador()).get());
                     return "redirect:verPerfilAdminSede";
 
                 } catch (IOException e) {

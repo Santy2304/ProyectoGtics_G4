@@ -717,11 +717,7 @@ public class  SuperAdminController {
                 userRepository.desbanear(administrator.getEmail());
             }
 
-            if (adminFoto.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "superAdmin/EditarAdministrador";
-            }
-            else {
+            if (!adminFoto.isEmpty()) {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
@@ -758,8 +754,8 @@ public class  SuperAdminController {
                     throw new RuntimeException(e);
                 }
                 attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
-            }
 
+            }
             return "redirect:verListados";
         }
     }
@@ -841,11 +837,7 @@ public class  SuperAdminController {
                 userRepository.desbanear(pharmacist.getEmail());
             }
 
-            if (farmFoto.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "superAdmin/EditarAdministrador";
-            }
-            else {
+            if (!farmFoto.isEmpty()) {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 String rutaAbsoluta = "//SaintMedic//imagenes";

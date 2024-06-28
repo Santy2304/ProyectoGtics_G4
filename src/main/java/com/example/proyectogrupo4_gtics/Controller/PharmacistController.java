@@ -376,6 +376,8 @@ public class PharmacistController {
                 pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
                 userRepository.actualizarEmail(email,idUser);
 
+                session.setAttribute("usuario",pharmacistRepository.findById(pharmacist.getIdFarmacista()).get());
+
                 return "redirect:verProfileFarmacista";
             }else{
                 return "pharmacist/profile";

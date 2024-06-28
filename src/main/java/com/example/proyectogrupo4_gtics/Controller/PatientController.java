@@ -307,10 +307,10 @@ public class PatientController {
         purchaseOrder.setReleaseDate(LocalDate.now());
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
-        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(10));
-        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(20));
-        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(30));
-        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(40));
+        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
         trackingRepository.save(tracking);
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);

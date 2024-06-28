@@ -47,6 +47,10 @@ public class AdminSedeController {
     final NotificationsRepository notificationsRepository;
     final TrackingRepository trackingRepository;
     final SiteRepository siteRepository;
+
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
+
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
                                LoteRepository loteRepository,UserRepository userRepository,
@@ -289,7 +293,7 @@ public class AdminSedeController {
                         //NUBE
                         //String rutaAbsoluta = "//SaintMedic//imagenes";
                         //LOCAL
-                        String rutaAbsoluta = "//SaintMedic//imagenes";
+                        //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                         String fileOriginalName = imagen.getOriginalFilename();
                         try {
@@ -356,7 +360,7 @@ public class AdminSedeController {
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
 
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 String fileOriginalName = imagen.getOriginalFilename();
                 try {
@@ -664,7 +668,7 @@ public class AdminSedeController {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

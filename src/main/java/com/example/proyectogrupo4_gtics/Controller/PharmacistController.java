@@ -47,6 +47,8 @@ public class PharmacistController {
 
     final TrackingRepository trackingRepository;
 
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
 
 
     public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
@@ -365,7 +367,7 @@ public class PharmacistController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //LOCAL
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

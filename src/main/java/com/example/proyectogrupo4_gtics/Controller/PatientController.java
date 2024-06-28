@@ -51,6 +51,9 @@ public class PatientController {
     private final LoteRepository loteRepository;
     private final CarritoRepository carritoRepository;
     final TrackingRepository trackingRepository;
+
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
@@ -244,7 +247,7 @@ public class PatientController {
             //ruta relativa para la imagen
             //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
             //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-            String rutaAbsoluta = "//SaintMedic//imagenes";
+            //String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             try {
                 byte[] bytesImgMedicine = receta.getBytes();
@@ -458,7 +461,7 @@ public class PatientController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //Local
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
                     String fileOriginalName = imagen.getOriginalFilename();

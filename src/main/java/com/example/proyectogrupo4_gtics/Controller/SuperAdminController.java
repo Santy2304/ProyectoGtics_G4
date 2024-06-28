@@ -57,6 +57,8 @@ public class  SuperAdminController {
     final PharmacistRepository pharmacistRepository;
     private final ReplacementOrderRepository replacementOrderRepository;
 
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
     public SuperAdminController(MedicineRepository medicineRepository, PatientRepository patientRepository, DoctorRepository doctorRepository, LoteRepository loteRepository, AdministratorRepository administratorRepository, SiteRepository siteRepository, PharmacistRepository pharmacistRepository,
                                 ReplacementOrderRepository replacementOrderRepository,
                                 SuperAdminRepository superAdminRepository, UserRepository userRepository,
@@ -113,7 +115,7 @@ public class  SuperAdminController {
                 //ruta relativa para la imagen
                 //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
                 //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
@@ -281,7 +283,7 @@ public class  SuperAdminController {
             //ruta relativa para la imagen
             //Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
 
-            String rutaAbsoluta = "//SaintMedic//imagenes";
+            //String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             String fileOriginalName = imagenEdit.getOriginalFilename();
             try {
@@ -604,7 +606,7 @@ public class  SuperAdminController {
 
                     //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta = "//SaintMedic//imagenes";
+                    //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -726,7 +728,7 @@ public class  SuperAdminController {
                     //NUBE
                     //String rutaAbsoluta = "//SaintMedic//imagenes";
                     //LOCAL
-                    String rutaAbsoluta = "//SaintMedic//imagenes";
+                    //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -848,7 +850,7 @@ public class  SuperAdminController {
             } else {
                     //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta = "//SaintMedic//imagenes";
+                    //String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = farmFoto.getBytes();
@@ -1092,7 +1094,8 @@ public class  SuperAdminController {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                //
+                // String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

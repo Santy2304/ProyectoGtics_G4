@@ -717,43 +717,48 @@ public class  SuperAdminController {
                 userRepository.desbanear(administrator.getEmail());
             }
 
-            if (!adminFoto.isEmpty()) {
-                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
-                //NUBE
-                //String rutaAbsoluta = "//SaintMedic//imagenes";
-                //LOCAL
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+            if (adminFoto.isEmpty()) {
+                administratorRepository.updateDatosPorIdSinFoto(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
 
-                try {
-                    byte[] bytesImgPerfil = adminFoto.getBytes();
-                    String fileOriginalName = adminFoto.getOriginalFilename();
+            }
+            else{
+                    //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+                    //NUBE
+                    //String rutaAbsoluta = "//SaintMedic//imagenes";
+                    //LOCAL
+                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
-                    long fileSize = adminFoto.getSize();
-                    long maxFileSize = 5 * 1024 * 1024;
+                    try {
+                        byte[] bytesImgPerfil = adminFoto.getBytes();
+                        String fileOriginalName = adminFoto.getOriginalFilename();
 
-                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-                    if (fileSize > maxFileSize) {
-                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
-                        return "superAdmin/EditarAdministrador";
+                        long fileSize = adminFoto.getSize();
+                        long maxFileSize = 5 * 1024 * 1024;
+
+                        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                        if (fileSize > maxFileSize) {
+                            model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                            return "superAdmin/EditarAdministrador";
+                        }
+                        if (
+                                !fileExtension.equalsIgnoreCase(".jpg") &&
+                                        !fileExtension.equalsIgnoreCase(".png") &&
+                                        !fileExtension.equalsIgnoreCase(".jpeg")
+                        ) {
+                            model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                            return "superAdmin/EditarAdministrador";
+                        }
+
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                        Files.write(rutaCompleta, bytesImgPerfil);
+                        //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                        administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    if (
-                            !fileExtension.equalsIgnoreCase(".jpg") &&
-                                    !fileExtension.equalsIgnoreCase(".png") &&
-                                    !fileExtension.equalsIgnoreCase(".jpeg")
-                    ) {
-                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
-                        return "superAdmin/EditarAdministrador";
-                    }
+                    attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
 
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
-                    Files.write(rutaCompleta, bytesImgPerfil);
-                    //administrator.setPhoto(adminFoto.getOriginalFilename());
-
-                    administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                attributes.addFlashAttribute("msg", "Administrador actualizado correctamente");
 
             }
             return "redirect:verListados";
@@ -801,6 +806,7 @@ public class  SuperAdminController {
 
     @PostMapping("/guardarCambiosFarmacista")
     public String editarFarmacista(@RequestParam("foto")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
+
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarFarmacista";
         } else {
@@ -837,43 +843,44 @@ public class  SuperAdminController {
                 userRepository.desbanear(pharmacist.getEmail());
             }
 
-            if (!farmFoto.isEmpty()) {
-                //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+            if (farmFoto.isEmpty()) {
+                pharmacistRepository.updateDatosPorIdSinFoto(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
+            } else {
+                    //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
-                try {
-                    byte[] bytesImgPerfil = farmFoto.getBytes();
-                    String fileOriginalName = farmFoto.getOriginalFilename();
+                    try {
+                        byte[] bytesImgPerfil = farmFoto.getBytes();
+                        String fileOriginalName = farmFoto.getOriginalFilename();
 
-                    long fileSize = farmFoto.getSize();
-                    long maxFileSize = 5 * 1024 * 1024;
+                        long fileSize = farmFoto.getSize();
+                        long maxFileSize = 5 * 1024 * 1024;
 
-                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-                    if (fileSize > maxFileSize) {
-                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
-                        return "superAdmin/EditarAdministrador";
+                        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                        if (fileSize > maxFileSize) {
+                            model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                            return "superAdmin/EditarAdministrador";
+                        }
+                        if (
+                                !fileExtension.equalsIgnoreCase(".jpg") &&
+                                        !fileExtension.equalsIgnoreCase(".png") &&
+                                        !fileExtension.equalsIgnoreCase(".jpeg")
+                        ) {
+                            model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                            return "superAdmin/EditarAdministrador";
+                        }
+
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + farmFoto.getOriginalFilename());
+                        Files.write(rutaCompleta, bytesImgPerfil);
+                        //administrator.setPhoto(adminFoto.getOriginalFilename());
+
+                        pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), farmFoto.getOriginalFilename() ,pharmacist.getIdFarmacista());
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    if (
-                            !fileExtension.equalsIgnoreCase(".jpg") &&
-                                    !fileExtension.equalsIgnoreCase(".png") &&
-                                    !fileExtension.equalsIgnoreCase(".jpeg")
-                    ) {
-                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
-                        return "superAdmin/EditarAdministrador";
-                    }
-
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + farmFoto.getOriginalFilename());
-                    Files.write(rutaCompleta, bytesImgPerfil);
-                    //administrator.setPhoto(adminFoto.getOriginalFilename());
-
-                    pharmacistRepository.updateDatosPorId(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(), farmFoto.getOriginalFilename() ,pharmacist.getIdFarmacista());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
+                    attributes.addFlashAttribute("msg", "Farmacista actualizado correctamente");
             }
-
             return "redirect:verListados";
         }
     }

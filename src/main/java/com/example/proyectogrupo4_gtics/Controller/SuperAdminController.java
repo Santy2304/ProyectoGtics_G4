@@ -1019,6 +1019,7 @@ public class  SuperAdminController {
 
 
         if (bindingResult.hasErrors()) {
+            System.out.println(":(");
             return "superAdmin/perfil";
         } else {
             if (imagen.isEmpty()) {

@@ -24,11 +24,8 @@ public class SuperAdmin implements Serializable {
     @Column(name = "password")
     @NotBlank(message = "Este campo es obligatorio")
     @Size(min=8, max = 16, message = "La contraseña debe tener entre 8 y 16 caracteres")
-    @Pattern(regexp = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\\d$@$!%*?&#.$($)$-$_]{8,16}$/",
-            message = "La contraseña debe cumplir con:\n" +
-                    "- Tener al menos una letra mayúscula, una letra minúscula y un dígito\n" +
-                    "- No contener espacios en blanco\n" +
-                    "- Tener al menos un caracter especial")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$",
+            message = "La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter no alfanumérico")
     private String password;
 
 

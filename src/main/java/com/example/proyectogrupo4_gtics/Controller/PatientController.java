@@ -50,6 +50,10 @@ public class PatientController {
     private final DoctorRepository doctorRepository;
     private final LoteRepository loteRepository;
     private final CarritoRepository carritoRepository;
+
+    final NotificationsRepository notificationsRepository;
+    final CreditCardRepository creditCardRepository;
+
     final TrackingRepository trackingRepository;
 
     private String rutaAbsoluta = "//SaintMedic//imagenes";
@@ -59,7 +63,8 @@ public class PatientController {
                               DoctorRepository doctorRepository,
                               LoteRepository loteRepository,
                               UserRepository userRepository, TrackingRepository trackingRepository ,
-                              CarritoRepository carritoRepository) {
+                              CarritoRepository carritoRepository, CreditCardRepository creditCardRepository,
+                              NotificationsRepository notificationsRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -70,6 +75,8 @@ public class PatientController {
         this.userRepository = userRepository;
         this.trackingRepository = trackingRepository;
         this.carritoRepository = carritoRepository;
+        this.creditCardRepository = creditCardRepository;
+        this.notificationsRepository = notificationsRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -155,11 +162,16 @@ public class PatientController {
         model.addAttribute("apellido",patient.getLastName());
         return "pacient/chatNuevo";
     }
-    @GetMapping("/verDatosPago")
+    @GetMapping( value = {"/verDatosPago",""})
     public String verDatosPago(@RequestParam("idPurchase") int idPurchase, Model model, HttpSession session){
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosCompra",meciamentosPorCompra);
+        model.addAttribute("purchaseDTO",purchaseOrderRepository.obtenerPurchasePorId(idPurchase));
+        model.addAttribute("idPurchase",idPurchase);
+        model.addAttribute("tarjetaElejida",creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient()));
         return "pacient/datos_pago";
     }
 
@@ -301,10 +313,10 @@ public class PatientController {
         purchaseOrder.setReleaseDate(LocalDate.now());
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
-        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(10));
-        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(20));
-        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(30));
-        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(40));
+        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
         trackingRepository.save(tracking);
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
@@ -348,8 +360,8 @@ public class PatientController {
             carritoRepository.deleteAllByIdInBatch(listaId);
             return "redirect:verTicket?idCompra="+purchaseOrder.getId();
         }else{
-            model.addAttribute("insuficienteStock" , true);
-            return "pacient/generar_orden_compraNuevo";
+            model.addAttribute("ola",1);
+            return "redirect:verGenerarOrdenCompra";
         }
     }
 
@@ -379,6 +391,22 @@ public class PatientController {
         model.addAttribute("apellido",patient.get().getLastName());
         return "pacient/perfilNuevo";
     }
+
+
+    @GetMapping("/verNoti")
+    public String verNotifications(Model model, HttpSession session
+    ){
+        Patient patient = ((Patient)session.getAttribute("usuario"));
+        model.addAttribute("nombre", patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+
+        User user = userRepository.findByEmail(patient.getEmail());
+
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesUser(user.getId()));
+        return "pacient/notificacionesPaciente";
+    }
+
+
     @GetMapping("/verPrincipalPaciente")
     public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede , HttpSession session ){
         System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
@@ -430,7 +458,7 @@ public class PatientController {
             return response;
     }
     @GetMapping("/verTracking")
-    public String verTrackingPaciente(@SessionAttribute("idUser") String idUser , Model model, HttpSession session){
+    public String verTrackingPaciente( Model model, HttpSession session){
         List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
         model.addAttribute("listaTracking",tracking);
         Patient patient = (Patient) session.getAttribute("usuario");
@@ -438,6 +466,22 @@ public class PatientController {
         model.addAttribute("apellido",patient.getLastName());
         return "pacient/trackingNuevo";
     }
+
+    @GetMapping("/verTrackingSolitario")
+    public String verTrackingPersonal(@RequestParam("idPurchase") int idPurchase , Model model){
+
+        Tracking tracking =  purchaseOrderRepository.findById(idPurchase).get().getIdtracking();
+
+        model.addAttribute("idPurchase",idPurchase);
+        model.addAttribute("Tracking",tracking);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate());
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate());
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate());
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate());
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate());
+        return "pacient/TrackingSolitario";
+    }
+
 
     @PostMapping("/editarPerfilPaciente")
     public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen,@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
@@ -501,9 +545,111 @@ public class PatientController {
              */
         }
     }
+    @GetMapping(value = {"/verInformacionPago",""})
+    public String verInfoPago(  Model model, HttpSession session){
+        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
+        model.addAttribute("paciente" , patient.get());
+        model.addAttribute("nombre",patient.get().getName());
+        model.addAttribute("apellido",patient.get().getLastName());
+        model.addAttribute("listaTarjetas",creditCardRepository.listaCreditCards(patient.get().getIdPatient()));
+        return "pacient/informacionPago";
+    }
+
+    @PostMapping("/agregarTarjetaUsuario")
+    public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
+
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+
+        CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(creditCard.getNumberCard());
+
+        if (creditCardOptional!=null){
+            int medDb = creditCardOptional.getExpireMonth();
+            int yearDb = creditCardOptional.getExpireYear();
+            if (creditCardOptional.getCvv().equals(creditCard.getCvv()) && medDb==month && yearDb==year && creditCardOptional.getIdPatient()==null){
+                    creditCardOptional.setIdPatient(patient);
+                    creditCardOptional.setPrefered(true);
+                    creditCardRepository.save(creditCardOptional);
+                    List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
+                    for(CreditCard tarjeta:listaTarjetas){
+                        if (!creditCard.getNumberCard().equals(tarjeta.getNumberCard())){
+                            tarjeta.setPrefered(false);
+                            creditCardRepository.save(tarjeta);
+                        }
+                    }
+            }else{
+                attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+            }
+
+        }else{
+            attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+        }
+
+        return "redirect:verInformacionPago";
+    }
 
 
+    @GetMapping("/marcarTarjetaPreferida")
+    public String marcarTarjetaFavorita(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
 
+        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.get().getIdPatient());
+        creditCardRepository.preferirPorid(idTarjeta);
+        for (CreditCard tarjeta: listaTarjetas){
+            if(tarjeta.getIdCredit()!=idTarjeta){
+                tarjeta.setPrefered(false);
+                creditCardRepository.save(tarjeta);
+            }
+        }
+
+        return "redirect:verInformacionPago";
+    }
+
+    @GetMapping("/eliminarTarjeta")
+    public String eliminarTarjeta(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+       CreditCard creditCard = creditCardRepository.findById(idTarjeta).get();
+       creditCard.setIdPatient(null);
+       creditCardRepository.save(creditCard);
+        return "redirect:verInformacionPago";
+    }
+
+    @PostMapping("/pagarFinal")
+    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+        if (tarjetaNueva.isEmpty()){
+            CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
+            int medDb = creditCard.getExpireMonth();
+            int yearDb = creditCard.getExpireYear();
+            if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
+            }
+        }else{
+            CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
+            if (creditCardOptional!=null){
+                int medDb = creditCardOptional.getExpireMonth();
+                int yearDb = creditCardOptional.getExpireYear();
+
+                if (creditCardOptional.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                    purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                }else{
+                    attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                    return "redirect:verDatosPago?idPurchase="+idPurchase;
+                }
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
+            }
+        }
+        return "redirect:verHistorial";
+    }
 
     //Vista principal que requiere interacción con los webservices Uu
     @GetMapping(value = "/compras")
@@ -700,6 +846,58 @@ public class PatientController {
 
         public void setIdMedicina(String idMedicina) {
             this.idMedicina = idMedicina;
+        }
+    }
+
+
+
+    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    public void changeTrackingPurchase() {
+        LocalDateTime now = LocalDateTime.now();
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+
+            if(!purchaseOrder.getTipo().equals("Preorden")){
+                String tracking = purchaseOrder.getTracking();
+
+                Tracking trackingReal = purchaseOrder.getIdtracking();
+                if(tracking !=null){
+                    switch (tracking){
+                        case ("Solicitado"):
+                            if (trackingReal.getEnProcesoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Proceso",purchaseOrder.getId());
+                            }
+                            break;
+
+                        case ("En Proceso"):
+                            if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Empaquetando",purchaseOrder.getId());
+                            }
+                            break;
+                        case ("Empaquetando"):
+                            if (trackingReal.getEnRutaDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Ruta",purchaseOrder.getId());
+                            }
+                            break;
+
+                        case ("En Ruta"):
+                            if (trackingReal.getEntregadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
+                                Notifications notifications = new Notifications();
+                                notifications.setDate(LocalDateTime.now());
+                                notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
+                                String email = purchaseOrder.getPatient().getEmail();
+                                notifications.setIdUsers(userRepository.findByEmail(email));
+                                notificationsRepository.save(notifications);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
         }
     }
 }

@@ -1,5 +1,5 @@
 package com.example.proyectogrupo4_gtics.Controller;
-
+import com.example.proyectogrupo4_gtics.Config.ImpersonationAuthToken;
 import com.example.proyectogrupo4_gtics.DTOs.CantidadMedicamentosDTO;
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
@@ -14,7 +14,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.session.Session;
+import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +53,13 @@ public class  SuperAdminController {
 
     @Autowired
     private EmailService emailService;
+
+    //Clase para implementar el superlogueo
+    @Autowired
+    private UserDetailsManager userDetailsManager;
+    @Autowired
+    private SessionRepository<? extends Session> sessionRepository;
+
     final UserRepository userRepository;
 
     final RolRepository rolRepository;
@@ -76,7 +91,63 @@ public class  SuperAdminController {
         this.rolRepository = rolRepository;
     }
 
+    //Superlogueo//
+    @GetMapping("/superlogueo")
+    public String superlogueo(@RequestParam("id") String idUser, @RequestParam("rol") String rol, HttpSession originalSession, HttpServletRequest request) {
+        //Obtener el usuario a suplantar para setearlo a la nueva sesión y obtener su username (email)
+        String username = null;
+        switch (rol){
+            case "paciente":
+                username = patientRepository.findById(Integer.parseInt(idUser)).get().getEmail();
+                break;
+            case "farmacista":
+                username = pharmacistRepository.findById(Integer.parseInt(idUser)).get().getEmail();
+                break;
+            case "admin":
+                username = administratorRepository.findById(Integer.parseInt(idUser)).get().getEmail();
+                break;
+        }
+        if (username != null) {
+            //Guardar la sesión del superadmin y su autenticación
+            System.out.println(username);
+            Authentication originalAuth = SecurityContextHolder.getContext().getAuthentication();
 
+            //Realizar el superlogueo (suplantación)
+            //System.out.println(username);
+            UserDetails userDetails = userDetailsManager.loadUserByUsername(username);
+            Authentication impersonatedAuth = new ImpersonationAuthToken(userDetails);
+
+            //Invalidar sesión actual y crear una nueva
+            originalSession.invalidate();
+
+            //Establecer la nueva sesión
+            HttpSession impersonatedSession = request.getSession();
+            SecurityContext newContext = SecurityContextHolder.createEmptyContext();
+            newContext.setAuthentication(impersonatedAuth);
+            SecurityContextHolder.setContext(newContext);
+            impersonatedSession.setAttribute("SPRING_SECURITY_CONTEXT", newContext);
+            //sesión para las validaciones de inicio de sesión
+            switch (rol) {
+                case "paciente":
+                    Patient patient = patientRepository.findByEmail(username).get();
+                    impersonatedSession.setAttribute("usuario", patient);
+                    //Seteamos por defecto la sede Pando 1
+                    impersonatedSession.setAttribute("idSede", 1);
+                    break;
+                case "farmacista":
+                    impersonatedSession.setAttribute("usuario", pharmacistRepository.findByEmail(username));
+                    break;
+                case "admin":
+                    impersonatedSession.setAttribute("usuario", administratorRepository.findByEmail(username));
+                    System.out.println(administratorRepository.findByEmail(username).getName());
+                    break;
+            }
+
+            return "redirect:/inicioSesion";
+        } else {
+            return "redirect:verListados";
+        }
+    }
     //Medicamentos///////////////////////////
 
     @GetMapping("/listaMedicamentos")

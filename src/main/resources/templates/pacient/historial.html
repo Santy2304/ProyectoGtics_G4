@@ -289,7 +289,7 @@
 									<td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
 									<td>
 										<a  type="button">
-											<img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_superAdmin/img/transaccion.png" width="30" alt="img">
+											<img th:id="|${'PO'+ compras.getIdPurchaseOrder()}|" src="../assets_superAdmin/img/transaccion.png" width="30" alt="img">
 										</a>
 									</td>
 									<script th:inline="javascript" >

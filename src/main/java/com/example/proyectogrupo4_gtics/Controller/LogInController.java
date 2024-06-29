@@ -55,7 +55,8 @@ public class LogInController {
         this.rolRepository = rolRepository;
     }
     @GetMapping("/inicioSesion")
-    public String InicioSesionController(HttpSession http ){
+    public String InicioSesionController(HttpSession http , Model model){
+        model.addAttribute("FechaNube", LocalDate.now());
 
         if(http.getAttribute("usuario") != null){
             if((http.getAttribute("usuario")) instanceof Administrator ){
@@ -65,7 +66,7 @@ public class LogInController {
                 return "redirect:/pharmacist/verMedicinelist";
             }
             if((http.getAttribute("usuario")) instanceof Patient ){
-                return "redirect:/patient/verPrincipalPaciente";
+                return "redirect:/patient/ElegirSede";
             }
             if((http.getAttribute("usuario")) instanceof SuperAdmin ){
                 return "redirect:/superAdmin/verListados";

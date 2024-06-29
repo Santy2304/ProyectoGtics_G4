@@ -357,24 +357,12 @@
                                         let lastName = document.getElementById("lastName");
                                         name.placeholder = response.name;
                                         lastName.placeholder = response.lastName;
-                                        let errorName = document.getElementById("errorName");
-                                        errorName.remove();
-                                        let errorLastName = document.getElementById("errorLastName");
-                                        errorLastName.remove();
                                     },
                                     error: function (response) {
-                                       let errorName =`
-                                        <div id='errorName' class="invalid-tooltip">
-                                            No se encontró el nombre.
-                                        </div>`;
-                                        let errorLastName =`
-                                        <div id='errorLastName' class="invalid-tooltip">
-                                            No se encontró el apellido.
-                                        </div>`;
-                                        let uno = document.getElementById("uno");
-                                        let dos = document.getElementById("dos");
-                                        uno.innerHTML = errorName;
-                                        dos.innerHTML = errorLastName;
+                                       swal.fire({
+                                          icon:"error",
+                                          title: "Debes de ingresar un número de DNI correcto"
+                                       });
                                     }
                                 });
                               };
@@ -405,12 +393,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
                 <div class="col-lg-12">
                     <a id="crearPreorden" class="btn btn-submit me-2">Crear</a>
                     <a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
                 </div>
                 </form>
+                </div>
+
                 <script>
                     document.addEventListener('DOMContentLoaded', () => {
                        let id  = document.getElementById("crearPreorden");
@@ -445,18 +434,23 @@
                                    data: json,
                                    success: function(response){
                                         swal.fire({
-                                            title:"Todo ok"
-                                        })
+                                            title:"success",
+                                            text:"Se genero correctamente la preorden"
+                                        }).then(()=>{
+                                           window.location.href="/pharmacist/verPreordenes";
+                                        });
                                    },
                                    error: function(response){
                                        swal.fire({
-                                           title:"pepe"
+                                           icon:"error",
+                                           title:"Ocurrio un error inesperado"
                                        })
                                    }
                                })
                            }else{
                                swal.fire({
-                                   title: "cuidado"
+                                   icon:"error",
+                                   title: "Completa todos los campos"
                                })
                            }
                        });

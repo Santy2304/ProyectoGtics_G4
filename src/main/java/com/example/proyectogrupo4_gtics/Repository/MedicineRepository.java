@@ -14,7 +14,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
-    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
+    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad " +
+            "from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
     List<MedicamentosPorSedeDTO> getMedicineBySite(int idSede);
 
 
@@ -240,6 +241,25 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "GROUP BY\n" +
             "    m.idMedicine, m.name")
     List<MeciamentosPorCompraDTO> listaMedicamentosPorCompra(int idPurchase);
+
+
+    @Query(nativeQuery = true, value =
+            "SELECT m.description AS description, m.idMedicine AS idMedicine, m.name AS nombreMedicamento, m.category AS categoria, m.photo AS photo, " +
+                    "COUNT(m.idMedicine) AS cantLote, TRUNCATE(m.price, 2) AS precio, SUM(l.stock) AS cantidad " +
+                    "FROM medicine m " +
+                    "LEFT JOIN lote l ON m.idMedicine = l.idMedicine " +
+                    "WHERE l.idLote IN ( " +
+                    "    SELECT l2.idLote " +
+                    "    FROM lote l2 " +
+                    "    LEFT JOIN replacementorder r ON r.idreplacementorder = l2.idPedidosReposicion " +
+                    "    LEFT JOIN trackings t ON r.idtrackings = t.idtrackings " +
+                    "    WHERE l2.site = ?1 " +
+                    "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
+                    "    AND l2.visible = true " +
+                    ") " +
+                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
+    )
+    List<MedicamentosPorSedeDTO> listaMedicamentosPorSedeNoti(String sede);
 
 
     //admin Sede estadisticas

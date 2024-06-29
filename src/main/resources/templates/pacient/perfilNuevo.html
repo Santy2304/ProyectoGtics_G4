@@ -113,14 +113,13 @@
                 <input name="distrit" type="text" th:field="${paciente.distrit}" th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}" >
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
               </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
               <div class="form-group">
                 <label>Dirección</label>
                 <input name="location" type="text" th:field="${paciente.location}" th:classappend="${#fields.hasErrors('location')? 'is-invalid' : ''}" >
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}" th:errors="*{location}"></div>
               </div>
             </div>
+
             <div class="col-lg-6 col-sm-12">
               <div class="form-group">
                 <label>DNI</label>

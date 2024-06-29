@@ -36,12 +36,27 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
     List<PurchasePorPatientDTO> obtenerComprarPorPaciente(int idPatient);
 
 
+    @Query(nativeQuery = true, value = "SELECT po.idPurchaseOrder,\n" +
+            "SUM(m.price * phl.cantidad_comprar) AS total_price,\n" +
+            "po.releaseDate as fecha,\n" +
+            "po.approval as estado,\n" +
+            "po.statePaid as estadoPago\n" +
+            "FROM\n" +
+            "purchaseorder po\n" +
+            "INNER JOIN\n" +
+            "purchasehaslot phl ON po.idPurchaseOrder = phl.idPurchase\n" +
+            "INNER JOIN\n" +
+            "lote l ON phl.idLote = l.idLote \n" +
+            "INNER JOIN\n" +
+            "medicine m ON l.idMedicine = m.idMedicine\n" +
+            "where po.idPurchaseOrder = ?1")
+    PurchasePorPatientDTO obtenerPurchasePorId(int idPurchase);
+
     @Query(nativeQuery = true, value = "SELECT\n" +
             "    po.idPurchaseOrder,\n" +
             "    SUM(m.price * phl.cantidad_comprar) AS total_price,\n" +
             "    po.releaseDate as fecha,\n" +
-            "    po.approval as estado,\n" +
-            "    po.statePaid as estadoPago\n" +
+            "    po.tracking as tracking\n" +
             "FROM\n" +
             "    purchaseorder po\n" +
             "INNER JOIN\n" +
@@ -56,6 +71,13 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "GROUP BY\n" +
             "    po.idPurchaseOrder")
     List<PurchasePorPatientDTO> obtenerComprarPorPacienteTracking(int idPatient);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set tracking = ?1  where idPurchaseOrder =?2" , nativeQuery = true)
+    void actualizarTrackingPurchase(String estado,int id);
+
 
     /*Pharmacist*/
     @Query(nativeQuery = true,value = "select po.idPurchaseOrder as idPurchaseOrder, po.phoneNumber as numero, CONCAT(p.name,' ',p.lastName) as nombrePaciente, CONCAT(d.name,'',d.lastName) as nombreDoctor, po.prescription as  prescripcion, po.tracking as tracking, po.releaseDate as fechaRelease, sum(m.price*phl.cantidad_comprar) as monto, po.statePaid as estadoPago, po.tipo as tipoCompra,po.tipoPago as tipoPago, po.releaseDate as fecha from purchaseorder po inner join purchasehaslot phl on phl.idPurchase=po.idPurchaseOrder inner join lote l on phl.idLote = l.idLote inner join medicine m on m.idMedicine=l.idMedicine inner join doctor d on po.idDoctor=d.idDoctor inner join patient p on po.idPatient=p.idPatient where po.site=?1 and po.tipo='presencial'  group by po.idPurchaseOrder")
@@ -75,6 +97,10 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
 
     @Query(nativeQuery = true,value = "select po.idPurchaseOrder as idPurchaseOrder, po.phoneNumber as numero, CONCAT(p.name,' ',p.lastName) as nombrePaciente, CONCAT(d.name,'',d.lastName) as nombreDoctor, po.prescription as  prescripcion, po.tracking as tracking, po.releaseDate as fechaRelease, sum(m.price*phl.cantidad_comprar) as monto, po.statePaid as estadoPago, po.tipo as tipoCompra,po.tipoPago as tipoPago, po.releaseDate as fecha from purchaseorder po inner join purchasehaslot phl on phl.idPurchase=po.idPurchaseOrder inner join lote l on phl.idLote = l.idLote inner join medicine m on m.idMedicine=l.idMedicine inner join doctor d on po.idDoctor=d.idDoctor inner join patient p on po.idPatient=p.idPatient where po.site=?1 and po.approval='pendiente' and tipo='bot' group by po.idPurchaseOrder")
     List<PurchaseOrderPorSedeDTO> listaVentasSolicitudesBOTPorSede(String sede);
+
+    @Query(nativeQuery = true,value="SELECT * FROM purchaseorder where site=?1 and tipo=\"Preorden\";")
+    List<PurchaseOrder> listaPurchaseOrderBySite(String sede);
+
 
     @Transactional
     @Modifying
@@ -96,7 +122,10 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
 
 
     @Query(value = "select idPatient from purchaseorder where idPurchaseOrder =?1" , nativeQuery = true)
-    int idPatient (int idSolicitud);
+    int encontrarIdPatient(int idSolicitud);
 
-
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set statePaid='pagado'  where idPurchaseOrder =?1" , nativeQuery = true)
+    void pagarOrdenCompra(int idSolicitud);
 }

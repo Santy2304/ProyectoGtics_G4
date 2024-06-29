@@ -1072,12 +1072,12 @@ public class AdminSedeController {
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
 
         model.addAttribute("idReplacement",idReplacementeOrder);
-        model.addAttribute("Tracking",tracking);
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        model.addAttribute("Tracking",tracking); //.minusHours(5)
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate());
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate());
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate());
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate());
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate());
         return "admin_sede/trackingPersonal";
     }
 
@@ -1129,17 +1129,47 @@ public class AdminSedeController {
             }
         }
     }
-/*
-    @Scheduled(fixedRate = 60000) // Ejecuta la tarea cada minuto
+    @Scheduled(fixedRate = 3600000) // Ejecuta la tarea cada 10minutos
     public void notificacionesPorEscaso() {
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPocoStockSede("Pando 1");
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando2 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 2");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando3 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 3");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando4 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 4");
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
             Notifications notifications = new Notifications();
             notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
 
+           // notificationsRepository.save(notifications);
         }
 
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 2"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando3){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 3"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
 
-    }*/
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando4){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 4"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+
+    }
 }

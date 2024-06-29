@@ -1,6 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.LotesValidosporMedicamentoDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
@@ -136,7 +137,7 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesSede(pharmacist.getSite()));
         return "pharmacist/notifications";
     }
 
@@ -210,7 +211,6 @@ public class PharmacistController {
     @GetMapping("/verDetalleSolicitud")
     public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model, HttpSession session
     ) {
-
         int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
         Pharmacist pharmacist = new Pharmacist();
         pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
@@ -228,14 +228,39 @@ public class PharmacistController {
         }
     }
 
+    @ResponseBody
     @GetMapping("/aceptarSolicitud")
-    public String aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
-        purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
-
+    public Object aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud,Model model) {
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
+        List<MeciamentosPorCompraDTO> Listamedicamentos = medicineRepository.listaMedicamentosPorCompra(idSolicitud);
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idSolicitud).get();
+        Boolean centinela = true;
+        for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+            List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+            if (lotesPosibles.isEmpty()){
+                centinela=false;
+                break;
+            }
+        }
 
-        return "redirect:solicitudesFarmacista";
+        if(centinela){
+            for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+                List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+                Lote loteDescuento = lotesPosibles.get(0);
+                loteRepository.actualizarStockLote(loteDescuento.getIdLote(),medicamento.getCantidad());
+            }
+            purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("ok","daaa");
+            return ResponseEntity.ok(hashMap);
+
+        }else{
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("error","ola");
+            return ResponseEntity.badRequest();
+        }
+
     }
 
 
@@ -943,6 +968,8 @@ public class PharmacistController {
 
     @GetMapping(value="/verPreordenes")
     public String verPreordenes(Model model, HttpSession session){
+        Pharmacist phar =(Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaPreordenes",purchaseOrderRepository.listaPurchaseOrderBySite(phar.getSite()));
 
         return "/pharmacist/verPreordenes";
     }
@@ -993,8 +1020,18 @@ public class PharmacistController {
             pur.setPatient(patientRepository.findByDni(p.getName()).get());
             pur.setIdDoctor((doctorRepository.listaDoctorPorSedePaciente(phar.getSite())).get(0));
             pur.setTipo("Preorden");
-            pur.setReleaseDate(LocalDate.now());
+            pur.setReleaseDate(p.getDate());
             pur.setSite(phar.getSite());
+            pur.setTipoPago("Efectivo");
+            Tracking tracking = new Tracking();
+            tracking.setSolicitudDate(LocalDateTime.now());
+            tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+            tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+            tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+            tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+            Tracking tra = trackingRepository.save(tracking);
+            pur.setIdtracking(tra);
+            pur.setTracking("solicitado");
             PurchaseOrder purchase = purchaseOrderRepository.save(pur);
             for (int idx = 0; idx < ids.length; idx++) {
                 PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
@@ -1017,7 +1054,7 @@ public class PharmacistController {
 
     public class Preorden{
         private String name;
-        private String date;
+        private LocalDate date;
         private String[] ids;
         private String[] cantidad;
 
@@ -1029,11 +1066,11 @@ public class PharmacistController {
             this.name = name;
         }
 
-        public String getDate() {
+        public LocalDate getDate() {
             return date;
         }
 
-        public void setDate(String date) {
+        public void setDate(LocalDate date) {
             this.date = date;
         }
 

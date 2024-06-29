@@ -9,7 +9,11 @@ import java.util.List;
 public interface NotificationsRepository extends JpaRepository<Notifications, Integer> {
 
 
-    @Query(nativeQuery = true, value = "select n.* from notifications n inner join site s on (n.idSite=s.idSite) where s.name = ?1")
+    @Query(nativeQuery = true, value = "select n.* from notifications n inner join site s on (n.idSite=s.idSite) where s.name = ?1 order by n.date desc")
     List<Notifications> notificacionesSede(String sede);
+
+    @Query(nativeQuery = true, value = "select n.* from notifications n inner join users u on (n.idUsers=u.idUsers) where n.idUsers = ?1 order by n.date desc")
+    List<Notifications> notificacionesUser(int id);
+
 
 }

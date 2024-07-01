@@ -264,7 +264,7 @@
 										<tr th:each="repo : ${listaSolicitudesReposicionPando1}">
 											<td th:text="${repo.idReplacementOrder}"></td>
 											<td>
-												<a class="me-3" th:href="@{'/superAdmin/verDetalle?idRepo=' + ${repo.getIdReplacementOrder()}}">
+												<a class="me-3" th:href="@{'/superAdmin/verDetalleRepo?idRepo=' + ${repo.getIdReplacementOrder()}}">
 												<img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">
 												</a>
 											</td>

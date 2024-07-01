@@ -1033,18 +1033,15 @@ public class AdminSedeController {
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
 
-
         replacementOrderRepository.findById(idReplacementeOrder);
-
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
-
         model.addAttribute("idReplacement",idReplacementeOrder);
         model.addAttribute("Tracking",tracking); //.minusHours(5)
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate());
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate());
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate());
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate());
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate());
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "admin_sede/trackingPersonal";
     }
 

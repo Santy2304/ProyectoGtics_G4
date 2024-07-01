@@ -433,6 +433,7 @@ public class PatientController {
         }
         return response;
     }
+
     //Falta corregir
     @RequestMapping("/verSingleProduct")
     @ResponseBody
@@ -468,11 +469,11 @@ public class PatientController {
 
         model.addAttribute("idPurchase",idPurchase);
         model.addAttribute("Tracking",tracking);
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate());
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate());
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate());
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate());
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate());
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "pacient/TrackingSolitario";
     }
 
@@ -531,11 +532,6 @@ public class PatientController {
                     throw new RuntimeException(e);
                 }
             }
-            /*
-            attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
-            patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
-            return "redirect:verPerfilPaciente";
-             */
         }
     }
     @GetMapping(value = {"/verInformacionPago",""})
@@ -701,7 +697,6 @@ public class PatientController {
             return ResponseEntity.badRequest().body(er);
         }
     }
-
     @GetMapping(value="/vaciarCarrito")
     public Object deleteCarrito( HttpSession session){
         List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
@@ -713,7 +708,7 @@ public class PatientController {
         return "redirect:compras";
     }
     @GetMapping(value="/deleteProductCarritoVenta")
-    public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
         try {
             int idProduct = Integer.parseInt(idProducto);
             Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();

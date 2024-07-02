@@ -16,4 +16,10 @@ public interface NotificationsRepository extends JpaRepository<Notifications, In
     List<Notifications> notificacionesUser(int id);
 
 
+    @Query(nativeQuery = true, value = "select n.* from notifications n inner join site s on (n.idSite=s.idSite) where s.name = ?1 order by n.date desc limit 5")
+    List<Notifications> notificacionesSedePeque(String sede);
+
+    @Query(nativeQuery = true, value = "select n.* from notifications n inner join users u on (n.idUsers=u.idUsers) where n.idUsers = ?1 order by n.date desc limit 5")
+    List<Notifications> notificacionesUserPeque(int id);
+
 }

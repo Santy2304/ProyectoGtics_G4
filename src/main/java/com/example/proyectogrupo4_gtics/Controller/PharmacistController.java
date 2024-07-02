@@ -102,12 +102,11 @@ public class PharmacistController {
     @GetMapping("/verChatFarmacista")
     public String verChatPharmacist(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
 
         return "pharmacist/chat";
     }
@@ -115,12 +114,11 @@ public class PharmacistController {
     @GetMapping("/verEditarProducto")
     public String verEditProduct(Model model, HttpSession session){
 
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
 
         return "pharmacist/editproduct";
     }
@@ -129,25 +127,24 @@ public class PharmacistController {
     @GetMapping("/verNotificationsFarmacista")
     public String verNotifications(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesSede(pharmacist.getSite()));
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+
         return "pharmacist/notifications";
     }
 
     @GetMapping("/posFarmacista")
     public String verPosPharmacist(Model model , HttpSession session ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-        model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+        model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(pharmacist.getIdFarmacista()));
         model.addAttribute("listaDoctores", doctorRepository.findAll());
         try {
             if (!(model.getAttribute("idPatient")).equals("")) {
@@ -193,15 +190,14 @@ public class PharmacistController {
     @GetMapping("/solicitudesFarmacista")
     public String verSolicitudes(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
 
         model.addAttribute("listaSolicitudes",purchaseOrderRepository.listaVentasSolicitudesWEBPorSede(pharmacist.getSite()));
         model.addAttribute("listaSolicitudesBOT",purchaseOrderRepository.listaVentasSolicitudesBOTPorSede(pharmacist.getSite()));
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
 
         return "pharmacist/solicitudesCompra";
     }
@@ -209,13 +205,13 @@ public class PharmacistController {
     @GetMapping("/verDetalleSolicitud")
     public String detalleSolicitudVenta(@RequestParam("idSolicitud") int idOrdenVenta, Model model, HttpSession session
     ) {
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idOrdenVenta));
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idOrdenVenta);
         if(purchaseOrderOpt.isPresent()){
             PurchaseOrder purchaseOrder = purchaseOrderOpt.get();
@@ -281,12 +277,12 @@ public class PharmacistController {
     @GetMapping("/productDetails")
     public String verProductDetails(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+
         return "pharmacist/product-details";
     }
 
@@ -295,9 +291,8 @@ public class PharmacistController {
     @GetMapping("/verProductList")
     public String verProductList(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
@@ -305,6 +300,7 @@ public class PharmacistController {
         model.addAttribute("listaPurchaseOrderPresencial", purchaseOrderRepository.listaVentasPresencialPorSede(pharmacist.getSite()));
         model.addAttribute("listaPurchaseOrderWeb", purchaseOrderRepository.listaVentasWEBPorSede(pharmacist.getSite()));
         model.addAttribute("listaPurchaseOrderBOT", purchaseOrderRepository.listaVentasBOTPorSede(pharmacist.getSite()));
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
 
         return "pharmacist/productlist";
     }
@@ -312,27 +308,26 @@ public class PharmacistController {
 
 
     @GetMapping(value={"/verProfileFarmacista", ""})
-    public String verPerfilPharmacist(Model model, HttpSession session
-    ){
-
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+    public String verPerfilPharmacist(Model model, HttpSession session){
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("farmacista",pharmacist);
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+
         return "pharmacist/profile";
     }
 
     @PostMapping("/editarPerfilPharmacist")
     public String editarDatosFarmacista(@RequestParam("pharmacistFile") MultipartFile imagen, Model model, @RequestParam("email")String email, @RequestParam("distrit")String distrit, RedirectAttributes attr, HttpSession session){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();;
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+
         //Actualizar datos cambiados
         System.out.println(pharmacist.getIdFarmacista());
         System.out.println(pharmacist.getEmail());
@@ -413,13 +408,12 @@ public class PharmacistController {
     @GetMapping("/verMedicinelist")
     public String verMedicineList(Model model, HttpSession session
     ){
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-        model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist));
+        model.addAttribute("listamedicamentosfarm", medicineRepository.listaMedicamentosPorSedeFarmacista(pharmacist.getIdFarmacista()));
         return "pharmacist/medicinelist";
     }
 
@@ -457,13 +451,12 @@ public class PharmacistController {
         if(errores){
             return "redirect:verMedicineList";
         }else{
-            int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
-            Pharmacist pharmacist = new Pharmacist();
-            pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+            Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+            model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
             model.addAttribute("sede", pharmacist.getSite());
             model.addAttribute("nombre", pharmacist.getName());
             model.addAttribute("apellido",pharmacist.getLastName());
-            List<MedicamentosPorSedeDTO> listaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist);
+            List<MedicamentosPorSedeDTO> listaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(pharmacist.getIdFarmacista());
             HashSet<MedicamentosPorSedeDTO> primerFiltro = new HashSet<>();
             if(!category.isEmpty()) {
                 for (MedicamentosPorSedeDTO m : listaaa) {
@@ -540,13 +533,12 @@ public class PharmacistController {
 
     @PostMapping(value="/filtradoPost")
     public String busquedaMedicamentos(Model model , HttpSession session , @RequestParam("medicamento") String medicamento) {
-        int idPharmacist = ((Pharmacist) session.getAttribute("usuario")).getIdFarmacista();
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido", pharmacist.getLastName());
-        List<MedicamentosPorSedeDTO> listaaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(idPharmacist);
+        List<MedicamentosPorSedeDTO> listaaaa = medicineRepository.listaMedicamentosPorSedeFarmacista(pharmacist.getIdFarmacista());
         ArrayList<MedicamentosPorSedeDTO> listaFiltrada = new ArrayList<>();
         if (!medicamento.isEmpty()) {
             for (MedicamentosPorSedeDTO m : listaaaa) {
@@ -583,9 +575,8 @@ public class PharmacistController {
     @GetMapping("/detallesMedicamentos")
     public String detallesMedicamentos(@RequestParam("idMedicine") int idMedicine, Model model, HttpSession session
     ) {
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
@@ -604,10 +595,8 @@ public class PharmacistController {
     @GetMapping("/detallesOrdenVenta")
     public String detallesOrdenVenta(@RequestParam("idPurchaseOrder") int idOrdenVenta, Model model, HttpSession session
     ) {
-
-        int idPharmacist = ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista();
-        Pharmacist pharmacist = new Pharmacist();
-        pharmacist = pharmacistRepository.getByIdFarmacista(idPharmacist);
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
@@ -957,11 +946,14 @@ public class PharmacistController {
         return "pharmacist/generarPreorden";
     }
 
-    @GetMapping(value="/verPreordenes")
+    @GetMapping(value= "/verPreordenes")
     public String verPreordenes(Model model, HttpSession session){
-        Pharmacist phar =(Pharmacist) session.getAttribute("usuario");
-        model.addAttribute("listaPreordenes",purchaseOrderRepository.listaPurchaseOrderBySite(phar.getSite()));
-
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
+        model.addAttribute("listaPreordenes",purchaseOrderRepository.listaPurchaseOrderBySite(pharmacist.getSite()));
+        model.addAttribute("sede", pharmacist.getSite());
+        model.addAttribute("nombre", pharmacist.getName());
+        model.addAttribute("apellido",pharmacist.getLastName());
         return "/pharmacist/verPreordenes";
     }
 

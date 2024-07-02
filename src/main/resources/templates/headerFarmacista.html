@@ -52,10 +52,12 @@
     <!-- /Flag -->
 
     <!-- Notifications -->
-    <li class="nav-item"><a style="color: white;" th:text="|Farmacista de ${sede}|"></a>
+    <li class="nav-item">
+      <a style="color: white;" th:text="|Farmacista de ${sede}|"></a>
+    </li>
     <li class="nav-item dropdown">
       <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-        <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
+        <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span id="notificationBadge" style="background-color: red; width: 20%;height: 20%; border-radius: 50%" class="badge rounded-pill"></span>
       </a>
       <div class="dropdown-menu notifications">
         <div class="topnav-dropdown-header">
@@ -64,94 +66,19 @@
         <div class="noti-content">
           <ul class="notification-list">
 
-            <li class="notification-message">
+            <li class="notification-message" th:each="notifications:${listaNotiUWU}">
               <a href="/pharmacist/verNotificationsFarmacista">
                 <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
+                  <span class="avatar flex-shrink-0">
+                    <img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
+                  </span>
                   <div class="media-body flex-grow-1">
-                    <p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+                    <p class="noti-details"  th:text="${notifications.getContent()}"></p>
+                    <p class="noti-time"><span class="notification-time" th:text="${notifications.getDate()}"></span></p>
                   </div>
                 </div>
               </a>
             </li>
-
-            <li class="notification-message">
-              <a href="pharmacist/verNotificationsFarmacista">
-                <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-                  <div class="media-body flex-grow-1">
-                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                  </div>
-                </div>
-              </a>
-            </li>
-
-
-            <li class="notification-message">
-              <a href="/pharmacist/verNotificationsFarmacista">
-                <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-                  <div class="media-body flex-grow-1">
-                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                  </div>
-                </div>
-              </a>
-            </li>
-
-            <li class="notification-message">
-              <a href="/pharmacist/verNotificationsFarmacista">
-                <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-                  <div class="media-body flex-grow-1">
-                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                  </div>
-                </div>
-              </a>
-            </li>
-
-            <!--Ejemplo completo-->
-            <!--
-            <li class="notification-message">
-                <a href="notifications.html">
-                    <div class="media d-flex">
-                                <span class="avatar flex-shrink-0">
-                                    <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                </span>
-                        <div class="media-body flex-grow-1">
-                            <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                            <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            -->
-            <li class="notification-message">
-              <a href="/pharmacist/verNotificationsFarmacista">
-                <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-                  <div class="media-body flex-grow-1">
-                    <p class="noti-details"><span class="noti-title">Santiago Yong</span> ha comprado por web<span class="noti-title"></span></p>
-                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                  </div>
-                </div>
-              </a>
-            </li>
-
-
           </ul>
         </div>
         <div class="topnav-dropdown-footer">
@@ -159,6 +86,8 @@
         </div>
       </div>
     </li>
+
+
     <!-- /Notifications -->
 
     <li class="nav-item dropdown has-arrow main-drop">
@@ -172,7 +101,7 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
             <div class="profilesets">
-              <h6 th:text="${nombre}+''+${apellido}"></h6>
+              <h6 th:text="${nombre}+' '+${apellido}"></h6>
               <h5>Farmacista</h5>
               <h5 th:text="|Sede: ${sede}|"></h5>
             </div>
@@ -205,3 +134,54 @@
   </div>
   <!-- /Mobile Menu -->
 </div>
+
+
+<!--Ejemplo completo de noti-->
+<!--
+<li class="notification-message">
+    <a href="notifications.html">
+        <div class="media d-flex">
+                    <span class="avatar flex-shrink-0">
+                        <img alt="" src="assets/img/profiles/avatar-03.jpg">
+                    </span>
+            <div class="media-body flex-grow-1">
+                <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+                <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+            </div>
+        </div>
+    </a>
+</li>
+-->
+
+
+
+<!--<script>
+      // Función para verificar si hay nuevas notificaciones
+      function checkForNewNotifications() {
+        $.ajax({
+          url: '/path/to/your/api/endpoint', // URL de tu endpoint
+          method: 'GET',
+          success: function(data) {
+            const notificationBadge = $('#notificationBadge');
+
+            // Si hay nuevas notificaciones, muestra el span
+            if (data.hasNewNotifications) {
+              notificationBadge.show();
+            } else {
+              notificationBadge.hide();
+            }
+          },
+          error: function(error) {
+            console.error('Error al verificar notificaciones:', error);
+          }
+        });
+      }
+
+      // Llama a la función cuando la página se carga
+      $(document).ready(function() {
+        checkForNewNotifications();
+
+        // También puedes verificar periódicamente (cada X segundos)
+        setInterval(checkForNewNotifications, 60000); // Verifica cada 60 segundos
+      });
+    </script>-->

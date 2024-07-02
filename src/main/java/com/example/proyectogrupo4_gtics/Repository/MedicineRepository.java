@@ -256,7 +256,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
                     "    AND (r.trackingState = 'Entregado' OR l2.idPedidosReposicion IS NULL) " +
                     "    AND l2.visible = true " +
                     ") " +
-                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price"
+                    "GROUP BY m.idMedicine, m.description, m.name, m.category, m.photo, m.price HAVING SUM(l.stock) <= 25"
     )
     List<MedicamentosPorSedeDTO> listaMedicamentosPorSedeNoti(String sede);
 

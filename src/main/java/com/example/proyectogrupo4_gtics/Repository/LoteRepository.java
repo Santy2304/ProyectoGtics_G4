@@ -51,6 +51,10 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
             "WHERE l.idMedicine=?1 and l.stock>=?2 and l.site = ?3 and l.visible=1 AND (r.trackingState = 'Entregado' OR l.idPedidosReposicion IS NULL)")
     List<Lote> listarLotesPosiblesV2(int idMedicine, int stock, String site);
 
+
+    @Query(nativeQuery = true, value = "SELECT l.* FROM lote l inner Join purchasehaslot phl on phl.idLote = l.idLote where phl.idPurchase=?1")
+    List<Lote> listarLotesPorCompra(int idPurchase);
+
 }
 
 

@@ -540,9 +540,30 @@ public class PatientController {
         model.addAttribute("paciente" , patient.get());
         model.addAttribute("nombre",patient.get().getName());
         model.addAttribute("apellido",patient.get().getLastName());
-        model.addAttribute("listaTarjetas",creditCardRepository.listaCreditCards(patient.get().getIdPatient()));
+
+        List<CreditCard> listaOculta = new ArrayList<>();
+
+        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.get().getIdPatient())){
+
+            String numeroOculto = formatCardNumber(creditCardOculta.getNumberCard());
+            creditCardOculta.setNumberCard(numeroOculto);
+            listaOculta.add(creditCardOculta);
+
+        }
+
+        model.addAttribute("listarTarjetasOculta",listaOculta);
+
         return "pacient/informacionPago";
     }
+
+
+    private String formatCardNumber(String cardNumber) {
+        if (cardNumber.length() != 16) {
+            return cardNumber; // Devuelve el número tal cual si no tiene 16 dígitos
+        }
+        return cardNumber.substring(0, 4) + " **** **** " + cardNumber.substring(12);
+    }
+
 
     @PostMapping("/agregarTarjetaUsuario")
     public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
@@ -605,7 +626,7 @@ public class PatientController {
     }
 
     @PostMapping("/pagarFinal")
-    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
+    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam(value = "recurrent", required = false) String recurrent,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
         Patient patient = (Patient) httpSession.getAttribute("usuario");
         String[] parts = fechaV.split("/");
         int month = Integer.parseInt(parts[0]);
@@ -615,6 +636,12 @@ public class PatientController {
             int medDb = creditCard.getExpireMonth();
             int yearDb = creditCard.getExpireYear();
             if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
+
+                PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
+                if (recurrent.equals("true")){
+                    purchaseOrder.setRecurrent(true);
+                }
+
                 purchaseOrderRepository.pagarOrdenCompra(idPurchase);
             }else{
                 attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
@@ -888,4 +915,32 @@ public class PatientController {
 
         }
     }
+
+    @Scheduled(fixedRate = 600000)
+    public void notificacionRecurrente(){
+
+        for (PurchaseOrder purchaseOrder: purchaseOrderRepository.findAll()){
+
+            if (purchaseOrder.getRecurrent()){
+                List<Lote> listaLotesCompra = loteRepository.listarLotesPorCompra(purchaseOrder.getId());
+
+                for (Lote lote: listaLotesCompra){
+
+                    if (lote.getExpireDate().minusDays(10).isBefore(LocalDate.now()) || lote.getExpireDate().minusDays(5).isBefore(LocalDate.now())){
+                        Notifications notification = new Notifications();
+                        notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está ´por expirar; le recomedamos generar una nueva orden de compra." );
+                        User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
+                        notification.setIdUsers(user);
+                        notification.setDate(LocalDateTime.now());
+                        notificationsRepository.save(notification);
+                    }
+                }
+                purchaseOrder.setRecurrent(false);
+                purchaseOrderRepository.save(purchaseOrder);
+            }
+
+        }
+    }
+
+
 }

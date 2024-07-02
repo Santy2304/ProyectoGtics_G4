@@ -81,7 +81,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="tarjeta,obj : ${listaTarjetas}">
+                                                <tr th:each="tarjeta,obj : ${listarTarjetasOculta}">
                                                     <td th:text="${obj.index+1}"></td>
                                                     <td th:text="${tarjeta.getNumberCard()}"></td>
                                                     <td th:text="${tarjeta.getBank()}"></td>

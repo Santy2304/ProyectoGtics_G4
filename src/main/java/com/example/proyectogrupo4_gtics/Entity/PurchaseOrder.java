@@ -52,7 +52,7 @@ public class PurchaseOrder {
     private LocalDate releaseDate;
 
     @Column(name = "recurrent")
-    private Byte recurrent;
+    private Boolean recurrent;
 
     @Column(name = "site")
     private String site;
@@ -94,11 +94,11 @@ public class PurchaseOrder {
         this.site = site;
     }
 
-    public Byte getRecurrent() {
+    public Boolean getRecurrent() {
         return recurrent;
     }
 
-    public void setRecurrent(Byte recurrent) {
+    public void setRecurrent(Boolean recurrent) {
         this.recurrent = recurrent;
     }
 

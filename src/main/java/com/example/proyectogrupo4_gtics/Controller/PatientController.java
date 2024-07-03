@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -407,13 +408,11 @@ public class PatientController {
 
 
     @GetMapping("/verNoti")
-    public String verNotifications(Model model, HttpSession session
-    ){
+    public String verNotifications(Model model, HttpSession session){
         Patient patient = ((Patient)session.getAttribute("usuario"));
         model.addAttribute("nombre", patient.getName());
         model.addAttribute("apellido",patient.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
         User user = userRepository.findByEmail(patient.getEmail());
 
         model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesUser(user.getId()));

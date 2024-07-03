@@ -46,11 +46,13 @@ public class AdminSedeController {
     final NotificationsRepository notificationsRepository;
     final TrackingRepository trackingRepository;
     final SiteRepository siteRepository;
+
+    final CodeRepository codeRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
                                LoteRepository loteRepository,UserRepository userRepository,
                                TrackingRepository trackingRepository,NotificationsRepository notificationsRepository,
-                               SiteRepository siteRepository) {
+                               SiteRepository siteRepository, CodeRepository codeRepository) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -61,6 +63,7 @@ public class AdminSedeController {
         this.trackingRepository = trackingRepository;
         this.notificationsRepository= notificationsRepository;
         this.siteRepository=siteRepository;
+        this.codeRepository = codeRepository;
     }
 
 
@@ -209,6 +212,17 @@ public class AdminSedeController {
         return false;
     }
 
+    public boolean verificarCodigoeExite(String codigo) {
+        Code codeOptional = codeRepository.findByCodigo(codigo);
+        if (codeOptional==null){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+
 
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
@@ -263,18 +277,22 @@ public class AdminSedeController {
 
         Pattern pattern1 = Pattern.compile("\\d+");
         Matcher matcher1 = pattern.matcher(pharmacist.getCode());
-        if (!matcher1.matches() || pharmacist.getCode().length() != 8 || verificarCodigo(pharmacist.getCode())) {
-            attr.addFlashAttribute("errorCODE", "El código debe ser de 8 dígitos y único");
+        if (!matcher1.matches() || pharmacist.getCode().length() != 6 || verificarCodigo(pharmacist.getCode())) {
+            attr.addFlashAttribute("errorCODE", "El código debe ser de 6 dígitos y único");
             fallo=true;
         }
 
+        if (verificarCodigoeExite(pharmacist.getCode())){
+            attr.addFlashAttribute("errorCODE", "El código no existe");
+            fallo=true;
+        }
 
 
         if (fallo) {
                 return "redirect:verAddPharmacist";
         } else {
                 if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
-                    model.addAttribute("error", "El DNI ingresado ya existe");
+                    model.addAttribute("errorDNI", "El DNI ingresado ya existe");
                     return "admin_sede/addpharmacist";
                 } else { //Cuando se ingresa un nuevo DNI
                     if(!imagen.isEmpty()){

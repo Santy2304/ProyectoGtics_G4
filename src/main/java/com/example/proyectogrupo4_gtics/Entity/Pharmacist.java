@@ -47,8 +47,7 @@ public class Pharmacist implements Serializable  {
     private String distrit;
 
     @NotBlank(message = "Este campo es obligatorio")
-    @Digits(integer = 8, fraction = 0, message = "El código debe ser un número")
-    @Size(max = 45, message = "El código no deber superar los 45 carácteres")
+    @Pattern(regexp = "\\d{6}", message = "El código debe ser un número de 6 dígitos")
     private String code;
 
     @NotBlank(message = "Este campo es obligatorio")

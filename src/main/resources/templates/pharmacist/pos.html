@@ -1796,7 +1796,7 @@
 								<div class="col-lg-3 col-sm-6 col-12">
 									<div class="form-group">
 										<label for="doctor">Doctor</label>
-										<select name="idDoctor" id="doctor">
+										<select  class="form-control" name="idDoctor" id="doctor">
 											<option th:each="doctor :${listaDoctores}"
 													th:value="${doctor.getIdDoctor()}"
 													th:text="${doctor.getName()}+' '+${doctor.getLastName()}">

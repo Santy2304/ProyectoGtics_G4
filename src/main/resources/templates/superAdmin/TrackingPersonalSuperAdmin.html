@@ -110,11 +110,46 @@
                                     <div id="bar" class="progress mt-4">
                                         <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
                                     </div>-->
-                                    <div class="p-5 text-center">
-                                        <a href="/assets_superAdmin/img/img-01.jpg" class="image-popup" target="_blank">
-                                            <img src="/assets_superAdmin/img/mapa_tracking.jpg" class="img-fluid" alt="image">
+
+                                    <div class="card mt-5">
+                                        <div class="card-body">
+                                            <div class="productdetails">
+                                                <h6 style="font-weight: bold">RESUMEN DE COMPRA</h6>
+                                                <br>
+                                                <ul class="product-bar">
+                                                    <li>
+                                                        <div class="col-md-3" style="background-color: #ced4da">
+                                                            <h6 style="font-weight: bold">Producto</h6>
+                                                        </div>
+
+                                                        <div class="col-md-3" style="background-color: #ced4da">
+                                                            <h6 style="font-weight: bold">Cantidad</h6>
+                                                        </div>
+                                                        <div class="col-md-3" style="background-color: #ced4da">
+                                                            <h6 style="font-weight: bold">Precio subtotal (S/.)</h6>
+                                                        </div>
+                                                    </li>
+                                                    <li th:each="medicamento : ${listaMedicamentos}">
+                                                        <div class="col-md-3">
+                                                            <h6  th:text="${medicamento.getMedicineName()}"></h6>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <h6 th:text="${medicamento.getTotalStock()}"></h6>
+                                                        </div>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-2 text-center">
+                                        <a href="/assets_superAdmin/img/img-01.jpg" target="_blank">
+                                            <img src="/assets_superAdmin/images/Tracking.png" class="img-fluid" style="width: 60%; height: auto" alt="image">
                                         </a>
                                     </div>
+
                                 </div>
                             </div>
                             <!-- end card body -->

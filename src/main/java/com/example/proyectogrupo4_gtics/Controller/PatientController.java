@@ -494,6 +494,7 @@ public class PatientController {
         model.addAttribute("apellido",patient.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         Tracking tracking =  purchaseOrderRepository.findById(idPurchase).get().getIdtracking();
+        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idPurchase));
 
         model.addAttribute("idPurchase",idPurchase);
         model.addAttribute("Tracking",tracking);

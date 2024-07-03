@@ -1069,7 +1069,7 @@ public class  SuperAdminController {
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
         model.addAttribute("idReplacement",idReplacementeOrder);
-        model.addAttribute("Tracking",tracking);
+        model.addAttribute("listaMedicamentos", replacementOrderRepository.obtenerMedicamentosPorReposicion(idReplacementeOrder));
         model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
         model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
         model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));

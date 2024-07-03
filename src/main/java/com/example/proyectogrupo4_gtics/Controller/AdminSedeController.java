@@ -1,6 +1,7 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -1029,6 +1030,9 @@ public class AdminSedeController {
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         replacementOrderRepository.findById(idReplacementeOrder);
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
+
+        model.addAttribute("listaMedicamentos", replacementOrderRepository.obtenerMedicamentosPorReposicion(idReplacementeOrder));
+
         model.addAttribute("idReplacement",idReplacementeOrder);
         model.addAttribute("Tracking",tracking); //.minusHours(5)
         model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));

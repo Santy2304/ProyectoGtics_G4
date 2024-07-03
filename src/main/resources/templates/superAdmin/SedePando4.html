@@ -154,11 +154,46 @@
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-
-                                                <a class="me-3" th:href="@{'/superAdmin/rechazarFarmacista?idFarmacista=' + ${solicitud.idFarmacista}}">
+                                                <a  th:id="|delete${solicitud.idFarmacista}|">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
-
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let dele = document.getElementById('delete' + [[${solicitud.idFarmacista}]]);
+                                                        dele.addEventListener('click', ()=> {
+                                                            Swal.fire({
+                                                                title: '¿Estás seguro de rechazar a este farmacista? Ingresa el motivo',
+                                                                icon: 'warning',
+                                                                background: "white",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d48e15',
+                                                                cancelButtonColor: '#805409',
+                                                                confirmButtonText: 'Invalidar',
+                                                                cancelButtonText: 'Cancelar',
+                                                                input: 'text',
+                                                                inputPlaceholder: 'Motivo de rechazo'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    let motivoRechazo = result.value; // Obtener el motivo del input
+                                                                    $.ajax({
+                                                                        type: 'POST',
+                                                                        url: '/superAdmin/rechazarFarmacista',
+                                                                        data: {
+                                                                            idFarmacista: [[${solicitud.idFarmacista}]],
+                                                                            motivo: motivoRechazo
+                                                                        },
+                                                                        success: function(response) {
+                                                                            window.location.href = '/superAdmin/verSedeSuperAdminPando4';
+                                                                        },
+                                                                        error: function(response) {
+                                                                            console.log('Error al rechazar la solicitud.');
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
                                             </td>
                                         </tr>
                                     </tbody>

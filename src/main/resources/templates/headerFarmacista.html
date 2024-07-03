@@ -78,7 +78,7 @@
                   </span>
                   <div class="media-body flex-grow-1">
                     <p class="noti-details"  th:text="${notifications.getContent()}"></p>
-                    <p class="noti-time"><span class="notification-time" th:text="${notifications.getDate()}"></span></p>
+                    <p class="noti-time"><span class="notification-time" th:text="${#temporals.format(notifications.getDate(), 'yyyy/MM/dd HH:mm')}"></span></p>
                   </div>
                 </div>
               </a>

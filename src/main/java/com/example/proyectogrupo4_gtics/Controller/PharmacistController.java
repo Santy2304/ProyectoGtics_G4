@@ -245,6 +245,11 @@ public class PharmacistController {
                 loteRepository.actualizarStockLote(loteDescuento.getIdLote(),medicamento.getCantidad());
             }
             purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+            Notifications notification = new Notifications();
+            notification.setContent("Su solicitud WB0"+idSolicitud+" ha sido aceptada, puede proceder al pago de esta.");
+            notification.setDate(LocalDateTime.now());
+            notification.setIdUsers(userRepository.findByEmail(purchaseOrder.getPatient().getEmail()));
+            notificationsRepository.save(notification);
             HashMap<String,Object> hashMap = new HashMap<>();
             hashMap.put("ok","daaa");
             return ResponseEntity.ok(hashMap);

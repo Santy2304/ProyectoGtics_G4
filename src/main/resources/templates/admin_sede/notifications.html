@@ -142,7 +142,7 @@
 									<div class="activity-content">
 										<div class="timeline-content">
 											<a href="/adminSede/verPerfilAdminSede" class="name" th:text="${notifications.getContent()}"></a>
-											<span class="time" th:text="${notifications.getDate()}"></span>
+											<span class="time" th:text="${#temporals.format(notifications.getDate(), 'yyyy/MM/dd HH:mm')}"></span>
 										</div>
 									</div>
 								</li>

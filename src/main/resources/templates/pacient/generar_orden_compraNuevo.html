@@ -77,7 +77,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">Generar orden de compra</h5>
-                                    <p class="card-text">Rellene sus datos correctamente, recuerde que el farmacista tiene la potestad de <code>rechazar</code> su orden por datos erroneos.</p>
+                                    <p class="card-text">Rellene sus datos correctamente, recuerde que el farmacista tiene la potestad de <code>rechazar</code> su orden por datos erroneos. La hora de entrega es <code>solamente referencial</code>, dependiendo la etapa del día de su preferencia.</p>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-row row">
@@ -121,40 +121,15 @@
                                         </div>
                                         <div class="col-md-3 mb-3">
                                             <div class="form-group">
-                                                <label>Hora de Entrega</label>
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <select  name="Hour"  class="form-control" >
-                                                            <option value="00:00:00">00:00:00</option>
-                                                            <option value="01:00:00">01:00:00</option>
-                                                            <option value="02:00:00">02:00:00</option>
-                                                            <option value="03:00:00">03:00:00</option>
-                                                            <option value="04:00:00">04:00:00</option>
-                                                            <option value="05:00:00">05:00:00</option>
-                                                            <option value="06:00:00">06:00:00</option>
-                                                            <option value="07:00:00">07:00:00</option>
-                                                            <option value="08:00:00">08:00:00</option>
-                                                            <option value="09:00:00">09:00:00</option>
-                                                            <option value="10:00:00">10:00:00</option>
-                                                            <option value="11:00:00">11:00:00</option>
-                                                            <option value="12:00:00">12:00:00</option>
-                                                            <option value="13:00:00">13:00:00</option>
-                                                            <option value="14:00:00">14:00:00</option>
-                                                            <option value="15:00:00">15:00:00</option>
-                                                            <option value="16:00:00">16:00:00</option>
-                                                            <option value="17:00:00">17:00:00</option>
-                                                            <option value="18:00:00">18:00:00</option>
-                                                            <option value="19:00:00">19:00:00</option>
-                                                            <option value="20:00:00">20:00:00</option>
-                                                            <option value="21:00:00">21:00:00</option>
-                                                            <option value="22:00:00">22:00:00</option>
-                                                            <option value="23:00:00">23:00:00</option>
+                                                <label class="mb-2">Hora de Entrega</label>
+                                                        <select  name="Hour"  class="form-control mt-3" >
+                                                            <option value="Mañana">Mañana</option>
+                                                            <option value="Tarde">Tarde</option>
+                                                            <option value="Noche">Noche</option>
                                                         </select>
-                                                    </div>
                                                     <div th:if="${errorHora != null}"  class="text-danger" >
                                                         <span th:text="${errorHora}"></span>
                                                     </div>
-                                                </div>
                                             </div>
                                         </div>
 
@@ -202,7 +177,6 @@
                                             </tr>
                                             </tbody>
                                         </table>
-
                                         <script>
                                             document.addEventListener('DOMContentLoaded', () => {
                                                 $.ajax({
@@ -234,6 +208,9 @@
 
                                         </script>
 
+                                    </div>
+                                    <div th:if="${errorCarrito != null}"  class="text-danger" >
+                                        <span style="color: red; font-weight: bold" th:text="${errorCarrito}"></span>
                                     </div>
                                 </div>
                             </div>

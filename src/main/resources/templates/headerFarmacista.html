@@ -52,9 +52,13 @@
     <!-- /Flag -->
 
     <!-- Notifications -->
-    <li class="nav-item">
-      <a style="color: white;" th:text="|Farmacista de ${sede}|"></a>
+
+    <li class="nav-item dropdown has-arrow flag-nav">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  role="button" style="color:white" th:text="|Farmacista de ${sede}|">
+        <img src="/assets_pacient/img/flags/us1.png" alt="" height="20">
+      </a>
     </li>
+
     <li class="nav-item dropdown">
       <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
         <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span id="notificationBadge" style="background-color: red; width: 20%;height: 20%; border-radius: 50%" class="badge rounded-pill"></span>

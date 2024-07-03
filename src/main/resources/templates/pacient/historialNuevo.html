@@ -83,11 +83,11 @@
   <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'historial')"> </div>
   <!-- /Sidebar -->
   <div class="page-wrapper pagehead">
-    <div class="content" style="margin-top: 1%;">
+    <div class="content">
       <!-- /product list -->
-      <div class="card ms-5 me-5 mt-5">
+      <div class="card ms-5 me-5 mt-1">
         <div class="card-body">
-          <div class="page-header" style="margin-bottom: 1%">
+          <div class="page-header">
             <div class="page-title">
               <h4>Historial de órdenes</h4>
             </div>
@@ -161,7 +161,7 @@
               <tbody>
               <tr th:each="compras : ${listaCompras}">
 
-                <td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+                <td th:text="${'WB0' + compras.getIdPurchaseOrder()}" class="text-bolds"></td>
                 <td>
                   <a  type="button">
                     <img th:id="|${compras.getIdPurchaseOrder()}|" src="/assets_superAdmin/img/transaccion.png" width="30" alt="img">

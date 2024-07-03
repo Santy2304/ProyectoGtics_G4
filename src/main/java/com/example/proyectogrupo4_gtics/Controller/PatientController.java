@@ -88,6 +88,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         List<Site> listSite = siteRepository.findAll();
         model.addAttribute("listSite", listSite);
         return "elegirSede";
@@ -107,6 +108,8 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/verPrincipalNuevo";
     }
     @GetMapping("/verSeleccionarSedePaciente")
@@ -116,6 +119,8 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/SeleccionarSedeNuevo";
     }
 
@@ -157,6 +162,8 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/chatNuevo";
     }
     @GetMapping( value = {"/verDatosPago",""})
@@ -164,6 +171,7 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
         model.addAttribute("listaMedicamentosCompra",meciamentosPorCompra);
         model.addAttribute("purchaseDTO",purchaseOrderRepository.obtenerPurchasePorId(idPurchase));
@@ -208,6 +216,7 @@ public class PatientController {
         model.addAttribute("carro",carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         return "pacient/generar_orden_compraNuevo";
     }
 
@@ -241,12 +250,20 @@ public class PatientController {
         }
 
         try {
-            LocalTime deliveryHour = LocalTime.parse(HourStr);
-            purchaseOrder.setDeliveryHour(deliveryHour);
+            purchaseOrder.setDeliveryHour(HourStr);
         } catch (DateTimeParseException e) {
             attr.addFlashAttribute("errorHora", "Ingrese una hora válida");
             fallo=true;
         }
+
+        List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient)session.getAttribute("usuario")).getIdPatient());
+
+        if (listaaa.isEmpty()){
+            fallo=true;
+            attr.addFlashAttribute("errorCarrito", "No ha colocado medicamentos en el carrito.");
+
+        }
+
 
         if (fallo){
             return "redirect:verGenerarOrdenCompra";
@@ -302,8 +319,7 @@ public class PatientController {
         purchaseOrder.setStatePaid("en espera");
         purchaseOrder.setTracking("en espera");
         purchaseOrder.setTipo("web");
-        LocalTime deliveryHour = LocalTime.parse(HourStr);
-        purchaseOrder.setDeliveryHour(deliveryHour);
+        purchaseOrder.setDeliveryHour(HourStr);
         purchaseOrder.setReleaseDate(LocalDate.now());
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
@@ -315,7 +331,6 @@ public class PatientController {
         purchaseOrder.setIdtracking(tracking);
         purchaseOrderRepository.save(purchaseOrder);
         boolean validar=  true;
-        List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient)session.getAttribute("usuario")).getIdPatient());
         for(Carrito c :  listaaa) {
             PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
             purchaseHasLote.setCantidadComprar(c.getCantidad());
@@ -372,6 +387,8 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/historialNuevo";
     }
 
@@ -379,10 +396,12 @@ public class PatientController {
 
     @GetMapping("/verPerfilPaciente")
     public String verPerfilPaciente(  Model model, HttpSession session){
-        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
-        model.addAttribute("paciente" , patient.get());
-        model.addAttribute("nombre",patient.get().getName());
-        model.addAttribute("apellido",patient.get().getLastName());
+        Patient patient=  (Patient)session.getAttribute("usuario");
+        model.addAttribute("paciente" , patient);
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/perfilNuevo";
     }
 
@@ -393,6 +412,7 @@ public class PatientController {
         Patient patient = ((Patient)session.getAttribute("usuario"));
         model.addAttribute("nombre", patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
 
         User user = userRepository.findByEmail(patient.getEmail());
 
@@ -408,6 +428,8 @@ public class PatientController {
         Patient patient = (Patient) httpSesion.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/verPrincipalNuevo";
     }
     //No funciona bien
@@ -459,12 +481,18 @@ public class PatientController {
         Patient patient = (Patient) session.getAttribute("usuario");
         model.addAttribute("nombre",patient.getName());
         model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         return "pacient/trackingNuevo";
     }
 
     @GetMapping("/verTrackingSolitario")
-    public String verTrackingPersonal(@RequestParam("idPurchase") int idPurchase , Model model){
+    public String verTrackingPersonal(@RequestParam("idPurchase") int idPurchase , Model model, HttpSession session){
 
+        Patient patient=  (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         Tracking tracking =  purchaseOrderRepository.findById(idPurchase).get().getIdtracking();
 
         model.addAttribute("idPurchase",idPurchase);
@@ -536,14 +564,15 @@ public class PatientController {
     }
     @GetMapping(value = {"/verInformacionPago",""})
     public String verInfoPago(  Model model, HttpSession session){
-        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
-        model.addAttribute("paciente" , patient.get());
-        model.addAttribute("nombre",patient.get().getName());
-        model.addAttribute("apellido",patient.get().getLastName());
+        Patient patient=  (Patient) session.getAttribute("usuario");
+        model.addAttribute("paciente" , patient);
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
 
         List<CreditCard> listaOculta = new ArrayList<>();
 
-        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.get().getIdPatient())){
+        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.getIdPatient())){
 
             String numeroOculto = formatCardNumber(creditCardOculta.getNumberCard());
             creditCardOculta.setNumberCard(numeroOculto);
@@ -603,9 +632,11 @@ public class PatientController {
 
     @GetMapping("/marcarTarjetaPreferida")
     public String marcarTarjetaFavorita(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
-        Optional<Patient>patient=  patientRepository.findById(((Patient)session.getAttribute("usuario")).getIdPatient());
-
-        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.get().getIdPatient());
+        Patient patient=  (Patient)session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
         creditCardRepository.preferirPorid(idTarjeta);
         for (CreditCard tarjeta: listaTarjetas){
             if(tarjeta.getIdCredit()!=idTarjeta){
@@ -672,6 +703,10 @@ public class PatientController {
     public String verPosPatient(Model model , HttpSession session ){
         Patient patient = (Patient)session.getAttribute("usuario");
         //El queri para obtener la cantidad de medicamentos está bien
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
         model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
         model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
         return "pacient/posPacienteNuevo";

@@ -24,8 +24,8 @@ public class PurchaseOrder {
     @Column(name = "phonenumber")
     private String phoneNumber;
 
-    @Column(name = "deliveryhour", nullable = false)
-    private LocalTime deliveryHour;
+    @Column(name = "deliveryhour")
+    private String deliveryHour;
 
     @Column(name = "prescription")
     private String prescription;
@@ -150,11 +150,11 @@ public class PurchaseOrder {
         this.prescription = prescription;
     }
 
-    public LocalTime getDeliveryHour() {
+    public String getDeliveryHour() {
         return deliveryHour;
     }
 
-    public void setDeliveryHour(LocalTime deliveryHour) {
+    public void setDeliveryHour(String deliveryHour) {
         this.deliveryHour = deliveryHour;
     }
 

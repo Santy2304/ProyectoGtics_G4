@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4 d-flex" th:each="site : ${listaSede}" th:if="${site.getIdSite()}!=${idSede}">
                     <div class="card flex-fill bg-white" >
-                        <img alt="Card Image" src="/assets_pacient/images/sede1.jpeg" class="card-img-top">
+                        <img alt="Card Image" th:src="@{/assets_superAdmin/images/{siteName}.jpg(siteName=${site.name.replace(' ', '')})}" class="card-img-top">
                         <div class="card-header">
                             <h5 class="card-title mb-0" th:text="${site.name}"></h5>
                         </div>

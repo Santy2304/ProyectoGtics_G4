@@ -258,20 +258,27 @@ public class PharmacistController {
     }
 
 
-    @GetMapping("/rechazarSolicitud")
-    public Object rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud) {
+    @PostMapping("/rechazarSolicitud")
+    public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud,
+                                                    @RequestParam("motivo") String motivo) {
         try {
             purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
-            HashMap<String, Object> okey = new HashMap<>();
-            okey.put("Succes", "Todo good");
-            return ResponseEntity.ok(okey);
-        }catch (Exception err) {
-            System.out.println("pepepe");
-            HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "se repite el medicamento en la lista");
-            return ResponseEntity.badRequest().body(er);
+            HashMap<String, Object> response = new HashMap<>();
+            Notifications notifications = new Notifications();
+            notifications.setContent("Su solicitud WB0" + idSolicitud + " ha sido rechazada por el siguiente motivo: " + motivo);
+            notifications.setDate(LocalDateTime.now());
+            notifications.setIdUsers(  userRepository.findByEmail(purchaseOrderRepository.findById(idSolicitud).get().getPatient().getEmail()));
+            notificationsRepository.save(notifications);
+            response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.out.println("Error al rechazar la solicitud.");
+            HashMap<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
+
 
 
     @GetMapping("/productDetails")
@@ -674,7 +681,6 @@ public class PharmacistController {
             DataVenta data = objectMapper.readValue(cuerpo, DataVenta.class);
             //Creamos el purchase order
             PurchaseOrder purchaseOrder = new PurchaseOrder();
-            purchaseOrder.setDeliveryHour(LocalTime.now());
             purchaseOrder.setPatient(patientRepository.findById(Integer.parseInt((String) model.getAttribute("idPatient"))).get());
             purchaseOrder.setIdDoctor(doctorRepository.findById(Integer.parseInt((String) model.getAttribute("idDoctor"))).get());
             purchaseOrder.setSite(pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());

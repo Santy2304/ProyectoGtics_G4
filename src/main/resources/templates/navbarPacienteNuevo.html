@@ -23,6 +23,43 @@
     <ul class="nav user-menu">
 
 
+        <li class="nav-item dropdown">
+            <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span style="background-color: red; width: 20%;height: 20%; border-radius: 50%" class="badge rounded-pill"></span>
+            </a>
+            <div class="dropdown-menu notifications">
+                <div class="topnav-dropdown-header">
+                    <span class="notification-title">Notificaciones</span>
+                </div>
+                <div class="noti-content">
+                    <ul class="notification-list">
+
+                        <li class="notification-message" th:each="notifications:${listaNotiUWU}">
+                            <a href="/pharmacist/verNotificationsFarmacista">
+                                <div class="media d-flex">
+                                    <span class="avatar flex-shrink-0">
+                                        <img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
+                                    </span>
+                                    <div class="media-body flex-grow-1">
+                                        <p class="noti-details"  th:text="${notifications.getContent()}"></p>
+                                        <p class="noti-time"><span class="notification-time" th:text="${notifications.getDate()}"></span></p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="topnav-dropdown-footer">
+                    <a th:href="@{/patient/verNoti}">Mira todas las notificaciones</a>
+                </div>
+            </div>
+        </li>
+
+
+
+
         <!-- Flag -->
         <li class="nav-item dropdown has-arrow flag-nav">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  role="button" style="color:white" th:text="|Sede ${session.sede.getName()}|">

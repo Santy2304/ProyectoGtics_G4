@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.util.Random;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.security.SecureRandom;
@@ -40,9 +42,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Optional;
-import java.util.List;
 
 @Controller
 @RequestMapping("/superAdmin")
@@ -941,6 +940,7 @@ public class  SuperAdminController {
         return "redirect:verListados";
     }
 
+    /*
     @GetMapping("/rechazarFarmacista")
     public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
@@ -954,6 +954,32 @@ public class  SuperAdminController {
 
         return "redirect:verListados";
     }
+*/
+
+    @PostMapping("/rechazarFarmacista")
+    public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") int idFarmacista,
+                                                    @RequestParam("motivo") String motivo) {
+        try {
+            HashMap<String, Object> response = new HashMap<>();
+            pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
+            Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
+            response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
+            try {
+                emailService.sendHtmlRechazo(pharmacist.getEmail(), "Ha sido rechazado de Saint Medic", pharmacist.getName(),motivo);
+            } catch (MessagingException | IOException e) {
+                e.printStackTrace();
+            }
+            pharmacistRepository.deleteById(idFarmacista);
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            System.out.println("Error al rechazar la solicitud.");
+            HashMap<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
 
     @GetMapping("/aceptarFarmacista")
     public String aceptarFarmacista(@RequestParam("idFarmacista") int idFarmacista, HttpServletRequest request) {

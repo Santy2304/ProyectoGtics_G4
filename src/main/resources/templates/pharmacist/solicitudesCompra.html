@@ -161,34 +161,41 @@
                                                     });
                                                 </script>
 
-                                                <a class="confirm-text" th:id="|delete${solicitud.idPurchaseOrder}|" >
+                                                <a  th:id="|delete${solicitud.idPurchaseOrder}|">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
                                                 <script th:javascript="inline">
                                                     document.addEventListener("DOMContentLoaded", ()=>{
-                                                        let dele = document.getElementById(  'delete' + [[${solicitud.idPurchaseOrder}]]);
+                                                        let dele = document.getElementById('delete' + [[${solicitud.idPurchaseOrder}]]);
                                                         dele.addEventListener('click', ()=> {
                                                             Swal.fire({
-                                                                title:'¿Estás seguro de invalidar esta venta? Ingresa el motivo',
+                                                                title: '¿Estás seguro de invalidar esta venta? Ingresa el motivo',
                                                                 icon: 'warning',
+                                                                background: "white",
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: '#d48e15',
                                                                 cancelButtonColor: '#805409',
-                                                                confirmButtonText: 'Invalidar' ,
-                                                                cancelButtonText:'Cancelar',
-                                                                input: 'text'
+                                                                confirmButtonText: 'Invalidar',
+                                                                cancelButtonText: 'Cancelar',
+                                                                input: 'text',
+                                                                inputPlaceholder: 'Motivo de rechazo'
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
+                                                                    let motivoRechazo = result.value; // Obtener el motivo del input
                                                                     $.ajax({
-                                                                        type : 'GET' ,
-                                                                        url : '/pharmacist/rechazarSolicitud?idSolicitud=' + [[${solicitud.idPurchaseOrder}]] ,
-                                                                        success : function (response) {
-                                                                           window.location.href = '/pharmacist/solicitudesFarmacista';
-                                                                        } ,
-                                                                        error: function(response){
-                                                                            console.log('eppepepep');
+                                                                        type: 'POST',
+                                                                        url: '/pharmacist/rechazarSolicitud',
+                                                                        data: {
+                                                                            idSolicitud: [[${solicitud.idPurchaseOrder}]],
+                                                                            motivo: motivoRechazo
+                                                                        },
+                                                                        success: function(response) {
+                                                                            window.location.href = '/pharmacist/solicitudesFarmacista';
+                                                                        },
+                                                                        error: function(response) {
+                                                                            console.log('Error al rechazar la solicitud.');
                                                                         }
-                                                                    })
+                                                                    });
                                                                 }
                                                             });
                                                         });

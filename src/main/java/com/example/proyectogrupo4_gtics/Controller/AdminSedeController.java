@@ -82,10 +82,9 @@ public class AdminSedeController {
     //Doctores por sede
     @GetMapping("/listaDoctores")
     public String listDoctors(Model model , HttpSession session ){
-        ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        int idAdministrator = ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("admin", admin);
         model.addAttribute("nombre", admin.getName());
@@ -94,7 +93,7 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(admin.getIdAdministrador()));
         return "admin_sede/doctorlist";
     }
     //Buscador de adminSede
@@ -109,9 +108,8 @@ public class AdminSedeController {
     @GetMapping("/listaFarmacista")
     public String listPharmacist(Model model, HttpSession session) {
         //CONVERSAR CON SANTIAGO SOBRE LA NECESIDAD DE SOLO LISTAR LAS SOLICITUDES NO ATENDIDAS
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -119,7 +117,7 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-        model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede(idAdministrator));
+        model.addAttribute("listaFarmacista", pharmacistRepository.listaFarmacistaPorSede(admin.getIdAdministrador()));
         if (admin.getSite().equals("Pando 1")){
             model.addAttribute("listaSolicitudes",pharmacistRepository.listarSolicitudesFarmacistaPando1());
         }else{
@@ -140,8 +138,8 @@ public class AdminSedeController {
     //Salta a la vista para crear farmacista (no requiere un validación)
     @GetMapping(value = {"/verAddPharmacist",""})
     public String verAddPharmacist(@ModelAttribute("farmacista") Pharmacist pharmacist, Model model,RedirectAttributes redirectAttributes, HttpSession session) {
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
 
 
         if (redirectAttributes != null) {
@@ -180,7 +178,6 @@ public class AdminSedeController {
         }
 
 
-            admin = administratorRepository.getByIdAdministrador(idAdministrator);
             model.addAttribute("sede", admin.getSite());
             model.addAttribute("nombre", admin.getName());
             model.addAttribute("apellido", admin.getLastName());
@@ -215,9 +212,8 @@ public class AdminSedeController {
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -332,8 +328,9 @@ public class AdminSedeController {
     }
     //Faltan agregar validaciones de editar farmacista por sede
     @GetMapping("/editFarmacista")
-    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
-
+    public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model, HttpSession session) {
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         Optional<Pharmacist> optionalPharmacist = pharmacistRepository.findById(idFarmacista);
         if(optionalPharmacist.isPresent()){
             pharmacist = optionalPharmacist.get();
@@ -404,9 +401,8 @@ public class AdminSedeController {
     //Se ve el dashboard de admin de sede
     @GetMapping("/dashboardAdminSede")
     public String verDashboard(Model model , HttpSession session ) {
-        Administrator admin = new Administrator();
-        String idAdministrator = "" + ((Administrator) session.getAttribute("usuario")).getIdAdministrador();
-        admin = administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator));
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -482,9 +478,11 @@ public class AdminSedeController {
     //Se listan medicamentos
     @GetMapping("/inventario")
     public String verInventario(Model model , HttpSession session) {
-        int idAdministrator = ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        model.addAttribute("photo",(administratorRepository.getByIdAdministrador(idAdministrator)).getPhoto());
-        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
+
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
+        model.addAttribute("photo",(administratorRepository.getByIdAdministrador(admin.getIdAdministrador())).getPhoto());
+        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(admin.getIdAdministrador()));
         return "admin_sede/inventario";
     }
     //Filtrado para la busqueda del medicamento
@@ -536,9 +534,8 @@ public class AdminSedeController {
     //Se ve lista de pedidos de reposición
     @GetMapping("/verListaReposicion")
     public String listaReposicion(Model model , HttpSession session ) {
-        int idAdministrator = ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -564,9 +561,8 @@ public class AdminSedeController {
 
     @GetMapping("/verSolicitudReposicion")
     public String solicitudReposicion(Model model, HttpSession session){
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -574,16 +570,15 @@ public class AdminSedeController {
         if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
-        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(idAdministrator));
-        model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(idAdministrator));
+        model.addAttribute("medicamentos", medicineRepository.listaMedicamentosPorSede(admin.getIdAdministrador()));
+        model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(admin.getIdAdministrador()));
         return "admin_sede/generarPedidoReposicion";
     }
 
     @PostMapping("/solicitudReposicion")
     public String generarReposicion(Model model ,@RequestParam("idMedicine") int idMedicamento, @RequestParam("cantidad") int cantidad, ReplacementOrder replacementOrder , HttpSession session){
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -593,9 +588,8 @@ public class AdminSedeController {
 
     @GetMapping("/verNotificacionesAdminSede")
     public String notificaciones(Model model, HttpSession session) {
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
@@ -609,9 +603,8 @@ public class AdminSedeController {
     @GetMapping("/verPerfilAdminSede")
     public String profile(Model model, HttpSession session
     ){
-        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
-        Administrator admin = new Administrator();
-        admin = administratorRepository.getByIdAdministrador(idAdministrator);
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("email", admin.getEmail());
@@ -1031,8 +1024,9 @@ public class AdminSedeController {
     }
 
     @GetMapping("/verTrackingPersonal")
-    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model){
-
+    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model, HttpSession session){
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         replacementOrderRepository.findById(idReplacementeOrder);
         Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
         model.addAttribute("idReplacement",idReplacementeOrder);
@@ -1093,7 +1087,7 @@ public class AdminSedeController {
             }
         }
     }
-    @Scheduled(fixedRate = 3600000) // Ejecuta la tarea cada 10minutos
+    @Scheduled(fixedRate = 7200000) // Ejecuta la tarea cada 20 minutos
     public void notificacionesPorEscaso() {
         List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
 
@@ -1108,8 +1102,7 @@ public class AdminSedeController {
             notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
-
-           // notificationsRepository.save(notifications);
+            notificationsRepository.save(notifications);
         }
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){

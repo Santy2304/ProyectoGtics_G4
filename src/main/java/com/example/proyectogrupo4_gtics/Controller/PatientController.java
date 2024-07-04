@@ -220,7 +220,7 @@ public class PatientController {
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
         return "pacient/generar_orden_compraNuevo";
     }
-
+/*
     @PostMapping("/crearOrdenCompra")
     public String agregarOrdenCompra( @SessionAttribute("idSede") String idSede,
                                      @RequestParam("Hour") String HourStr,
@@ -374,6 +374,169 @@ public class PatientController {
             return "redirect:verGenerarOrdenCompra";
         }
     }
+*/
+
+
+
+
+    @PostMapping("/crearOrdenCompra")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> agregarOrdenCompra(
+            @SessionAttribute("idSede") String idSede,
+            @RequestParam("Hour") String HourStr,
+            @RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("direccion") String direccion,
+            @RequestParam("idDoctor") int idDoctor,
+            @RequestParam("receta") MultipartFile receta,
+            Model model, RedirectAttributes attr, HttpSession session) {
+
+        Map<String, Object> response = new HashMap<>();
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(idDoctor);
+        boolean fallo = false;
+
+        if (optionalDoctor.isEmpty()) {
+            fallo = true;
+            response.put("errorDoctor", "El doctor no existe");
+        }
+
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        if (!matcher.matches() || phoneNumber.length() != 9) {
+            response.put("errorPhone", "El teléfono debe ser de 9 dígitos");
+            fallo = true;
+        }
+
+        if (direccion == null || direccion.trim().isEmpty()) {
+            response.put("errorDireccion", "Ingrese una dirección");
+            fallo = true;
+        }
+
+        try {
+            purchaseOrder.setDeliveryHour(HourStr);
+        } catch (DateTimeParseException e) {
+            response.put("errorHora", "Ingrese una hora válida");
+            fallo = true;
+        }
+
+        List<Carrito> listaaa = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+
+        if (listaaa.isEmpty()) {
+            fallo = true;
+            response.put("errorCarrito", "No ha colocado medicamentos en el carrito.");
+        }
+
+        if (fallo) {
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        if (!receta.isEmpty()) {
+            String rutaAbsoluta = "//SaintMedic//imagenes";
+
+            try {
+                byte[] bytesImgMedicine = receta.getBytes();
+                String fileOriginalName = receta.getOriginalFilename();
+
+                long fileSize = receta.getSize();
+                long maxFileSize = 5 * 1024 * 1024;
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                if (fileSize > maxFileSize) {
+                    response.put("imageError", "El tamaño de la imagen excede a 5MB");
+                    return ResponseEntity.badRequest().body(response);
+                }
+                if (!fileExtension.equalsIgnoreCase(".jpg") && !fileExtension.equalsIgnoreCase(".png") && !fileExtension.equalsIgnoreCase(".jpeg")) {
+                    response.put("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                    return ResponseEntity.badRequest().body(response);
+                }
+
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + receta.getOriginalFilename());
+                Files.write(rutaCompleta, bytesImgMedicine);
+                purchaseOrder.setPrescription(receta.getOriginalFilename());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        purchaseOrder.setIdDoctor(doctorRepository.findById(idDoctor).get());
+        purchaseOrder.setTipo("tarjeta");
+        purchaseOrder.setPhoneNumber(phoneNumber);
+        purchaseOrder.setDireccion(direccion);
+        Patient patient = patientRepository.findById(((Patient) session.getAttribute("usuario")).getIdPatient()).get();
+        purchaseOrder.setPatient(patient);
+        purchaseOrder.setApproval("pendiente");
+        Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
+        purchaseOrder.setSite(sede.getName());
+        purchaseOrder.setStatePaid("en espera");
+        purchaseOrder.setTracking("en espera");
+        purchaseOrder.setTipo("web");
+        purchaseOrder.setRecurrent(false);
+        purchaseOrder.setDeliveryHour(HourStr);
+        purchaseOrder.setReleaseDate(LocalDate.now());
+
+        Tracking tracking = new Tracking();
+        tracking.setSolicitudDate(LocalDateTime.now());
+        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+        trackingRepository.save(tracking);
+        purchaseOrder.setIdtracking(tracking);
+        purchaseOrderRepository.save(purchaseOrder);
+
+        boolean validar = true;
+        for (Carrito c : listaaa) {
+            PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+            purchaseHasLote.setCantidadComprar(c.getCantidad());
+            purchaseHasLote.setPurchaseOrder(purchaseOrder);
+            PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+            purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+            List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt(idSede)).get().getName());
+            if (listaLotesPosibles.isEmpty()) {
+                validar = false;
+                break;
+            }
+        }
+
+        if (validar) {
+            for (Carrito c : listaaa) {
+                PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                purchaseHasLote.setCantidadComprar(c.getCantidad());
+                purchaseHasLote.setPurchaseOrder(purchaseOrder);
+                PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
+                purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt(idSede)).get().getName());
+                if (listaLotesPosibles.isEmpty()) {
+                    return ResponseEntity.badRequest().body(response);
+                }
+                purchaseHasLote.setLote(listaLotesPosibles.get(0));
+                purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
+                purchaseHasLote.setId(purchaseHasLotID);
+                purchaseHasLoteRepository.save(purchaseHasLote);
+            }
+
+            // Vaciamos el carrito
+            List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+            ArrayList<Integer> listaId = new ArrayList<>();
+            for (Carrito c : list) {
+                listaId.add(c.getId());
+            }
+            carritoRepository.deleteAllByIdInBatch(listaId);
+
+            response.put("success", true);
+            response.put("idCompra", purchaseOrder.getId());
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+
+
+
+
 
     @GetMapping("/verTicket")
     public String verTicket(@RequestParam("idCompra") int idCompra , Model model){

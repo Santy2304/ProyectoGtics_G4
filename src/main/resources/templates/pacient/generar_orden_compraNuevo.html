@@ -37,6 +37,23 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_pacient/css/style.css">
     <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+
+        .swal2-confirm {
+            background-color: orange !important;
+            border-color: orange !important;
+        }
+
+        /* Cambiar el color del botón de cierre (X) y mantener los botones naranjas */
+        .swal2-close {
+            color: orange !important;
+        }
+    </style>
+
+
 </head>
 
 <body>
@@ -70,7 +87,7 @@
                 </div>
             </div>
             <!-- Button trigger modal -->
-            <form method="post" enctype="multipart/form-data" th:action="@{/patient/crearOrdenCompra}">
+            <form method="post" enctype="multipart/form-data" id="ordenCompraForm" th:action="@{/patient/crearOrdenCompra}">
                 <div>
                     <div class="row mx-3">
                         <div class="col-lg-7 col-sm-12 col-12 d-flex">
@@ -218,7 +235,57 @@
                     </div>
                 </div>
             </form>
+            <script>
+                $(document).ready(function() {
+                    $('#ordenCompraForm').submit(function(event) {
+                        event.preventDefault();
 
+                        var formData = new FormData(this);
+                        $.ajax({
+                            url: '/patient/crearOrdenCompra',
+                            type: 'POST',
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(data) {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Ticket de Orden de Compra',
+                                        html: `
+                            <p>ID de Compra: WB0${data.idCompra}</p>
+                            <!-- Otros detalles del ticket -->
+                        `,
+                                        icon: 'success',
+                                        showCloseButton: true,
+                                        confirmButtonText: 'Ok',
+                                        willClose: () => {
+                                            window.location.href = '/patient/verHistorial';
+                                        }
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                if (xhr.status === 400) {
+                                    var errors = xhr.responseJSON;
+                                    var errorMessages = Object.values(errors).join('<br>');
+
+                                    Swal.fire({
+                                        title: 'Error',
+                                        html: errorMessages,
+                                        icon: 'error'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Hubo un problema al procesar la solicitud.',
+                                        icon: 'error'
+                                    });
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
             <!-- /Main Wrapper -->
 
             <!-- jQuery -->

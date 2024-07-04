@@ -275,6 +275,13 @@ public class AdminSedeController {
             fallo=true;
         }
 
+        if (verificarCodigoeExite(pharmacist.getCode())){
+            attr.addFlashAttribute("errorCODE", "El código no existe");
+            fallo=true;
+        }
+
+
+
         Pattern pattern1 = Pattern.compile("\\d+");
         Matcher matcher1 = pattern.matcher(pharmacist.getCode());
         if (!matcher1.matches() || pharmacist.getCode().length() != 6 || verificarCodigo(pharmacist.getCode())) {
@@ -282,10 +289,6 @@ public class AdminSedeController {
             fallo=true;
         }
 
-        if (verificarCodigoeExite(pharmacist.getCode())){
-            attr.addFlashAttribute("errorCODE", "El código no existe");
-            fallo=true;
-        }
 
 
         if (fallo) {

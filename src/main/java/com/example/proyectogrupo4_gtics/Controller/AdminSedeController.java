@@ -851,7 +851,7 @@ public class AdminSedeController {
     //RECONTRA VALIDADO
     @RequestMapping ("/generarReposicion")
     @ResponseBody
-    public Map<String,String> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session
+    public Map<String,Object> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session
     ) throws JsonProcessingException {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         //Validar que se ingresen números en lugar de Strings
@@ -859,7 +859,7 @@ public class AdminSedeController {
         // validar q ninguno este en cero
         //Validar q no este vacío y validar que sean menos de 10 medicamentos distintos
         //Validar la fecha que sea mayor a la que en la q nos encontramos
-        Map<String,String> response = new HashMap<>();
+        Map<String,Object> response = new HashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
         System.out.println(data.getDate());
@@ -984,7 +984,7 @@ public class AdminSedeController {
 
 
                                 response.put("error" ,"");
-                                response.put("response" ,"/adminSede/SolicitudDeReposicionCreada?idReplacementOrder="+newReplacementOrder.getIdReplacementOrder());
+                                response.put("idRepo",newReplacementOrder.getIdReplacementOrder());
                             }else{
                                 response.put("error" ,"errorMenorADiez");
                             }

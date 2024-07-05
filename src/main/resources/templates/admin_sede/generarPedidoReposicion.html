@@ -138,6 +138,17 @@
         background-position: 180px;
       }
     }
+
+    .swal2-confirm {
+      background-color: orange !important;
+      border-color: orange !important;
+    }
+
+    /* Cambiar el color del botón de cierre (X) y mantener los botones naranjas */
+    .swal2-close {
+      color: orange !important;
+    }
+
   </style>
 
 </head>
@@ -240,7 +251,19 @@
                         success: function(data){
                           switch(data.error){
                             case "":
-                              window.location.href = data.response;
+                              Swal.fire({
+                                title: 'Ticket de Orden de Compra',
+                                html: `
+                            <p>ID de Reposición: RP0${data.idRepo}</p>
+                            <!-- Otros detalles del ticket -->
+                        `,
+                                icon: 'success',
+                                showCloseButton: true,
+                                confirmButtonText: 'Ok',
+                                willClose: () => {
+                                  window.location.href = '/adminSede/verListaReposicion';
+                                }
+                              });
                               break;
                             case "errorMenorADiez":
                               Swal.fire({

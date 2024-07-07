@@ -377,7 +377,6 @@
 
 		<script th:javascript="inline">
 			let socket =  new WebSocket("ws://localhost:8080/chatPaciente");
-
 			socket.onmessage = function(event){
 				console.log(event.data);
 				createMessageReceiver(event.data);
@@ -396,6 +395,21 @@
 						//hace algo recién
 						//Escribimos una porcion de codigo que aumentará lo q este en el chat
 					}
+				});
+				let input =  document.getElementById("message");
+				input.addEventListener('keydown', (event)=>{
+					if (event.key === 'Enter') {
+						console.log("Hola");
+						let content = document.getElementById("message");
+						if(content.value.trim() !== ""){
+							createMessageSender(content.value);
+							socket.send(content.value);
+							content.value ="";
+							//hace algo recién
+							//Escribimos una porcion de codigo que aumentará lo q este en el chat
+						}
+					}
+
 				});
 			});
 

@@ -167,6 +167,8 @@ public class LogInController {
     @RequestMapping(value = "/formNuevaCuenta")
     @ResponseBody
     public Map<String,String> formNuevaCuenta(Patient patient){
+        System.out.println(patient.getDni());
+        patient.setDni(patient.getDni().replace(",", ""));
         System.out.println("Holaa");
         Map<String, String > response =  new HashMap<>();
         Optional<Patient> patientOpt1 =  patientRepository.findByEmail(patient.getEmail());
@@ -176,6 +178,7 @@ public class LogInController {
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
             patient.setExpirationDate(LocalDateTime.now().plusMinutes(4)); // Expira en 10 minutos
+
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();

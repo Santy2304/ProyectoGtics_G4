@@ -1119,22 +1119,24 @@ public class PatientController {
 
         for (PurchaseOrder purchaseOrder: purchaseOrderRepository.findAll()){
 
-            if (purchaseOrder.getRecurrent()){
-                List<Lote> listaLotesCompra = loteRepository.listarLotesPorCompra(purchaseOrder.getId());
+            if(purchaseOrder.getRecurrent() != null){
+                if (purchaseOrder.getRecurrent()){
+                    List<Lote> listaLotesCompra = loteRepository.listarLotesPorCompra(purchaseOrder.getId());
 
-                for (Lote lote: listaLotesCompra){
+                    for (Lote lote: listaLotesCompra){
 
-                    if (lote.getExpireDate().minusDays(10).isBefore(LocalDate.now()) || lote.getExpireDate().minusDays(5).isBefore(LocalDate.now())){
-                        Notifications notification = new Notifications();
-                        notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está ´por expirar; le recomedamos generar una nueva orden de compra." );
-                        User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
-                        notification.setIdUsers(user);
-                        notification.setDate(LocalDateTime.now());
-                        notificationsRepository.save(notification);
+                        if (lote.getExpireDate().minusDays(10).isBefore(LocalDate.now()) || lote.getExpireDate().minusDays(5).isBefore(LocalDate.now())){
+                            Notifications notification = new Notifications();
+                            notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está ´por expirar; le recomedamos generar una nueva orden de compra." );
+                            User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
+                            notification.setIdUsers(user);
+                            notification.setDate(LocalDateTime.now());
+                            notificationsRepository.save(notification);
+                        }
                     }
+                    purchaseOrder.setRecurrent(false);
+                    purchaseOrderRepository.save(purchaseOrder);
                 }
-                purchaseOrder.setRecurrent(false);
-                purchaseOrderRepository.save(purchaseOrder);
             }
 
         }

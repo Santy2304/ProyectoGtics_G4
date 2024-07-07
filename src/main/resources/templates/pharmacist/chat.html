@@ -86,10 +86,6 @@
 											</div>
 										</div>
 									</a>
-
-
-
-
 								</div>
 							</div>
 						</div>
@@ -97,10 +93,8 @@
 
 						<!-- Chat Content -->
 						<div class="col-lg-7 col-xl-8 chat-cont-right">
-
 							<!-- Chat History -->
 							<div class="card mb-0">
-
 								<div class="card-header msg_head">
 									<div class="d-flex bd-highlight">
 										<a id="back_user_list" href="javascript:void(0)" class="back-user-list">
@@ -117,7 +111,7 @@
 								</div>
 
 								<div class="card-body msg_card_body chat-scroll">
-									<ul class="list-unstyled">
+									<ul id="messageTotal" class="list-unstyled">
 										<li class="media sent d-flex">
 											<div class="avatar flex-shrink-0">
 												<img src="/assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
@@ -334,8 +328,8 @@
 
 								<div class="card-footer">
 									<div class="input-group">
-										<input class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
-										<button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+										<input id="message" class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
+										<button id="boton" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 									</div>
 								</div>
 
@@ -379,7 +373,198 @@
                 </div>
             </div>
         </div>
-        <!-- jQuery -->
+
+
+		<script th:javascript="inline">
+			let socket =  new WebSocket("ws://localhost:8080/chatPaciente");
+
+			socket.onmessage = function(event){
+				console.log(event.data);
+				createMessageReceiver(event.data);
+				//Llega un mesaje
+			}
+
+			document.addEventListener("DOMContentLoaded", ()=>{
+				let boton=  document.getElementById("boton");
+				boton.addEventListener('click', ()=>{
+					console.log("Hola");
+					let content = document.getElementById("message");
+					if(content.value.trim() !== ""){
+						createMessageSender(content.value);
+						socket.send(content.value);
+						content.value ="";
+						//hace algo recién
+						//Escribimos una porcion de codigo que aumentará lo q este en el chat
+					}
+				});
+			});
+
+			function createMessageReceiver(message){
+// Crear el elemento <li> con las clases correspondientes
+				let li = document.createElement('li');
+				li.classList.add('media', 'received', 'd-flex');
+
+// Crear el div.avatar
+				let avatarDiv = document.createElement('div');
+				avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+				let avatarImg = document.createElement('img');
+				avatarImg.src = "/assets_superAdmin/img/farmacista.png";
+				avatarImg.alt = 'User Image';
+				avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+				avatarDiv.appendChild(avatarImg);
+				//avatarDiv dentro de
+
+// Crear el div.media-body
+				let mediaBodyDiv = document.createElement('div');
+				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+				let msgBoxDiv = document.createElement('div');
+				msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+				let p1 = document.createElement('p');
+				p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+				let ul = document.createElement('ul');
+				ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+				let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+				let divTime = document.createElement('div');
+				divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+				let spanTime = document.createElement('span');
+				spanTime.textContent = obtenerHoraActual() ;
+
+// Agregar spanTime al div.chat-time
+				divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+				liInfo.appendChild(divTime);
+				ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+				let divUu = document.createElement('div');
+
+				divUu.appendChild(p1);
+				divUu.appendChild(ul);
+				msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+				mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+				li.appendChild(avatarDiv);
+				li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+				let chatList = document.getElementById("messageTotal");
+				chatList.appendChild(li);
+			}
+			function createMessageSender(message){
+// Crear el elemento <li> con las clases correspondientes
+				// Crear el elemento <li> con las clases correspondientes
+				let li = document.createElement('li');
+				li.classList.add('media', 'sent', 'd-flex');
+
+// Crear el div.avatar
+				let avatarDiv = document.createElement('div');
+				avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+				let avatarImg = document.createElement('img');
+				avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+				avatarImg.alt = 'User Image';
+				avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+				avatarDiv.appendChild(avatarImg);
+				//avatarDiv dentro de
+
+// Crear el div.media-body
+				let mediaBodyDiv = document.createElement('div');
+				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+				let msgBoxDiv = document.createElement('div');
+				msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+				let p1 = document.createElement('p');
+				p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+				let ul = document.createElement('ul');
+				ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+				let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+				let divTime = document.createElement('div');
+				divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+				let spanTime = document.createElement('span');
+				spanTime.textContent = obtenerHoraActual() ;
+
+// Agregar spanTime al div.chat-time
+				divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+				liInfo.appendChild(divTime);
+				ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+				let divUu = document.createElement('div');
+
+				divUu.appendChild(p1);
+				divUu.appendChild(ul);
+				msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+				mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+				li.appendChild(avatarDiv);
+				li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+				let chatList = document.getElementById("messageTotal");
+				chatList.appendChild(li);
+			}
+			function obtenerHoraActual() {
+				let ahora = new Date();
+				let horas = ahora.getHours();
+				let minutos = ahora.getMinutes();
+				let ampm = horas >= 12 ? 'PM' : 'AM';
+
+				// Convertir las horas al formato de 12 horas
+				horas = horas % 12;
+				horas = horas ? horas : 12; // La medianoche debe mostrarse como 12 AM
+
+				// Formatear la salida
+				let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
+
+				return horaFormateada;
+			}
+		</script>
+
+
+		<!-- jQuery -->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
         <!-- Feather Icon JS -->

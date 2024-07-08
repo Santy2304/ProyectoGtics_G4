@@ -75,6 +75,8 @@ public class PharmacistController {
         this.chatRepository = chatRepository;
         this.chatContentRepository = chatContentRepository;
     }
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
 
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio(){
@@ -415,11 +417,7 @@ public class PharmacistController {
                 Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                //NUBE
-                //String rutaAbsoluta = "//SaintMedic//imagenes";
-                //LOCAL
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+
 
                 Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
                 Files.write(rutaCompleta, bytesImgPerfil);

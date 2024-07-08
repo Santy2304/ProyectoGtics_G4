@@ -65,6 +65,9 @@ public class AdminSedeController {
         this.siteRepository=siteRepository;
         this.codeRepository = codeRepository;
     }
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
+
 
 
     @GetMapping("/cambioObligatorio")
@@ -297,11 +300,7 @@ public class AdminSedeController {
                     if(!imagen.isEmpty()){
                         //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                        //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                        //NUBE
-                        //String rutaAbsoluta = "//SaintMedic//imagenes";
-                        //LOCAL
-                        String rutaAbsoluta = "//SaintMedic//imagenes";
+
 
                         String fileOriginalName = imagen.getOriginalFilename();
                         try {
@@ -367,9 +366,6 @@ public class AdminSedeController {
             if(!imagen.isEmpty()) {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-
-                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 String fileOriginalName = imagen.getOriginalFilename();
                 try {
@@ -646,8 +642,7 @@ public class AdminSedeController {
 
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();

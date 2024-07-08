@@ -87,6 +87,7 @@ public class  SuperAdminController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
 
     //Superlogueo//
     @GetMapping("/superlogueo")
@@ -342,7 +343,6 @@ public class  SuperAdminController {
             //ruta relativa para la imagen
             //Path directorioImagenMedicine = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
 
-            String rutaAbsoluta = "//SaintMedic//imagenes";
             //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
             String fileOriginalName = imagenEdit.getOriginalFilename();
             try {
@@ -650,7 +650,6 @@ public class  SuperAdminController {
 
                     //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                    String rutaAbsoluta = "//SaintMedic//imagenes";
 
                     try {
                         byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -770,7 +769,6 @@ public class  SuperAdminController {
                 //NUBE
                 //String rutaAbsoluta = "//SaintMedic//imagenes";
                 //LOCAL
-                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -1084,7 +1082,6 @@ public class  SuperAdminController {
     ///////////////////////////////////////7
     @GetMapping("/verDetalleRepo")
     public String verDetalleMedicamentos(@RequestParam("idRepo") int idRepo,Model model) {
-
         List<MedicamentosPorReposicionDTO> medicamentosPorReposicion =   replacementOrderRepository.obtenerMedicamentosPorReposicion(idRepo);
         model.addAttribute("listaMedicamentosPorRepo",medicamentosPorReposicion);
         return "superAdmin/DetalleRepo";
@@ -1121,7 +1118,6 @@ public class  SuperAdminController {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
                 //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
@@ -1283,7 +1279,6 @@ public class  SuperAdminController {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
-
         String cabecera = "Content-Disposition";
         String valor = "attachment; filename=Pacientes_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);

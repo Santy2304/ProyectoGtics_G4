@@ -88,6 +88,9 @@ public class PatientController {
         this.pharmacistRepository = pharmacistRepository;
     }
 
+
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
+
     @GetMapping("/sessionPatient")
     public String iniciarSesion( Model model, @RequestParam("idUser") String id){
         model.addAttribute("idUser",id);
@@ -476,7 +479,6 @@ public class PatientController {
         }
 
         if (!receta.isEmpty()) {
-            String rutaAbsoluta = "//SaintMedic//imagenes";
 
             try {
                 byte[] bytesImgMedicine = receta.getBytes();
@@ -731,11 +733,7 @@ public class PatientController {
             }
             else {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
-                //String rutaAbsoluta = directorioImagenPerfil.toFile().getAbsolutePath();
-                //NUBE
-                //String rutaAbsoluta = "//SaintMedic//imagenes";
-                //Local
-                String rutaAbsoluta = "//SaintMedic//imagenes";
+
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
                     String fileOriginalName = imagen.getOriginalFilename();

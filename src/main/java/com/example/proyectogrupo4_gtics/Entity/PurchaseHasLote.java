@@ -3,9 +3,11 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "purchasehaslot")
-public class PurchaseHasLote {
+public class PurchaseHasLote implements Serializable {
 
     @EmbeddedId
     private PurchaseHasLotID id;

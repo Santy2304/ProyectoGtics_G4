@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,6 +44,7 @@ public class PatientController {
         return new ArrayList<Medicamento>();
     }
     final SiteRepository siteRepository;
+    final ChatRepository chatRepository;
     final PatientRepository patientRepository;
     final MedicineRepository medicineRepository;
     final UserRepository userRepository;
@@ -56,13 +58,19 @@ public class PatientController {
     final CreditCardRepository creditCardRepository;
 
     final TrackingRepository trackingRepository;
+     final ChatContentRepository chatContentRepository;
+    private final PharmacistRepository pharmacistRepository;
+
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
                               LoteRepository loteRepository,
                               UserRepository userRepository, TrackingRepository trackingRepository ,
                               CarritoRepository carritoRepository, CreditCardRepository creditCardRepository,
-                              NotificationsRepository notificationsRepository) {
+                              NotificationsRepository notificationsRepository,
+                              ChatRepository chatRepository,
+                              ChatContentRepository chatContentRepository,
+                              PharmacistRepository pharmacistRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -75,6 +83,9 @@ public class PatientController {
         this.carritoRepository = carritoRepository;
         this.creditCardRepository = creditCardRepository;
         this.notificationsRepository = notificationsRepository;
+        this.chatRepository = chatRepository;
+        this.chatContentRepository = chatContentRepository;
+        this.pharmacistRepository = pharmacistRepository;
     }
 
     @GetMapping("/sessionPatient")
@@ -377,6 +388,39 @@ public class PatientController {
 */
 
 
+    @GetMapping("/getChat")
+    @ResponseBody
+    public Object getChat( HttpSession session){
+        try {
+            List<Chat> chats = chatRepository.findAll();
+            Patient patient = (Patient) session.getAttribute("usuario");
+            Chat chat = null;
+            for (Chat c : chats) {
+                if (c.getIdPacient().getEmail().equals(patient.getEmail())
+                        && c.getIdFarmacist().getSite().equals(((Site) session.getAttribute("sede")).getName())
+                ) {
+                    chat = c;
+                }
+                ;
+            }
+            List<Chatcontent> chatContents = chatContentRepository.findAll();
+            //
+            ArrayList<Chatcontent> listaFiltrada = new ArrayList<Chatcontent>();
+            for (Chatcontent cs : chatContents) {
+                if (cs.getIdChat() == chat) {
+                    listaFiltrada.add(cs);
+                }
+            }
+            LinkedHashMap<String, Object> hasMap = new LinkedHashMap<>();
+            hasMap.put("Content", listaFiltrada);
+            return ResponseEntity.ok(hasMap);
+        }catch (Exception err){
+            err.printStackTrace();
+            LinkedHashMap<String,Object > like = new LinkedHashMap<>();
+            like.put("state", "error");
+            return ResponseEntity.badRequest().body(like);
+        }
+    }
 
 
     @PostMapping("/crearOrdenCompra")
@@ -1140,6 +1184,21 @@ public class PatientController {
             }
 
         }
+    }
+
+    @ResponseBody
+    @GetMapping(value="/getCorreo")
+    public Object getCorreo(HttpSession session){
+        String sede = ((Site) session.getAttribute("sede")).getName();
+        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+        for(Pharmacist p : listaFarmacista){
+            if(p.getSite().equals(sede)){
+                LinkedHashMap<String , Object > hasMap = new LinkedHashMap<>();
+                hasMap.put("correo", p.getEmail());
+                return ResponseEntity.ok(hasMap);
+            }
+        }
+        return ResponseEntity.badRequest();
     }
 
 

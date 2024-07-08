@@ -3,11 +3,12 @@ package com.example.proyectogrupo4_gtics.Entity;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 @Entity
 @Table(name="lote")
-public class Lote{
+public class Lote implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

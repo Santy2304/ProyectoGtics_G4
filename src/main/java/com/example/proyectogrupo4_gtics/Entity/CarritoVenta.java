@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "carritoventa", schema = "proyectogtics")
-public class CarritoVenta {
+public class CarritoVenta implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idcarritoventa", nullable = false)

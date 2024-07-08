@@ -4,19 +4,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatcontent", schema = "proyectogtics")
-public class Chatcontent {
+
+public class Chatcontent implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idchatcontent", nullable = false)
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "idchat", nullable = false)
     private Chat idChat;
 

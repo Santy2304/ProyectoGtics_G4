@@ -85,7 +85,7 @@ public class ChatController {
 //        m.setSender(hasMessage.get("sender"));
         //Debemos de enviar el mensaje a todos los farmacistas de esa sede con un for
         User sender = userRepository.findByEmail(chatMessage.getSender());
-        User  receiver = userRepository.findByEmail(chatMessage.getRecipient());
+        User  receiver = userRepository.getById(chatMessage.getRecipient());
         //Si no existe debemos crear un chat q contenga
         Pharmacist pharmacist = null ;
         Patient patient =  null;
@@ -105,12 +105,16 @@ public class ChatController {
                 pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
                 break;
         }
+
+
+
+
         Chat chatVerdadero = null;
         List<Chat> chats = chatRepository.findAll();
         if(!chats.isEmpty()){
             boolean existeChatSenderReceiver = false;
             for(Chat c : chats){
-                if((c.getIdPacient() == patient)  &&  (c.getIdFarmacist() == pharmacist)){
+                if((c.getIdPacient().getIdPatient() == patient.getIdPatient())  &&  (c.getIdFarmacist().getIdFarmacista() == pharmacist.getIdFarmacista())){
                     chatVerdadero = c;
                     existeChatSenderReceiver = true;
                  break;
@@ -141,7 +145,16 @@ public class ChatController {
         content.setAutor(sender.getEmail());
         content.setIdChat(chatVerdadero);
         chatContentRepository.save(content);
+        //Escogo mandarles a todos los farmacistas de esa sede ;
+        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+        ArrayList<Pharmacist> listaFiltrada = new ArrayList<>();
         simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
+//        for(Pharmacist p : listaFarmacista){
+//            if(p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())){
+//                simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
+//            }
+//        }
+
     }
 
 

@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notifications")
-public class Notifications {
+public class Notifications implements Serializable {
 
 
     @Id

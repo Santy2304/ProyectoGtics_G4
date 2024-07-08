@@ -50,7 +50,7 @@
         <div class="col-lg-5 col-xl-4 chat-cont-left">
           <div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
             <div class="card-body contacts_body chat-users-list chat-scroll">
-              <a href="javascript:void(0);" id="oreo1" class="media d-flex active">
+              <a  class="media d-flex active">
                 <div class="media-img-wrap flex-shrink-0">
                   <div class="avatar avatar-away">
                     <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
@@ -58,93 +58,22 @@
                 </div>
                 <div class="media-body flex-grow-1">
                   <div>
-                    <div class="user-name">Farmacista Pando 1</div>
+                    <div class="user-name" th:text="|Farmacista ${session.sede.getName()}|" ></div>
                     <div class="user-last-chat">Hola, ¿Cómo estás?</div>
                   </div>
                   <div>
                     <div class="last-chat-time">2 min</div>
+                    <!--
                     <div class="badge badge-success badge-pill">15</div>
-                  </div>
-                </div>
-              </a>
-              <a href="javascript:void(0);"  id="oreo2" class="media d-flex read-chat">
-                <div class="media-img-wrap flex-shrink-0">
-                  <div class="avatar avatar-online">
-                    <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                </div>
-                <div class="media-body flex-grow-1">
-                  <div>
-                    <div class="user-name">Farmacista Pando 2</div>
-                    <div class="user-last-chat">Llamen a dios </div>
-                  </div>
-                  <div>
-                    <div class="last-chat-time">8:01 PM</div>
-                  </div>
-                </div>
-              </a>
-              <a href="javascript:void(0);" id="oreo3" class="media d-flex read-chat">
-                <div class="media-img-wrap flex-shrink-0">
-                  <div class="avatar avatar-online">
-                    <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                </div>
-                <div class="media-body flex-grow-1">
-                  <div>
-                    <div class="user-name">Farmacista Pando 3</div>
-                    <div class="user-last-chat">Llamen a dios </div>
-                  </div>
-                  <div>
-                    <div class="last-chat-time">8:01 PM</div>
-                  </div>
-                </div>
-              </a>
-              <a href="javascript:void(0);" id="oreo4" class="media d-flex read-chat">
-                <div class="media-img-wrap flex-shrink-0">
-                  <div class="avatar avatar-online">
-                    <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                </div>
-                <div class="media-body flex-grow-1">
-                  <div>
-                    <div class="user-name">Farmacista Pando 4</div>
-                    <div class="user-last-chat">Llamen a dios </div>
-                  </div>
-                  <div>
-                    <div class="last-chat-time">8:01 PM</div>
+                     -->
                   </div>
                 </div>
               </a>
             </div>
           </div>
         </div>
-        <script>
-          document.addEventListener('DOMContentLoaded', ()=>{
-            let seccion = document.getElementById("scroll");
-            // Desplázate al final de la sección
-            seccion.scrollTop = seccion.scrollHeight;
-          })
-          let oreo1 = document.getElementById("oreo1");
-          oreo1.addEventListener('click' , (event)=>{
-
-          });
-          let oreo2 = document.getElementById("oreo2");
-          oreo2.addEventListener('click' , (event)=>{
-
-          });
-          let oreo3 = document.getElementById("oreo3");
-          oreo3.addEventListener('click' , (event)=>{
-
-          });
-          let oreo4 = document.getElementById("oreo4");
-          oreo4.addEventListener('click' , (event)=>{
-
-          });
-
-        </script>
 
         <!-- Chat User List -->
-
         <!-- Chat Content -->
         <div class="col-lg-7 col-xl-8 chat-cont-right">
           <!-- Chat History -->
@@ -165,132 +94,6 @@
             </div>
             <div  class="card-body msg_card_body chat-scroll">
               <ul id="messageTotal" class="list-unstyled">
-                <li class="media sent d-flex">
-                  <div class="avatar flex-shrink-0">
-                    <img src="/assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                  <div class="media-body flex-grow-1">
-                    <div class="msg-box">
-                      <div>
-                        <p>Hola. ¿Puedo hacerle una consulta?</p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:30 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="media received d-flex">
-                  <div class="avatar flex-shrink-0">
-                    <img src="/assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                  <div class="media-body flex-grow-1">
-                    <div class="msg-box">
-                      <div>
-                        <p>Hola, claro en que puedo ayudarte </p>
-                        <p>Aquí tengo unas recomendaciones</p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:35 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="msg-box">
-                      <div>
-                        <p></p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:40 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="msg-box">
-                      <div>
-                        <div class="chat-msg-attachments">
-                          <div class="chat-attachment">
-                            <img src="../assets_superAdmin/img/product/product12.jpg" alt="Attachment">
-                            <a href="" class="chat-attach-download">
-                              <i class="fas fa-download"></i>
-                            </a>
-                          </div>
-                          <div class="chat-attachment">
-                            <img src="../assets_superAdmin/img/product/product13.jpg" alt="Attachment">
-                            <a href="" class="chat-attach-download">
-                              <i class="fas fa-download"></i>
-                            </a>
-                          </div>
-                        </div>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:41 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="media sent d-flex">
-                  <div class="avatar flex-shrink-0">
-                    <img src="../assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                  <div class="media-body flex-grow-1">
-                    <div class="msg-box">
-                      <div>
-                        <p>Sí, estoy aquí</p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:42 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="msg-box">
-                      <div>
-                        <p>Mi nombre es Alonso. Según las fotos de las recetas que enviaste, no disponemos de un producto. Sin embargo, tenemos uno similar, le mostraré una foto</p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:42 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="msg-box">
-                      <div>
-                        <div class="chat-msg-attachments">
-                          <div class="chat-attachment">
-                            <img src="../assets_superAdmin/img/product/product15.jpg" alt="Attachment">
-                            <a href="" class="chat-attach-download">
-                              <i class="fas fa-download"></i>
-                            </a>
-                          </div>
-                        </div>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>8:50 AM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </li>
                 <li class="media received d-flex">
                   <div class="avatar flex-shrink-0">
                     <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
@@ -304,26 +107,6 @@
                           <li>
                             <div class="chat-time">
                               <span>8:55 PM</span>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="chat-date">Today</li>
-                <li class="media received d-flex">
-                  <div class="avatar flex-shrink-0">
-                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
-                  </div>
-                  <div class="media-body flex-grow-1">
-                    <div class="msg-box">
-                      <div>
-                        <p>Buenos días, no ha respondido a mi consulta del día de ayer</p>
-                        <ul class="chat-msg-info">
-                          <li>
-                            <div class="chat-time">
-                              <span>10:17 AM</span>
                             </div>
                           </li>
                         </ul>
@@ -382,9 +165,30 @@
   </div>
 </div>
 
-<script th:javascript="inline">
-
-  var stompClient = null;
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', ()=>{
+    let patient = [[${session.usuario.email}]];
+    $.ajax({
+      url: "/patient/getChat",
+      type: "GET",
+      success: function(response){
+        //Cargamos todos los mensajes de la persona con el farmacista
+        let listaMensajes = response.Content;
+        listaMensajes.forEach(message =>{
+          if(message.autor  === patient){
+            createMessageSender(message.message);
+          }else{
+            createMessageReceiver(message.message);
+          }
+        });
+      },
+      error : function(response){
+        //Error
+        console.log("Auxilio");
+      }
+    });
+  });
+    var stompClient = null;
     document.addEventListener('DOMContentLoaded', ()=>{
       connect();
       let boton = document.getElementById("boton");
@@ -398,7 +202,6 @@
         console.log("ayuda");
       });
     });
-
   // Conectar al servidor WebSocket
     function connect() {
       var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
@@ -414,16 +217,21 @@
   // Enviar mensaje
     function sendMessage() {
     let message = document.getElementById('message').value;
-    let data = {
-      'sender': 'alex@gmail.com',  // Cambiar esto por el usuario autenticado
-      'recipient': 'yauri@gmail.com',
-      'content': message
-    }
-    stompClient.send("/app/chat", {}, JSON.stringify({
-      'sender': 'alex@gmail.com',  // Cambiar esto por el usuario autenticado
-      'recipient': 'yauri@gmail.com',
-      'content': message
-    }));
+    $.ajax({
+      url: "/patient/getCorreo",
+      type: "GET",
+      success: function(response){
+
+        stompClient.send("/app/chat", {}, JSON.stringify({
+          'sender': [[${session.usuario.email}]] ,  // Cambiar esto por el usuario autenticado
+          'recipient': response.correo,
+          'content': message
+        }));
+      },
+      error: function(response){
+        console.log("error");
+      }
+    })
   }
   // Mostrar mensaje en la interfaz
     function createMessageReceiver(message) {
@@ -499,7 +307,6 @@
       let chatList = document.getElementById("messageTotal");
       chatList.appendChild(li);
     }
-
     function createMessageSender(message) {
 // Crear el elemento <li> con las clases correspondientes
       // Crear el elemento <li> con las clases correspondientes
@@ -574,7 +381,6 @@
       let chatList = document.getElementById("messageTotal");
       chatList.appendChild(li);
     }
-
     function obtenerHoraActual() {
       let ahora = new Date();
       let horas = ahora.getHours();
@@ -589,12 +395,7 @@
       let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
       return horaFormateada;
     }
-
-
 </script>
-
-
-
 <!-- jQuery -->
 <script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
 <!-- Feather Icon JS -->

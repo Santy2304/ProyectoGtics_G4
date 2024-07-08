@@ -1,22 +1,24 @@
 package com.example.proyectogrupo4_gtics.Config;
 
-import com.example.proyectogrupo4_gtics.Entity.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
-@EnableWebSocket
-public class WebSockets implements WebSocketConfigurer {
-    @Autowired
-    private ChatHandler chatHandler;
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+@EnableWebSocketMessageBroker
+public class WebSockets implements WebSocketMessageBrokerConfigurer {
 
-        registry.addHandler(chatHandler, "/chatPaciente");
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        registry.enableSimpleBroker("/topic", "/queue");
+        registry.setApplicationDestinationPrefixes("/app");
+        registry.setUserDestinationPrefix("/user");
     }
 
-
-
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/ws")
+                .withSockJS();
+    }
 }

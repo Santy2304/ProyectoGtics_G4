@@ -376,44 +376,46 @@
 
 
 		<script th:javascript="inline">
-			let socket =  new WebSocket("ws://localhost:8080/chatPaciente");
-			socket.onmessage = function(event){
-				console.log(event.data);
-				createMessageReceiver(event.data);
-				//Llega un mesaje
-			}
 
-			document.addEventListener("DOMContentLoaded", ()=>{
-				let boton=  document.getElementById("boton");
-				boton.addEventListener('click', ()=>{
-					console.log("Hola");
-					let content = document.getElementById("message");
-					if(content.value.trim() !== ""){
-						createMessageSender(content.value);
-						socket.send(content.value);
-						content.value ="";
-						//hace algo recién
-						//Escribimos una porcion de codigo que aumentará lo q este en el chat
-					}
+			var stompClient = null;
+			document.addEventListener('DOMContentLoaded', ()=>{
+				connect();
+				let boton = document.getElementById("boton");
+				let message = document.getElementById("message");
+				boton.addEventListener('click' , () =>{
+					sendMessage();
+					createMessageSender(message.value);
+					message.value="";
 				});
-				let input =  document.getElementById("message");
-				input.addEventListener('keydown', (event)=>{
-					if (event.key === 'Enter') {
-						console.log("Hola");
-						let content = document.getElementById("message");
-						if(content.value.trim() !== ""){
-							createMessageSender(content.value);
-							socket.send(content.value);
-							content.value ="";
-							//hace algo recién
-							//Escribimos una porcion de codigo que aumentará lo q este en el chat
-						}
-					}
-
+				message.addEventListener('keydown' , (event)=>{
+					console.log("ayuda");
 				});
 			});
 
-			function createMessageReceiver(message){
+			// Conectar al servidor WebSocket
+			function connect() {
+				var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
+				stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
+				stompClient.connect({}, function (frame) {
+					console.log('Connected: ' + frame);
+					// Suscribirse a la cola de mensajes del usuario
+					stompClient.subscribe('/user/queue/messages', function (message) {
+						createMessageReceiver((JSON.parse(message.body)).content);
+					});
+				});
+			}
+			// Enviar mensaje
+			function sendMessage() {
+				let message = document.getElementById('message').value;
+
+				stompClient.send("/app/chat", {}, JSON.stringify({
+					'recipient': 'alex@gmail.com',  // Cambiar esto por el usuario autenticado
+					'sender': 'yauri@gmail.com',
+					'content': message
+				}));
+			}
+			// Mostrar mensaje en la interfaz
+			function createMessageReceiver(message) {
 // Crear el elemento <li> con las clases correspondientes
 				let li = document.createElement('li');
 				li.classList.add('media', 'received', 'd-flex');
@@ -457,7 +459,7 @@
 
 // Crear el span dentro de div.chat-time
 				let spanTime = document.createElement('span');
-				spanTime.textContent = obtenerHoraActual() ;
+				spanTime.textContent = obtenerHoraActual();
 
 // Agregar spanTime al div.chat-time
 				divTime.appendChild(spanTime);
@@ -486,7 +488,8 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
-			function createMessageSender(message){
+
+			function createMessageSender(message) {
 // Crear el elemento <li> con las clases correspondientes
 				// Crear el elemento <li> con las clases correspondientes
 				let li = document.createElement('li');
@@ -531,7 +534,7 @@
 
 // Crear el span dentro de div.chat-time
 				let spanTime = document.createElement('span');
-				spanTime.textContent = obtenerHoraActual() ;
+				spanTime.textContent = obtenerHoraActual();
 
 // Agregar spanTime al div.chat-time
 				divTime.appendChild(spanTime);
@@ -560,6 +563,7 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
+
 			function obtenerHoraActual() {
 				let ahora = new Date();
 				let horas = ahora.getHours();
@@ -572,9 +576,10 @@
 
 				// Formatear la salida
 				let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
-
 				return horaFormateada;
 			}
+
+
 		</script>
 
 
@@ -597,6 +602,8 @@
         <!-- Chart JS -->
         <script src="/assets_superAdmin/plugins/apexchart/apexcharts.min.js"></script>
         <script src="/assets_superAdmin/plugins/apexchart/chart-data.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
         
         <!-- Custom JS -->
         <script src="/assets_superAdmin/js/script.js"></script>

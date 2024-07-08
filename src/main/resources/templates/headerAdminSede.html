@@ -82,7 +82,7 @@
 									<span class="user-img"><img th:src="@{'/imagenes/' + ${photo}}" alt="">
 									<span class="status online"></span></span>
                         <div class="profilesets">
-                            <h6 th:text="${nombre} +' '+${apellido}"></h6>
+                            <h6 th:text="${session.usuario.nombre} +' '+${session.usuario.apellido}"></h6>
                             <h5 th:text="${rol}"></h5>
                             <h5 th:text="|Sede: ${sede}|"></h5>
                         </div>

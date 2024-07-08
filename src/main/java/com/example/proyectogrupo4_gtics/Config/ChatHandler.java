@@ -1,6 +1,5 @@
 package com.example.proyectogrupo4_gtics.Config;
 
-import com.example.proyectogrupo4_gtics.Entity.Chat;
 import com.example.proyectogrupo4_gtics.Entity.User;
 import com.example.proyectogrupo4_gtics.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

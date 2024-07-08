@@ -47,7 +47,7 @@
     <div class="content" style="margin-top: 2%;">
       <div class="row chat-window">
         <!-- Chat User List -->
-        <div class="col-lg-5 col-xl-4 chat-cont-left">
+        <div class="col-lg-4 col-xl-3 chat-cont-left">
           <div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
             <div class="card-body contacts_body chat-users-list chat-scroll">
               <a  class="media d-flex active">
@@ -75,7 +75,7 @@
 
         <!-- Chat User List -->
         <!-- Chat Content -->
-        <div class="col-lg-7 col-xl-8 chat-cont-right">
+        <div class="col-lg-7 col-xl-9 chat-cont-right">
           <!-- Chat History -->
           <div class="card mb-0">
             <div id="scroll" class="card-header msg_head">
@@ -87,7 +87,7 @@
                   <img class="rounded-circle user_img" src="/assets_superAdmin/img/farmacista.png" alt="">
                 </div>
                 <div class="user_info">
-                  <span><strong id="receiver_name">Farmacista</strong></span>
+                  <span><strong id="receiver_name" th:text="|Farmacista ${session.sede.getName()}|"></strong></span>
                   <p class="mb-0">Mensajes</p>
                 </div>
               </div>
@@ -194,12 +194,20 @@
       let boton = document.getElementById("boton");
       let message = document.getElementById("message");
       boton.addEventListener('click' , () =>{
-        sendMessage();
-        createMessageSender(message.value);
-        message.value="";
+        if(message.value.trim() !== ""){
+          sendMessage();
+          createMessageSender(message.value);
+          message.value="";
+        }
       });
       message.addEventListener('keydown' , (event)=>{
-        console.log("ayuda");
+        if(event.key === "Enter"){
+          if(message.value.trim() !== "") {
+            sendMessage();
+            createMessageSender(message.value);
+            message.value="";
+          }
+        }
       });
     });
   // Conectar al servidor WebSocket

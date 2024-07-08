@@ -144,8 +144,6 @@ public class AdminSedeController {
     public String verAddPharmacist(@ModelAttribute("farmacista") Pharmacist pharmacist, Model model,RedirectAttributes redirectAttributes, HttpSession session) {
         Administrator admin = (Administrator)session.getAttribute("usuario");
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
-
-
         if (redirectAttributes != null) {
             String errorNombre = (String) redirectAttributes.getFlashAttributes().get("errorNombre");
             String errorApellido = (String) redirectAttributes.getFlashAttributes().get("errorApellido");
@@ -180,8 +178,6 @@ public class AdminSedeController {
 
 
         }
-
-
             model.addAttribute("sede", admin.getSite());
             model.addAttribute("nombre", admin.getName());
             model.addAttribute("apellido", admin.getLastName());

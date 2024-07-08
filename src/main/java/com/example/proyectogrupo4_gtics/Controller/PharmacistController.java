@@ -47,7 +47,8 @@ public class PharmacistController {
     final UserRepository userRepository;
 
     final TrackingRepository trackingRepository;
-
+    private final ChatRepository chatRepository;
+    private final ChatContentRepository chatContentRepository;
 
 
     public PharmacistController(CarritoVentaRepository carritoVentaRepository,CarritoRepository carritoRepository ,
@@ -56,7 +57,9 @@ public class PharmacistController {
                                 LoteRepository loteRepository, PharmacistRepository pharmacistRepository,
                                 DoctorRepository doctorRepository,PurchaseOrderRepository purchaseOrderRepository,
                                 UserRepository userRepository, NotificationsRepository notificationsRepository,
-                                TrackingRepository trackingRepository) {
+                                TrackingRepository trackingRepository,
+                                ChatRepository chatRepository,
+                                ChatContentRepository chatContentRepository) {
         this.medicineRepository = medicineRepository;
         this.loteRepository = loteRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -69,6 +72,8 @@ public class PharmacistController {
         this.carritoVentaRepository = carritoVentaRepository;
         this.notificationsRepository = notificationsRepository;
         this.trackingRepository = trackingRepository;
+        this.chatRepository = chatRepository;
+        this.chatContentRepository = chatContentRepository;
     }
 
     @GetMapping("/cambioObligatorio")
@@ -107,8 +112,30 @@ public class PharmacistController {
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
-
         return "pharmacist/chat";
+    }
+    @ResponseBody
+    @GetMapping(value="/getPatients")
+    public Object getPatients(HttpSession session){
+        Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+        List<Chat> listaChat = chatRepository.findAll();
+        ArrayList<Chat> listaDeChat = new ArrayList<>();
+        ArrayList<Chatcontent> listaLastChatContent = new ArrayList<>();
+        for(Chat c:  listaChat){
+            if(c.getIdFarmacist().getIdFarmacista()==p.getIdFarmacista() ){
+                List<Chatcontent> listaContent = chatContentRepository.findAll();
+                ArrayList<Chatcontent> filtradoContent =  new ArrayList<>();
+                for(Chatcontent cc : listaContent){
+                    if(cc.getIdChat().getIdPacient().getIdPatient() == c.getIdPacient().getIdPatient()  &&
+                    cc.getIdChat().getIdFarmacist().getIdFarmacista() == c.getIdFarmacist().getIdFarmacista()
+                    ){
+                       filtradoContent.add(cc);
+                    }
+                }
+                listaLastChatContent.add(filtradoContent.get(filtradoContent.size()-1));
+            }
+        }
+        return listaLastChatContent;
     }
 
     @GetMapping("/verEditarProducto")

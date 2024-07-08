@@ -72,9 +72,74 @@ public class ChatController {
     }
 
 
+//De farmacista a Paciente
+@MessageMapping(value = "/chatPharmacist")
+public void sendMessagePharmacistToPatient(Message chatMessage) {
+    User sender = userRepository.findByEmail(chatMessage.getSender());
+    User  receiver = userRepository.getById(chatMessage.getRecipient());
+    //Si no existe debemos crear un chat q contenga
+    Pharmacist pharmacist = null ;
+    Patient patient =  null;
+    switch(sender.getIdRol().getName()){
+        case "paciente":
+            patient = patientRepository.findByEmail(sender.getEmail()).get();
+            break;
+        case "farmacista":
+            pharmacist = pharmacistRepository.findByEmail(sender.getEmail());
+            break;
+    }
+    switch(receiver.getIdRol().getName()){
+        case "paciente":
+            patient = patientRepository.findByEmail(receiver.getEmail()).get();
+            break;
+        case "farmacista":
+            pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
+            break;
+    }
+
+    Chat chatVerdadero = null;
+    List<Chat> chats = chatRepository.findAll();
+    if(!chats.isEmpty()){
+        boolean existeChatSenderReceiver = false;
+        for(Chat c : chats){
+            if((c.getIdPacient().getIdPatient() == patient.getIdPatient())  &&  (c.getIdFarmacist().getIdFarmacista() == pharmacist.getIdFarmacista())){
+                chatVerdadero = c;
+                existeChatSenderReceiver = true;
+                break;
+            }
+        }
+        if(!existeChatSenderReceiver){
+            Chat c =  new Chat();
+            c.setIdPacient(patient);
+            c.setIdFarmacist(pharmacist);
+            chatVerdadero = chatRepository.save(c);
+        }
+    }else{
+        //Debemos de crear el chat xd
+        Chat c =  new Chat();
+        c.setIdPacient(patient);
+        c.setIdFarmacist(pharmacist);
+        chatVerdadero = chatRepository.save(c);
+    }
 
 
+    Chatcontent content = new Chatcontent();
+    content.setMessage(chatMessage.getContent());
+    LocalDateTime ahora = LocalDateTime.now();
 
+    // Formatear la hora actual según tus necesidades
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    String horaFormateada = ahora.format(formatter);
+    content.setDateTime(ahora);
+    content.setAutor(sender.getEmail());
+    content.setIdChat(chatVerdadero);
+    chatContentRepository.save(content);
+    simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
+
+}
+
+
+//De paciente a farmacista
     @MessageMapping(value = "/chat")
     public void sendMessage(Message chatMessage) {
         System.out.println("Holaa");
@@ -105,10 +170,6 @@ public class ChatController {
                 pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
                 break;
         }
-
-
-
-
         Chat chatVerdadero = null;
         List<Chat> chats = chatRepository.findAll();
         if(!chats.isEmpty()){
@@ -149,11 +210,11 @@ public class ChatController {
         List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
         ArrayList<Pharmacist> listaFiltrada = new ArrayList<>();
         simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
-//        for(Pharmacist p : listaFarmacista){
-//            if(p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())){
-//                simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
-//            }
-//        }
+       for(Pharmacist p : listaFarmacista){
+            if(p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())){
+                simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
+            }
+        }
 
     }
 

@@ -105,7 +105,7 @@
 									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
 									<span class="status online"></span></span>
             <div class="profilesets">
-              <h6 th:text="${nombre}+' '+${apellido}"></h6>
+              <h6 th:text="${session.usuario.name}+' '+${session.usuario.lastName}"></h6>
               <h5>Farmacista</h5>
               <h5 th:text="|Sede: ${sede}|"></h5>
             </div>

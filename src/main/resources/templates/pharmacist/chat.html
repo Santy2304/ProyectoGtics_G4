@@ -48,18 +48,198 @@
 						<!-- Chat User List -->
 						<div class="col-lg-5 col-xl-4 chat-cont-left">
 							<div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
+								<div class="card-header chat-search">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="search_btn"><i class="fas fa-search"></i></span>
+										</div>
+										<input type="text" placeholder="Buscar" class="form-control search-chat rounded-pill">
+									</div>
+								</div>
+								<script th:inline="javascript">
+									function createChatElement(NAME, LastMessage) {
+										// Crear el elemento 'a'
+										const anchor = document.createElement('a');
+										anchor.classList.add('media', 'd-flex', 'active');
 
-								<div class="card-body contacts_body chat-users-list chat-scroll">
-									<a href="javascript:void(0);" class="media d-flex active">
+										// Crear el contenedor de la imagen
+										const mediaImgWrap = document.createElement('div');
+										mediaImgWrap.classList.add('media-img-wrap', 'flex-shrink-0');
+
+										// Crear el avatar
+										const avatar = document.createElement('div');
+										avatar.classList.add('avatar', 'avatar-away');
+
+										// Crear la imagen del usuario
+										const userImg = document.createElement('img');
+										userImg.src = '/assets_superAdmin/img/farmacista.png';
+										userImg.alt = 'User Image';
+										userImg.classList.add('avatar-img', 'rounded-circle');
+
+										// Añadir la imagen al avatar
+										avatar.appendChild(userImg);
+
+										// Añadir el avatar al contenedor de la imagen
+										mediaImgWrap.appendChild(avatar);
+
+										// Crear el cuerpo del media
+										const mediaBody = document.createElement('div');
+										mediaBody.classList.add('media-body', 'flex-grow-1');
+
+										// Crear el contenedor de los detalles del usuario
+										const userDetail = document.createElement('div');
+
+										// Crear el nombre del usuario
+										const userName = document.createElement('div');
+										userName.classList.add('user-name');
+										userName.textContent = NAME ;
+										// Crear el último mensaje del usuario
+										const userLastChat = document.createElement('div');
+										userLastChat.classList.add('user-last-chat');
+										userLastChat.textContent = LastMessage.trim();
+										// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
+										userDetail.appendChild(userName);
+										userDetail.appendChild(userLastChat);
+
+										// Crear el contenedor del tiempo del último mensaje
+										const lastChatDetail = document.createElement('div');
+
+										// Crear el tiempo del último mensaje
+										const lastChatTime = document.createElement('div');
+										lastChatTime.classList.add('last-chat-time');
+										lastChatTime.textContent = '2 min';
+
+										// Crear la insignia de mensajes no leídos
+										const unreadBadge = document.createElement('div');
+										unreadBadge.classList.add('badge', 'badge-success', 'badge-pill');
+										unreadBadge.textContent = '15';
+
+										// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
+										lastChatDetail.appendChild(lastChatTime);
+										lastChatDetail.appendChild(unreadBadge);
+
+										// Añadir los detalles del usuario y el último mensaje al cuerpo del media
+										mediaBody.appendChild(userDetail);
+										mediaBody.appendChild(lastChatDetail);
+
+										// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
+										anchor.appendChild(mediaImgWrap);
+										anchor.appendChild(mediaBody);
+
+										return anchor;
+									}
+
+									function createChatElement2(NAME, LastMessage) {
+										// Crear el elemento 'a'
+										const anchor = document.createElement('a');
+										anchor.classList.add('media', 'read-chat' ,  'd-flex');
+
+										// Crear el contenedor de la imagen
+										const mediaImgWrap = document.createElement('div');
+										mediaImgWrap.classList.add('media-img-wrap', 'flex-shrink-0');
+
+										// Crear el avatar
+										const avatar = document.createElement('div');
+										avatar.classList.add('avatar', 'avatar-away');
+
+										// Crear la imagen del usuario
+										const userImg = document.createElement('img');
+										userImg.src = '/assets_superAdmin/img/farmacista.png';
+										userImg.alt = 'User Image';
+										userImg.classList.add('avatar-img', 'rounded-circle');
+
+										// Añadir la imagen al avatar
+										avatar.appendChild(userImg);
+
+										// Añadir el avatar al contenedor de la imagen
+										mediaImgWrap.appendChild(avatar);
+
+										// Crear el cuerpo del media
+										const mediaBody = document.createElement('div');
+										mediaBody.classList.add('media-body', 'flex-grow-1');
+
+										// Crear el contenedor de los detalles del usuario
+										const userDetail = document.createElement('div');
+
+										// Crear el nombre del usuario
+										const userName = document.createElement('div');
+										userName.classList.add('user-name');
+										userName.textContent = NAME ;
+										// Crear el último mensaje del usuario
+										const userLastChat = document.createElement('div');
+										userLastChat.classList.add('user-last-chat');
+										userLastChat.textContent = LastMessage.trim();
+										// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
+										userDetail.appendChild(userName);
+										userDetail.appendChild(userLastChat);
+
+										// Crear el contenedor del tiempo del último mensaje
+										const lastChatDetail = document.createElement('div');
+
+										// Crear el tiempo del último mensaje
+										const lastChatTime = document.createElement('div');
+										lastChatTime.classList.add('last-chat-time');
+										lastChatTime.textContent = '2 min';
+
+										// Crear la insignia de mensajes no leídos
+										const unreadBadge = document.createElement('div');
+										unreadBadge.classList.add('badge', 'badge-success', 'badge-pill');
+										unreadBadge.textContent = '15';
+
+										// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
+										lastChatDetail.appendChild(lastChatTime);
+										lastChatDetail.appendChild(unreadBadge);
+
+										// Añadir los detalles del usuario y el último mensaje al cuerpo del media
+										mediaBody.appendChild(userDetail);
+										mediaBody.appendChild(lastChatDetail);
+
+										// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
+										anchor.appendChild(mediaImgWrap);
+										anchor.appendChild(mediaBody);
+
+										return anchor;
+									}
+
+									//read-chat d-flex
+
+									document.addEventListener('DOMContentLoaded', ()=>{
+											$.ajax({
+												url: "/pharmacist/getPatients",
+												type: "GET",
+												success: function(response){
+													console.log(response);
+													let count= 1;
+													response.forEach(
+													(content) =>{
+														if(count===1){
+															let div = document.getElementById("pacientes");
+															div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message));
+														}else{
+															let div = document.getElementById("pacientes");
+															div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message));
+														}
+														count=count+1;
+													});
+												},
+												error : function(response){
+													console.log("AYUDENME");
+												}
+											})
+									});
+								</script>
+
+								<div id="pacientes" class="card-body contacts_body chat-users-list chat-scroll">
+									<a class="media d-flex active">
 										<div class="media-img-wrap flex-shrink-0">
 											<div class="avatar avatar-away">
-												<img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
+												<img src="assets/img/customer/customer1.jpg" alt="User Image" class="avatar-img rounded-circle">
 											</div>
 										</div>
 										<div class="media-body flex-grow-1">
 											<div>
-												<div class="user-name">Paciente 1</div>
-												<div class="user-last-chat">Hola, ¿Cómo estás?</div>
+												<div class="user-name">Jeffrey Akridge</div>
+												<div class="user-last-chat">Hey, How are you?</div>
 											</div>
 											<div>
 												<div class="last-chat-time">2 min</div>
@@ -67,19 +247,19 @@
 											</div>
 										</div>
 									</a>
-									<a href="javascript:void(0);" class="media d-flex read-chat">
+									<a class="media read-chat d-flex">
 										<div class="media-img-wrap flex-shrink-0">
 											<div class="avatar avatar-online">
-												<img src="/assets_superAdmin/img/perfilBot.png" alt="User Image" class="avatar-img rounded-circle">
+												<img src="assets/img/customer/customer4.jpg" alt="User Image" class="avatar-img rounded-circle">
 											</div>
 										</div>
 										<div class="media-body flex-grow-1">
 											<div>
-												<div class="user-name">Paciente 2</div>
-												<div class="user-last-chat">Llamen a dios </div>
+												<div class="user-name">Ricardo Lung</div>
+												<div class="user-last-chat">That's very good UI design</div>
 											</div>
 											<div>
-												<div class="last-chat-time">8:01 PM</div>
+												<div class="last-chat-time">6:59 PM</div>
 											</div>
 										</div>
 									</a>
@@ -87,7 +267,6 @@
 							</div>
 						</div>
 						<!-- Chat User List -->
-
 						<!-- Chat Content -->
 						<div class="col-lg-7 col-xl-8 chat-cont-right">
 							<!-- Chat History -->
@@ -101,7 +280,7 @@
 											<img class="rounded-circle user_img" src="/assets_superAdmin/img/farmacista.png" alt="">
 										</div>
 										<div class="user_info">
-											<span><strong id="receiver_name">Farmacista</strong></span>
+											<span><strong id="receiver_name">Paciente</strong></span>
 											<p class="mb-0">Mensajes</p>
 										</div>
 									</div>
@@ -238,7 +417,7 @@
 										</li>
 										<li class="media received d-flex">
 											<div class="avatar flex-shrink-0">
-												<img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+												<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
 											</div>
 											<div class="media-body flex-grow-1">
 												<div class="msg-box">
@@ -339,41 +518,7 @@
             </div>
         </div>
         <!-- /Main Wrapper -->
-        <div class="searchpart">
-            <div class="searchcontent">
-                <div class="searchhead">
-                    <h3>Search </h3>
-                    <a id="closesearch"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-                </div>
-                <div class="searchcontents">
-                    <div class="searchparts">
-                        <input type="text" placeholder="search here">
-                        <a class="btn btn-searchs" >Search</a>
-                    </div>
-                    <div class="recentsearch">
-                        <h2>Recent Search</h2>
-                        <ul>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Settings</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Report</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Invoice</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Sales</h6>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-		<script th:javascript="inline">
-
+		<script th:inline="javascript">
 			var stompClient = null;
 			document.addEventListener('DOMContentLoaded', ()=>{
 				connect();
@@ -404,10 +549,9 @@
 			// Enviar mensaje
 			function sendMessage() {
 				let message = document.getElementById('message').value;
-
-				stompClient.send("/app/chat", {}, JSON.stringify({
-					'recipient': 'alex@gmail.com',  // Cambiar esto por el usuario autenticado
-					'sender': 'yauri@gmail.com',
+				stompClient.send("/app/chatPharmacist", {}, JSON.stringify({
+					'recipient':  'alex@gmail.com',  // Cambiar esto por el usuario autenticado
+					'sender': [[${session.usuario.email}]],
 					'content': message
 				}));
 			}
@@ -485,7 +629,6 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
-
 			function createMessageSender(message) {
 // Crear el elemento <li> con las clases correspondientes
 				// Crear el elemento <li> con las clases correspondientes
@@ -560,7 +703,6 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
-
 			function obtenerHoraActual() {
 				let ahora = new Date();
 				let horas = ahora.getHours();
@@ -575,8 +717,6 @@
 				let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
 				return horaFormateada;
 			}
-
-
 		</script>
 
 

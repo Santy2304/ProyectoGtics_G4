@@ -87,7 +87,7 @@ public class  SuperAdminController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
+    private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
     //Superlogueo//
     @GetMapping("/superlogueo")
@@ -180,7 +180,6 @@ public class  SuperAdminController {
                 //ruta relativa para la imagen
                 //Path directorioImagenMedicine= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesMedicina");
                 //String rutaAbsoluta =  directorioImagenMedicine.toFile().getAbsolutePath();
-                String rutaAbsoluta = "//SaintMedic//imagenes";
                 //imagen a flujo bytes y poder guardarlo en la base de datos para poder extraerlo después
                 try {
                     byte[] bytesImgMedicine = imagen.getBytes();
@@ -766,9 +765,7 @@ public class  SuperAdminController {
             }
             else {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
-                //NUBE
-                //String rutaAbsoluta = "//SaintMedic//imagenes";
-                //LOCAL
+
 
                 try {
                     byte[] bytesImgPerfil = adminFoto.getBytes();
@@ -884,7 +881,6 @@ public class  SuperAdminController {
             else {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-                String rutaAbsoluta = "//SaintMedic//imagenes";
 
                 try {
                     byte[] bytesImgPerfil = farmFoto.getBytes();

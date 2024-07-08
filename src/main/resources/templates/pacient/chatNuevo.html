@@ -59,10 +59,10 @@
                 <div class="media-body flex-grow-1">
                   <div>
                     <div class="user-name" th:text="|Farmacista ${session.sede.getName()}|" ></div>
-                    <div class="user-last-chat">Hola, ¿Cómo estás?</div>
+                    <div id="last" class="user-last-chat">Hola, ¿Cómo estás?</div>
                   </div>
                   <div>
-                    <div class="last-chat-time">2 min</div>
+                    <div id="lastTime" class="last-chat-time"></div>
                     <!--
                     <div class="badge badge-success badge-pill">15</div>
                      -->
@@ -174,11 +174,17 @@
       success: function(response){
         //Cargamos todos los mensajes de la persona con el farmacista
         let listaMensajes = response.Content;
-        listaMensajes.forEach(message =>{
+        listaMensajes.forEach((message,index) =>{
           if(message.autor  === patient){
-            createMessageSender(message.message);
+            createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
           }else{
-            createMessageReceiver(message.message);
+            createMessageReceiver(message.message,formatDateTimeTo12Hour(message.dateTime));
+          }
+          if(index === listaMensajes.length -1){
+            let last = document.getElementById("last");
+            last.textContent = message.message;
+            let lastTime = document.getElementById("lastTime");
+            lastTime.textContent = formatDateTimeTo12Hour(message.dateTime);
           }
         });
       },
@@ -196,7 +202,7 @@
       boton.addEventListener('click' , () =>{
         if(message.value.trim() !== ""){
           sendMessage();
-          createMessageSender(message.value);
+          createMessageSender(message.value,obtenerHoraActual());
           message.value="";
         }
       });
@@ -204,7 +210,7 @@
         if(event.key === "Enter"){
           if(message.value.trim() !== "") {
             sendMessage();
-            createMessageSender(message.value);
+            createMessageSender(message.value,obtenerHoraActual());
             message.value="";
           }
         }
@@ -216,11 +222,47 @@
       stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
       stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        // Suscribirse a la cola de mensajes del usuario
         stompClient.subscribe('/user/queue/messages', function (message) {
-          createMessageReceiver((JSON.parse(message.body)).content);
+          $.ajax({
+            url: "/patient/verificarCorreoPharmacist?email=" +  (JSON.parse(message.body)).sender,
+            type: "GET",
+            success : function (response){
+              console.log
+              if(response.content === "si"){
+                //Debemos de cambiar la hora
+                createMessageReceiver((JSON.parse(message.body)).content,obtenerHoraActual()) ;
+                //Cambiamos el ultimo mensaje visible
+                let last = document.getElementById("last");
+                last.textContent = (JSON.parse(message.body)).content;
+                let lastTime = document.getElementById("lastTime");
+                lastTime.textContent = obtenerHoraActual();
+              }
+            }
+          });
+
+
         });
+        // Suscribirse a la cola de mensajes del usuario
+        //Debemos verificar q el farmacista sea de la sede donde estamos
+
+
+
       });
+    }
+
+    function formatDateTimeTo12Hour(dateTimeString) {
+      // Crear un objeto Date a partir de la cadena DateTime
+      const date = new Date(dateTimeString);
+
+      // Opciones para formatear la hora a formato de 12 horas
+      const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      };
+
+      // Formatear la hora usando toLocaleTimeString con configuración regional para Latinoamérica
+      return date.toLocaleTimeString('es-LA', options);
     }
   // Enviar mensaje
     function sendMessage() {
@@ -242,7 +284,7 @@
     })
   }
   // Mostrar mensaje en la interfaz
-    function createMessageReceiver(message) {
+    function createMessageReceiver(message ,date) {
 // Crear el elemento <li> con las clases correspondientes
       let li = document.createElement('li');
       li.classList.add('media', 'received', 'd-flex');
@@ -286,7 +328,7 @@
 
 // Crear el span dentro de div.chat-time
       let spanTime = document.createElement('span');
-      spanTime.textContent = obtenerHoraActual();
+      spanTime.textContent = date;
 
 // Agregar spanTime al div.chat-time
       divTime.appendChild(spanTime);
@@ -315,7 +357,7 @@
       let chatList = document.getElementById("messageTotal");
       chatList.appendChild(li);
     }
-    function createMessageSender(message) {
+    function createMessageSender(message , date) {
 // Crear el elemento <li> con las clases correspondientes
       // Crear el elemento <li> con las clases correspondientes
       let li = document.createElement('li');
@@ -360,7 +402,7 @@
 
 // Crear el span dentro de div.chat-time
       let spanTime = document.createElement('span');
-      spanTime.textContent = obtenerHoraActual();
+      spanTime.textContent = date;
 
 // Agregar spanTime al div.chat-time
       divTime.appendChild(spanTime);

@@ -89,7 +89,7 @@ public class PatientController {
     }
 
 
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
+    private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
     @GetMapping("/sessionPatient")
     public String iniciarSesion( Model model, @RequestParam("idUser") String id){
@@ -425,6 +425,25 @@ public class PatientController {
         }
     }
 
+
+    @GetMapping(value="/verificarCorreoPharmacist")
+    @ResponseBody
+    public Object verificarCorreoPharmacist(HttpSession session ,@RequestParam(value="email") String email){
+        //Verificamos q el correo existe
+        try {
+            Pharmacist p = pharmacistRepository.findByEmail(email);
+
+            HashMap<String, Object> has = new HashMap<>();
+            if (p.getSite().equals(((Site) session.getAttribute("sede")).getName())) {
+                has.put("content", "si");
+            } else {
+                has.put("content", "no");
+            }
+            return ResponseEntity.ok(has);
+        }catch(Exception err){
+            return ResponseEntity.badRequest();
+        }
+    }
 
     @PostMapping("/crearOrdenCompra")
     @ResponseBody

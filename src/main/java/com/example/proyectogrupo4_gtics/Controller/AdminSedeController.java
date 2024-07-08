@@ -65,10 +65,7 @@ public class AdminSedeController {
         this.siteRepository=siteRepository;
         this.codeRepository = codeRepository;
     }
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
-
-
-
+    private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio( Model model){

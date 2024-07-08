@@ -203,6 +203,10 @@
         if(message.value.trim() !== ""){
           sendMessage();
           createMessageSender(message.value,obtenerHoraActual());
+          let last = document.getElementById("last");
+          last.textContent = message.value;
+          let lastTime = document.getElementById("lastTime");
+          lastTime.textContent = obtenerHoraActual();
           message.value="";
         }
       });
@@ -211,6 +215,10 @@
           if(message.value.trim() !== "") {
             sendMessage();
             createMessageSender(message.value,obtenerHoraActual());
+            let last = document.getElementById("last");
+            last.textContent = message.value;
+            let lastTime = document.getElementById("lastTime");
+            lastTime.textContent = obtenerHoraActual();
             message.value="";
           }
         }

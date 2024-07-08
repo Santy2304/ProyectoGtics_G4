@@ -96,6 +96,7 @@
 										userName.textContent = NAME ;
 										// Crear el último mensaje del usuario
 										const userLastChat = document.createElement('div');
+										userLastChat.id="last"
 										userLastChat.classList.add('user-last-chat');
 										userLastChat.textContent = LastMessage.trim();
 										// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
@@ -109,6 +110,7 @@
 										const lastChatTime = document.createElement('div');
 										lastChatTime.classList.add('last-chat-time');
 										lastChatTime.textContent = '2 min';
+										lastChatTime.id="lastTime";
 
 										// Crear la insignia de mensajes no leídos
 										const unreadBadge = document.createElement('div');
@@ -117,7 +119,7 @@
 
 										// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
 										lastChatDetail.appendChild(lastChatTime);
-										lastChatDetail.appendChild(unreadBadge);
+										//lastChatDetail.appendChild(unreadBadge);
 
 										// Añadir los detalles del usuario y el último mensaje al cuerpo del media
 										mediaBody.appendChild(userDetail);
@@ -130,7 +132,7 @@
 
 										return anchor;
 									}
-									function createChatElement2(NAME, LastMessage,id) {
+									function createChatElement2(NAME, LastMessage,id , date) {
 										// Crear el elemento 'a'
 										const anchor = document.createElement('a');
 										anchor.classList.add('media', 'read-chat' ,  'd-flex');
@@ -180,7 +182,7 @@
 										// Crear el tiempo del último mensaje
 										const lastChatTime = document.createElement('div');
 										lastChatTime.classList.add('last-chat-time');
-										lastChatTime.textContent = '2 min';
+										lastChatTime.textContent = date;
 
 										// Crear la insignia de mensajes no leídos
 										const unreadBadge = document.createElement('div');
@@ -189,7 +191,8 @@
 
 										// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
 										lastChatDetail.appendChild(lastChatTime);
-										lastChatDetail.appendChild(unreadBadge);
+										//opcional
+										//lastChatDetail.appendChild(unreadBadge);
 
 										// Añadir los detalles del usuario y el último mensaje al cuerpo del media
 										mediaBody.appendChild(userDetail);
@@ -216,14 +219,19 @@
 															let div = document.getElementById("pacientes");
 															div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message ,content.idChat.idPacient.email));
 															//Le ponemos un addEventListener q actualize la pagina cadavez q se le click ;
+															let last = document.getElementById("last");
+															last.textContent = content.message;
+															let lastTime = document.getElementById("lastTime");
+															lastTime.textContent = formatDateTimeTo12Hour(content.dateTime);
 															updateMessage(content.idChat.idPacient.email, content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName);
 															let doc= document.getElementById("receiver_name");
 															doc.textContent=content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName;
 															global=content.idChat.idPacient.email;
 														}else{
 															let div = document.getElementById("pacientes");
-															div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message,content.idChat.idPacient.email));
+															div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
 															updateMessage(content.idChat.idPacient.email , content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName );
+
 														}
 														count=count+1;
 													});

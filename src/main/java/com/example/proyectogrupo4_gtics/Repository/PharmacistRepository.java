@@ -23,6 +23,10 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(value = "update pharmacist set name = ?1 , lastName =?2 , email=?3, site=?4, state = ?5, distrit = ?6, photo=?7 where idPharmacist =?8" , nativeQuery = true)
     void updateDatosPorId(String name , String lasName  , String email ,String site,String state,String distrit, String photo ,int idFarmacista );
 
+    @Transactional
+    @Modifying
+    @Query(value = "update pharmacist set name = ?1 , lastName =?2 , email=?3, site=?4, state = ?5, distrit = ?6 where idPharmacist =?7" , nativeQuery = true)
+    void updateDatosPorIdSinFoto(String name , String lasName  , String email ,String site,String state,String distrit, int idFarmacista );
 
     @Transactional
     @Modifying
@@ -69,6 +73,11 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Modifying
     @Query(value="update pharmacist set email = ?1, distrit = ?2 where idPharmacist = ?3", nativeQuery = true)
     void updateEmailAndDistritById(String email, String distrit, int idPharmacist);
+
+    @Transactional
+    @Modifying
+    @Query(value="update pharmacist set photo=?1 where idPharmacist = ?2", nativeQuery = true)
+    void updatePhotoById(String photo, int idPharmacist);
 
     Pharmacist getByIdFarmacista(int idPharmacist);
 

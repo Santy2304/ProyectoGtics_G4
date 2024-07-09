@@ -20,6 +20,11 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
 
     @Transactional
     @Modifying
+    @Query(value = "update administrator set name = ?1 , lastName =?2 , dni=?3 , email=?4, site=?5, state = ?6 where idAdministrator =?7" , nativeQuery = true)
+    void updateDatosPorIdSinFoto(String name , String lasName , String dni , String email ,String site,String state, int idAdminSede );
+
+    @Transactional
+    @Modifying
     @Query(value = "update administrator set state = 'eliminado'  where idAdministrator =?1" , nativeQuery = true)
     void eliminarAdminPorId(int idAdminSede);
 

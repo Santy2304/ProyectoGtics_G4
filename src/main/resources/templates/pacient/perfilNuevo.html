@@ -76,7 +76,7 @@
             <div class="profile-top">
               <div class="profile-content">
                 <div class="profile-contentimg">
-                  <img  th:src="@{'/assets_superAdmin/ImagenesPerfil/' + ${paciente.photo}}" alt="img" id="blah">
+                  <img  th:src="@{'/imagenes/' + ${paciente.getPhoto()}}" alt="img" id="blah">
                   <div class="profileupload">
                     <input type="file" name="patientFile" id="imgInp">
                     <a href="javascript:void(0);" ><img src="../assets_superAdmin/img/icons/edit-set.svg" alt="img"></a>
@@ -87,9 +87,11 @@
                   <h4>Actualiza tu foto y datos personales</h4>
                 </div>
               </div>
+              <!--
               <div class="ms-auto">
                 <button type="submit" class="btn btn-submit me-2">Guardar</button>
               </div>
+              -->
             </div>
           </div>
           <div class="row">

@@ -760,8 +760,8 @@ public class  SuperAdminController {
             }
 
             if (adminFoto.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "superAdmin/EditarAdministrador";
+                administratorRepository.updateDatosPorIdSinFoto(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), administrator.getIdAdministrador());
+
             }
             else {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
@@ -837,7 +837,7 @@ public class  SuperAdminController {
     }
 
     @PostMapping("/guardarCambiosFarmacista")
-    public String editarFarmacista(@RequestParam("foto")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
+    public String editarFarmacista(@RequestParam("fotoFarm")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
             return "superAdmin/EditarFarmacista";
         } else {
@@ -875,8 +875,7 @@ public class  SuperAdminController {
             }
 
             if (farmFoto.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "superAdmin/EditarAdministrador";
+                pharmacistRepository.updateDatosPorIdSinFoto(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), pharmacist.getSite(), pharmacist.getState(), pharmacist.getDistrit(),pharmacist.getIdFarmacista());
             }
             else {
                 //Path directorioImagenPerfil= Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");

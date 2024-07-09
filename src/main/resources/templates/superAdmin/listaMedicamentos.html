@@ -164,17 +164,22 @@
 										</tr>
 									</thead>
 									<script >
-										function verProducto(){
+										function verProducto(element){
+											/*
 											Swal.fire({
 												html: "<img src='/assets_superAdmin/img/Paracetamol1.jpg' style='max-width:100%;'>",
-
-											})
+											});
+											 */
+											var imageUrl = element.getAttribute('data-image-url');
+											Swal.fire({
+												html: `<img src="${imageUrl}" style="max-width:100%;">`,
+											});
 										}
 									</script>
 									<tbody>
 										<tr th:each="medicamento : ${listaMedicamentos}">
 											<td class="productimgname">
-												<a class="product-img" onclick="verProducto(event)">
+												<a class="product-img" th:attr="data-image-url=@{/imagenes/} + ${medicamento.getPhoto()}" onclick="verProducto(this)">
 													<img th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" style="max-width: 25%;" alt="product">
 												</a>
 												<span href="javascript:void(0);" th:text="${medicamento.getNombreMedicamento()}"></span>

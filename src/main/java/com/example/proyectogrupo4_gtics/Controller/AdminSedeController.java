@@ -639,8 +639,6 @@ public class AdminSedeController {
 
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
-
-
                 try {
                     byte[] bytesImgPerfil = imagen.getBytes();
                     String fileOriginalName = imagen.getOriginalFilename();

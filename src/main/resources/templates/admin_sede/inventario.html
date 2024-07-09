@@ -248,7 +248,7 @@
 										<td th:text="${medicamento.getNombreMedicamento()}"></td>
 										<td class="productimgname" style="text-align: center;">
 											<a th:id="|${medicamento.idMedicine}|" class="product-img" >
-												<img  th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}" alt="product">
+												<img  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="product">
 											</a>
 										</td>
 										<td th:text="${medicamento.getCategoria()}"></td>

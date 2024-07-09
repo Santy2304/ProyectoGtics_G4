@@ -116,22 +116,6 @@ public class PharmacistController {
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         return "pharmacist/chat";
     }
-
-    @ResponseBody
-    @GetMapping(value="/getChat")
-    public Object get(HttpSession session , @RequestParam(value="ola") String destino){
-        List<Chatcontent>contents =  chatContentRepository.findAll();
-        ArrayList<Chatcontent> contenidoFiltrado = new ArrayList<>();
-        Patient pa = patientRepository.getByEmail(destino);
-        for(Chatcontent c:  contents){
-            if(c.getIdChat().getIdFarmacist().getIdFarmacista() ==  ((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()
-            && pa.getIdPatient()== c.getIdChat().getIdPacient().getIdPatient()
-            ){
-                contenidoFiltrado.add(c);
-            }
-        }
-        return contenidoFiltrado;
-    }
     @ResponseBody
     @GetMapping(value="/getPatients")
     public Object getPatients(HttpSession session){

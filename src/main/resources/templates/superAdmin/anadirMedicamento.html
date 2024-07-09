@@ -171,16 +171,44 @@
 										<div class="form-group">
 											<label>Imagen del Producto</label>
 											<div class="image-upload">
-												<input type="file" name="medicineFile" id="imagen">
+												<input type="file" name="medicineFile" id="fileInput" accept="image/*">
 												<div class="image-uploads">
-													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-													<h4>Arrastre y suelte un archivo a subir</h4>
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img"  >
+													<h4>Ingrese la imagen del medicamento</h4>
 												</div>
 												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
-
+											<div class="image-preview" style="display: none;">
+												<img id="previewImage" src="" alt="img">
+											</div>
 										</div>
 									</div>
+									<script>
+										const fileInput = document.getElementById('fileInput');
+										const previewImage = document.getElementById('previewImage');
+										const imagePreview = document.querySelector('.image-preview');
+
+										fileInput.addEventListener('change', function() {
+											const file = this.files[0];
+											const reader = new FileReader();
+
+											reader.onload = function(event) {
+												previewImage.src = event.target.result;
+												imagePreview.style.display = 'block';
+											};
+
+											reader.readAsDataURL(file);
+										});
+
+										// Posicionar el contenedor de la imagen previsualizada
+										const formGroup = document.querySelector('.form-group');
+										const imagePreviewPosition = {
+											top: formGroup.offsetTop + formGroup.offsetHeight + 10,
+											left: formGroup.offsetLeft
+										};
+										imagePreview.style.top = `${imagePreviewPosition.top}px`;
+										imagePreview.style.left = `${imagePreviewPosition.left}px`;
+									</script>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
 										<a th:href="@{/superAdmin/listaMedicamentos}" class="btn btn-cancel">Cancelar</a>

@@ -79,7 +79,7 @@
             <div class="dropdown-menu menu-drop-user">
                 <div class="profilename">
                     <div class="profileset">
-									<span class="user-img"><img th:src="@{'/imagenes/' + ${photo}}" alt="">
+									<span class="user-img"><img th:src="|/imagenes/${session.usuario.photo}|"alt="">
 									<span class="status online"></span></span>
                         <div class="profilesets">
                             <h6 th:text="${session.usuario.name} +' '+${session.usuario.lastName}"></h6>

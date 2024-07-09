@@ -425,8 +425,11 @@ public class PharmacistController {
                 int idUser = userRepository.encontrarId(sessionPharma.getEmail());
 
                 pharmacist.setPhoto(imagen.getOriginalFilename());
+                //pharmacistRepository.updatePhotoById(imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
                 pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
                 userRepository.actualizarEmail(email,idUser);
+
+                session.setAttribute("usuario",pharmacistRepository.findById(pharmacist.getIdFarmacista()).get());
 
                 return "redirect:verProfileFarmacista";
             }else{

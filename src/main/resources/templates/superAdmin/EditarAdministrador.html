@@ -32,6 +32,31 @@
 
 		<!-- Main CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+		<style>
+			.image-uploads {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				padding: 14px;
+				border: 1px solid #ddd;
+				border-radius: 10px;
+				background-color: #f9f9f9;
+			}
+
+			.img-thumbnail {
+				width: 100px;
+				height: 100px;
+				object-fit: cover;
+				border-radius: 50%;
+				margin-bottom: 10px;
+			}
+
+			.image-uploads h4 {
+				font-size: 10px;
+				color: #666;
+				margin-bottom: 4px;
+			}
+		</style>
 
 	</head>
 	<body>
@@ -127,7 +152,7 @@
 										<div class="form-group">
 											<label>Foto de Usuario</label>
 											<div class="image-upload">
-												<input type="file" name="adminFile">
+												<input type="file" name="adminFile" id="fileInput" accept="image/*">
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Seleccione una imagen</h4>
@@ -137,16 +162,56 @@
 										</div>
 									</div>
 									<div class="col-12">
+										<div class="product-list" style="display: none;">
+											<label>Imagen Nueva</label>
+											<ul class="row">
+												<li class="ps-0">
+													<div class="productviewset">
+														<div class="productviewsimg">
+															<img id="previewImage" src="" alt="img">
+														</div>
+														<!--
+														<div class="productviewscontent">
+															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
+														</div>
+														-->
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<script>
+										const fileInput = document.getElementById('fileInput');
+										const previewImage = document.getElementById('previewImage');
+										//
+										const productList = document.querySelector('.product-list');
+
+										fileInput.addEventListener('change', function() {
+											const file = this.files[0];
+											const reader = new FileReader();
+
+											reader.onload = function(event) {
+												previewImage.src = event.target.result;
+												productList.style.display = 'block'; // Jefecito esto muestra el icono de imagen nueva
+											};
+
+											reader.readAsDataURL(file);
+										});
+									</script>
+									<div class="col-12">
 										<div class="product-list">
+											<label>Imagen Anterior</label>
 											<ul class="row">
 												<li class="ps-0">
 													<div class="productviewset">
 														<div class="productviewsimg">
 															<img th:src="@{'/imagenes/' + ${adminSede.photo}}" alt="img">
 														</div>
+														<!--
 														<div class="productviewscontent">
 															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
 														</div>
+														-->
 													</div>
 												</li>
 											</ul>

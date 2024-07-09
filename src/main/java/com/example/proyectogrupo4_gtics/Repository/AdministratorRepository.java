@@ -29,7 +29,7 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
     void eliminarAdminPorId(int idAdminSede);
 
 
-    @Query(nativeQuery = true, value = "SELECT * FROM administrator WHERE state <> 'eliminado'")
+    @Query(nativeQuery = true, value = "SELECT * FROM administrator WHERE state <> 'eliminado' order by dateCreationAccount desc")
     List<Administrator> listarAdminValidos();
 
 

@@ -371,6 +371,8 @@ public class  SuperAdminController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+        }else{
+            medicineRepository.actualizarMedicineSinFoto(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), medicine.getIdMedicine());
         }
         //Calendar calendar = Calendar.getInstance();
 

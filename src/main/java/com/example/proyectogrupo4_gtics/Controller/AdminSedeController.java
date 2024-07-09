@@ -396,8 +396,8 @@ public class AdminSedeController {
                     throw new RuntimeException(e);
                 }
             }else{
-                model.addAttribute("imageError", "Debe añadir una imagen");
-                return "admin_sede/editFarmacist";
+                pharmacistRepository.updateDatosPorIdSinFoto(pharmacist.getName(), pharmacist.getLastName(), pharmacist.getEmail(), (administratorRepository.findById( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()).get().getSite()), pharmacist.getState(), pharmacist.getDistrit(), pharmacist.getIdFarmacista());
+                return "redirect:listaFarmacista";
             }
         }
     }
@@ -664,6 +664,8 @@ public class AdminSedeController {
                     Files.write(rutaCompleta, bytesImgPerfil);
                     admin.setPhoto(imagen.getOriginalFilename());
                     attr.addFlashAttribute("msg", "Foto de perfil actualizado correctamente");
+                    session.setAttribute("usuario",administratorRepository.findById(admin.getIdAdministrador()).get());
+
                     return "redirect:verPerfilAdminSede";
 
                 } catch (IOException e) {

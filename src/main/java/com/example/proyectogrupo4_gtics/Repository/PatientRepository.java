@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Patient findByName(String hineill);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM patient WHERE state <> 'eliminado'")
+    @Query(nativeQuery = true, value = "SELECT * FROM patient WHERE state <> 'eliminado' order by dateCreationAccount desc")
     List<Patient> listarPacientesValidos();
 
     @Transactional

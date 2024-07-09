@@ -174,10 +174,13 @@
 
                                     <div class="col-lg-12">
                                         <div class="form-group">
-                                            <label for="photoFarmacista">Foto de Usuario</label>
+                                            <label for="fileInput">Foto de Usuario</label>
                                             <div class="image-upload">
-                                                <input name="foto" id="photoFarmacista" type="file">
-                                                <div class="image-uploads">
+                                                <input name="foto" id="fileInput" accept="image/*" type="file">
+                                                <div class="image-preview" style="display: none; text-align: center; margin-bottom: 20px;">
+                                                    <img id="previewImage" src="" alt="img" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+                                                </div>
+                                                <div class="image-uploads" style="text-align: center; margin-bottom: 20px;">
                                                     <img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
                                                     <h4>Subir imagen</h4>
                                                 </div>
@@ -185,6 +188,32 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <script>
+                                        const fileInput = document.getElementById('fileInput');
+                                        const previewImage = document.getElementById('previewImage');
+                                        const imagePreview = document.querySelector('.image-preview');
+
+                                        fileInput.addEventListener('change', function() {
+                                            const file = this.files[0];
+                                            const reader = new FileReader();
+
+                                            reader.onload = function(event) {
+                                                previewImage.src = event.target.result;
+                                                imagePreview.style.display = 'block';
+                                            };
+
+                                            reader.readAsDataURL(file);
+                                        });
+
+                                        // Posicionar el contenedor de la imagen previsualizada
+                                        const formGroup = document.querySelector('.form-group');
+                                        const imagePreviewPosition = {
+                                            top: formGroup.offsetTop + formGroup.offsetHeight + 10,
+                                            left: formGroup.offsetLeft
+                                        };
+                                        imagePreview.style.top = `${imagePreviewPosition.top}px`;
+                                        imagePreview.style.left = `${imagePreviewPosition.left}px`;
+                                    </script>
                                     <div class="col-lg-12">
                                         <a th:href="@{'/adminSede/listaFarmacista'}" class="btn btn-cancel">Cancelar</a>
                                         <button type="submit" class="btn btn-submit me-2">Guardar</button>

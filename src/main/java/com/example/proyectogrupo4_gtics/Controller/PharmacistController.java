@@ -424,8 +424,8 @@ public class PharmacistController {
 
                 int idUser = userRepository.encontrarId(sessionPharma.getEmail());
 
-                pharmacist.setPhoto(imagen.getOriginalFilename());
-                //pharmacistRepository.updatePhotoById(imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
+                //pharmacist.setPhoto(imagen.getOriginalFilename());
+                pharmacistRepository.updatePhotoById(imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
                 pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
                 userRepository.actualizarEmail(email,idUser);
 

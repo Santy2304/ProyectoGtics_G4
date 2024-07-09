@@ -20,19 +20,21 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
 
     List<Medicine> findByIdMedicine(int idMedicine);
 
-    @Query(nativeQuery = true, value = "SELECT \n" +
-            "    m.idMedicine AS idMedicine, \n" +
-            "    m.name AS nombreMedicamento, \n" +
-            "    m.category AS categoria, \n" +
-            "    m.price AS precio, \n" +
-            "    m.photo AS photo, \n" +
-            "    COALESCE(SUM(l.stock), 0) AS cantidad \n" +
+    @Query(nativeQuery = true, value = "SELECT  \n" +
+            "m.idMedicine AS idMedicine,\n" +
+            "m.name AS nombreMedicamento,\n" +
+            "m.category AS categoria,\n" +
+            "m.price AS precio,\n" +
+            "m.photo AS photo,\n" +
+            "COALESCE(SUM(l.stock), 0) AS cantidad \n" +
             "FROM \n" +
-            "    medicine m \n" +
+            "medicine m \n" +
             "LEFT JOIN \n" +
-            "    lote l ON m.idMedicine = l.idMedicine \n" +
+            "lote l ON m.idMedicine = l.idMedicine\n" +
             "GROUP BY \n" +
-            "    m.idMedicine, m.name, m.category, m.price;")
+            "m.idMedicine, m.name, m.category, m.price\n" +
+            "ORDER BY \n" +
+            "m.idMedicine DESC;")
     List<CantidadMedicamentosDTO> obtenerDatosMedicamentos();
 
 
@@ -42,6 +44,10 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
     @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4, photo=?5  where idMedicine = ?6")
     void actualizarMedicine(String name, String category, BigDecimal price, String description, String photo, int idMedicine);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4  where idMedicine = ?5")
+    void actualizarMedicineSinFoto(String name, String category, BigDecimal price, String description, int idMedicine);
 
     /*Rol administrador de sede*/
     @Query(nativeQuery = true, value =

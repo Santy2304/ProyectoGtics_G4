@@ -60,10 +60,24 @@
 					<!-- /add -->
 					<div class="card">
 						<div class="card-body">
-							<form method="post" enctype="multipart/form-data" th:action="@{/superAdmin/agregarAdminSede}" th:object="${adminSede}">
+							<form method="post"   id="miFormulario" enctype="multipart/form-data" th:action="@{/superAdmin/agregarAdminSede}" th:object="${adminSede}">
 								<input type="hidden"  th:field="*{site}">
 
 								<div class="row">
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="dni">DNI</label>
+
+											<input class="form-control" type="text" id="dni" th:field="*{dni}"
+												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
+
+										</div>
+									</div>
+
+
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">Nombre</label>
@@ -75,28 +89,24 @@
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="lastName">Apellidos</label>
+
 											<input class="form-control" type="text" id="lastName" th:field="*{lastName}"
 												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-										</div>
-									</div>
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="dni">DNI</label>
-											<input class="form-control" type="text" id="dni" th:field="*{dni}"
-												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
-											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
-											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
+
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="correo">Correo</label>
+
 											<input class="form-control" type="text" id="correo" th:field="*{email}"
 												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
 											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
 										</div>
 									</div>
+
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="sede">Sede</label>
@@ -117,7 +127,7 @@
 										<div class="form-group">
 											<label for="image">Foto de Usuario</label>
 											<div class="image-upload" id="image">
-												<input type="file" name="adminFile" id="fileInput" accept="image/*">
+												<input readonly type="file" name="adminFile" id="fileInput" accept="image/*">
 												<div class="image-preview" style="display: none; text-align: center; margin-bottom: 20px;">
 													<img id="previewImage" src="" alt="img" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
 												</div>
@@ -167,6 +177,8 @@
 				</div>
 			</div>
         </div>
+
+
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->

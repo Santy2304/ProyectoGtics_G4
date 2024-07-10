@@ -33,6 +33,27 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+		<style>
+
+			.productdetails table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			.productdetails th {
+				width: 30%;
+				text-align: right;
+				padding: 10px;
+				border: 1px solid #ccc;
+			}
+
+			.productdetails td {
+				width: 70%;
+				padding: 10px;
+				border: 1px solid #ccc;
+			}
+		</style>
 		
     </head>
     <body>
@@ -73,47 +94,44 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="productdetails">
-											<ul class="product-bar">
-												<li>
-													<h4 style="background-color: #ced4da">Paciente</h4>
-													<input disabled="disabled" type="text" th:field="*{patient.name}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">DNI</h4>
-													<input disabled="disabled" type="text" th:field="*{patient.dni}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Dirección</h4>
-													<input disabled="disabled" type="text" th:field="*{patient.location}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Distrito</h4>
-													<input disabled="disabled" type="text" th:field="*{patient.distrit}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Teléfono</h4>
-													<input disabled="disabled"  type="text" th:field="*{phoneNumber}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Doctor</h4>
-													<input disabled="disabled" type="text" th:value="${purchaseOrder.getIdDoctor().getName() + ' ' + purchaseOrder.getIdDoctor().getLastName()}">
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Seguro</h4>
-													<input disabled="disabled" type="text" th:field="*{patient.insurance}">
-												</li>
-
-												<li>
-													<h4 style="background-color: #ced4da">Metodo de pago</h4>
-													<input disabled="disabled" type="text" th:field="*{tipoPago}">
-
-												</li>
-												<li>
-													<h4 style="background-color: #ced4da">Fecha</h4>
-													<input disabled="disabled" type="text" th:field="*{releaseDate}">
-												</li>
-
-											</ul>
+											<table style="width: 100%; border-collapse: collapse; border-radius: 10px; border: 1px solid #ccc;" >
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold; padding: 10px; width: 200px;">Paciente</th>
+													<td th:text="*{patient.name}" style="width: 50px;"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">DNI</th>
+													<td th:text="*{patient.dni}" style="width: 50px;"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Dirección</th>
+													<td th:text="*{patient.location}" style="width: 200px;"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Distrito</th>
+													<td th:text="*{patient.distrit}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Teléfono</th>
+													<td th:text="*{phoneNumber}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Doctor</th>
+													<td th:text="${purchaseOrder.getIdDoctor().getName() + ' ' + purchaseOrder.getIdDoctor().getLastName()}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Seguro</th>
+													<td th:text="*{patient.insurance}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Método de pago</th>
+													<td th:text="*{tipoPago}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Fecha</th>
+													<td th:text="*{releaseDate}"></td>
+												</tr>
+											</table>
 										</div>
 									</div>
 								</div>
@@ -160,8 +178,9 @@
 									<div class="slider-product-details">
 										<div class="owl-carousel owl-theme product-slide">
 											<div class="slider-product">
-												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
-												<h4>RECETA.pdf</h4>
+												<img th:if="${purchaseOrder.getPrescription() != null}" th:src="@{'/imagenes/' + ${purchaseOrder.getPrescription()}}" alt="img">
+												<img th:unless="${purchaseOrder.getPrescription() != null}" src="/assets_superAdmin/img/product/product69.jpg" alt="img">
+												<h4>RECETA</h4>
 											</div>
 											<div class="slider-product">
 												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">

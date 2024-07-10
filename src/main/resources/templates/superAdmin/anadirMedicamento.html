@@ -172,14 +172,14 @@
 											<label>Imagen del Producto</label>
 											<div class="image-upload">
 												<input type="file" name="medicineFile" id="fileInput" accept="image/*">
+												<div class="image-preview" style="display: none; text-align: center; margin-bottom: 20px;">
+													<img id="previewImage" src="" alt="img" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+												</div>
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img"  >
 													<h4>Ingrese la imagen del medicamento</h4>
 												</div>
 												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
-											</div>
-											<div class="image-preview" style="display: none;">
-												<img id="previewImage" src="" alt="img">
 											</div>
 										</div>
 									</div>

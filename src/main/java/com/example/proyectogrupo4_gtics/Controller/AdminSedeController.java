@@ -449,6 +449,7 @@ public class AdminSedeController {
 
         int[] cant3mesesMed = new int[]{medicineRepository.medicinaMayor3mesesCant("Pando 1"),medicineRepository.medicinaMayor3mesesCant("Pando 2"), medicineRepository.medicinaMayor3mesesCant("Pando 3"), medicineRepository.medicinaMayor3mesesCant("Pando 4") };
 
+        String[] medMayor7dias = new String[]{medicineRepository.medicinaMayor7("Pando 1"),medicineRepository.medicinaMayor7("Pando 2"),medicineRepository.medicinaMayor7("Pando 3"), medicineRepository.medicinaMayor7("Pando 4")};
 
         //To Json para el dashboard
         String montosJson = new Gson().toJson(montos);
@@ -456,10 +457,14 @@ public class AdminSedeController {
         String cant15diasMedJson = new Gson().toJson(cant15diasMed);
         String cant3mesesMedJson = new Gson().toJson(cant3mesesMed);
 
+        String list7diasMedJson = new Gson().toJson(medMayor7dias);
+
         model.addAttribute("montos",montosJson);
-        model.addAttribute("dias7",montosJson);
-        model.addAttribute("dias15",montosJson);
-        model.addAttribute("meses3",montosJson);
+        model.addAttribute("dias7",cant7diasMedJson);
+        model.addAttribute("dias15",cant15diasMedJson);
+        model.addAttribute("meses3",cant3mesesMedJson);
+
+        model.addAttribute("list7dias", list7diasMedJson);
 
         Double ganancia1 = medicineRepository.gananciaTotalPando1();
         int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();

@@ -262,10 +262,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title"> Cantidad de Medicamentos vendidos en los últimos 7 dias </h5>
+                            <div class="card-title">Bar Chart</div>
                         </div>
                         <div class="card-body">
-                            <div id="s-bar-7" class="chart-set"></div>
+                            <div id="morrisBar1" class="chart-set" th:attr="data-series7=${dias7}, lista7=${list7dias}"></div>
                         </div>
                     </div>
                 </div>
@@ -463,9 +463,6 @@
                 </div>
             </div>
 
-
-
-
         </div>
     </div>
 </div>
@@ -490,6 +487,11 @@
 <!-- Chart JS -->
 <script src="/assets_superAdmin/plugins/apexchart/apexcharts.min.js"></script>
 <script src="/assets_superAdmin/plugins/apexchart/chart-data.js"></script>
+
+<!-- Chart JS -->
+<script src="/assets_superAdmin/plugins/morris/raphael-min.js"></script>
+<script src="/assets_superAdmin/plugins/morris/morris.min.js"></script>
+<script src="/assets_superAdmin/plugins/morris/chart-data.js"></script>
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>

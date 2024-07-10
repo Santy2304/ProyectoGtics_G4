@@ -1,5 +1,8 @@
 $(function() {
 	'use strict';
+	const chartElement = document.querySelector("#morrisBar1");
+	const seriesData7 = JSON.parse(chartElement.getAttribute('data-series7'));
+	const listData7 = JSON.parse(chartElement.getAttribute('lista7'));
 	var morrisData = [{
 		y: '2006',
 		a: 12,
@@ -30,48 +33,20 @@ $(function() {
 		b: 18
 	}];
 	var morrisData2 = [{
-		y: '2006',
-		a: 12,
-		b: 18,
-		c: 20
-	}, {
-		y: '2007',
-		a: 18,
-		b: 22,
-		c: 25
-	}, {
-		y: '2008',
-		a: 15,
-		b: 18,
-		c: 24
-	}, {
-		y: '2009',
-		a: 25,
-		b: 28,
-		c: 30
-	}, {
-		y: '2010',
-		a: 30,
-		b: 35,
-		c: 38
-	}, {
-		y: '2011',
-		a: 18,
-		b: 28,
-		c: 40
-	}, {
-		y: '2012',
-		a: 12,
-		b: 18,
-		c: 28
-	}];
+		y: 'Medicamentos',
+		a: seriesData7[0],
+		b: seriesData7[1],
+		c: seriesData7[2],
+		d: seriesData7[3]
+	}]
 	new Morris.Bar({
 		element: 'morrisBar1',
-		data: morrisData,
+		data: morrisData2,
 		xkey: 'y',
-		ykeys: ['a', 'b'],
-		labels: ['Series A', 'Series B'],
-		barColors: ['#664dc9','#44c4fa'],
+		ykeys: ['a', 'b' ,'c' , 'd'],
+		//labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+		labels: listData7,
+		barColors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
 		gridTextSize: 11,
 		hideHover: 'auto',
 		resize: true

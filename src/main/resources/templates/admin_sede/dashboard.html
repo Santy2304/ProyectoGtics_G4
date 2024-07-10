@@ -262,7 +262,7 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <div class="card-title">Bar Chart</div>
+                            <div class="card-title">Medicamentos más solicitados en los últimos 7 días </div>
                         </div>
                         <div class="card-body">
                             <div id="morrisBar1" class="chart-set" th:attr="data-series7=${dias7}, lista7=${list7dias}"></div>
@@ -277,10 +277,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title"> Cantidad de Medicamentos vendidos en los últimos 15 dias </h5>
+                            <div class="card-title">Medicamentos más solicitados en los últimos 15 días </div>
                         </div>
                         <div class="card-body">
-                            <div id="s-bar-15" class="chart-set"></div>
+                            <div id="morrisBar2" class="chart-set" th:attr="data-series15=${dias15}, lista15=${list15dias}"></div>
                         </div>
                     </div>
                 </div>
@@ -288,10 +288,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Cantidad de Medicamentos vendidos en los últimos 3 meses</h5>
+                            <div class="card-title">Medicamentos más solicitados en los últimos 3 meses</div>
                         </div>
                         <div class="card-body">
-                            <div id="s-bar-3" class="chart-set"></div>
+                            <div id="morrisBar3" class="chart-set" th:attr="data-series3=${meses3}, lista3=${list3meses}"></div>
                         </div>
                     </div>
                 </div>

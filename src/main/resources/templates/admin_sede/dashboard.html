@@ -143,8 +143,8 @@
                             <span><img src="/assets_superAdmin/img/icons/dash3.svg" alt="img"></span>
                         </div>
                         <div class="dash-widgetcontent">
-                            <h5 ><span class="counters">Paracetamol</span></h5>
-                            <h6>Producto más vendido</h6>
+                            <h5 ><span class="counters" th:text="${medicinaMayor}"></span></h5>
+                            <h6>Medicamento más vendido</h6>
                         </div>
                     </div>
                 </div>
@@ -154,8 +154,8 @@
                             <span><img src="/assets_superAdmin/img/icons/dash4.svg" alt="img"></span>
                         </div>
                         <div class="dash-widgetcontent">
-                            <h5 ><span class="counters">Prolia Denusomab</span></h5>
-                            <h6>Producto menos vendido</h6>
+                            <h5 ><span class="counters" th:text="${medicinaMenor}"></span></h5>
+                            <h6>Medicamento menos vendido</h6>
                         </div>
                     </div>
                 </div>
@@ -176,11 +176,11 @@
                     <div class="dash-count das1">
                         <div class="dash-counts">
                             <h4>Sede Pando 2</h4>
-                            <h5>Medicamentos vendidos: 5500</h5>
-                            <h5>Monto: S/73,000.10</h5>
+                            <h5 th:text="|Medicamentos vendidos: ${cantVend2}|"></h5>
+                            <h5 th:text="|Ganancia: S/${ganancia2}0|"></h5>
                         </div>
-                        <div class="dash-imgs">
-                            <!i data-feather="user-check"><!/i>
+                        <div>
+                            <a href="/assets_superAdmin/img/farmacia.png"></a>
                         </div>
                     </div>
                 </div>
@@ -188,11 +188,11 @@
                     <div class="dash-count das2">
                         <div class="dash-counts">
                             <h4>Sede Pando 3</h4>
-                            <h5>Medicamentos vendidos: 4100 </h5>
-                            <h5>Monto: S/50,901.50</h5>
+                            <h5 th:text="|Medicamentos vendidos: ${cantVend3}|"></h5>
+                            <h5 th:text="|Ganancia: S/${ganancia3}0|"></h5>
                         </div>
-                        <div class="dash-imgs">
-                            <!i data-feather="file-text"><!/i>
+                        <div>
+                            <a href="/assets_superAdmin/img/farmacia.png"></a>
                         </div>
                     </div>
                 </div>
@@ -200,11 +200,11 @@
                     <div class="dash-count das3">
                         <div class="dash-counts">
                             <h4>Sede Pando 4</h4>
-                            <h5>Medicamentos vendidos: 1700 </h5>
-                            <h5>Monto: S/20,007.30</h5>
+                            <h5 th:text="|Medicamentos vendidos: ${cantVend4}|"></h5>
+                            <h5 th:text="|Ganancia: S/${ganancia4}0|"></h5>
                         </div>
-                        <div class="dash-imgs">
-                            <!i data-feather="file"><!/i>
+                        <div>
+                            <a href="/assets_superAdmin/img/farmacia.png"></a>
                         </div>
                     </div>
                 </div>
@@ -212,27 +212,64 @@
 
             <!-- Chart -->
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Ventas de las sedes del mes de Agosto</h5>
-                        </div>
-                        <div class="card-body">
-                            <div id="donut-chart" class="chart-set"></div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Ventas de las sedes en los últimos 30 días</h5>
+                            </div>
+                            <div class="card-body">
+                                <div id="donut-chart" class="chart-set" th:attr="data-series=${montos}"></div>
+                            </div>
+                            <!---
+                            <script>
+                                document.addEventListener("DOMContentLoaded", () => {
+                                    if (document.querySelector('#donut-chart')) {
+                                        const chartElement = document.querySelector("#donut-chart");
+                                        const seriesData = JSON.parse(chartElement.getAttribute('data-series'));
+
+                                        var donutChart = {
+                                            chart: {
+                                                height: 350,
+                                                type: 'donut',
+                                                toolbar: {
+                                                    show: false,
+                                                }
+                                            },
+                                            // colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
+                                            series: seriesData,
+                                            responsive: [{
+                                                breakpoint: 480,
+                                                options: {
+                                                    chart: {
+                                                        width: 200
+                                                    },
+                                                    legend: {
+                                                        position: 'bottom'
+                                                    }
+                                                }
+                                            }]
+                                        }
+
+                                        var donut = new ApexCharts(chartElement, donutChart);
+                                        donut.render();
+                                    }
+                                });
+                            </script>
+                            -->
                         </div>
                     </div>
-                </div>
                 <!-- Chart -->
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Ventas mensuales Sede 4</h5>
+                            <h5 class="card-title"> Cantidad de Medicamentos vendidos en los últimos 7 dias </h5>
                         </div>
                         <div class="card-body">
-                            <div id="s-line" class="chart-set"></div>
+                            <div id="s-bar-7" class="chart-set"></div>
                         </div>
                     </div>
                 </div>
+
                 <!-- /Chart -->
             </div>
 
@@ -240,10 +277,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Productos menos vendidos de la semana</h5>
+                            <h5 class="card-title"> Cantidad de Medicamentos vendidos en los últimos 15 dias </h5>
                         </div>
                         <div class="card-body">
-                            <div id="s-bar-l" class="chart-set"></div>
+                            <div id="s-bar-15" class="chart-set"></div>
                         </div>
                     </div>
                 </div>
@@ -251,10 +288,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title">Producto más vendidos de la semana</h5>
+                            <h5 class="card-title">Cantidad de Medicamentos vendidos en los últimos 3 meses</h5>
                         </div>
                         <div class="card-body">
-                            <div id="s-bar-M" class="chart-set"></div>
+                            <div id="s-bar-3" class="chart-set"></div>
                         </div>
                     </div>
                 </div>
@@ -264,9 +301,8 @@
 
             <!-- /Chart -->
 
-
             <!-------------------OLAAA--->
-
+            <!--
             <div class="row">
                 <div class="col-md-6">
                     <div class="card">
@@ -317,8 +353,9 @@
                                     </li>
 
                                 </ul>
+                               -->
                                 <!-- wizard-nav -->
-
+                                <!--
                                 <div id="bar" class="progress mt-4">
                                     <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
                                 </div>
@@ -333,9 +370,13 @@
 
                             </div>
                         </div>
+                        -->
                         <!-- end card body -->
+            <!--
                     </div>
+                    -->
                     <!-- end card -->
+            <!--
                 </div>
 
                 <div class="col-md-6">
@@ -387,8 +428,9 @@
                                     </li>
 
                                 </ul>
+                                -->
                                 <!-- wizard-nav -->
-
+                                <!--
                                 <div id="bar_1" class="progress mt-4">
                                     <div class="progress-bar bg-success progress-bar-striped progress-bar-animated"></div>
                                 </div>
@@ -400,13 +442,19 @@
                                         <img src="/assets_superAdmin/img/mapa_tracking.jpg" class="img-fluid" alt="image">
                                     </a>
                                 </div>
-
+                                 -->
+            <!--
                             </div>
                         </div>
+                        -->
                         <!-- end card body -->
+            <!--
                     </div>
+                    -->
                     <!-- end card -->
+            <!--
                 </div>
+                -->
 
                 <div class="row">
                     <div class="page-btn">

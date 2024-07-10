@@ -327,7 +327,7 @@ chart.render();
 }
 
 // Simple Bar
-if($('#s-bar-l').length > 0 ){
+if($('#s-bar-7').length > 0 ){
 var sBar = {
     chart: {
         height: 350,
@@ -336,25 +336,26 @@ var sBar = {
           show: false,
         }
     },
-    colors: ['#4361ee'],
     plotOptions: {
         bar: {
             horizontal: true,
+            colors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
         }
     },
     dataLabels: {
         enabled: false
     },
     series: [{
-        data: [2, 3, 5, 8]
+        data: [2, 3, 5, 8],
+
     }],
     xaxis: {
-        categories: ['Prolia Denusomab', 'Adiro 100', 'Prednisona', 'diclofenaco'],
+        categories: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
     }
 }
 
 var chart = new ApexCharts(
-    document.querySelector("#s-bar-l"),
+    document.querySelector("#s-bar-7"),
     sBar
 );
 
@@ -362,8 +363,8 @@ chart.render();
 }
 
 // Simple Bar M
-    if($('#s-bar-M').length > 0 ){
-        var sBarM = {
+    if($('#s-bar-15').length > 0 ){
+        var sBar15 = {
             chart: {
                 height: 350,
                 type: 'bar',
@@ -371,7 +372,7 @@ chart.render();
                     show: false,
                 }
             },
-            colors: ['#4361ee'],
+            colors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
             plotOptions: {
                 bar: {
                     horizontal: true,
@@ -384,16 +385,55 @@ chart.render();
                 data: [30,26, 25, 20]
             }],
             xaxis: {
-                categories: ['Paracetamol', 'Panadol', 'Gel limpiador  Cerave Foaming', 'Vick primera defensa'],
+                categories: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
             }
         }
 
-        var chartM = new ApexCharts(
-            document.querySelector("#s-bar-M"),
-            sBarM
+        var chart15 = new ApexCharts(
+            document.querySelector("#s-bar-15"),
+            sBar15
         );
 
-        chartM.render();
+        chart15.render();
+    }
+
+    // Simple Bar 3
+    if($('#s-bar-3').length > 0 ){
+        var data = [30, 26, 25, 20];
+        var colors = ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'];
+
+        var sBar3 = {
+            chart: {
+                height: 350,
+                type: 'bar',
+                toolbar: {
+                    show: false,
+                },
+                colors:colors,
+            },
+            //colors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
+            plotOptions: {
+                bar: {
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            series: [{
+                data: data
+            }],
+            xaxis: {
+                categories: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+            }
+        }
+
+        var chart3 = new ApexCharts(
+            document.querySelector("#s-bar-3"),
+            sBar3
+        );
+
+        chart3.render();
     }
 // Mixed Chart
 if($('#mixed-chart').length > 0 ){
@@ -449,37 +489,38 @@ chart.render();
 
 // Donut Chart
 
-if($('#donut-chart').length > 0 ){
-var donutChart = {
-    chart: {
-        height: 350,
-        type: 'donut',
-        toolbar: {
-          show: false,
-        }
-    },
-    // colors: ['#4361ee', '#888ea8', '#e3e4eb', '#d3d3d3'],
-    series: [44, 55, 41, 17],
-    responsive: [{
-        breakpoint: 480,
-        options: {
+    if(document.querySelector('#donut-chart')){
+
+        const chartElement = document.querySelector("#donut-chart");
+        const seriesData = JSON.parse(chartElement.getAttribute('data-series'));
+        var donutChart = {
             chart: {
-                width: 200
+                height: 350,
+                type: 'donut',
+                toolbar: {
+                    show: false,
+                }
             },
-            legend: {
-                position: 'bottom'
-            }
+            colors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
+            series: seriesData,
+            labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
         }
-    }]
-}
 
-var donut = new ApexCharts(
-    document.querySelector("#donut-chart"),
-    donutChart
-);
+        var donut = new ApexCharts(chartElement,donutChart);
 
-donut.render();
-}
+        donut.render();
+    }
 
 // Radial Chart
 if($('#radial-chart').length > 0 ){

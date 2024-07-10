@@ -8,6 +8,7 @@ import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -412,16 +413,65 @@ public class AdminSedeController {
     //Se ve el dashboard de admin de sede
     @GetMapping("/dashboardAdminSede")
     public String verDashboard(Model model , HttpSession session ) {
-        Administrator admin = (Administrator)session.getAttribute("usuario");
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
+        Administrator admin = new Administrator();
+        String idAdministrator = "" + ((Administrator) session.getAttribute("usuario")).getIdAdministrador();
+        admin = administratorRepository.getByIdAdministrador(Integer.parseInt(idAdministrator));
         model.addAttribute("sede", admin.getSite());
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
 
+        model.addAttribute("medicinaMayor", medicineRepository.medicinaMayor(admin.getSite()));
+        model.addAttribute("medicinaMenor", medicineRepository.medicinaMenor(admin.getSite()));
+
+        model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(admin.getIdAdministrador()));
+
+        model.addAttribute("med7dias1", medicineRepository.medicinaMayor7("Pando 1"));
+        model.addAttribute("med7dias2", medicineRepository.medicinaMayor7("Pando 2"));
+        model.addAttribute("med7dias3", medicineRepository.medicinaMayor7("Pando 3"));
+        model.addAttribute("med7dias4", medicineRepository.medicinaMayor7("Pando 4"));
+
+        model.addAttribute("med15dias1", medicineRepository.medicinaMayor15("Pando 1"));
+        model.addAttribute("med15dias2", medicineRepository.medicinaMayor15("Pando 2"));
+        model.addAttribute("med15dias3", medicineRepository.medicinaMayor15("Pando 3"));
+        model.addAttribute("med15dias4", medicineRepository.medicinaMayor15("Pando 4"));
+
+        model.addAttribute("med3meses1", medicineRepository.medicinaMayor3meses("Pando 1"));
+        model.addAttribute("med3meses2", medicineRepository.medicinaMayor3meses("Pando 2"));
+        model.addAttribute("med3meses3", medicineRepository.medicinaMayor3meses("Pando 3"));
+        model.addAttribute("med3meses4", medicineRepository.medicinaMayor3meses("Pando 4"));
+
+        int[] montos = new int[]{Integer.parseInt(medicineRepository.monto1mesSede("Pando 1")), Integer.parseInt(medicineRepository.monto1mesSede("Pando 2")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 3")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 4"))};
+
+        int[] cant7diasMed = new int[]{medicineRepository.medicinaMayor7Cant("Pando 1"),medicineRepository.medicinaMayor7Cant("Pando 2"), medicineRepository.medicinaMayor7Cant("Pando 3"), medicineRepository.medicinaMayor7Cant("Pando 4") };
+
+        int[] cant15diasMed = new int[]{medicineRepository.medicinaMayor15Cant("Pando 1"),medicineRepository.medicinaMayor15Cant("Pando 2"), medicineRepository.medicinaMayor15Cant("Pando 3"), medicineRepository.medicinaMayor15Cant("Pando 4") };
+
+        int[] cant3mesesMed = new int[]{medicineRepository.medicinaMayor3mesesCant("Pando 1"),medicineRepository.medicinaMayor3mesesCant("Pando 2"), medicineRepository.medicinaMayor3mesesCant("Pando 3"), medicineRepository.medicinaMayor3mesesCant("Pando 4") };
+
+
+        //To Json para el dashboard
+        String montosJson = new Gson().toJson(montos);
+        String cant7diasMedJson = new Gson().toJson(cant7diasMed);
+        String cant15diasMedJson = new Gson().toJson(cant15diasMed);
+        String cant3mesesMedJson = new Gson().toJson(cant3mesesMed);
+
+        model.addAttribute("montos",montosJson);
+        model.addAttribute("dias7",montosJson);
+        model.addAttribute("dias15",montosJson);
+        model.addAttribute("meses3",montosJson);
 
         Double ganancia1 = medicineRepository.gananciaTotalPando1();
         int cantVend1 = medicineRepository.cantMedicamentosVendidosPando1();
+
+        Double ganancia2 = medicineRepository.gananciaTotalPando2();
+        int cantVend2 = medicineRepository.cantMedicamentosVendidosPando2();
+
+        Double ganancia3 = medicineRepository.gananciaTotalPando3();
+        int cantVend3 = medicineRepository.cantMedicamentosVendidosPando3();
+
+        Double ganancia4 = medicineRepository.gananciaTotalPando4();
+        int cantVend4 = medicineRepository.cantMedicamentosVendidosPando4();
 
 
         if(cantVend1<1){
@@ -430,6 +480,15 @@ public class AdminSedeController {
         }
         model.addAttribute("ganancia1",ganancia1);
         model.addAttribute("cantVend1", cantVend1);
+
+        model.addAttribute("ganancia2",ganancia2);
+        model.addAttribute("cantVend2", cantVend2);
+
+        model.addAttribute("ganancia3",ganancia3);
+        model.addAttribute("cantVend3", cantVend3);
+
+        model.addAttribute("ganancia4",ganancia4);
+        model.addAttribute("cantVend4", cantVend4);
 
 
         ///Solo se va a quedar estos códigos, los demás querys son de prueba, porque la bd no está llena en las demás sedes y hay error con el código

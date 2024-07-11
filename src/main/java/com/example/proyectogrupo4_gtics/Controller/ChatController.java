@@ -73,8 +73,8 @@ public class ChatController {
 
 
 //De farmacista a Paciente
-@MessageMapping(value = "/chatPharmacist")
-public void sendMessagePharmacistToPatient(Message chatMessage) {
+    @MessageMapping(value = "/chatPharmacist")
+    public void sendMessagePharmacistToPatient(Message chatMessage) {
     User sender = userRepository.findByEmail(chatMessage.getSender());
     User  receiver = userRepository.getById(chatMessage.getRecipient());
     //Si no existe debemos crear un chat q contenga
@@ -137,8 +137,6 @@ public void sendMessagePharmacistToPatient(Message chatMessage) {
     simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
 
 }
-
-
 //De paciente a farmacista
     @MessageMapping(value = "/chat")
     public void sendMessage(Message chatMessage) {

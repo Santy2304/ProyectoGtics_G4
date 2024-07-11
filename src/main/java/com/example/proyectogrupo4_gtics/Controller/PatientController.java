@@ -91,7 +91,7 @@ public class PatientController {
         this.pharmacistRepository = pharmacistRepository;
         this.dialogflow = dialogflow;
     }
-    private String rutaAbsoluta = "C://SaintMedic//imagenes";
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
 
     @GetMapping("/sessionPatient")
     public String iniciarSesion( Model model, @RequestParam("idUser") String id){
@@ -393,6 +393,623 @@ public class PatientController {
 */
 
 
+
+
+    @GetMapping("/verTicket")
+    public String verTicket(@RequestParam("idCompra") int idCompra , Model model){
+        model.addAttribute("idCompra",idCompra);
+        return "pacient/ticketOrdenCompra";
+    }
+    ///////////////////// TERMINA ORDEN DE COMPRA//////////////
+    @GetMapping("/verHistorial")
+    public String verHistorial( Model model, HttpSession session){
+        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
+        model.addAttribute("listaCompras",comprasPorPaciente);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        return "pacient/historialNuevo";
+    }
+/////////////////////////////////////////////////////////
+    @GetMapping("/verPerfilPaciente")
+    public String verPerfilPaciente(  Model model, HttpSession session){
+        Patient patient=  (Patient)session.getAttribute("usuario");
+        model.addAttribute("paciente" , patient);
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        return "pacient/perfilNuevo";
+    }
+    @GetMapping("/verNoti")
+    public String verNotifications(Model model, HttpSession session){
+        Patient patient = ((Patient)session.getAttribute("usuario"));
+        model.addAttribute("nombre", patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+        User user = userRepository.findByEmail(patient.getEmail());
+
+        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesUser(user.getId()));
+        return "pacient/notificacionesPaciente";
+    }
+    @GetMapping("/verPrincipalPaciente")
+    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede , HttpSession session ){
+        System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
+        Patient patient = (Patient) httpSesion.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        return "pacient/verPrincipalNuevo";
+    }
+    //No funciona bien
+
+    @GetMapping("/verTracking")
+    public String verTrackingPaciente( Model model, HttpSession session){
+        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
+        model.addAttribute("listaTracking",tracking);
+        Patient patient = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        return "pacient/trackingNuevo";
+    }
+    @GetMapping("/verTrackingSolitario")
+    public String verTrackingPersonal(@RequestParam("idPurchase") int idPurchase , Model model, HttpSession session){
+
+        Patient patient=  (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+        Tracking tracking =  purchaseOrderRepository.findById(idPurchase).get().getIdtracking();
+        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idPurchase));
+
+        model.addAttribute("idPurchase",idPurchase);
+        model.addAttribute("Tracking",tracking);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        return "pacient/TrackingSolitario";
+    }
+    @PostMapping("/editarPerfilPaciente")
+    public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen,@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
+        //Actualizar datos cambiados
+        System.out.println(patient.getIdPatient());
+        System.out.println(patient.getLocation());
+        System.out.println(patient.getInsurance());
+        Patient patient1 = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient1.getName());
+        model.addAttribute("apellido",patient1.getLastName());
+        if (bindingResult.hasErrors()) {
+            return "pacient/perfilNuevo";
+        } else {
+            if (imagen.isEmpty()) {
+                model.addAttribute("imageError", "Debe agregar una imagen");
+                return "pacient/perfilNuevo";
+            }
+            else {
+                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+                try {
+                    byte[] bytesImgPerfil = imagen.getBytes();
+                    String fileOriginalName = imagen.getOriginalFilename();
+
+                    long fileSize = imagen.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "pacient/perfilNuevo";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "pacient/perfilNuevo";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    //patient.setPhoto(imagen.getOriginalFilename());
+                    attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                    return "redirect:verPerfilPaciente";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+    @GetMapping(value = {"/verInformacionPago",""})
+    public String verInfoPago(  Model model, HttpSession session){
+        Patient patient=  (Patient) session.getAttribute("usuario");
+        model.addAttribute("paciente" , patient);
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        List<CreditCard> listaOculta = new ArrayList<>();
+
+        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.getIdPatient())){
+
+            String numeroOculto = formatCardNumber(creditCardOculta.getNumberCard());
+            creditCardOculta.setNumberCard(numeroOculto);
+            listaOculta.add(creditCardOculta);
+
+        }
+
+        model.addAttribute("listarTarjetasOculta",listaOculta);
+
+        return "pacient/informacionPago";
+    }
+    private String formatCardNumber(String cardNumber) {
+        if (cardNumber.length() != 16) {
+            return cardNumber; // Devuelve el número tal cual si no tiene 16 dígitos
+        }
+        return cardNumber.substring(0, 4) + " **** **** " + cardNumber.substring(12);
+    }
+    @PostMapping("/agregarTarjetaUsuario")
+    public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
+
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+
+        CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(creditCard.getNumberCard());
+
+        if (creditCardOptional!=null){
+            int medDb = creditCardOptional.getExpireMonth();
+            int yearDb = creditCardOptional.getExpireYear();
+            if (creditCardOptional.getCvv().equals(creditCard.getCvv()) && medDb==month && yearDb==year && creditCardOptional.getIdPatient()==null){
+                    creditCardOptional.setIdPatient(patient);
+                    creditCardOptional.setPrefered(true);
+                    creditCardRepository.save(creditCardOptional);
+                    List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
+                    for(CreditCard tarjeta:listaTarjetas){
+                        if (!creditCard.getNumberCard().equals(tarjeta.getNumberCard())){
+                            tarjeta.setPrefered(false);
+                            creditCardRepository.save(tarjeta);
+                        }
+                    }
+            }else{
+                attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+            }
+
+        }else{
+            attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+        }
+
+        return "redirect:verInformacionPago";
+    }
+    @GetMapping("/marcarTarjetaPreferida")
+    public String marcarTarjetaFavorita(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+        Patient patient=  (Patient)session.getAttribute("usuario");
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
+        creditCardRepository.preferirPorid(idTarjeta);
+        for (CreditCard tarjeta: listaTarjetas){
+            if(tarjeta.getIdCredit()!=idTarjeta){
+                tarjeta.setPrefered(false);
+                creditCardRepository.save(tarjeta);
+            }
+        }
+
+        return "redirect:verInformacionPago";
+    }
+    @GetMapping("/eliminarTarjeta")
+    public String eliminarTarjeta(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
+       CreditCard creditCard = creditCardRepository.findById(idTarjeta).get();
+       creditCard.setIdPatient(null);
+       creditCardRepository.save(creditCard);
+        return "redirect:verInformacionPago";
+    }
+    @PostMapping("/pagarFinal")
+    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam(value = "recurrent", required = false) String recurrent,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
+        Patient patient = (Patient) httpSession.getAttribute("usuario");
+        String[] parts = fechaV.split("/");
+        int month = Integer.parseInt(parts[0]);
+        int year = 2000 + Integer.parseInt(parts[1]);
+        if (tarjetaNueva.isEmpty()){
+            CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
+            int medDb = creditCard.getExpireMonth();
+            int yearDb = creditCard.getExpireYear();
+            if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
+
+                PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
+                if (recurrent.equals("true")){
+                    purchaseOrder.setRecurrent(true);
+                }
+
+                purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
+            }
+        }else{
+            CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
+            if (creditCardOptional!=null){
+                int medDb = creditCardOptional.getExpireMonth();
+                int yearDb = creditCardOptional.getExpireYear();
+
+                if (creditCardOptional.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                    purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                }else{
+                    attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                    return "redirect:verDatosPago?idPurchase="+idPurchase;
+                }
+            }else{
+                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
+                return "redirect:verDatosPago?idPurchase="+idPurchase;
+            }
+        }
+        return "redirect:verHistorial";
+    }
+    //Vista principal que requiere interacción con los webservices Uu
+    @GetMapping(value = "/compras")
+    public String verPosPatient(Model model , HttpSession session ){
+        Patient patient = (Patient)session.getAttribute("usuario");
+        //El queri para obtener la cantidad de medicamentos está bien
+        model.addAttribute("nombre",patient.getName());
+        model.addAttribute("apellido",patient.getLastName());
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
+
+        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
+        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
+        return "pacient/posPacienteNuevo";
+    }
+    //Filtro de la vista principal
+    @PostMapping(value="/filtroMedicinas")
+    public String verPostPatienteFiltrado (Model model , HttpSession session, @RequestParam("medicamento") String medicamento ){
+        Patient patient = (Patient)session.getAttribute("usuario");
+        List<MedicamentosPorSedeDTO> lista = medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() );
+        ArrayList<MedicamentosPorSedeDTO> listaFiltrada = new ArrayList<MedicamentosPorSedeDTO>();
+        if(!medicamento.isEmpty()) {
+            for (MedicamentosPorSedeDTO m : lista) {
+                if (m.getNombreMedicamento().contains(medicamento)) {
+                    listaFiltrada.add(m);
+                }
+            }
+        }else{
+            for (MedicamentosPorSedeDTO m : lista) {
+                    listaFiltrada.add(m);
+            }
+        }
+        //El queri para obtener la cantidad de medicamentos está bien
+        model.addAttribute("listamedicamentosPatient",listaFiltrada);
+        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
+        return "pacient/posPacienteNuevo";
+    }
+    //WebServices de la vista de paciente para compras:
+
+    //Clase extra necesaria
+    public class Medicamento {
+        private String nombre;
+        private String precio;
+        private String cantidad;
+        private String idMedicina;
+        public String getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+
+        public String getPrecio() {
+            return precio;
+        }
+
+        public void setPrecio(String precio) {
+            this.precio = precio;
+        }
+
+        public String getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(String cantidad) {
+            this.cantidad = cantidad;
+        }
+
+        public String getIdMedicina() {
+            return idMedicina;
+        }
+
+        public void setIdMedicina(String idMedicina) {
+            this.idMedicina = idMedicina;
+        }
+    }
+    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    public void changeTrackingPurchase() {
+        LocalDateTime now = LocalDateTime.now();
+        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
+
+        for (PurchaseOrder purchaseOrder : purchaseOrders) {
+
+            if(!purchaseOrder.getTipo().equals("Preorden")){
+                String tracking = purchaseOrder.getTracking();
+
+                Tracking trackingReal = purchaseOrder.getIdtracking();
+                if(tracking !=null){
+                    switch (tracking){
+                        case ("Solicitado"):
+                            if (trackingReal.getEnProcesoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Proceso",purchaseOrder.getId());
+                            }
+                            break;
+
+                        case ("En Proceso"):
+                            if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Empaquetando",purchaseOrder.getId());
+                            }
+                            break;
+                        case ("Empaquetando"):
+                            if (trackingReal.getEnRutaDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("En Ruta",purchaseOrder.getId());
+                            }
+                            break;
+
+                        case ("En Ruta"):
+                            if (trackingReal.getEntregadoDate().isBefore(now)){
+                                purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
+                                Notifications notifications = new Notifications();
+                                notifications.setDate(LocalDateTime.now());
+                                notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
+                                String email = purchaseOrder.getPatient().getEmail();
+                                notifications.setIdUsers(userRepository.findByEmail(email));
+                                notificationsRepository.save(notifications);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+        }
+    }
+    @Scheduled(fixedRate = 600000)
+    public void notificacionRecurrente(){
+
+        for (PurchaseOrder purchaseOrder: purchaseOrderRepository.findAll()){
+
+            if(purchaseOrder.getRecurrent() != null){
+                if (purchaseOrder.getRecurrent()){
+                    List<Lote> listaLotesCompra = loteRepository.listarLotesPorCompra(purchaseOrder.getId());
+
+                    for (Lote lote: listaLotesCompra){
+
+                        if (lote.getExpireDate().minusDays(10).isBefore(LocalDate.now()) || lote.getExpireDate().minusDays(5).isBefore(LocalDate.now())){
+                            Notifications notification = new Notifications();
+                            notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está ´por expirar; le recomedamos generar una nueva orden de compra." );
+                            User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
+                            notification.setIdUsers(user);
+                            notification.setDate(LocalDateTime.now());
+                            notificationsRepository.save(notification);
+                        }
+                    }
+                    purchaseOrder.setRecurrent(false);
+                    purchaseOrderRepository.save(purchaseOrder);
+                }
+            }
+
+        }
+    }
+    @GetMapping(value="/verChatBot")
+    public String verChatBot(){
+        return "pacient/chatBot";
+    }
+    //Con estos metodos cargamos los efectos y dialogos del chatBot
+    //
+
+
+    //SERVICIOSSSSS-----------------------------
+    @GetMapping(value="/requestChatBot")
+    @ResponseBody
+    public Object requestChatBot(@RequestParam(value="message", required = true) String message, HttpSession session){
+        try {
+            //Aqui consumimos el servicio de dialog flow
+            LinkedHashMap<String, Object> linked = new LinkedHashMap<>();
+            linked.put("status", "ok");
+            linked.put("content", dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail()));
+            //RECORDAR Q EN LA VISTA SE ESPERA ESTE RESULTADO
+            //                createMessageReceiver(response.content.message , obtenerHoraActual);
+            return ResponseEntity.ok(linked);
+        }catch(Exception error) {
+            error.printStackTrace();
+            LinkedHashMap<String, Object> response =  new LinkedHashMap<>();
+            response.put("status", "error");
+            response.put("date", LocalDateTime.now());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @ResponseBody
+    @GetMapping(value="/getCorreo")
+    public Object getCorreo(HttpSession session){
+        String sede = ((Site) session.getAttribute("sede")).getName();
+        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+        for(Pharmacist p : listaFarmacista){
+            if(p.getSite().equals(sede)){
+                LinkedHashMap<String , Object > hasMap = new LinkedHashMap<>();
+                hasMap.put("correo", p.getEmail());
+                return ResponseEntity.ok(hasMap);
+            }
+        }
+        return ResponseEntity.badRequest();
+    }
+    @GetMapping(value="/addCarritoVenta")
+    public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            if (idProducto != null) {
+                Patient p = (Patient) session.getAttribute("usuario");
+                //Verficamos que no este repetido
+                List<Carrito> lista =  carritoRepository.getMedicineListByPatient(p.getIdPatient());
+                boolean existeMecidina =false;
+                for(Carrito c : lista){
+                    if(c.getIdMedicine().getIdMedicine() == idProduct){
+                        existeMecidina = true;
+                    }
+                }
+                if(!existeMecidina){
+                    Carrito car  = new Carrito();
+                    car.setCantidad(1);
+                    car.setIdPatient(p);
+                    car.setIdMedicine(medicineRepository.findById(Integer.parseInt(idProducto)).get());
+                    carritoRepository.save(car);
+                    HashMap<String, Object> okey = new HashMap<>();
+                    okey.put("Succes", "Todo good");
+                    return ResponseEntity.ok(okey);
+                }else{
+                    System.out.println("pepepe");
+                    HashMap<String, Object> er = new HashMap<>();
+                    er.put("error", "se repite el medicamento en la lista");
+                    return ResponseEntity.badRequest().body(er);
+                }
+
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    @GetMapping(value="/getAllCarrito")
+    public Object getAllCarrito( HttpSession session){
+        try {
+            Patient p =  (Patient)  session.getAttribute("usuario");
+            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    @GetMapping(value="/updateCantidad")
+    @ResponseBody
+    public Object updateCantidadA(@RequestParam("idProduct") String idProduct, @RequestParam("newCantidad") String newCantidad,  HttpSession session){
+        try {
+            Patient p =  (Patient)  session.getAttribute("usuario");
+            List<Carrito> list = carritoRepository.getMedicineListByPatient(p.getIdPatient());
+            Carrito aux= new Carrito();
+            for(Carrito c:  list){
+                if(c.getIdMedicine().getIdMedicine()== Integer.parseInt(idProduct)){
+                    aux= c;
+                }
+            }
+            aux.setCantidad(Integer.parseInt(newCantidad));
+            carritoRepository.save(aux);
+            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    @GetMapping(value="/vaciarCarrito")
+    public Object deleteCarrito( HttpSession session){
+        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
+        ArrayList<Integer> listaId = new ArrayList<>();
+        for(Carrito c : list ){
+            listaId.add (c.getId());
+        }
+        carritoRepository.deleteAllByIdInBatch(listaId);
+        return "redirect:compras";
+    }
+    @GetMapping(value="/deleteProductCarritoVenta")
+    public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+        try {
+            int idProduct = Integer.parseInt(idProducto);
+            Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
+            if (idProducto != null) {
+                Patient p = (Patient) session.getAttribute("usuario");
+                List<Carrito> listaCart = carritoRepository.getMedicineListByPatient(p.getIdPatient());
+                Carrito cat =  new Carrito();
+                for(Carrito c : listaCart){
+                    if(c.getIdMedicine().getIdMedicine() == m.getIdMedicine()){
+                        cat =  c;
+                    }
+                }
+                carritoRepository.deleteById(cat.getId());
+                HashMap<String, Object> okey = new HashMap<>();
+                okey.put("Succes", "Todo good");
+                return ResponseEntity.ok(okey);
+            } else {
+                System.out.println("Hola 2");
+                HashMap<String, Object> er = new HashMap<>();
+                er.put("error", "Debes ingresar el nombre del recurso");
+                er.put("date", "" + LocalDateTime.now());
+                return ResponseEntity.badRequest().body(er);
+            }
+        } catch (Exception err) {
+            System.out.println("ErrorFatal");
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "errorHola");
+            er.put("date", "" + LocalDateTime.now());
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+    @RequestMapping("/verSingleProduct")
+    @ResponseBody
+    public ArrayList<String>  verSingleProductPaciente(@RequestParam String idMedicine , Model model){
+        Optional<Medicine> medicine  = medicineRepository.findById(Integer.parseInt(idMedicine));
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        // Convertir el objeto a JSON
+        try {
+            json = objectMapper.writeValueAsString(medicine.get());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(json);
+        response.add(json);
+        return response;
+    }
+    @RequestMapping("/verDetalleCompra")
+    @ResponseBody
+    public ArrayList<String> verDetalleCompra( @RequestParam("idPurchase") int idPurchase , Model model , HttpSession session){
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        for(MeciamentosPorCompraDTO m : meciamentosPorCompra){
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(m);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(json);
+            response.add(json);
+        }
+        return response;
+    }
     @GetMapping("/getChat")
     @ResponseBody
     public Object getChat( HttpSession session){
@@ -426,8 +1043,6 @@ public class PatientController {
             return ResponseEntity.badRequest().body(like);
         }
     }
-
-
     @GetMapping(value="/verificarCorreoPharmacist")
     @ResponseBody
     public Object verificarCorreoPharmacist(HttpSession session ,@RequestParam(value="email") String email){
@@ -446,7 +1061,6 @@ public class PatientController {
             return ResponseEntity.badRequest();
         }
     }
-
     @PostMapping("/crearOrdenCompra")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> agregarOrdenCompra(
@@ -599,655 +1213,4 @@ public class PatientController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-
-
-
-
-
-
-    @GetMapping("/verTicket")
-    public String verTicket(@RequestParam("idCompra") int idCompra , Model model){
-        model.addAttribute("idCompra",idCompra);
-        return "pacient/ticketOrdenCompra";
-    }
-    ///////////////////// TERMINA ORDEN DE COMPRA//////////////
-    @GetMapping("/verHistorial")
-    public String verHistorial( Model model, HttpSession session){
-        List<PurchasePorPatientDTO> comprasPorPaciente = purchaseOrderRepository.obtenerComprarPorPaciente(((Patient)session.getAttribute("usuario")).getIdPatient());
-        model.addAttribute("listaCompras",comprasPorPaciente);
-        Patient patient = (Patient) session.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        return "pacient/historialNuevo";
-    }
-
-/////////////////////////////////////////////////////////
-
-    @GetMapping("/verPerfilPaciente")
-    public String verPerfilPaciente(  Model model, HttpSession session){
-        Patient patient=  (Patient)session.getAttribute("usuario");
-        model.addAttribute("paciente" , patient);
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        return "pacient/perfilNuevo";
-    }
-
-
-    @GetMapping("/verNoti")
-    public String verNotifications(Model model, HttpSession session){
-        Patient patient = ((Patient)session.getAttribute("usuario"));
-        model.addAttribute("nombre", patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-        User user = userRepository.findByEmail(patient.getEmail());
-
-        model.addAttribute("listaNotificaciones",notificationsRepository.notificacionesUser(user.getId()));
-        return "pacient/notificacionesPaciente";
-    }
-
-
-    @GetMapping("/verPrincipalPaciente")
-    public String verPrincipalPaciente(HttpSession httpSesion , Model model , @SessionAttribute String idSede , HttpSession session ){
-        System.out.println("Hola yo soy " + ( (Patient) httpSesion.getAttribute("usuario")).getName() );
-        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
-        Patient patient = (Patient) httpSesion.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        return "pacient/verPrincipalNuevo";
-    }
-    //No funciona bien
-
-
-    @RequestMapping("/verDetalleCompra")
-    @ResponseBody
-    public ArrayList<String> verDetalleCompra( @RequestParam("idPurchase") int idPurchase , Model model , HttpSession session){
-        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
-        model.addAttribute("listaMedicamentosPorCompra",meciamentosPorCompra);
-        ArrayList<String> response =  new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-        for(MeciamentosPorCompraDTO m : meciamentosPorCompra){
-            // Convertir el objeto a JSON
-            try {
-                json = objectMapper.writeValueAsString(m);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(json);
-            response.add(json);
-        }
-        return response;
-    }
-
-    //Falta corregir
-    @RequestMapping("/verSingleProduct")
-    @ResponseBody
-    public ArrayList<String>  verSingleProductPaciente(@RequestParam String idMedicine , Model model){
-        Optional<Medicine> medicine  = medicineRepository.findById(Integer.parseInt(idMedicine));
-        ArrayList<String> response =  new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-            // Convertir el objeto a JSON
-            try {
-                json = objectMapper.writeValueAsString(medicine.get());
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(json);
-            response.add(json);
-            return response;
-    }
-    @GetMapping("/verTracking")
-    public String verTrackingPaciente( Model model, HttpSession session){
-        List<PurchasePorPatientDTO> tracking = purchaseOrderRepository.obtenerComprarPorPacienteTracking(((Patient)session.getAttribute("usuario")).getIdPatient());
-        model.addAttribute("listaTracking",tracking);
-        Patient patient = (Patient) session.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        return "pacient/trackingNuevo";
-    }
-
-    @GetMapping("/verTrackingSolitario")
-    public String verTrackingPersonal(@RequestParam("idPurchase") int idPurchase , Model model, HttpSession session){
-
-        Patient patient=  (Patient) session.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-        Tracking tracking =  purchaseOrderRepository.findById(idPurchase).get().getIdtracking();
-        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idPurchase));
-
-        model.addAttribute("idPurchase",idPurchase);
-        model.addAttribute("Tracking",tracking);
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
-        return "pacient/TrackingSolitario";
-    }
-
-
-    @PostMapping("/editarPerfilPaciente")
-    public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen,@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
-        //Actualizar datos cambiados
-        System.out.println(patient.getIdPatient());
-        System.out.println(patient.getLocation());
-        System.out.println(patient.getInsurance());
-        Patient patient1 = (Patient) session.getAttribute("usuario");
-        model.addAttribute("nombre",patient1.getName());
-        model.addAttribute("apellido",patient1.getLastName());
-        if (bindingResult.hasErrors()) {
-            return "pacient/perfilNuevo";
-        } else {
-            if (imagen.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "pacient/perfilNuevo";
-            }
-            else {
-                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
-
-                try {
-                    byte[] bytesImgPerfil = imagen.getBytes();
-                    String fileOriginalName = imagen.getOriginalFilename();
-
-                    long fileSize = imagen.getSize();
-                    long maxFileSize = 5 * 1024 * 1024;
-
-                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
-                    if (fileSize > maxFileSize) {
-                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
-                        return "pacient/perfilNuevo";
-                    }
-                    if (
-                            !fileExtension.equalsIgnoreCase(".jpg") &&
-                                    !fileExtension.equalsIgnoreCase(".png") &&
-                                    !fileExtension.equalsIgnoreCase(".jpeg")
-                    ) {
-                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
-                        return "pacient/perfilNuevo";
-                    }
-
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-                    Files.write(rutaCompleta, bytesImgPerfil);
-                    //patient.setPhoto(imagen.getOriginalFilename());
-                    attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
-                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
-                    return "redirect:verPerfilPaciente";
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
-    @GetMapping(value = {"/verInformacionPago",""})
-    public String verInfoPago(  Model model, HttpSession session){
-        Patient patient=  (Patient) session.getAttribute("usuario");
-        model.addAttribute("paciente" , patient);
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        List<CreditCard> listaOculta = new ArrayList<>();
-
-        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.getIdPatient())){
-
-            String numeroOculto = formatCardNumber(creditCardOculta.getNumberCard());
-            creditCardOculta.setNumberCard(numeroOculto);
-            listaOculta.add(creditCardOculta);
-
-        }
-
-        model.addAttribute("listarTarjetasOculta",listaOculta);
-
-        return "pacient/informacionPago";
-    }
-
-
-    private String formatCardNumber(String cardNumber) {
-        if (cardNumber.length() != 16) {
-            return cardNumber; // Devuelve el número tal cual si no tiene 16 dígitos
-        }
-        return cardNumber.substring(0, 4) + " **** **** " + cardNumber.substring(12);
-    }
-
-
-    @PostMapping("/agregarTarjetaUsuario")
-    public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
-
-        Patient patient = (Patient) httpSession.getAttribute("usuario");
-        String[] parts = fechaV.split("/");
-        int month = Integer.parseInt(parts[0]);
-        int year = 2000 + Integer.parseInt(parts[1]);
-
-        CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(creditCard.getNumberCard());
-
-        if (creditCardOptional!=null){
-            int medDb = creditCardOptional.getExpireMonth();
-            int yearDb = creditCardOptional.getExpireYear();
-            if (creditCardOptional.getCvv().equals(creditCard.getCvv()) && medDb==month && yearDb==year && creditCardOptional.getIdPatient()==null){
-                    creditCardOptional.setIdPatient(patient);
-                    creditCardOptional.setPrefered(true);
-                    creditCardRepository.save(creditCardOptional);
-                    List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
-                    for(CreditCard tarjeta:listaTarjetas){
-                        if (!creditCard.getNumberCard().equals(tarjeta.getNumberCard())){
-                            tarjeta.setPrefered(false);
-                            creditCardRepository.save(tarjeta);
-                        }
-                    }
-            }else{
-                attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-            }
-
-        }else{
-            attributes.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-        }
-
-        return "redirect:verInformacionPago";
-    }
-
-
-    @GetMapping("/marcarTarjetaPreferida")
-    public String marcarTarjetaFavorita(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
-        Patient patient=  (Patient)session.getAttribute("usuario");
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-        List<CreditCard> listaTarjetas= creditCardRepository.listaCreditCards(patient.getIdPatient());
-        creditCardRepository.preferirPorid(idTarjeta);
-        for (CreditCard tarjeta: listaTarjetas){
-            if(tarjeta.getIdCredit()!=idTarjeta){
-                tarjeta.setPrefered(false);
-                creditCardRepository.save(tarjeta);
-            }
-        }
-
-        return "redirect:verInformacionPago";
-    }
-
-    @GetMapping("/eliminarTarjeta")
-    public String eliminarTarjeta(  Model model, HttpSession session,@RequestParam("idTarjeta") int idTarjeta){
-       CreditCard creditCard = creditCardRepository.findById(idTarjeta).get();
-       creditCard.setIdPatient(null);
-       creditCardRepository.save(creditCard);
-        return "redirect:verInformacionPago";
-    }
-
-    @PostMapping("/pagarFinal")
-    public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam(value = "recurrent", required = false) String recurrent,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
-        Patient patient = (Patient) httpSession.getAttribute("usuario");
-        String[] parts = fechaV.split("/");
-        int month = Integer.parseInt(parts[0]);
-        int year = 2000 + Integer.parseInt(parts[1]);
-        if (tarjetaNueva.isEmpty()){
-            CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
-            int medDb = creditCard.getExpireMonth();
-            int yearDb = creditCard.getExpireYear();
-            if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
-
-                PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
-                if (recurrent.equals("true")){
-                    purchaseOrder.setRecurrent(true);
-                }
-
-                purchaseOrderRepository.pagarOrdenCompra(idPurchase);
-            }else{
-                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                return "redirect:verDatosPago?idPurchase="+idPurchase;
-            }
-        }else{
-            CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
-            if (creditCardOptional!=null){
-                int medDb = creditCardOptional.getExpireMonth();
-                int yearDb = creditCardOptional.getExpireYear();
-
-                if (creditCardOptional.getCvv().equals(cvv) && medDb==month && yearDb==year){
-                    purchaseOrderRepository.pagarOrdenCompra(idPurchase);
-                }else{
-                    attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                    return "redirect:verDatosPago?idPurchase="+idPurchase;
-                }
-            }else{
-                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                return "redirect:verDatosPago?idPurchase="+idPurchase;
-            }
-        }
-        return "redirect:verHistorial";
-    }
-
-    //Vista principal que requiere interacción con los webservices Uu
-    @GetMapping(value = "/compras")
-    public String verPosPatient(Model model , HttpSession session ){
-        Patient patient = (Patient)session.getAttribute("usuario");
-        //El queri para obtener la cantidad de medicamentos está bien
-        model.addAttribute("nombre",patient.getName());
-        model.addAttribute("apellido",patient.getLastName());
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
-
-        model.addAttribute("listamedicamentosPatient",medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() ));
-        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
-        return "pacient/posPacienteNuevo";
-    }
-    //Filtro de la vista principal
-    @PostMapping(value="/filtroMedicinas")
-    public String verPostPatienteFiltrado (Model model , HttpSession session, @RequestParam("medicamento") String medicamento ){
-        Patient patient = (Patient)session.getAttribute("usuario");
-        List<MedicamentosPorSedeDTO> lista = medicineRepository.listaMedicamentosPorSedePaciente(((Site) session.getAttribute("sede")).getName() );
-        ArrayList<MedicamentosPorSedeDTO> listaFiltrada = new ArrayList<MedicamentosPorSedeDTO>();
-        if(!medicamento.isEmpty()) {
-            for (MedicamentosPorSedeDTO m : lista) {
-                if (m.getNombreMedicamento().contains(medicamento)) {
-                    listaFiltrada.add(m);
-                }
-            }
-        }else{
-            for (MedicamentosPorSedeDTO m : lista) {
-                    listaFiltrada.add(m);
-            }
-        }
-        //El queri para obtener la cantidad de medicamentos está bien
-        model.addAttribute("listamedicamentosPatient",listaFiltrada);
-        model.addAttribute("carrito" , carritoRepository.getMedicineListByPatient(patient.getIdPatient()));
-        return "pacient/posPacienteNuevo";
-    }
-
-
-    //WebServices de la vista de paciente para compras:
-    @GetMapping(value="/updateCantidad")
-    @ResponseBody
-    public Object updateCantidadA(@RequestParam("idProduct") String idProduct, @RequestParam("newCantidad") String newCantidad,  HttpSession session){
-        try {
-            Patient p =  (Patient)  session.getAttribute("usuario");
-            List<Carrito> list = carritoRepository.getMedicineListByPatient(p.getIdPatient());
-            Carrito aux= new Carrito();
-            for(Carrito c:  list){
-                if(c.getIdMedicine().getIdMedicine()== Integer.parseInt(idProduct)){
-                    aux= c;
-                }
-            }
-            aux.setCantidad(Integer.parseInt(newCantidad));
-            carritoRepository.save(aux);
-            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
-        } catch (Exception err) {
-            System.out.println("ErrorFatal");
-            HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "errorHola");
-            er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
-        }
-    }
-    @GetMapping(value="/vaciarCarrito")
-    public Object deleteCarrito( HttpSession session){
-        List<Carrito> list = carritoRepository.getMedicineListByPatient(((Patient) session.getAttribute("usuario")).getIdPatient());
-        ArrayList<Integer> listaId = new ArrayList<>();
-        for(Carrito c : list ){
-            listaId.add (c.getId());
-        }
-        carritoRepository.deleteAllByIdInBatch(listaId);
-        return "redirect:compras";
-    }
-    @GetMapping(value="/deleteProductCarritoVenta")
-        public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
-        try {
-            int idProduct = Integer.parseInt(idProducto);
-            Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
-            if (idProducto != null) {
-                Patient p = (Patient) session.getAttribute("usuario");
-                List<Carrito> listaCart = carritoRepository.getMedicineListByPatient(p.getIdPatient());
-                Carrito cat =  new Carrito();
-                for(Carrito c : listaCart){
-                    if(c.getIdMedicine().getIdMedicine() == m.getIdMedicine()){
-                        cat =  c;
-                    }
-                }
-                carritoRepository.deleteById(cat.getId());
-                HashMap<String, Object> okey = new HashMap<>();
-                okey.put("Succes", "Todo good");
-                return ResponseEntity.ok(okey);
-            } else {
-                System.out.println("Hola 2");
-                HashMap<String, Object> er = new HashMap<>();
-                er.put("error", "Debes ingresar el nombre del recurso");
-                er.put("date", "" + LocalDateTime.now());
-                return ResponseEntity.badRequest().body(er);
-            }
-        } catch (Exception err) {
-            System.out.println("ErrorFatal");
-            HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "errorHola");
-            er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
-        }
-    }
-    @GetMapping(value="/getAllCarrito")
-    public Object getAllCarrito( HttpSession session){
-        try {
-            Patient p =  (Patient)  session.getAttribute("usuario");
-            return ResponseEntity.ok(carritoRepository.getMedicineListByPatient(p.getIdPatient()));
-        } catch (Exception err) {
-            System.out.println("ErrorFatal");
-            HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "errorHola");
-            er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
-        }
-    }
-    @GetMapping(value="/addCarritoVenta")
-    public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
-        try {
-            int idProduct = Integer.parseInt(idProducto);
-            if (idProducto != null) {
-                Patient p = (Patient) session.getAttribute("usuario");
-                //Verficamos que no este repetido
-                List<Carrito> lista =  carritoRepository.getMedicineListByPatient(p.getIdPatient());
-                boolean existeMecidina =false;
-                for(Carrito c : lista){
-                    if(c.getIdMedicine().getIdMedicine() == idProduct){
-                        existeMecidina = true;
-                    }
-                }
-                if(!existeMecidina){
-                    Carrito car  = new Carrito();
-                    car.setCantidad(1);
-                    car.setIdPatient(p);
-                    car.setIdMedicine(medicineRepository.findById(Integer.parseInt(idProducto)).get());
-                    carritoRepository.save(car);
-                    HashMap<String, Object> okey = new HashMap<>();
-                    okey.put("Succes", "Todo good");
-                    return ResponseEntity.ok(okey);
-                }else{
-                    System.out.println("pepepe");
-                    HashMap<String, Object> er = new HashMap<>();
-                    er.put("error", "se repite el medicamento en la lista");
-                    return ResponseEntity.badRequest().body(er);
-                }
-
-            } else {
-                System.out.println("Hola 2");
-                HashMap<String, Object> er = new HashMap<>();
-                er.put("error", "Debes ingresar el nombre del recurso");
-                er.put("date", "" + LocalDateTime.now());
-                return ResponseEntity.badRequest().body(er);
-            }
-        } catch (Exception err) {
-            System.out.println("ErrorFatal");
-            HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "errorHola");
-            er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
-        }
-    }
-    //Clase extra necesaria
-    public class Medicamento {
-        private String nombre;
-        private String precio;
-        private String cantidad;
-        private String idMedicina;
-        public String getNombre() {
-            return nombre;
-        }
-
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-
-        public String getPrecio() {
-            return precio;
-        }
-
-        public void setPrecio(String precio) {
-            this.precio = precio;
-        }
-
-        public String getCantidad() {
-            return cantidad;
-        }
-
-        public void setCantidad(String cantidad) {
-            this.cantidad = cantidad;
-        }
-
-        public String getIdMedicina() {
-            return idMedicina;
-        }
-
-        public void setIdMedicina(String idMedicina) {
-            this.idMedicina = idMedicina;
-        }
-    }
-
-
-
-    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
-    public void changeTrackingPurchase() {
-        LocalDateTime now = LocalDateTime.now();
-        List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
-
-        for (PurchaseOrder purchaseOrder : purchaseOrders) {
-
-            if(!purchaseOrder.getTipo().equals("Preorden")){
-                String tracking = purchaseOrder.getTracking();
-
-                Tracking trackingReal = purchaseOrder.getIdtracking();
-                if(tracking !=null){
-                    switch (tracking){
-                        case ("Solicitado"):
-                            if (trackingReal.getEnProcesoDate().isBefore(now)){
-                                purchaseOrderRepository.actualizarTrackingPurchase("En Proceso",purchaseOrder.getId());
-                            }
-                            break;
-
-                        case ("En Proceso"):
-                            if (trackingReal.getEmpaquetadoDate().isBefore(now)){
-                                purchaseOrderRepository.actualizarTrackingPurchase("Empaquetando",purchaseOrder.getId());
-                            }
-                            break;
-                        case ("Empaquetando"):
-                            if (trackingReal.getEnRutaDate().isBefore(now)){
-                                purchaseOrderRepository.actualizarTrackingPurchase("En Ruta",purchaseOrder.getId());
-                            }
-                            break;
-
-                        case ("En Ruta"):
-                            if (trackingReal.getEntregadoDate().isBefore(now)){
-                                purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
-                                Notifications notifications = new Notifications();
-                                notifications.setDate(LocalDateTime.now());
-                                notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
-                                String email = purchaseOrder.getPatient().getEmail();
-                                notifications.setIdUsers(userRepository.findByEmail(email));
-                                notificationsRepository.save(notifications);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-        }
-    }
-
-    @Scheduled(fixedRate = 600000)
-    public void notificacionRecurrente(){
-
-        for (PurchaseOrder purchaseOrder: purchaseOrderRepository.findAll()){
-
-            if(purchaseOrder.getRecurrent() != null){
-                if (purchaseOrder.getRecurrent()){
-                    List<Lote> listaLotesCompra = loteRepository.listarLotesPorCompra(purchaseOrder.getId());
-
-                    for (Lote lote: listaLotesCompra){
-
-                        if (lote.getExpireDate().minusDays(10).isBefore(LocalDate.now()) || lote.getExpireDate().minusDays(5).isBefore(LocalDate.now())){
-                            Notifications notification = new Notifications();
-                            notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está ´por expirar; le recomedamos generar una nueva orden de compra." );
-                            User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
-                            notification.setIdUsers(user);
-                            notification.setDate(LocalDateTime.now());
-                            notificationsRepository.save(notification);
-                        }
-                    }
-                    purchaseOrder.setRecurrent(false);
-                    purchaseOrderRepository.save(purchaseOrder);
-                }
-            }
-
-        }
-    }
-
-    @ResponseBody
-    @GetMapping(value="/getCorreo")
-    public Object getCorreo(HttpSession session){
-        String sede = ((Site) session.getAttribute("sede")).getName();
-        List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
-        for(Pharmacist p : listaFarmacista){
-            if(p.getSite().equals(sede)){
-                LinkedHashMap<String , Object > hasMap = new LinkedHashMap<>();
-                hasMap.put("correo", p.getEmail());
-                return ResponseEntity.ok(hasMap);
-            }
-        }
-        return ResponseEntity.badRequest();
-    }
-
-
-    @GetMapping(value="/verChatBot")
-    public String verChatBot(){
-        return "pacient/chatBot";
-    }
-    //Con estos metodos cargamos los efectos y dialogos del chatBot
-
-
-    //
-    @GetMapping(value="/requestChatBot")
-    @ResponseBody
-    public Object requestChatBot(@RequestParam(value="message", required = true) String message, HttpSession session){
-        try {
-            //Aqui consumimos el servicio de dialog flow
-            LinkedHashMap<String, Object> linked = new LinkedHashMap<>();
-            linked.put("status", "ok");
-            linked.put("content", dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail()));
-            //RECORDAR Q EN LA VISTA SE ESPERA ESTE RESULTADO
-            //                createMessageReceiver(response.content.message , obtenerHoraActual);
-            return ResponseEntity.ok(linked);
-        }catch(Exception error) {
-            error.printStackTrace();
-            LinkedHashMap<String, Object> response =  new LinkedHashMap<>();
-            response.put("status", "error");
-            response.put("date", LocalDateTime.now());
-            return ResponseEntity.badRequest().body(response);
-        }
-    }
-
-
 }

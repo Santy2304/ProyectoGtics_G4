@@ -87,7 +87,7 @@ public class  SuperAdminController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
-    private String rutaAbsoluta = "C://SaintMedic//imagenes";
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
 
     //Superlogueo//
     @GetMapping("/superlogueo")
@@ -157,8 +157,6 @@ public class  SuperAdminController {
     public String verAddMedicamento(@ModelAttribute("medicine") Medicine medicine) {
         return "superAdmin/anadirMedicamento";
     }
-
-
     @PostMapping("/crearMedicamento")
     public String crearMedicamento(/*@RequestParam("nameMedicine") String nameMedicine,
                                    @RequestParam("category") String category,
@@ -533,7 +531,6 @@ public class  SuperAdminController {
 
         return "superAdmin/listados";
     }
-
     ////////////////////////////////////////
 
     //Doctores/////////////////////7
@@ -548,7 +545,6 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
     @GetMapping("/editarDoctor")
     public String verEditarDoctor(@ModelAttribute("doctor") Doctor doctor, @RequestParam("idDoctor") int idDoctor, Model model) {
         Optional<Doctor> optDoctor =  doctorRepository.findById(idDoctor);
@@ -560,14 +556,12 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
     @GetMapping("/verAgregarDoctor")
     public String verAgregarDoctor(@ModelAttribute("doctor") Doctor doctor, Model model) {
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarDoctor";
     }
-
     public boolean verificarUnicidadDni(String dni, String rol) {
         switch (rol) {
             case "Doctor":
@@ -587,7 +581,6 @@ public class  SuperAdminController {
             default: return false;
         }
     }
-
     @PostMapping("/agregarDoctor")
     public String agregarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
@@ -607,25 +600,18 @@ public class  SuperAdminController {
             }
         }
     }
-
     @GetMapping("/EliminarDoctor")
     public String eliminarDoctor(@RequestParam("idDoctor") int idDoctor ) {
         doctorRepository.eliminarDoctorPorId(idDoctor);
         return "redirect:verListados";
     }
-
-
-////////////////////////////////
-
     //AdministradoresSede///////////////////////////7
-
     @GetMapping("/verAgregarAdminSede")
     public String verAgregarAdminSede(@ModelAttribute("adminSede") Administrator administrator, Model model) {
         List<Site> listaSedes = siteRepository.findAll();
         model.addAttribute("listaSedes", listaSedes);
         return "superAdmin/AgregarAdminSede";
     }
-
     @PostMapping("/agregarAdminSede")
     public String agregarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
         if (bindingResult.hasErrors()) {
@@ -706,7 +692,6 @@ public class  SuperAdminController {
             }
         }
     }
-
     @GetMapping("/editarAdminSede")
     public String verEditarAdminSede(@ModelAttribute("adminSede") Administrator administrator, @RequestParam("idAdminSede") int idAdminSede , Model model) {
 
@@ -719,8 +704,6 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
-
     @PostMapping("/guardarCambiosAdminSede")
     public String editarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         //    void updateDatosPorId(String name , String lasName , int dni , String email , int idDoctor );
@@ -804,7 +787,6 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
     @GetMapping("/eliminarAdminSede")
     public String eliminarAdminSede(@RequestParam("idAdminSede") int idAdminSede) {
         administratorRepository.eliminarAdminPorId(idAdminSede);
@@ -819,12 +801,7 @@ public class  SuperAdminController {
 
         return "redirect:verListados";
     }
-
-    ////////////////////////////////
-
-
     //Farmacista///////////////////////////////
-
     @GetMapping("/editarFarmacista")
     public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
 
@@ -837,7 +814,6 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
     @PostMapping("/guardarCambiosFarmacista")
     public String editarFarmacista(@RequestParam("fotoFarm")MultipartFile farmFoto, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist, BindingResult bindingResult, RedirectAttributes attributes, Model model){
         if (bindingResult.hasErrors()) {
@@ -918,8 +894,6 @@ public class  SuperAdminController {
             return "redirect:verListados";
         }
     }
-
-
     @GetMapping("/eliminarFarmacista")
     public String eliminarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
         pharmacistRepository.eliminarFarmacistaPorId(idFarmacista);
@@ -934,7 +908,6 @@ public class  SuperAdminController {
 
         return "redirect:verListados";
     }
-
     /*
     @GetMapping("/rechazarFarmacista")
     public String rechazarFarmacista(@RequestParam("idFarmacista") int idFarmacista) {
@@ -950,30 +923,6 @@ public class  SuperAdminController {
         return "redirect:verListados";
     }
 */
-
-    @PostMapping("/rechazarFarmacista")
-    public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") int idFarmacista,
-                                                    @RequestParam("motivo") String motivo) {
-        try {
-            HashMap<String, Object> response = new HashMap<>();
-            pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
-            Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
-            response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
-            try {
-                emailService.sendHtmlRechazo(pharmacist.getEmail(), "Ha sido rechazado de Saint Medic", pharmacist.getName(),motivo);
-            } catch (MessagingException | IOException e) {
-                e.printStackTrace();
-            }
-            pharmacistRepository.deleteById(idFarmacista);
-            return ResponseEntity.ok(response);
-
-        } catch (Exception e) {
-            System.out.println("Error al rechazar la solicitud.");
-            HashMap<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
 
 
     @GetMapping("/aceptarFarmacista")
@@ -999,16 +948,12 @@ public class  SuperAdminController {
         return "redirect:" + (referer != null ? referer : "verListados");
     }
 
-    //////////////////////////////////
-
     ////Paciente////////////////////
-
     @GetMapping("/eliminarPaciente")
     public String eliminarPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.eliminarPacientePorId(idPaciente);
         return "redirect:verListados";
     }
-
     @GetMapping("/banearPaciente")
     public String banearPaciente(@RequestParam("idPaciente") int idPaciente) {
         patientRepository.banearPacientePorId(idPaciente);
@@ -1016,12 +961,6 @@ public class  SuperAdminController {
         userRepository.banear(patient.getEmail());
         return "redirect:verListados";
     }
-
-
-    ///////////////////////////////////
-
-
-
     //////////////////LISTADOS SEDES /////////////////////
     @GetMapping("/verSedeSuperAdminPando1")
     public String verSedePando1(Model model) {
@@ -1031,7 +970,6 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando1",listarSolicitudesReposicionPando1);
         return "superAdmin/SedePando1";
     }
-
     @GetMapping("/verSedeSuperAdminPando2")
     public String verSedePando2(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
@@ -1040,7 +978,6 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando2",listarSolicitudesReposicionPando2);
         return "superAdmin/SedePando2";
     }
-
     @GetMapping("/verSedeSuperAdminPando3")
     public String verSedePando3(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
@@ -1049,7 +986,6 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando3",listarSolicitudesReposicionPando3);
         return "superAdmin/SedePando3";
     }
-
     @GetMapping("/verSedeSuperAdminPando4")
     public String verSedePando4(Model model) {
         List<Pharmacist> listarSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
@@ -1058,7 +994,6 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
         return "superAdmin/SedePando4";
     }
-
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();
@@ -1073,9 +1008,6 @@ public class  SuperAdminController {
         model.addAttribute("activeTab", activeTab);
         return "superAdmin/TrackingPersonalSuperAdmin";
     }
-
-
-
     ///////////////////////////////////////7
     @GetMapping("/verDetalleRepo")
     public String verDetalleMedicamentos(@RequestParam("idRepo") int idRepo,Model model) {
@@ -1083,17 +1015,13 @@ public class  SuperAdminController {
         model.addAttribute("listaMedicamentosPorRepo",medicamentosPorReposicion);
         return "superAdmin/DetalleRepo";
     }
-
-
     //Solo para poder saltar entre vistas auxiliar de momento
-
     @GetMapping("/verPerfil")
     public String verPerfilSuper( Model model){
         Optional<SuperAdmin>superAdmin=  superAdminRepository.findById(1);
         model.addAttribute("superAdmin" , superAdmin.get());
         return "superAdmin/perfil";
     }
-
     @PostMapping("/editarPerfilSuper")
     public String editarDatosSuper(@RequestParam("superAdminFile") MultipartFile imagen,@ModelAttribute("superAdmin") @Valid SuperAdmin superAdmin, BindingResult bindingResult, Model model, RedirectAttributes attr, HttpSession httpSession){
         //Actualizar datos cambiados
@@ -1162,10 +1090,7 @@ public class  SuperAdminController {
         }
 
     }
-
-
     //////////////////////////////////REPORTES///////////////////////////////////////
-
     @GetMapping("/exportarMedicamentosPDF")
     public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -1181,7 +1106,6 @@ public class  SuperAdminController {
         MedicinePDF exporter = new MedicinePDF(medicines);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarMedicamentosExcel")
     public void exportarMedicamentosExcel(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
@@ -1199,7 +1123,6 @@ public class  SuperAdminController {
         MedicineExcel exporter = new MedicineExcel(medicamentos);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarAdministradoresPDF")
     public void exportarAdminPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -1215,7 +1138,6 @@ public class  SuperAdminController {
         AdminPDF exporter = new AdminPDF(administrators);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarAdministradoresExcel")
     public void exportarAdministradoresExcel(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
@@ -1235,7 +1157,6 @@ public class  SuperAdminController {
         exporter.exportar(response);
 
     }
-
     @GetMapping("/exportarFarmacistasPDF")
     public void exportarFarmaPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -1250,7 +1171,6 @@ public class  SuperAdminController {
         FarmacistaPDF exporter = new FarmacistaPDF(pharmacists);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarFarmacistasExcel")
     public void exportarFarmacistasExcel(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
@@ -1270,7 +1190,6 @@ public class  SuperAdminController {
         exporter.exportar(response);
 
     }
-
     @GetMapping("/exportarPacientesPDF")
     public void exportarPacientesPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -1284,7 +1203,6 @@ public class  SuperAdminController {
         PacientePDF exporter = new PacientePDF(patients);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarPacientesExcel")
     public void exportarPacientesExcel(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
@@ -1303,7 +1221,6 @@ public class  SuperAdminController {
         exporter.exportar(response);
 
     }
-
     @GetMapping("/exportarDoctoresPDF")
     public void exportarDoctoresPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -1318,7 +1235,6 @@ public class  SuperAdminController {
         DoctoresPDF exporter = new DoctoresPDF(doctors);
         exporter.exportar(response);
     }
-
     @GetMapping("/exportarDoctoresExcel")
     public void exportarDoctoresExcel(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
@@ -1338,8 +1254,6 @@ public class  SuperAdminController {
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////7
-
-
     public String generateRandomWord() {
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
@@ -1370,6 +1284,34 @@ public class  SuperAdminController {
 
         return new String(wordArray);
     }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+    //SERVICIOS
+@PostMapping("/rechazarFarmacista")
+public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") int idFarmacista,
+                                                @RequestParam("motivo") String motivo) {
+    try {
+        HashMap<String, Object> response = new HashMap<>();
+        pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
+        Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
+        response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
+        try {
+            emailService.sendHtmlRechazo(pharmacist.getEmail(), "Ha sido rechazado de Saint Medic", pharmacist.getName(),motivo);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        }
+        pharmacistRepository.deleteById(idFarmacista);
+        return ResponseEntity.ok(response);
+
+    } catch (Exception e) {
+        System.out.println("Error al rechazar la solicitud.");
+        HashMap<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
+        return ResponseEntity.badRequest().body(errorResponse);
+    }
+}
+
+
 
 
 }

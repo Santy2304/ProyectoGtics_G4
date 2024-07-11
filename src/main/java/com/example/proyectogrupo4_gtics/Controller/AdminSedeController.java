@@ -66,8 +66,7 @@ public class AdminSedeController {
         this.siteRepository=siteRepository;
         this.codeRepository = codeRepository;
     }
-    private String rutaAbsoluta = "C://SaintMedic//imagenes";
-
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio( Model model){
 
@@ -82,8 +81,6 @@ public class AdminSedeController {
         administratorRepository.updateChangePasswrod(administrator.getIdAdministrador());
         return "redirect:dashboardAdminSede";
     }
-
-
     //Doctores por sede
     @GetMapping("/listaDoctores")
     public String listDoctors(Model model , HttpSession session ){
@@ -188,7 +185,6 @@ public class AdminSedeController {
             }
             return "admin_sede/addpharmacist";
     }
-
     //Función para determinar la unicidad del DNI del farmacista
     public boolean verificarDNI(String dni) {
         List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
@@ -583,8 +579,7 @@ public class AdminSedeController {
     }
     //Filtrado de medicamentos por sede
     @PostMapping("/inventarioBusca")
-    public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda , HttpSession session
-    ){
+    public String buscarMedicina(Model model, RedirectAttributes attr, Busqueda busqueda , HttpSession session){
         //VALIDADO EN CUALQUIER CASO ENVIA ALGO
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         String nombre = busqueda.getNombre();
@@ -674,8 +669,7 @@ public class AdminSedeController {
         return "admin_sede/notifications";
     }
     @GetMapping("/verPerfilAdminSede")
-    public String profile(Model model, HttpSession session
-    ){
+    public String profile(Model model, HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
         model.addAttribute("nombre", admin.getName());
@@ -745,27 +739,6 @@ public class AdminSedeController {
         public void setId(String id) {
             this.id = id;
         }
-    }
-    @RequestMapping("/verDetalleRepoMedicamentos")
-    @ResponseBody
-    public ArrayList<String> hola(@RequestParam("idPedidoReposicion") String idPedidoReposicion ) throws JsonProcessingException {
-        System.out.println("HOLAAAA LLEGUE A VER DETALLE DE REPOSICION");
-        System.out.println(idPedidoReposicion);
-        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
-        ArrayList<String> response =  new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-        for(lotesPorReposicion lotesPorReposicion : ola){
-            // Convertir el objeto a JSON
-            try {
-                json = objectMapper.writeValueAsString(lotesPorReposicion);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(json);
-            response.add(json);
-        }
-        return response;
     }
     @GetMapping("/cancelarPedidoReposicion")
     public String cancelarPedidoReposicion(@RequestParam("id") String id ){
@@ -864,6 +837,151 @@ public class AdminSedeController {
         }
         return "admin_sede/generarPedidoReposicion";
     }
+   @GetMapping("/SolicitudDeReposicionCreada")
+    public String SolicitudDeReposicionCreada(@RequestParam("idReplacementOrder") String idReplacementeOrder , Model model){
+        model.addAttribute("idRepo", Integer.parseInt(idReplacementeOrder));
+        return "admin_sede/TicketPedidoReposicion";
+    }
+    public class DataDoctorListBusca{
+        String date;
+        String nombre;
+        public String getDate() {
+            return date;
+        }
+        public void setDate(String date) {
+            this.date = date;
+        }
+        public String getNombre() {
+            return nombre;
+        }
+        public void setNombre(String nombre) {
+            this.nombre = nombre;
+        }
+    }
+    //Filtrado de la lista de doctores
+    @PostMapping("/doctorListBusca")
+    public String doctorListBuscaAdminSede(DataDoctorListBusca d , Model model , HttpSession session){
+        System.out.println(d.date);
+        System.out.println(d.nombre);
+        int idAdministrator =  ((Administrator) session.getAttribute("usuario")).getIdAdministrador() ;
+        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
+        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(idAdministrator).getPhoto()));
+        return "/admin_sede/doctorlist";
+    }
+    //Cerrar Sesion
+    @GetMapping("/CerrarSesionAdminSede")
+    public String CerrarSesionAdminSede(SessionStatus sessionStatus){
+        sessionStatus.setComplete();
+        return "redirect:/inicioSesion";
+    }
+    @GetMapping("/verTrackingPersonal")
+    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model, HttpSession session){
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
+        replacementOrderRepository.findById(idReplacementeOrder);
+        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
+        model.addAttribute("listaMedicamentos", replacementOrderRepository.obtenerMedicamentosPorReposicion(idReplacementeOrder));
+        model.addAttribute("idReplacement",idReplacementeOrder);
+        model.addAttribute("Tracking",tracking); //.minusHours(5)
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        return "admin_sede/trackingPersonal";
+    }
+    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    public void changeTracking() {
+        LocalDateTime now = LocalDateTime.now();
+        List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
+
+        for (ReplacementOrder replacementOrder : replacamenteOrders) {
+
+            String tracking = replacementOrder.getTrackingState();
+
+            Tracking trackingReal = replacementOrder.getIdTracking();
+
+            switch (tracking){
+
+                case ("Solicitado"):
+                    if (trackingReal.getEnProcesoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Proceso",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Proceso"):
+                    if (trackingReal.getEmpaquetadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Empaquetando",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("Empaquetando"):
+                    if (trackingReal.getEnRutaDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("En Ruta",replacementOrder.getIdReplacementOrder());
+                    }
+                    break;
+
+                case ("En Ruta"):
+                    if (trackingReal.getEntregadoDate().isBefore(now)){
+                        replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
+                        Notifications notifications = new Notifications();
+                        notifications.setDate(LocalDateTime.now());
+                        notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
+                        notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
+                        notificationsRepository.save(notifications);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+    @Scheduled(fixedRate = 7200000) // Ejecuta la tarea cada 20 minutos
+    public void notificacionesPorEscaso() {
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando2 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 2");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando3 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 3");
+
+        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando4 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 4");
+
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 2"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando3){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 3"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+
+        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando4){
+            Notifications notifications = new Notifications();
+            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 4"));
+            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
+            notifications.setDate(LocalDateTime.now());
+            notificationsRepository.save(notifications);
+        }
+
+    }
+
+    //-------------------------------------------------------------------------------------
+    //WebServices
     public static class ReplacamenteOrderData{
         private ArrayList<Object> cantidad;
         private ArrayList<Object> ids;
@@ -896,8 +1014,7 @@ public class AdminSedeController {
     //RECONTRA VALIDADO
     @RequestMapping ("/generarReposicion")
     @ResponseBody
-    public Map<String,Object> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session
-    ) throws JsonProcessingException {
+    public Map<String,Object> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session) throws JsonProcessingException {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         //Validar que se ingresen números en lugar de Strings
         //validar que solo sean medicamentos q esten por debajo de 25 de Stock
@@ -1050,146 +1167,26 @@ public class AdminSedeController {
         }
         return response;
     }
-    @GetMapping("/SolicitudDeReposicionCreada")
-    public String SolicitudDeReposicionCreada(@RequestParam("idReplacementOrder") String idReplacementeOrder , Model model){
-        model.addAttribute("idRepo", Integer.parseInt(idReplacementeOrder));
-        return "admin_sede/TicketPedidoReposicion";
-    }
-    public class DataDoctorListBusca{
-        String date;
-        String nombre;
-        public String getDate() {
-            return date;
-        }
-        public void setDate(String date) {
-            this.date = date;
-        }
-        public String getNombre() {
-            return nombre;
-        }
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-    }
-    //Filtrado de la lista de doctores
-    @PostMapping("/doctorListBusca")
-    public String doctorListBuscaAdminSede(DataDoctorListBusca d , Model model , HttpSession session){
-        System.out.println(d.date);
-        System.out.println(d.nombre);
-        int idAdministrator =  ((Administrator) session.getAttribute("usuario")).getIdAdministrador() ;
-        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSede(idAdministrator));
-        model.addAttribute("photo", (administratorRepository.getByIdAdministrador(idAdministrator).getPhoto()));
-        return "/admin_sede/doctorlist";
-    }
-    //Cerrar Sesion
-    @GetMapping("/CerrarSesionAdminSede")
-    public String CerrarSesionAdminSede(SessionStatus sessionStatus){
-        sessionStatus.setComplete();
-        return "redirect:/inicioSesion";
-    }
-    @GetMapping("/verTrackingPersonal")
-    public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model, HttpSession session){
-        Administrator admin = (Administrator)session.getAttribute("usuario");
-        model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(admin.getSite()));
-        replacementOrderRepository.findById(idReplacementeOrder);
-        Tracking tracking = replacementOrderRepository.findById(idReplacementeOrder).get().getIdTracking();
-        model.addAttribute("listaMedicamentos", replacementOrderRepository.obtenerMedicamentosPorReposicion(idReplacementeOrder));
-        model.addAttribute("idReplacement",idReplacementeOrder);
-        model.addAttribute("Tracking",tracking); //.minusHours(5)
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
-        return "admin_sede/trackingPersonal";
-    }
-    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
-    public void changeTracking() {
-        LocalDateTime now = LocalDateTime.now();
-        List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
 
-        for (ReplacementOrder replacementOrder : replacamenteOrders) {
-
-            String tracking = replacementOrder.getTrackingState();
-
-            Tracking trackingReal = replacementOrder.getIdTracking();
-
-            switch (tracking){
-
-                case ("Solicitado"):
-                    if (trackingReal.getEnProcesoDate().isBefore(now)){
-                        replacementOrderRepository.actualizarTracking("En Proceso",replacementOrder.getIdReplacementOrder());
-                    }
-                    break;
-
-                case ("En Proceso"):
-                    if (trackingReal.getEmpaquetadoDate().isBefore(now)){
-                        replacementOrderRepository.actualizarTracking("Empaquetando",replacementOrder.getIdReplacementOrder());
-                    }
-                    break;
-
-                case ("Empaquetando"):
-                    if (trackingReal.getEnRutaDate().isBefore(now)){
-                        replacementOrderRepository.actualizarTracking("En Ruta",replacementOrder.getIdReplacementOrder());
-                    }
-                    break;
-
-                case ("En Ruta"):
-                    if (trackingReal.getEntregadoDate().isBefore(now)){
-                        replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
-                        Notifications notifications = new Notifications();
-                        notifications.setDate(LocalDateTime.now());
-                        notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
-                        notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
-                        notificationsRepository.save(notifications);
-                    }
-                    break;
-
-                default:
-                    break;
+    @RequestMapping("/verDetalleRepoMedicamentos")
+    @ResponseBody
+    public ArrayList<String> hola(@RequestParam("idPedidoReposicion") String idPedidoReposicion ) throws JsonProcessingException {
+        System.out.println("HOLAAAA LLEGUE A VER DETALLE DE REPOSICION");
+        System.out.println(idPedidoReposicion);
+        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        for(lotesPorReposicion lotesPorReposicion : ola){
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(lotesPorReposicion);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
             }
+            System.out.println(json);
+            response.add(json);
         }
-    }
-    @Scheduled(fixedRate = 7200000) // Ejecuta la tarea cada 20 minutos
-    public void notificacionesPorEscaso() {
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando1 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 1");
-
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando2 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 2");
-
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando3 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 3");
-
-        List<MedicamentosPorSedeDTO> listamedicamentosPocoStockPando4 = medicineRepository.listaMedicamentosPorSedeNoti("Pando 4");
-
-        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando1){
-            Notifications notifications = new Notifications();
-            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
-            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
-            notifications.setDate(LocalDateTime.now());
-            notificationsRepository.save(notifications);
-        }
-
-        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){
-            Notifications notifications = new Notifications();
-            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 2"));
-            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
-            notifications.setDate(LocalDateTime.now());
-            notificationsRepository.save(notifications);
-        }
-        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando3){
-            Notifications notifications = new Notifications();
-            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 3"));
-            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
-            notifications.setDate(LocalDateTime.now());
-            notificationsRepository.save(notifications);
-        }
-
-        for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando4){
-            Notifications notifications = new Notifications();
-            notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 4"));
-            notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
-            notifications.setDate(LocalDateTime.now());
-            notificationsRepository.save(notifications);
-        }
-
+        return response;
     }
 }

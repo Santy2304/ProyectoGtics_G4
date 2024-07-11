@@ -128,6 +128,8 @@ public class SecurityConfig  {
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
 
+        http.httpBasic();
+
         return http.build();
 
     }

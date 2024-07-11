@@ -208,7 +208,6 @@ public class AdminSedeController {
         }
         return false;
     }
-
     public boolean verificarCodigoeExite(String codigo) {
         Code codeOptional = codeRepository.findByCodigo(codigo);
         if (codeOptional==null){
@@ -218,9 +217,6 @@ public class AdminSedeController {
         }
 
     }
-
-
-
     //Agregar farmacista faltan validaciones correspondientes
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
@@ -630,18 +626,14 @@ public class AdminSedeController {
         model.addAttribute("listaReposicion" , replacementOrderRepository.getReplacementOrderBySede(  ((administratorRepository.findById(ola)).get()).getSite() ));
         return "admin_sede/listaReposicion";
     }
-
     @GetMapping("error505AdminSede")
     public String error(){
         return "pharmacist/error404";
     }
-
     @PostMapping("buscarMedicinaList")
     public String buscarMedicinaList(){
         return "admin_sede/inventario";
     }
-
-
     @GetMapping("/verSolicitudReposicion")
     public String solicitudReposicion(Model model, HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -657,7 +649,6 @@ public class AdminSedeController {
         model.addAttribute("listaMedicamentosBS", medicineRepository.listaMedicamentosPocoStock(admin.getIdAdministrador()));
         return "admin_sede/generarPedidoReposicion";
     }
-
     @PostMapping("/solicitudReposicion")
     public String generarReposicion(Model model ,@RequestParam("idMedicine") int idMedicamento, @RequestParam("cantidad") int cantidad, ReplacementOrder replacementOrder , HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -668,7 +659,6 @@ public class AdminSedeController {
         model.addAttribute("photo", admin.getPhoto());
         return("redirect:verListaReposicion");
     }
-
     @GetMapping("/verNotificacionesAdminSede")
     public String notificaciones(Model model, HttpSession session) {
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -698,7 +688,6 @@ public class AdminSedeController {
         model.addAttribute("admin", admin);
         return "admin_sede/profile";
     }
-
     @PostMapping("/editarPerfilAdminSede")
     public String editProfilePhoto(@RequestParam("adminFile") MultipartFile imagen, Model model,  RedirectAttributes attr, HttpSession session){
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
@@ -844,10 +833,8 @@ public class AdminSedeController {
         }
         return "redirect:verListaReposicion";
     }
-
     @PostMapping("/generarReposicionBusca")
-    public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda , HttpSession session
-    ){
+    public String buscarMedicinaEnGenerarReposicionAdminSede(Model model, RedirectAttributes attr, Busqueda busqueda , HttpSession session){
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         String nombre = busqueda.getNombre();
         String category = busqueda.getCategoria();
@@ -877,8 +864,6 @@ public class AdminSedeController {
         }
         return "admin_sede/generarPedidoReposicion";
     }
-
-
     public static class ReplacamenteOrderData{
         private ArrayList<Object> cantidad;
         private ArrayList<Object> ids;
@@ -1065,13 +1050,11 @@ public class AdminSedeController {
         }
         return response;
     }
-
     @GetMapping("/SolicitudDeReposicionCreada")
     public String SolicitudDeReposicionCreada(@RequestParam("idReplacementOrder") String idReplacementeOrder , Model model){
         model.addAttribute("idRepo", Integer.parseInt(idReplacementeOrder));
         return "admin_sede/TicketPedidoReposicion";
     }
-
     public class DataDoctorListBusca{
         String date;
         String nombre;
@@ -1104,7 +1087,6 @@ public class AdminSedeController {
         sessionStatus.setComplete();
         return "redirect:/inicioSesion";
     }
-
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idReplacementOrder") int idReplacementeOrder , Model model, HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -1121,8 +1103,6 @@ public class AdminSedeController {
         model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "admin_sede/trackingPersonal";
     }
-
-
     @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
     public void changeTracking() {
         LocalDateTime now = LocalDateTime.now();

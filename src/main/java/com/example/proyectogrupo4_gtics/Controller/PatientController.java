@@ -5,6 +5,7 @@ import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
+import com.example.proyectogrupo4_gtics.Service.Dialogflow;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -58,8 +59,9 @@ public class PatientController {
     final CreditCardRepository creditCardRepository;
 
     final TrackingRepository trackingRepository;
-     final ChatContentRepository chatContentRepository;
+    final ChatContentRepository chatContentRepository;
     private final PharmacistRepository pharmacistRepository;
+    final Dialogflow dialogflow;
 
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
@@ -70,7 +72,8 @@ public class PatientController {
                               NotificationsRepository notificationsRepository,
                               ChatRepository chatRepository,
                               ChatContentRepository chatContentRepository,
-                              PharmacistRepository pharmacistRepository) {
+                              PharmacistRepository pharmacistRepository,
+                              Dialogflow dialogflow) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -86,9 +89,8 @@ public class PatientController {
         this.chatRepository = chatRepository;
         this.chatContentRepository = chatContentRepository;
         this.pharmacistRepository = pharmacistRepository;
+        this.dialogflow = dialogflow;
     }
-
-
     private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
     @GetMapping("/sessionPatient")
@@ -1216,6 +1218,35 @@ public class PatientController {
             }
         }
         return ResponseEntity.badRequest();
+    }
+
+
+    @GetMapping(value="/verChatBot")
+    public String verChatBot(){
+        return "pacient/chatBot";
+    }
+    //Con estos metodos cargamos los efectos y dialogos del chatBot
+
+
+    //
+    @GetMapping(value="/requestChatBot")
+    @ResponseBody
+    public Object requestChatBot(@RequestParam(value="message", required = true) String message, HttpSession session){
+        try {
+            //Aqui consumimos el servicio de dialog flow
+            LinkedHashMap<String, Object> linked = new LinkedHashMap<>();
+            linked.put("status", "ok");
+            linked.put("content", dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail()));
+            //RECORDAR Q EN LA VISTA SE ESPERA ESTE RESULTADO
+            //                createMessageReceiver(response.content.message , obtenerHoraActual);
+            return ResponseEntity.ok(linked);
+        }catch(Exception error) {
+            error.printStackTrace();
+            LinkedHashMap<String, Object> response =  new LinkedHashMap<>();
+            response.put("status", "error");
+            response.put("date", LocalDateTime.now());
+            return ResponseEntity.badRequest().body(response);
+        }
     }
 
 

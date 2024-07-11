@@ -14,7 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +29,7 @@ import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -1286,11 +1289,45 @@ public class  SuperAdminController {
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @ExceptionHandler({HttpMessageNotReadableException.class})
+    public Object gestionExcetion(HttpServletRequest request) {
+        HashMap<String, Object> responseMap = new HashMap<>();
+        if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Te equivocaste en algún parámetro");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    public Object handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        String errorMessage = "HTTP method not supported: " + ex.getMethod();
+        return new ResponseEntity<>(errorMessage, HttpStatus.METHOD_NOT_ALLOWED);
+    }
+
     //SERVICIOS
 @PostMapping("/rechazarFarmacista")
 public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") int idFarmacista,
                                                 @RequestParam("motivo") String motivo) {
-    try {
+        LinkedHashMap<String, Object > generalResponse = new LinkedHashMap<>();
+        try{
+            if(idFarmacista == 0 ){
+                generalResponse.put("status","error");
+                generalResponse.put("message","debes de ingresar un numero en el parametro del idFarmacista" );
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(motivo==null){
+                generalResponse.put("status","error");
+                generalResponse.put("message","debes de ingresar un motivo" );
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(!pharmacistRepository.findById(idFarmacista).isPresent() ){
+                generalResponse.put("status","error");
+                generalResponse.put("message","El farmacista no existe" );
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
         HashMap<String, Object> response = new HashMap<>();
         pharmacistRepository.rechazarFarmacistaPorId(idFarmacista);
         Pharmacist pharmacist = pharmacistRepository.findById(idFarmacista).get();
@@ -1302,12 +1339,11 @@ public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") in
         }
         pharmacistRepository.deleteById(idFarmacista);
         return ResponseEntity.ok(response);
-
     } catch (Exception e) {
-        System.out.println("Error al rechazar la solicitud.");
+        e.printStackTrace();
         HashMap<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 }
 

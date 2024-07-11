@@ -563,7 +563,7 @@ public class PharmacistController {
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
-        return "/pharmacist/verPreordenes";
+        return "pharmacist/verPreordenes";
     }
 
 

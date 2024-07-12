@@ -944,6 +944,7 @@ public class PharmacistController {
             return ResponseEntity.internalServerError().body(er);
         }
     }
+
     @GetMapping(value="/updateCantidad")
     @ResponseBody
     public Object updateCantidadA(@RequestParam(value = "idProduct", required = false) String idProduct, @RequestParam(value = "newCantidad",required = false) String newCantidad,  HttpSession session){
@@ -1003,7 +1004,8 @@ public class PharmacistController {
             return ResponseEntity.internalServerError().body(er);
         }
     }
-     @ResponseBody
+
+    @ResponseBody
     @GetMapping("/aceptarSolicitud")
     public Object aceptarSolicitud(@RequestParam(value = "idSolicitud", required = false) int idSolicitud) {
         Tracking tracking = new Tracking();
@@ -1076,9 +1078,8 @@ public class PharmacistController {
 
 
 
-
-
     ///////////////////////////////////////////////
+    //Este no
     @PostMapping("/rechazarSolicitud")
     public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud,
                                                     @RequestParam("motivo") String motivo) {
@@ -1100,7 +1101,7 @@ public class PharmacistController {
         }
     }
 
-
+    //Este no
     @RequestMapping("/confirmarDatosPaciente")
     @ResponseBody
     public ArrayList<String> confirmarDatosPaciente(@RequestBody String cuerpo , Model  model) throws JsonProcessingException {

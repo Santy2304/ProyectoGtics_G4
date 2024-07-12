@@ -1026,8 +1026,9 @@ public class PatientController {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
             }
             Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
-
-                Patient p = (Patient) session.getAttribute("usuario");
+                //HARD
+                //Patient p = (Patient) session.getAttribute("usuario");
+                Patient p = patientRepository.findByEmail("deanw202315@gmail.com").get();
                 List<Carrito> listaCart = carritoRepository.getMedicineListByPatient(p.getIdPatient());
                 Carrito cat =  new Carrito();
                 for(Carrito c : listaCart){
@@ -1123,26 +1124,29 @@ public class PatientController {
         LinkedHashMap<String , Object > errorResponse= new LinkedHashMap<>();
         try {
             //posibles errores
-            if(  ((Site) session.getAttribute("sede")) == null  ){
-                errorResponse.put("status","error");
-                errorResponse.put("reason", "You don't have a site");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-            }
-            if(  ((Patient) session.getAttribute("usuario")) == null  ){
-                errorResponse.put("status","error");
-                errorResponse.put("reason", "You are not a user");
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
-            }
+//            if(  ((Site) session.getAttribute("sede")) == null  ){
+//                errorResponse.put("status","error");
+//                errorResponse.put("reason", "You don't have a site");
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+//            }
+//            if(  ((Patient) session.getAttribute("usuario")) == null  ){
+//                errorResponse.put("status","error");
+//                errorResponse.put("reason", "You are not a user");
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+//            }
             //Borrarlos para tomar la captura
 
             //Hay q harcodear la sede y el usuario
             List<Chat> chats = chatRepository.findAll();
-            Patient patient = (Patient) session.getAttribute("usuario");
+            //HARD
+            //Patient patient = (Patient) session.getAttribute("usuario");
+            Patient patient =  patientRepository.findByEmail("alex@gmail.com").get();
             Chat chat = null;
             for (Chat c : chats) {
                 if (c.getIdPacient().getEmail().equals(patient.getEmail())
-                        && c.getIdFarmacist().getSite().equals(((Site) session.getAttribute("sede")).getName())
-                ) {
+                        // &&
+                        // c.getIdFarmacist().getSite().equals(((Site) session.getAttribute("sede")).getName())
+                ){
                     chat = c;
                 }
             }
@@ -1157,7 +1161,6 @@ public class PatientController {
             LinkedHashMap<String, Object> hasMap = new LinkedHashMap<>();
             hasMap.put("Content", listaFiltrada);
             return ResponseEntity.status(HttpStatus.OK).body(hasMap);
-
         }catch (Exception err){
             err.printStackTrace();
             LinkedHashMap<String,Object > like = new LinkedHashMap<>();
@@ -1177,7 +1180,8 @@ public class PatientController {
             Pharmacist p = pharmacistRepository.findByEmail(email);
 
             HashMap<String, Object> has = new HashMap<>();
-            if (p.getSite().equals(((Site) session.getAttribute("sede")).getName())) {
+            //HARD
+            if (/*p.getSite().equals(((Site) session.getAttribute("sede")).getName())*/ p.getSite().equals("Pando 1")) {
                 has.put("content", "si");
             } else {
                 has.put("content", "no");

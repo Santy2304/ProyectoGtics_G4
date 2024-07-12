@@ -33,7 +33,7 @@ public class Dialogflow {
 
     public String detectIntent(String text, String sessionId) throws IOException {
 
-            Resource resource = resourceLoader.getResource("classpath:velvety-accord-405915-303364909a79.json");
+            Resource resource = resourceLoader.getResource("classpath:velvety-accord-405915-e36c97ca07e6.json");
             GoogleCredentials credentials;
             try (InputStream credentialsStream = resource.getInputStream()) {
                 credentials = GoogleCredentials.fromStream(credentialsStream)

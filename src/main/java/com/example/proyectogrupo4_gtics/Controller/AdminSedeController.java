@@ -9,15 +9,20 @@ import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -1012,9 +1017,20 @@ public class AdminSedeController {
         }
     }
     //RECONTRA VALIDADO
+    @ExceptionHandler({HttpMediaTypeException.class ,   ClassCastException.class , MethodArgumentTypeMismatchException.class})
+    public Object gestionExcetion(HttpServletRequest request) {
+        LinkedHashMap<String, Object> responseMap = new LinkedHashMap<>();
+        if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Te equivocaste en algún parámetro");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
+
+//Este no
     @RequestMapping ("/generarReposicion")
     @ResponseBody
-    public Map<String,Object> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session) throws JsonProcessingException {
+    public Object CreateReplacementOrder( @RequestParam(value = "cuerpo", required = false) String cuerpo , Model  model , HttpSession session) throws JsonProcessingException {
         int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
         //Validar que se ingresen números en lugar de Strings
         //validar que solo sean medicamentos q esten por debajo de 25 de Stock
@@ -1170,23 +1186,216 @@ public class AdminSedeController {
 
     @RequestMapping("/verDetalleRepoMedicamentos")
     @ResponseBody
-    public ArrayList<String> hola(@RequestParam("idPedidoReposicion") String idPedidoReposicion ) throws JsonProcessingException {
-        System.out.println("HOLAAAA LLEGUE A VER DETALLE DE REPOSICION");
-        System.out.println(idPedidoReposicion);
-        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
-        ArrayList<String> response =  new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = null;
-        for(lotesPorReposicion lotesPorReposicion : ola){
-            // Convertir el objeto a JSON
-            try {
-                json = objectMapper.writeValueAsString(lotesPorReposicion);
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println(json);
-            response.add(json);
+    public Object hola(@RequestParam(value = "idPedidoReposicion", required = false) String idPedidoReposicion ) {
+        LinkedHashMap<String , Object> generalResponse=  new LinkedHashMap<>();
+        if(idPedidoReposicion ==null ){
+            generalResponse.put("status" , "error");
+            generalResponse.put("message", "Te equivocaste ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
         }
-        return response;
+        int idPedidoReposicionInt;
+        try{
+            idPedidoReposicionInt = Integer.parseInt(idPedidoReposicion);
+        }catch(NumberFormatException number){
+            generalResponse.put("status" , "error");
+            generalResponse.put("message", "Debes ingresar un numero ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+        }
+        if(!replacementOrderRepository.findById(idPedidoReposicionInt).isPresent()){
+            generalResponse.put("status" , "error");
+            generalResponse.put("message", "Este pedido de reposicion no existe");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+        }
+        try {
+            List<lotesPorReposicion> response = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }catch(Exception error){
+            generalResponse.put("status" , "error");
+            generalResponse.put("message", "Debes ingresar un numero ");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+        }
     }
+
+//    @RequestMapping("/verDetalleRepoMedicamentos")
+//    @ResponseBody
+//    public ArrayList<String> hola(@RequestParam("idPedidoReposicion") String idPedidoReposicion ) throws JsonProcessingException {
+//        System.out.println("HOLAAAA LLEGUE A VER DETALLE DE REPOSICION");
+//        System.out.println(idPedidoReposicion);
+//        List<lotesPorReposicion> ola  = loteRepository.getLoteByReplacementOrderId(Integer.parseInt(idPedidoReposicion));
+//        ArrayList<String> response =  new ArrayList<>();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String json = null;
+//        for(lotesPorReposicion lotesPorReposicion : ola){
+//            // Convertir el objeto a JSON
+//            try {
+//                json = objectMapper.writeValueAsString(lotesPorReposicion);
+//            } catch (JsonProcessingException e) {
+//                throw new RuntimeException(e);
+//            }
+//            System.out.println(json);
+//            response.add(json);
+//        }
+//        return response;
+//    }
+
+
+
+//    @RequestMapping ("/generarReposicion")
+//    @ResponseBody
+//    public Map<String,Object> CreateReplacementOrder( @RequestBody String cuerpo , Model  model , HttpSession session) throws JsonProcessingException {
+//        int idAdministrator =  ((Administrator)session.getAttribute("usuario")).getIdAdministrador();
+//        //Validar que se ingresen números en lugar de Strings
+//        //validar que solo sean medicamentos q esten por debajo de 25 de Stock
+//        // validar q ninguno este en cero
+//        //Validar q no este vacío y validar que sean menos de 10 medicamentos distintos
+//        //Validar la fecha que sea mayor a la que en la q nos encontramos
+//        Map<String,Object> response = new HashMap<>();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        ReplacamenteOrderData data = objectMapper.readValue(cuerpo, ReplacamenteOrderData.class);
+//        System.out.println(data.getDate());
+//        ArrayList<Object> ids = data.getIds();
+//        ArrayList<Object> cantidad = data.getCantidad();
+//        //Validar que se ingresen números en lugar de Strings
+//        int errorCount= 0;
+//        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+//            try{
+//                int ola = Integer.parseInt("" + ids.get(idx));
+//                int ola2 = Integer.parseInt("" + cantidad.get(idx));
+//            }catch(NumberFormatException er){
+//                errorCount++;
+//            }
+//        }
+//        boolean errorStrings = errorCount!=0;
+//        //validar que solo sean medicamentos q esten por debajo de 25 de Stock
+//        List<MedicamentosPorSedeDTO> listaMedicinasPocoStock = medicineRepository.listaMedicamentosPocoStock(idAdministrator);
+//        int auxCount2 = 0;
+//        for(int idx = 0 ;  idx < cantidad.size() ; idx++) {
+//            try{
+//                int ola = Integer.parseInt("" + ids.get(idx));
+//                int auxCount = 0;
+//                for(MedicamentosPorSedeDTO m : listaMedicinasPocoStock){
+//                    if( m.getIdMedicine() == ola) {
+//                        auxCount++;
+//                    }
+//                }
+//                if(auxCount==1){
+//                    auxCount2++;
+//                }
+//            }catch(NumberFormatException er){
+//                System.out.println("Hola");
+//            }
+//        }
+//        boolean errorMedicamentosNoCoinciden = auxCount2 != cantidad.size();
+//        // validar q ninguno este en cero
+//        int counterCero = 0;
+//        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+//            try{
+//                int id = Integer.parseInt(""+ids.get(idx));
+//                int quantity = Integer.parseInt(""+cantidad.get(idx));
+//                if(quantity==0){
+//                    counterCero++;
+//                }
+//            }catch(NumberFormatException er){
+//                System.out.println("Hola");
+//            }
+//        }
+//        boolean diferenteCero = counterCero != cantidad.size();
+//        //Validar q no este vacío y validar que sean menos de 10 medicamentos distintos
+//        boolean vacio = cuerpo.isEmpty();
+//        int counterNoCero = 0;
+//        for(int idx = 0 ;  idx < cantidad.size() ; idx++){
+//            try{
+//                int id = Integer.parseInt(""+ids.get(idx));
+//                int quantity = Integer.parseInt(""+cantidad.get(idx));
+//                if(quantity!=0){
+//                    counterNoCero++;
+//                }
+//            }catch(NumberFormatException er){
+//                System.out.println("Hola");
+//            }
+//        }
+//        boolean menorADiez = counterNoCero<=10;
+//        //Validar la fecha que sea mayor a la que en la q nos encontramos
+//        LocalDate ola = LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//        LocalDate fechaActual = LocalDate.now();
+//        long diferenciaEnDias = ChronoUnit.DAYS.between(fechaActual, ola);
+//        boolean reposicionPermitida = diferenciaEnDias >= 7;
+//        if(!vacio){
+//            if(reposicionPermitida){
+//                if(!errorStrings){
+//                    if(!errorMedicamentosNoCoinciden){
+//                        if(diferenteCero){
+//                            if(menorADiez){
+//                                ArrayList<String> idsString  = new ArrayList<String>();
+//                                ArrayList<String> cantidadString  = new ArrayList<String>();
+//                                for(Object aux: ids){
+//                                    idsString.add(""+aux );
+//                                }
+//                                for(Object aux: cantidad){
+//                                    cantidadString.add(""+aux );
+//                                }
+//                                System.out.println(idsString);
+//                                System.out.println(cantidadString);
+//                                ReplacementOrder r = new ReplacementOrder();
+//                                r.setTrackingState("Solicitado");
+//                                r.setSite((String) model.getAttribute("sede"));
+//                                r.setReleaseDate(LocalDate.parse((String)data.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//                                r.setAdministrator(administratorRepository.getByIdAdministrador( ((Administrator)session.getAttribute("usuario")).getIdAdministrador()));
+//                                //r.setIdReplacementOrder();
+//                                Tracking tracking = new Tracking();
+//                                tracking.setSolicitudDate(LocalDateTime.now());
+//                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+//                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+//                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+//                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+//                                trackingRepository.save(tracking);
+//                                r.setIdTracking(tracking);
+//                                ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);
+//                                //Creamos los lotes asignados a cada orden
+//                                String quantity  ;
+//                                String id ;
+//                                for(int i = 0 ; i<cantidadString.size() ;  i++){
+//                                    if(Integer.parseInt(cantidadString.get(i))>0) {
+//                                        quantity = cantidadString.get(i);
+//                                        id = idsString.get(i);
+//                                        Lote lote = new Lote();
+//                                        lote.setMedicine(medicineRepository.findById(Integer.parseInt(id)).get());
+//                                        //lote.setIdLote();
+//                                        lote.setSite((String) model.getAttribute("sede"));
+//                                        lote.setExpireDate(LocalDate.now());
+//                                        lote.setExpire(false);
+//                                        lote.setStock(Integer.parseInt(quantity));
+//                                        lote.setReplacementOrder(newReplacementOrder);
+//                                        lote.setVisible(true);
+//                                        lote.setInitialQuantity(Integer.parseInt(quantity));
+//                                        loteRepository.save(lote);
+//                                    }
+//                                }
+//
+//
+//                                response.put("error" ,"");
+//                                response.put("idRepo",newReplacementOrder.getIdReplacementOrder());
+//                            }else{
+//                                response.put("error" ,"errorMenorADiez");
+//                            }
+//                        }else{
+//                            response.put("error" ,"errorDiferenteCero");
+//                        }
+//                    }else{
+//                        response.put("error" ,"errorMedicamentosNoCoinciden");
+//                    }
+//                }else{
+//                    response.put("error" ,"errorStrings");
+//                }
+//            }else{
+//                response.put("error" ,"ErrorReposicionPermitida");
+//            }
+//        }else{
+//            response.put("error" ,"ErrorVacio");
+//        }
+//        return response;
+//    }
+//
+//
+
 }

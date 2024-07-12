@@ -8,14 +8,17 @@ import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -568,18 +571,51 @@ public class PharmacistController {
 
 
     //SERVICIOSSSSSS------------------
+
+    @ExceptionHandler({HttpMediaTypeException.class ,   ClassCastException.class , MethodArgumentTypeMismatchException.class})
+    public Object gestionExcetion(HttpServletRequest request) {
+        LinkedHashMap<String, Object> responseMap = new LinkedHashMap<>();
+        if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
+            responseMap.put("estado", "error");
+            responseMap.put("msg", "Te equivocaste en algún parámetro");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
+
     @GetMapping(value="/getUsuarioPorDni")
-    public Object getUsuarioPorDni(@RequestParam(value = "dni") String dni){
+    public Object getUsuarioPorDni(@RequestParam(value = "dni", required = false) String dni){
+        LinkedHashMap<String, Object > generalResponse = new LinkedHashMap<>();
         try{
+            if(dni==null){
+                generalResponse.put("status","error");
+                generalResponse.put("message","Debes de ingresar un dni" );
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int dniInt ;
+            try{
+                dniInt= Integer.parseInt(dni);
+            }catch(NumberFormatException number){
+                generalResponse.put("status","error");
+                generalResponse.put("message","dni debe de ser un numero" );
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(!patientRepository.findByDni(dni).isPresent()){
+                generalResponse.put("status","error");
+                generalResponse.put("message","el DNI no le corresponde a ningun usuario" );
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+
             Patient p  =  patientRepository.findByDni(dni).get();
+
             return ResponseEntity.ok(p);
         } catch(Exception err ){
             err.printStackTrace();
             HashMap<String , Object> has = new HashMap<>();
             has.put("error", "error");
-            return ResponseEntity.badRequest().body(has);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(has);
         }
     }
+    //Este no
     @PostMapping(value="/generarPreordenPost")
     public Object generarPreordenPost(Preorden p, HttpSession session){
         try {
@@ -639,6 +675,7 @@ public class PharmacistController {
             return ResponseEntity.badRequest().body(has);
         }
     }
+    //Este no
     @RequestMapping("/GenerarVenta")
     @ResponseBody
     public Map<String, String> GenerarVentaFarmacista( @RequestBody String cuerpo ,Model model , HttpSession session) throws JsonProcessingException {
@@ -723,6 +760,7 @@ public class PharmacistController {
         return response;
     }
     //Metodos RestServer
+
     @GetMapping(value="/addCarritoVenta")
     public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
         try {

@@ -29,8 +29,10 @@ import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -1290,7 +1292,7 @@ public class  SuperAdminController {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ExceptionHandler({HttpMediaTypeException.class ,   ClassCastException.class , MethodArgumentTypeMismatchException.class})
     public Object gestionExcetion(HttpServletRequest request) {
         HashMap<String, Object> responseMap = new HashMap<>();
         if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
@@ -1300,17 +1302,10 @@ public class  SuperAdminController {
         return ResponseEntity.badRequest().body(responseMap);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public Object handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-        String errorMessage = "HTTP method not supported: " + ex.getMethod();
-        return new ResponseEntity<>(errorMessage, HttpStatus.METHOD_NOT_ALLOWED);
-    }
-
     //SERVICIOS
-@PostMapping("/rechazarFarmacista")
-public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idFarmacista") int idFarmacista,
-                                                @RequestParam("motivo") String motivo) {
+    @PostMapping("/rechazarFarmacista")
+    public ResponseEntity<Object> rechazarSolicitud(@RequestParam(value = "idFarmacista" , required = false) int idFarmacista,
+                                                @RequestParam(value = "motivo", required = false) String motivo) {
         LinkedHashMap<String, Object > generalResponse = new LinkedHashMap<>();
         try{
             if(idFarmacista == 0 ){

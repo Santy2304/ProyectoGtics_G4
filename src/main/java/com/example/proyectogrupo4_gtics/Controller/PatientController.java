@@ -22,9 +22,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -835,22 +837,16 @@ public class PatientController {
 
     //SERVICIOSSSSS-----------------------------
     //En caso se equivoquen de metodo de consulta
-    @ExceptionHandler({HttpMessageNotReadableException.class})
+    @ExceptionHandler({HttpMediaTypeException.class ,   ClassCastException.class , MethodArgumentTypeMismatchException.class})
     public Object gestionExcetion(HttpServletRequest request) {
         HashMap<String, Object> responseMap = new HashMap<>();
         if (request.getMethod().equals("POST") || request.getMethod().equals("PUT") || request.getMethod().equals("GET")) {
             responseMap.put("estado", "error");
-            responseMap.put("msg", "Auxilio");
+            responseMap.put("msg", "Te equivocaste en algún parámetro");
         }
         return ResponseEntity.badRequest().body(responseMap);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-    public Object handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
-        String errorMessage = "HTTP method not supported: " + ex.getMethod();
-        return new ResponseEntity<>(errorMessage, HttpStatus.METHOD_NOT_ALLOWED);
-    }
     //Se van a harcodear todos los webServices de paciente
     @GetMapping(value="/requestChatBot")
     @ResponseBody

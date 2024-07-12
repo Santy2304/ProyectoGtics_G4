@@ -8,6 +8,7 @@ import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.rpc.Help;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -568,6 +569,16 @@ public class PharmacistController {
         model.addAttribute("apellido",pharmacist.getLastName());
         return "pharmacist/verPreordenes";
     }
+    @GetMapping(value="/vaciarCarrito")
+    public Object deleteCarrito( HttpSession session){
+        List<CarritoVenta>list = carritoVentaRepository.getMedicineListByPharmacist(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista());
+        ArrayList<Integer> listaId = new ArrayList<>();
+        for(CarritoVenta c : list ){
+            listaId.add (c.getId());
+        }
+        carritoVentaRepository.deleteAllByIdInBatch(listaId);
+        return "redirect:posFarmacista";
+    }
 
 
     //SERVICIOSSSSSS------------------
@@ -762,11 +773,32 @@ public class PharmacistController {
     //Metodos RestServer
 
     @GetMapping(value="/addCarritoVenta")
-    public Object validarCarrito(@RequestParam("idProducto") String  idProducto , HttpSession session){
+    public Object validarCarrito(@RequestParam(value = "idProducto", required = false) String  idProducto , HttpSession session){
+        LinkedHashMap<String , Object > generalResponse = new  LinkedHashMap<>();
         try {
-            int idProduct = Integer.parseInt(idProducto);
-            if (idProducto != null) {
-                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+            if(idProducto==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+
+            }
+            int idProduct;
+            try{
+                idProduct = Integer.parseInt(idProducto);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(! medicineRepository.findById(idProduct).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "El medicamento indicado no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+
+                //HARD
+                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 //Verficamos que no este repetido
                 List<CarritoVenta> lista =  carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 boolean existeMecidina =false;
@@ -782,7 +814,7 @@ public class PharmacistController {
                     car.setIdMedicine(medicineRepository.findById(Integer.parseInt(idProducto)).get());
                     carritoVentaRepository.save(car);
                     HashMap<String, Object> okey = new HashMap<>();
-                    okey.put("Succes", "Todo good");
+                    okey.put("Succes", "Se agrego");
                     return ResponseEntity.ok(okey);
                 }else{
                     System.out.println("pepepe");
@@ -791,38 +823,42 @@ public class PharmacistController {
                     return ResponseEntity.badRequest().body(er);
                 }
 
-            } else {
-                System.out.println("Hola 2");
-                HashMap<String, Object> er = new HashMap<>();
-                er.put("error", "Debes ingresar el nombre del recurso");
-                er.put("date", "" + LocalDateTime.now());
-                return ResponseEntity.badRequest().body(er);
-            }
+
         } catch (Exception err) {
             System.out.println("ErrorFatal");
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "errorHola");
             er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
     ///pharmacist/vaciarCarrito
-    @GetMapping(value="/vaciarCarrito")
-    public Object deleteCarrito( HttpSession session){
-        List<CarritoVenta>list = carritoVentaRepository.getMedicineListByPharmacist(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista());
-        ArrayList<Integer> listaId = new ArrayList<>();
-        for(CarritoVenta c : list ){
-            listaId.add (c.getId());
-        }
-        carritoVentaRepository.deleteAllByIdInBatch(listaId);
-        return "redirect:posFarmacista";
-    }
+
     @GetMapping(value="/deleteProduct")
-    public Object deleteProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+    public Object deleteProduct(@RequestParam(value = "idProducto", required = false) String  idProducto , HttpSession session){
+        LinkedHashMap<String , Object> generalResponse = new LinkedHashMap<>();
         try {
-            int idProduct = Integer.parseInt(idProducto);
-            if (idProducto != null) {
-                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+            if(idProducto==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int idProduct;
+            try{
+                idProduct = Integer.parseInt(idProducto);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(! medicineRepository.findById(idProduct).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "El medicamento indicado no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+                //HARD
+                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                Pharmacist p  =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 CarritoVenta cat =  new CarritoVenta();
                 for(CarritoVenta c : listaCart){
@@ -830,33 +866,48 @@ public class PharmacistController {
                         cat =  c;
                     }
                 }
+
                 carritoVentaRepository.deleteById(cat.getId());
                 HashMap<String, Object> okey = new HashMap<>();
                 okey.put("Succes", "Todo good");
                 return ResponseEntity.ok(okey);
-            } else {
-                System.out.println("Hola 2");
-                HashMap<String, Object> er = new HashMap<>();
-                er.put("error", "Debes ingresar el nombre del recurso");
-                er.put("date", "" + LocalDateTime.now());
-                return ResponseEntity.badRequest().body(er);
-            }
-        } catch (Exception err) {
-            System.out.println("ErrorFatal");
+        } catch (Exception err){
+            err.printStackTrace();
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "errorHola");
             er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
     //  deleteProductCarritoVenta
     @GetMapping(value="/deleteProductCarritoVenta")
-    public Object deleteCarritoProduct(@RequestParam("idProducto") String  idProducto , HttpSession session){
+    public Object deleteCarritoProduct(@RequestParam(value = "idProducto", required = false) String  idProducto , HttpSession session){
+        LinkedHashMap<String , Object> generalResponse = new LinkedHashMap<>();
         try {
-            int idProduct = Integer.parseInt(idProducto);
+            if(idProducto==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int idProduct;
+            try{
+                idProduct = Integer.parseInt(idProducto);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(! medicineRepository.findById(idProduct).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "El medicamento indicado no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+
+            idProduct = Integer.parseInt(idProducto);
             Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
-            if (idProducto != null) {
-                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                //HARD
+                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 CarritoVenta cat =  new CarritoVenta();
                 for(CarritoVenta c : listaCart){
@@ -868,39 +919,72 @@ public class PharmacistController {
                 HashMap<String, Object> okey = new HashMap<>();
                 okey.put("Succes", "Todo good");
                 return ResponseEntity.ok(okey);
-            } else {
-                System.out.println("Hola 2");
-                HashMap<String, Object> er = new HashMap<>();
-                er.put("error", "Debes ingresar el nombre del recurso");
-                er.put("date", "" + LocalDateTime.now());
-                return ResponseEntity.badRequest().body(er);
-            }
+
         } catch (Exception err) {
             System.out.println("ErrorFatal");
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "errorHola");
             er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
+            return ResponseEntity.internalServerError().body(er);
         }
     }
     @GetMapping(value="/getAllCarrito")
     public Object getAllCarrito( HttpSession session){
+        LinkedHashMap<String, Object> generalResponse =  new LinkedHashMap<>();
         try {
-            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            //HARD
+            //Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
             return ResponseEntity.ok(carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista()));
-        } catch (Exception err) {
+        }catch (Exception err) {
             System.out.println("ErrorFatal");
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "errorHola");
             er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
+            return ResponseEntity.internalServerError().body(er);
         }
     }
     @GetMapping(value="/updateCantidad")
     @ResponseBody
-    public Object updateCantidadA(@RequestParam("idProduct") String idProduct, @RequestParam("newCantidad") String newCantidad,  HttpSession session){
+    public Object updateCantidadA(@RequestParam(value = "idProduct", required = false) String idProduct, @RequestParam(value = "newCantidad",required = false) String newCantidad,  HttpSession session){
+        LinkedHashMap<String , Object > generalResponse=  new LinkedHashMap<>();
         try {
-            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            if(idProduct==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int idProductInt;
+            try{
+                idProductInt = Integer.parseInt(idProduct);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "idProducto debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(! medicineRepository.findById(idProductInt).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "El medicamento indicado no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+
+            if(newCantidad==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "newCantidad debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int newCantidadInt;
+            try{
+                newCantidadInt = Integer.parseInt(newCantidad);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message", "newCantidad debe ser un numero");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+
+            //HARD
+            //Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
             List<CarritoVenta> list = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
             CarritoVenta aux= new CarritoVenta();
             for(CarritoVenta c:  list){
@@ -916,9 +1000,107 @@ public class PharmacistController {
             HashMap<String, Object> er = new HashMap<>();
             er.put("error", "errorHola");
             er.put("date", "" + LocalDateTime.now());
-            return ResponseEntity.badRequest().body(er);
+            return ResponseEntity.internalServerError().body(er);
         }
     }
+     @ResponseBody
+    @GetMapping("/aceptarSolicitud")
+    public Object aceptarSolicitud(@RequestParam(value = "idSolicitud", required = false) int idSolicitud) {
+        Tracking tracking = new Tracking();
+        tracking.setSolicitudDate(LocalDateTime.now());
+        List<MeciamentosPorCompraDTO> Listamedicamentos = medicineRepository.listaMedicamentosPorCompra(idSolicitud);
+        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idSolicitud).get();
+        Boolean centinela = true;
+        for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+            List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+            if (lotesPosibles.isEmpty()){
+                centinela=false;
+                break;
+            }
+        }
+        if(centinela){
+            for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
+                List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
+                Lote loteDescuento = lotesPosibles.get(0);
+                loteRepository.actualizarStockLote(loteDescuento.getIdLote(),medicamento.getCantidad());
+            }
+            purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
+            Notifications notification = new Notifications();
+            notification.setContent("Su solicitud WB0"+idSolicitud+" ha sido aceptada, puede proceder al pago de esta.");
+            notification.setDate(LocalDateTime.now());
+            notification.setIdUsers(userRepository.findByEmail(purchaseOrder.getPatient().getEmail()));
+            notificationsRepository.save(notification);
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("ok","Todo bien");
+            return ResponseEntity.ok(hashMap);
+        }else{
+            HashMap<String,Object> hashMap = new HashMap<>();
+            hashMap.put("error","ola");
+            return ResponseEntity.internalServerError().body(hashMap);
+        }
+    }
+
+    @ResponseBody
+    @GetMapping(value="/getPatients")
+    public Object getPatients(HttpSession session){
+        try {
+            //HARD
+
+            //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+            Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
+            List<Chat> listaChat = chatRepository.findAll();
+            ArrayList<Chat> listaDeChat = new ArrayList<>();
+            ArrayList<Chatcontent> listaLastChatContent = new ArrayList<>();
+            for (Chat c : listaChat) {
+                if (c.getIdFarmacist().getIdFarmacista() == p.getIdFarmacista()) {
+                    List<Chatcontent> listaContent = chatContentRepository.findAll();
+                    ArrayList<Chatcontent> filtradoContent = new ArrayList<>();
+                    for (Chatcontent cc : listaContent) {
+                        if (cc.getIdChat().getIdPacient().getIdPatient() == c.getIdPacient().getIdPatient() &&
+                                cc.getIdChat().getIdFarmacist().getIdFarmacista() == c.getIdFarmacist().getIdFarmacista()
+                        ) {
+                            filtradoContent.add(cc);
+                        }
+                    }
+                    listaLastChatContent.add(filtradoContent.get(filtradoContent.size() - 1));
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(listaLastChatContent);
+        }catch (Exception errorrr){
+            LinkedHashMap<String , Object> generalResponse =  new LinkedHashMap<>();
+            generalResponse.put("status", "error");
+            generalResponse.put("message", "Ocurrio un error inesperado");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+        }
+    }
+
+
+
+
+
+    ///////////////////////////////////////////////
+    @PostMapping("/rechazarSolicitud")
+    public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud,
+                                                    @RequestParam("motivo") String motivo) {
+        try {
+            purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
+            HashMap<String, Object> response = new HashMap<>();
+            Notifications notifications = new Notifications();
+            notifications.setContent("Su solicitud WB0" + idSolicitud + " ha sido rechazada por el siguiente motivo: " + motivo);
+            notifications.setDate(LocalDateTime.now());
+            notifications.setIdUsers(  userRepository.findByEmail(purchaseOrderRepository.findById(idSolicitud).get().getPatient().getEmail()));
+            notificationsRepository.save(notifications);
+            response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.out.println("Error al rechazar la solicitud.");
+            HashMap<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+    }
+
+
     @RequestMapping("/confirmarDatosPaciente")
     @ResponseBody
     public ArrayList<String> confirmarDatosPaciente(@RequestBody String cuerpo , Model  model) throws JsonProcessingException {
@@ -960,95 +1142,7 @@ public class PharmacistController {
         }
         return response;
     }
-    @ResponseBody
-    @GetMapping("/aceptarSolicitud")
-    public Object aceptarSolicitud(@RequestParam("idSolicitud") int idSolicitud,Model model) {
-        Tracking tracking = new Tracking();
-        tracking.setSolicitudDate(LocalDateTime.now());
-        List<MeciamentosPorCompraDTO> Listamedicamentos = medicineRepository.listaMedicamentosPorCompra(idSolicitud);
-        PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idSolicitud).get();
-        Boolean centinela = true;
-        for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
-            List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
-            if (lotesPosibles.isEmpty()){
-                centinela=false;
-                break;
-            }
-        }
 
-        if(centinela){
-            for (MeciamentosPorCompraDTO medicamento :Listamedicamentos) {
-                List<Lote> lotesPosibles = loteRepository.listarLotesPosiblesV2(medicamento.getIdMedicine(), medicamento.getCantidad(),purchaseOrder.getSite());
-                Lote loteDescuento = lotesPosibles.get(0);
-                loteRepository.actualizarStockLote(loteDescuento.getIdLote(),medicamento.getCantidad());
-            }
-            purchaseOrderRepository.aceptarSolicitudPorId(idSolicitud);
-            Notifications notification = new Notifications();
-            notification.setContent("Su solicitud WB0"+idSolicitud+" ha sido aceptada, puede proceder al pago de esta.");
-            notification.setDate(LocalDateTime.now());
-            notification.setIdUsers(userRepository.findByEmail(purchaseOrder.getPatient().getEmail()));
-            notificationsRepository.save(notification);
-            HashMap<String,Object> hashMap = new HashMap<>();
-            hashMap.put("ok","daaa");
-            return ResponseEntity.ok(hashMap);
-
-        }else{
-            HashMap<String,Object> hashMap = new HashMap<>();
-            hashMap.put("error","ola");
-            return ResponseEntity.badRequest();
-        }
-
-    }
-    @PostMapping("/rechazarSolicitud")
-    public ResponseEntity<Object> rechazarSolicitud(@RequestParam("idSolicitud") int idSolicitud,
-                                                    @RequestParam("motivo") String motivo) {
-        try {
-            purchaseOrderRepository.rechazarSolicitudPorId(idSolicitud);
-            HashMap<String, Object> response = new HashMap<>();
-            Notifications notifications = new Notifications();
-            notifications.setContent("Su solicitud WB0" + idSolicitud + " ha sido rechazada por el siguiente motivo: " + motivo);
-            notifications.setDate(LocalDateTime.now());
-            notifications.setIdUsers(  userRepository.findByEmail(purchaseOrderRepository.findById(idSolicitud).get().getPatient().getEmail()));
-            notificationsRepository.save(notifications);
-            response.put("Success", "Solicitud rechazada con éxito. Motivo: " + motivo);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            System.out.println("Error al rechazar la solicitud.");
-            HashMap<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Se produjo un error al rechazar la solicitud.");
-            return ResponseEntity.badRequest().body(errorResponse);
-        }
-    }
-    @RequestMapping("/venderMedicamentos")
-    @ResponseBody
-    public Map<String , String > venderMedicamentos(Model model ){
-
-        Map<String , String>  response =  new HashMap<>();
-        return response;
-    }
-    @ResponseBody
-    @GetMapping(value="/getPatients")
-    public Object getPatients(HttpSession session){
-        Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-        List<Chat> listaChat = chatRepository.findAll();
-        ArrayList<Chat> listaDeChat = new ArrayList<>();
-        ArrayList<Chatcontent> listaLastChatContent = new ArrayList<>();
-        for(Chat c:  listaChat){
-            if(c.getIdFarmacist().getIdFarmacista()==p.getIdFarmacista() ){
-                List<Chatcontent> listaContent = chatContentRepository.findAll();
-                ArrayList<Chatcontent> filtradoContent =  new ArrayList<>();
-                for(Chatcontent cc : listaContent){
-                    if(cc.getIdChat().getIdPacient().getIdPatient() == c.getIdPacient().getIdPatient()  &&
-                            cc.getIdChat().getIdFarmacist().getIdFarmacista() == c.getIdFarmacist().getIdFarmacista()
-                    ){
-                        filtradoContent.add(cc);
-                    }
-                }
-                listaLastChatContent.add(filtradoContent.get(filtradoContent.size()-1));
-            }
-        }
-        return listaLastChatContent;
-    }
 
     public class Preorden{
         private String name;

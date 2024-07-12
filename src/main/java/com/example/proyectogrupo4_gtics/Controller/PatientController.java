@@ -1171,7 +1171,7 @@ public class PatientController {
     @GetMapping(value="/verificarCorreoPharmacist")
     @ResponseBody
     @CrossOrigin
-    public Object verificarCorreoPharmacist(HttpSession session ,@RequestParam(value="email") String email){
+    public Object verificarCorreoPharmacist(HttpSession session ,@RequestParam(value="email" ,required = false) String email){
         //Verificamos q el correo existe
         try {
             Pharmacist p = pharmacistRepository.findByEmail(email);

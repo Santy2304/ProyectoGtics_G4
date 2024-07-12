@@ -797,8 +797,8 @@ public class PharmacistController {
             }
 
                 //HARD
-                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-                Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                //Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 //Verficamos que no este repetido
                 List<CarritoVenta> lista =  carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 boolean existeMecidina =false;
@@ -822,8 +822,6 @@ public class PharmacistController {
                     er.put("error", "se repite el medicamento en la lista");
                     return ResponseEntity.badRequest().body(er);
                 }
-
-
         } catch (Exception err) {
             System.out.println("ErrorFatal");
             HashMap<String, Object> er = new HashMap<>();
@@ -857,8 +855,8 @@ public class PharmacistController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
             }
                 //HARD
-                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-                Pharmacist p  =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                //Pharmacist p  =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 CarritoVenta cat =  new CarritoVenta();
                 for(CarritoVenta c : listaCart){
@@ -866,7 +864,6 @@ public class PharmacistController {
                         cat =  c;
                     }
                 }
-
                 carritoVentaRepository.deleteById(cat.getId());
                 HashMap<String, Object> okey = new HashMap<>();
                 okey.put("Succes", "Todo good");
@@ -906,8 +903,8 @@ public class PharmacistController {
             idProduct = Integer.parseInt(idProducto);
             Medicine m =  medicineRepository.findById(Integer.parseInt(idProducto)).get();
                 //HARD
-                //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-                Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
+                Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+                //Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
                 List<CarritoVenta> listaCart = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
                 CarritoVenta cat =  new CarritoVenta();
                 for(CarritoVenta c : listaCart){
@@ -933,8 +930,8 @@ public class PharmacistController {
         LinkedHashMap<String, Object> generalResponse =  new LinkedHashMap<>();
         try {
             //HARD
-            //Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
-            Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
+            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            //Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
             return ResponseEntity.ok(carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista()));
         }catch (Exception err) {
             System.out.println("ErrorFatal");
@@ -984,8 +981,8 @@ public class PharmacistController {
             }
 
             //HARD
-            //Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
-            Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
+            Pharmacist p =  (Pharmacist)  session.getAttribute("usuario");
+            //Pharmacist p =  pharmacistRepository.findByEmail("deanw202315@gmail.com");
             List<CarritoVenta> list = carritoVentaRepository.getMedicineListByPharmacist(p.getIdFarmacista());
             CarritoVenta aux= new CarritoVenta();
             for(CarritoVenta c:  list){
@@ -1048,8 +1045,8 @@ public class PharmacistController {
         try {
             //HARD
 
-            //Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-            Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
+            Pharmacist p = (Pharmacist) session.getAttribute("usuario");
+            //Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
             List<Chat> listaChat = chatRepository.findAll();
             ArrayList<Chat> listaDeChat = new ArrayList<>();
             ArrayList<Chatcontent> listaLastChatContent = new ArrayList<>();

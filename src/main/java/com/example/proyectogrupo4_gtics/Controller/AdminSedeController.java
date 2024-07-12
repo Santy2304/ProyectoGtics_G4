@@ -1186,7 +1186,7 @@ public class AdminSedeController {
 
     @RequestMapping("/verDetalleRepoMedicamentos")
     @ResponseBody
-    public Object hola(@RequestParam(value = "idPedidoReposicion", required = false) String idPedidoReposicion ) {
+    public Object verDetalleRepoMedicamentos(@RequestParam(value = "idPedidoReposicion", required = false) String idPedidoReposicion ) {
         LinkedHashMap<String , Object> generalResponse=  new LinkedHashMap<>();
         if(idPedidoReposicion ==null ){
             generalResponse.put("status" , "error");

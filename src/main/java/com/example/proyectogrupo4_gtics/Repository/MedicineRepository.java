@@ -18,7 +18,9 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = (SELECT name FROM site where idSite= ?1))")
     List<MedicamentosPorSedeDTO> getMedicineBySite(int idSede);
 
-
+    @Query(nativeQuery = true, value = "select m.idMedicine as idMedicine,  m.name as nombreMedicamento, m.category as categoria, m.price as precio,m.photo as photo, l.stock as cantidad " +
+            "from medicine m inner join lote l on (m.idMedicine=l.idMedicine and l.site = ?1")
+    List<MedicamentosPorSedeDTO> getMedicineBySiteName(String sede);
     List<Medicine> findByIdMedicine(int idMedicine);
 
     @Query(nativeQuery = true, value = "SELECT  \n" +

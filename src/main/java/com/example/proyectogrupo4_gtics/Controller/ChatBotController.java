@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import jakarta.servlet.http.HttpSession;
@@ -120,6 +121,16 @@ public class ChatBotController {
                 generalResponse.put("message","el DNI enviado no le corresponde a ningun paciente registrado en nuestra pagina ");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
             }
+            if(solicitud.getPhoneNumber()==null){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","no envio el dni del phoneNumber");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(solicitud.getDeliverHour()==null){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","no envio el dni del deliverHour");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
             if(solicitud.getListaMedicamentos()==null){
                 generalResponse.put("status",  "Error");
                 generalResponse.put("message","no envio ninguna lista de medicamentos");
@@ -146,28 +157,37 @@ public class ChatBotController {
             }
             //Asumimos q lo atendera cualquier doctor
             Doctor doctor =  doctorRepository.findAll().get(0);
+            //Ahora verificamos que hayan suficientes medicamentos de acuerdo a la sede q se haya escogido
+            for(Medicamentos mm: solicitud.getListaMedicamentos()){
+                List<MedicamentosPorSedeDTO> lista =  medicineRepository.getMedicineBySiteName(solicitud.getSede());
+                for(MedicamentosPorSedeDTO mDto : lista){
+                    if(mDto.getIdMedicine() == Integer.parseInt(mm.getIdMedicamento()) &&
+                    mDto.getCantidad() < Integer.parseInt(mm.getCantidad())
+                    ){
+                        generalResponse.put("status",  "Error");
+                        generalResponse.put("message","No hay suficiente "+mDto.getNombreMedicamento()+" como para realizar la compra en la sede" +  solicitud.getSede() );
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+                    }
+                }
+            }
+            //Ya validado todo eso , pasamos generar la purchase order:
 
-
-
-
-
-
+            PurchaseOrder  purchaseOrder = new PurchaseOrder();
             //Ahora verificamos q hayan suficientes
 
             //En construccion
-            PurchaseOrder purchaseOrder = new PurchaseOrder();
-            purchaseOrder.setSite("Pando 1");
+            purchaseOrder.setSite(solicitud.getSede());
             purchaseOrder.setPatient(patientRepository.findByDni(solicitud.getDni()).get());
-            purchaseOrder.setIdDoctor((doctorRepository.findAll().get(0)));
+            purchaseOrder.setIdDoctor(doctor);
             purchaseOrder.setTipo("tarjeta");
-            purchaseOrder.setPhoneNumber("920821483");
+            purchaseOrder.setPhoneNumber(solicitud.getPhoneNumber());
             purchaseOrder.setDireccion(patientRepository.findByDni(solicitud.getDni()).get().getLocation());
             purchaseOrder.setApproval("pendiente");
             purchaseOrder.setStatePaid("en espera");
             purchaseOrder.setTracking("en espera");
             purchaseOrder.setTipo("chatBot");
             purchaseOrder.setRecurrent(false);
-            purchaseOrder.setDeliveryHour(""+ LocalDateTime.now());
+            purchaseOrder.setDeliveryHour(solicitud.getDeliverHour());
             purchaseOrder.setReleaseDate(LocalDate.now());
             Tracking tracking = new Tracking();
             tracking.setSolicitudDate(LocalDateTime.now());
@@ -179,51 +199,49 @@ public class ChatBotController {
             purchaseOrder.setIdtracking(tracking);
             purchaseOrderRepository.save(purchaseOrder);
             //Ahora validamos si existen suficientes unidades en pando1
+            //Verifiquemos lo
+            //Ahora probamos medicina por medicina
 
-
-            boolean validar = true;
-            for (Medicamentos m : solicitud.getListaMedicamentos()) {
+            for(Medicamentos mmm :  solicitud.getListaMedicamentos()){
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosiblesSantiago(Integer.parseInt(mmm.getIdMedicamento()), solicitud.getSede());
+                int stockCentinela = Integer.parseInt(mmm.getCantidad());
                 PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
-                purchaseHasLote.setCantidadComprar(Integer.parseInt(m.getCantidad()));
+                purchaseHasLote.setCantidadComprar(Integer.parseInt(mmm.getCantidad()));
                 purchaseHasLote.setPurchaseOrder(purchaseOrder);
                 PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
                 purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles((  medicineRepository.findById( Integer.parseInt(m.getIdMedicamento())).get()).getIdMedicine(), Integer.parseInt(m.getCantidad()) ,"Pando 1");
-                if (listaLotesPosibles.isEmpty()) {
-                    validar = false;
-                    break;
+                for(Lote l :  listaLotesPosibles){
+                    if(l.getStock()>= stockCentinela){
+                        purchaseHasLote.setLote(l);
+                        loteRepository.actualizarStockLote(l.getIdLote(), stockCentinela);
+                        purchaseHasLotID.setIdLote(l.getIdLote());
+                        purchaseHasLote.setCantidadComprar(stockCentinela);
+                        purchaseHasLote.setId(purchaseHasLotID);
+                        purchaseHasLoteRepository.save(purchaseHasLote);
+                        break;
+                    }else{
+                        stockCentinela=stockCentinela-l.getStock();
+                        purchaseHasLote.setCantidadComprar(l.getStock());
+                        l.setStock(0);
+                        loteRepository.save(l);
+                        purchaseHasLote.setLote(l);
+                        purchaseHasLotID.setIdLote(l.getIdLote());
+                        purchaseHasLote.setId(purchaseHasLotID);
+                        purchaseHasLoteRepository.save(purchaseHasLote);
+                    }
                 }
             }
 
-            if (validar) {
-                for (Medicamentos m : solicitud.getListaMedicamentos()) {
-                    PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
-                    purchaseHasLote.setCantidadComprar(Integer.parseInt(m.getCantidad()));
-                    purchaseHasLote.setPurchaseOrder(purchaseOrder);
-                    PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
-                    purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles((  medicineRepository.findById( Integer.parseInt(m.getIdMedicamento())).get()).getIdMedicine(), Integer.parseInt(m.getCantidad()) ,"Pando 1");
-                    purchaseHasLote.setLote(listaLotesPosibles.get(0));
-                    purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
-                    purchaseHasLote.setId(purchaseHasLotID);
-                    purchaseHasLoteRepository.save(purchaseHasLote);
-                }
-                LinkedHashMap<String , Object> response  =  new LinkedHashMap<>();
-                response.put("success", true);
-                response.put("idCompra", purchaseOrder.getId());
-                return ResponseEntity.ok(response);
-            } else {
-                LinkedHashMap<String , Object> responseBad  =  new LinkedHashMap<>();
-                responseBad.put("status","fail" );
-                return ResponseEntity.badRequest().body(responseBad);
-            }
+            generalResponse.put("status", "success");
+            generalResponse.put("date",""+ LocalDateTime.now());
+            generalResponse.put("message", "Tu compra ha sido realizada con exito , ingresa esté a la espera de que el farmacista asignado valide la compra");
+            return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
         }catch(Exception error){
             error.printStackTrace();
             generalResponse.put("status", "error");
             generalResponse.put("date",""+ LocalDateTime.now());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
-
     }
 
 
@@ -290,6 +308,16 @@ public class ChatBotController {
     }
 
     public class Solicitud {
+        private String phoneNumber;
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
         private String sede;
         private String deliverHour;
         private String dni;

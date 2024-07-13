@@ -18,8 +18,8 @@ public class Notifications implements Serializable {
     @Column(name = "idnotifications", nullable = false)
     private Integer id;
 
-    @Size(max = 120)
-    @Column(name = "content", length = 120)
+
+    @Column(name = "content")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

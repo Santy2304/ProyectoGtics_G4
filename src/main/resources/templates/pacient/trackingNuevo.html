@@ -66,6 +66,7 @@
                         <div class="page-header">
                             <div class="page-title">
                                 <h4>Historial de Órdenes</h4>
+                                <p class="mt-2">Aquí podrás ver tus ordenes aceptadas y en camino</p>
                             </div>
 
                         </div>
@@ -144,7 +145,7 @@
                                 <tbody>
                                 <tr th:each="compras : ${listaTracking}">
 
-                                    <td th:text="${compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+                                    <td th:text="${'WB0'+compras.getIdPurchaseOrder()}" class="text-bolds"></td>
                                     <td><a >
                                         <img th:id="|${compras.getIdPurchaseOrder()}|" src="../assets_superAdmin/img/transaccion.png" width="30" alt="img">
                                     </a></td>

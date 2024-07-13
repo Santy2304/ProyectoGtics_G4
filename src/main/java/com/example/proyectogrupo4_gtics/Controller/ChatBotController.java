@@ -1,5 +1,8 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Controller.ClasesChat.Medicamentos;
+import com.example.proyectogrupo4_gtics.Controller.ClasesChat.MedicineContent;
+import com.example.proyectogrupo4_gtics.Controller.ClasesChat.Solicitud;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
@@ -158,19 +161,30 @@ public class ChatBotController {
             //Asumimos q lo atendera cualquier doctor
             Doctor doctor =  doctorRepository.findAll().get(0);
             //Ahora verificamos que hayan suficientes medicamentos de acuerdo a la sede q se haya escogido
-            for(Medicamentos mm: solicitud.getListaMedicamentos()){
-                List<MedicamentosPorSedeDTO> lista =  medicineRepository.getMedicineBySiteName(solicitud.getSede());
-                for(MedicamentosPorSedeDTO mDto : lista){
-                    if(mDto.getIdMedicine() == Integer.parseInt(mm.getIdMedicamento()) &&
-                    mDto.getCantidad() < Integer.parseInt(mm.getCantidad())
-                    ){
-                        generalResponse.put("status",  "Error");
-                        generalResponse.put("message","No hay suficiente "+mDto.getNombreMedicamento()+" como para realizar la compra en la sede" +  solicitud.getSede() );
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+
+            for(Medicamentos mmm :  solicitud.getListaMedicamentos()) {
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosiblesSantiago(Integer.parseInt(mmm.getIdMedicamento()), solicitud.getSede());
+                if(listaLotesPosibles.size() == 0){
+                    generalResponse.put("status",  "Error");
+                    generalResponse.put("message","No hay suficiente "+medicineRepository.findById(Integer.parseInt(mmm.getIdMedicamento())).get().getName() + " como para realizar la compra en la sede" +  solicitud.getSede() );
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+                }
+                int centinela = Integer.parseInt(mmm.getCantidad());
+                for(Lote l :  listaLotesPosibles) {
+                    if(l.getStock()>= centinela){
+                        centinela=0;
+                        break;
+                    }else {
+                        centinela = centinela - l.getStock();
                     }
                 }
+                if(centinela!=0){
+                    generalResponse.put("status",  "Error");
+                    generalResponse.put("message","No hay suficiente "+medicineRepository.findById(Integer.parseInt(mmm.getIdMedicamento())).get().getName() + " como para realizar la compra en la sede" +  solicitud.getSede() );
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+                }
             }
-            //Ya validado todo eso , pasamos generar la purchase order:
+                //Ya validado todo eso , pasamos generar la purchase order:
 
             PurchaseOrder  purchaseOrder = new PurchaseOrder();
             //Ahora verificamos q hayan suficientes
@@ -185,7 +199,7 @@ public class ChatBotController {
             purchaseOrder.setApproval("pendiente");
             purchaseOrder.setStatePaid("en espera");
             purchaseOrder.setTracking("en espera");
-            purchaseOrder.setTipo("chatBot");
+            purchaseOrder.setTipo("bot");
             purchaseOrder.setRecurrent(false);
             purchaseOrder.setDeliveryHour(solicitud.getDeliverHour());
             purchaseOrder.setReleaseDate(LocalDate.now());
@@ -197,7 +211,7 @@ public class ChatBotController {
             tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
             trackingRepository.save(tracking);
             purchaseOrder.setIdtracking(tracking);
-            purchaseOrderRepository.save(purchaseOrder);
+            purchaseOrder= purchaseOrderRepository.save(purchaseOrder);
             //Ahora validamos si existen suficientes unidades en pando1
             //Verifiquemos lo
             //Ahora probamos medicina por medicina
@@ -217,10 +231,12 @@ public class ChatBotController {
                         purchaseHasLotID.setIdLote(l.getIdLote());
                         purchaseHasLote.setCantidadComprar(stockCentinela);
                         purchaseHasLote.setId(purchaseHasLotID);
-                        purchaseHasLoteRepository.save(purchaseHasLote);
+                        PurchaseHasLote po  = purchaseHasLoteRepository.save(purchaseHasLote);
+                        System.out.println(po.getId());
                         break;
                     }else{
-                        stockCentinela=stockCentinela-l.getStock();
+
+                        stockCentinela = stockCentinela - l.getStock();
                         purchaseHasLote.setCantidadComprar(l.getStock());
                         l.setStock(0);
                         loteRepository.save(l);
@@ -245,127 +261,9 @@ public class ChatBotController {
     }
 
 
-    public class MedicineContent {
-        private String id;
-        private String name;
-        private String category;
-        private double  price;
-        private String description;
-        private String cantidad;
 
-        public String getId() {
-            return id;
-        }
 
-        public void setId(String id) {
-            this.id = id;
-        }
 
-        public String getName() {
-            return name;
-        }
 
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public double getPrice() {
-            return price;
-        }
-
-        public void setPrice(double price) {
-            this.price = price;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getCantidad() {
-            return cantidad;
-        }
-
-        public void setCantidad(String cantidad) {
-            this.cantidad = cantidad;
-        }
-    }
-
-    public class listaMedicamentosAComprar{
-        private ArrayList<Medicine> medicinas ;
-
-    }
-
-    public class Solicitud {
-        private String phoneNumber;
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
-
-        private String sede;
-        private String deliverHour;
-        private String dni;
-        private ArrayList<Medicamentos> listaMedicamentos;
-        public String getDni() {
-            return dni;
-        }
-        public void setDni(String dni) {
-            this.dni = dni;
-        }
-        public ArrayList<Medicamentos> getListaMedicamentos() {
-            return listaMedicamentos;
-        }
-        public void setListaMedicamentos(ArrayList<Medicamentos> listaMedicamentos) {
-            this.listaMedicamentos = listaMedicamentos;
-        }
-        public String getSede() {
-            return sede;
-        }
-        public void setSede(String sede) {
-            this.sede = sede;
-        }
-        public String getDeliverHour() {
-            return deliverHour;
-        }
-        public void setDeliverHour(String deliverHour) {
-            this.deliverHour = deliverHour;
-        }
-    }
-    public class Medicamentos{
-        private String idMedicamento;
-        private String cantidad;
-
-        public String getIdMedicamento() {
-            return idMedicamento;
-        }
-
-        public void setIdMedicamento(String idMedicamento) {
-            this.idMedicamento = idMedicamento;
-        }
-
-        public String getCantidad() {
-            return cantidad;
-        }
-
-        public void setCantidad(String cantidad) {
-            this.cantidad = cantidad;
-        }
-    }
 
 }

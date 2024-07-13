@@ -283,30 +283,49 @@
                 correo.className= "is-valid";
                 document.getElementById("errorCorreo").textContent = "Debe ingresar un valor" ;
                 document.getElementById("errorCorreo").style.display = 'block' ;
+            }else{
+                correo.className= "";
+                document.getElementById("errorCorreo").textContent = "" ;
+                document.getElementById("errorCorreo").style.display = 'none' ;
             }
             if(!validateEmail(correo.value.trim())){
                 correo.className= "is-valid";
                 document.getElementById("errorCorreo").textContent = "Debe ingresar un correo" ;
                 document.getElementById("errorCorreo").style.display = 'block' ;
+            }else{
+                correo.className= "";
+                document.getElementById("errorCorreo").textContent = "" ;
+                document.getElementById("errorCorreo").style.display = 'none' ;
             }
             if(seguro.value.trim() === ""){
                 seguro.className= "is-valid";
                 document.getElementById("errorSeguro").textContent = "Debe ingresar un valor" ;
                 document.getElementById("errorSeguro").style.display = 'block' ;
+            }else{
+                seguro.className= "";
+                document.getElementById("errorSeguro").textContent = "" ;
+                document.getElementById("errorSeguro").style.display = 'none' ;
             }
             if(direccion.value.trim()  === ""){
                 direccion.className= "is-valid";
                 document.getElementById("errorDireccion").textContent = "Debe ingresar un valor" ;
                 document.getElementById("errorDireccion").style.display = 'block' ;
+            }else{
+                direccion.className= "";
+                document.getElementById("errorDireccion").textContent = "" ;
+                document.getElementById("errorDireccion").style.display = 'none' ;
             }
             if(distrit.value.trim() === ""){
                 distrit.className= "is-valid";
                 document.getElementById("errorDistrito").textContent = "Debe ingresar un valor" ;
                 document.getElementById("errorDistrito").style.display = 'block' ;
+            }else{
+                distrit.className= "";
+                document.getElementById("errorDistrit").textContent = "" ;
+                document.getElementById("errorDistrit").style.display = 'none' ;
             }
             //Probamos campo por campo
-            }
-
+        }
     });
 
     function validateEmail(email) {

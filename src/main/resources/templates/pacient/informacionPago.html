@@ -81,9 +81,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr th:each="tarjeta,obj : ${listarTarjetasOculta}">
+                                                <tr th:each="tarjeta,obj : ${listarTarjetas}">
                                                     <td th:text="${obj.index+1}"></td>
-                                                    <td th:text="${tarjeta.getNumberCard()}"></td>
+                                                    <td th:text="${tarjeta.getHideNumber()}"></td>
                                                     <td th:text="${tarjeta.getBank()}"></td>
                                                     <td>
                                                         <a th:if="${!tarjeta.getPrefered()}" th:href="@{'/patient/marcarTarjetaPreferida?idTarjeta=' + ${tarjeta.idCredit}}" class="text-decoration-none">

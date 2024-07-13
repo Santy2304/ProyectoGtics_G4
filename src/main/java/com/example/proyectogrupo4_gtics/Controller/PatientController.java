@@ -546,26 +546,20 @@ public class PatientController {
         model.addAttribute("apellido",patient.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesUserPeque(userRepository.findByEmail(patient.getEmail()).getId()));
 
-        List<CreditCard> listaOculta = new ArrayList<>();
 
-        for (CreditCard creditCardOculta: creditCardRepository.listaCreditCards(patient.getIdPatient())){
-
-            String numeroOculto = formatCardNumber(creditCardOculta.getNumberCard());
-            creditCardOculta.setNumberCard(numeroOculto);
-            listaOculta.add(creditCardOculta);
-
-        }
-
-        model.addAttribute("listarTarjetasOculta",listaOculta);
+        model.addAttribute("listarTarjetas",creditCardRepository.listaCreditCards(patient.getIdPatient()));
 
         return "pacient/informacionPago";
     }
+
+/*
     private String formatCardNumber(String cardNumber) {
         if (cardNumber.length() != 16) {
             return cardNumber; // Devuelve el número tal cual si no tiene 16 dígitos
         }
         return cardNumber.substring(0, 4) + " **** **** " + cardNumber.substring(12);
     }
+*/
     @PostMapping("/agregarTarjetaUsuario")
     public String agregarTarjeta(Model model , CreditCard creditCard,@RequestParam("fechaV") String fechaV ,HttpSession httpSession,RedirectAttributes attributes) {
 

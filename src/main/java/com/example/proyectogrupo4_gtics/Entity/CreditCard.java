@@ -50,6 +50,19 @@ public class CreditCard implements Serializable {
     @Positive
     private Integer expireYear;
 
+    @Size(max = 45)
+    @NotNull
+    @Column(name = "hideNumber", length = 45)
+    private String hideNumber;
+
+    public String getHideNumber() {
+        return hideNumber;
+    }
+
+    public void setHideNumber(String hideNumber) {
+        this.hideNumber = hideNumber;
+    }
+
     public Integer getExpireYear() {
         return expireYear;
     }

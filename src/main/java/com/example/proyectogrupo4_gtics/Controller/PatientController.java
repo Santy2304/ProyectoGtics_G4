@@ -513,6 +513,9 @@ public class PatientController {
                     long maxFileSize = 5 * 1024 * 1024;
 
                     String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    //foto unica
+                    String fotoUnica = Calendar.getInstance().getTimeInMillis()+fileExtension;
                     if (fileSize > maxFileSize) {
                         model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
                         return "pacient/perfilNuevo";
@@ -526,11 +529,16 @@ public class PatientController {
                         return "pacient/perfilNuevo";
                     }
 
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoUnica);
+
                     Files.write(rutaCompleta, bytesImgPerfil);
                     //patient.setPhoto(imagen.getOriginalFilename());
                     attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
-                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                    //patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), fotoUnica, patient.getIdPatient());
+                    session.setAttribute("usuario",patientRepository.findById(patient.getIdPatient()).get());
+
                     return "redirect:verPerfilPaciente";
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -1247,6 +1255,9 @@ public class PatientController {
                 long maxFileSize = 5 * 1024 * 1024;
 
                 String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                //nombre de foto de receta único
+                String photoRecetaUnique = Calendar.getInstance().getTimeInMillis() + fileExtension;
                 if (fileSize > maxFileSize) {
                     response.put("imageError", "El tamaño de la imagen excede a 5MB");
                     return ResponseEntity.badRequest().body(response);
@@ -1256,9 +1267,11 @@ public class PatientController {
                     return ResponseEntity.badRequest().body(response);
                 }
 
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + receta.getOriginalFilename());
+                //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + receta.getOriginalFilename());
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + photoRecetaUnique);
                 Files.write(rutaCompleta, bytesImgMedicine);
-                purchaseOrder.setPrescription(receta.getOriginalFilename());
+                //purchaseOrder.setPrescription(receta.getOriginalFilename());
+                purchaseOrder.setPrescription(photoRecetaUnique);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

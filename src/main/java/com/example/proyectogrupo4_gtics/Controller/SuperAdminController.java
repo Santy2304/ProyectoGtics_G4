@@ -194,6 +194,10 @@ public class  SuperAdminController {
                     long maxFileSize  = 5*1024*1024;
 
                     String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    //Nombre unico para la imagen
+
+                    String nameFotoUnico = Calendar.getInstance().getTimeInMillis()+fileExtension;
                     if(fileSize>maxFileSize){
                         model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
                         return "superAdmin/anadirMedicamento";
@@ -207,9 +211,11 @@ public class  SuperAdminController {
                         return "superAdmin/anadirMedicamento";
                     }
 
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nameFotoUnico);
                     Files.write(rutaCompleta,bytesImgMedicine);
-                    medicine.setPhoto(imagen.getOriginalFilename());
+                    //medicine.setPhoto(imagen.getOriginalFilename());
+                    medicine.setPhoto(nameFotoUnico);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -357,6 +363,10 @@ public class  SuperAdminController {
 
                 String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
 
+                //Edición nombre  único foto
+                String nameFotoUnico = Calendar.getInstance().getTimeInMillis()+fileExtension;
+
+
                 if (fileSize > maxFileSize) {
                     model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
                     return "superAdmin/editarMedicamento";
@@ -370,9 +380,12 @@ public class  SuperAdminController {
                     return "superAdmin/editarMedicamento";
                 }
 
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagenEdit.getOriginalFilename());
+                //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagenEdit.getOriginalFilename());
+                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + nameFotoUnico);
+
                 Files.write(rutaCompleta, bytesImgMedicine);
-                medicineRepository.actualizarMedicine(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), fileOriginalName, medicine.getIdMedicine());
+                //medicineRepository.actualizarMedicine(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), fileOriginalName, medicine.getIdMedicine());
+                medicineRepository.actualizarMedicine(medicine.getName(), medicine.getCategory(), medicine.getPrice(), medicine.getDescription(), nameFotoUnico, medicine.getIdMedicine());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -654,6 +667,9 @@ public class  SuperAdminController {
                         long maxFileSize  = 5*1024*1024;
 
                         String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                        //Foto de administrador unico
+                        String fotoUnique = Calendar.getInstance().getTimeInMillis() + fileExtension;
                         if(fileSize>maxFileSize){
                             model.addAttribute("imageError","El tamaño de la imagen excede a 5MB");
                             return "superAdmin/AgregarAdminSede";
@@ -667,9 +683,12 @@ public class  SuperAdminController {
                             return "superAdmin/AgregarAdminSede";
                         }
 
-                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                        //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoUnique);
+
                         Files.write(rutaCompleta,bytesImgPerfil);
-                        administrator.setPhoto(adminFoto.getOriginalFilename());
+                        //administrator.setPhoto(adminFoto.getOriginalFilename());
+                        administrator.setPhoto(fotoUnique);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -768,6 +787,8 @@ public class  SuperAdminController {
                     long maxFileSize = 5 * 1024 * 1024;
 
                     String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    //Foto unico
+                    String editFotoUnique = Calendar.getInstance().getTimeInMillis() + fileExtension;
                     if (fileSize > maxFileSize) {
                         model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
                         return "superAdmin/EditarAdministrador";
@@ -781,11 +802,15 @@ public class  SuperAdminController {
                         return "superAdmin/EditarAdministrador";
                     }
 
-                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                    //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + adminFoto.getOriginalFilename());
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + editFotoUnique);
+
                     Files.write(rutaCompleta, bytesImgPerfil);
                     //administrator.setPhoto(adminFoto.getOriginalFilename());
 
-                    administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
+                    //administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), adminFoto.getOriginalFilename(), administrator.getIdAdministrador());
+                    administratorRepository.updateDatosPorId(administrator.getName(), administrator.getLastName(), administrator.getDni(), administrator.getEmail(), administrator.getSite(), administrator.getState(), editFotoUnique, administrator.getIdAdministrador());
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -875,6 +900,9 @@ public class  SuperAdminController {
                     long maxFileSize = 5 * 1024 * 1024;
 
                     String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    //foto unica
+                    String editFotoUnique = Calendar.getInstance().getTimeInMillis()+fileExtension;
                     if (fileSize > maxFileSize) {
                         model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
                         return "superAdmin/EditarAdministrador";

@@ -93,6 +93,11 @@
                 background-position: 180px;
             }
         }
+
+        .title-large {
+            font-size: 20px;
+            font-weight: bold;
+        }
     </style>
 
 </head>
@@ -121,7 +126,7 @@
                             <span><img src="/assets_superAdmin/img/icons/dash1.svg" alt="img"></span>
                         </div>
                         <div class="dash-widgetcontent">
-                            <h5 ><span class="counters" th:text="${cantPorSede}"></span></h5>
+                            <h5 ><span class="counters" th:unless="${cantPorSede} == null or ${cantPorSede} == 0"></span><span th:if="${cantPorSede}!= null and ${cantPorSede}!= 0" th:text="${cantPorSede}"></span></h5>
                             <h6>Medicamentos vendidos</h6>
                         </div>
                     </div>
@@ -164,8 +169,10 @@
                     <div class="dash-count">
                         <div class="dash-counts">
                             <h4>Sede Pando 1</h4>
-                            <h5 th:text="|Medicamentos vendidos: ${cantVend1}|"></h5>
-                            <h5 th:text="|Ganancia: S/${ganancia1}0|"></h5>
+                            <h7>Medicamentos vendidos:</h7>
+                            <h5 th:text="${cantVend1}!= null? ${cantVend1} : '0'">Medicamentos vendidos: 0</h5>
+                            <h7>Ganancia:</h7>
+                            <h5 th:text="${ganancia1}!= null? ${ganancia1} : '0.00'">Ganancia: S/0.00</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -176,8 +183,10 @@
                     <div class="dash-count das1">
                         <div class="dash-counts">
                             <h4>Sede Pando 2</h4>
-                            <h5 th:text="|Medicamentos vendidos: ${cantVend2}|"></h5>
-                            <h5 th:text="|Ganancia: S/${ganancia2}0|"></h5>
+                            <h7>Medicamentos vendidos:</h7>
+                            <h5 th:text="${cantVend2}!= null? ${cantVend2} : '0'">Medicamentos vendidos: 0</h5>
+                            <h7>Ganancia:</h7>
+                            <h5 th:text="${ganancia2}!= null? ${ganancia2} : '0.00'">Ganancia: S/0.00</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -188,8 +197,10 @@
                     <div class="dash-count das2">
                         <div class="dash-counts">
                             <h4>Sede Pando 3</h4>
-                            <h5 th:text="|Medicamentos vendidos: ${cantVend3}|"></h5>
-                            <h5 th:text="|Ganancia: S/${ganancia3}0|"></h5>
+                            <h7>Medicamentos vendidos:</h7>
+                            <h5 th:text="${cantVend3}!= null? ${cantVend3} : '0'">Medicamentos vendidos: 0</h5>
+                            <h7>Ganancia:</h7>
+                            <h5 th:text="${ganancia3}!= null? ${ganancia3} : '0.00'">Ganancia: S/0.00</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -200,8 +211,10 @@
                     <div class="dash-count das3">
                         <div class="dash-counts">
                             <h4>Sede Pando 4</h4>
-                            <h5 th:text="|Medicamentos vendidos: ${cantVend4}|"></h5>
-                            <h5 th:text="|Ganancia: S/${ganancia4}0|"></h5>
+                            <h7>Medicamentos vendidos:</h7>
+                            <h5 th:text="${cantVend4}!= null? ${cantVend4} : '0'">Medicamentos vendidos: 0</h5>
+                            <h7>Ganancia:</h7>
+                            <h5 th:text="${ganancia4}!= null? ${ganancia4} : '0.00'">Ganancia: S/0.00</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -215,7 +228,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Ventas de las sedes en los últimos 30 días</h5>
+                                <h5 class="card-title">Ventas de las sedes en el último mes</h5>
                             </div>
                             <div class="card-body">
                                 <div id="donut-chart" class="chart-set" th:attr="data-series=${montos}"></div>
@@ -455,7 +468,60 @@
             <!--
                 </div>
                 -->
+            <div class="table-responsive">
 
+                <table class="table  datanew">
+
+                    <thead>
+                    <tr>
+                        <th colspan="5" class="title-large">Medicamentos con poco stock</th>
+                    </tr>
+                    <tr>
+                        <th>Medicamentos</th>
+                        <th>Foto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad actual </th>
+                        <th>Precio unitario</th>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr th:each="medicamento, vEstado: ${listaMedicamentosBS}">
+                        <td th:text="${medicamento.getNombreMedicamento()}"></td>
+                        <td class="productimgname" style="text-align: center;">
+                            <a th:id="|A${medicamento.idMedicine}|" class="product-img" >
+                                <img  th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="product">
+                            </a>
+                        </td>
+                        <td th:text="${medicamento.getCategoria()}"></td>
+                        <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
+                        <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
+                        <td th:text="${medicamento.getPrecio()}"></td>
+                        <script th:inline="javascript" >
+
+                            $("#A" + [[${medicamento.idMedicine}]]).click(function () {
+                                Swal.fire({
+                                    title: [[${medicamento.getNombreMedicamento()}]],
+                                    text: [[${medicamento.getDescription()}]],
+                                    imageUrl: '/imagenes/'+[[${medicamento.getPhoto()}]],
+                                    imageWidth: 400,
+                                    imageHeight: 200,
+                                    imageAlt: "Custom image",
+                                    confirmButtonColor: "#dd986a"
+                                })
+                            })
+                        </script>
+                    </tr>
+                    <!--
+                    th:src="@{'/assets_superAdmin/ImagenesMedicina/' + ${medicamento.getPhoto()}}"
+                    <!td>
+                        <a class="me-3" href="editproduct.html">
+                            <img src="assets/img/icons/edit.svg" alt="img">
+                        </a>
+                    <!/td>
+                    -->
+                    </tbody>
+                </table>
+            </div>
                 <div class="row">
                     <div class="page-btn">
                         <a href="/adminSede/verListaReposicion" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-2">Ver más</a>
@@ -465,6 +531,7 @@
 
         </div>
     </div>
+
 </div>
 <!-- /Main Wrapper -->
 

@@ -41,17 +41,12 @@
 		</div>
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
-			
 			<!-- Header -->
 			<!-- Header -->
 			<div th:replace="navbarSuperAdmin"></div>
-
-
 			<!-- Sidebar -->
 			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')"> </div>
-
 			<!-- /Sidebar -->
-			
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
@@ -163,10 +158,31 @@
 												<a class="me-3" th:href="@{'/superAdmin/editarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" th:href="@{'/superAdmin/eliminarAdminSede?idAdminSede=' + ${adminSede.idAdministrador}}">
+												<a th:id="|deleteAdminSede${adminSede.idAdministrador}|" class="confirm-text">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
+											<script th:javascript="inline">
+												document.addEventListener("DOMContentLoaded", ()=>{
+													let dele = document.getElementById('deleteAdminSede' + [[${adminSede.idAdministrador}]]);
+													dele.addEventListener('click', ()=> {
+														Swal.fire({
+															title: '¿Estás seguro de eliminar a este administrador?',
+															icon: 'warning',
+															background: "white",
+															showCancelButton: true,
+															confirmButtonColor: '#d48e15',
+															cancelButtonColor: '#805409',
+															confirmButtonText: 'Eliminar',
+															cancelButtonText: 'Cancelar'
+														}).then((result) => {
+															if (result.isConfirmed) {
+																window.location.href = '/superAdmin/eliminarAdminSede?idAdminSede' + [[${adminSede.idAdministrador}]];
+															}
+														});
+													});
+												});
+											</script>
 										</tr>
 									</tbody>
 								</table>
@@ -286,10 +302,32 @@
 												<a class="me-3" th:href="@{'/superAdmin/editarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
-												<a class="confirm-text" th:href="@{'/superAdmin/eliminarFarmacista?idFarmacista=' + ${farmacista.idFarmacista}}">
+												<a th:id="|deleteFarmacista${farmacista.idFarmacista}|" class="confirm-text" >
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 												</a>
 											</td>
+											<script th:javascript="inline">
+												document.addEventListener("DOMContentLoaded", ()=>{
+													let dele = document.getElementById('deleteFarmacista' + [[${farmacista.idFarmacista}]]);
+													dele.addEventListener('click', ()=> {
+														Swal.fire({
+															title: '¿Estás seguro de eliminar a este farmacista?',
+															icon: 'warning',
+															background: "white",
+															showCancelButton: true,
+															confirmButtonColor: '#d48e15',
+															cancelButtonColor: '#805409',
+															confirmButtonText: 'Eliminar',
+															cancelButtonText: 'Cancelar'
+														}).then((result) => {
+															if (result.isConfirmed) {
+																window.location.href = '/superAdmin/eliminarFarmacista?idFarmacista' + [[${farmacista.idFarmacista}]];
+															}
+														});
+													});
+												});
+											</script>
+
 										</tr>
 
 									</tbody>

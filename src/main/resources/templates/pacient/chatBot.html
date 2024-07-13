@@ -169,7 +169,7 @@
     document.addEventListener('DOMContentLoaded', ()=>{
         let patient = [[${session.usuario.email}]];
         $.ajax({
-            url: "/patient/getChat",
+            url: "/patient/getChatBot",
             type: "GET",
             success: function(response){
                 //Cargamos todos los mensajes de la persona con el farmacista

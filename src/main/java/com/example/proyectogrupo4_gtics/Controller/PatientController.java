@@ -8,8 +8,10 @@ import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
 import com.example.proyectogrupo4_gtics.Service.Dialogflow;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.util.DateTime;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.rpc.Help;
+import io.opencensus.trace.Link;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -36,6 +38,7 @@ import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -44,6 +47,8 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 
 @Controller
 @SessionAttributes({"idUser","idSede", "carrito"})
@@ -55,6 +60,8 @@ public class PatientController {
     }
     final SiteRepository siteRepository;
     final ChatRepository chatRepository;
+    final ChatBotRepository chatBotRepository;
+
     final PatientRepository patientRepository;
     final MedicineRepository medicineRepository;
     final UserRepository userRepository;
@@ -82,7 +89,9 @@ public class PatientController {
                               ChatRepository chatRepository,
                               ChatContentRepository chatContentRepository,
                               PharmacistRepository pharmacistRepository,
-                              Dialogflow dialogflow) {
+                              Dialogflow dialogflow,
+                              ChatBotRepository chatBotRepository) {
+        this.chatBotRepository = chatBotRepository;
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.medicineRepository = medicineRepository;
@@ -861,13 +870,25 @@ public class PatientController {
             //Aqui consumimos el servicio de dialog flow
             LinkedHashMap<String, Object> linked = new LinkedHashMap<>();
             linked.put("status", "ok");
-
+            Chatbot ch = new Chatbot();
+            ch.setHour(Instant.now());
+            ch.setIdPatient(((Patient) session.getAttribute("usuario")));
+            ch.setMessage(message);
+            ch.setAuthor(((Patient) session.getAttribute("usuario")).getEmail());
+            chatBotRepository.save(ch);
             //HARD
-            linked.put("content", dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail()));
+            //Respuesta
+            String respuestaIa = dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail());
+            linked.put("content", respuestaIa);
+            Chatbot chResponse = new Chatbot();
+            chResponse.setHour(Instant.now());
+            chResponse.setIdPatient(((Patient) session.getAttribute("usuario")));
+            chResponse.setMessage(respuestaIa);
+            chResponse.setAuthor("bot");
+            chatBotRepository.save(chResponse);
             //linked.put("content", dialogflow.detectIntent(message,"alex@gmail.com"));
-
             //RECORDAR Q EN LA VISTA SE ESPERA ESTE RESULTADO
-            //                createMessageReceiver(response.content.message , obtenerHoraActual);
+            //createMessageReceiver(response.content.message , obtenerHoraActual);
             return ResponseEntity.ok(linked);
         }catch(Exception error) {
             error.printStackTrace();
@@ -875,6 +896,34 @@ public class PatientController {
             response.put("status", "error");
             response.put("date", LocalDateTime.now());
             return ResponseEntity.internalServerError().body(response);
+        }
+    }
+
+    @GetMapping(value="/getChatBot")
+    @ResponseBody
+    @CrossOrigin
+    public Object getChatBot(HttpSession session){
+        LinkedHashMap<String ,Object > generalResponse=  new LinkedHashMap<>();
+        try{
+            List<Chatbot> listaTotal = chatBotRepository.findAll();
+            //Filtramos lo q contenga al bot
+            ArrayList<LinkedHashMap<String , Object>> listaFiltrada =  new ArrayList<>();
+            for(Chatbot ch :  listaTotal){
+                if(ch.getIdPatient().getIdPatient() == ((Patient)session.getAttribute("usuario")).getIdPatient()){
+                    LinkedHashMap<String , Object> aux = new LinkedHashMap<>();
+                    aux.put("autor", ch.getAuthor() );
+                    aux.put("message", ch.getMessage());
+                    aux.put("dateTime", ch.getHour());
+                    listaFiltrada.add(aux);
+                }
+            }
+            generalResponse.put("Content", listaFiltrada);
+            return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
+        }catch(Exception error){
+            error.printStackTrace();
+            generalResponse.put("status", "error");
+            generalResponse.put("message", "Ocurrio un error inesperado");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
     }
 

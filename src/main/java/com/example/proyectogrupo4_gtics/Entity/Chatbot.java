@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "chatbot", schema = "proyectogtics")
@@ -15,9 +16,9 @@ public class Chatbot {
     @Column(name = "idchatbot", nullable = false)
     private Integer id;
 
-    @Size(max = 45)
+    @Size(max = 500)
     @NotNull
-    @Column(name = "message", nullable = false, length = 45)
+    @Column(name = "message", nullable = false, length = 500)
     private String message;
 
     @NotNull
@@ -32,7 +33,7 @@ public class Chatbot {
 
     @NotNull
     @Column(name = "hour", nullable = false)
-    private DateTime hour;
+    private Instant hour;
 
     public Integer getId() {
         return id;
@@ -66,11 +67,11 @@ public class Chatbot {
         this.author = author;
     }
 
-    public DateTime getHour() {
+    public Instant getHour() {
         return hour;
     }
 
-    public void setHour(DateTime hour) {
+    public void setHour(Instant hour) {
         this.hour = hour;
     }
 

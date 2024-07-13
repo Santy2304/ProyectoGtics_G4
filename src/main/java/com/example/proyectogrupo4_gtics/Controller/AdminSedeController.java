@@ -308,6 +308,9 @@ public class AdminSedeController {
 
                             String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
 
+                            //Foto unica
+                            String fotoUnica = Calendar.getInstance().getTimeInMillis()+fileExtension;
+
                             if (fileSize > maxFileSize) {
                                 model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
                                 return "admin_sede/addpharmacist";
@@ -321,9 +324,11 @@ public class AdminSedeController {
                                 return "admin_sede/addpharmacist";
                             }
 
-                            Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                            //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                            Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoUnica);
                             Files.write(rutaCompleta, bytesImgMedicine);
-                            pharmacist.setPhoto(imagen.getOriginalFilename());
+                            //pharmacist.setPhoto(imagen.getOriginalFilename());
+                            pharmacist.setPhoto(fotoUnica);
 
                             attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
                             pharmacist.setChangePassword(false);

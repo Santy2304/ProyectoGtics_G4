@@ -861,6 +861,7 @@ public class PatientController {
             //Aqui consumimos el servicio de dialog flow
             LinkedHashMap<String, Object> linked = new LinkedHashMap<>();
             linked.put("status", "ok");
+
             //HARD
             linked.put("content", dialogflow.detectIntent(message,""+ ((Patient) session.getAttribute("usuario")).getEmail()));
             //linked.put("content", dialogflow.detectIntent(message,"alex@gmail.com"));
@@ -873,7 +874,7 @@ public class PatientController {
             LinkedHashMap<String, Object> response =  new LinkedHashMap<>();
             response.put("status", "error");
             response.put("date", LocalDateTime.now());
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.internalServerError().body(response);
         }
     }
 

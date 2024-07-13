@@ -338,7 +338,7 @@
 												</thead>
 												<tbody>
 													<tr>
-														<td th:text="${tarjetaElejida.getNumberCard()}"></td>
+														<td th:if="${tarjetaElejida.getNumberCard() != null}" th:text="${tarjetaElejida.getNumberCard()}"></td>
 														<td th:text="${tarjetaElejida.getBank()}"></td>
 													</tr>
 												</tbody>

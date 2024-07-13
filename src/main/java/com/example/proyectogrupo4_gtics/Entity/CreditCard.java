@@ -52,7 +52,7 @@ public class CreditCard implements Serializable {
 
     @Size(max = 45)
     @NotNull
-    @Column(name = "hideNumber", length = 45)
+    @Column(name = "hidenumber", length = 45)
     private String hideNumber;
 
     public String getHideNumber() {

@@ -4,6 +4,8 @@ import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorSedeDTO;
+import com.example.proyectogrupo4_gtics.Dao.DniDao;
+import com.example.proyectogrupo4_gtics.Dao.PersonaDni;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -1397,5 +1399,19 @@ public class AdminSedeController {
 //    }
 //
 //
+
+    @GetMapping(value="/getDni")
+    public Object getDni(@RequestParam("dni") String  dni , Model model ) {
+        try {
+            PersonaDni p = new DniDao().buscarDatosPorDNI(dni);
+            model.addAttribute("santiago",  p);
+            return ResponseEntity.ok(p);
+        } catch (Exception err) {
+            HashMap<String, Object> er = new HashMap<>();
+            er.put("error", "No se encontro el DNI");
+            return ResponseEntity.badRequest().body(er);
+        }
+    }
+
 
 }

@@ -499,8 +499,12 @@ public class PatientController {
             return "pacient/perfilNuevo";
         } else {
             if (imagen.isEmpty()) {
-                model.addAttribute("imageError", "Debe agregar una imagen");
-                return "pacient/perfilNuevo";
+                attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+                //patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), imagen.getOriginalFilename(), patient.getIdPatient());
+                patientRepository.updatePatientDataSinFoto(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
+                session.setAttribute("usuario",patientRepository.findById(patient.getIdPatient()).get());
+
+                return "redirect:verPerfilPaciente";
             }
             else {
                 //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");

@@ -20,7 +20,12 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Transactional
     @Modifying
     @Query(nativeQuery= true , value="update patient set distrit=?1 , location=?2 ,  insurance=?3, photo=?4 where idPatient= ?5")
-    void updatePatientData(String district , String location, String insurance, String photo , int idPatient);
+    void updatePatientData(String district , String location, String insurance, String photo, int idPatient);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery= true , value="update patient set distrit=?1 , location=?2 ,  insurance=?3 where idPatient= ?4")
+    void updatePatientDataSinFoto(String district , String location, String insurance, int idPatient);
 
     @Transactional
     @Modifying

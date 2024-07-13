@@ -11,6 +11,7 @@ import com.example.proyectogrupo4_gtics.Repository.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -221,6 +222,7 @@ public class AdminSedeController {
 
     }
     //Agregar farmacista faltan validaciones correspondientes
+    /*
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -229,7 +231,7 @@ public class AdminSedeController {
         model.addAttribute("nombre", admin.getName());
         model.addAttribute("apellido", admin.getLastName());
         model.addAttribute("photo", admin.getPhoto());
-        if(!(admin.getState().equalsIgnoreCase("baneado") || admin.getState().equalsIgnoreCase("eliminado"))){
+        if(!(admin.getState().equalsIgnoreCase("baneado") && admin.getState().equalsIgnoreCase("eliminado"))){
             model.addAttribute("rol","administrador");
         }
             pharmacist.setSite(admin.getSite());
@@ -339,10 +341,75 @@ public class AdminSedeController {
                         }
 
                     }else{
-                        model.addAttribute("errorImage","Se debe ingresar una foto");
+                        model.addAttribute("imageError","Se debe ingresar una foto");
                         return "admin_sede/addpharmacist";
                     }
                 }
+        }
+    }
+
+
+     */
+    @PostMapping("/agregarFarmacista")
+    public String agregarFarmacista(@RequestParam("foto")MultipartFile imagen, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist
+            , BindingResult bindingResult
+            , RedirectAttributes attributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "admin_sede/addpharmacist";
+        } else {
+            if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
+                model.addAttribute("errorDNI", "El DNI ingresado ya existe");
+                return "admin_sede/addpharmacist";
+            } else { //Cuando se ingresa un nuevo DNI
+                if(!imagen.isEmpty()){
+                    //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+
+
+                    String fileOriginalName = imagen.getOriginalFilename();
+                    try {
+                        byte[] bytesImgMedicine = imagen.getBytes();
+
+                        long fileSize = imagen.getSize();
+                        long maxFileSize = 5 * 1024 * 1024;
+
+                        String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                        //Foto unica
+                        String fotoUnica = Calendar.getInstance().getTimeInMillis()+fileExtension;
+
+                        if (fileSize > maxFileSize) {
+                            model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                            return "admin_sede/addpharmacist";
+                        }
+                        if (
+                                !fileExtension.equalsIgnoreCase(".jpg") &&
+                                        !fileExtension.equalsIgnoreCase(".png") &&
+                                        !fileExtension.equalsIgnoreCase(".jpeg")
+                        ) {
+                            model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                            return "admin_sede/addpharmacist";
+                        }
+
+                        //Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                        Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoUnica);
+                        Files.write(rutaCompleta, bytesImgMedicine);
+                        //pharmacist.setPhoto(imagen.getOriginalFilename());
+                        pharmacist.setPhoto(fotoUnica);
+
+                        attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
+                        pharmacist.setChangePassword(false);
+                        pharmacistRepository.save(pharmacist);
+                        return "redirect:listaFarmacista";
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }else{
+                    model.addAttribute("imageError","Se debe ingresar una foto");
+                    return "admin_sede/addpharmacist";
+                }
+            }
         }
     }
     //Faltan agregar validaciones de editar farmacista por sede

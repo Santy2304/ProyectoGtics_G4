@@ -744,15 +744,32 @@ public class PharmacistController {
                     purchaseHasLote.setPurchaseOrder(p);
                     PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
                     purchaseHasLotID.setIdPurchase(p.getId());
-                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(listaIdMedicine.get(idx), listaCantidades.get(idx), pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
+                    List<Lote> listaLotesPosibles = loteRepository.listarLotesPosiblesSantiago(listaIdMedicine.get(idx), pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
                     if (listaLotesPosibles.isEmpty()) {
                         continue;
                     }
-                    purchaseHasLote.setLote(listaLotesPosibles.get(0));
-                    loteRepository.actualizarStockLote(listaLotesPosibles.get(0).getIdLote(), listaCantidades.get(idx));
-                    purchaseHasLotID.setIdLote(listaLotesPosibles.get(0).getIdLote());
-                    purchaseHasLote.setId(purchaseHasLotID);
-                    purchaseHasLoteRepository.save(purchaseHasLote);
+                    int stockCentinela = listaCantidades.get(idx);
+
+                    for(Lote l :  listaLotesPosibles){
+                        if(l.getStock()>= stockCentinela){
+                            purchaseHasLote.setLote(l);
+                            loteRepository.actualizarStockLote(l.getIdLote(), stockCentinela);
+                            purchaseHasLotID.setIdLote(l.getIdLote());
+                            purchaseHasLote.setCantidadComprar(stockCentinela);
+                            purchaseHasLote.setId(purchaseHasLotID);
+                            purchaseHasLoteRepository.save(purchaseHasLote);
+                            break;
+                        }else{
+                            stockCentinela=stockCentinela-l.getStock();
+                            purchaseHasLote.setCantidadComprar(l.getStock());
+                            l.setStock(0);
+                            loteRepository.save(l);
+                            purchaseHasLote.setLote(l);
+                            purchaseHasLotID.setIdLote(l.getIdLote());
+                            purchaseHasLote.setId(purchaseHasLotID);
+                            purchaseHasLoteRepository.save(purchaseHasLote);
+                        }
+                    }
                     model.addAttribute("idPatient", "");
                     model.addAttribute("idDoctor", "");
                 }
@@ -766,6 +783,7 @@ public class PharmacistController {
             }
 
         }catch(Exception error){
+            error.printStackTrace();
             response.put("error", "errorInesperado");
         }
         return response;

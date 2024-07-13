@@ -35,12 +35,11 @@
                     </div>
                     -->
                     <div class="login-userheading">
-                        <h2>Crear una cuenta</h2>
+                        <h3>Crear una cuenta</h3>
                     </div>
-
-                    <p>
-                        Primero coloca tu DNI y luego presiona "ENTER"; esto te permitirá rellenar tus nombres y apellidos.
-                    </p>
+                    <h2>
+                        Completa el campo con tu DNI para continuar
+                    </h2>
                     <div class="form-login">
                         <label>DNI</label>
                         <div class="form-addons">
@@ -48,7 +47,6 @@
                             <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                         </div>
                     </div>
-
                     <script>
                         function capitalizeName(name) {
                             // Separar el nombre por espacios en blanco
@@ -138,6 +136,7 @@
                         <div class="form-addons">
                             <input readonly type="email" id="correo" name="email" placeholder="Ingrese su correo electrónico" required>
                             <img src="/assets_superAdmin/img/icons/mail.svg" alt="img">
+                            <div class="invalid-feedback" id="errorCorreo" style="display: none " > </div>
                         </div>
                     </div>
 
@@ -146,6 +145,7 @@
                         <div class="form-addons">
                             <input readonly type="text" id="seguro" name="insurance" placeholder="Ingrese el nombre de su seguro" required>
                             <img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">
+                            <div class="invalid-feedback" id="errorSeguro" style="display: none " > </div>
                         </div>
                     </div>
 
@@ -154,6 +154,7 @@
                         <div class="form-addons">
                             <input readonly  type="text" id="direccion" name="location" placeholder="Ingresa su dirección" required>
                             <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
+                            <div class="invalid-feedback" id="errorDireccion" style="display: none " > </div>
                         </div>
                     </div>
 
@@ -162,6 +163,7 @@
                         <div class="form-addons">
                             <input readonly type="text" id="distrit" name="distrit" placeholder="Ingresa el nombre de tu distrito" required>
                             <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
+                            <div class="invalid-feedback" id="errorDistrito" style="display: none" > </div>
                         </div>
                     </div>
 
@@ -272,8 +274,46 @@
                     }
                 });
             }
-        }
-    })
+            }else{
+            let correo = document.getElementById("correo");
+            let  seguro = document.getElementById("seguro");
+            let direccion = document.getElementById("direccion");
+            let distrit = document.getElementById("distrit");
+            if(correo.value.trim() === ""){
+                correo.className= "is-valid";
+                document.getElementById("errorCorreo").textContent = "Debe ingresar un valor" ;
+                document.getElementById("errorCorreo").style.display = 'block' ;
+            }
+            if(!validateEmail(correo.value.trim())){
+                correo.className= "is-valid";
+                document.getElementById("errorCorreo").textContent = "Debe ingresar un correo" ;
+                document.getElementById("errorCorreo").style.display = 'block' ;
+            }
+            if(seguro.value.trim() === ""){
+                seguro.className= "is-valid";
+                document.getElementById("errorSeguro").textContent = "Debe ingresar un valor" ;
+                document.getElementById("errorSeguro").style.display = 'block' ;
+            }
+            if(direccion.value.trim()  === ""){
+                direccion.className= "is-valid";
+                document.getElementById("errorDireccion").textContent = "Debe ingresar un valor" ;
+                document.getElementById("errorDireccion").style.display = 'block' ;
+            }
+            if(distrit.value.trim() === ""){
+                distrit.className= "is-valid";
+                document.getElementById("errorDistrito").textContent = "Debe ingresar un valor" ;
+                document.getElementById("errorDistrito").style.display = 'block' ;
+            }
+            //Probamos campo por campo
+            }
+
+    });
+
+    function validateEmail(email) {
+        // Expresión regular para validar un correo electrónico
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
 </script>
 
 <!-- jQuery -->

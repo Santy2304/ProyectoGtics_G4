@@ -36,6 +36,9 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     @Query(nativeQuery = true, value = "SELECT * FROM lote WHERE idMedicine=?1 and stock>=?2 and site = ?3 and visible=1")
     List<Lote> listarLotesPosibles(int idMedicine, int stock, String site);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM lote WHERE idMedicine=?1 and stock>0 and site = ?2 and visible=1 order by stock asc")
+    List<Lote> listarLotesPosiblesSantiago(int idMedicine, String site);
+
     @Modifying
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE lote SET initial_quantity = ?2 WHERE  idLote=?1")

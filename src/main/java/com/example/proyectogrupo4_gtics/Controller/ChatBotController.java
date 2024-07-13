@@ -3,6 +3,7 @@ package com.example.proyectogrupo4_gtics.Controller;
 import com.example.proyectogrupo4_gtics.Entity.*;
 import com.example.proyectogrupo4_gtics.Repository.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,18 +97,60 @@ public class ChatBotController {
             response.put("Content", listaMedicinaAvailable);
             return ResponseEntity.ok(response);
         }catch(Exception error){
+            error.printStackTrace();
             LinkedHashMap<String , Object > response =  new LinkedHashMap<>();
             response.put("Status", "Ocurrio un error inesperado");
-            return ResponseEntity.badRequest().body(response);
+            return ResponseEntity.internalServerError().body(response);
         }
     }
-
 
     @PostMapping(value="/generarSolicitudVentaPorChatBot")
     @ResponseBody
     @CrossOrigin
-    public Object generarSolicitudVentaPorChatBot( Solicitud solicitud) {
+    public Object generarSolicitudVentaPorChatBot( @RequestBody Solicitud solicitud) {
+        LinkedHashMap<String , Object> generalResponse = new LinkedHashMap<>();
         try{
+            if(solicitud.getDni()==null){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","no envio el dni del paciente");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(!patientRepository.findByDni(solicitud.getDni()).isPresent()){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","el DNI enviado no le corresponde a ningun paciente registrado en nuestra pagina ");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+            if(solicitud.getListaMedicamentos()==null){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","no envio ninguna lista de medicamentos");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            //Validamos la existencia de todos los medicamentos
+            for(Medicamentos m : solicitud.getListaMedicamentos()){
+                if(!medicineRepository.findById(Integer.parseInt(m.getIdMedicamento())).isPresent()){
+                    generalResponse.put("status",  "Error");
+                    generalResponse.put("message","No existe una medicina con el ID = "+  m.getIdMedicamento());
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+                }
+            }
+            //Debemos verificar
+            if(solicitud.getSede()==null){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","Debes de ingresar una sede");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            if(siteRepository.findAll().contains(solicitud.getSede())){
+                generalResponse.put("status",  "Error");
+                generalResponse.put("message","Has ingresado una sede que no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+            //Asumimos q lo atendera cualquier doctor
+            Doctor doctor =  doctorRepository.findAll().get(0);
+
+
+
+            //Ahora verificamos q hayan suficientes
+
             //En construccion
             PurchaseOrder purchaseOrder = new PurchaseOrder();
             purchaseOrder.setSite("Pando 1");
@@ -162,7 +205,6 @@ public class ChatBotController {
                     purchaseHasLote.setId(purchaseHasLotID);
                     purchaseHasLoteRepository.save(purchaseHasLote);
                 }
-
                 LinkedHashMap<String , Object> response  =  new LinkedHashMap<>();
                 response.put("success", true);
                 response.put("idCompra", purchaseOrder.getId());
@@ -172,13 +214,13 @@ public class ChatBotController {
                 responseBad.put("status","fail" );
                 return ResponseEntity.badRequest().body(responseBad);
             }
-
-
-
         }catch(Exception error){
-
+            error.printStackTrace();
+            generalResponse.put("status", "error");
+            generalResponse.put("date",""+ LocalDateTime.now());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
-        return ResponseEntity.ok();
+
     }
 
 
@@ -244,33 +286,34 @@ public class ChatBotController {
 
     }
 
-    public class Solicitud{
+    public class Solicitud {
+        private String sede;
+        private String deliverHour;
         private String dni;
-        private String fecha;
         private ArrayList<Medicamentos> listaMedicamentos;
-
         public String getDni() {
             return dni;
         }
-
         public void setDni(String dni) {
             this.dni = dni;
         }
-
-        public String getFecha() {
-            return fecha;
-        }
-
-        public void setFecha(String fecha) {
-            this.fecha = fecha;
-        }
-
         public ArrayList<Medicamentos> getListaMedicamentos() {
             return listaMedicamentos;
         }
-
         public void setListaMedicamentos(ArrayList<Medicamentos> listaMedicamentos) {
             this.listaMedicamentos = listaMedicamentos;
+        }
+        public String getSede() {
+            return sede;
+        }
+        public void setSede(String sede) {
+            this.sede = sede;
+        }
+        public String getDeliverHour() {
+            return deliverHour;
+        }
+        public void setDeliverHour(String deliverHour) {
+            this.deliverHour = deliverHour;
         }
     }
     public class Medicamentos{

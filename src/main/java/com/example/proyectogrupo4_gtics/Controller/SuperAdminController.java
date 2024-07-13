@@ -620,7 +620,9 @@ public class  SuperAdminController {
         return "superAdmin/AgregarAdminSede";
     }
     @PostMapping("/agregarAdminSede")
-    public String agregarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator, BindingResult bindingResult, RedirectAttributes attributes, Model model) {
+    public String agregarAdminSede(@RequestParam("adminFile")MultipartFile adminFoto, @ModelAttribute("adminSede") @Valid Administrator administrator
+            , BindingResult bindingResult
+            , RedirectAttributes attributes, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("listaSedes", siteRepository.findAll());
             return "superAdmin/AgregarAdminSede";
@@ -630,7 +632,6 @@ public class  SuperAdminController {
             administrator.setCreationDate(LocalDate.now());
             administrator.setState("activo");
             administrator.setChangePassword(false);
-
             if (verificarUnicidadDni(administrator.getDni(), "Administrator")) {
                 model.addAttribute("listaSedes", siteRepository.findAll());
                 model.addAttribute("error", "El DNI del administrador ingresado ya existe");

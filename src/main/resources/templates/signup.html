@@ -50,6 +50,20 @@
                     </div>
 
                     <script>
+                        function capitalizeName(name) {
+                            // Separar el nombre por espacios en blanco
+                            const words = name.split(' ');
+
+                            // Capitalizar el primer carácter de cada palabra y unir el resto en minúsculas
+                            const capitalizedWords = words.map(word => {
+                                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                            });
+
+                            // Unir las palabras nuevamente en un string
+                            return capitalizedWords.join(' ');
+                        }
+
+
                         document.addEventListener('DOMContentLoaded', ()=>{
                            let dni = document.getElementById("dni");
                            dni.addEventListener('keydown', (event) =>{
@@ -60,8 +74,8 @@
                                       success: function(response){
                                           let name  =  document.getElementById("name");
                                           let lastName = document.getElementById("lastName");
-                                          name.placeholder = response.nombres;
-                                          lastName.placeholder= response.apellidoPaterno + " " + response.apellidoMaterno;
+                                          name.placeholder = capitalizeName(response.nombres);
+                                          lastName.placeholder= capitalizeName(response.apellidoPaterno + " " + response.apellidoMaterno);
                                           //Les quitamos el readonly al resto de campos
                                           let correo = document.getElementById("correo");
                                           correo.readOnly = false;
@@ -192,16 +206,15 @@
                         // Crear un nuevo elemento de entrada
                         var nuevoInput1 = document.createElement("input");
                         var nuevoInput2 = document.createElement("input");
-
                         // Configurar las propiedades del nuevo elemento
                         nuevoInput1.type = "text";
                         nuevoInput1.name = "name";
                         nuevoInput1.id = "nombre";
-                        nuevoInput1.value= response.nombres ;
+                        nuevoInput1.value= capitalizeName(response.nombres);
                         nuevoInput2.type = "text";
                         nuevoInput2.name = "lastName";
                         nuevoInput2.id = "apellidos";
-                        nuevoInput2.value= response.apellidoPaterno + " " + response.apellidoMaterno ;
+                        nuevoInput2.value= capitalizeName(response.apellidoPaterno + " " + response.apellidoMaterno) ;
                         var datos = $("#miFormulario").serialize();
                         datos += "&lastName=" + encodeURIComponent(nuevoInput2.value);
                         datos += "&name=" + encodeURIComponent(nuevoInput1.value);

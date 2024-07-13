@@ -109,8 +109,9 @@
 										}
 										document.addEventListener('DOMContentLoaded', ()=>{
 											let dni =  document.getElementById("dni");
-											dni.addEventListener('change', (event)=>{
-												if(event.key === 'enter'){
+											dni.addEventListener('input', (event)=>{
+												let cantidad = event.target.value.length;
+												if(cantidad=== 8){
 													//Hacemos consulta con ajax
 													$.ajax({
 														url: '/superAdmin/getDni?dni='+dni.value,

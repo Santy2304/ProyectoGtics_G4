@@ -268,10 +268,9 @@
                                 if (xhr.status === 400) {
                                     var errors = xhr.responseJSON;
                                     var errorMessages = Object.values(errors).join('<br>');
-
                                     Swal.fire({
-                                        title: 'Error',
-                                        html: errorMessages,
+                                        title: 'Oppss',
+                                        text: 'No contamos con suficientes medicamentos como para realizar este venta' ,
                                         icon: 'error'
                                     });
                                 } else {

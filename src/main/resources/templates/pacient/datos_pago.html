@@ -340,7 +340,7 @@
 													<tr>
 														<td th:if="${tarjetaElejida == null}" > No hay tarjeta </td>
 														<td th:if="${tarjetaElejida != null}" th:text="|${tarjetaElejida.getHideNumber()}|">  </td>
-														<td th:text="${tarjetaElejida.getBank()}"></td>
+														<td th:if="${tarjetaElejida != null}" th:text="${tarjetaElejida.getBank()}"></td>
 													</tr>
 												</tbody>
 											</table>

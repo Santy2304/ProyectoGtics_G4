@@ -641,42 +641,47 @@ public class PatientController {
     }
     @PostMapping("/pagarFinal")
     public String pagar(@RequestParam("idPurchase")int idPurchase,@RequestParam(value = "recurrent", required = false) String recurrent,@RequestParam("nuevaTarjetaNum") String tarjetaNueva,@RequestParam("cvv") String cvv,@RequestParam("fechaV") String fechaV,Model model, RedirectAttributes attr, HttpSession httpSession){
-        Patient patient = (Patient) httpSession.getAttribute("usuario");
-        String[] parts = fechaV.split("/");
-        int month = Integer.parseInt(parts[0]);
-        int year = 2000 + Integer.parseInt(parts[1]);
-        if (tarjetaNueva.isEmpty()){
-            CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
-            int medDb = creditCard.getExpireMonth();
-            int yearDb = creditCard.getExpireYear();
-            if (creditCard.getCvv().equals(cvv) && medDb==month && yearDb==year){
+        try {
+            Patient patient = (Patient) httpSession.getAttribute("usuario");
+            String[] parts = fechaV.split("/");
+            int month = Integer.parseInt(parts[0]);
+            int year = 2000 + Integer.parseInt(parts[1]);
+            if (tarjetaNueva.isEmpty()) {
+                CreditCard creditCard = creditCardRepository.encontrarCreditCardFavorita(patient.getIdPatient());
+                int medDb = creditCard.getExpireMonth();
+                int yearDb = creditCard.getExpireYear();
+                if (creditCard.getCvv().equals(cvv) && medDb == month && yearDb == year) {
 
-                PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
-                if (recurrent.equals("true")){
-                    purchaseOrder.setRecurrent(true);
-                }
+                    PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
 
-                purchaseOrderRepository.pagarOrdenCompra(idPurchase);
-            }else{
-                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                return "redirect:verDatosPago?idPurchase="+idPurchase;
-            }
-        }else{
-            CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
-            if (creditCardOptional!=null){
-                int medDb = creditCardOptional.getExpireMonth();
-                int yearDb = creditCardOptional.getExpireYear();
 
-                if (creditCardOptional.getCvv().equals(cvv) && medDb==month && yearDb==year){
+                    if (recurrent !=null && recurrent.equals("true")) {
+                        purchaseOrder.setRecurrent(true);
+                    }
                     purchaseOrderRepository.pagarOrdenCompra(idPurchase);
-                }else{
-                    attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                    return "redirect:verDatosPago?idPurchase="+idPurchase;
+                } else {
+                    attr.addFlashAttribute("msg", "La tarjeta o los datos son incorrectos");
+                    return "redirect:verDatosPago?idPurchase=" + idPurchase;
                 }
-            }else{
-                attr.addFlashAttribute("msg","La tarjeta o los datos son incorrectos");
-                return "redirect:verDatosPago?idPurchase="+idPurchase;
+            } else {
+                CreditCard creditCardOptional = creditCardRepository.encontrarCreditCard(tarjetaNueva);
+                if (creditCardOptional != null) {
+                    int medDb = creditCardOptional.getExpireMonth();
+                    int yearDb = creditCardOptional.getExpireYear();
+
+                    if (creditCardOptional.getCvv().equals(cvv) && medDb == month && yearDb == year) {
+                        purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                    } else {
+                        attr.addFlashAttribute("msg", "La tarjeta o los datos son incorrectos");
+                        return "redirect:verDatosPago?idPurchase=" + idPurchase;
+                    }
+                } else {
+                    attr.addFlashAttribute("msg", "La tarjeta o los datos son incorrectos");
+                    return "redirect:verDatosPago?idPurchase=" + idPurchase;
+                }
             }
+        }catch(Exception error){
+            error.printStackTrace();
         }
         return "redirect:verHistorial";
     }
@@ -1250,7 +1255,6 @@ public class PatientController {
     @ResponseBody
     @CrossOrigin
     public ResponseEntity<Map<String, Object>> agregarOrdenCompra(
-            @SessionAttribute("idSede") String idSede,
             @RequestParam("Hour") String HourStr,
             @RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("direccion") String direccion,
@@ -1338,7 +1342,12 @@ public class PatientController {
         Patient patient = patientRepository.findById(((Patient) session.getAttribute("usuario")).getIdPatient()).get();
         purchaseOrder.setPatient(patient);
         purchaseOrder.setApproval("pendiente");
-        Site sede = siteRepository.findById(Integer.parseInt(idSede)).get();
+        Site sede = null;
+        for(Site s : siteRepository.findAll()){
+            if(s.getName().equals(((Site)session.getAttribute("sede")).getName())){
+                sede = s;
+            }
+        }
         purchaseOrder.setSite(sede.getName());
         purchaseOrder.setStatePaid("en espera");
         purchaseOrder.setTracking("en espera");
@@ -1364,7 +1373,7 @@ public class PatientController {
             purchaseHasLote.setPurchaseOrder(purchaseOrder);
             PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
             purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-            List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt(idSede)).get().getName());
+            List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(sede.getIdSite()).get().getName());
             if (listaLotesPosibles.isEmpty()) {
                 validar = false;
                 break;
@@ -1378,7 +1387,7 @@ public class PatientController {
                 purchaseHasLote.setPurchaseOrder(purchaseOrder);
                 PurchaseHasLotID purchaseHasLotID = new PurchaseHasLotID();
                 purchaseHasLotID.setIdPurchase(purchaseOrder.getId());
-                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(Integer.parseInt(idSede)).get().getName());
+                List<Lote> listaLotesPosibles = loteRepository.listarLotesPosibles(c.getIdMedicine().getIdMedicine(), c.getCantidad(), siteRepository.findById(sede.getIdSite()).get().getName());
                 if (listaLotesPosibles.isEmpty()) {
                     return ResponseEntity.badRequest().body(response);
                 }

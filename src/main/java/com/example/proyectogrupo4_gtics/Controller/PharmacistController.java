@@ -486,7 +486,7 @@ public class PharmacistController {
                     listaFiltrada.add(m);
                 }
             }
-    }else {
+        }else {
             for (MedicamentosPorSedeDTO m : listaaaa) {
                     listaFiltrada.add(m);
 
@@ -613,6 +613,35 @@ public class PharmacistController {
             responseMap.put("msg", "Te equivocaste en algún parámetro");
         }
         return ResponseEntity.badRequest().body(responseMap);
+    }
+
+    @GetMapping(value="/getChat")
+    @ResponseBody
+    public Object getChat(@RequestParam(value = "ola",required = false) String email ){
+        LinkedHashMap<String , Object> generalResponse=  new LinkedHashMap<>();
+        try{
+            if(!patientRepository.findByEmail(email).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message","El paciente ingresado no existe");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+            ArrayList<LinkedHashMap<String , Object>> listaFiltrada =  new ArrayList<>();
+            for(Chatcontent ch : chatContentRepository.findAll()){
+                LinkedHashMap<String , Object> aux=  new LinkedHashMap<>();
+                if(ch.getIdChat().getIdPacient().getIdPatient() == patientRepository.findByEmail(email).get().getIdPatient()){
+                    aux.put("autor",ch.getAutor());
+                    aux.put("message",ch.getMessage());
+                    aux.put("dateTime",ch.getDateTime());
+                    listaFiltrada.add(aux);
+                }
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(listaFiltrada);
+        }catch(Exception error){
+            error.printStackTrace();
+            generalResponse.put("status", "error");
+            generalResponse.put("message","ocurrio un error inesperada");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+        }
     }
 
     @GetMapping(value="/getUsuarioPorDni")
@@ -811,7 +840,6 @@ public class PharmacistController {
         return response;
     }
     //Metodos RestServer
-
     @GetMapping(value="/addCarritoVenta")
     public Object validarCarrito(@RequestParam(value = "idProducto", required = false) String  idProducto , HttpSession session){
         LinkedHashMap<String , Object > generalResponse = new  LinkedHashMap<>();
@@ -871,7 +899,6 @@ public class PharmacistController {
         }
     }
     ///pharmacist/vaciarCarrito
-
     @GetMapping(value="/deleteProduct")
     public Object deleteProduct(@RequestParam(value = "idProducto", required = false) String  idProducto , HttpSession session){
         LinkedHashMap<String , Object> generalResponse = new LinkedHashMap<>();

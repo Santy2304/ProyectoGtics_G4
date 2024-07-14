@@ -14,7 +14,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <!-- animation CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
@@ -156,24 +157,22 @@
                                 <td th:text="|PO${preorden.id}|"></td>
                                 <td>
                                     <a  type="button">
-                                        <img th:id="|${compras.getIdPurchaseOrder()}|" src="/assets_superAdmin/img/transaccion.png" width="30" alt="img">
+                                        <img th:id="|${preorden.id}|" src="/assets_superAdmin/img/transaccion.png" width="30" alt="img">
                                     </a>
                                 </td>
                                 <script th:inline="javascript" >
-                                    document.getElementById([[${compras.getIdPurchaseOrder()}]]).onclick =
+                                    document.getElementById( ''+ [[${preorden.id}]] ).onclick =
                                         function() {
-                                            data = {idPurchase: [[${compras.getIdPurchaseOrder()}]] }
                                             $.ajax({
-                                                url: "/patient/verDetalleCompra",
-                                                type: "POST",
-                                                data: data ,
+                                                url: "/pharmacist/verDetalleCompra?idPurchase="+[[${preorden.id}]],
+                                                type: "GET",
                                                 success : function (response) {
-                                                    var Header =  "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Medicamento</th>\n                                                                                                                                           \n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
-                                                    var rowx;
-                                                    var count = 1;
-                                                    var rows = "";
+                                                    let Header =  "<table class=\"table\">\n                                                                  <thead>\n                                                                    <tr>\n                                                                      <th>#</th>\n                                                                      <th>Medicamento</th>\n                                                                                                                                           \n                                                                      <th>Cantidad</th>\n                                                                    </tr>\n                                                                  </thead>\n                                                                  <tbody>";
+                                                    let rowx;
+                                                    let count = 1;
+                                                    let rows = "";
                                                     response.forEach(function (producto) {
-                                                        var aux = JSON.parse(producto)
+                                                        let aux = producto;
                                                         rowx =
                                                             '<tr> ' +
                                                             '<td>' + count + '</td>' +
@@ -234,6 +233,7 @@
 <!-- Sweetalert 2 -->
 <script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
+
 
 <!-- Custom JS -->
 <script src="/assets_superAdmin/js/script.js"></script>

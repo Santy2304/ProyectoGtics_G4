@@ -1142,6 +1142,64 @@ public class PharmacistController {
 
 
 
+    @GetMapping(value="/verDetalleCompra")
+    @CrossOrigin
+    @ResponseBody
+    public Object verDetalle(@RequestParam("idPurchase") String idPurchase){
+        LinkedHashMap<String, Object> generalResponse= new LinkedHashMap<>();
+        try{
+            if(idPurchase ==null){
+                generalResponse.put("status", "error");
+                generalResponse.put("message","Debes enviar idPurchase");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+            int idPurchaseOrder ;
+            try{
+                idPurchaseOrder =Integer.parseInt(idPurchase);
+            }catch(NumberFormatException number){
+                generalResponse.put("status", "error");
+                generalResponse.put("message","Debes enviar idPurchase");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+            }
+
+            if(!purchaseOrderRepository.findById(Integer.parseInt(idPurchase)).isPresent()){
+                generalResponse.put("status", "error");
+                generalResponse.put("message","Debes enviar idPurchase");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
+            }
+            List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(Integer.parseInt(idPurchase));
+            return ResponseEntity.status(HttpStatus.OK).body(meciamentosPorCompra);
+        }catch(Exception error){
+            error.printStackTrace();
+            generalResponse.put("status", "error");
+            generalResponse.put("message","Ocurrio un error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
+        }
+
+    }
+
+
+    @RequestMapping("/verDetalleCompraFalso")
+    @ResponseBody
+    @CrossOrigin
+    public ArrayList<String> verDetalleCompra( @RequestParam("idPurchase") int idPurchase , HttpSession session){
+        List<MeciamentosPorCompraDTO> meciamentosPorCompra = medicineRepository.listaMedicamentosPorCompra(idPurchase);
+        ArrayList<String> response =  new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        for(MeciamentosPorCompraDTO m : meciamentosPorCompra){
+            // Convertir el objeto a JSON
+            try {
+                json = objectMapper.writeValueAsString(m);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println(json);
+            response.add(json);
+        }
+        return response;
+    }
+
     ///////////////////////////////////////////////
     //Este no
     @PostMapping("/rechazarSolicitud")

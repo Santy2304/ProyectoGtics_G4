@@ -708,7 +708,7 @@ public class PharmacistController {
             pur.setTipo("Preorden");
             pur.setReleaseDate(p.getDate());
             pur.setSite(phar.getSite());
-            pur.setTipoPago("Efectivo");
+            pur.setTipoPago("Tarjeta");
             Tracking tracking = new Tracking();
             tracking.setSolicitudDate(LocalDateTime.now());
             tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
@@ -761,7 +761,14 @@ public class PharmacistController {
             purchaseOrder.setStatePaid("Pagado");
             purchaseOrder.setTipo("Presencial");
             purchaseOrder.setDireccion(pharmacistRepository.findById(((Pharmacist)session.getAttribute("usuario")).getIdFarmacista()).get().getSite());
-            purchaseOrder.setTipoPago("Efectivo");
+            String tipoPago = null;
+            if(session.getAttribute("method").equals("tarjeta")){
+                tipoPago = "Tarjeta";
+            }
+            if(session.getAttribute("method").equals("cash")){
+                tipoPago = "Efectivo";
+            }
+            purchaseOrder.setTipoPago(tipoPago);
             purchaseOrder.setReleaseDate(LocalDate.now());
             PurchaseOrder p = purchaseOrderRepository.save(purchaseOrder);
 
@@ -1269,6 +1276,43 @@ public class PharmacistController {
             response.add(objectMapper.writeValueAsString(erro));
         }
         return response;
+    }
+    @GetMapping(value="/saveMethod")
+    @CrossOrigin
+    @ResponseBody
+    public Object saveMethod(@RequestParam(value="method" )  String method,HttpSession session){
+        LinkedHashMap<String , Object> generalResponse =  new LinkedHashMap<>();
+        try{
+            if(session.getAttribute("method") == null){
+                session.setAttribute("method",method);
+                generalResponse.put("message" , true);
+                return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
+            }
+            if(  ((String) session.getAttribute("method") ).equals(method)  ){
+                generalResponse.put("message" , true);
+                return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
+            }else{
+                session.setAttribute("method",method);
+                generalResponse.put("message" , true);
+                return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
+            }
+        }catch(Exception error){
+            error.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(value="/existeMethod")
+    @ResponseBody
+    @CrossOrigin
+    public Object existeMethod(HttpSession session){
+        LinkedHashMap<String , Object> generalResponse=  new LinkedHashMap<>();
+        if(session.getAttribute("method")  ==null){
+            generalResponse.put("message", "nada");
+        }else{
+            generalResponse.put("message", session.getAttribute("method"));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
     }
 
 

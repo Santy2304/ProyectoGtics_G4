@@ -1473,20 +1473,74 @@
 									</style>
 								<ul>
 									<li>
-										<a class="paymentmethod" >
+										<a id="cash" class="paymentmethod" >
 											<img src="/assets_superAdmin/img/icons/cash.svg" alt="img" class="me-2">
 											Efectivo
 										</a>
-                                        <input type="hidden" name="efectivo" value="efectivo">
 									</li>
 									<li>
-										<a  class="paymentmethod">
+										<a id="tarjeta" class="paymentmethod">
 											<img src="/assets_superAdmin/img/icons/debitcard.svg" alt="img" class="me-2">
 											Tarjeta
 										</a>
-										<input type="hidden" name="tarjeta" value="tarjeta">
 									</li>
+									<style>
+
+										</style>
+									<script>
+											document.addEventListener('DOMContentLoaded' , ()=> {
+												let tarjeta = document.getElementById('tarjeta');
+												let cash = document.getElementById('cash');
+												tarjeta.addEventListener('click', () => {
+													$.ajax({
+														url: '/pharmacist/saveMethod?method=tarjeta',
+														type: 'GET',
+														success: function (response) {
+															if (response.message) {
+																tarjeta.style.backgroundColor = 'Orange';
+																cash.style.backgroundColor = 'White';
+															}
+														}
+													});
+												});
+
+												cash.addEventListener('click', () => {
+													//Guardamos en session con ajax
+													$.ajax({
+														url: '/pharmacist/saveMethod?method=cash',
+														type: 'GET',
+														success: function (response) {
+															if (response.message) {
+																cash.style.backgroundColor = 'Orange';
+																tarjeta.style.backgroundColor = 'White';
+															}
+														}
+													});
+												});
+											});
+
+											document.addEventListener('DOMContentLoaded', ()=>{
+												$.ajax({
+													url:"/pharmacist/existeMethod",
+													type:'GET',
+													success: function(response){
+														switch(response.message){
+															case "cash":
+																cash.style.backgroundColor = 'Orange';
+																tarjeta.style.backgroundColor = 'White';
+																break;
+															case "tarjeta":
+																tarjeta.style.backgroundColor = 'Orange';
+																cash.style.backgroundColor = 'White';
+																break;
+														}
+													}
+												});
+											});
+
+									</script>
 								</ul>
+
 
 							</div>
 							<div th:if="${fullNamePatient} != null" id="venta" style="cursor: pointer;" class="btn-totallabel">

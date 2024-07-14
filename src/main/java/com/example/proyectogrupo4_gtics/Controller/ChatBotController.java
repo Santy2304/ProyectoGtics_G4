@@ -199,7 +199,7 @@ public class ChatBotController {
             purchaseOrder.setApproval("pendiente");
             purchaseOrder.setStatePaid("en espera");
             purchaseOrder.setTracking("en espera");
-            purchaseOrder.setTipo("bot");
+            purchaseOrder.setTipo("Bot");
             purchaseOrder.setRecurrent(false);
             purchaseOrder.setDeliveryHour(solicitud.getDeliverHour());
             purchaseOrder.setReleaseDate(LocalDate.now());

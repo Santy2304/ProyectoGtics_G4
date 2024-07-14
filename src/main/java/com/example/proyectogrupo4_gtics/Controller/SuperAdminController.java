@@ -40,6 +40,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -552,7 +554,21 @@ public class  SuperAdminController {
         return "superAdmin/listados";
     }
     ////////////////////////////////////////
+    //Filtros de la lista de usuarios
+    @PostMapping("/verListados")
+    public String filtroAdminSede(@RequestParam("rol") String rol,@RequestParam(value = "site", required = false) String site,
+                                  @RequestParam(value = "fechaInicio", required = false) String fechaInicio,
+                                  @RequestParam(value = "fechaFinal", required = false) String fechaFinal,
+                                  @RequestParam(value = "seguro", required = false) String seguro, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate initialDate = LocalDate.parse(fechaInicio, frmt);
+        LocalDate finalDate = LocalDate.parse(fechaFinal, frmt);
 
+        List<Administrator> listaAdminSede = administratorRepository.filtrarAdministradores(site, initialDate.toString(), finalDate);
+        model.addAttribute("listaAdminSede", listaAdminSede);
+        //System.out.println(initialDate);
+        return "superAdmin/Listados";
+    }
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")
     public String editarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
@@ -834,6 +850,7 @@ public class  SuperAdminController {
 
         return "redirect:verListados";
     }
+
     //Farmacista///////////////////////////////
     @GetMapping("/editarFarmacista")
     public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {

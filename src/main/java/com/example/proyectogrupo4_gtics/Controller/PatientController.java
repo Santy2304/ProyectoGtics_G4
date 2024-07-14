@@ -767,7 +767,7 @@ public class PatientController {
 
         for (PurchaseOrder purchaseOrder : purchaseOrders) {
 
-            if(!purchaseOrder.getTipo().equals("Preorden")){
+
                 String tracking = purchaseOrder.getTracking();
 
                 Tracking trackingReal = purchaseOrder.getIdtracking();
@@ -804,7 +804,7 @@ public class PatientController {
                         default:
                             break;
                     }
-                }
+
             }
 
         }

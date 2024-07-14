@@ -709,15 +709,19 @@ public class PharmacistController {
             pur.setReleaseDate(p.getDate());
             pur.setSite(phar.getSite());
             pur.setTipoPago("Tarjeta");
-            Tracking tracking = new Tracking();
-            tracking.setSolicitudDate(LocalDateTime.now());
-            tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
-            tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
-            tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
-            tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
-            Tracking tra = trackingRepository.save(tracking);
-            pur.setIdtracking(tra);
+//            Tracking tracking = new Tracking();
+//            tracking.setSolicitudDate(LocalDateTime.now());
+//            tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+//            tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+//            tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+//            tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+//            Tracking tra = trackingRepository.save(tracking);
+//            pur.setIdtracking(tra);
             pur.setTracking("solicitado");
+            pur.setStatePaid("en espera");
+            pur.setApproval("aceptado");
+            pur.setTipoPago("Tarjeta");
+            pur.setDireccion(  (   patientRepository.findByDni(p.getName()) ).get().getLocation() );
             PurchaseOrder purchase = purchaseOrderRepository.save(pur);
             for (int idx = 0; idx < ids.length; idx++) {
                 PurchaseHasLote purchaseHasLote = new PurchaseHasLote();

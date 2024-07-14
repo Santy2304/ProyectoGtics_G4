@@ -239,7 +239,7 @@
 												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
+												<a th:if="${web.getTracking() == 'Solicitado'  || web.getTracking() == 'En Proceso'}" class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 
@@ -338,12 +338,13 @@
 												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
+												<a class="me-3" th:if="${bot.getTracking() == 'Solicitado'  || bot.getTracking() == 'En Proceso'}" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
+												<!--
 												<a   onclick="return Swal.fire({ title:'¿Estás seguro de invalidar esta venta?\n Ingresa el motivo', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Invalidar' , cancelButtonText:'Cancelar',  input: 'text' })">
 													<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-												</a>
+												</a>-->
 											</td>
 										</tr>
 

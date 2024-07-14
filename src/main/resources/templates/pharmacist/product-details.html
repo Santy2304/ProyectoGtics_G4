@@ -97,20 +97,17 @@
 											<table style="width: 100%; border-collapse: collapse; border-radius: 10px; border: 1px solid #ccc;" >
 												<tr>
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold; padding: 10px; width: 200px;">Paciente</th>
-													<td th:text="*{patient.name}" style="width: 50px;"></td>
+													<td th:text="*{patient.name + ' ' + patient.getLastName()}" style="width: 50px;"></td>
 												</tr>
 												<tr>
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">DNI</th>
 													<td th:text="*{patient.dni}" style="width: 50px;"></td>
 												</tr>
-												<tr>
+												<tr th:if="${purchaseOrder.getDireccion()} != null">
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Dirección</th>
-													<td th:text="*{patient.location}" style="width: 200px;"></td>
+													<td th:text="*{direccion}" style="width: 200px;"></td>
 												</tr>
-												<tr>
-													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Distrito</th>
-													<td th:text="*{patient.distrit}"></td>
-												</tr>
+
 												<tr th:if="${purchaseOrder.getPhoneNumber()} != null">
 													<th style="text-align: left; background-color: #ff9f43; font-weight: bold;">Teléfono</th>
 													<td th:text="*{phoneNumber}"></td>

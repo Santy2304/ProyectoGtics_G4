@@ -115,17 +115,45 @@ public class PharmacistController {
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         return "pharmacist/chat";
     }
-    @GetMapping("/verEditarProducto")
-    public String verEditProduct(Model model, HttpSession session){
+    @GetMapping(value = {"/verEditarProducto",""})
+    public String verEditProduct(Model model, HttpSession session,@RequestParam("idPurchaseOrder") int idPurchase){
 
         Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
         model.addAttribute("sede", pharmacist.getSite());
         model.addAttribute("nombre", pharmacist.getName());
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
-
-        return "pharmacist/editproduct";
+        model.addAttribute("listaMedicamentos", medicineRepository.listaMedicamentosPorCompra(idPurchase));
+        Optional<PurchaseOrder> purchaseOrderOpt = purchaseOrderRepository.findById(idPurchase);
+        if(purchaseOrderOpt.isPresent()){
+            PurchaseOrder purchaseOrder = purchaseOrderOpt.get();
+            model.addAttribute("purchaseOrder", purchaseOrder);
+            return "pharmacist/editproduct";
+        }else{
+            return "redirect:verMedicinelist";
+        }
     }
+
+    @PostMapping("/editarOrden")
+    public String editarOrden(Model model, HttpSession session,PurchaseOrder purchaseOrder,RedirectAttributes attr ){
+
+        Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");
+
+        if (!purchaseOrder.getDireccion().isEmpty()){
+
+            purchaseOrderRepository.actualizarPurchasePorId(purchaseOrder.getDireccion(),purchaseOrder.getId());
+
+            return "redirect:verProductList";
+
+        }else{
+            attr.addFlashAttribute("msg", "La dirección no debe estar vacía.");
+            return "redirect:verEditarProducto?idPurchaseOrder=" + purchaseOrder.getId();
+
+        }
+
+
+    }
+
     @GetMapping("/verNotificationsFarmacista")
     public String verNotifications(Model model, HttpSession session){
         Pharmacist pharmacist = (Pharmacist) session.getAttribute("usuario");

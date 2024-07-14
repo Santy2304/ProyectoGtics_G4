@@ -105,7 +105,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
 
     @Transactional
     @Modifying
-    @Query(value = "update purchaseorder set approval = 'aceptado', tracking='solicitado', statePaid='por pagar'  where idPurchaseOrder =?1" , nativeQuery = true)
+    @Query(value = "update purchaseorder set approval = 'aceptado', tracking='Solicitado', statePaid='por pagar'  where idPurchaseOrder =?1" , nativeQuery = true)
     void aceptarSolicitudPorId(int idSolicitud);
 
 
@@ -115,6 +115,10 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
     @Query(value = "update purchaseorder set approval = 'rechazado',  statePaid='anulado'  where idPurchaseOrder =?1" , nativeQuery = true)
     void rechazarSolicitudPorId(int idSolicitud);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update purchaseorder set direccion = ?1  where idPurchaseOrder =?2" , nativeQuery = true)
+    void actualizarPurchasePorId(String direccion,int idSolicitud);
 
     @Transactional
     @Modifying

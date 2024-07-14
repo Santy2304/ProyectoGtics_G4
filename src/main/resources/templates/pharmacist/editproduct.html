@@ -30,7 +30,28 @@
 		
 		<!-- Main CSS -->
         <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
-		
+
+		<style>
+
+			.productdetails table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+
+			.productdetails th {
+				width: 30%;
+				text-align: right;
+				padding: 10px;
+				border: 1px solid #ccc;
+			}
+
+			.productdetails td {
+				width: 70%;
+				padding: 10px;
+				border: 1px solid #ccc;
+			}
+		</style>
+
     </head>
 	<body>
 		
@@ -54,507 +75,128 @@
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
-						<div class="page-title">
-							<h4>ABCD1234</h4>
+						<div class="page-title" th:switch="${purchaseOrder.getTipo()}">
+							<h4 th:case="'web'" th:text="'WB0' + ${purchaseOrder.getId()}"></h4>
+							<h4 th:case="'Preorden'" th:text="'PRE' + ${purchaseOrder.getId()}"></h4>
+							<h4 th:case="'Bot'" th:text="'BT0' + ${purchaseOrder.getId()}"></h4>
 						</div>
 					</div>
 					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Paciente</label>
-										<input type="text" value="Francis Estela" disabled>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" value="12345678" disabled>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Seguro</label>
-										<select class="select" disabled>
-											<option>Rimac</option>
-											<option>Pacifico</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Doctor</label>
-										<select class="select" disabled>
-											<option>Doctor1</option>
-											<option>Doctor2</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Sede</label>
-										<select class="select" disabled>
-											<option>Sede1</option>
-											<option>Sede2</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Telefono</label>
-										<input type="text" value="999 999 999" disabled>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Dirección</label>
-										<input type="text" value="Av. Universitaria 1234">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Entrega</label>
-										<select class="select" >
-											<option>Delivery</option>
-											<option>Presencial</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Forma de pago</label>
-										<select class="select" >
-											<option>Efectivo</option>
-											<option>Tarjeta</option>
-										</select>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Fecha de entrega</label>
-										<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" style="color: #637381;line-height: 40px;border-radius: 5px;width: 100%"/>
-									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<div class="card">
-											<div class="card-body">
-												<div class="productdetails">
-													<h6 style="font-weight: bold">RESUMÉN DE COMPRA</h6>
-													<br>
-													<ul class="product-bar">
-														<li>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Producto</h7>
-															</div>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Marca</h7>
-															</div>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Cantidad</h7>
-															</div>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Unidad</h7>
-															</div>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Precio unitario</h7>
-															</div>
-															<div class="col-md-2" style="background-color: #ced4da;display: grid; place-content: center">
-																<h7 style="font-weight: bold">Precio total</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-														<li>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Paracetamol </h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>Marca</h7>
-															</div>
-															<div class="col-md-2" style="display: flex; align-content: center">
-																<select class="select" >
-																	<option>1</option>
-																	<option>2</option>
-																	<option>3</option>
-																	<option>4</option>
-																	<option>5</option>
-																	<option>6</option>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<select class="select">
-																	<optgroup label="Unidades">
-																		<option>Tabletas</option>
-																		<option>Capsulas</option>
-																		<option>Gotas</option>
-																	</optgroup>
-																	<optgroup label="Embalaje">
-																		<option>Cajas</option>
-																		<option>Frascos</option>
-																		<option>Blisters</option>
-																	</optgroup>
-																</select>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-															<div class="col-md-2" style="display: grid; place-content: center">
-																<h7>10.00</h7>
-															</div>
-														</li>
-													</ul>
-													<br>
-													<h6>Total a pagar: 300 (Trescientos soles)</h6>
-												</div>
-											</div>
+					<div class="row">
+						<div class="col-lg-8 col-sm-12">
+							<form method="post"  th:action="@{/pharmacist/editarOrden}" th:object="${purchaseOrder}">
+								<input type="hidden" th:field="*{id}">
+								<div class="card">
+									<div class="card-body">
+										<div class="productdetails">
+											<table style="width: 100%; border-collapse: collapse; border-radius: 10px; border: 1px solid #ccc;" >
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold; padding: 10px; width: 200px;">Paciente</th>
+													<td th:text="*{patient.name}" style="width: 50px;"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">DNI</th>
+													<td th:text="*{patient.dni}" style="width: 50px;"></td>
+												</tr>
+
+												<tr th:if="${purchaseOrder.getPhoneNumber()} != null">
+													<th style="text-align: left; background-color: #ff9f43; font-weight: bold;">Teléfono</th>
+													<td th:text="*{phoneNumber}"></td>
+												</tr>
+
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Doctor</th>
+													<td th:text="${purchaseOrder.getIdDoctor().getName() + ' ' + purchaseOrder.getIdDoctor().getLastName()}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Seguro</th>
+													<td th:text="*{patient.insurance}"></td>
+												</tr>
+												<tr th:if="${purchaseOrder.getTipoPago()} != null">
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Método de pago</th>
+													<td th:text="*{tipoPago}"></td>
+												</tr>
+												<tr>
+													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Fecha</th>
+													<td th:text="*{releaseDate}"></td>
+												</tr>
+											</table>
+										</div>
+
+										<div class="form-group mt-4">
+											<label>Dirección</label>
+											<input class="form-control" name="direccion" type="text" th:field="${purchaseOrder.direccion}">
+											<div th:if="${msg != null}" th:text="${msg}" class="alert alert-danger mt-2" role="alert"></div>
+
+										</div>
+										<div class="col-lg-12">
+											<button type="submit" class="btn btn-submit me-2">Confirmar</button>
+											<a th:href="@{'/pharmacist/verProductList'}" class="btn btn-cancel">Cancelar</a>
 										</div>
 									</div>
 								</div>
-								</div>
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Precio por caja</label>
-										<input type="text" value="150.00">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Precio por tableta</label>
-										<input type="text" value="150.00">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Precio por unidad</label>
-										<input type="text" value="150.00">
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>	Stado</label>
-										<select class="select">
-											<option>Con stock</option>
-											<option>Sin stock</option>
-										</select>
-									</div>
-								</div>
-							</div>
+							</form>
 
-
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>	Imagen del producto</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Seleccione una imagen</h4>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-12">
-									<div class="product-list">
-										<ul class="row">
+							<div class="card">
+								<div class="card-body">
+									<div class="productdetails">
+										<h6 style="font-weight: bold">RESUMEN DE COMPRA</h6>
+										<br>
+										<ul class="product-bar">
 											<li>
-												<div class="productviews">
-													<div class="productviewsimg">
-														<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
-													</div>
-													<div class="productviewscontent">
-														<div class="productviewsname">
-															<h2>macbookpro.jpg</h2>
-															<h3>581kb</h3>
-														</div>
-														<a href="javascript:void(0);" class="hideset">x</a>
-													</div>
+												<div class="col-md-3" style="background-color: #ced4da">
+													<h6 style="font-weight: bold">Producto</h6>
+												</div>
+
+												<div class="col-md-3" style="background-color: #ced4da">
+													<h6 style="font-weight: bold">Cantidad</h6>
+												</div>
+												<div class="col-md-3" style="background-color: #ced4da">
+													<h6 style="font-weight: bold">Precio subtotal (S/.)</h6>
+												</div>
+											</li>
+											<li th:each="medicamento : ${listaMedicamentos}">
+												<div class="col-md-3" style="display: inline-block;">
+													<h6  th:text="${medicamento.getMedicineName()}"></h6>
+												</div>
+
+												<div class="col-md-3">
+													<h6 th:text="${medicamento.getCantidad()}"></h6>
+												</div>
+												<div class="col-md-3">
+													<h6 th:text="|${medicamento.getPrecio()}0|"></h6>
 												</div>
 											</li>
 										</ul>
 									</div>
 								</div>
-								<div class="col-lg-12">
-									<a href="javascript:void(0);" class="btn btn-submit me-2">Actualizar</a>
-									<a  onclick="regresar()" class="btn btn-cancel" >Cancelar</a>
-
-									<script>
-										function regresar() {
-											window.history.back();
-										}
-									</script>
-
-								</div>
 							</div>
 						</div>
+
+
+						<div th:if="${purchaseOrder.getPrescription()} != null" class="col-lg-4 col-sm-12">
+							<div class="card">
+								<div class="card-body">
+									<div class="slider-product-details">
+										<div class="owl-carousel owl-theme product-slide">
+											<div class="slider-product">
+												<img th:if="${purchaseOrder.getPrescription() != null}" th:src="@{'/imagenes/' + ${purchaseOrder.getPrescription()}}" alt="img">
+												<img th:unless="${purchaseOrder.getPrescription() != null}" src="/assets_superAdmin/img/product/product69.jpg" alt="img">
+												<h4>RECETA</h4>
+											</div>
+											<div class="slider-product">
+												<img src="/assets_superAdmin/img/product/product69.jpg" alt="img">
+												<h4>BOLETA.pdf</h4>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
 					</div>
+
 					<!-- /add -->
 				</div>
 			</div>

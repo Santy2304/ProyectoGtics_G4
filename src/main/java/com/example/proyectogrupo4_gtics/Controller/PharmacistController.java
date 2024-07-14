@@ -721,11 +721,16 @@ public class PharmacistController {
             PurchaseOrder purchase = purchaseOrderRepository.save(pur);
             for (int idx = 0; idx < ids.length; idx++) {
                 PurchaseHasLote purchaseHasLote = new PurchaseHasLote();
+                PurchaseHasLotID puId = new PurchaseHasLotID();
+                puId.setIdPurchase(purchase.getId());
                 int id = Integer.parseInt(ids[idx]);
                 int cantidad = Integer.parseInt(cantidades[idx]);
                 purchaseHasLote.setCantidadComprar(cantidad);
                 purchaseHasLote.setPurchaseOrder(purchase);
                 purchaseHasLote.setLote(loteRepository.findById(listaa.get(idx)).get());
+                puId.setIdLote(loteRepository.findById(listaa.get(idx)).get().getIdLote());
+                purchaseHasLote.setId(puId);
+                purchaseHasLoteRepository.save(purchaseHasLote);
             }
             HashMap<String , Object> has = new HashMap<>();
             has.put("status", "Todo en orden");

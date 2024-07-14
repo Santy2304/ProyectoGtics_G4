@@ -414,7 +414,7 @@
                       <td th:text="${medicamento.getCategoria()}"></td>
                       <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
                       <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
-                      <td th:text="${medicamento.getPrecio()}"></td>
+                      <td th:text="|S/${medicamento.getPrecio()}0|"></td>
                       <script th:inline="javascript" >
 
                           $("#A" + [[${medicamento.idMedicine}]]).click(function () {

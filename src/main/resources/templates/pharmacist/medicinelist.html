@@ -171,7 +171,7 @@
 								</td>
 								<td th:text="${medicamento.categoria}"></td>
 								<!--<td th:text="${medicamento.getCantidad()}"></td>-->
-								<td th:text="${medicamento.precio}"></td>
+								<td th:text="|${medicamento.precio}0|"></td>
 								<td th:if="medicamento.cantidad != 0" th:text="${medicamento.cantidad}"></td>
 								<td th:if="medicamento.cantidad == 0" > Agotado </td>
 								<td>

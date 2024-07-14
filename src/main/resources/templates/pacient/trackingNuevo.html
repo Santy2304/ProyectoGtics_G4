@@ -186,7 +186,7 @@
                                             }
                                     </script>
                                     <td th:text="${compras.getFecha()}" ></td>
-                                    <td th:text="${compras.getTotal_price()}" ></td>
+                                    <td th:text="|${compras.getTotal_price()}0|" ></td>
                                     <td th:text="${compras.getTracking()}"></td>
                                     <td>
                                         <a class="me-3" th:href="@{'/patient/verTrackingSolitario?idPurchase=' + ${compras.getIdPurchaseOrder()}}">

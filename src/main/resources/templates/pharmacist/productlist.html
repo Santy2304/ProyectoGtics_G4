@@ -131,7 +131,7 @@
 
 											<td th:text=" 'PS0'+${presencial.getIdPurchaseOrder()}"></td>
 											<td th:text="${presencial.getNombrePaciente()}"></td>
-											<td th:text="|S/${presencial.getMonto()}|"></td>
+											<td th:text="|S/${presencial.getMonto()}0|"></td>
 
 											<td th:text="${presencial.getFecha()}"></td>
 											<td>
@@ -230,7 +230,7 @@
 
 											<td th:text=" 'WB0'+${web.getIdPurchaseOrder()}"></td>
 											<td th:text="${web.getNombrePaciente()}"></td>
-											<td th:text="|S/${web.getMonto()}|"></td>
+											<td th:text="|S/${web.getMonto()}0|"></td>
 											<td th:text="${web.getEstadoPago()}"></td>
 											<td th:text="${web.getTracking()}"></td>
 											<td th:text="${web.getFecha()}"></td>
@@ -329,7 +329,7 @@
 										<tr th:each="bot : ${listaPurchaseOrderBOT}">
 											<td th:text=" 'BT0'+${bot.getIdPurchaseOrder()}"></td>
 											<td th:text="${bot.getNombrePaciente()}"></td>
-											<td th:text="|S/${bot.getMonto()}|"></td>
+											<td th:text="|S/${bot.getMonto()}0|"></td>
 											<td th:text="${bot.getEstadoPago()}"></td>
 											<td th:text="${bot.getTracking()}"></td>
 											<td th:text="${bot.getFecha()}"></td>

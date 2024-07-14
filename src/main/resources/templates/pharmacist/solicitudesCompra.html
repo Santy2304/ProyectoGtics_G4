@@ -125,7 +125,7 @@
                                         <tr th:each="solicitud : ${listaSolicitudes}">
                                             <td th:text=" 'WB0'+${solicitud.getIdPurchaseOrder()}"></td>
                                             <td th:text="${solicitud.getNombrePaciente()}"></td>
-                                            <td th:text="|S/${solicitud.getMonto()}|"></td>
+                                            <td th:text="|S/${solicitud.getMonto()}0|"></td>
                                             <td th:text="${solicitud.getFecha()}"></td>
                                             <td>
                                                 <a class="me-3" th:href="@{'/pharmacist/verDetalleSolicitud?idSolicitud=' + ${solicitud.idPurchaseOrder}}">
@@ -287,7 +287,7 @@
                                         <tr th:each="bot : ${listaSolicitudesBOT}">
                                             <td th:text=" 'BT0'+${bot.getIdPurchaseOrder()}"></td>
                                             <td th:text="${bot.getNombrePaciente()}"></td>
-                                            <td th:text="|S/${bot.getMonto()}|"></td>
+                                            <td th:text="|S/${bot.getMonto()}0|"></td>
                                             <td th:text="${bot.getFecha()}"></td>
                                             <td>
                                                 <a class="me-3" th:href="@{'/pharmacist/verDetalleSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">

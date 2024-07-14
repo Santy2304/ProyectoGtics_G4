@@ -145,7 +145,9 @@ public class PharmacistController {
         model.addAttribute("apellido",pharmacist.getLastName());
         model.addAttribute("listaNotiUWU",notificationsRepository.notificacionesSedePeque(pharmacist.getSite()));
         model.addAttribute("listamedicamentosfarm",medicineRepository.listaMedicamentosPorSedeFarmacista(pharmacist.getIdFarmacista()));
-        model.addAttribute("listaDoctores", doctorRepository.findAll());
+        //model.addAttribute("listaDoctores", doctorRepository.findAll());
+        model.addAttribute("listaDoctores", doctorRepository.listaDoctorPorSedePacienteValido(pharmacist.getSite()));
+
         try {
             if (!(model.getAttribute("idPatient")).equals("")) {
                 model.addAttribute("fullNamePatient", (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getName() + " " + (patientRepository.findById(Integer.parseInt("" + model.getAttribute("idPatient")))).get().getLastName());
@@ -276,52 +278,72 @@ public class PharmacistController {
                 attr.addFlashAttribute("errorD", "El distrito no debe estar vacio");
             }
 
-            byte[] bytesImgPerfil = imagen.getBytes();
-            String fileOriginalName = imagen.getOriginalFilename();
 
-            long fileSize = imagen.getSize();
-            long maxFileSize = 5 * 1024 * 1024;
+            if(imagen.isEmpty()){
+                if(!falloN){
+                    Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
+                    int idUser = userRepository.encontrarId(sessionPharma.getEmail());
 
+                    pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+                    userRepository.actualizarEmail(email,idUser);
 
-            String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+                    session.setAttribute("usuario",pharmacistRepository.findById(pharmacist.getIdFarmacista()).get());
 
-            if (fileSize > maxFileSize) {
-                falloN = true;
-                attr.addFlashAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                    return "redirect:verProfileFarmacista";
+                }else{
+                    return "pharmacist/profile";
+                }
 
-            }
-            if (
-                    !fileExtension.equalsIgnoreCase(".jpg") &&
-                            !fileExtension.equalsIgnoreCase(".png") &&
-                            !fileExtension.equalsIgnoreCase(".jpeg")
-            ) {
-                falloN = true;
-                attr.addFlashAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
-
-            }
-
-            if(!falloN){
-                Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
-                //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
-
-
-
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
-                Files.write(rutaCompleta, bytesImgPerfil);
-
-                int idUser = userRepository.encontrarId(sessionPharma.getEmail());
-
-                //pharmacist.setPhoto(imagen.getOriginalFilename());
-                pharmacistRepository.updatePhotoById(imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
-                pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
-                userRepository.actualizarEmail(email,idUser);
-
-                session.setAttribute("usuario",pharmacistRepository.findById(pharmacist.getIdFarmacista()).get());
-
-                return "redirect:verProfileFarmacista";
             }else{
-                return "pharmacist/profile";
+                byte[] bytesImgPerfil = imagen.getBytes();
+                String fileOriginalName = imagen.getOriginalFilename();
+
+                long fileSize = imagen.getSize();
+                long maxFileSize = 5 * 1024 * 1024;
+
+
+                String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                if (fileSize > maxFileSize) {
+                    falloN = true;
+                    attr.addFlashAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+
+                }
+                if (
+                        !fileExtension.equalsIgnoreCase(".jpg") &&
+                                !fileExtension.equalsIgnoreCase(".png") &&
+                                !fileExtension.equalsIgnoreCase(".jpeg")
+                ) {
+                    falloN = true;
+                    attr.addFlashAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+
+                }
+
+                if(!falloN){
+                    Pharmacist sessionPharma = (Pharmacist) session.getAttribute("usuario");
+                    //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
+
+
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + imagen.getOriginalFilename());
+                    Files.write(rutaCompleta, bytesImgPerfil);
+
+                    int idUser = userRepository.encontrarId(sessionPharma.getEmail());
+
+                    //pharmacist.setPhoto(imagen.getOriginalFilename());
+                    pharmacistRepository.updatePhotoById(imagen.getOriginalFilename(), pharmacist.getIdFarmacista());
+                    pharmacistRepository.updateEmailAndDistritById(email,distrit, pharmacist.getIdFarmacista());
+                    userRepository.actualizarEmail(email,idUser);
+
+                    session.setAttribute("usuario",pharmacistRepository.findById(pharmacist.getIdFarmacista()).get());
+
+                    return "redirect:verProfileFarmacista";
+                }else{
+                    return "pharmacist/profile";
+                }
             }
+
+
         }catch (IOException e) {
             throw new RuntimeException(e);
         }

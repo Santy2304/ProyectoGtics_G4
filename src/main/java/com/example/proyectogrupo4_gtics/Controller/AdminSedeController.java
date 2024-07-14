@@ -512,7 +512,13 @@ public class AdminSedeController {
         model.addAttribute("med3meses3", medicineRepository.medicinaMayor3meses("Pando 3"));
         model.addAttribute("med3meses4", medicineRepository.medicinaMayor3meses("Pando 4"));
 
-        int[] montos = new int[]{Integer.parseInt(medicineRepository.monto1mesSede("Pando 1")), Integer.parseInt(medicineRepository.monto1mesSede("Pando 2")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 3")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 4"))};
+        //int[] montos = new int[]{Integer.parseInt(medicineRepository.monto1mesSede("Pando 1")), Integer.parseInt(medicineRepository.monto1mesSede("Pando 2")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 3")),Integer.parseInt(medicineRepository.monto1mesSede("Pando 4"))};
+        double[] montos = new double[]{
+                Double.parseDouble(medicineRepository.monto1mesSede("Pando 1")),
+                Double.parseDouble(medicineRepository.monto1mesSede("Pando 2")),
+                Double.parseDouble(medicineRepository.monto1mesSede("Pando 3")),
+                Double.parseDouble(medicineRepository.monto1mesSede("Pando 4"))
+        };
 
         int[] cant7diasMed = new int[]{medicineRepository.medicinaMayor7Cant("Pando 1"),medicineRepository.medicinaMayor7Cant("Pando 2"), medicineRepository.medicinaMayor7Cant("Pando 3"), medicineRepository.medicinaMayor7Cant("Pando 4") };
 

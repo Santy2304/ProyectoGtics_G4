@@ -29,7 +29,8 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     @Query(nativeQuery = true, value = "select * from doctor where headquarter=?1")
     List<Doctor> listaDoctorPorSedePaciente(String sede);
 
-
+    @Query(nativeQuery = true, value = "select * from doctor where state='activo' and headquarter=?1")
+    List<Doctor> listaDoctorPorSedePacienteValido(String sede);
 
     @Transactional
     @Modifying

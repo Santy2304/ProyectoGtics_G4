@@ -137,7 +137,7 @@
                             <span><img src="/assets_superAdmin/img/icons/dash2.svg" alt="img"></span>
                         </div>
                         <div class="dash-widgetcontent">
-                            <h5 >S/<span class="counters" th:text="${gananciaPorSede}"></span></h5>
+                            <h5 >S/<span class="counters" th:text="|${gananciaPorSede}0|"></span></h5>
                             <h6>Ganancia total</h6>
                         </div>
                     </div>
@@ -171,8 +171,8 @@
                             <h4>Sede Pando 1</h4>
                             <h7>Medicamentos vendidos:</h7>
                             <h5 th:text="${cantVend1}!= null? ${cantVend1} : '0'">Medicamentos vendidos: 0</h5>
-                            <h7>Ganancia:</h7>
-                            <h5 th:text="${ganancia1}!= null? ${ganancia1} : '0.00'">Ganancia: S/0.00</h5>
+                            <h7>Ganancia Total:</h7>
+                            <h5>S/<span th:text="${ganancia1}!= null? ${ganancia1} : '0.00'">Ganancia: S/0.00</span>0</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -185,8 +185,8 @@
                             <h4>Sede Pando 2</h4>
                             <h7>Medicamentos vendidos:</h7>
                             <h5 th:text="${cantVend2}!= null? ${cantVend2} : '0'">Medicamentos vendidos: 0</h5>
-                            <h7>Ganancia:</h7>
-                            <h5 th:text="${ganancia2}!= null? ${ganancia2} : '0.00'">Ganancia: S/0.00</h5>
+                            <h7> Ganancia Total:</h7>
+                            <h5>S/<span th:text="${ganancia2}!= null? ${ganancia2} : '0.00'">Ganancia: S/0.00</span>0</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -199,8 +199,8 @@
                             <h4>Sede Pando 3</h4>
                             <h7>Medicamentos vendidos:</h7>
                             <h5 th:text="${cantVend3}!= null? ${cantVend3} : '0'">Medicamentos vendidos: 0</h5>
-                            <h7>Ganancia:</h7>
-                            <h5 th:text="${ganancia3}!= null? ${ganancia3} : '0.00'">Ganancia: S/0.00</h5>
+                            <h7>Ganancia Total:</h7>
+                            <h5>S/<span th:text="${ganancia3}!= null? ${ganancia3} : '0.00'">Ganancia: S/0.00</span>0</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -213,8 +213,8 @@
                             <h4>Sede Pando 4</h4>
                             <h7>Medicamentos vendidos:</h7>
                             <h5 th:text="${cantVend4}!= null? ${cantVend4} : '0'">Medicamentos vendidos: 0</h5>
-                            <h7>Ganancia:</h7>
-                            <h5 th:text="${ganancia4}!= null? ${ganancia4} : '0.00'">Ganancia: S/0.00</h5>
+                            <h7>Ganancia Total:</h7>
+                            <h5>S/<span th:text="${ganancia4}!= null? ${ganancia4} : '0.00'">Ganancia: S/0.00</span>0</h5>
                         </div>
                         <div>
                             <a href="/assets_superAdmin/img/farmacia.png"></a>
@@ -228,7 +228,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Ventas de las sedes en el último mes</h5>
+                                <h5 class="card-title">Ventas (S/.) de las sedes en el último mes</h5>
                             </div>
                             <div class="card-body">
                                 <div id="donut-chart" class="chart-set" th:attr="data-series=${montos}"></div>
@@ -495,7 +495,7 @@
                         <td th:text="${medicamento.getCategoria()}"></td>
                         <td th:text="${medicamento.getCantidad()}"  th:if="${medicamento.getCantidad()}!=0"></td>
                         <td th:text="|Agotado|"  th:if="${medicamento.getCantidad()}==0"></td>
-                        <td th:text="${medicamento.getPrecio()}"></td>
+                        <td th:text="|S/${medicamento.getPrecio()}0|"></td>
                         <script th:inline="javascript" >
 
                             $("#A" + [[${medicamento.idMedicine}]]).click(function () {

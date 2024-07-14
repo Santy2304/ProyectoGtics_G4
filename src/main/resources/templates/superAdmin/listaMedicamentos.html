@@ -186,7 +186,7 @@
 											</td>
 											<td th:text="${medicamento.getCategoria()}"></td>
 											<td th:text="${medicamento.getCantidad()}"></td>
-											<td th:text="${medicamento.getPrecio()}"></td>
+											<td th:text="|${medicamento.getPrecio()}0|"></td>
 											<td>
 												<a class="me-3" th:href="@{'/superAdmin/verDetallesProducto?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">

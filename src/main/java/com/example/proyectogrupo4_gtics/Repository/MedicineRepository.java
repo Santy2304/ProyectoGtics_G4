@@ -417,7 +417,7 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "LIMIT 1")
     Integer medicinaMayor3mesesCant(String sede);
 
-    @Query(nativeQuery = true, value = "SELECT sum(phl.cantidad_comprar)\n" +
+    @Query(nativeQuery = true, value = "SELECT sum(phl.cantidad_comprar*m.price)\n" +
             "FROM lote l\n" +
             "INNER JOIN medicine m ON m.idMedicine = l.idMedicine\n" +
             "LEFT JOIN purchasehaslot phl ON phl.idLote = l.idLote\n" +

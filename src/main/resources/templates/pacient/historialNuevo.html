@@ -205,7 +205,7 @@
                 </script>
                 <td th:text="${compras.getFecha()}"></td>
                 <td th:text="${compras.getEstado()}"></td>
-                <td th:text="${compras.getTotal_price()}"></td>
+                <td th:text="|${compras.getTotal_price()}0|"></td>
                 <td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">
        						 <a th:href="@{'/patient/verDatosPago?idPurchase=' + ${compras.getIdPurchaseOrder()}}"><span class="badges bg-lightred">Por pagar</span></a>
     							</span>

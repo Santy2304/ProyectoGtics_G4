@@ -111,10 +111,11 @@
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Distrito</th>
 													<td th:text="*{patient.distrit}"></td>
 												</tr>
-												<tr>
-													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Teléfono</th>
+												<tr th:if="${purchaseOrder.getPhoneNumber()} != null">
+													<th style="text-align: left; background-color: #ff9f43; font-weight: bold;">Teléfono</th>
 													<td th:text="*{phoneNumber}"></td>
 												</tr>
+
 												<tr>
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Doctor</th>
 													<td th:text="${purchaseOrder.getIdDoctor().getName() + ' ' + purchaseOrder.getIdDoctor().getLastName()}"></td>
@@ -123,7 +124,7 @@
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Seguro</th>
 													<td th:text="*{patient.insurance}"></td>
 												</tr>
-												<tr>
+												<tr th:if="${purchaseOrder.getTipoPago()} != null">
 													<th style="text-align: left;  background-color: #ff9f43; font-weight: bold;">Método de pago</th>
 													<td th:text="*{tipoPago}"></td>
 												</tr>
@@ -156,7 +157,7 @@
 												</div>
 											</li>
 											<li th:each="medicamento : ${listaMedicamentos}">
-												<div class="col-md-3">
+												<div class="col-md-3" style="display: inline-block;">
 													<h6  th:text="${medicamento.getMedicineName()}"></h6>
 												</div>
 
@@ -172,7 +173,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-4 col-sm-12">
+						<div th:if="${purchaseOrder.getPrescription()} != null" class="col-lg-4 col-sm-12">
 							<div class="card">
 								<div class="card-body">
 									<div class="slider-product-details">

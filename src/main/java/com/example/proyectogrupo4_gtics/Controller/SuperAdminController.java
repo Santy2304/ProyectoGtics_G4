@@ -94,7 +94,7 @@ public class  SuperAdminController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
+    private String rutaAbsoluta = "C://SaintMedic/";
 
     //Superlogueo//
     @GetMapping("/superlogueo")

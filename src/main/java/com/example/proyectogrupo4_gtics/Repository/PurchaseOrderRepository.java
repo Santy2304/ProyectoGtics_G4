@@ -105,7 +105,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
 
     @Transactional
     @Modifying
-    @Query(value = "update purchaseorder set approval = 'aceptado', tracking='Solicitado', statePaid='por pagar'  where idPurchaseOrder =?1" , nativeQuery = true)
+    @Query(value = "update purchaseorder set approval = 'aceptado', tracking='en espera', statePaid='por pagar'  where idPurchaseOrder =?1" , nativeQuery = true)
     void aceptarSolicitudPorId(int idSolicitud);
 
 

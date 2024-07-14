@@ -109,7 +109,7 @@ public class PatientController {
         this.pharmacistRepository = pharmacistRepository;
         this.dialogflow = dialogflow;
     }
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
+    private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
     @GetMapping("/sessionPatient")
     public String iniciarSesion( Model model, @RequestParam("idUser") String id){
@@ -489,11 +489,11 @@ public class PatientController {
 
         model.addAttribute("idPurchase",idPurchase);
         model.addAttribute("Tracking",tracking);
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate()/*.minusHours(5)*/);
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate()/*.minusHours(5)*/);
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate()/*.minusHours(5)*/);
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate()/*.minusHours(5)*/);
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate()/*.minusHours(5)*/);
         return "pacient/TrackingSolitario";
     }
     @PostMapping("/editarPerfilPaciente")
@@ -652,10 +652,8 @@ public class PatientController {
                 int medDb = creditCard.getExpireMonth();
                 int yearDb = creditCard.getExpireYear();
                 if (creditCard.getCvv().equals(cvv) && medDb == month && yearDb == year) {
-
                     PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
-
-
+                    purchaseOrder.setTracking("Solicitado");
                     if (recurrent !=null && recurrent.equals("true")) {
                         purchaseOrder.setRecurrent(true);
                     }

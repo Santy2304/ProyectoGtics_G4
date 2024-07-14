@@ -1062,7 +1062,6 @@ public class AdminSedeController {
             notifications.setDate(LocalDateTime.now());
             notificationsRepository.save(notifications);
         }
-
     }
 
     //-------------------------------------------------------------------------------------

@@ -56,7 +56,8 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "    po.idPurchaseOrder,\n" +
             "    SUM(m.price * phl.cantidad_comprar) AS total_price,\n" +
             "    po.releaseDate as fecha,\n" +
-            "    po.tracking as tracking\n" +
+            "    po.tracking as tracking,\n" +
+            "    po.tipo as tipo\n" +
             "FROM\n" +
             "    purchaseorder po\n" +
             "INNER JOIN\n" +

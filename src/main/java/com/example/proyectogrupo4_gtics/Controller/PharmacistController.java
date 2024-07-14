@@ -717,8 +717,8 @@ public class PharmacistController {
 //            tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
 //            Tracking tra = trackingRepository.save(tracking);
 //            pur.setIdtracking(tra);
-            pur.setTracking("solicitado");
-            pur.setStatePaid("en espera");
+            pur.setTracking("en espera");
+            pur.setStatePaid("por pagar");
             pur.setApproval("aceptado");
             pur.setTipoPago("Tarjeta");
             pur.setDireccion(  (   patientRepository.findByDni(p.getName()) ).get().getLocation() );

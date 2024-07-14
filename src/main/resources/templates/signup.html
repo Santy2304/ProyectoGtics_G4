@@ -35,11 +35,12 @@
                     </div>
                     -->
                     <div class="login-userheading">
-                        <h3>Crear una cuenta</h3>
+                        <h2>Crear una cuenta</h2>
                     </div>
-                    <h2>
-                        Completa el campo con tu DNI para continuar
-                    </h2>
+                    <h5 class="mb-2">
+                        Primero, rellena tu DNI para y dale <span style="color: red">"Enter"</span> para continuar. Esto puede tardar unos instantes.
+
+                    </h5>
                     <div class="form-login">
                         <label>DNI</label>
                         <div class="form-addons">
@@ -80,8 +81,8 @@
                                           let seguro = document.getElementById("seguro");
                                           let direccion = document.getElementById("direccion");
                                           let distrit =document.getElementById("distrit");
-                                          seguro.readOnly = false;
                                           direccion.readOnly = false;
+                                          seguro.readOnly = false;
                                           distrit.readOnly = false;
                                       } ,
                                       error :  function(response){
@@ -94,8 +95,8 @@
                                           let seguro = document.getElementById("seguro");
                                           let direccion = document.getElementById("direccion");
                                           let distrit =document.getElementById("distrit");
-                                          seguro.readOnly = true;
                                           direccion.readOnly = true;
+                                          seguro.readOnly = true;
                                           distrit.readOnly = true;
                                           Swal.fire({
                                               icon: "error",
@@ -118,7 +119,7 @@
                     <div class="form-login">
                         <label>Nombres</label>
                         <div class="form-addons">
-                            <input readonly type="number" id="name" name="dni" placeholder="Nombres" required>
+                            <input readonly type="number" id="name" name="dni" placeholder="Nombres" required disabled></input>
                             <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                         </div>
                     </div>
@@ -126,7 +127,7 @@
                     <div class="form-login">
                         <label>Apellidos</label>
                         <div class="form-addons">
-                            <input readonly type="number" id="lastName" name="dni" placeholder="Apellidos" required>
+                            <input readonly type="number" id="lastName" name="dni" placeholder="Apellidos" required disabled>
                             <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
                         </div>
                     </div>
@@ -140,14 +141,7 @@
                         </div>
                     </div>
 
-                    <div class="form-login">
-                        <label>Seguro</label>
-                        <div class="form-addons">
-                            <input readonly type="text" id="seguro" name="insurance" placeholder="Ingrese el nombre de su seguro" required>
-                            <img src="/assets_superAdmin/img/icons/expense1.svg" alt="img">
-                            <div class="invalid-feedback" id="errorSeguro" style="display: none " > </div>
-                        </div>
-                    </div>
+
 
                     <div class="form-login">
                         <label>Dirección </label>
@@ -157,14 +151,29 @@
                             <div class="invalid-feedback" id="errorDireccion" style="display: none " > </div>
                         </div>
                     </div>
+                    <div class="form-login">
+                        <label class="mb-2">Seguro</label>
+                        <select  name="insurance"  class="form-control mt-3" >
+                            <option value="Pacífico">Pacífico</option>
+                            <option value="Rímac">Rímac</option>
+                            <option value="La Positiva">La Positiva</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
 
                     <div class="form-login">
-                        <label>Distrito </label>
-                        <div class="form-addons">
-                            <input readonly type="text" id="distrit" name="distrit" placeholder="Ingresa el nombre de tu distrito" required>
-                            <img src="/assets_superAdmin/img/icons/users1.svg" alt="img">
-                            <div class="invalid-feedback" id="errorDistrito" style="display: none" > </div>
-                        </div>
+                        <label class="mb-2">Distrito</label>
+                        <select  name="distrit"  class="form-control mt-3" >
+                            <option value="San Miguel">San Miguel</option>
+                            <option value="Pueblo Libre">Pueblo Libre</option>
+                            <option value="Breña">Breña</option>
+                            <option value="Miraflores">Miraflores</option>
+                            <option value="Magdalena">Magdalena</option>
+                            <option value="San Isidro">San Isidro</option>
+                            <option value="Jesus María">Jesus María</option>
+                            <option value="Barranco">Barranco</option>
+                            <option value="La Molina">La Molina</option>
+                        </select>
                     </div>
 
 
@@ -334,6 +343,42 @@
         return regex.test(email);
     }
 </script>
+
+    <script>
+        function setReadOnly() {
+            const nameField = document.getElementById('name');
+            const lastNameField = document.getElementById('lastName');
+            nameField.setAttribute('readonly', true);
+            lastNameField.setAttribute('readonly', true);
+        }
+
+        function monitorFields() {
+            const nameField = document.getElementById('name');
+            const lastNameField = document.getElementById('lastName');
+
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes') {
+                        if (!nameField.hasAttribute('readonly')) {
+                            nameField.setAttribute('readonly', true);
+                        }
+                        if (!lastNameField.hasAttribute('readonly')) {
+                            lastNameField.setAttribute('readonly', true);
+                        }
+                    }
+                });
+            });
+
+            observer.observe(nameField, { attributes: true });
+            observer.observe(lastNameField, { attributes: true });
+        }
+
+        // Set the fields to readonly on page load
+        setReadOnly();
+
+        // Monitor the fields for attribute changes
+        monitorFields();
+    </script>
 
 <!-- jQuery -->
 <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>

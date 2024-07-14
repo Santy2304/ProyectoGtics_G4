@@ -773,13 +773,14 @@ public class PatientController {
         LocalDateTime now = LocalDateTime.now();
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
 
+
         for (PurchaseOrder purchaseOrder : purchaseOrders) {
 
 
                 String tracking = purchaseOrder.getTracking();
 
                 Tracking trackingReal = purchaseOrder.getIdtracking();
-                if(tracking !=null){
+                if(trackingReal !=null){
                     switch (tracking){
                         case ("Solicitado"):
                             if (trackingReal.getEnProcesoDate().isBefore(now)){

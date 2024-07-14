@@ -35,6 +35,18 @@
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+    <style>
+
+        .swal2-confirm {
+            background-color: orange !important;
+            border-color: orange !important;
+        }
+
+        /* Cambiar el color del botón de cierre (X) y mantener los botones naranjas */
+        .swal2-close {
+            color: orange !important;
+        }
+    </style>
 
 
 </head>
@@ -434,10 +446,17 @@
                                    data: json,
                                    success: function(response){
                                         swal.fire({
-                                            title:"success",
-                                            text:"Se genero correctamente la preorden"
-                                        }).then(()=>{
-                                           window.location.href="/pharmacist/verPreordenes";
+                                            title:"Ticket de Pre-orden",
+                                            html: `
+                            <p>ID de Compra: PRE0${response.idCompra}</p>
+                            <!-- Otros detalles del ticket -->
+                        `,
+                                            icon: 'success',
+                                            showCloseButton: true,
+                                            confirmButtonText: 'Ok',
+                                            willClose: () => {
+                                                window.location.href = '/pharmacist/verPreordenes';
+                                            }
                                         });
                                    },
                                    error: function(response){

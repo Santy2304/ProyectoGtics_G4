@@ -430,6 +430,7 @@ public class PatientController {
 
         return "pacient/historialNuevo";
     }
+
 /////////////////////////////////////////////////////////
     @GetMapping("/verPerfilPaciente")
     public String verPerfilPaciente(  Model model, HttpSession session){
@@ -658,7 +659,16 @@ public class PatientController {
                     if (recurrent !=null && recurrent.equals("true")) {
                         purchaseOrder.setRecurrent(true);
                     }
+                    Tracking tracking = new Tracking();
+                    tracking.setSolicitudDate(LocalDateTime.now());
+                    tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                    tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+                    tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+                    tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+                    trackingRepository.save(tracking);
+                    purchaseOrder.setIdtracking(tracking);
                     purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                    purchaseOrderRepository.save(purchaseOrder);
                 } else {
                     attr.addFlashAttribute("msg", "La tarjeta o los datos son incorrectos");
                     return "redirect:verDatosPago?idPurchase=" + idPurchase;
@@ -1355,7 +1365,7 @@ public class PatientController {
         purchaseOrder.setRecurrent(false);
         purchaseOrder.setDeliveryHour(HourStr);
         purchaseOrder.setReleaseDate(LocalDate.now());
-
+/*
         Tracking tracking = new Tracking();
         tracking.setSolicitudDate(LocalDateTime.now());
         tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
@@ -1364,6 +1374,7 @@ public class PatientController {
         tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
         trackingRepository.save(tracking);
         purchaseOrder.setIdtracking(tracking);
+        */
         purchaseOrderRepository.save(purchaseOrder);
 
         boolean validar = true;

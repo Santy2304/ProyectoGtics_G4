@@ -738,6 +738,7 @@ public class PharmacistController {
             }
             HashMap<String , Object> has = new HashMap<>();
             has.put("status", "Todo en orden");
+            has.put("idCompra", pur.getId());
             return ResponseEntity.ok(has);
         }catch(Exception err){
             err.printStackTrace();

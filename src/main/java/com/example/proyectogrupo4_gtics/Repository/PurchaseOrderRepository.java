@@ -19,7 +19,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "    SUM(m.price * phl.cantidad_comprar) AS total_price,\n" +
             "    po.releaseDate as fecha,\n" +
             "    po.approval as estado,\n" +
-            "    po.statePaid as estadoPago\n" +
+            "    po.statePaid as estadoPago, po.tipo as tipo\n" +
             "FROM\n" +
             "    purchaseorder po\n" +
             "INNER JOIN\n" +
@@ -29,7 +29,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "INNER JOIN\n" +
             "    medicine m ON l.idMedicine = m.idMedicine\n" +
             " \n" +
-            "where po.idPatient = ?1 and tipo='web'\n" +
+            "where po.idPatient = ?1 and (tipo='web' || tipo='Preorden' || tipo='Bot')\n" +
             "    \n" +
             "GROUP BY\n" +
             "    po.idPurchaseOrder  ORDER BY po.releaseDate desc")
@@ -66,7 +66,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "INNER JOIN\n" +
             "    medicine m ON l.idMedicine = m.idMedicine\n" +
             " \n" +
-            "where po.idPatient = ?1 and po.statePaid='pagado' and tipo='web'\n" +
+            "where po.idPatient = ?1 and po.statePaid='pagado' and (tipo='web' || tipo='Preorden' || tipo='Bot')\n" +
             "    \n" +
             "GROUP BY\n" +
             "    po.idPurchaseOrder")

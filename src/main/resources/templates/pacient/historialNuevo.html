@@ -153,6 +153,7 @@
                 <th>Número de Orden</th>
                 <th>Detalle</th>
                 <th>Fecha de emisión</th>
+                <th>Tipo</th>
                 <th>Estado</th>
                 <th>Costo (S/.)</th>
                 <th>Estado de Pago</th>
@@ -161,7 +162,12 @@
               <tbody>
               <tr th:each="compras : ${listaCompras}">
 
-                <td th:text="${'WB0' + compras.getIdPurchaseOrder()}" class="text-bolds"></td>
+                <td th:switch="${compras.getTipo()}" class="text-bolds">
+                  <span th:case="'web'" th:text="'WB0' + ${compras.getIdPurchaseOrder()}"></span>
+                  <span th:case="'Preorden'" th:text="'PRE' + ${compras.getIdPurchaseOrder()}"></span>
+                  <span th:case="'Bot'" th:text="'BT0' + ${compras.getIdPurchaseOrder()}"></span>
+                  <span th:case="*">Desconocido</span>
+                </td>
                 <td>
                   <a  type="button">
                     <img th:id="|${compras.getIdPurchaseOrder()}|" src="/assets_superAdmin/img/transaccion.png" width="30" alt="img">
@@ -204,6 +210,7 @@
                           }
                 </script>
                 <td th:text="${compras.getFecha()}"></td>
+                <td th:text="${compras.getTipo()}"></td>
                 <td th:text="${compras.getEstado()}"></td>
                 <td th:text="|${compras.getTotal_price()}0|"></td>
                 <td > <span th:if="${compras.getEstadoPago() eq 'por pagar'}">

@@ -34,7 +34,7 @@ public interface ReplacementOrderRepository extends JpaRepository<ReplacementOrd
     @Query(nativeQuery = true, value = "select * from replacementorder where site = 'Pando 4'")
     List<ReplacementOrder> obtenerSolicitudesRepoPando4();
 
-    @Query(nativeQuery = true, value = "select * from replacementorder r where r.site = ?1 ")
+    @Query(nativeQuery = true, value = "select * from replacementorder r where r.site = ?1 order by r.idReplacementOrder desc")
     List<ReplacementOrder> getReplacementOrderBySede(String siteName);
 
 

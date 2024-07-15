@@ -44,7 +44,7 @@
                     <span class="notification-title">Notificaciones</span>
                 </div>
                 <div class="noti-content">
-                    <ul class="notification-list">
+                    <ul id="noti" class="notification-list">
 
                         <li class="notification-message" th:each="notifications:${listaNotiUWU}">
                             <a href="/pharmacist/verNotificationsFarmacista">
@@ -79,9 +79,10 @@
                     stompClient.subscribe('/user/queue/messages', function (message) {
                         var badge = document.getElementById('rojito');
                         console.log("prueba");
+                        console.log(message);
                         badge.style.display = 'inline-block';
                         let noti =  document.getElementById('noti');
-                        noti.insertBefore(insertar((JSON.parse(message.body)).content), noti.firstChild);
+                        noti.insertBefore(insertar(message.content), noti.firstChild);
                     });
                     // Suscribirse a la cola de mensajes del usuario
                     //Debemos verificar q el farmacista sea de la sede donde estamos

@@ -66,6 +66,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery= true , value="update patient set changePassword=1 where idPatient= ?1")
     void updateChangePasswrod(int idPatient);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM patient where insurance like ?1 and dateCreationAccount between ?2 and ?3")
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where state <> 'eliminado' and insurance like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
     List<Patient> filtrarPacientes(String seguro, String fechaInicio, LocalDate fechaFinal);
 }

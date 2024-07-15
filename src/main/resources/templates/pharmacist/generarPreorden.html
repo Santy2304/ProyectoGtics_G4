@@ -411,9 +411,10 @@
                 </div>
                 </form>
                 </div>
-
                 <script>
                     document.addEventListener('DOMContentLoaded', () => {
+
+
                        let id  = document.getElementById("crearPreorden");
                        id.addEventListener('click', ()=>{
                            let divContenedor = document.getElementById('tabla');
@@ -432,7 +433,6 @@
                            let form = document.getElementById("myForm");
                            let dni =  document.getElementById("dniA");
                            let date =  document.getElementById("date");
-
                            let json = {
                                "name" : dni.value  ,
                                "date" : date.value ,

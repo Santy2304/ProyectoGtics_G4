@@ -2,16 +2,16 @@ package com.example.proyectogrupo4_gtics.Config;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
-    private String content;
+public class Image implements Serializable {
+    private byte[]  content;
     private String sender;
-    private String recipient;
+    private  String recipient;
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 
@@ -30,6 +30,4 @@ public class Message implements Serializable {
     public void setRecipient(String recipient) {
         this.recipient = recipient;
     }
-    // Getters and setters
-    // Constructor
 }

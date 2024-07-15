@@ -153,19 +153,20 @@
             </div>
             <div class="card-footer">
               <div class="input-group">
-                <input id="message" class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
+                <button id="imageBoton" class="btn btn-primary btn_send"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                  <input id="message" class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
                 <button id="boton" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
               </div>
             </div>
           </div>
         </div>
-        <!-- Chat Content -->
-      </div>
+        </div>
     </div>
   </div>
 </div>
-
+<input type="file" id="imagenInput" style="display: none;">
 <script th:inline="javascript">
+  //Todo bien con este metodo
     document.addEventListener('DOMContentLoaded', ()=>{
     let patient = [[${session.usuario.email}]];
     $.ajax({
@@ -175,8 +176,28 @@
         //Cargamos todos los mensajes de la persona con el farmacista
         let listaMensajes = response.Content;
         listaMensajes.forEach((message,index) =>{
+          console.log("mensaje iniciales");
           if(message.autor  === patient){
-            createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
+            if(message.message !== null ){
+              createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
+            }else{
+              console.log(message.id);
+              $.ajax({
+                url: '/getBlob?idMessage='+ message.id,
+                type: 'GET',
+                xhrFields: {
+                  responseType: 'blob' // Especificar que la respuesta es un blob
+                },
+                success: function(response){
+                  let url = URL.createObjectURL(response);
+                  //Creamos imagen
+                  createMessageSenderImagen(url ,obtenerHoraActual() );
+                },
+                error: function(response){
+                  console.log("error");
+                }
+              });
+            }
           }else{
             createMessageReceiver(message.message,formatDateTimeTo12Hour(message.dateTime));
           }
@@ -193,14 +214,40 @@
         console.log("Auxilio");
       }
     });
-  });
+      });
+    //Ahora vemos este metodo
     var stompClient = null;
     document.addEventListener('DOMContentLoaded', ()=>{
       connect();
       let boton = document.getElementById("boton");
       let message = document.getElementById("message");
+      let image = document.getElementById('imagenInput');
+      let botonImage  = document.getElementById('imageBoton');
+      botonImage.addEventListener('click', ()=>{
+        if(message.value.trim() === ""){
+          image.click();
+        }else{
+          swal.fire({
+            icon : "error" ,
+            title: "No se pueden enviar texto e imagenes a la vez"
+          });
+        }
+      });
+      image.addEventListener('change', ()=>{
+          if(image.files.length !== 0){
+            message.readOnly = true ;
+            document.getElementById('message').placeholder = "Ha ingresado una imagen , dele click a enviar =>";
+            message.value = "";
+          }
+          if(image.files.length === 0){
+            image.value = "";
+            message.readOnly = false ;
+            message.placeholder = "Escribe tu mensaje..." ;
+          }
+      });
       boton.addEventListener('click' , () =>{
-        if(message.value.trim() !== ""){
+        //Caso en el q solo envie mensajes de texto
+        if(message.value.trim() !== ""  && image.files.length === 0){
           sendMessage();
           createMessageSender(message.value,obtenerHoraActual());
           let last = document.getElementById("last");
@@ -209,10 +256,20 @@
           lastTime.textContent = obtenerHoraActual();
           message.value="";
         }
+        //Caso en el q se envia una imagen
+        if(message.value.trim() === ""  && image.files.length !== 0){
+          sendImage(image.files[0]);
+          let last = document.getElementById("last");
+          last.textContent = message.value;
+          let lastTime = document.getElementById("lastTime");
+          lastTime.textContent = obtenerHoraActual();
+          message.value="";
+        }
       });
       message.addEventListener('keydown' , (event)=>{
+        //Caso en el q solo envie mensajes de texto
         if(event.key === "Enter"){
-          if(message.value.trim() !== "") {
+          if(message.value.trim() !== ""  && image.files.length === 0) {
             sendMessage();
             createMessageSender(message.value,obtenerHoraActual());
             let last = document.getElementById("last");
@@ -247,14 +304,9 @@
               }
             }
           });
-
-
         });
         // Suscribirse a la cola de mensajes del usuario
         //Debemos verificar q el farmacista sea de la sede donde estamos
-
-
-
       });
     }
     function formatDateTimeTo12Hour(dateTimeString) {
@@ -278,7 +330,6 @@
       url: "/patient/getCorreo",
       type: "GET",
       success: function(response){
-
         stompClient.send("/app/chat", {}, JSON.stringify({
           'sender': [[${session.usuario.email}]] ,  // Cambiar esto por el usuario autenticado
           'recipient': response.correo,
@@ -289,7 +340,59 @@
         console.log("error");
       }
     })
-  }
+    }
+    function sendImage(file) {
+      $.ajax({
+        url: "/patient/getCorreo",
+        type: "GET",
+        success: function(response){
+          let datos = {
+            'sender': [[${session.usuario.email}]] ,  // Cambiar esto por el usuario autenticado
+            'recipient': response.correo ,
+            'content': ""
+          };
+          let cosa = new FormData;
+          cosa.append('image', file );
+          $.ajax({
+            url: '/saveImage',
+            type: 'POST',
+            data: cosa ,
+            contentType: false,
+            processData: false,
+            success: function(response){
+              stompClient.send("/app/chatImage", {},JSON.stringify(datos));
+              //Agregamos ultima imagen
+              $.ajax({
+                url: '/recuperarLastImage' ,
+                type: 'GET',
+                xhrFields: {
+                  responseType: 'blob' // Especificar que la respuesta es un blob
+                },
+                success: function(response){
+                  let url = URL.createObjectURL(response);
+                  //Creamos imagen
+                  createMessageSenderImagen(url ,obtenerHoraActual() );
+                  document.getElementById('message').readOnly = false ;
+                  document.getElementById('message').placeholder = "Escribe tu mensaje..." ;
+                  let imageAAA = document.getElementById('imagenInput');
+                  imageAAA.value = "";
+                },
+                error: function(response){
+                  console.log("Ayudenme");
+                }
+              });
+            },
+            error: function(response){
+               console.log(response.message);
+            }
+          });
+          console.log(datos);
+        },
+        error: function(response){
+          console.log("error");
+        }
+      })
+    }
   // Mostrar mensaje en la interfaz
     function createMessageReceiver(message ,date) {
 // Crear el elemento <li> con las clases correspondientes
@@ -437,6 +540,119 @@
 // Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
       let chatList = document.getElementById("messageTotal");
       chatList.appendChild(li);
+    }
+    function createMessageSenderImagen(url , date) {
+// Crear el elemento <li> con las clases correspondientes
+      // Crear el elemento <li> con las clases correspondientes
+      let li = document.createElement('li');
+      li.classList.add('media', 'sent', 'd-flex');
+
+// Crear el div.avatar
+      let avatarDiv = document.createElement('div');
+      avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+      let avatarImg = document.createElement('img');
+      avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+      avatarImg.alt = 'User Image';
+      avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+      avatarDiv.appendChild(avatarImg);
+      //avatarDiv dentro de
+
+// Crear el div.media-body
+      let mediaBodyDiv = document.createElement('div');
+      mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+      let msgBoxDiv = document.createElement('div');
+      msgBoxDiv.classList.add('msg-box');
+
+
+
+
+// Agregar p1 y ul a msgBoxDiv
+      msgBoxDiv.appendChild(createChatMessage(url , date));
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+      mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+      li.appendChild(avatarDiv);
+      li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+      let chatList = document.getElementById("messageTotal");
+      chatList.appendChild(li);
+    }
+    function createChatMessage(imageUrl, time) {
+      // Crear el contenedor principal
+      const chatMessageDiv = document.createElement('div');
+
+      // Crear el contenedor de adjuntos
+      const chatMsgAttachmentsDiv = document.createElement('div');
+      chatMsgAttachmentsDiv.classList.add('chat-msg-attachments');
+
+      // Crear el contenedor de un adjunto
+      const chatAttachmentDiv = document.createElement('div');
+      chatAttachmentDiv.classList.add('chat-attachment');
+
+      // Crear la imagen del adjunto
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = 'Attachment';
+
+      // Crear el enlace de descarga del adjunto
+      const downloadLink = document.createElement('a');
+      downloadLink.href = '';
+      downloadLink.classList.add('chat-attach-download');
+
+      // Crear el icono de descarga
+      const downloadIcon = document.createElement('i');
+      downloadIcon.classList.add('fas', 'fa-download');
+
+      // Agregar el icono al enlace
+      downloadLink.appendChild(downloadIcon);
+
+      // Agregar la imagen y el enlace de descarga al contenedor del adjunto
+      chatAttachmentDiv.appendChild(img);
+      chatAttachmentDiv.appendChild(downloadLink);
+
+      // Agregar el contenedor del adjunto al contenedor de adjuntos
+      chatMsgAttachmentsDiv.appendChild(chatAttachmentDiv);
+
+      // Crear la lista de información del mensaje
+      const chatMsgInfoUl = document.createElement('ul');
+      chatMsgInfoUl.classList.add('chat-msg-info');
+
+      // Crear el elemento de lista para la hora del mensaje
+      const chatMsgInfoLi = document.createElement('li');
+
+      // Crear el contenedor de la hora
+      const chatTimeDiv = document.createElement('div');
+      chatTimeDiv.classList.add('chat-time');
+
+      // Crear el span de la hora
+      const chatTimeSpan = document.createElement('span');
+      chatTimeSpan.textContent = time;
+
+      // Agregar el span al contenedor de la hora
+      chatTimeDiv.appendChild(chatTimeSpan);
+
+      // Agregar el contenedor de la hora al elemento de lista
+      chatMsgInfoLi.appendChild(chatTimeDiv);
+
+      // Agregar el elemento de lista a la lista de información del mensaje
+      chatMsgInfoUl.appendChild(chatMsgInfoLi);
+
+      // Agregar el contenedor de adjuntos y la lista de información al contenedor principal
+      chatMessageDiv.appendChild(chatMsgAttachmentsDiv);
+      chatMessageDiv.appendChild(chatMsgInfoUl);
+
+      // Retornar el contenedor principal
+      return chatMessageDiv;
     }
     function obtenerHoraActual() {
       let ahora = new Date();

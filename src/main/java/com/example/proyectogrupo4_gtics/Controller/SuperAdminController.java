@@ -1091,6 +1091,124 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
         return "superAdmin/SedePando4";
     }
+    //FIltro de las vistas de sede
+    @PostMapping("/verSedeSuperAdminPando1")
+    public String filtrosPando1(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando1";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando1 = pharmacistRepository.listarSolicitudesFarmacistaPando1();
+        List<ReplacementOrder> listarSolicitudesReposicionPando1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando1 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 1", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando1 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 1", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando1",listaSolicitudesFarmacistaPando1);
+        model.addAttribute("listaSolicitudesReposicionPando1",listarSolicitudesReposicionPando1);
+        return "superAdmin/SedePando1";
+    }
+    @PostMapping("/verSedeSuperAdminPando2")
+    public String filtrosPando2(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando2";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
+        List<ReplacementOrder> listarSolicitudesReposicionPando2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando2 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 2", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando2 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 2", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando2",listaSolicitudesFarmacistaPando2);
+        model.addAttribute("listaSolicitudesReposicionPando2",listarSolicitudesReposicionPando2);
+        return "superAdmin/SedePando2";
+    }
+    @PostMapping("/verSedeSuperAdminPando3")
+    public String filtrosPando3(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando3";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
+        List<ReplacementOrder> listarSolicitudesReposicionPando3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando3 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 3", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando3 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 3", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando3",listaSolicitudesFarmacistaPando3);
+        model.addAttribute("listaSolicitudesReposicionPando3",listarSolicitudesReposicionPando3);
+        return "superAdmin/SedePando3";
+    }
+    @PostMapping("/verSedeSuperAdminPando4")
+    public String filtrosPando4(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando4";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
+        List<ReplacementOrder> listarSolicitudesReposicionPando4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando4 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 4", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando4 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 4", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando4",listaSolicitudesFarmacistaPando4);
+        model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
+        return "superAdmin/SedePando4";
+    }
+
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();

@@ -101,8 +101,13 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Query(nativeQuery= true , value="update pharmacist set changePassword=1 where idPharmacist= ?1")
     void updateChangePasswrod(int id);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where site like ?1 and dateCreationAccount between ?2 and ?3")
+    //Filtros
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where state <> 'eliminado' and approvalState = 'aceptado' and site like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
     List<Pharmacist> filtrarFarmacistas(String site, String fechaInicio, LocalDate fechaFinal);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist WHERE (approvalState = 'pendiente' or approvalState='rechazado') and site = ?1 and dateCreationAccount between ?2 and ?3 order by dateRequestAccount desc")
+    List<Pharmacist> filtrarSolicitudesDeFarmacistas(String site, String fechaInicio, LocalDate fechaFinal);
+
  }
 
 

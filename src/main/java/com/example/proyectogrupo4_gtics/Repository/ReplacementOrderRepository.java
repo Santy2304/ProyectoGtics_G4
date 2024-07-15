@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ReplacementOrderRepository extends JpaRepository<ReplacementOrder, Integer> {
@@ -43,4 +44,7 @@ public interface ReplacementOrderRepository extends JpaRepository<ReplacementOrd
     @Query(value = "update replacementorder set trackingState = ?1  where idReplacementOrder =?2" , nativeQuery = true)
     void actualizarTracking(String estado,int id);
 
+    //Filtros
+    @Query(nativeQuery = true, value = "select * from replacementorder where site = ?1 and trackingState = ?2 and releaseDate between ?3 and ?4")
+    List<ReplacementOrder> filtrarSolicitudesRepo(String sede, String estado, String fechaInicio, LocalDate fechaFin);
 }

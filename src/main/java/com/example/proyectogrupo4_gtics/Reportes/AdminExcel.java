@@ -17,15 +17,36 @@ public class AdminExcel {
     private XSSFWorkbook libro;
     private XSSFSheet hoja;
     private List<Administrator> listaAdmins;
+    private String titulo;
 
-    public AdminExcel(List<Administrator> listaAdmins) {
+    public AdminExcel(List<Administrator> listaAdmins, String titulo) {
         this.listaAdmins = listaAdmins;
+        this.titulo = titulo;
         libro = new XSSFWorkbook();
         hoja = libro.createSheet("Administradores");
     }
 
-    private void cabeceraTabla(){
-        Row fila = hoja.createRow(0);
+    private void crearTitulo() {
+        Row filaTitulo = hoja.createRow(0);
+        Cell celdaTitulo = filaTitulo.createCell(0);
+        celdaTitulo.setCellValue(titulo);
+
+        CellStyle estiloTitulo = libro.createCellStyle();
+        XSSFFont fuenteTitulo = libro.createFont();
+        fuenteTitulo.setBold(true);
+        fuenteTitulo.setFontHeight(16);
+        estiloTitulo.setFont(fuenteTitulo);
+        estiloTitulo.setAlignment(HorizontalAlignment.CENTER);
+        estiloTitulo.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        celdaTitulo.setCellStyle(estiloTitulo);
+
+        // Combinar celdas para el título
+        hoja.addMergedRegion(new CellRangeAddress(0, 0, 0, 5));
+    }
+
+    private void cabeceraTabla() {
+        Row fila = hoja.createRow(1);
         CellStyle estilo = libro.createCellStyle();
         XSSFFont fuente = libro.createFont();
         fuente.setBold(true);
@@ -37,6 +58,8 @@ public class AdminExcel {
         // Color de fondo naranja claro
         estilo.setFillForegroundColor(IndexedColors.LIGHT_ORANGE.getIndex());
         estilo.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        // Aplicar bordes
         estilo.setBorderBottom(BorderStyle.THIN);
         estilo.setBorderTop(BorderStyle.THIN);
         estilo.setBorderLeft(BorderStyle.THIN);
@@ -53,7 +76,7 @@ public class AdminExcel {
     }
 
     public void datosTabla() {
-        int numeroFilas = 1;
+        int numeroFilas = 2;  // Empezar después del título y la cabecera
 
         CellStyle estilo = libro.createCellStyle();
         XSSFFont fuente = libro.createFont();
@@ -61,13 +84,15 @@ public class AdminExcel {
         estilo.setFont(fuente);
         estilo.setAlignment(HorizontalAlignment.CENTER);
         estilo.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        // Aplicar bordes
         estilo.setBorderBottom(BorderStyle.THIN);
         estilo.setBorderTop(BorderStyle.THIN);
         estilo.setBorderLeft(BorderStyle.THIN);
         estilo.setBorderRight(BorderStyle.THIN);
 
-        for (Administrator admin : listaAdmins){
-            Row fila = hoja.createRow(numeroFilas ++);
+        for (Administrator admin : listaAdmins) {
+            Row fila = hoja.createRow(numeroFilas++);
 
             Cell celda = fila.createCell(0);
             celda.setCellValue(admin.getName());
@@ -98,6 +123,7 @@ public class AdminExcel {
         for (int i = 0; i < 6; i++) {
             hoja.autoSizeColumn(i);
         }
+
         // Añadir fecha actual
         LocalDate fechaActual = LocalDate.now();
         Row filaFecha = hoja.createRow(numeroFilas + 1);
@@ -112,12 +138,11 @@ public class AdminExcel {
         celdaFecha.setCellStyle(estiloFecha);
 
         // Combinar celdas para la fecha
-        hoja.addMergedRegion(new CellRangeAddress(numeroFilas + 1, numeroFilas + 1, 0, 6));
-
-
+        hoja.addMergedRegion(new CellRangeAddress(numeroFilas + 1, numeroFilas + 1, 0, 5));
     }
 
     public void exportar(HttpServletResponse response) throws IOException {
+        crearTitulo();
         cabeceraTabla();
         datosTabla();
 

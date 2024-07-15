@@ -1155,8 +1155,9 @@ public class  SuperAdminController {
         response.setHeader(cabecera, valor);
 
         List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
+        String titulo = "Listado de Productos";
 
-        MedicineExcel exporter = new MedicineExcel(medicamentos);
+        MedicineExcel exporter = new MedicineExcel(medicamentos,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarAdministradoresPDF")
@@ -1186,10 +1187,10 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-
+        String titulo = "Lista de Administradores";
         List<Administrator> administrators = administratorRepository.listarAdminValidos();
 
-        AdminExcel exporter = new AdminExcel(administrators);
+        AdminExcel exporter = new AdminExcel(administrators,titulo);
         exporter.exportar(response);
 
     }
@@ -1221,8 +1222,9 @@ public class  SuperAdminController {
 
 
         List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
+        String titulo = "Lista de Farmacistas";
 
-        FarmacistaExcel exporter = new FarmacistaExcel(pharmacists);
+        FarmacistaExcel exporter = new FarmacistaExcel(pharmacists,titulo);
         exporter.exportar(response);
 
     }
@@ -1252,8 +1254,9 @@ public class  SuperAdminController {
         response.setHeader(cabecera, valor);
 
         List<Patient> patients = patientRepository.listarPacientesValidos();
+        String titulo = "Lista de pacientes";
 
-        PacienteExcel exporter = new PacienteExcel(patients);
+        PacienteExcel exporter = new PacienteExcel(patients,titulo);
         exporter.exportar(response);
 
     }
@@ -1284,8 +1287,8 @@ public class  SuperAdminController {
         response.setHeader(cabecera, valor);
 
         List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
-
-        DoctoresExcel exporter = new DoctoresExcel(doctors);
+        String titulo = "Lista de doctores";
+        DoctoresExcel exporter = new DoctoresExcel(doctors,titulo);
         exporter.exportar(response);
 
     }

@@ -162,6 +162,43 @@ public class  SuperAdminController {
         model.addAttribute("listaMedicamentos", medicineRepository.obtenerDatosMedicamentos());
         return "superAdmin/listaMedicamentos";
     }
+    //Filtro de la vista de medicamentos
+    @PostMapping("listaMedicamentos")
+    public String filtrosMedicamentos(@RequestParam("categoria") String categoria,
+                                      @RequestParam("cantidad") String cantidad,
+                                      @RequestParam("precio") String precio, Model model) {
+        if (categoria.isEmpty() && cantidad.isEmpty() && precio.isEmpty()) {
+            return "redirect:/listaMedicamentos"; //En caso dejen en blanco los valores del filtro
+        }
+        if (categoria.isEmpty()) {
+            categoria = "%";
+        }
+
+        //Valores predeterminados de intervalos de cantidad y precio
+        int cantInf = 0;
+        int cantSup = 500;//No creo que hayan más de 500 unidades de un medicamento xd
+        int precioInf = 0;
+        int precioSup = 100; //No creo que un medicamento cueste más de 100 xd
+        //Verificación de los parámetros del filtro para modificar los valores de los intervalos
+        if (cantidad.equals("1")) { //Se eligió la opción de 0 - 25
+            cantSup = 25;
+        } else if (cantidad.equals("2")) { //Se eligió la opción de 25 - 50
+            cantInf = 25;
+            cantSup = 50;
+        } else { //Se alteró el valor seleccionado por inspección
+            return "redirect:/listaMedicamentos";
+        }
+        if (precio.equals("1")) { //Se eligió la opción de 0.0 - 25.0
+            precioSup = 25;
+        } else if (precio.equals("2")) { //Se eligió la opción de 25.0 - 50.0
+            precioInf = 25;
+            precioSup = 50;
+        } else { //Se alteró el valor seleccionado por inspección
+            return "redirect:/listaMedicamentos";
+        }
+        model.addAttribute("listaMedicamentos", medicineRepository.filtrarDatosMedicamentos(categoria, cantInf, cantSup, precioInf, precioSup));
+        return "superAdmin/listaMedicamentos";
+    }
     @GetMapping("/verAñadirMedicamento")
     public String verAddMedicamento(@ModelAttribute("medicine") Medicine medicine) {
         return "superAdmin/anadirMedicamento";

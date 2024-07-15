@@ -98,6 +98,7 @@
 								<div class="card-body pb-0">
 									<div class="row">
 										<div class="col-lg-12 col-sm-12">
+											<form method="POST" th:action="@{'/superAdmin/listaMedicamentos'}">
 											<div class="row">
 												<!--
 												<div class="col-lg col-sm-6 col-12">
@@ -112,41 +113,42 @@
 												-->
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
-														<select class="select">
-															<option>Categoría</option>
-															<option>Dolor</option>
-															<option>Belleza</option>
-															<option>Suplementos</option>
-															<option>Alergías</option>
-															<option>Otros</option>
+														<select class="select" name="categoria">
+															<option value="">Categoría</option>
+															<option value="Dolor">Dolor</option>
+															<option value="Belleza">Belleza</option>
+															<option value="Suplementos">Suplementos</option>
+															<option value="Alergias">Alergías</option>
+															<option value="Otros">Otros</option>
 														</select>
 													</div>
 												</div>
 
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
-														<select class="select">
-															<option>Cantidad</option>
-															<option>0 - 25</option>
-															<option>25 - 50</option>
+														<select class="select" name="cantidad">
+															<option value="">Cantidad</option>
+															<option value="1">0 - 25</option>
+															<option value="2">25 - 50</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-lg col-sm-6 col-12 ">
 													<div class="form-group">
-														<select class="select">
-															<option>Precio (s/.)</option>
-															<option>0.00 - 25.00</option>
-															<option>25.00 - 50.00</option>
+														<select class="select" name="precio">
+															<option value="">Precio (s/.)</option>
+															<option value="1">0.00 - 25.00</option>
+															<option value="2">25.00 - 50.00</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+														<button class="btn btn-filters ms-auto" type="submit"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
 													</div>
 												</div>
 											</div>
+											</form>
 										</div>
 									</div>
 								</div>

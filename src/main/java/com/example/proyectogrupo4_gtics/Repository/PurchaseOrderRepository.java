@@ -32,7 +32,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "where po.idPatient = ?1 and (tipo='web' || tipo='Preorden' || tipo='Bot')\n" +
             "    \n" +
             "GROUP BY\n" +
-            "    po.idPurchaseOrder  ORDER BY po.releaseDate desc")
+            "    po.idPurchaseOrder  ORDER BY po.idPurchaseOrder desc")
     List<PurchasePorPatientDTO> obtenerComprarPorPaciente(int idPatient);
 
 
@@ -70,7 +70,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrder, In
             "where po.idPatient = ?1 and po.statePaid='pagado' and (tipo='web' || tipo='Preorden' || tipo='Bot')\n" +
             "    \n" +
             "GROUP BY\n" +
-            "    po.idPurchaseOrder")
+            "    po.idPurchaseOrder  Order by po.idPurchaseOrder desc")
     List<PurchasePorPatientDTO> obtenerComprarPorPacienteTracking(int idPatient);
 
 

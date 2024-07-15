@@ -19,14 +19,14 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     void updateDatosPorId(String name , String lasName , String dni , String email ,String headquarter,String state ,int idDoctor );
 
 
-    @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email, d.state as state, d.dateCreationAccount as creationDate from doctor d inner join administrator a on (a.site=d.headquarter) where a.idAdministrator=?1 order by d.dateCreationAccount desc")
+    @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email, d.state as state, d.dateCreationAccount as creationDate from doctor d inner join administrator a on (a.site=d.headquarter) where a.idAdministrator=?1 and d.state='activo' order by d.dateCreationAccount desc")
     List<DoctorPorSedeDTO> listaDoctorPorSede(int idAdministrator);
 
     @Query(nativeQuery = true, value = "select d.idDoctor as idDoctor, d.name as nombre, d.lastName as lastName, d.dni as dni, d.headquarter as sede, d.email as email from doctor d inner join administrator a on (a.site=d.headquarter) where lower(d.name) like concat(?1,'%') and a.idAdministrator=?2")
     List<DoctorPorSedeDTO> listaDoctorPorBuscador(String nombre, int idAdministrator);
 
 
-    @Query(nativeQuery = true, value = "select * from doctor where headquarter=?1")
+    @Query(nativeQuery = true, value = "select * from doctor where headquarter=?1 and state='activo'")
     List<Doctor> listaDoctorPorSedePaciente(String sede);
 
     @Query(nativeQuery = true, value = "select * from doctor where state='activo' and headquarter=?1")

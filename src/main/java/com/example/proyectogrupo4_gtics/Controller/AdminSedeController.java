@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Config.Message;
 import com.example.proyectogrupo4_gtics.DTOs.DoctorPorSedeDTO;
 import com.example.proyectogrupo4_gtics.DTOs.MedicamentosPorReposicionDTO;
 import com.example.proyectogrupo4_gtics.DTOs.lotesPorReposicion;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -55,13 +57,15 @@ public class AdminSedeController {
     final NotificationsRepository notificationsRepository;
     final TrackingRepository trackingRepository;
     final SiteRepository siteRepository;
+    final SimpMessagingTemplate simpMessagingTemplate;
+
 
     final CodeRepository codeRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
                                LoteRepository loteRepository,UserRepository userRepository,
                                TrackingRepository trackingRepository,NotificationsRepository notificationsRepository,
-                               SiteRepository siteRepository, CodeRepository codeRepository) {
+                               SiteRepository siteRepository, CodeRepository codeRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -73,6 +77,7 @@ public class AdminSedeController {
         this.notificationsRepository= notificationsRepository;
         this.siteRepository=siteRepository;
         this.codeRepository = codeRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
     private String rutaAbsoluta = "//SaintMedic//imagenes";
     @GetMapping("/cambioObligatorio")
@@ -975,7 +980,7 @@ public class AdminSedeController {
         model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "admin_sede/trackingPersonal";
     }
-    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    @Scheduled(fixedRate = 20000) // Ejecuta la tarea cada 20 segundos
     public void changeTracking() {
         LocalDateTime now = LocalDateTime.now();
         List<ReplacementOrder> replacamenteOrders = replacementOrderRepository.findAll();
@@ -1014,6 +1019,31 @@ public class AdminSedeController {
                         notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
                         notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
                         notificationsRepository.save(notifications);
+
+                        List<Administrator> listaAdministradores = administratorRepository.findAll();
+
+                        for (Administrator a : listaAdministradores){
+                            if(a.getSite().equals(replacementOrder.getSite()) && a.getState().equals("activo")){
+                                Message message = new Message();
+                                message.setContent(notifications.getContent());
+                                message.setRecipient(a.getEmail());
+                                message.setSender(a.getEmail());
+                                simpMessagingTemplate.convertAndSendToUser(a.getEmail(), "/queue/messages", message);
+                            }
+
+                        }
+
+                        List<Pharmacist> listaFarmacistas = pharmacistRepository.findAll();
+
+                        for (Pharmacist p : listaFarmacistas){
+                            if(p.getSite().equals(replacementOrder.getSite()) && p.getState().equals("activo")){
+                                Message message = new Message();
+                                message.setContent(notifications.getContent());
+                                message.setRecipient(p.getEmail());
+                                message.setSender(p.getEmail());
+                                simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", message);
+                            }
+                        }
                     }
                     break;
 
@@ -1038,6 +1068,30 @@ public class AdminSedeController {
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
             notificationsRepository.save(notifications);
+            List<Administrator> listaAdministradores = administratorRepository.findAll();
+
+            for (Administrator a : listaAdministradores){
+                if(a.getSite().equals("Pando 1") && a.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(a.getEmail());
+                    message.setSender(a.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(a.getEmail(), "/queue/messages", message);
+                }
+
+            }
+
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.findAll();
+
+            for (Pharmacist p : listaFarmacistas){
+                if(p.getSite().equals("Pando 1") && p.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(p.getEmail());
+                    message.setSender(p.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", message);
+                }
+            }
         }
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando2){
@@ -1046,6 +1100,32 @@ public class AdminSedeController {
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
             notificationsRepository.save(notifications);
+
+            List<Administrator> listaAdministradores = administratorRepository.findAll();
+
+            for (Administrator a : listaAdministradores){
+                if(a.getSite().equals("Pando 2") && a.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(a.getEmail());
+                    message.setSender(a.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(a.getEmail(), "/queue/messages", message);
+                }
+
+            }
+
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.findAll();
+
+            for (Pharmacist p : listaFarmacistas){
+                if(p.getSite().equals("Pando 2") && p.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(p.getEmail());
+                    message.setSender(p.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", message);
+                }
+            }
+
         }
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando3){
             Notifications notifications = new Notifications();
@@ -1053,6 +1133,30 @@ public class AdminSedeController {
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
             notificationsRepository.save(notifications);
+            List<Administrator> listaAdministradores = administratorRepository.findAll();
+
+            for (Administrator a : listaAdministradores){
+                if(a.getSite().equals("Pando 3") && a.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(a.getEmail());
+                    message.setSender(a.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(a.getEmail(), "/queue/messages", message);
+                }
+
+            }
+
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.findAll();
+
+            for (Pharmacist p : listaFarmacistas){
+                if(p.getSite().equals("Pando 3") && p.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(p.getEmail());
+                    message.setSender(p.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", message);
+                }
+            }
         }
 
         for (MedicamentosPorSedeDTO medicamento : listamedicamentosPocoStockPando4){
@@ -1061,6 +1165,30 @@ public class AdminSedeController {
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
             notifications.setDate(LocalDateTime.now());
             notificationsRepository.save(notifications);
+            List<Administrator> listaAdministradores = administratorRepository.findAll();
+
+            for (Administrator a : listaAdministradores){
+                if(a.getSite().equals("Pando 4") && a.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(a.getEmail());
+                    message.setSender(a.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(a.getEmail(), "/queue/messages", message);
+                }
+
+            }
+
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.findAll();
+
+            for (Pharmacist p : listaFarmacistas){
+                if(p.getSite().equals("Pando 4") && p.getState().equals("activo")){
+                    Message message = new Message();
+                    message.setContent(notifications.getContent());
+                    message.setRecipient(p.getEmail());
+                    message.setSender(p.getEmail());
+                    simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", message);
+                }
+            }
         }
     }
 
@@ -1423,10 +1551,10 @@ public class AdminSedeController {
                                 //r.setIdReplacementOrder();
                                 Tracking tracking = new Tracking();
                                 tracking.setSolicitudDate(LocalDateTime.now());
-                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
-                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
-                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
-                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusSeconds(20));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusSeconds(20));
+                                tracking.setEnRutaDate(LocalDateTime.now().plusSeconds(20));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusSeconds(20));
                                 trackingRepository.save(tracking);
                                 r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);

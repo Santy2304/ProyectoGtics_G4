@@ -60,8 +60,8 @@
     </li>
 
     <li class="nav-item dropdown">
-      <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-        <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span id="notificationBadge" style="background-color: red; width: 20%;height: 20%; border-radius: 50%" class="badge rounded-pill"></span>
+      <a id="campana" href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+        <img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span id="rojito" style="background-color: red; width: 20%;height: 20%; border-radius: 50%;display: none" class="badge rounded-pill"></span>
       </a>
       <div class="dropdown-menu notifications">
         <div class="topnav-dropdown-header">
@@ -90,6 +90,94 @@
         </div>
       </div>
     </li>
+
+    <script>
+
+      function connect() {
+        var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
+        stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
+        stompClient.connect({}, function (frame) {
+          console.log('Connected: ' + frame);
+          stompClient.subscribe('/user/queue/messages', function (message) {
+            var badge = document.getElementById('rojito');
+            console.log("prueba");
+            badge.style.display = 'inline-block';
+            let noti =  document.getElementById('noti');
+            noti.insertBefore(insertar((JSON.parse(message.body)).content), noti.firstChild);
+          });
+          // Suscribirse a la cola de mensajes del usuario
+          //Debemos verificar q el farmacista sea de la sede donde estamos
+
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded",()=>{connect();});
+
+
+      let a = document.getElementById("campana");
+      let badgeee = document.getElementById('rojito');
+
+      a.addEventListener("click",()=>{
+        console.log("prueba");
+        badgeee.style.display = 'none';
+      });
+
+      function insertar(content){
+        let li = document.createElement('li');
+        li.className = 'notification-message';
+
+        let a = document.createElement('a');
+        a.href = '/pharmacist/verNotificationsFarmacista';
+
+        let mediaDiv = document.createElement('div');
+        mediaDiv.className = 'media d-flex';
+
+        let span = document.createElement('span');
+        span.className = 'avatar flex-shrink-0';
+
+        let img = document.createElement('img');
+        img.alt = '';
+        img.src = '/assets_superAdmin/img/Farmacista.jpeg';
+
+        span.appendChild(img);
+
+        let mediaBodyDiv = document.createElement('div');
+        mediaBodyDiv.className = 'media-body flex-grow-1';
+
+        let notiDetails = document.createElement('p');
+        notiDetails.className = 'noti-details';
+        notiDetails.textContent = content;
+
+        let notiTime = document.createElement('p');
+        notiTime.className = 'noti-time';
+
+        let notificationTime = document.createElement('span');
+        notificationTime.className = 'notification-time';
+        notificationTime.textContent = getCurrentFormattedDate();
+
+        notiTime.appendChild(notificationTime);
+        mediaBodyDiv.appendChild(notiDetails);
+        mediaBodyDiv.appendChild(notiTime);
+
+        mediaDiv.appendChild(span);
+        mediaDiv.appendChild(mediaBodyDiv);
+
+        a.appendChild(mediaDiv);
+        li.appendChild(a);
+
+        return li;
+      }
+
+      function getCurrentFormattedDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        return `${year}/${month}/${day} ${hours}:${minutes}`;
+      }
+    </script>
 
 
     <!-- /Notifications -->
@@ -137,6 +225,8 @@
     </div>
   </div>
   <!-- /Mobile Menu -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 </div>
 
 

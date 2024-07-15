@@ -1,5 +1,6 @@
 package com.example.proyectogrupo4_gtics.Controller;
 
+import com.example.proyectogrupo4_gtics.Config.Message;
 import com.example.proyectogrupo4_gtics.DTOs.MeciamentosPorCompraDTO;
 import com.example.proyectogrupo4_gtics.DTOs.PurchasePorPatientDTO;
 import com.example.proyectogrupo4_gtics.Entity.*;
@@ -19,6 +20,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -79,6 +81,8 @@ public class PatientController {
     private final PharmacistRepository pharmacistRepository;
     final Dialogflow dialogflow;
 
+    final SimpMessagingTemplate simpMessagingTemplate;
+
     public PatientController (SiteRepository siteRepository ,PatientRepository patientRepository , MedicineRepository medicineRepository,
                               PurchaseHasLoteRepository purchaseHasLoteRepository, PurchaseOrderRepository purchaseOrderRepository,
                               DoctorRepository doctorRepository,
@@ -90,7 +94,7 @@ public class PatientController {
                               ChatContentRepository chatContentRepository,
                               PharmacistRepository pharmacistRepository,
                               Dialogflow dialogflow,
-                              ChatBotRepository chatBotRepository) {
+                              ChatBotRepository chatBotRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.chatBotRepository = chatBotRepository;
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
@@ -108,6 +112,7 @@ public class PatientController {
         this.chatContentRepository = chatContentRepository;
         this.pharmacistRepository = pharmacistRepository;
         this.dialogflow = dialogflow;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
     private String rutaAbsoluta = "C://SaintMedic//imagenes";
 
@@ -489,11 +494,11 @@ public class PatientController {
 
         model.addAttribute("idPurchase",idPurchase);
         model.addAttribute("Tracking",tracking);
-        model.addAttribute("solicitudDate", tracking.getSolicitudDate()/*.minusHours(5)*/);
-        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate()/*.minusHours(5)*/);
-        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate()/*.minusHours(5)*/);
-        model.addAttribute("enRutaDate", tracking.getEnRutaDate()/*.minusHours(5)*/);
-        model.addAttribute("entregadoDate", tracking.getEntregadoDate()/*.minusHours(5)*/);
+        model.addAttribute("solicitudDate", tracking.getSolicitudDate().minusHours(5));
+        model.addAttribute("enProcesoDate", tracking.getEnProcesoDate().minusHours(5));
+        model.addAttribute("empaquetadoDate", tracking.getEmpaquetadoDate().minusHours(5));
+        model.addAttribute("enRutaDate", tracking.getEnRutaDate().minusHours(5));
+        model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "pacient/TrackingSolitario";
     }
     @PostMapping("/editarPerfilPaciente")
@@ -659,10 +664,10 @@ public class PatientController {
                     }
                     Tracking tracking = new Tracking();
                     tracking.setSolicitudDate(LocalDateTime.now());
-                    tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
-                    tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
-                    tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
-                    tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+                    tracking.setEnProcesoDate(LocalDateTime.now().plusSeconds(30));
+                    tracking.setEmpaquetadoDate(LocalDateTime.now().plusSeconds(30));
+                    tracking.setEnRutaDate(LocalDateTime.now().plusSeconds(30));
+                    tracking.setEntregadoDate(LocalDateTime.now().plusSeconds(30));
                     trackingRepository.save(tracking);
                     purchaseOrder.setIdtracking(tracking);
                     purchaseOrderRepository.pagarOrdenCompra(idPurchase);
@@ -676,9 +681,22 @@ public class PatientController {
                 if (creditCardOptional != null) {
                     int medDb = creditCardOptional.getExpireMonth();
                     int yearDb = creditCardOptional.getExpireYear();
-
+                    PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(idPurchase).get();
                     if (creditCardOptional.getCvv().equals(cvv) && medDb == month && yearDb == year) {
+                        purchaseOrder.setTracking("Solicitado");
+                        if (recurrent !=null && recurrent.equals("true")) {
+                            purchaseOrder.setRecurrent(true);
+                        }
+                        Tracking tracking = new Tracking();
+                        tracking.setSolicitudDate(LocalDateTime.now());
+                        tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                        tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(2));
+                        tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(3));
+                        tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(4));
+                        trackingRepository.save(tracking);
+                        purchaseOrder.setIdtracking(tracking);
                         purchaseOrderRepository.pagarOrdenCompra(idPurchase);
+                        purchaseOrderRepository.save(purchaseOrder);
                     } else {
                         attr.addFlashAttribute("msg", "La tarjeta o los datos son incorrectos");
                         return "redirect:verDatosPago?idPurchase=" + idPurchase;
@@ -768,7 +786,7 @@ public class PatientController {
             this.idMedicina = idMedicina;
         }
     }
-    @Scheduled(fixedRate = 30000) // Ejecuta la tarea cada 1/2 minuto
+    @Scheduled(fixedRate = 20000) // Ejecuta la tarea cada 20 segundos
     public void changeTrackingPurchase() {
         LocalDateTime now = LocalDateTime.now();
         List<PurchaseOrder> purchaseOrders = purchaseOrderRepository.findAll();
@@ -808,6 +826,12 @@ public class PatientController {
                                 String email = purchaseOrder.getPatient().getEmail();
                                 notifications.setIdUsers(userRepository.findByEmail(email));
                                 notificationsRepository.save(notifications);
+                                Message message = new Message();
+                                message.setContent(notifications.getContent());
+                                message.setRecipient(email);
+                                message.setSender(email);
+                                simpMessagingTemplate.convertAndSendToUser(email, "/queue/messages", message);
+
                             }
                             break;
                         default:
@@ -835,6 +859,11 @@ public class PatientController {
                             notification.setIdUsers(user);
                             notification.setDate(LocalDateTime.now());
                             notificationsRepository.save(notification);
+                            Message message = new Message();
+                            message.setContent(notification.getContent());
+                            message.setRecipient(purchaseOrder.getPatient().getEmail());
+                            message.setSender(purchaseOrder.getPatient().getEmail());
+                            simpMessagingTemplate.convertAndSendToUser(purchaseOrder.getPatient().getEmail(), "/queue/messages", message);
                         }
                     }
                     purchaseOrder.setRecurrent(false);

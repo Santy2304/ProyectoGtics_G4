@@ -1292,6 +1292,58 @@ public class  SuperAdminController {
         exporter.exportar(response);
 
     }
+
+    @GetMapping("/exportarRepoPDF")
+    public void exportaRepoPDF(HttpServletResponse response, @RequestParam("sede") int sede) throws DocumentException, IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Ordenes_de_Reposición_" + fechaActual + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        switch (sede){
+
+            case 1:
+                List<ReplacementOrder> listaRepo1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+                String titulo = "Lista de solicitudes de reposición de Pando 1";
+                RepoPDF repoPDF = new RepoPDF(listaRepo1,titulo);
+                repoPDF.exportar(response);
+                break;
+
+            case 2:
+                List<ReplacementOrder> listaRepo2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
+                String titulo2 = "Lista de solicitudes de reposición de Pando 2";
+                RepoPDF repoPDF2 = new RepoPDF(listaRepo2,titulo2);
+                repoPDF2.exportar(response);
+                break;
+
+            case 3:
+                List<ReplacementOrder> listaRepo3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
+                String titulo3 = "Lista de solicitudes de reposición de Pando 3";
+                RepoPDF repoPDF3 = new RepoPDF(listaRepo3,titulo3);
+                repoPDF3.exportar(response);
+                break;
+
+            case 4:
+                List<ReplacementOrder> listaRepo4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
+                String titulo4 = "Lista de solicitudes de reposición de Pando 2";
+                RepoPDF repoPDF4 = new RepoPDF(listaRepo4,titulo4);
+                repoPDF4.exportar(response);
+                break;
+
+        }
+
+    }
+    @GetMapping("/exportarRepoExcel")
+    public void exportarRepoExcel(HttpServletResponse response) throws DocumentException, IOException {
+
+
+    }
+
+
+
     /////////////////////////////////////////////////////////////////////////////////////////7
     public String generateRandomWord() {
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

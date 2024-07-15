@@ -660,6 +660,7 @@ public class PharmacistController {
                     aux.put("autor",ch.getAutor());
                     aux.put("message",ch.getMessage());
                     aux.put("dateTime",ch.getDateTime());
+                    aux.put("id", ch.getId());
                     listaFiltrada.add(aux);
                 }
             }
@@ -1156,7 +1157,6 @@ public class PharmacistController {
     public Object getPatients(HttpSession session){
         try {
             //HARD
-
             Pharmacist p = (Pharmacist) session.getAttribute("usuario");
             //Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
             List<Chat> listaChat = chatRepository.findAll();

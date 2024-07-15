@@ -16,10 +16,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
@@ -144,7 +141,6 @@ public class ChatController {
     content.setIdChat(chatVerdadero);
     chatContentRepository.save(content);
     simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
-
 }
 //De paciente a farmacista
     @MessageMapping(value = "/chat")
@@ -220,6 +216,9 @@ public class ChatController {
             simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
             for (Pharmacist p : listaFarmacista) {
                 if (p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())) {
+                    chatVerdadero.setIdFarmacist(p);
+                    content.setIdChat(chatVerdadero);
+                    chatContentRepository.save(content);
                     simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
                 }
             }
@@ -227,9 +226,6 @@ public class ChatController {
             error.printStackTrace();
         }
     }
-
-
-
     @MessageMapping(value = "/chatImage")
     public void sendImage(Message chatMessage)  {
         System.out.println("GAAAA");
@@ -292,7 +288,7 @@ public class ChatController {
             content.setDateTime(ahora);
             content.setAutor(sender.getEmail());
             content.setIdChat(chatVerdadero);
-            chatContentRepository.save(content);
+            //chatContentRepository.save(content);
             //Escogo mandarles a todos los farmacistas de esa sede ;
             List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
 
@@ -306,7 +302,6 @@ public class ChatController {
             error.printStackTrace();
         }
     }
-
     @PostMapping(value="/saveImage")
     @ResponseBody
     public Object saveImage(HttpSession session , @RequestParam(value="image") MultipartFile img ) {
@@ -338,7 +333,6 @@ public class ChatController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
     }
-
     @GetMapping(value="recuperarLastImage")
     @ResponseBody
     public Object recuperarLastImage(HttpSession session){
@@ -366,20 +360,41 @@ public class ChatController {
         }
     }
 
-    @GetMapping(value="getBlob")
+
+    @GetMapping(value="recuperarLastImagePharmacist")
     @ResponseBody
-    public Object getBlob(HttpSession session , @RequestParam(value="idMessage" , required = false) String idMessage){
-        System.out.println(idMessage);
+    public Object recuperarLastImagePharmacist(HttpSession session , @RequestParam(value="email" , required = false) String email){
         LinkedHashMap<String , Object  >generalResponse = new LinkedHashMap<>();
         try{
+            Pharmacist pharmacist = ((Pharmacist) session.getAttribute("usuario"));
+            Patient patient = patientRepository.findByEmail(email).get();
+
+            List <Chatcontent> listas = chatContentRepository.findAll();
+            Collections.reverse(listas);
+            //Filtramos
+            Chatcontent chatcontent =  new Chatcontent();
+            for(Chatcontent cc :  listas){
+                if( cc.getIdChat().getIdPacient().getIdPatient() == patient.getIdPatient()  && cc.getMessage() == null && cc.getIdChat().getIdFarmacist().getIdFarmacista() == pharmacist.getIdFarmacista() ){
+                    chatcontent = cc;
+                    break;
+                }
+            }
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            return new ResponseEntity<>( chatContentRepository.findById(Integer.parseInt(idMessage)).get().getPhoto()       , headers, HttpStatus.OK);
+            headers.setContentType(MediaType.IMAGE_JPEG); // Cambia el tipo de media según el formato de tu imagen
+            return new ResponseEntity<>( chatcontent.getPhoto(), headers, HttpStatus.OK);
         }catch(Exception error ){
             error.printStackTrace();
             generalResponse.put("status",  "error");
             generalResponse.put("message", "Ocurrio un error inesperado");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
+    }
+
+    @GetMapping(value="/getBlob/{id}")
+    public ResponseEntity<byte[]> getBlob(HttpSession session , @PathVariable   (value="id" , required = false) String idMessage){
+        System.out.println(idMessage);
+            HttpHeaders headers = new HttpHeaders(  );
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>( chatContentRepository.findById(Integer.parseInt(idMessage)).get().getPhoto()       , headers, HttpStatus.OK);
     }
 }

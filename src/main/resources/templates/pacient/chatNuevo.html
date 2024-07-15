@@ -166,6 +166,10 @@
 </div>
 <input type="file" id="imagenInput" style="display: none;">
 <script th:inline="javascript">
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   //Todo bien con este metodo
     document.addEventListener('DOMContentLoaded', ()=>{
     let patient = [[${session.usuario.email}]];
@@ -182,21 +186,7 @@
               createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
             }else{
               console.log(message.id);
-              $.ajax({
-                url: '/getBlob?idMessage='+ message.id,
-                type: 'GET',
-                xhrFields: {
-                  responseType: 'blob' // Especificar que la respuesta es un blob
-                },
-                success: function(response){
-                  let url = URL.createObjectURL(response);
-                  //Creamos imagen
-                  createMessageSenderImagen(url ,obtenerHoraActual() );
-                },
-                error: function(response){
-                  console.log("error");
-                }
-              });
+              createMessageSenderImagen(  "/getBlob/"+message.id ,formatDateTimeTo12Hour(message.dateTime) );
             }
           }else{
             createMessageReceiver(message.message,formatDateTimeTo12Hour(message.dateTime));
@@ -251,7 +241,7 @@
           sendMessage();
           createMessageSender(message.value,obtenerHoraActual());
           let last = document.getElementById("last");
-          last.textContent = message.value;
+          last.textContent = message.message;
           let lastTime = document.getElementById("lastTime");
           lastTime.textContent = obtenerHoraActual();
           message.value="";
@@ -260,7 +250,7 @@
         if(message.value.trim() === ""  && image.files.length !== 0){
           sendImage(image.files[0]);
           let last = document.getElementById("last");
-          last.textContent = message.value;
+          last.textContent = "Imagen";
           let lastTime = document.getElementById("lastTime");
           lastTime.textContent = obtenerHoraActual();
           message.value="";
@@ -339,7 +329,7 @@
       error: function(response){
         console.log("error");
       }
-    })
+    });
     }
     function sendImage(file) {
       $.ajax({

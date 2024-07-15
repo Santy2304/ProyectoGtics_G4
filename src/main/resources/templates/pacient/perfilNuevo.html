@@ -98,20 +98,27 @@
             <div class="col-lg-6 col-sm-12">
               <div class="form-group">
                 <label>Nombre</label>
-                <input name="name" type="text" th:field="*{name}" readonly>
+                <input name="name" type="text" th:field="*{name}" readonly disabled>
               </div>
 
               <div class="form-group">
                 <label>Apellido</label>
-                <input name="lastName" type="text" th:field="*{lastName}" readonly>
+                <input name="lastName" type="text" th:field="*{lastName}" readonly disabled>
               </div>
             </div>
             <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
+
+                <!--
                 <label>Distrito</label>
                 <input name="distrit" type="text" th:field="${paciente.distrit}" th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}" >
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
+                </div>
+              -->
+              <div class="form-group">
+                <label>Correo</label>
+                <input name="email" type="text" th:field="*{email}" readonly disabled>
               </div>
+
               <div class="form-group">
                 <label>Dirección</label>
                 <input name="location" type="text" th:field="${paciente.location}" th:classappend="${#fields.hasErrors('location')? 'is-invalid' : ''}" >
@@ -122,21 +129,51 @@
             <div class="col-lg-6 col-sm-12">
               <div class="form-group">
                 <label>DNI</label>
-                <input name="dni" type="text" th:field="*{dni}" readonly>
+                <input name="dni" type="text" th:field="*{dni}" readonly disabled>
               </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-              <div class="form-group">
-                <label>Correo</label>
-                <input name="email" type="text" th:field="*{email}" readonly>
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-submit me-2">Guardar</button>
+                <a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
               </div>
+              <script>
+                function regresarPaginaAnterior() {
+                  window.history.back();
+                }
+              </script>
+
             </div>
+
             <div class="col-lg-6 col-sm-12">
               <div class="form-group">
                 <label>Seguro</label>
+                <select class="form-select" name="insurance" th:classappend="${#fields.hasErrors('insurance')?'is-invalid' : ''}">
+                  <option value="Pacífico" th:selected="${paciente.insurance == 'Pacífico'}">Pacífico</option>
+                  <option value="Rímac" th:selected="${paciente.insurance == 'Rímac'}">Rímac</option>
+                  <option value="La Positiva" th:selected="${paciente.insurance == 'La Positiva'}">La Positiva</option>
+                  <option value="Otro" th:selected="${paciente.insurance == 'Otro'}">Otro</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('insurance')}" th:errors="*{insurance}"></div>
+
+                <!--
                 <input name="insurance" type="text" th:field="${paciente.insurance}" th:classappend="${#fields.hasErrors('insurance')? 'is-invalid' : ''}" >
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('insurance')}" th:errors="*{insurance}"></div>
+                -->
               </div>
+              <div class="form-group">
+                <label>Distrito</label>
+
+                <select class="form-select" name="distrit" th:classappend="${#fields.hasErrors('distrit')?'is-invalid' : ''}">
+                  <option value="San Miguel" th:selected="${paciente.getDistrit() == 'San Miguel'}">San Miguel</option>
+                  <option value="Pueblo Libre" th:selected="${paciente.getDistrit() == 'Pueblo Libre'}">Pueblo Libre</option>
+                  <option value="Breña" th:selected="${paciente.distrit == 'Breña'}">Breña</option>
+                  <option value="Miraflores" th:selected="${paciente.distrit == 'Miraflores'}">Miraflores</option>
+                  <option value="San Isidro" th:selected="${paciente.distrit == 'San Isidro'}">San Isidro</option>
+                  <option value="Jesus María" th:selected="${paciente.distrit == 'Jesus María'}">Jesus María</option>
+                  <option value="Barranco" th:selected="${paciente.distrit == 'Barranco'}">Miraflores</option>
+                  <option value="La Molina" th:selected="${paciente.distrit == 'La Molina'}">Miraflores</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
             </div>
             <!-- A futuro puede servir
             <div class="col-lg-6 col-sm-12">
@@ -149,16 +186,9 @@
                 </div>
             </div>
             -->
-            <div class="col-12">
-              <button type="submit" class="btn btn-submit me-2">Guardar</button>
-              <a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
-            </div>
-            <script>
-              function regresarPaginaAnterior() {
-                window.history.back();
-              }
-            </script>
+
           </div>
+        </div>
         </div>
       </form>
     </div>

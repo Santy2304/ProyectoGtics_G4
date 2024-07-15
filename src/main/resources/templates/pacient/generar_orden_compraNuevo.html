@@ -130,7 +130,7 @@
                                     <div class="form-row row">
                                         <div class="col-md-6 mb-3">
                                             <label class="mb-2" >Dirección</label>
-                                            <input type="text" class="form-control mt-2" name="direccion" required>
+                                            <input type="text" class="form-control mt-2" name="direccion" th:value="${direccion}" required>
                                             <div th:if="${errorDireccion != null}"  class="text-danger" >
                                                 <span th:text="${errorDireccion}"></span>
                                             </div>
@@ -153,7 +153,7 @@
                                     </div>
                                     <div class="form-row row">
                                         <label class="mb-2">Ingrese la receta</label>
-                                        <label>El formato debe ser en png, jpeg o jpg y menor a 5MB</label>
+                                        <label>El formato debe ser en png, jpeg o jpg y menor a 5MB. Recuerde que no para todos los productos es necesario este campo.</label>
                                         <div class="mb-3">
                                             <input type="file" class="form-control" name="receta" aria-label="file example">
                                             <div class="invalid-feedback">Example invalid form file feedback</div>

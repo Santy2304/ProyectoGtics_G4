@@ -561,13 +561,57 @@ public class  SuperAdminController {
                                   @RequestParam(value = "fechaFinal", required = false) String fechaFinal,
                                   @RequestParam(value = "seguro", required = false) String seguro, Model model) {
         DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate initialDate = LocalDate.parse(fechaInicio, frmt);
-        LocalDate finalDate = LocalDate.parse(fechaFinal, frmt);
-
-        List<Administrator> listaAdminSede = administratorRepository.filtrarAdministradores(site, initialDate.toString(), finalDate);
-        model.addAttribute("listaAdminSede", listaAdminSede);
-        //System.out.println(initialDate);
-        return "superAdmin/Listados";
+        if (site.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty() && seguro.isEmpty()) {
+            System.out.println(":(");
+            return "redirect:verListados"; //En caso dejen en blanco los inputs y hagan click en filtrar
+        } else {
+            System.out.println(site);
+            System.out.println("hola");
+            //Definición de la variables de acuerdo a si se enviaron o dejaron en blanco
+            if (site.isEmpty()) {
+                site = "%"; //Para que el query devuelva la lista considerando todas las sedes
+            }
+            if (seguro.isEmpty()) {
+                seguro = "%"; //Para que el query devuelva la lista considerando todos los seguros
+            }
+            //Casos predeterminados de los valores de fecha
+            String initialDate = "";
+            LocalDate finalDate = LocalDate.now();
+            //Verificación de si se enviaron las fechas
+            if (!fechaInicio.isEmpty()) {
+                initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+            } else if (!fechaFinal.isEmpty()) {
+                finalDate = LocalDate.parse(fechaFinal, frmt);
+            }
+            //Listas a enviar, algunas se actualizarán de acuerdo al filtro que se use
+            List<Administrator> listaAdminSede = administratorRepository.listarAdminValidos();
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.listarFarmacistasValidos();
+            List<Patient> listaPacientes = patientRepository.listarPacientesValidos();
+            List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
+            //Verficación de que filtro se está usando
+            switch (rol) {
+                case "adminSede":
+                    listaAdminSede = administratorRepository.filtrarAdministradores(site, initialDate, finalDate);
+                    break;
+                case "farmacista":
+                    listaFarmacistas = pharmacistRepository.filtrarFarmacistas(site, initialDate, finalDate);
+                    break;
+                case "paciente":
+                    listaPacientes = patientRepository.filtrarPacientes(seguro, initialDate, finalDate);
+                    break;
+                case "doctor":
+                    listaDoctores = doctorRepository.filtrarDoctores(site, initialDate, finalDate);
+                    break;
+                default:
+                    return "redirect:verListados"; //En caso se haya modificado el valor de rol por inspección
+            }
+            model.addAttribute("listaDoctores", listaDoctores);
+            model.addAttribute("listaAdminSede", listaAdminSede);
+            model.addAttribute("listaFarmacistas",listaFarmacistas);
+            model.addAttribute("listaPacientes",listaPacientes);
+            //System.out.println(initialDate);
+            return "superAdmin/Listados";
+        }
     }
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -99,6 +100,9 @@ public interface PharmacistRepository extends JpaRepository<Pharmacist, Integer>
     @Modifying
     @Query(nativeQuery= true , value="update pharmacist set changePassword=1 where idPharmacist= ?1")
     void updateChangePasswrod(int id);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM pharmacist where site like ?1 and dateCreationAccount between ?2 and ?3")
+    List<Pharmacist> filtrarFarmacistas(String site, String fechaInicio, LocalDate fechaFinal);
  }
 
 

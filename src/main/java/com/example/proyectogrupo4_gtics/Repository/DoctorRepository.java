@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -43,4 +44,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     @Query(nativeQuery = true, value = "select * from doctor where headquarter=?1")
     List<Doctor> listaDoctoresPorSede(String sede);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM doctor where headquarter like ?1 and dateCreationAccount between ?2 and ?3")
+    List<Doctor> filtrarDoctores(String site, String fechaInicio, LocalDate fechaFinal);
 }

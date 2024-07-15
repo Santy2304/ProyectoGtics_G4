@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,4 +66,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery= true , value="update patient set changePassword=1 where idPatient= ?1")
     void updateChangePasswrod(int idPatient);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where insurance like ?1 and dateCreationAccount between ?2 and ?3")
+    List<Patient> filtrarPacientes(String seguro, String fechaInicio, LocalDate fechaFinal);
 }

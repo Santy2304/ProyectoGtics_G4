@@ -87,12 +87,22 @@ public class PharmacistController {
     }
     @PostMapping("/efectuarCambioContrasena")
     public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
-        Pharmacist pharmacist = (Pharmacist) httpSession.getAttribute("usuario");
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(password);
-        userRepository.actualizarPassword(encryptedPassword,pharmacist.getEmail());
-        pharmacistRepository.updateChangePasswrod(pharmacist.getIdFarmacista());
-        return "redirect:verMedicinelist";
+        String passwordPattern = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
+        if (password.matches(passwordPattern)) {
+            Pharmacist pharmacist = (Pharmacist) httpSession.getAttribute("usuario");
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(password);
+            userRepository.actualizarPassword(encryptedPassword, pharmacist.getEmail());
+            pharmacistRepository.updateChangePasswrod(pharmacist.getIdFarmacista());
+            return "redirect:verMedicinelist";
+        } else {
+            String mensajeError = "La contraseña debe cumplir con:\n" +
+                    "- Tener entre 8 y 16 carácteres\n" +
+                    "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
+                    "- Al menos un caracter especial";
+            model.addAttribute("msg", mensajeError);
+            return "pharmacist/changePasswordFirstTime";
+        }
     }
     @GetMapping("/sessionPharmacist")
     public String iniciarSesion(Model model,  @RequestParam("idUser") String idPharmacist){

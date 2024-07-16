@@ -37,7 +37,7 @@ public class Medicine implements Serializable {
     private int timesSaled;
 
     @NotBlank(message = "Este campo es obligatorio")
-    @Size(max = 500, message = "La descripción no debe superar los 200 carácteres")
+    @Size(max = 200, message = "La descripción no debe superar los 200 carácteres")
     private String description;
 
     private String photo;

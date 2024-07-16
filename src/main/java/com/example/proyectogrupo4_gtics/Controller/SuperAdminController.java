@@ -168,7 +168,8 @@ public class  SuperAdminController {
                                       @RequestParam("cantidad") String cantidad,
                                       @RequestParam("precio") String precio, Model model) {
         if (categoria.isEmpty() && cantidad.isEmpty() && precio.isEmpty()) {
-            return "redirect:/listaMedicamentos"; //En caso dejen en blanco los valores del filtro
+            //System.out.println(":)");
+            return "redirect:listaMedicamentos"; //En caso dejen en blanco los valores del filtro
         }
         if (categoria.isEmpty()) {
             categoria = "%";
@@ -186,7 +187,10 @@ public class  SuperAdminController {
             cantInf = 25;
             cantSup = 50;
         } else { //Se alteró el valor seleccionado por inspección
-            return "redirect:listaMedicamentos";
+            //System.out.println("hola");
+            if (!cantidad.isEmpty()) {
+                return "redirect:listaMedicamentos";
+            }
         }
         if (precio.equals("1")) { //Se eligió la opción de 0.0 - 25.0
             precioSup = 25;
@@ -194,8 +198,12 @@ public class  SuperAdminController {
             precioInf = 25;
             precioSup = 50;
         } else { //Se alteró el valor seleccionado por inspección
-            return "redirect:listaMedicamentos";
+            //System.out.println("o.O");
+            if (!precio.isEmpty()) {
+                return "redirect:listaMedicamentos";
+            }
         }
+        //System.out.println(":(");
         model.addAttribute("listaMedicamentos", medicineRepository.filtrarDatosMedicamentos(categoria, cantInf, cantSup, precioInf, precioSup));
         return "superAdmin/listaMedicamentos";
     }

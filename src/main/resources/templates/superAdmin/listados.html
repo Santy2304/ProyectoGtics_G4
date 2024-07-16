@@ -459,8 +459,8 @@
 												</a>
 
 												<a class="me-3" th:href="@{'/superAdmin' + ${paciente.state.equals('baneado') ? '/desbanearPaciente': '/banearPaciente'} + '?idPaciente=' + ${paciente.idPatient}}">
-													<img th:src="@{'/assets_superAdmin/img/icons/' + ${paciente.state.equals('baneado')? 'unlock-solid.svg' : 'ban-solid.svg'}}"
-														 class="w-25 h-25">
+													<img th:src="@{'/assets_superAdmin/img/icons/' + ${paciente.state.equals('baneado')? 'unlock.svg' : 'ban.svg'}}"
+														>
 												</a>
 												<!--
 												<a class="confirm-text" th:href="@{'/eliminarPaciente?idPaciente=' + ${paciente.idPatient}}">

@@ -1,5 +1,5 @@
 package com.example.proyectogrupo4_gtics.Reportes;
-import com.example.proyectogrupo4_gtics.Entity.Doctor;
+
 import com.example.proyectogrupo4_gtics.Entity.ReplacementOrder;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,11 +12,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
 public class RepoExcel {
     private XSSFWorkbook libro;
     private XSSFSheet hoja;
     private List<ReplacementOrder> listaReporte;
     private String titulo;
+
     public RepoExcel(List<ReplacementOrder> listaReporte, String titulo) {
         this.titulo = titulo;
         this.listaReporte = listaReporte;
@@ -41,11 +43,12 @@ public class RepoExcel {
 
         // Combinar celdas para el título
         hoja.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
-        hoja.autoSizeColumn(0);
 
+        // Autoajustar el ancho de la columna para el título
+        hoja.autoSizeColumn(0);
     }
 
-    private void cabeceraTabla(){
+    private void cabeceraTabla() {
         Row fila = hoja.createRow(1);
         CellStyle estilo = libro.createCellStyle();
         XSSFFont fuente = libro.createFont();
@@ -70,8 +73,6 @@ public class RepoExcel {
             celda.setCellStyle(estilo);
             hoja.autoSizeColumn(i);
         }
-
-
     }
 
     public void datosTabla() {
@@ -81,7 +82,6 @@ public class RepoExcel {
         XSSFFont fuente = libro.createFont();
         fuente.setFontHeight(11);
         estilo.setFont(fuente);
-
         estilo.setAlignment(HorizontalAlignment.CENTER);
         estilo.setVerticalAlignment(VerticalAlignment.CENTER);
 
@@ -105,9 +105,8 @@ public class RepoExcel {
             celda = fila.createCell(2);
             celda.setCellValue(r.getTrackingState());
             celda.setCellStyle(estilo);
-
-
         }
+
         // Ajustar el tamaño de las columnas al contenido
         for (int i = 0; i < 3; i++) {
             hoja.autoSizeColumn(i);
@@ -118,15 +117,18 @@ public class RepoExcel {
         Row filaFecha = hoja.createRow(numeroFilas + 1);
         Cell celdaFecha = filaFecha.createCell(0);
         celdaFecha.setCellValue("Fecha de exportación: " + fechaActual.toString());
+
         // Aplicar estilo a la celda de fecha
         CellStyle estiloFecha = libro.createCellStyle();
         XSSFFont fuenteFecha = libro.createFont();
         fuenteFecha.setFontHeight(11);
         estiloFecha.setFont(fuenteFecha);
         celdaFecha.setCellStyle(estiloFecha);
-        hoja.addMergedRegion(new CellRangeAddress(numeroFilas + 1, numeroFilas + 1, 0, 3));
 
+        // Combinar celdas para la fecha
+        hoja.addMergedRegion(new CellRangeAddress(numeroFilas + 1, numeroFilas + 1, 0, 2));
     }
+
     public void exportar(HttpServletResponse response) throws IOException {
         crearTitulo();
         cabeceraTabla();

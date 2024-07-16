@@ -62,7 +62,7 @@
         <div class="content" style="margin-left:8% ; margin-right:8%">
     <!-- /product list -->
     <div class="card">
-      <form method="post" enctype="multipart/form-data" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
+      <form method="POST" enctype="multipart/form-data" th:action="@{/patient/editarPerfilPaciente}" th:object="${paciente}">
         <input type="hidden" name="idPatient" th:field="*{idPatient}">
         <input type="hidden"  th:field="*{state}">
         <input type="hidden"  th:field="*{dateCreationAccount}">
@@ -132,15 +132,21 @@
                 <input name="dni" type="text" th:field="*{dni}" readonly disabled>
               </div>
 
-              <div class="col-12">
-                <button type="submit" class="btn btn-submit me-2">Guardar</button>
-                <a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
+              <div class="form-group">
+                <label>Distrito</label>
+
+                <select class="form-select" name="distrit" th:classappend="${#fields.hasErrors('distrit')?'is-invalid' : ''}">
+                  <option value="San Miguel" th:selected="${paciente.getDistrit() == 'San Miguel'}">San Miguel</option>
+                  <option value="Pueblo Libre" th:selected="${paciente.getDistrit() == 'Pueblo Libre'}">Pueblo Libre</option>
+                  <option value="Breña" th:selected="${paciente.distrit == 'Breña'}">Breña</option>
+                  <option value="Miraflores" th:selected="${paciente.distrit == 'Miraflores'}">Miraflores</option>
+                  <option value="San Isidro" th:selected="${paciente.distrit == 'San Isidro'}">San Isidro</option>
+                  <option value="Jesus María" th:selected="${paciente.distrit == 'Jesus María'}">Jesus María</option>
+                  <option value="Barranco" th:selected="${paciente.distrit == 'Barranco'}">Miraflores</option>
+                  <option value="La Molina" th:selected="${paciente.distrit == 'La Molina'}">Miraflores</option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
               </div>
-              <script>
-                function regresarPaginaAnterior() {
-                  window.history.back();
-                }
-              </script>
 
             </div>
 
@@ -160,21 +166,17 @@
                 <div class="invalid-feedback" th:if="${#fields.hasErrors('insurance')}" th:errors="*{insurance}"></div>
                 -->
               </div>
-              <div class="form-group">
-                <label>Distrito</label>
 
-                <select class="form-select" name="distrit" th:classappend="${#fields.hasErrors('distrit')?'is-invalid' : ''}">
-                  <option value="San Miguel" th:selected="${paciente.getDistrit() == 'San Miguel'}">San Miguel</option>
-                  <option value="Pueblo Libre" th:selected="${paciente.getDistrit() == 'Pueblo Libre'}">Pueblo Libre</option>
-                  <option value="Breña" th:selected="${paciente.distrit == 'Breña'}">Breña</option>
-                  <option value="Miraflores" th:selected="${paciente.distrit == 'Miraflores'}">Miraflores</option>
-                  <option value="San Isidro" th:selected="${paciente.distrit == 'San Isidro'}">San Isidro</option>
-                  <option value="Jesus María" th:selected="${paciente.distrit == 'Jesus María'}">Jesus María</option>
-                  <option value="Barranco" th:selected="${paciente.distrit == 'Barranco'}">Miraflores</option>
-                  <option value="La Molina" th:selected="${paciente.distrit == 'La Molina'}">Miraflores</option>
-                </select>
-                <div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
-            </div>
+
+              <div class="col-12">
+                <button type="submit" class="btn btn-submit me-2">Guardar</button>
+                <a onclick="regresarPaginaAnterior()" class="btn btn-cancel">Regresar</a>
+              </div>
+              <script>
+                function regresarPaginaAnterior() {
+                  window.history.back();
+                }
+              </script>
             <!-- A futuro puede servir
             <div class="col-lg-6 col-sm-12">
                 <div class="form-group">

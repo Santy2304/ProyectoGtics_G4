@@ -86,6 +86,7 @@
                                             <form method="POST" th:action="@{'/superAdmin/verSedeSuperAdminPando3'}">
                                             <div class="row">
                                                 <input name="estado" value="" type="hidden">
+                                                <input name="filtro" value="farmacista" type="hidden">
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Solicitud Inicial" name="fechaInicio">
@@ -240,7 +241,7 @@
                                         <div class="col-lg-12 col-sm-12">
                                             <form method="POST" th:action="@{'/superAdmin/verSedeSuperAdminPando3'}">
                                             <div class="row">
-
+                                                <input name="filtro" value="reposicion" type="hidden">
                                                 <div class="col-lg col-sm-6 col-12">
                                                     <div class="form-group">
                                                         <input type="text" class="datetimepicker cal-icon" placeholder="Fecha de Solicitud Inicial" name="fechaInicio">
@@ -259,7 +260,7 @@
                                                             <option value="En Proceso">En Proceso</option>
                                                             <option value="Empaquetado">Empaquetado</option>
                                                             <option value="En ruta">En ruta</option>
-                                                            <option value="Finalizado">Finalizado</option>
+                                                            <option value="Entregado">Entregado</option>
                                                         </select>
                                                     </div>
                                                 </div>

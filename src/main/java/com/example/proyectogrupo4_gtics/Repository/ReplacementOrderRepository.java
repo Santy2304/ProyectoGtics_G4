@@ -45,6 +45,6 @@ public interface ReplacementOrderRepository extends JpaRepository<ReplacementOrd
     void actualizarTracking(String estado,int id);
 
     //Filtros
-    @Query(nativeQuery = true, value = "select * from replacementorder where site = ?1 and trackingState = ?2 and releaseDate between ?3 and ?4")
+    @Query(nativeQuery = true, value = "select * from replacementorder where site = ?1 and trackingState like ?2 and releaseDate between ?3 and ?4")
     List<ReplacementOrder> filtrarSolicitudesRepo(String sede, String estado, String fechaInicio, LocalDate fechaFin);
 }

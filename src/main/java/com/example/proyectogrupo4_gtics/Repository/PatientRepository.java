@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,11 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(value = "update patient set state = 'baneado'  where idPatient =?1" , nativeQuery = true)
     void banearPacientePorId(int idPaciente);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update patient set state = 'activo' where idPatient =?1", nativeQuery = true)
+    void desbanearPacientePorId(int idPaciente);
+
     @Query(nativeQuery = true, value = "SELECT * FROM patient where email= ?1 and password=?2")
     Patient buscarPatient (String email , String password);
 
@@ -65,4 +71,6 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
     @Query(nativeQuery= true , value="update patient set changePassword=1 where idPatient= ?1")
     void updateChangePasswrod(int idPatient);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where state <> 'eliminado' and insurance like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
+    List<Patient> filtrarPacientes(String seguro, String fechaInicio, LocalDate fechaFinal);
 }

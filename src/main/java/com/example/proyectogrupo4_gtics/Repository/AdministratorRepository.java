@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,5 +50,6 @@ public interface AdministratorRepository extends JpaRepository<Administrator, In
     @Query(nativeQuery= true , value="update administrator set changePassword=1 where idAdministrator= ?1")
     void updateChangePasswrod(int id);
 
-
+    @Query(nativeQuery = true, value = "SELECT * FROM administrator where state <> 'eliminado' and site like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
+    List<Administrator> filtrarAdministradores(String site, String fechaInicio, LocalDate fechaFinal);
 }

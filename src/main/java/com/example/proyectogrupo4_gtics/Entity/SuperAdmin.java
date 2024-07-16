@@ -2,6 +2,7 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
@@ -22,7 +23,9 @@ public class SuperAdmin implements Serializable {
 
     @Column(name = "password")
     @NotBlank(message = "Este campo es obligatorio")
-    @Size(min=5, max = 45, message = "La contraseña no debe tener más de 45 carácteres y ser mayor a 5")
+    @Size(min=8, max = 16, message = "La contraseña debe tener entre 8 y 16 caracteres")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$",
+            message = "La contraseña debe tener al menos un dígito, una minúscula, una mayúscula y al menos un caracter no alfanumérico")
     private String password;
 
 

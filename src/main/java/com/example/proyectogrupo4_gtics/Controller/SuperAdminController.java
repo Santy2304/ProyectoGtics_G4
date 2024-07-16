@@ -40,6 +40,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -158,6 +160,43 @@ public class  SuperAdminController {
     @GetMapping("/listaMedicamentos")
     public String listarMedicamentos(Model model) {
         model.addAttribute("listaMedicamentos", medicineRepository.obtenerDatosMedicamentos());
+        return "superAdmin/listaMedicamentos";
+    }
+    //Filtro de la vista de medicamentos
+    @PostMapping("listaMedicamentos")
+    public String filtrosMedicamentos(@RequestParam("categoria") String categoria,
+                                      @RequestParam("cantidad") String cantidad,
+                                      @RequestParam("precio") String precio, Model model) {
+        if (categoria.isEmpty() && cantidad.isEmpty() && precio.isEmpty()) {
+            return "redirect:/listaMedicamentos"; //En caso dejen en blanco los valores del filtro
+        }
+        if (categoria.isEmpty()) {
+            categoria = "%";
+        }
+
+        //Valores predeterminados de intervalos de cantidad y precio
+        int cantInf = 0;
+        int cantSup = 500;//No creo que hayan más de 500 unidades de un medicamento xd
+        int precioInf = 0;
+        int precioSup = 100; //No creo que un medicamento cueste más de 100 xd
+        //Verificación de los parámetros del filtro para modificar los valores de los intervalos
+        if (cantidad.equals("1")) { //Se eligió la opción de 0 - 25
+            cantSup = 25;
+        } else if (cantidad.equals("2")) { //Se eligió la opción de 25 - 50
+            cantInf = 25;
+            cantSup = 50;
+        } else { //Se alteró el valor seleccionado por inspección
+            return "redirect:/listaMedicamentos";
+        }
+        if (precio.equals("1")) { //Se eligió la opción de 0.0 - 25.0
+            precioSup = 25;
+        } else if (precio.equals("2")) { //Se eligió la opción de 25.0 - 50.0
+            precioInf = 25;
+            precioSup = 50;
+        } else { //Se alteró el valor seleccionado por inspección
+            return "redirect:/listaMedicamentos";
+        }
+        model.addAttribute("listaMedicamentos", medicineRepository.filtrarDatosMedicamentos(categoria, cantInf, cantSup, precioInf, precioSup));
         return "superAdmin/listaMedicamentos";
     }
     @GetMapping("/verAñadirMedicamento")
@@ -552,7 +591,65 @@ public class  SuperAdminController {
         return "superAdmin/listados";
     }
     ////////////////////////////////////////
-
+    //Filtros de la lista de usuarios
+    @PostMapping("/verListados")
+    public String filtroAdminSede(@RequestParam("rol") String rol,@RequestParam(value = "site", required = false) String site,
+                                  @RequestParam(value = "fechaInicio", required = false) String fechaInicio,
+                                  @RequestParam(value = "fechaFinal", required = false) String fechaFinal,
+                                  @RequestParam(value = "seguro", required = false) String seguro, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (site.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty() && seguro.isEmpty()) {
+            System.out.println(":(");
+            return "redirect:verListados"; //En caso dejen en blanco los inputs y hagan click en filtrar
+        } else {
+            System.out.println(site);
+            System.out.println("hola");
+            //Definición de la variables de acuerdo a si se enviaron o dejaron en blanco
+            if (site.isEmpty()) {
+                site = "%"; //Para que el query devuelva la lista considerando todas las sedes
+            }
+            if (seguro.isEmpty()) {
+                seguro = "%"; //Para que el query devuelva la lista considerando todos los seguros
+            }
+            //Casos predeterminados de los valores de fecha
+            String initialDate = "";
+            LocalDate finalDate = LocalDate.now();
+            //Verificación de si se enviaron las fechas
+            if (!fechaInicio.isEmpty()) {
+                initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+            } else if (!fechaFinal.isEmpty()) {
+                finalDate = LocalDate.parse(fechaFinal, frmt);
+            }
+            //Listas a enviar, algunas se actualizarán de acuerdo al filtro que se use
+            List<Administrator> listaAdminSede = administratorRepository.listarAdminValidos();
+            List<Pharmacist> listaFarmacistas = pharmacistRepository.listarFarmacistasValidos();
+            List<Patient> listaPacientes = patientRepository.listarPacientesValidos();
+            List<Doctor> listaDoctores = doctorRepository.listarDoctoresValidos();
+            //Verficación de que filtro se está usando
+            switch (rol) {
+                case "adminSede":
+                    listaAdminSede = administratorRepository.filtrarAdministradores(site, initialDate, finalDate);
+                    break;
+                case "farmacista":
+                    listaFarmacistas = pharmacistRepository.filtrarFarmacistas(site, initialDate, finalDate);
+                    break;
+                case "paciente":
+                    listaPacientes = patientRepository.filtrarPacientes(seguro, initialDate, finalDate);
+                    break;
+                case "doctor":
+                    listaDoctores = doctorRepository.filtrarDoctores(site, initialDate, finalDate);
+                    break;
+                default:
+                    return "redirect:verListados"; //En caso se haya modificado el valor de rol por inspección
+            }
+            model.addAttribute("listaDoctores", listaDoctores);
+            model.addAttribute("listaAdminSede", listaAdminSede);
+            model.addAttribute("listaFarmacistas",listaFarmacistas);
+            model.addAttribute("listaPacientes",listaPacientes);
+            //System.out.println(initialDate);
+            return "superAdmin/Listados";
+        }
+    }
     //Doctores/////////////////////7
     @PostMapping("/guardarCambiosDoctor")
     public String editarDoctor(@ModelAttribute("doctor") @Valid Doctor doctor, BindingResult bindingResult, RedirectAttributes attributes){
@@ -834,6 +931,7 @@ public class  SuperAdminController {
 
         return "redirect:verListados";
     }
+
     //Farmacista///////////////////////////////
     @GetMapping("/editarFarmacista")
     public String verEditarFarmacista( @ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model) {
@@ -997,6 +1095,13 @@ public class  SuperAdminController {
         userRepository.banear(patient.getEmail());
         return "redirect:verListados";
     }
+    @GetMapping("/desbanearPaciente")
+    public String desbanearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.desbanearPacientePorId(idPaciente);
+        Patient patient = patientRepository.findById(idPaciente).get();
+        userRepository.desbanear(patient.getEmail());
+        return "redirect:verListados";
+    }
     //////////////////LISTADOS SEDES /////////////////////
     @GetMapping("/verSedeSuperAdminPando1")
     public String verSedePando1(Model model) {
@@ -1030,6 +1135,124 @@ public class  SuperAdminController {
         model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
         return "superAdmin/SedePando4";
     }
+    //FIltro de las vistas de sede
+    @PostMapping("/verSedeSuperAdminPando1")
+    public String filtrosPando1(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando1";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando1 = pharmacistRepository.listarSolicitudesFarmacistaPando1();
+        List<ReplacementOrder> listarSolicitudesReposicionPando1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando1 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 1", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando1 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 1", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando1",listaSolicitudesFarmacistaPando1);
+        model.addAttribute("listaSolicitudesReposicionPando1",listarSolicitudesReposicionPando1);
+        return "superAdmin/SedePando1";
+    }
+    @PostMapping("/verSedeSuperAdminPando2")
+    public String filtrosPando2(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando2";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando2 = pharmacistRepository.listarSolicitudesFarmacistaPando2();
+        List<ReplacementOrder> listarSolicitudesReposicionPando2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando2 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 2", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando2 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 2", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando2",listaSolicitudesFarmacistaPando2);
+        model.addAttribute("listaSolicitudesReposicionPando2",listarSolicitudesReposicionPando2);
+        return "superAdmin/SedePando2";
+    }
+    @PostMapping("/verSedeSuperAdminPando3")
+    public String filtrosPando3(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando3";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando3 = pharmacistRepository.listarSolicitudesFarmacistaPando3();
+        List<ReplacementOrder> listarSolicitudesReposicionPando3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando3 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 3", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando3 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 3", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando3",listaSolicitudesFarmacistaPando3);
+        model.addAttribute("listaSolicitudesReposicionPando3",listarSolicitudesReposicionPando3);
+        return "superAdmin/SedePando3";
+    }
+    @PostMapping("/verSedeSuperAdminPando4")
+    public String filtrosPando4(@RequestParam(value = "estado", required = false) String estado,
+                                @RequestParam("fechaInicio") String fechaInicio,
+                                @RequestParam("fechaFinal") String fechaFinal, Model model) {
+        DateTimeFormatter frmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (estado.isEmpty() && fechaInicio.isEmpty() && fechaFinal.isEmpty()) {
+            return "redirect:verSedeSuperAdminPando4";
+        }
+        //Casos predeterminados de los valores de fecha
+        String initialDate = "";
+        LocalDate finalDate = LocalDate.now();
+        //Verificación de si se enviaron las fechas
+        if (!fechaInicio.isEmpty()) {
+            initialDate = LocalDate.parse(fechaInicio, frmt).toString();
+        } else if (!fechaFinal.isEmpty()) {
+            finalDate = LocalDate.parse(fechaFinal, frmt);
+        }
+        //Listas a enviar en la vista, pueden cambiar de acuerdo al filtro
+        List<Pharmacist> listaSolicitudesFarmacistaPando4 = pharmacistRepository.listarSolicitudesFarmacistaPando4();
+        List<ReplacementOrder> listarSolicitudesReposicionPando4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
+        if (estado.isEmpty()) { //Filtro de lista de solicitudes
+            listaSolicitudesFarmacistaPando4 = pharmacistRepository.filtrarSolicitudesDeFarmacistas("Pando 4", initialDate, finalDate);
+        } else { //Filtro de lista de reposición
+            listarSolicitudesReposicionPando4 = replacementOrderRepository.filtrarSolicitudesRepo("Pando 4", estado, initialDate, finalDate);
+        }
+        model.addAttribute("listaSolicitudesFarmacistasPando4",listaSolicitudesFarmacistaPando4);
+        model.addAttribute("listaSolicitudesReposicionPando4",listarSolicitudesReposicionPando4);
+        return "superAdmin/SedePando4";
+    }
+
     @GetMapping("/verTrackingPersonal")
     public String verTrackingPersonal(@RequestParam("idRepo") int idReplacementeOrder , Model model){
         String activeTab = replacementOrderRepository.findById(idReplacementeOrder).get().getSite();

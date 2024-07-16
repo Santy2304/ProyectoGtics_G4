@@ -1570,10 +1570,10 @@ public class AdminSedeController {
                                 //r.setIdReplacementOrder();
                                 Tracking tracking = new Tracking();
                                 tracking.setSolicitudDate(LocalDateTime.now());
-                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
-                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusSeconds(20));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusSeconds(40));
                                 tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(1));
-                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(2));
                                 trackingRepository.save(tracking);
                                 r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);

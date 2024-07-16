@@ -1363,7 +1363,7 @@ public class  SuperAdminController {
     }
     //////////////////////////////////REPORTES///////////////////////////////////////
     @GetMapping("/exportarMedicamentosPDF")
-    public void exportarMedicamentosPDF(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarMedicamentosPDF(HttpServletResponse response,@RequestParam("filtro")String filtro) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
@@ -1371,16 +1371,22 @@ public class  SuperAdminController {
         String cabecera = "Content-Disposition";
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
+        String titulo;
+        List<CantidadMedicamentosDTO> medicines = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Medicamentos de "+filtro;
+            medicines = medicineRepository.filtrarDatosMedicamentosCate(filtro);
 
+        }else{
+            medicines = medicineRepository.obtenerDatosMedicamentos();
+            titulo = "Lista de Medicamentos";
+        }
 
-
-        List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
-
-        MedicinePDF exporter = new MedicinePDF(medicines);
+        MedicinePDF exporter = new MedicinePDF(medicines,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarMedicamentosExcel")
-    public void exportarMedicamentosExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarMedicamentosExcel(HttpServletResponse response,@RequestParam("filtro")String filtro) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -1391,10 +1397,19 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<CantidadMedicamentosDTO> medicamentos = medicineRepository.obtenerDatosMedicamentos();
-        String titulo = "Listado de Productos";
+        String titulo;
+        List<CantidadMedicamentosDTO> medicines = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Medicamentos de "+filtro;
+            medicines = medicineRepository.filtrarDatosMedicamentosCate(filtro);
 
-        MedicineExcel exporter = new MedicineExcel(medicamentos,titulo);
+        }else{
+            medicines = medicineRepository.obtenerDatosMedicamentos();
+            titulo = "Lista de Medicamentos";
+        }
+
+
+        MedicineExcel exporter = new MedicineExcel(medicines,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarAdministradoresPDF")
@@ -1505,7 +1520,7 @@ public class  SuperAdminController {
 
     }
     @GetMapping("/exportarPacientesPDF")
-    public void exportarPacientesPDF(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarPacientesPDF(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
@@ -1513,12 +1528,25 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Pacientes_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<Patient> patients = patientRepository.listarPacientesValidos();
-        PacientePDF exporter = new PacientePDF(patients);
+        String titulo;
+
+        List<Patient> p = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Pacientes de "+filtro;
+            p = patientRepository.filtrarPacientesSeguro(filtro);
+
+        }else{
+            p= patientRepository.listarPacientesValidos();;
+            titulo = "Lista de Pacientes";
+        }
+
+
+
+        PacientePDF exporter = new PacientePDF(p,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarPacientesExcel")
-    public void exportarPacientesExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarPacientesExcel(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -1529,10 +1557,18 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        List<Patient> patients = patientRepository.listarPacientesValidos();
-        String titulo = "Lista de pacientes";
+        String titulo;
 
-        PacienteExcel exporter = new PacienteExcel(patients,titulo);
+        List<Patient> p = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Pacientes de "+filtro;
+            p = patientRepository.filtrarPacientesSeguro(filtro);
+
+        }else{
+            p= patientRepository.listarPacientesValidos();;
+            titulo = "Lista de Pacientes";
+        }
+        PacienteExcel exporter = new PacienteExcel(p,titulo);
         exporter.exportar(response);
 
     }

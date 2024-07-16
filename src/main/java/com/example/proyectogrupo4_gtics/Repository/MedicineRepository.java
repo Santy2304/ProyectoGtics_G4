@@ -58,6 +58,25 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "m.idMedicine DESC;")
     List<CantidadMedicamentosDTO> filtrarDatosMedicamentos(String categoria, int cantInf, int cantSup, int precioInf, int precioSup);
 
+
+    @Query(nativeQuery = true, value = "SELECT  \n" +
+            "m.idMedicine AS idMedicine,\n" +
+            "m.name AS nombreMedicamento,\n" +
+            "m.category AS categoria,\n" +
+            "m.price AS precio,\n" +
+            "m.photo AS photo,\n" +
+            "COALESCE(SUM(l.stock), 0) AS cantidad \n" +
+            "FROM \n" +
+            "medicine m \n" +
+            "LEFT JOIN \n" +
+            "lote l ON m.idMedicine = l.idMedicine\n" +
+            "GROUP BY \n" +
+            "m.idMedicine, m.name, m.category, m.price\n" +
+            "HAVING `categoria` like ?1" +
+            "ORDER BY \n" +
+            "m.idMedicine DESC;")
+    List<CantidadMedicamentosDTO> filtrarDatosMedicamentosCate(String categoria);
+
     @Transactional
     @Modifying
     @Query(nativeQuery = true, value = "update medicine set name=?1, category=?2, price=?3,description=?4, photo=?5  where idMedicine = ?6")

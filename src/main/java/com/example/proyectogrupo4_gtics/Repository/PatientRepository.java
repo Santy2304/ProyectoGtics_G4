@@ -73,4 +73,7 @@ public interface PatientRepository extends JpaRepository<Patient, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM patient where state <> 'eliminado' and insurance like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
     List<Patient> filtrarPacientes(String seguro, String fechaInicio, LocalDate fechaFinal);
+
+    @Query(nativeQuery = true, value = "SELECT * FROM patient where state <> 'eliminado' and insurance like ?1")
+    List<Patient> filtrarPacientesSeguro(String seguro);
 }

@@ -288,7 +288,7 @@
                                     </thead>
                                     <tbody>
                                         <tr th:each="repo : ${listaSolicitudesReposicionPando4}">
-                                            <td th:text="${repo.idReplacementOrder}"></td>
+                                            <td th:text="${'RP0'+repo.idReplacementOrder}"></td>
                                             <td>
                                                 <a class="me-3" th:href="@{'/superAdmin/verDetalleRepo?idRepo=' + ${repo.getIdReplacementOrder()}}">
                                                     <img src="/assets_superAdmin/img/icons/prescription2.svg" alt="img">

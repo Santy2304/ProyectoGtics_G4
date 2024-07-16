@@ -70,6 +70,7 @@
 										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
+								<!--
 								<div class="wordset">
 									<ul>
 
@@ -78,7 +79,7 @@
 										</li>
 
 									</ul>
-								</div>
+								</div>-->
 							</div>
 							<!-- /Filter -->
 							<div class="card mb-0" id="filter_inputs">
@@ -113,21 +114,15 @@
 								<table class="table  datanew">
 									<thead>
 										<tr>
-											<th>Boleta</th>
 											<th>Venta</th>
 											<th>Paciente</th>
 											<th>Precio</th>
 											<th>Fecha</th>
-											<th>Acciones</th>
+											<th>Boleta</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr th:each="presencial : ${listaPurchaseOrderPresencial}">
-											<td>
-												<a class="me-3" href="#">
-													<img src="/assets_superAdmin/img/icons/excel.svg" alt="img" style="height: auto; width:20px">
-												</a>
-											</td>
 
 											<td th:text=" 'PS0'+${presencial.getIdPurchaseOrder()}"></td>
 											<td th:text="${presencial.getNombrePaciente()}"></td>
@@ -135,9 +130,8 @@
 
 											<td th:text="${presencial.getFecha()}"></td>
 											<td>
-
 												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${presencial.getIdPurchaseOrder()}}">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/excel.svg" alt="img" style="height: auto; width:20px">
 												</a>
 
 											</td>
@@ -173,6 +167,7 @@
 										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
+								<!--
 								<div class="wordset">
 									<ul>
 
@@ -181,7 +176,7 @@
 										</li>
 
 									</ul>
-								</div>
+								</div>-->
 							</div>
 							<!-- /Filter -->
 							<div class="card mb-0" id="filter_inputs1">
@@ -237,7 +232,10 @@
 											<td>
 
 												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/excel.svg" alt="img" style="height: auto; width:20px">
+
+													<!--
+													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">-->
 												</a>
 												<a th:if="${web.getTracking() == 'Solicitado'  || web.getTracking() == 'En Proceso'}" class="me-3" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${web.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
@@ -276,13 +274,14 @@
 										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
+								<!--
 								<div class="wordset">
 									<ul>
 										<li>
 											<a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
-								</div>
+								</div>-->
 							</div>
 							<!-- /Filter -->
 							<div class="card mb-0" id="filter_inputs2">
@@ -336,7 +335,7 @@
 											<td>
 
 												<a class="me-3" th:href="@{'/pharmacist/detallesOrdenVenta?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
-													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
+													<img src="/assets_superAdmin/img/icons/excel.svg" alt="img" style="height: auto; width:20px">
 												</a>
 												<a class="me-3" th:if="${bot.getTracking() == 'Solicitado'  || bot.getTracking() == 'En Proceso'}" th:href="@{'/pharmacist/verEditarProducto?idPurchaseOrder=' + ${bot.getIdPurchaseOrder()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">

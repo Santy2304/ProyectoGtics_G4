@@ -70,15 +70,7 @@
                                         <a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
                                     </div>
                                 </div>
-                                <div class="wordset">
-                                    <ul>
 
-                                        <li>
-                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
-                                        </li>
-
-                                    </ul>
-                                </div>
                             </div>
                             <!-- /Filter -->
                             <div class="card mb-0" id="filter_inputs">
@@ -178,7 +170,8 @@
                                                                 confirmButtonText: 'Invalidar',
                                                                 cancelButtonText: 'Cancelar',
                                                                 input: 'text',
-                                                                inputPlaceholder: 'Motivo de rechazo'
+                                                                inputPlaceholder: 'Motivo de rechazo',
+
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     let motivoRechazo = result.value; // Obtener el motivo del input
@@ -201,8 +194,6 @@
                                                         });
                                                     });
                                                 </script>
-
-
                                             </td>
                                         </tr>
 
@@ -232,15 +223,7 @@
                                         <a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
                                     </div>
                                 </div>
-                                <div class="wordset">
-                                    <ul>
 
-                                        <li>
-                                            <a data-bs-toggle="tooltip" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
-                                        </li>
-
-                                    </ul>
-                                </div>
                             </div>
                             <!-- /Filter -->
                             <div class="card mb-0" id="filter_inputs1">
@@ -295,20 +278,75 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <a class="me-3" th:id="${bot.idPurchaseOrder}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let alert = document.getElementById(  '' + [[${bot.idPurchaseOrder}]]);
+                                                        alert.addEventListener('click', ()=> {
+                                                            $.ajax({
+                                                                url:"/pharmacist/aceptarSolicitud?idSolicitud="+[[${bot.idPurchaseOrder}]],
+                                                                type:"GET",
+                                                                success:function(response){window.location.href="/pharmacist/solicitudesFarmacista"},
+                                                                error:function(response){
+                                                                    Swal.fire({
+                                                                        icon: "error",
+                                                                        iconColor: "orange",
+                                                                        background: "white",
+                                                                        confirmButtonColor: "orange",
+                                                                        title: "Oops",
+                                                                        text: "No hay suficientes medicamentos para esta compra!",
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
+                                                <a  th:id="|delete${bot.idPurchaseOrder}|">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
-
-                                               <!--
-                                                <a class="confirm-text" th:onclick="|mensajeRechazo(${bot.idPurchaseOrder})|">
-                                                    <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-                                                </a>-->
-
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let dele = document.getElementById('delete' + [[${bot.idPurchaseOrder}]]);
+                                                        dele.addEventListener('click', ()=> {
+                                                            Swal.fire({
+                                                                title: '¿Estás seguro de invalidar esta venta? Ingresa el motivo',
+                                                                icon: 'warning',
+                                                                background: "white",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d48e15',
+                                                                cancelButtonColor: '#805409',
+                                                                confirmButtonText: 'Invalidar',
+                                                                cancelButtonText: 'Cancelar',
+                                                                input: 'text',
+                                                                inputPlaceholder: 'Motivo de rechazo'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    let motivoRechazo = result.value; // Obtener el motivo del input
+                                                                    $.ajax({
+                                                                        type: 'POST',
+                                                                        url: '/pharmacist/rechazarSolicitud',
+                                                                        data: {
+                                                                            idSolicitud: [[${bot.idPurchaseOrder}]],
+                                                                            motivo: motivoRechazo
+                                                                        },
+                                                                        success: function(response) {
+                                                                            window.location.href = '/pharmacist/solicitudesFarmacista';
+                                                                        },
+                                                                        error: function(response) {
+                                                                            console.log('Error al rechazar la solicitud.');
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
                                             </td>
+
                                         </tr>
 
                                     </tbody>
@@ -360,8 +398,7 @@
         <script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
         <!-- Custom JS -->
         <script src="/assets_superAdmin/js/script.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
         <script src="/assets_superAdmin/js/moment.min.js"></script>
         <script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
         <script>

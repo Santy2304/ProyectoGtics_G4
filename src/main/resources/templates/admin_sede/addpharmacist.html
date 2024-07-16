@@ -127,6 +127,8 @@
 							<h4>Agregar farmacista</h4>
 						</div>
 					</div>
+					<p>Primero ingrese el DNI y espere a que se completen los campos de nombres y apellidos.</p>
+
 					<!-- /add -->
 					<form method="post" enctype="multipart/form-data" th:action="@{'/adminSede/agregarFarmacista'}" th:object="${farmacista}">
 						<input type="hidden" th:field="*{state}" th:value="'valor_estado_predeterminado'">

@@ -629,15 +629,19 @@ public class  SuperAdminController {
             switch (rol) {
                 case "adminSede":
                     listaAdminSede = administratorRepository.filtrarAdministradores(site, initialDate, finalDate);
+                    model.addAttribute("adminSite",site);
                     break;
                 case "farmacista":
                     listaFarmacistas = pharmacistRepository.filtrarFarmacistas(site, initialDate, finalDate);
+                    model.addAttribute("farmaSite",site);
                     break;
                 case "paciente":
                     listaPacientes = patientRepository.filtrarPacientes(seguro, initialDate, finalDate);
+                    model.addAttribute("pacientSeg",seguro);
                     break;
                 case "doctor":
                     listaDoctores = doctorRepository.filtrarDoctores(site, initialDate, finalDate);
+                    model.addAttribute("doctorSite",site);
                     break;
                 default:
                     return "redirect:verListados"; //En caso se haya modificado el valor de rol por inspección
@@ -1360,6 +1364,8 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Medicamentos_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
+
+
         List<CantidadMedicamentosDTO> medicines = medicineRepository.obtenerDatosMedicamentos();
 
         MedicinePDF exporter = new MedicinePDF(medicines);
@@ -1384,22 +1390,33 @@ public class  SuperAdminController {
         exporter.exportar(response);
     }
     @GetMapping("/exportarAdministradoresPDF")
-    public void exportarAdminPDF(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarAdminPDF(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
 
         String cabecera = "Content-Disposition";
         String valor = "attachment; filename=Administradores_" + fechaActual + ".pdf";
+        List<Administrator> administrators = new ArrayList<>();
+
+        String titulo;
+        if (!filtro.equals("null")){
+            administrators = administratorRepository.filtrarAdministradoresSede(filtro);
+            titulo = "Lista de Administradores de "+filtro;
+            valor = "attachment; filename=Administradores_"+ filtro +"_"+ fechaActual + ".pdf";
+
+        }else{
+            administrators = administratorRepository.listarAdminValidos();
+            titulo = "Lista de Administradores";
+        }
         response.setHeader(cabecera, valor);
 
-        List<Administrator> administrators = administratorRepository.listarAdminValidos();
 
-        AdminPDF exporter = new AdminPDF(administrators);
+        AdminPDF exporter = new AdminPDF(administrators,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarAdministradoresExcel")
-    public void exportarAdministradoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarAdministradoresExcel(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -1410,15 +1427,24 @@ public class  SuperAdminController {
 
         response.setHeader(cabecera, valor);
 
-        String titulo = "Lista de Administradores";
-        List<Administrator> administrators = administratorRepository.listarAdminValidos();
+        String titulo;
+        List<Administrator> administrators = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Administradores de "+filtro;
+            administrators = administratorRepository.filtrarAdministradoresSede(filtro);
+
+        }else{
+           administrators = administratorRepository.listarAdminValidos();
+            titulo = "Lista de Administradores";
+        }
+
 
         AdminExcel exporter = new AdminExcel(administrators,titulo);
         exporter.exportar(response);
 
     }
     @GetMapping("/exportarFarmacistasPDF")
-    public void exportarFarmaPDF(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarFarmaPDF(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
@@ -1426,9 +1452,19 @@ public class  SuperAdminController {
         String cabecera = "Content-Disposition";
         String valor = "attachment; filename=Farmacistas_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
+        String titulo;
 
-        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
-        FarmacistaPDF exporter = new FarmacistaPDF(pharmacists);
+        List<Pharmacist> pharmacists = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de farmacistas de "+filtro;
+            pharmacists = pharmacistRepository.filtrarFarmacistasSede(filtro);
+
+        }else{
+            pharmacists= pharmacistRepository.listarFarmacistasValidos();
+            titulo = "Lista de Administradores";
+        }
+
+        FarmacistaPDF exporter = new FarmacistaPDF(pharmacists,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarFarmacistasExcel")

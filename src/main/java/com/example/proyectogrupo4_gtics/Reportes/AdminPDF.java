@@ -16,10 +16,12 @@ import java.util.List;
 
 public class AdminPDF {
     private List<Administrator> listaAdmins;
+    private String titulo;
 
-    public AdminPDF(List<Administrator> listaAdmins) {
+    public AdminPDF(List<Administrator> listaAdmins,String titulo) {
         super();
         this.listaAdmins = listaAdmins;
+        this.titulo = titulo;
     }
 
     private void cabecera(PdfPTable tabla) {
@@ -77,9 +79,9 @@ public class AdminPDF {
         fuenteTitulo.setColor(Color.ORANGE);
         fuenteTitulo.setSize(18);
 
-        Paragraph titulo = new Paragraph("Lista de Administradores", fuenteTitulo);
-        titulo.setAlignment(Paragraph.ALIGN_CENTER);
-        document.add(titulo);
+        Paragraph tituloDocumento = new Paragraph(titulo, fuenteTitulo);
+        tituloDocumento.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(tituloDocumento);
 
         PdfPTable tabla = new PdfPTable(6);
         tabla.setWidthPercentage(100);

@@ -187,12 +187,22 @@ public class PatientController {
     }
     @PostMapping("/efectuarCambioContrasena")
     public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
-        Patient patient = (Patient) httpSession.getAttribute("usuario");
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(password);
-        userRepository.actualizarPassword(encryptedPassword,patient.getEmail());
-        patientRepository.updateChangePasswrod(patient.getIdPatient());
-        return "redirect:ElegirSede";
+        String passwordPattern = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
+        if (password.matches(passwordPattern)) {
+            Patient patient = (Patient) httpSession.getAttribute("usuario");
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(password);
+            userRepository.actualizarPassword(encryptedPassword, patient.getEmail());
+            patientRepository.updateChangePasswrod(patient.getIdPatient());
+            return "redirect:ElegirSede";
+        } else {
+            String mensajeError = "La contraseña debe cumplir con:\n" +
+                    "- Tener entre 8 y 16 carácteres\n" +
+                    "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
+                    "- Al menos un caracter especial";
+            model.addAttribute("msg", mensajeError);
+            return "changePasswordFirstTime";
+        }
     }
 //Termina la gestion de cambio de contraseña la primera vez
 

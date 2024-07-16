@@ -165,7 +165,6 @@ public class LogInController {
             String mensajeError = "La contraseña debe cumplir con:\n" +
                     "- Tener entre 8 y 16 carácteres\n" +
                     "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
-                    "- No espacios en blanco\n" +
                     "- Al menos un caracter especial";
             model.addAttribute("msg", mensajeError);
             return "changePassword";

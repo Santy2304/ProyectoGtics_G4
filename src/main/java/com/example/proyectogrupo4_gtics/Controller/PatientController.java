@@ -457,6 +457,69 @@ public class PatientController {
 
         return "pacient/perfilNuevo";
     }
+/*
+    @PostMapping("/editarPerfil")
+    public String editarDatos(@RequestParam("patientFile") MultipartFile fotoPerfil,@ModelAttribute("patient") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
+        //Actualizar datos cambiados
+        System.out.println(patient.getIdPatient());
+        System.out.println(patient.getLocation());
+        System.out.println(patient.getInsurance());
+        Patient patient1 = (Patient) session.getAttribute("usuario");
+        model.addAttribute("nombre",patient1.getName());
+        model.addAttribute("apellido",patient1.getLastName());
+        if (bindingResult.hasErrors()) {
+            return "pacient/perfilNuevo";
+        } else {
+            if (fotoPerfil.isEmpty()) {
+                attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+
+                patientRepository.updatePatientDataSinFoto(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), patient.getIdPatient());
+                session.setAttribute("usuario",patientRepository.findById(patient.getIdPatient()).get());
+
+                return "redirect:verPerfilPaciente";
+            }
+            else {
+                try {
+                    byte[] bytesImgPerfil = fotoPerfil.getBytes();
+                    String fileOriginalName = fotoPerfil.getOriginalFilename();
+
+                    long fileSize = fotoPerfil.getSize();
+                    long maxFileSize = 5 * 1024 * 1024;
+
+                    String fileExtension = fileOriginalName.substring(fileOriginalName.lastIndexOf("."));
+
+                    //foto unica
+                    String fotoUnica = Calendar.getInstance().getTimeInMillis()+fileExtension;
+                    if (fileSize > maxFileSize) {
+                        model.addAttribute("imageError", "El tamaño de la imagen excede a 5MB");
+                        return "pacient/perfilNuevo";
+                    }
+                    if (
+                            !fileExtension.equalsIgnoreCase(".jpg") &&
+                                    !fileExtension.equalsIgnoreCase(".png") &&
+                                    !fileExtension.equalsIgnoreCase(".jpeg")
+                    ) {
+                        model.addAttribute("imageError", "El formato de la imagen debe ser jpg, jpeg o png");
+                        return "pacient/perfilNuevo";
+                    }
+
+                    Path rutaCompleta = Paths.get(rutaAbsoluta + "//" + fotoUnica);
+
+                    Files.write(rutaCompleta, bytesImgPerfil);
+                    attr.addFlashAttribute("msg", "Paciente actualizado correctamente");
+                    patientRepository.updatePatientData(patient.getDistrit(), patient.getLocation() , patient.getInsurance(), fotoUnica, patient.getIdPatient());
+                    session.setAttribute("usuario",patientRepository.findById(patient.getIdPatient()).get());
+
+                    return "redirect:verPerfilPaciente";
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+ */
+
     @GetMapping("/verNoti")
     public String verNotifications(Model model, HttpSession session){
         Patient patient = ((Patient)session.getAttribute("usuario"));
@@ -511,8 +574,9 @@ public class PatientController {
         model.addAttribute("entregadoDate", tracking.getEntregadoDate().minusHours(5));
         return "pacient/TrackingSolitario";
     }
-    @PostMapping("/editarPerfilPaciente")
-    public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen,@ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
+
+    @PostMapping(value="/editarPerfilPaciente")
+    public String editarDatosPaciente(@RequestParam("patientFile") MultipartFile imagen, @ModelAttribute("paciente") @Valid Patient patient, HttpSession session,BindingResult bindingResult, Model model, RedirectAttributes attr){
         //Actualizar datos cambiados
         System.out.println(patient.getIdPatient());
         System.out.println(patient.getLocation());
@@ -575,6 +639,10 @@ public class PatientController {
             }
         }
     }
+
+
+
+
     @GetMapping(value = {"/verInformacionPago",""})
     public String verInfoPago(  Model model, HttpSession session){
         Patient patient=  (Patient) session.getAttribute("usuario");

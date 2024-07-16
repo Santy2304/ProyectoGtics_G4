@@ -237,7 +237,7 @@ public class AdminSedeController {
 
     }
     //Agregar farmacista faltan validaciones correspondientes
-    /*
+
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("foto") MultipartFile imagen, @ModelAttribute("farmacista")Pharmacist pharmacist , Model model, RedirectAttributes attributes, RedirectAttributes attr , HttpSession session){
         Administrator admin = (Administrator)session.getAttribute("usuario");
@@ -364,18 +364,24 @@ public class AdminSedeController {
     }
 
 
-     */
+
+    /*
     @PostMapping("/agregarFarmacista")
     public String agregarFarmacista(@RequestParam("foto")MultipartFile imagen, @ModelAttribute("farmacista") @Valid Pharmacist pharmacist
             , BindingResult bindingResult
-            , RedirectAttributes attributes, Model model) {
+            , RedirectAttributes attributes, Model model, HttpSession session) {
+
+        Administrator admin = (Administrator)session.getAttribute("usuario");
+
         if (bindingResult.hasErrors()) {
             return "admin_sede/addpharmacist";
         } else {
+
             if (verificarDNI(pharmacist.getDni())) { //Cuando el DNI ya está en base de datos
                 model.addAttribute("errorDNI", "El DNI ingresado ya existe");
                 return "admin_sede/addpharmacist";
             } else { //Cuando se ingresa un nuevo DNI
+
                 if(!imagen.isEmpty()){
                     //Path directorioImagenPerfil = Paths.get("src//main//resources//static//assets_superAdmin//ImagenesPerfil");
 
@@ -414,6 +420,7 @@ public class AdminSedeController {
 
                         attributes.addFlashAttribute("msg", "Farmacista agregado correctamente");
                         pharmacist.setChangePassword(false);
+                        pharmacist.setSite(admin.getSite());
                         pharmacistRepository.save(pharmacist);
                         return "redirect:listaFarmacista";
                     } catch (IOException e) {
@@ -427,6 +434,8 @@ public class AdminSedeController {
             }
         }
     }
+
+     */
     //Faltan agregar validaciones de editar farmacista por sede
     @GetMapping("/editFarmacista")
     public String verEditarFarmacista(@ModelAttribute("farmacista") Pharmacist pharmacist, @RequestParam("idFarmacista") int idFarmacista , Model model, HttpSession session) {

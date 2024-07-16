@@ -82,12 +82,22 @@ public class AdminSedeController {
     }
     @PostMapping("/efectuarCambioContrasena")
     public String efectuarCambio(@RequestParam("confirmarContrasena") String password,Model model, RedirectAttributes attr, HttpSession httpSession){
-        Administrator administrator = (Administrator) httpSession.getAttribute("usuario");
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encryptedPassword = passwordEncoder.encode(password);
-        userRepository.actualizarPassword(encryptedPassword,administrator.getEmail());
-        administratorRepository.updateChangePasswrod(administrator.getIdAdministrador());
-        return "redirect:dashboardAdminSede";
+        String passwordPattern = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
+        if (password.matches(passwordPattern)) { //Cuando cumple
+            Administrator administrator = (Administrator) httpSession.getAttribute("usuario");
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encryptedPassword = passwordEncoder.encode(password);
+            userRepository.actualizarPassword(encryptedPassword, administrator.getEmail());
+            administratorRepository.updateChangePasswrod(administrator.getIdAdministrador());
+            return "redirect:dashboardAdminSede";
+        } else { //Cuando no cumple
+            String mensajeError = "La contraseña debe cumplir con:\n" +
+                    "- Tener entre 8 y 16 carácteres\n" +
+                    "- Al menos una letra mayúscula, una letra minúscula y un dígito\n" +
+                    "- Al menos un caracter especial";
+            model.addAttribute("msg", mensajeError);
+            return "admin_sede/changePasswordFirstTime";
+        }
     }
     //Doctores por sede
     @GetMapping("/listaDoctores")

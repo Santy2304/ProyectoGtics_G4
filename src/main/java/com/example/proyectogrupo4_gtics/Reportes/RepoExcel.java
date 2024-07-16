@@ -41,11 +41,14 @@ public class RepoExcel {
 
         celdaTitulo.setCellStyle(estiloTitulo);
 
-        // Combinar celdas para el título
-        hoja.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
-
         // Autoajustar el ancho de la columna para el título
         hoja.autoSizeColumn(0);
+
+        // Si el título es más largo, ajustamos las otras columnas también
+        int tituloWidth = hoja.getColumnWidth(0);
+        for (int i = 1; i <= 2; i++) {
+            hoja.setColumnWidth(i, tituloWidth);
+        }
     }
 
     private void cabeceraTabla() {

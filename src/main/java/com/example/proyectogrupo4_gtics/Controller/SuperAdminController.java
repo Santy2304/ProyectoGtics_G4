@@ -186,7 +186,7 @@ public class  SuperAdminController {
             cantInf = 25;
             cantSup = 50;
         } else { //Se alteró el valor seleccionado por inspección
-            return "redirect:/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
         if (precio.equals("1")) { //Se eligió la opción de 0.0 - 25.0
             precioSup = 25;
@@ -194,7 +194,7 @@ public class  SuperAdminController {
             precioInf = 25;
             precioSup = 50;
         } else { //Se alteró el valor seleccionado por inspección
-            return "redirect:/listaMedicamentos";
+            return "redirect:listaMedicamentos";
         }
         model.addAttribute("listaMedicamentos", medicineRepository.filtrarDatosMedicamentos(categoria, cantInf, cantSup, precioInf, precioSup));
         return "superAdmin/listaMedicamentos";
@@ -1468,7 +1468,7 @@ public class  SuperAdminController {
         exporter.exportar(response);
     }
     @GetMapping("/exportarFarmacistasExcel")
-    public void exportarFarmacistasExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarFarmacistasExcel(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -1480,10 +1480,19 @@ public class  SuperAdminController {
         response.setHeader(cabecera, valor);
 
 
-        List<Pharmacist> pharmacists = pharmacistRepository.listarFarmacistasValidos();
-        String titulo = "Lista de Farmacistas";
 
-        FarmacistaExcel exporter = new FarmacistaExcel(pharmacists,titulo);
+        String titulo;
+        List<Pharmacist> p = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Farmacistas de "+filtro;
+            p = pharmacistRepository.filtrarFarmacistasSede(filtro);
+
+        }else{
+            p= pharmacistRepository.listarFarmacistasValidos();
+            titulo = "Lista de Farmacistas";
+        }
+
+        FarmacistaExcel exporter = new FarmacistaExcel(p,titulo);
         exporter.exportar(response);
 
     }
@@ -1520,7 +1529,7 @@ public class  SuperAdminController {
 
     }
     @GetMapping("/exportarDoctoresPDF")
-    public void exportarDoctoresPDF(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarDoctoresPDF(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String fechaActual = dateFormatter.format(new Date());
@@ -1529,12 +1538,23 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Doctores_" + fechaActual + ".pdf";
         response.setHeader(cabecera, valor);
 
-        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
-        DoctoresPDF exporter = new DoctoresPDF(doctors);
+
+        String titulo;
+
+        List<Doctor> doc = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Doctores de "+filtro;
+            doc = doctorRepository.filtrarDoctoresSede(filtro);
+
+        }else{
+            doc = doctorRepository.listarDoctoresValidos();
+            titulo = "Lista de Doctores";
+        }
+        DoctoresPDF exporter = new DoctoresPDF(doc,titulo);
         exporter.exportar(response);
     }
     @GetMapping("/exportarDoctoresExcel")
-    public void exportarDoctoresExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarDoctoresExcel(HttpServletResponse response,@RequestParam("filtro") String filtro) throws DocumentException, IOException {
         response.setContentType("application/octet-stream");
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
@@ -1544,10 +1564,18 @@ public class  SuperAdminController {
         String valor = "attachment; filename=Doctores_" + fechaActual + ".xlsx";
 
         response.setHeader(cabecera, valor);
+        String titulo;
 
-        List<Doctor> doctors = doctorRepository.listarDoctoresValidos();
-        String titulo = "Lista de doctores";
-        DoctoresExcel exporter = new DoctoresExcel(doctors,titulo);
+        List<Doctor> doc = new ArrayList<>();
+        if(!filtro.equals("null")){
+            titulo = "Lista de Doctores de "+filtro;
+            doc = doctorRepository.filtrarDoctoresSede(filtro);
+
+        }else{
+            doc = doctorRepository.listarDoctoresValidos();
+            titulo = "Lista de Doctores";
+        }
+        DoctoresExcel exporter = new DoctoresExcel(doc,titulo);
         exporter.exportar(response);
 
     }

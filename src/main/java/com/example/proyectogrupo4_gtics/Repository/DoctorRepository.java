@@ -47,4 +47,6 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     @Query(nativeQuery = true, value = "SELECT * FROM doctor where state <> 'eliminado' and headquarter like ?1 and dateCreationAccount between ?2 and ?3 order by dateCreationAccount desc")
     List<Doctor> filtrarDoctores(String site, String fechaInicio, LocalDate fechaFinal);
+    @Query(nativeQuery = true, value = "SELECT * FROM doctor where state <> 'eliminado' and headquarter like ?1")
+    List<Doctor> filtrarDoctoresSede(String site);
 }

@@ -1034,7 +1034,7 @@ public class AdminSedeController {
                     if (trackingReal.getEntregadoDate().isBefore(now)){
                         replacementOrderRepository.actualizarTracking("Entregado",replacementOrder.getIdReplacementOrder());
                         Notifications notifications = new Notifications();
-                        notifications.setDate(LocalDateTime.now());
+                        notifications.setDate(LocalDateTime.now().minusHours(5));
                         notifications.setContent("La orden de reposición número "+replacementOrder.getIdReplacementOrder()+" ha llegado a la sede.");
                         notifications.setIdSite(siteRepository.encontrarSedePorNombre(replacementOrder.getSite()));
                         notificationsRepository.save(notifications);
@@ -1085,7 +1085,7 @@ public class AdminSedeController {
             Notifications notifications = new Notifications();
             notifications.setIdSite(siteRepository.encontrarSedePorNombre("Pando 1"));
             notifications.setContent("El medicamento "+medicamento.getNombreMedicamento() +" está por acabarse.");
-            notifications.setDate(LocalDateTime.now());
+            notifications.setDate(LocalDateTime.now().minusHours(5));
             notificationsRepository.save(notifications);
             List<Administrator> listaAdministradores = administratorRepository.findAll();
 
@@ -1570,10 +1570,10 @@ public class AdminSedeController {
                                 //r.setIdReplacementOrder();
                                 Tracking tracking = new Tracking();
                                 tracking.setSolicitudDate(LocalDateTime.now());
-                                tracking.setEnProcesoDate(LocalDateTime.now().plusSeconds(20));
-                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusSeconds(20));
-                                tracking.setEnRutaDate(LocalDateTime.now().plusSeconds(20));
-                                tracking.setEntregadoDate(LocalDateTime.now().plusSeconds(20));
+                                tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(1));
+                                tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(1));
                                 trackingRepository.save(tracking);
                                 r.setIdTracking(tracking);
                                 ReplacementOrder newReplacementOrder = replacementOrderRepository.save(r);

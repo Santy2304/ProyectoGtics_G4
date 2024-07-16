@@ -742,10 +742,10 @@ public class PatientController {
                     }
                     Tracking tracking = new Tracking();
                     tracking.setSolicitudDate(LocalDateTime.now());
-                    tracking.setEnProcesoDate(LocalDateTime.now().plusSeconds(30));
-                    tracking.setEmpaquetadoDate(LocalDateTime.now().plusSeconds(30));
-                    tracking.setEnRutaDate(LocalDateTime.now().plusSeconds(30));
-                    tracking.setEntregadoDate(LocalDateTime.now().plusSeconds(30));
+                    tracking.setEnProcesoDate(LocalDateTime.now().plusMinutes(1));
+                    tracking.setEmpaquetadoDate(LocalDateTime.now().plusMinutes(1));
+                    tracking.setEnRutaDate(LocalDateTime.now().plusMinutes(1));
+                    tracking.setEntregadoDate(LocalDateTime.now().plusMinutes(1));
                     trackingRepository.save(tracking);
                     purchaseOrder.setIdtracking(tracking);
                     purchaseOrderRepository.pagarOrdenCompra(idPurchase);
@@ -899,7 +899,7 @@ public class PatientController {
                             if (trackingReal.getEntregadoDate().isBefore(now)){
                                 purchaseOrderRepository.actualizarTrackingPurchase("Entregado",purchaseOrder.getId());
                                 Notifications notifications = new Notifications();
-                                notifications.setDate(LocalDateTime.now());
+                                notifications.setDate(LocalDateTime.now().minusHours(5));
                                 notifications.setContent("Tu orden número WB"+purchaseOrder.getId()+" ha llegado.");
                                 String email = purchaseOrder.getPatient().getEmail();
                                 notifications.setIdUsers(userRepository.findByEmail(email));
@@ -935,7 +935,7 @@ public class PatientController {
                         notification.setContent("Su orden de compra recurrente con el medicamento: "+lote.getMedicine().getName()+ " está por expirar; le recomedamos generar una nueva orden de compra." );
                             User user = userRepository.findByEmail(purchaseOrder.getPatient().getEmail());
                             notification.setIdUsers(user);
-                            notification.setDate(LocalDateTime.now());
+                            notification.setDate(LocalDateTime.now().minusHours(5));
                             notificationsRepository.save(notification);
                             Message message = new Message();
                             message.setContent(notification.getContent());

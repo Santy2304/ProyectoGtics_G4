@@ -1338,7 +1338,47 @@ public class  SuperAdminController {
     }
     @GetMapping("/exportarRepoExcel")
     public void exportarRepoExcel(HttpServletResponse response,@RequestParam("sede") int sede) throws DocumentException, IOException {
+        response.setContentType("application/octet-stream");
 
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String fechaActual = dateFormatter.format(new Date());
+
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=Ordenes_De_Reposición_" + fechaActual + ".xlsx";
+
+        response.setHeader(cabecera, valor);
+
+        switch (sede){
+
+            case 1:
+                List<ReplacementOrder> listaRepo1 = replacementOrderRepository.obtenerSolicitudesRepoPando1();
+                String titulo = "Lista de solicitudes de reposición de Pando 1";
+                RepoExcel exporter = new RepoExcel(listaRepo1,titulo);
+                exporter.exportar(response);
+                break;
+
+            case 2:
+                List<ReplacementOrder> listaRepo2 = replacementOrderRepository.obtenerSolicitudesRepoPando2();
+                String titulo2 = "Lista de solicitudes de reposición de Pando 2";
+                RepoExcel exporter2 = new RepoExcel(listaRepo2,titulo2);
+                exporter2.exportar(response);
+                break;
+
+            case 3:
+                List<ReplacementOrder> listaRepo3 = replacementOrderRepository.obtenerSolicitudesRepoPando3();
+                String titulo3 = "Lista de solicitudes de reposición de Pando 3";
+                RepoExcel exporter3 = new RepoExcel(listaRepo3,titulo3);
+                exporter3.exportar(response);
+                break;
+
+            case 4:
+                List<ReplacementOrder> listaRepo4 = replacementOrderRepository.obtenerSolicitudesRepoPando4();
+                String titulo4 = "Lista de solicitudes de reposición de Pando 2";
+                RepoExcel exporter4 = new RepoExcel(listaRepo4,titulo4);
+                exporter4.exportar(response);
+                break;
+
+        }
 
     }
 

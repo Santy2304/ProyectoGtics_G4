@@ -41,6 +41,8 @@ public class RepoExcel {
 
         // Combinar celdas para el título
         hoja.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
+        hoja.autoSizeColumn(0);
+
     }
 
     private void cabeceraTabla(){

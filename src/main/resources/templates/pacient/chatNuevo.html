@@ -279,7 +279,10 @@
             let lastTime = document.getElementById("lastTime");
             lastTime.textContent = obtenerHoraActual();
             message.value="";
-
+            document.getElementById("chatContent").scrollTo({
+              top: document.getElementById("chatContent").scrollHeight,
+              behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+            });
           }
         }
       });
@@ -342,6 +345,10 @@
           'recipient': response.correo,
           'content': message
         }));
+        document.getElementById("chatContent").scrollTo({
+          top: document.getElementById("chatContent").scrollHeight,
+          behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+        });
       },
       error: function(response){
         console.log("error");

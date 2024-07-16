@@ -222,10 +222,10 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarFarmacistasPDF}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarFarmacistasPDF?filtro='+ ${farmaSite}}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarFarmacistasExcel}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarFarmacistasExcel?filtro='+ ${farmaSite}}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 
 									</ul>
@@ -371,10 +371,10 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarPacientesPDF}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarPacientesPDF?filtro='+ ${pacientSeg}}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarPacientesExcel}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarPacientesExcel?filtro='+ ${pacientSeg}}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -505,10 +505,10 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarDoctoresPDF}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarDoctoresPDF?filtro='+ ${doctorSite}}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarDoctoresExcel}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarDoctoresExcel?filtro='+ ${doctorSite}}" data-bs-placement="top" title="csv"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>

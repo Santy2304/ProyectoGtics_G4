@@ -80,10 +80,10 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarMedicamentosPDF}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarMedicamentosPDF?filtro='+ ${mediCate}}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" th:href="@{/superAdmin/exportarMedicamentosExcel}" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarMedicamentosExcel?filtro='+ ${mediCate}}" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 										<!--
 										<li>
@@ -117,7 +117,7 @@
 															<option value="">Categoría</option>
 															<option value="Dolor">Dolor</option>
 															<option value="Belleza">Belleza</option>
-															<option value="Suplementos">Suplementos</option>
+															<option value="Suplemento">Suplementos</option>
 															<option value="Alergias">Alergías</option>
 															<option value="Otros">Otros</option>
 														</select>

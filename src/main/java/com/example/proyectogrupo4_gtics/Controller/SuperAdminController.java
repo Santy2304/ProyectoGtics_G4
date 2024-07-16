@@ -173,6 +173,8 @@ public class  SuperAdminController {
         }
         if (categoria.isEmpty()) {
             categoria = "%";
+        }else{
+            model.addAttribute("mediCate",categoria);
         }
 
         //Valores predeterminados de intervalos de cantidad y precio
@@ -623,9 +625,9 @@ public class  SuperAdminController {
             String initialDate = "";
             LocalDate finalDate = LocalDate.now();
             //Verificación de si se enviaron las fechas
-            if (!fechaInicio.isEmpty()) {
+            if (!fechaInicio.isEmpty() && !fechaInicio.equals("null")) {
                 initialDate = LocalDate.parse(fechaInicio, frmt).toString();
-            } else if (!fechaFinal.isEmpty()) {
+            } else if (!fechaFinal.isEmpty() && !fechaFinal.equals("null")) {
                 finalDate = LocalDate.parse(fechaFinal, frmt);
             }
             //Listas a enviar, algunas se actualizarán de acuerdo al filtro que se use

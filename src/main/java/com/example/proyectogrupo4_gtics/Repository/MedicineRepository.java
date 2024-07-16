@@ -69,10 +69,9 @@ public interface MedicineRepository extends JpaRepository<Medicine,Integer> {
             "FROM \n" +
             "medicine m \n" +
             "LEFT JOIN \n" +
-            "lote l ON m.idMedicine = l.idMedicine\n" +
+            "lote l ON m.idMedicine = l.idMedicine where m.category like ?1\n" +
             "GROUP BY \n" +
             "m.idMedicine, m.name, m.category, m.price\n" +
-            "HAVING `categoria` like ?1" +
             "ORDER BY \n" +
             "m.idMedicine DESC;")
     List<CantidadMedicamentosDTO> filtrarDatosMedicamentosCate(String categoria);

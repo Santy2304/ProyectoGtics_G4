@@ -93,7 +93,7 @@
 
     <script>
 
-      function connect() {
+      function connectNoti() {
         var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
         stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
         stompClient.connect({}, function (frame) {
@@ -111,7 +111,6 @@
         });
       }
 
-      document.addEventListener("DOMContentLoaded",()=>{connect();});
 
 
       let a = document.getElementById("campana");
@@ -178,6 +177,7 @@
         return `${year}/${month}/${day} ${hours}:${minutes}`;
       }
     </script>
+
 
 
     <!-- /Notifications -->

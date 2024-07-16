@@ -170,7 +170,8 @@
                                                                 confirmButtonText: 'Invalidar',
                                                                 cancelButtonText: 'Cancelar',
                                                                 input: 'text',
-                                                                inputPlaceholder: 'Motivo de rechazo'
+                                                                inputPlaceholder: 'Motivo de rechazo',
+
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
                                                                     let motivoRechazo = result.value; // Obtener el motivo del input
@@ -397,8 +398,7 @@
         <script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
         <!-- Custom JS -->
         <script src="/assets_superAdmin/js/script.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
         <script src="/assets_superAdmin/js/moment.min.js"></script>
         <script src="/assets_superAdmin/js/bootstrap-datetimepicker.min.js"></script>
         <script>

@@ -192,7 +192,6 @@
         </div>
 
 		<script th:inline="javascript">
-
 			function createChatElement(NAME, LastMessage, id) {
 				// Crear el elemento 'a'
 				const anchor = document.createElement('a');
@@ -232,7 +231,7 @@
 				// Crear el último mensaje del usuario
 				const userLastChat = document.createElement('div');
 				userLastChat.id="last"
-				userLastChat.classList.add('user-last-chat');
+					userLastChat.classList.add('user-last-chat');
 				userLastChat.textContent = LastMessage.trim();
 				// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
 				userDetail.appendChild(userName);
@@ -372,6 +371,7 @@
 										updateMessage(content.idChat.idPacient.email , content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName );
 									}
 								});
+
 					},
 					error : function(response){
 						console.log("AYUDENME");
@@ -448,21 +448,26 @@
 					type: "GET",
 					success: function (response) {
 						console.log(response);
-						let count = 1;
 						response.forEach(
-								(content) => {
-									if (count === 1) {
+								(content, idx) => {
+									if (idx === 0) {
 										$.ajax({
 											url: "/pharmacist/getChat?ola="+ content.idChat.idPacient.email,
 											type: "GET",
 											success: function(response){
 												//Cargamos todos los mensajes de la persona con el farmacista
+												let farmacista = [[${session.usuario.email}]];
 												let listaMensajes = response;
-												listaMensajes.forEach(message =>{
-													if(message.autor  === pharmacist){
-														createMessageSender(message.message, formatDateTimeTo12Hour(message.dateTime));
-													}else{
-														createMessageReceiver(message.message, formatDateTimeTo12Hour(message.dateTime));
+												listaMensajes.forEach((messageOne) =>{
+													if(messageOne.autor  === farmacista){
+														createMessageSender(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+													}
+													if(messageOne.autor === content.idChat.idPacient.email ){
+														if(messageOne.message === "" || messageOne.message === null ){
+															createMessageSenderImagen("/getBlob/"+messageOne.id ,formatDateTimeTo12Hour(messageOne.dateTime) );
+														}else{
+															createMessageReceiver(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+														}
 													}
 												});
 											},
@@ -479,15 +484,12 @@
 					}
 				});
 			});
-			// Conectar al servidor WebSocket
 			function connect() {
 				var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
 				stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
 				stompClient.connect({}, function (frame) {
-
 					// Suscribirse a la cola de mensajes del usuario
 					stompClient.subscribe('/user/queue/messages', function (message) {
-
 						if((JSON.parse(message.body)).sender ===  global){
 							if((JSON.parse(message.body)).content === "" || (JSON.parse(message.body)).content === null){
 								//Agregamos la imagen
@@ -499,22 +501,24 @@
 									},
 									success: function(response){
 										let url = URL.createObjectURL(response);
-										//Creamos imagen
 										createMessageSenderImagen(url ,obtenerHoraActual() );
 									},
 									error: function(response){
 										console.log("Ayudenme");
 									}
 								});
-
+								document.getElementById(global).querySelector('.user-last-chat').textContent = "imagen";
 							}else{
 								createMessageReceiver((JSON.parse(message.body)).content, obtenerHoraActual() );
-								let last = document.getElementById(global);
-								last.textContent = (JSON.parse(message.body)).content;
+								document.getElementById(global).querySelector('.user-last-chat').textContent = (JSON.parse(message.body)).content;
 							}
 						}else{
 							//Q hacer en caso no se Lleguen nuevas notificacione de otro chat de donde no se esta
-
+							if( (JSON.parse(message.body)).content !== null){
+								document.getElementById((JSON.parse(message.body)).sender).querySelector('.user-last-chat').textContent = (JSON.parse(message.body)).content;
+							}else{
+								document.getElementById((JSON.parse(message.body)).sender).querySelector('.user-last-chat').textContent = "imagen";
+							}
 						}
 					});
 				});
@@ -690,19 +694,26 @@
 				let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
 				return horaFormateada;
 			}
-			function formatDateTimeTo12Hour(dateTimeString) {
-				// Crear un objeto Date a partir de la cadena DateTime
-				const date = new Date(dateTimeString);
+			function formatDateTimeTo12Hour(datetime) {
+				// Crear un objeto Date a partir de la cadena de fecha y hora
+				const date = new Date(datetime);
 
-				// Opciones para formatear la hora a formato de 12 horas
-				const options = {
-					hour: 'numeric',
-					minute: 'numeric',
-					hour12: true
-				};
+				// Obtener las horas, minutos y determinar si es AM o PM
+				let hours = date.getHours();
+				const minutes = date.getMinutes();
+				const ampm = hours >= 12 ? 'PM' : 'AM';
 
-				// Formatear la hora usando toLocaleTimeString con configuración regional para Latinoamérica
-				return date.toLocaleTimeString('es-LA', options);
+				// Convertir las horas al formato de 12 horas
+				hours = hours % 12;
+				hours = hours ? hours : 12; // Las 0 horas deben ser 12
+
+				// Asegurarse de que los minutos siempre tengan dos dígitos
+				const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+
+				// Formatear la cadena final
+				const formattedTime = `${hours}:${minutesStr} ${ampm}`;
+
+				return formattedTime;
 			}
 			function createMessageSenderImagen(url , date) {
 				const li = document.createElement('li');
@@ -818,7 +829,7 @@
 				chatTime3.classList.add('chat-time');
 
 				const span3 = document.createElement('span');
-				span3.textContent = formatDateTimeTo12Hour(date) ;
+				span3.textContent = date ;
 
 				chatTime3.appendChild(span3);
 				chatMsgInfoItem3.appendChild(chatTime3);
@@ -831,8 +842,7 @@
 // Ensamblar elementos principales
 				avatarDiv.appendChild(avatarImg);
 
-				mediaBodyDiv.appendChild(msgBox1);
-				mediaBodyDiv.appendChild(msgBox2);
+
 				mediaBodyDiv.appendChild(msgBox3);
 
 				li.appendChild(avatarDiv);
@@ -842,7 +852,6 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
-
 		</script>
 
 

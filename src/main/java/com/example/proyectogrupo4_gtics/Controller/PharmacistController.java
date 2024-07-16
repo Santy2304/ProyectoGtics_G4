@@ -1156,17 +1156,14 @@ public class PharmacistController {
     @GetMapping(value="/getPatients")
     public Object getPatients(HttpSession session){
         try {
-            //HARD
+            //Debe devolver el ultimo contentChat usando con cada paciente que tenga;
             Pharmacist p = (Pharmacist) session.getAttribute("usuario");
-            //Pharmacist p = pharmacistRepository.findByEmail("deanw202315@gmail.com");
-            List<Chat> listaChat = chatRepository.findAll();
-            ArrayList<Chat> listaDeChat = new ArrayList<>();
+            //Lista donde guardaremos cada ultimo chatContent
             ArrayList<Chatcontent> listaLastChatContent = new ArrayList<>();
-            for (Chat c : listaChat) {
+            for (Chat c : chatRepository.findAll()) {
                 if (c.getIdFarmacist().getIdFarmacista() == p.getIdFarmacista()) {
-                    List<Chatcontent> listaContent = chatContentRepository.findAll();
                     ArrayList<Chatcontent> filtradoContent = new ArrayList<>();
-                    for (Chatcontent cc : listaContent) {
+                    for (Chatcontent cc : chatContentRepository.findAll()) {
                         if (cc.getIdChat().getIdPacient().getIdPatient() == c.getIdPacient().getIdPatient() &&
                                 cc.getIdChat().getIdFarmacist().getIdFarmacista() == c.getIdFarmacist().getIdFarmacista()
                         ) {

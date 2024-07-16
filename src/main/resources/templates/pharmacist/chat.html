@@ -59,6 +59,7 @@
 								</div>
 
 								<div id="pacientes" class="card-body contacts_body chat-users-list chat-scroll">
+
 								</div>
 							</div>
 						</div>
@@ -81,7 +82,6 @@
 										</div>
 									</div>
 								</div>
-
 								<div class="card-body msg_card_body chat-scroll">
 									<ul id="messageTotal" class="list-unstyled">
 										<li class="media sent d-flex">
@@ -175,9 +175,7 @@
 												</div>
 											</div>
 										</li>
-
 									</ul>
-
 								</div>
 
 								<div class="card-footer">
@@ -194,6 +192,7 @@
         </div>
 
 		<script th:inline="javascript">
+
 			function createChatElement(NAME, LastMessage, id) {
 				// Crear el elemento 'a'
 				const anchor = document.createElement('a');
@@ -252,7 +251,6 @@
 				const unreadBadge = document.createElement('div');
 				unreadBadge.classList.add('badge', 'badge-success', 'badge-pill');
 				unreadBadge.textContent = '15';
-				unreadBadge.id=id;
 
 				// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
 				lastChatDetail.appendChild(lastChatTime);
@@ -265,7 +263,7 @@
 				// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
 				anchor.appendChild(mediaImgWrap);
 				anchor.appendChild(mediaBody);
-				//anchor.id = id;
+				anchor.id = id;
 				return anchor;
 			}
 			function createChatElement2(NAME, LastMessage,id , date) {
@@ -338,42 +336,41 @@
 				// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
 				anchor.appendChild(mediaImgWrap);
 				anchor.appendChild(mediaBody);
-				//anchor.id=id ;
+				anchor.id=id ;
 				return anchor;
 			}
-			//read-chat d-flex
 			var global = "" ;
-			document.addEventListener('DOMContentLoaded', ()=>{
+			//Con esto obtenemos los lasChatContent
+			document.addEventListener('DOMContentLoaded', ()=>	{
 				$.ajax({
 					url: "/pharmacist/getPatients",
 					type: "GET",
 					success: function(response){
-						console.log(response);
-						let count= 1;
+
 						response.forEach(
-								(content) =>{
-									if(count===1){
+								(content ,idx) =>{
+									console.log(idx);
+									if(idx === 0){
 										let div = document.getElementById("pacientes");
-										div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message ,content.idChat.idPacient.email));
-										//Le ponemos un addEventListener q actualize la pagina cadavez q se le click ;
-										let last = document.getElementById("last");
-										if(content.message === null || content.message ===  ""){
-											last.textContent = "Imagen";
+										if(content.message !== null){
+											div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message ,content.idChat.idPacient.email));
 										}else{
-											last.textContent = content.message;
+											div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , "Imagen" ,content.idChat.idPacient.email));
 										}
-										let lastTime = document.getElementById("lastTime");
-										lastTime.textContent = formatDateTimeTo12Hour(content.dateTime);
+										//Le ponemos un addEventListener q actualize la pagina cadavez q se le click ;
 										updateMessage(content.idChat.idPacient.email, content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName);
 										let doc= document.getElementById("receiver_name");
 										doc.textContent=content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName;
 										global=content.idChat.idPacient.email;
 									}else{
 										let div = document.getElementById("pacientes");
-										div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
+										if(content.message !== null){
+											div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
+										}else{
+											div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , "Imagen" ,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
+										}
 										updateMessage(content.idChat.idPacient.email , content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName );
 									}
-									count=count+1;
 								});
 					},
 					error : function(response){
@@ -398,16 +395,16 @@
 							let farmacista= [[${session.usuario.email}]];
 							//Cargamos todos los mensajes de la persona con el farmacista
 							let listaMensajes = response;
-							listaMensajes.forEach(message =>{
-								console.log(message);
-								console.log(message.content);
-								if(message.autor  === farmacista){
-									createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
+							console.log("FIN");
+							console.log(response);
+							listaMensajes.forEach((messageOne) =>{
+								if(messageOne.autor  === farmacista){
+									createMessageSender(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
 								}else{
-									if(message.content === "" || message.content === null ){
-										createMessageSenderImagen("/getBlob/"+message.id ,formatDateTimeTo12Hour(message.dateTime) );
+									if(messageOne.message === "" || messageOne.message === null ){
+										createMessageSenderImagen("/getBlob/"+messageOne.id ,formatDateTimeTo12Hour(messageOne.dateTime) );
 									}else{
-										createMessageReceiver(message.message,formatDateTimeTo12Hour(message.dateTime));
+										createMessageReceiver(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
 									}
 								}
 							});
@@ -430,7 +427,6 @@
 				let message = document.getElementById("message");
 				boton.addEventListener('click' , () =>{
 					if(message.value.trim() !==""){
-						console.log("Hola llegue hasta aqui");
 						sendMessage();
 						createMessageSender(message.value,obtenerHoraActual());
 						message.value="";
@@ -438,7 +434,6 @@
 				});
 				message.addEventListener('keydown' , (event)=>{
 					if(event.key ==="Enter" && message.value.trim() !==""){
-						console.log("Hola llegue hasta aqui");
 						sendMessage();
 						createMessageSender(message.value,obtenerHoraActual() );
 						message.value="";
@@ -489,13 +484,10 @@
 				var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
 				stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
 				stompClient.connect({}, function (frame) {
-					console.log('Connected: ' + frame);
 
 					// Suscribirse a la cola de mensajes del usuario
 					stompClient.subscribe('/user/queue/messages', function (message) {
-						console.log(typeof global);
-						console.log(typeof (JSON.parse(message.body)).sender);
-						console.log(global === (JSON.parse(message.body)).sender);
+
 						if((JSON.parse(message.body)).sender ===  global){
 							if((JSON.parse(message.body)).content === "" || (JSON.parse(message.body)).content === null){
 								//Agregamos la imagen
@@ -713,44 +705,136 @@
 				return date.toLocaleTimeString('es-LA', options);
 			}
 			function createMessageSenderImagen(url , date) {
-// Crear el elemento <li> con las clases correspondientes
-				// Crear el elemento <li> con las clases correspondientes
-				let li = document.createElement('li');
-				li.classList.add('media', 'receiver', 'd-flex');
+				const li = document.createElement('li');
+				li.classList.add('media', 'received', 'd-flex');
 
-// Crear el div.avatar
-				let avatarDiv = document.createElement('div');
+				const avatarDiv = document.createElement('div');
 				avatarDiv.classList.add('avatar', 'flex-shrink-0');
 
-// Crear la imagen del avatar
-				let avatarImg = document.createElement('img');
-				avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+				const avatarImg = document.createElement('img');
+				avatarImg.src = '/assets_superAdmin/img/customer/profile2.jpg';
 				avatarImg.alt = 'User Image';
 				avatarImg.classList.add('avatar-img', 'rounded-circle');
 
-// Agregar la imagen del avatar al div.avatar
-				avatarDiv.appendChild(avatarImg);
-				//avatarDiv dentro de
-
-// Crear el div.media-body
-				let mediaBodyDiv = document.createElement('div');
+				const mediaBodyDiv = document.createElement('div');
 				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
 
-// Crear el div.msg-box
-				let msgBoxDiv = document.createElement('div');
-				msgBoxDiv.classList.add('msg-box');
+// Primer msg-box
+				const msgBox1 = document.createElement('div');
+				msgBox1.classList.add('msg-box');
 
+				const msgBox1Div = document.createElement('div');
 
+				const p1_1 = document.createElement('p');
+				p1_1.textContent = 'Hola, claro en que puedo ayudarte';
 
+				const p1_2 = document.createElement('p');
+				p1_2.textContent = 'Aquí tengo unas recomendaciones';
 
-// Agregar p1 y ul a msgBoxDiv
-				msgBoxDiv.appendChild(createChatMessage(url , date));
+				const chatMsgInfo1 = document.createElement('ul');
+				chatMsgInfo1.classList.add('chat-msg-info');
 
-// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+				const chatMsgInfoItem1 = document.createElement('li');
 
-				mediaBodyDiv.appendChild(msgBoxDiv);
+				const chatTime1 = document.createElement('div');
+				chatTime1.classList.add('chat-time');
 
-// Agregar mediaBodyDiv al li
+				const span1 = document.createElement('span');
+				span1.textContent = '8:35 AM';
+
+// Ensamblar primer msg-box
+				chatTime1.appendChild(span1);
+				chatMsgInfoItem1.appendChild(chatTime1);
+				chatMsgInfo1.appendChild(chatMsgInfoItem1);
+
+				msgBox1Div.appendChild(p1_1);
+				msgBox1Div.appendChild(p1_2);
+				msgBox1Div.appendChild(chatMsgInfo1);
+				msgBox1.appendChild(msgBox1Div);
+
+// Segundo msg-box
+				const msgBox2 = document.createElement('div');
+				msgBox2.classList.add('msg-box');
+
+				const msgBox2Div = document.createElement('div');
+
+				const p2 = document.createElement('p');
+
+				const chatMsgInfo2 = document.createElement('ul');
+				chatMsgInfo2.classList.add('chat-msg-info');
+
+				const chatMsgInfoItem2 = document.createElement('li');
+
+				const chatTime2 = document.createElement('div');
+				chatTime2.classList.add('chat-time');
+
+				const span2 = document.createElement('span');
+				span2.textContent = '8:40 AM';
+
+// Ensamblar segundo msg-box
+				chatTime2.appendChild(span2);
+				chatMsgInfoItem2.appendChild(chatTime2);
+				chatMsgInfo2.appendChild(chatMsgInfoItem2);
+
+				msgBox2Div.appendChild(p2);
+				msgBox2Div.appendChild(chatMsgInfo2);
+				msgBox2.appendChild(msgBox2Div);
+
+// Tercer msg-box
+				const msgBox3 = document.createElement('div');
+				msgBox3.classList.add('msg-box');
+
+				const msgBox3Div = document.createElement('div');
+
+				const chatMsgAttachments = document.createElement('div');
+				chatMsgAttachments.classList.add('chat-msg-attachments');
+
+				const chatAttachment = document.createElement('div');
+				chatAttachment.classList.add('chat-attachment');
+
+				const img = document.createElement('img');
+				img.src = url;
+				img.alt = 'Attachment';
+
+				const chatAttachDownload = document.createElement('a');
+				chatAttachDownload.href = '';
+				chatAttachDownload.classList.add('chat-attach-download');
+
+				const icon = document.createElement('i');
+				icon.classList.add('fas', 'fa-download');
+
+// Ensamblar tercer msg-box
+				chatAttachDownload.appendChild(icon);
+				chatAttachment.appendChild(img);
+				chatAttachment.appendChild(chatAttachDownload);
+				chatMsgAttachments.appendChild(chatAttachment);
+
+				const chatMsgInfo3 = document.createElement('ul');
+				chatMsgInfo3.classList.add('chat-msg-info');
+
+				const chatMsgInfoItem3 = document.createElement('li');
+
+				const chatTime3 = document.createElement('div');
+				chatTime3.classList.add('chat-time');
+
+				const span3 = document.createElement('span');
+				span3.textContent = formatDateTimeTo12Hour(date) ;
+
+				chatTime3.appendChild(span3);
+				chatMsgInfoItem3.appendChild(chatTime3);
+				chatMsgInfo3.appendChild(chatMsgInfoItem3);
+
+				msgBox3Div.appendChild(chatMsgAttachments);
+				msgBox3Div.appendChild(chatMsgInfo3);
+				msgBox3.appendChild(msgBox3Div);
+
+// Ensamblar elementos principales
+				avatarDiv.appendChild(avatarImg);
+
+				mediaBodyDiv.appendChild(msgBox1);
+				mediaBodyDiv.appendChild(msgBox2);
+				mediaBodyDiv.appendChild(msgBox3);
+
 				li.appendChild(avatarDiv);
 				li.appendChild(mediaBodyDiv);
 
@@ -758,6 +842,7 @@
 				let chatList = document.getElementById("messageTotal");
 				chatList.appendChild(li);
 			}
+
 		</script>
 
 

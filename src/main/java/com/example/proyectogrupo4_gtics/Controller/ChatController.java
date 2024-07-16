@@ -145,7 +145,6 @@ public class ChatController {
                 }
             }
         }
-
     }
 //De paciente a farmacista
     //Paciente enviando texto

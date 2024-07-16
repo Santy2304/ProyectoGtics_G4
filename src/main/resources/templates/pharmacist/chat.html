@@ -82,7 +82,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="card-body msg_card_body chat-scroll">
+								<div id="chatContent" class="card-body msg_card_body chat-scroll">
 									<ul id="messageTotal" class="list-unstyled">
 										<li class="media sent d-flex">
 											<div class="avatar flex-shrink-0">
@@ -408,6 +408,10 @@
 									}
 								}
 							});
+							document.getElementById("chatContent").scrollTo({
+								top: document.getElementById("chatContent").scrollHeight,
+								behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+							});
 						},
 						error : function(response){
 							//Error
@@ -429,14 +433,24 @@
 					if(message.value.trim() !==""){
 						sendMessage();
 						createMessageSender(message.value,obtenerHoraActual());
+						document.getElementById(global).querySelector('.user-last-chat').textContent = message.value;
 						message.value="";
+						document.getElementById("chatContent").scrollTo({
+							top: document.getElementById("chatContent").scrollHeight,
+							behavior: 'smooth' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+						});
 					}
 				});
 				message.addEventListener('keydown' , (event)=>{
 					if(event.key ==="Enter" && message.value.trim() !==""){
 						sendMessage();
 						createMessageSender(message.value,obtenerHoraActual() );
+						document.getElementById(global).querySelector('.user-last-chat').textContent = message.value;
 						message.value="";
+						document.getElementById("chatContent").scrollTo({
+							top: document.getElementById("chatContent").scrollHeight,
+							behavior: 'smooth' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+						});
 					}
 				});
 			});
@@ -470,6 +484,10 @@
 														}
 													}
 												});
+												document.getElementById("chatContent").scrollTo({
+													top: document.getElementById("chatContent").scrollHeight,
+													behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+												});
 											},
 											error : function(response){
 												//Error
@@ -502,6 +520,10 @@
 									success: function(response){
 										let url = URL.createObjectURL(response);
 										createMessageSenderImagen(url ,obtenerHoraActual() );
+										document.getElementById("chatContent").scrollTo({
+											top: document.getElementById("chatContent").scrollHeight,
+											behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+										});
 									},
 									error: function(response){
 										console.log("Ayudenme");
@@ -511,6 +533,10 @@
 							}else{
 								createMessageReceiver((JSON.parse(message.body)).content, obtenerHoraActual() );
 								document.getElementById(global).querySelector('.user-last-chat').textContent = (JSON.parse(message.body)).content;
+								document.getElementById("chatContent").scrollTo({
+									top: document.getElementById("chatContent").scrollHeight,
+									behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+								});
 							}
 						}else{
 							//Q hacer en caso no se Lleguen nuevas notificacione de otro chat de donde no se esta
@@ -808,7 +834,8 @@
 				img.alt = 'Attachment';
 
 				const chatAttachDownload = document.createElement('a');
-				chatAttachDownload.href = '';
+				chatAttachDownload.href = url;
+				chatAttachDownload.download = 'recetaChat.jpg';
 				chatAttachDownload.classList.add('chat-attach-download');
 
 				const icon = document.createElement('i');

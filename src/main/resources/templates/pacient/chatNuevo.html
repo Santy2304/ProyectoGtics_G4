@@ -92,7 +92,7 @@
                 </div>
               </div>
             </div>
-            <div  class="card-body msg_card_body chat-scroll">
+            <div id="chatContent" class="card-body msg_card_body chat-scroll">
               <ul id="messageTotal" class="list-unstyled">
                 <li class="media received d-flex">
                   <div class="avatar flex-shrink-0">
@@ -198,6 +198,10 @@
             lastTime.textContent = formatDateTimeTo12Hour(message.dateTime);
           }
         });
+        document.getElementById("chatContent").scrollTo({
+          top: document.getElementById("chatContent").scrollHeight,
+          behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+        });
       },
       error : function(response){
         //Error
@@ -245,6 +249,10 @@
           let lastTime = document.getElementById("lastTime");
           lastTime.textContent = obtenerHoraActual();
           message.value="";
+          document.getElementById("chatContent").scrollTo({
+            top: document.getElementById("chatContent").scrollHeight,
+            behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+          });
         }
         //Caso en el q se envia una imagen
         if(message.value.trim() === ""  && image.files.length !== 0){
@@ -254,6 +262,10 @@
           let lastTime = document.getElementById("lastTime");
           lastTime.textContent = obtenerHoraActual();
           message.value="";
+          document.getElementById("chatContent").scrollTo({
+            top: document.getElementById("chatContent").scrollHeight,
+            behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+          });
         }
       });
       message.addEventListener('keydown' , (event)=>{
@@ -267,6 +279,7 @@
             let lastTime = document.getElementById("lastTime");
             lastTime.textContent = obtenerHoraActual();
             message.value="";
+
           }
         }
       });
@@ -291,6 +304,10 @@
                 last.textContent = (JSON.parse(message.body)).content;
                 let lastTime = document.getElementById("lastTime");
                 lastTime.textContent = obtenerHoraActual();
+                document.getElementById("chatContent").scrollTo({
+                  top: document.getElementById("chatContent").scrollHeight,
+                  behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+                });
               }
             }
           });
@@ -366,6 +383,10 @@
                   document.getElementById('message').placeholder = "Escribe tu mensaje..." ;
                   let imageAAA = document.getElementById('imagenInput');
                   imageAAA.value = "";
+                  document.getElementById("chatContent").scrollTo({
+                    top: document.getElementById("chatContent").scrollHeight,
+                    behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+                  });
                 },
                 error: function(response){
                   console.log("Ayudenme");
@@ -469,7 +490,7 @@
 
 // Crear la imagen del avatar
       let avatarImg = document.createElement('img');
-      avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+      avatarImg.src = "/imagenes/"+ [[${session.usuario.photo}]];
       avatarImg.alt = 'User Image';
       avatarImg.classList.add('avatar-img', 'rounded-circle');
 
@@ -543,7 +564,7 @@
 
 // Crear la imagen del avatar
       let avatarImg = document.createElement('img');
-      avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+      avatarImg.src = "/imagenes/"+ [[${session.usuario.photo}]];
       avatarImg.alt = 'User Image';
       avatarImg.classList.add('avatar-img', 'rounded-circle');
 
@@ -593,7 +614,8 @@
 
       // Crear el enlace de descarga del adjunto
       const downloadLink = document.createElement('a');
-      downloadLink.href = '';
+      downloadLink.href = imageUrl;
+      downloadLink.download = 'recetaChat.jpg';
       downloadLink.classList.add('chat-attach-download');
 
       // Crear el icono de descarga

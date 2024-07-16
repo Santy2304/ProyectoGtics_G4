@@ -193,8 +193,6 @@
                                                         });
                                                     });
                                                 </script>
-
-
                                             </td>
                                         </tr>
 
@@ -279,20 +277,75 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="me-3" th:href="@{'/pharmacist/aceptarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <a class="me-3" th:id="${bot.idPurchaseOrder}">
                                                     <img src="/assets_superAdmin/img/icons/check-circle-fill.svg" alt="img">
                                                 </a>
 
-                                                <a class="confirm-text" th:href="@{'/pharmacist/rechazarSolicitud?idSolicitud=' + ${bot.idPurchaseOrder}}">
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let alert = document.getElementById(  '' + [[${bot.idPurchaseOrder}]]);
+                                                        alert.addEventListener('click', ()=> {
+                                                            $.ajax({
+                                                                url:"/pharmacist/aceptarSolicitud?idSolicitud="+[[${bot.idPurchaseOrder}]],
+                                                                type:"GET",
+                                                                success:function(response){window.location.href="/pharmacist/solicitudesFarmacista"},
+                                                                error:function(response){
+                                                                    Swal.fire({
+                                                                        icon: "error",
+                                                                        iconColor: "orange",
+                                                                        background: "white",
+                                                                        confirmButtonColor: "orange",
+                                                                        title: "Oops",
+                                                                        text: "No hay suficientes medicamentos para esta compra!",
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
+
+                                                <a  th:id="|delete${bot.idPurchaseOrder}|">
                                                     <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
                                                 </a>
-
-                                               <!--
-                                                <a class="confirm-text" th:onclick="|mensajeRechazo(${bot.idPurchaseOrder})|">
-                                                    <img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
-                                                </a>-->
-
+                                                <script th:javascript="inline">
+                                                    document.addEventListener("DOMContentLoaded", ()=>{
+                                                        let dele = document.getElementById('delete' + [[${bot.idPurchaseOrder}]]);
+                                                        dele.addEventListener('click', ()=> {
+                                                            Swal.fire({
+                                                                title: '¿Estás seguro de invalidar esta venta? Ingresa el motivo',
+                                                                icon: 'warning',
+                                                                background: "white",
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#d48e15',
+                                                                cancelButtonColor: '#805409',
+                                                                confirmButtonText: 'Invalidar',
+                                                                cancelButtonText: 'Cancelar',
+                                                                input: 'text',
+                                                                inputPlaceholder: 'Motivo de rechazo'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    let motivoRechazo = result.value; // Obtener el motivo del input
+                                                                    $.ajax({
+                                                                        type: 'POST',
+                                                                        url: '/pharmacist/rechazarSolicitud',
+                                                                        data: {
+                                                                            idSolicitud: [[${bot.idPurchaseOrder}]],
+                                                                            motivo: motivoRechazo
+                                                                        },
+                                                                        success: function(response) {
+                                                                            window.location.href = '/pharmacist/solicitudesFarmacista';
+                                                                        },
+                                                                        error: function(response) {
+                                                                            console.log('Error al rechazar la solicitud.');
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        });
+                                                    });
+                                                </script>
                                             </td>
+
                                         </tr>
 
                                     </tbody>

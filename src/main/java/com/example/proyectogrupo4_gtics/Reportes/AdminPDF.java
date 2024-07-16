@@ -77,7 +77,7 @@ public class AdminPDF {
         PdfPTable tabla = new PdfPTable(7);
         tabla.setWidthPercentage(100);
         tabla.setSpacingBefore(15);
-        tabla.setWidths(new float[] { 1f, 3f, 2.3f, 2f, 5f,3f,1.2f});
+        tabla.setWidths(new float[] { 1f, 3f, 2.3f, 2f, 5f,3f,2f});
         tabla.setWidthPercentage(110);
 
         Cabecera(tabla);

@@ -1337,7 +1337,7 @@ public class  SuperAdminController {
 
     }
     @GetMapping("/exportarRepoExcel")
-    public void exportarRepoExcel(HttpServletResponse response) throws DocumentException, IOException {
+    public void exportarRepoExcel(HttpServletResponse response,@RequestParam("sede") int sede) throws DocumentException, IOException {
 
 
     }

@@ -76,82 +76,76 @@ public class ChatController {
         this.codeRepository = codeRepository;
         this.patientRepository = patientRepository;
     }
-
-
 //De farmacista a Paciente
+    //Farmacista a paciente
     @MessageMapping(value = "/chatPharmacist")
     public void sendMessagePharmacistToPatient(Message chatMessage) {
-    User sender = userRepository.findByEmail(chatMessage.getSender());
-    User  receiver = userRepository.getById(chatMessage.getRecipient());
-    //Si no existe debemos crear un chat q contenga
-    Pharmacist pharmacist = null ;
-    Patient patient =  null;
-    switch(sender.getIdRol().getName()){
-        case "paciente":
-            patient = patientRepository.findByEmail(sender.getEmail()).get();
-            break;
-        case "farmacista":
-            pharmacist = pharmacistRepository.findByEmail(sender.getEmail());
-            break;
-    }
-    switch(receiver.getIdRol().getName()){
-        case "paciente":
-            patient = patientRepository.findByEmail(receiver.getEmail()).get();
-            break;
-        case "farmacista":
-            pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
-            break;
-    }
-
-    Chat chatVerdadero = null;
-    List<Chat> chats = chatRepository.findAll();
-    if(!chats.isEmpty()){
-        boolean existeChatSenderReceiver = false;
-        for(Chat c : chats){
-            if((c.getIdPacient().getIdPatient() == patient.getIdPatient())  &&  (c.getIdFarmacist().getIdFarmacista() == pharmacist.getIdFarmacista())){
-                chatVerdadero = c;
-                existeChatSenderReceiver = true;
+        User sender = userRepository.findByEmail(chatMessage.getSender());
+        User  receiver = userRepository.getById(chatMessage.getRecipient());
+        //Si no existe debemos crear un chat q contenga
+        Pharmacist pharmacist = null ;
+        Patient patient =  null;
+        switch(sender.getIdRol().getName()){
+            case "paciente":
+                patient = patientRepository.findByEmail(sender.getEmail()).get();
                 break;
-            }
+            case "farmacista":
+                pharmacist = pharmacistRepository.findByEmail(sender.getEmail());
+                break;
         }
-        if(!existeChatSenderReceiver){
+        switch(receiver.getIdRol().getName()){
+            case "paciente":
+                patient = patientRepository.findByEmail(receiver.getEmail()).get();
+                break;
+            case "farmacista":
+                pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
+                break;
+        }
+
+        Chat chatVerdadero = null;
+        List<Chat> chats = chatRepository.findAll();
+        if(!chats.isEmpty()){
+            boolean existeChatSenderReceiver = false;
+            for(Chat c : chats){
+                if((c.getIdPacient().getIdPatient() == patient.getIdPatient())  &&  (c.getIdFarmacist().getIdFarmacista() == pharmacist.getIdFarmacista())){
+                    chatVerdadero = c;
+                    existeChatSenderReceiver = true;
+                    break;
+                }
+            }
+            if(!existeChatSenderReceiver){
+                Chat c =  new Chat();
+                c.setIdPacient(patient);
+                c.setIdFarmacist(pharmacist);
+                chatVerdadero = chatRepository.save(c);
+            }
+        }else{
+            //Debemos de crear el chat xd
             Chat c =  new Chat();
             c.setIdPacient(patient);
             c.setIdFarmacist(pharmacist);
             chatVerdadero = chatRepository.save(c);
         }
-    }else{
-        //Debemos de crear el chat xd
-        Chat c =  new Chat();
-        c.setIdPacient(patient);
-        c.setIdFarmacist(pharmacist);
-        chatVerdadero = chatRepository.save(c);
+
+
+        Chatcontent content = new Chatcontent();
+        content.setMessage(chatMessage.getContent());
+        LocalDateTime ahora = LocalDateTime.now();
+
+        // Formatear la hora actual según tus necesidades
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String horaFormateada = ahora.format(formatter);
+        content.setDateTime(ahora);
+        content.setAutor(sender.getEmail());
+        content.setIdChat(chatVerdadero);
+        chatContentRepository.save(content);
+        simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
     }
-
-
-    Chatcontent content = new Chatcontent();
-    content.setMessage(chatMessage.getContent());
-    LocalDateTime ahora = LocalDateTime.now();
-
-    // Formatear la hora actual según tus necesidades
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    String horaFormateada = ahora.format(formatter);
-    content.setDateTime(ahora);
-    content.setAutor(sender.getEmail());
-    content.setIdChat(chatVerdadero);
-    chatContentRepository.save(content);
-    simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
-}
 //De paciente a farmacista
+    //Paciente enviando texto
     @MessageMapping(value = "/chat")
     public void sendMessage(Message chatMessage) {
         try {
-            System.out.println("Holaa");
-//        HashMap<String , String > hasMessage = (HashMap<String , String>)chatMessage;
-//        Message m = new Message ();
-//        m.setRecipient(hasMessage.get("recipient"));
-//        m.setContent(hasMessage.get("content"));
-//        m.setSender(hasMessage.get("sender"));
             //Debemos de enviar el mensaje a todos los farmacistas de esa sede con un for
             User sender = userRepository.findByEmail(chatMessage.getSender());
             User receiver = userRepository.getById(chatMessage.getRecipient());
@@ -213,9 +207,9 @@ public class ChatController {
             //Escogo mandarles a todos los farmacistas de esa sede ;
             List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
             ArrayList<Pharmacist> listaFiltrada = new ArrayList<>();
-            simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
+            //simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
             for (Pharmacist p : listaFarmacista) {
-                if (p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())) {
+                if (p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())   ) {
                     chatVerdadero.setIdFarmacist(p);
                     content.setIdChat(chatVerdadero);
                     chatContentRepository.save(content);
@@ -226,14 +220,14 @@ public class ChatController {
             error.printStackTrace();
         }
     }
+    //Paciente enviando imagenes
     @MessageMapping(value = "/chatImage")
-    public void sendImage(Message chatMessage)  {
-        System.out.println("GAAAA");
+    public void sendImage(Message chatMessage){
         try {
             //Debemos de enviar el mensaje a todos los farmacistas de esa sede con un for
             User sender = userRepository.findByEmail(chatMessage.getSender());
             User receiver = userRepository.getById(chatMessage.getRecipient());
-            if(chatMessage.getContent() == null){
+            if (chatMessage.getContent() == null) {
                 chatMessage.setContent("");
             }
             //Si no existe debemos crear un chat q contenga
@@ -255,6 +249,8 @@ public class ChatController {
                     pharmacist = pharmacistRepository.findByEmail(receiver.getEmail());
                     break;
             }
+            //Con lo anterior logramos encontrar al patient y al pharmacist;
+
             Chat chatVerdadero = null;
             List<Chat> chats = chatRepository.findAll();
             if (!chats.isEmpty()) {
@@ -283,22 +279,25 @@ public class ChatController {
             Chatcontent content = new Chatcontent();
             LocalDateTime ahora = LocalDateTime.now();
             // Formatear la hora actual según tus necesidades
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String horaFormateada = ahora.format(formatter);
-            content.setDateTime(ahora);
-            content.setAutor(sender.getEmail());
-            content.setIdChat(chatVerdadero);
-            //chatContentRepository.save(content);
-            //Escogo mandarles a todos los farmacistas de esa sede ;
-            List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
-
-            simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
-            for (Pharmacist p : listaFarmacista) {
-                if (p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())) {
-                    simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
+            for (Chat chatSupremes : chatRepository.findAll()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                String horaFormateada = ahora.format(formatter);
+                content.setDateTime(ahora);
+                content.setAutor(sender.getEmail());
+                content.setIdChat(chatVerdadero);
+                //chatContentRepository.save(content);
+                //Escogo mandarles a todos los farmacistas de esa sede ;
+                List<Pharmacist> listaFarmacista = pharmacistRepository.findAll();
+                //simpMessagingTemplate.convertAndSendToUser(chatMessage.getRecipient(), "/queue/messages", chatMessage);
+                for (Pharmacist p : listaFarmacista) {
+                    if (p.getSite().equals(pharmacist.getSite()) && !p.getEmail().equals(pharmacist.getEmail())) {
+                        chatMessage.setRecipient(p.getEmail());
+                        simpMessagingTemplate.convertAndSendToUser(p.getEmail(), "/queue/messages", chatMessage);
+                    }
                 }
             }
-        }catch (Exception error) {
+
+        }catch(Exception error){
             error.printStackTrace();
         }
     }
@@ -359,8 +358,6 @@ public class ChatController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
     }
-
-
     @GetMapping(value="recuperarLastImagePharmacist")
     @ResponseBody
     public Object recuperarLastImagePharmacist(HttpSession session , @RequestParam(value="email" , required = false) String email){
@@ -389,7 +386,6 @@ public class ChatController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(generalResponse);
         }
     }
-
     @GetMapping(value="/getBlob/{id}")
     public ResponseEntity<byte[]> getBlob(HttpSession session , @PathVariable   (value="id" , required = false) String idMessage){
         System.out.println(idMessage);

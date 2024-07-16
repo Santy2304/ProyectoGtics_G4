@@ -655,7 +655,7 @@ public class PharmacistController {
 
     @GetMapping(value="/getChat")
     @ResponseBody
-    public Object getChat(@RequestParam(value = "ola",required = false) String email ){
+    public Object getChat(@RequestParam(value = "ola",required = false) String email , HttpSession session ){
         LinkedHashMap<String , Object> generalResponse=  new LinkedHashMap<>();
         try{
             if(!patientRepository.findByEmail(email).isPresent()){
@@ -663,10 +663,18 @@ public class PharmacistController {
                 generalResponse.put("message","El paciente ingresado no existe");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(generalResponse);
             }
-            ArrayList<LinkedHashMap<String , Object>> listaFiltrada =  new ArrayList<>();
+            Pharmacist pharm = ((Pharmacist) session.getAttribute("usuario") ) ;
+            Chat chatElegido   =  new Chat();
+            for(Chat c : chatRepository.findAll()) {
+                if(c.getIdPacient().getEmail().equals(email) && c.getIdFarmacist().getIdFarmacista() == pharm.getIdFarmacista() ){
+                    chatElegido =c;
+                }
+            }
+
+                ArrayList<LinkedHashMap<String , Object>> listaFiltrada =  new ArrayList<>();
             for(Chatcontent ch : chatContentRepository.findAll()){
                 LinkedHashMap<String , Object> aux=  new LinkedHashMap<>();
-                if(ch.getIdChat().getIdPacient().getIdPatient() == patientRepository.findByEmail(email).get().getIdPatient()){
+                if(  (ch.getIdChat().getIdChat() == chatElegido.getIdChat() ) &&  ch.getIdChat().getIdPacient().getIdPatient() == patientRepository.findByEmail(email).get().getIdPatient() && (ch.getIdChat().getIdFarmacist().getIdFarmacista() == pharm.getIdFarmacista())){
                     aux.put("autor",ch.getAutor());
                     aux.put("message",ch.getMessage());
                     aux.put("dateTime",ch.getDateTime());

@@ -1095,6 +1095,13 @@ public class  SuperAdminController {
         userRepository.banear(patient.getEmail());
         return "redirect:verListados";
     }
+    @GetMapping("/desbanearPaciente")
+    public String desbanearPaciente(@RequestParam("idPaciente") int idPaciente) {
+        patientRepository.desbanearPacientePorId(idPaciente);
+        Patient patient = patientRepository.findById(idPaciente).get();
+        userRepository.desbanear(patient.getEmail());
+        return "redirect:verListados";
+    }
     //////////////////LISTADOS SEDES /////////////////////
     @GetMapping("/verSedeSuperAdminPando1")
     public String verSedePando1(Model model) {

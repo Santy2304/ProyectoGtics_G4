@@ -661,7 +661,7 @@ public class  SuperAdminController {
             model.addAttribute("listaFarmacistas",listaFarmacistas);
             model.addAttribute("listaPacientes",listaPacientes);
             //System.out.println(initialDate);
-            return "superAdmin/Listados";
+            return "superAdmin/listados";
         }
     }
     //Doctores/////////////////////7

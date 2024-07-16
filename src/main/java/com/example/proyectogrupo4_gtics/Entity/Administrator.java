@@ -42,7 +42,7 @@ public class Administrator implements Serializable  {
     private String site;
 
     @Column(name="email")
-    @Size(max = 17, message = "Es muy grande")
+    @Size(max = 30, message = "Es muy grande")
     @NotBlank(message = "Este campo es obligatorio")
     @Email(message = "Se debe ingresar un correo electrónico")
     private String email;

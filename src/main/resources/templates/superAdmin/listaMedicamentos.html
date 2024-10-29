@@ -41,167 +41,14 @@
         <div class="main-wrapper">
 			
 			<!-- Header -->
-			<div class="header" style="background: linear-gradient(90deg,  #ffb443  0%, #ea7754 80%);">
-				<!-- Logo -->
-				<!-- Logo -->
-				<div class="header-left active">
-					<a href="" class="logo">
-						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-					</a>
-					<a href="" class="logo-small">
-						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
-
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				<!-- /Logo -->
-
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-
-					<!-- Notifications -->
-
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-									<!--Ejemplo completo-->
-									<!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="notifications.html">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-					<!-- /Notifications -->
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" width="40" alt="Admin">
-							<span class="status online"></span></span>
-							<span style=" margin-left:3px ; margin-right:0px ; color-text:white "> SuperAdministrador</span>
-
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-										<div class="profilesets">
-										<h6>Joshy Yauri</h6>
-										<h5>SuperAdmin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="/verPerfilSuperAdmin"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="/inicioSesion"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-
-				</ul>
-				<!-- /Header Menu -->
-
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="/verPerfilSuperAdmin">Mi Perfil</a>
-						<a class="dropdown-item" href="/inicioSesion">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
-
 			<!-- Header -->
+			<div th:replace="navbarSuperAdmin"></div>
 
-           <!-- Sidebar -->
-			<div class="sidebar" id="sidebar" >
-				<div class="sidebar-inner slimscroll">
-					<div id="sidebar-menu" class="sidebar-menu" >
-						<ul>
 
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verListadosSuperAdmin" >Listas de Usuario</a></li>
+			<!-- Sidebar -->
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'medicamentos')"> </div>
 
-								</ul>
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verSedeSuperAdmin" >Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
-
-								</ul>
-
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/listaMedicamentosSuperAdmin" class="active" >Medicamentos</a></li>
-								</ul>
-							</li>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<!-- /Sidebar -->
-			
 			<div class="page-wrapper">
 				<div class="content">
 					<div class="page-header">
@@ -210,7 +57,7 @@
 							<h6>Administre los productos</h6>
 						</div>
 						<div class="page-btn">
-							<a href="/verAñadirMedicamentoSuperAdmin" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
+							<a href="/superAdmin/verAñadirMedicamento" class="btn btn-added"><img src="/assets_superAdmin/img/icons/plus.svg" alt="img" class="me-1">Añadir Medicamentos</a>
 						</div>
 					</div>
 					
@@ -233,14 +80,16 @@
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarMedicamentosPDF?filtro='+ ${mediCate}}" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" th:href="@{'/superAdmin/exportarMedicamentosExcel?filtro='+ ${mediCate}}" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
+										<!--
 										<li>
 											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
 										</li>
+										-->
 									</ul>
 								</div>
 							</div>
@@ -249,6 +98,7 @@
 								<div class="card-body pb-0">
 									<div class="row">
 										<div class="col-lg-12 col-sm-12">
+											<form method="POST" th:action="@{'/superAdmin/listaMedicamentos'}">
 											<div class="row">
 												<!--
 												<div class="col-lg col-sm-6 col-12">
@@ -263,46 +113,42 @@
 												-->
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
-														<select class="select">
-															<option>Categoría</option>
-															<option>Suplemento</option>
-															<option>Belleza</option>
+														<select class="select" name="categoria">
+															<option value="">Categoría</option>
+															<option value="Dolor">Dolor</option>
+															<option value="Belleza">Belleza</option>
+															<option value="Suplemento">Suplementos</option>
+															<option value="Alergias">Alergías</option>
+															<option value="Otros">Otros</option>
 														</select>
 													</div>
 												</div>
+
 												<div class="col-lg col-sm-6 col-12">
 													<div class="form-group">
-														<select class="select">
-															<option>Sub Categoría</option>
-															<option>Dolor de cabeza</option>
-															<option>Vitamina C</option>
-														</select>
-													</div>
-												</div>
-												<div class="col-lg col-sm-6 col-12">
-													<div class="form-group">
-														<select class="select">
-															<option>Cantidad</option>
-															<option>0 - 25</option>
-															<option>25 - 50</option>
+														<select class="select" name="cantidad">
+															<option value="">Cantidad</option>
+															<option value="1">0 - 25</option>
+															<option value="2">25 - 50</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-lg col-sm-6 col-12 ">
 													<div class="form-group">
-														<select class="select">
-															<option>Precio (s/.)</option>
-															<option>0.00 - 25.00</option>
-															<option>25.00 - 50.00</option>
+														<select class="select" name="precio">
+															<option value="">Precio (s/.)</option>
+															<option value="1">0.00 - 25.00</option>
+															<option value="2">25.00 - 50.00</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-lg-1 col-sm-6 col-12">
 													<div class="form-group">
-														<a class="btn btn-filters ms-auto"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></a>
+														<button class="btn btn-filters ms-auto" type="submit"><img src="/assets_superAdmin/img/icons/search-whites.svg" alt="img"></button>
 													</div>
 												</div>
 											</div>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -315,34 +161,39 @@
 											<th>Nombre del Producto</th>
 											<th>Categoría</th>
 											<th>Cantidad</th>
-											<th>Precio</th>
-											<th>Action</th>
+											<th>Precio (S/.)</th>
+											<th>Acción</th>
 										</tr>
 									</thead>
-									<script>
-										function verProducto(){
+									<script >
+										function verProducto(element){
+											/*
 											Swal.fire({
-												html: "<img src='/assets_admin_sede/img/Paracetamol1.jpg' style='max-width:100%;'>",
-
-											})
+												html: "<img src='/assets_superAdmin/img/Paracetamol1.jpg' style='max-width:100%;'>",
+											});
+											 */
+											var imageUrl = element.getAttribute('data-image-url');
+											Swal.fire({
+												html: `<img src="${imageUrl}" style="max-width:100%;">`,
+											});
 										}
 									</script>
 									<tbody>
 										<tr th:each="medicamento : ${listaMedicamentos}">
 											<td class="productimgname">
-												<a class="product-img" onclick="verProducto(event)">
-													<img src="/assets_superAdmin/img/product/product1.jpg" alt="product">
+												<a class="product-img" th:attr="data-image-url=@{/imagenes/} + ${medicamento.getPhoto()}" onclick="verProducto(this)">
+													<img th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" style="max-width: 25%;" alt="product">
 												</a>
 												<span href="javascript:void(0);" th:text="${medicamento.getNombreMedicamento()}"></span>
 											</td>
 											<td th:text="${medicamento.getCategoria()}"></td>
 											<td th:text="${medicamento.getCantidad()}"></td>
-											<td th:text="${medicamento.getPrecio()}"></td>
+											<td th:text="|${medicamento.getPrecio()}0|"></td>
 											<td>
-												<a class="me-3" th:href="@{'/verDetallesProductoSuperAdmin?idMedicine=' + ${medicamento.getIdMedicine()}}">
+												<a class="me-3" th:href="@{'/superAdmin/verDetallesProducto?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 												</a>
-												<a class="me-3" th:href="@{'/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
+												<a class="me-3" th:href="@{'/superAdmin/editarMedicamento?idMedicine=' + ${medicamento.getIdMedicine()}}">
 													<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 												</a>
 												<!--
@@ -362,7 +213,7 @@
 			</div>
         </div>
 		<!-- /Main Wrapper -->
-		 
+
 		 <!--jQuery-->
         <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 

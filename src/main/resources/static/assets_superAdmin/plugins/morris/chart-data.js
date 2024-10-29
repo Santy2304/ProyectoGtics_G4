@@ -1,5 +1,19 @@
 $(function() {
-	'use strict';
+	'use strict'
+	//7 dias
+	const chartElement = document.querySelector("#morrisBar1");
+	const seriesData7 = JSON.parse(chartElement.getAttribute('data-series7'));
+	const listData7 = JSON.parse(chartElement.getAttribute('lista7'));
+	//15 dias
+	const chartElement2 = document.querySelector("#morrisBar2");
+	const seriesData15 = JSON.parse(chartElement2.getAttribute('data-series15'));
+	const listData15 = JSON.parse(chartElement2.getAttribute('lista15'));
+
+	//3meses
+	const chartElement3 = document.querySelector("#morrisBar3");
+	const seriesData3 = JSON.parse(chartElement3.getAttribute('data-series3'));
+	const listData3 = JSON.parse(chartElement3.getAttribute('lista3'));
+
 	var morrisData = [{
 		y: '2006',
 		a: 12,
@@ -30,52 +44,63 @@ $(function() {
 		b: 18
 	}];
 	var morrisData2 = [{
-		y: '2006',
-		a: 12,
-		b: 18,
-		c: 20
-	}, {
-		y: '2007',
-		a: 18,
-		b: 22,
-		c: 25
-	}, {
-		y: '2008',
-		a: 15,
-		b: 18,
-		c: 24
-	}, {
-		y: '2009',
-		a: 25,
-		b: 28,
-		c: 30
-	}, {
-		y: '2010',
-		a: 30,
-		b: 35,
-		c: 38
-	}, {
-		y: '2011',
-		a: 18,
-		b: 28,
-		c: 40
-	}, {
-		y: '2012',
-		a: 12,
-		b: 18,
-		c: 28
-	}];
+		y: 'Medicamentos',
+		a: seriesData7[0],
+		b: seriesData7[1],
+		c: seriesData7[2],
+		d: seriesData7[3]
+	}]
 	new Morris.Bar({
 		element: 'morrisBar1',
-		data: morrisData,
+		data: morrisData2,
 		xkey: 'y',
-		ykeys: ['a', 'b'],
-		labels: ['Series A', 'Series B'],
-		barColors: ['#664dc9','#44c4fa'],
+		ykeys: ['a', 'b' ,'c' , 'd'],
+		//labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+		labels: listData7,
+		barColors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
 		gridTextSize: 11,
 		hideHover: 'auto',
 		resize: true
 	});
+	var morrisData3 = [{
+		y: 'Medicamentos',
+		a: seriesData15[0],
+		b: seriesData15[1],
+		c: seriesData15[2],
+		d: seriesData15[3]
+	}]
+	new Morris.Bar({
+		element: 'morrisBar2',
+		data: morrisData3,
+		xkey: 'y',
+		ykeys: ['a', 'b' ,'c' , 'd'],
+		//labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+		labels: listData15,
+		barColors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
+		gridTextSize: 11,
+		hideHover: 'auto',
+		resize: true
+	});
+	var morrisData4 = [{
+		y: 'Medicamentos',
+		a: seriesData3[0],
+		b: seriesData3[1],
+		c: seriesData3[2],
+		d: seriesData3[3]
+	}]
+	new Morris.Bar({
+		element: 'morrisBar3',
+		data: morrisData4,
+		xkey: 'y',
+		ykeys: ['a', 'b' ,'c' , 'd'],
+		//labels: ['Pando 1', 'Pando 2', 'Pando 3', 'Pando 4'],
+		labels: listData3,
+		barColors: ['#ff9f43', '#00cfe8', '#1b2850', '#28c76f'],
+		gridTextSize: 11,
+		hideHover: 'auto',
+		resize: true
+	});
+	/*
 	new Morris.Bar({
 		element: 'morrisBar3',
 		data: morrisData,
@@ -88,6 +113,8 @@ $(function() {
 		hideHover: 'auto',
 		resize: true
 	});
+
+	 */
 	new Morris.Line({
 		element: 'morrisLine1',
 		data: [{

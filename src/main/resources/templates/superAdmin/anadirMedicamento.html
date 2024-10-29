@@ -40,150 +40,12 @@
         <div class="main-wrapper">
 			
 			<!-- Header -->
-			<div class="header">
-				<!-- Logo -->
-				<!-- Logo -->
-				<div class="header-left active">
-					<a  class="logo">
-						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-					</a>
-					<a  class="logo-small">
-						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
-
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				<!-- /Logo -->
-
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
+			<div th:replace="navbarSuperAdmin"></div>
 
 
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
+			<!-- Sidebar -->
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'medicamentos')"> </div>
 
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-
-
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="notifications.html">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-					<!-- /Notifications -->
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>Joshy Yauri</h6>
-										<h5>SuperAdmin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="../signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="perfil.html">Mi Perfil</a>
-						<a class="dropdown-item" href="../signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
-
-			<!-- Header -->
-			
-           <!-- Sidebar -->
-			<div class="sidebar" id="sidebar">
-				<div class="sidebar-inner slimscroll">
-					<div id="sidebar-menu" class="sidebar-menu">
-						<ul>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verListadosSuperAdmin">Listas de Usuarios</a></li>
-
-								</ul>
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
-
-								</ul>
-
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/listaMedicamentosSuperAdmin" class="active"> Medicamentos</a></li>
-								</ul>
-							</li>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<!-- /Sidebar -->
 			
 			<div class="page-wrapper">
@@ -195,34 +57,40 @@
 						</div>
 					</div>
 					<!-- /add -->
-					<form method="post" th:action="@{/crearMedicamento}">
+					<form method="post" enctype="multipart/form-data" th:action="@{/superAdmin/crearMedicamento}" th:object="${medicine}">
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="nameMedicine">Nombre del Producto</label>
-											<input name="nameMedicine" type="text" id="nameMedicine">
+											<input class="form-control" type="text" id="nameMedicine" th:field="*{name}"
+												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="category">Categoría</label>
-											<select name="category" class="select" id="category">
-												<option>Selecciona categoría</option>
+											<select class="form-select" id="category" th:field="*{category}"
+													th:classappend="${#fields.hasErrors('category')? 'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
 												<option value="Dolor">Dolor</option>
 												<option value="Suplemento">Suplemento</option>
 												<option value="Belleza">Belleza</option>
 												<option value="Alergias">Alergias</option>
 												<option value="Otros">Otros</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
 										</div>
 									</div>
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="priceMedicine" >Precio del Producto</label>
-											<input name="priceMedicine" type="text" id="priceMedicine">
+											<input class="form-control" type="text" id="priceMedicine" th:field="*{price}"
+												   th:classappend="${#fields.hasErrors('price')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 										</div>
 									</div>
 
@@ -252,7 +120,9 @@
 
 									<div class="form-group">
 										<label for="description">Descripción</label>
-										<textarea name="description" id="description" class="form-control"></textarea>
+										<textarea th:field="*{description}" id="description" class="form-control"
+												  th:classappend="${#fields.hasErrors('description')? 'is-invalid' : ''}"></textarea>
+										<div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 									</div>
 
 
@@ -301,17 +171,47 @@
 										<div class="form-group">
 											<label>Imagen del Producto</label>
 											<div class="image-upload">
-												<input type="file">
-												<div class="image-uploads">
-													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-													<h4>Arrastre y suelte un archivo a subir</h4>
+												<input type="file" name="medicineFile" id="fileInput" accept="image/*">
+												<div class="image-preview" style="display: none; text-align: center; margin-bottom: 20px;">
+													<img id="previewImage" src="" alt="img" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
 												</div>
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img"  >
+													<h4>Ingrese la imagen del medicamento</h4>
+												</div>
+												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
 										</div>
 									</div>
+									<script>
+										const fileInput = document.getElementById('fileInput');
+										const previewImage = document.getElementById('previewImage');
+										const imagePreview = document.querySelector('.image-preview');
+
+										fileInput.addEventListener('change', function() {
+											const file = this.files[0];
+											const reader = new FileReader();
+
+											reader.onload = function(event) {
+												previewImage.src = event.target.result;
+												imagePreview.style.display = 'block';
+											};
+
+											reader.readAsDataURL(file);
+										});
+
+										// Posicionar el contenedor de la imagen previsualizada
+										const formGroup = document.querySelector('.form-group');
+										const imagePreviewPosition = {
+											top: formGroup.offsetTop + formGroup.offsetHeight + 10,
+											left: formGroup.offsetLeft
+										};
+										imagePreview.style.top = `${imagePreviewPosition.top}px`;
+										imagePreview.style.left = `${imagePreviewPosition.left}px`;
+									</script>
 									<div class="col-lg-12">
 										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
-										<a th:href="@{/listaMedicamentosSuperAdmin}" class="btn btn-cancel">Cancelar</a>
+										<a th:href="@{/superAdmin/listaMedicamentos}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</div>

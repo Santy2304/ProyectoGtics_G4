@@ -43,286 +43,176 @@
 		 
 		<!-- Main Wrapper -->
         <div class="main-wrapper">
-			
-			<!-- Header -->
-			<div class="header">
-				<!-- Logo -->
-				<!-- Logo -->
-				<div class="header-left active">
-					<a href="error404.html" class="logo">
-						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-					</a>
-					<a href="error404.html" class="logo-small">
-						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
-
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				<!-- /Logo -->
-
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-
-					<!-- Search -->
-					<!--
-                    <li class="nav-item">
-                        <div class="top-nav-search">
-
-                            <a href="javascript:void(0);" class="responsive-search">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <form action="#">
-                                <div class="searchinputs">
-                                    <input type="text" placeholder="Search Here ...">
-                                    <div class="search-addon">
-                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                                    </div>
-                                </div>
-                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-                            </form>
-                        </div>
-                    </li>
-                    -->
-					<!-- /Search -->
-
-					<!-- Flag -->
-
-					<!-- /Flag -->
-
-					<!-- Notifications -->
-
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-									<!--Ejemplo completo-->
-									<!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
-
-
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="notifications.html">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-					<!-- /Notifications -->
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>Joshy Yauri</h6>
-										<h5>SuperAdmin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="profile.html">Mi Perfil</a>
-						<a class="dropdown-item" href="signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
 
 			<!-- Header -->
-			
+			<div th:replace="navbarSuperAdmin"></div>
+
+
 			<!-- Sidebar -->
-			<div class="sidebar" id="sidebar">
-				<div class="sidebar-inner slimscroll">
-					<div id="sidebar-menu" class="sidebar-menu">
-						<ul>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verListadosSuperAdmin"> Listas de Usuairo</a></li>
-
-								</ul>
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
-
-								</ul>
-
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/listaMedicamentosSuperAdmin" class="active" >Medicamentos</a></li>
-								</ul>
-							</li>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')"> </div>
 
 			<!-- /Sidebar -->
 
-			<div class="page-wrapper">
-				<div class="content">
-					<div class="page-header">
-						<div class="page-title">
-							<h4>Editar Farmacista</h4>
+			<form method="post" enctype="multipart/form-data" th:action="@{/superAdmin/guardarCambiosFarmacista}" th:object="${farmacista}">
+				<input name="idFarmacista"  th:field="*{idFarmacista}" type="hidden">
+				<!--Campos que se validan pero no se editan ni se muestran en la vista (Para evitar errores)-->
+				<input type="hidden" th:field="*{dni}">
+				<input type="hidden" th:field="*{code}">
+				<div class="page-wrapper">
+					<div class="content">
+						<div class="page-header">
+							<div class="page-title">
+								<h4>Editar Farmacista</h4>
+							</div>
 						</div>
-					</div>
-					<!-- /add -->
-					<div class="card">
-						<div class="card-body">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Nombre</label>
-										<input type="text" value="Hineill">
+						<!-- /add -->
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Nombre</label>
+											<input class="form-control" name="name" type="text" th:field="${farmacista.name}"
+											 		th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Apellidos</label>
-										<input type="text" value="Céspedes">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Apellidos</label>
+											<input class="form-control" name="lastName" type="text" th:field="${farmacista.lastName}"
+												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>DNI</label>
-										<input type="text" value="12345678">
-									</div>
-								</div>
 
-
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Correo</label>
-										<input type="text" value="gineil@mail.com">
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Correo</label>
+											<input class="form-control" name="email" type="text" th:field="${farmacista.email}"
+												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 col-12">
-									<div class="form-group">
-										<label>Sede</label>
-										<select class="select">
-											<option>Pando 1</option>
-											<option>Pando 2</option>
-											<option>Pando 3</option>
-											<option>Pando 4</option>
 
-										</select>
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Distrito</label>
+											<input class="form-control" name="distrit" type="text" th:field="${farmacista.distrit}"
+												   th:classappend="${#fields.hasErrors('distrit')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('distrit')}" th:errors="*{distrit}"></div>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<div class="form-group">
-										<label>Foto de Usuario</label>
-										<div class="image-upload">
-											<input type="file">
-											<div class="image-uploads">
-												<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
-												<h4>Seleccione una imagen</h4>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Sede</label>
+											<select name="site" class="form-select"
+													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
+												<option value="Pando 1" th:selected="${farmacista.site == 'Pando 1'}">Pando 1</option>
+												<option value="Pando 2" th:selected="${farmacista.site == 'Pando 2'}">Pando 2</option>
+												<option value="Pando 3" th:selected="${farmacista.site == 'Pando 3'}">Pando 3</option>
+												<option value="Pando 4" th:selected="${farmacista.site == 'Pando 4'}">Pando 4</option>
+											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label>Estado</label>
+											<select name="state" class="form-select"
+													th:classappend="${#fields.hasErrors('state')? 'is-invalid' : ''}">
+												<option value="">Selecciona categoría</option>
+												<option value="activo" th:selected="${farmacista.state == 'activo'}">activo</option>
+												<option value="baneado" th:selected="${farmacista.state == 'baneado'}">baneado</option>
+											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('state')}" th:errors="*{state}"></div>
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Foto de Usuario</label>
+											<div class="image-upload">
+												<input type="file" name="fotoFarm" id="fileInput" accept="image/*">
+												<div class="image-uploads">
+													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
+													<h4>Seleccione una imagen</h4>
+												</div>
+												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
 										</div>
 									</div>
-								</div>
-								<div class="col-12">
-									<div class="product-list">
-										<ul class="row">
-											<li class="ps-0">
-												<div class="productviewset">
-													<div class="productviewsimg">
-														<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="img">
+									<div class="col-12">
+										<div class="product-list" style="display: none;">
+											<label>Imagen Nueva</label>
+											<ul class="row">
+												<li class="ps-0">
+													<div class="productviewset">
+														<div class="productviewsimg">
+															<img id="previewImage" src="" alt="img">
+														</div>
+														<!--
+														<div class="productviewscontent">
+															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
+														</div>
+														-->
 													</div>
-													<div class="productviewscontent">
-														<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
-													</div>
-												</div>
-											</li>
-										</ul>
+												</li>
+											</ul>
+										</div>
 									</div>
-								</div>
-								<div class="col-lg-12">
-									<a href="listados.html" class="btn btn-submit me-2">Confirmar</a>
-									<a  href="listados.html" class="btn btn-cancel">Cancelar</a>
+									<script>
+										const fileInput = document.getElementById('fileInput');
+										const previewImage = document.getElementById('previewImage');
+										//
+										const productList = document.querySelector('.product-list');
+
+										fileInput.addEventListener('change', function() {
+											const file = this.files[0];
+											const reader = new FileReader();
+
+											reader.onload = function(event) {
+												previewImage.src = event.target.result;
+												productList.style.display = 'block'; // Jefecito esto muestra el icono de imagen nueva
+											};
+
+											reader.readAsDataURL(file);
+										});
+									</script>
+									<div class="col-12">
+										<div class="product-list">
+											<label>Imagen anterior</label>
+											<ul class="row">
+												<li class="ps-0">
+													<div class="productviewset">
+														<div class="productviewsimg">
+															<img th:src="'/imagenes/' + ${farmacista.getPhoto()}" alt="img">
+														</div>
+														<div class="productviewscontent">
+															<a href="javascript:void(0);" class="hideset"><i class="fa fa-trash-alt"></i></a>
+														</div>
+													</div>
+												</li>
+											</ul>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<button type="submit" class="btn btn-submit me-2">Confirmar</button>
+										<a th:href="@{'/superAdmin/verListados'}" class="btn btn-cancel">Cancelar</a>
+									</div>
 								</div>
 							</div>
 						</div>
+						<!-- /add -->
 					</div>
-					<!-- /add -->
 				</div>
-			</div>
-        </div>
+			</form>
+
+
+		</div>
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->

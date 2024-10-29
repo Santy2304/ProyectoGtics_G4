@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -10,24 +10,25 @@
         <title>Saint Medic</title>
         
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="assets_pharmacist/img/PastillaSinFondo.png">
+        <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
         
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="assets_pharmacist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
         
         <!-- animation CSS -->
-        <link rel="stylesheet" href="assets_pharmacist/css/animate.css">
+        <link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
         <!-- Datatable CSS -->
-        <link rel="stylesheet" href="assets_pharmacist/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/css/dataTables.bootstrap4.min.css">
         
         <!-- Fontawesome CSS -->
-        <link rel="stylesheet" href="assets_pharmacist/plugins/fontawesome/css/fontawesome.min.css">
-        <link rel="stylesheet" href="assets_pharmacist/plugins/fontawesome/css/all.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
         
         <!-- Main CSS -->
-        <link rel="stylesheet" href="assets_pharmacist/css/style.css">
-        
+        <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     </head>
     <body>
         <div id="global-loader" >
@@ -35,659 +36,874 @@
         </div>
         <!-- Main Wrapper -->
         <div class="main-wrapper">
-
-            <!-- Header -->
-            <div class="header">
-            
-                <!-- Logo -->
-				<div class="header-left active">
-					<a href="error404.html" class="logo">
-						<img src="assets_pharmacist/img/LogoConLetras.png" alt="">
-					</a>
-					<a href="error404.html" class="logo-small">
-						<img src="assets_pharmacist/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-                <!-- /Logo -->
-                
-                <a id="mobile_btn" class="mobile_btn" href="#sidebar">
-                    <span class="bar-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </a>
-                
-                <!-- Header Menu -->
-                <ul class="nav user-menu">
-
-                    <!-- Search -->
-                    <!--
-                    <li class="nav-item">
-                        <div class="top-nav-search">
-
-                            <a href="javascript:void(0);" class="responsive-search">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <form action="#">
-                                <div class="searchinputs">
-                                    <input type="text" placeholder="Search Here ...">
-                                    <div class="search-addon">
-                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                                    </div>
-                                </div>
-                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-                            </form>
-                        </div>
-                    </li>
-                    -->
-                    <!-- /Search -->
-
-
-                    <!-- Notifications -->
-
-                    <li class="nav-item dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                            <img src="assets_pharmacist/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-                        </a>
-                        <div class="dropdown-menu notifications">
-                            <div class="topnav-dropdown-header">
-                                <span class="notification-title">Notificaciones</span>
-                            </div>
-                            <div class="noti-content">
-                                <ul class="notification-list">
-
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-                                    <!--Ejemplo completo-->
-                                    <!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Santiago Yong</span> ha comprado por web<span class="noti-title"></span></p>
-                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-
-
-                                </ul>
-                            </div>
-                            <div class="topnav-dropdown-footer">
-                                <a href="notifications.html">Mira todas las notificaciones</a>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- /Notifications -->
-
-                    <li class="nav-item dropdown has-arrow main-drop">
-                        <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="assets_pharmacist/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-                        </a>
-                        <div class="dropdown-menu menu-drop-user">
-                            <div class="profilename">
-                                <div class="profileset">
-									<span class="user-img"><img src="assets_pharmacist/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-                                    <div class="profilesets">
-                                        <h6>Hineill Céspedes</h6>
-                                        <h5>Farmacista</h5>
-                                        <h5>Sede Pando</h5>
-                                    </div>
-                                </div>
-                                <hr class="m-0">
-                                <a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-                                <hr class="m-0">
-                                <a class="dropdown-item logout pb-0" href="../signin.html"><img src="assets_pharmacist/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            <!-- Header -->
-            
-        <!-- Sidebar -->
-				<div class="sidebar" id="sidebar">
-					<div class="sidebar-inner slimscroll">
-						<div id="sidebar-menu" class="sidebar-menu">
-							<ul>
-								<li >
-									<a href="error404.html" ><img src="assets_pharmacist/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
-								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
-									<ul>
-										<li><a href="medicinelist.html">Inventario</a></li>
-									</ul>
-								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
-									<ul>
-										<li><a href="productlist.html">Ordenes de venta</a></li>
-										<li><a href="pos.html">POS</a></li>
-										<li><a href="pos.html">Reposición</a></li>
-									</ul>
-								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/purchase1.svg" alt="img"><span>Chats</span> <span class="menu-arrow"></span></a>
-									<ul>
-										<li><a href="chat.html"  class="active" >Chats con pacientes</a></li>
-									</ul>
-								</li>
-								<li class="submenu">
-									<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-									<ul>
-										<li><a href="profile.html">Mi perfil</a></li>
-										<li><a href="notifications.html">Notificaciones</a></li>
-									</ul>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-            <!-- /Sidebar -->
+			<!-- Header -->
+			<div th:replace="headerFarmacista"></div>
+			<!-- Header -->
+			<!-- Sidebar -->
+			<div th:replace="sidebarFarmacista :: sidebarFarmacista(activeTab = 'chat')"> </div>
+			<!-- /Sidebar -->
 
             <div class="page-wrapper">
-                <div class="content">
-                    <div class="col-lg-12">
-					
-						<div class="row chat-window">
-						
-							<!-- Chat User List -->
-							<div class="col-lg-5 col-xl-4 chat-cont-left">
-								<div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
-									<div class="card-header chat-search">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="search_btn"><i class="fas fa-search"></i></span>
-											</div>
-											<input type="text" placeholder="Buscar paciente" class="form-control search-chat rounded-pill">
+				<div class="content" style="margin-top: 2%;">
+					<div class="row chat-window">
+						<!-- Chat User List -->
+						<div class="col-lg-5 col-xl-4 chat-cont-left">
+							<div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
+								<div class="card-header chat-search">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="search_btn"><i class="fas fa-search"></i></span>
 										</div>
-									</div>
-									<div class="card-body contacts_body chat-users-list chat-scroll">
-										<a href="javascript:void(0);" class="media d-flex active">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-away">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Santiago</div>
-													<div class="user-last-chat">Como estas? </div>
-												</div>
-												<div>
-													<div class="last-chat-time">2 min</div>
-													<div class="badge badge-success badge-pill">15</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media d-flex read-chat">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-online">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Francis Stela</div>
-													<div class="user-last-chat">Ya está mi pedido</div>
-												</div>
-												<div>
-													<div class="last-chat-time">8:01 PM</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-away">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Yosthim Pino</div>
-													<div class="user-last-chat">Tengo nauseas</div>
-												</div>
-												<div>
-													<div class="last-chat-time">7:30 PM</div>
-													<div class="badge badge-success badge-pill">3</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-online">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Ricardo Calderon</div>
-													<div class="user-last-chat">Ya me siento mucho mejor , gracias</div>
-												</div>
-												<div>
-													<div class="last-chat-time">6:59 PM</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-offline">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Josh Yauri</div>
-													<div class="user-last-chat">Quien ereS? </div>
-												</div>
-												<div>
-													<div class="last-chat-time">11:21 AM</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-online">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Mayte Asto </div>
-													<div class="user-last-chat">Estoy cansada</div>
-												</div>
-												<div>
-													<div class="last-chat-time">10:05 AM</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-away">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Gabriel Talledo</div>
-													<div class="user-last-chat">TraficoZzzzz</div>
-												</div>
-												<div>
-													<div class="last-chat-time">Ayer</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-offline">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Alex Segovia </div>
-													<div class="user-last-chat">Me duele la cabeza.</div>
-												</div>
-												<div>
-													<div class="last-chat-time">Domingo</div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-online">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">Stephano Roldan </div>
-													<div class="user-last-chat">Te voy a jalar! </div>
-												</div>
-												<div>
-													<div class="last-chat-time">Jueves </div>
-												</div>
-											</div>
-										</a>
-										<a href="javascript:void(0);" class="media read-chat d-flex">
-											<div class="media-img-wrap flex-shrink-0">
-												<div class="avatar avatar-away">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-											</div>
-											<div class="media-body flex-grow-1">
-												<div>
-													<div class="user-name">JeanPiere Ipurre</div>
-													<div class="user-last-chat">Tengo sueño</div>
-												</div>
-												<div>
-													<div class="last-chat-time">Friday</div>
-												</div>
-											</div>
-										</a>
+										<input type="text" placeholder="Buscar" class="form-control search-chat rounded-pill">
 									</div>
 								</div>
-							</div>
-							<!-- Chat User List -->
-							
-							<!-- Chat Content -->
-							<div class="col-lg-7 col-xl-8 chat-cont-right">
-							
-								<!-- Chat History -->
-								<div class="card mb-0">
 
-									<div class="card-header msg_head">
-										<div class="d-flex bd-highlight">
-											<a id="back_user_list" href="javascript:void(0)" class="back-user-list">
-												<i class="fas fa-chevron-left"></i>
-											</a>
-											<div class="img_cont">
-												<img class="rounded-circle user_img" src="assets_pharmacist/img/Farmacista.jpeg" alt="">
-											</div>
-											<div class="user_info">
-												<span><strong id="receiver_name">Santiago Yong</strong></span>
-												<p class="mb-0">Mensajes</p>
-											</div>
-										</div>
-									</div>
+								<div id="pacientes" class="card-body contacts_body chat-users-list chat-scroll">
 
-									<div class="card-body msg_card_body chat-scroll">
-										<ul class="list-unstyled">
-											<li class="media sent d-flex">
-												<div class="avatar flex-shrink-0">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-												<div class="media-body flex-grow-1">
-													<div class="msg-box">
-														<div>
-															<p>Hola, ¿cómo puedo ayudarte? </p>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>8:30 AM</span>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</li>
-											<li class="media received d-flex">
-												<div class="avatar flex-shrink-0">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-												<div class="media-body flex-grow-1">
-													<div class="msg-box">
-														<div>
-															<p>Quiero saber q medicina puedo tomar</p>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>8:35 AM</span>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
-													<div class="msg-box">
-														<div>
-															<p>estas están bien para el dolor de cabeza</p>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>8:40 AM</span>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
-													<div class="msg-box">
-														<div>
-															<div class="chat-msg-attachments">
-																<div class="chat-attachment">
-																	<img src="assets_pharmacist/img/ibuprofeno.png" alt="Attachment">
-																	<a href="" class="chat-attach-download">
-																		<i class="fas fa-download"></i>
-																	</a>
-																</div>
-																<div class="chat-attachment">
-																	<img src="assets_pharmacist/img/ibuprofeno.png" alt="Attachment">
-																	<a href="" class="chat-attach-download">
-																		<i class="fas fa-download"></i>
-																	</a>
-																</div>
-															</div>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>8:41 AM</span>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</li>
-
-											<li class="chat-date">Today</li>
-											<li class="media received d-flex">
-												<div class="avatar flex-shrink-0">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-												<div class="media-body flex-grow-1">
-													<div class="msg-box">
-														<div>
-															<p>confirmas?</p>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>10:17 AM</span>
-																	</div>
-																</li>
-																<li><a href="javascript:void(0);">Edit</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</li>
-											<li class="media sent d-flex">
-												<div class="avatar flex-shrink-0">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-												<div class="media-body flex-grow-1">
-													<div class="msg-box">
-														<div>
-															<p>Sí , confirmo </p>
-															<div class="chat-msg-actions dropdown">
-																<a href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-																	<i class="fe fe-elipsis-v"></i>
-																</a>
-																<div class="dropdown-menu dropdown-menu-right">
-																	<a class="dropdown-item" href="javascript:void(0);">Delete</a>
-																</div>
-															</div>
-															<ul class="chat-msg-info">
-																<li>
-																	<div class="chat-time">
-																		<span>10:19 AM</span>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
-												</div>
-											</li>
-											<li class="media received d-flex">
-												<div class="avatar flex-shrink-0">
-													<img src="assets_pharmacist/img/Farmacista.jpeg" alt="User Image" class="avatar-img rounded-circle">
-												</div>
-												<div class="media-body flex-grow-1">
-													<div class="msg-box">
-														<div>
-															<div class="msg-typing">
-																<span></span>
-																<span></span>
-																<span></span>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-										</ul>
-									
-									</div>
-									
-									<div class="card-footer">
-										<div class="input-group">
-											<input class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje">
-											<button class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-										</div>
-									</div>
-									
 								</div>
-
 							</div>
-							<!-- Chat Content -->
-							
 						</div>
+						<!-- Chat User List -->
+						<!-- Chat Content -->
+						<div class="col-lg-7 col-xl-8 chat-cont-right">
+							<!-- Chat History -->
+							<div class="card mb-0">
+								<div class="card-header msg_head">
+									<div class="d-flex bd-highlight">
+										<a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+											<i class="fas fa-chevron-left"></i>
+										</a>
+										<div class="img_cont">
+											<img class="rounded-circle user_img" src="/assets_superAdmin/img/farmacista.png" alt="">
+										</div>
+										<div class="user_info">
+											<span><strong id="receiver_name"></strong></span>
+											<p class="mb-0">Mensajes</p>
+										</div>
+									</div>
+								</div>
+								<div id="chatContent" class="card-body msg_card_body chat-scroll">
+									<ul id="messageTotal" class="list-unstyled">
+										<li class="media sent d-flex">
+											<div class="avatar flex-shrink-0">
+												<img src="/assets_superAdmin/img/customer/customer5.jpg" alt="User Image" class="avatar-img rounded-circle">
+											</div>
+											<div class="media-body flex-grow-1">
+												<div class="msg-box">
+													<div>
+														<p>Hola. ¿Puedo hacerle una consulta?</p>
+														<p>Tengo un dolor muy fuerte de cabeza</p>
+														<ul class="chat-msg-info">
+															<li>
+																<div class="chat-time">
+																	<span>8:30 AM</span>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="media received d-flex">
+											<div class="avatar flex-shrink-0">
+												<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+											</div>
+											<div class="media-body flex-grow-1">
+												<div class="msg-box">
+													<div>
+														<p>Hola, claro en que puedo ayudarte </p>
+														<p>Aquí tengo unas recomendaciones</p>
+														<ul class="chat-msg-info">
+															<li>
+																<div class="chat-time">
+																	<span>8:35 AM</span>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="msg-box">
+													<div>
+														<p></p>
+														<ul class="chat-msg-info">
+															<li>
+																<div class="chat-time">
+																	<span>8:40 AM</span>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<div class="msg-box">
+													<div>
+														<div class="chat-msg-attachments">
+															<div class="chat-attachment">
+																<img src="../assets_superAdmin/img/product/product12.jpg" alt="Attachment">
+																<a href="" class="chat-attach-download">
+																	<i class="fas fa-download"></i>
+																</a>
+															</div>
+														</div>
+														<ul class="chat-msg-info">
+															<li>
+																<div class="chat-time">
+																	<span>8:41 AM</span>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</li>
+										<li class="media received d-flex">
+											<div class="avatar flex-shrink-0">
+												<img src="/assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+											</div>
+											<div class="media-body flex-grow-1">
+												<div class="msg-box">
+													<div>
+														<p>Gracias por la ayuda</p>
+														<p>¿Qué efectos secundarios presenta ese medicamento?</p>
+														<ul class="chat-msg-info">
+															<li>
+																<div class="chat-time">
+																	<span>8:55 PM</span>
+																</div>
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
 
+								<div class="card-footer">
+									<div class="input-group">
+										<input id="message" class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
+										<button id="boton" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-                </div>
+				</div>
             </div>
         </div>
-        <!-- /Main Wrapper -->
-        <div class="searchpart">
-            <div class="searchcontent">
-                <div class="searchhead">
-                    <h3>Search </h3>
-                    <a id="closesearch"><i class="fa fa-times-circle" aria-hidden="true"></i></a>
-                </div>
-                <div class="searchcontents">
-                    <div class="searchparts">
-                        <input type="text" placeholder="search here">
-                        <a class="btn btn-searchs" >Search</a>
-                    </div>
-                    <div class="recentsearch">
-                        <h2>Recent Search</h2>
-                        <ul>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Settings</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Report</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Invoice</h6>
-                            </li>
-                            <li>
-                                <h6><i class="fa fa-search me-2"></i> Sales</h6>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- jQuery -->
-        <script src="assets_pharmacist/js/jquery-3.6.0.min.js"></script>
+
+		<script th:inline="javascript">
+			function createChatElement(NAME, LastMessage, id) {
+				// Crear el elemento 'a'
+				const anchor = document.createElement('a');
+				anchor.classList.add('media', 'd-flex', 'active');
+
+				// Crear el contenedor de la imagen
+				const mediaImgWrap = document.createElement('div');
+				mediaImgWrap.classList.add('media-img-wrap', 'flex-shrink-0');
+
+				// Crear el avatar
+				const avatar = document.createElement('div');
+				avatar.classList.add('avatar', 'avatar-away');
+
+				// Crear la imagen del usuario
+				const userImg = document.createElement('img');
+				userImg.src = '/assets_superAdmin/img/farmacista.png';
+				userImg.alt = 'User Image';
+				userImg.classList.add('avatar-img', 'rounded-circle');
+
+				// Añadir la imagen al avatar
+				avatar.appendChild(userImg);
+
+				// Añadir el avatar al contenedor de la imagen
+				mediaImgWrap.appendChild(avatar);
+
+				// Crear el cuerpo del media
+				const mediaBody = document.createElement('div');
+				mediaBody.classList.add('media-body', 'flex-grow-1');
+
+				// Crear el contenedor de los detalles del usuario
+				const userDetail = document.createElement('div');
+
+				// Crear el nombre del usuario
+				const userName = document.createElement('div');
+				userName.classList.add('user-name');
+				userName.textContent = NAME ;
+				// Crear el último mensaje del usuario
+				const userLastChat = document.createElement('div');
+				userLastChat.id="last"
+					userLastChat.classList.add('user-last-chat');
+				userLastChat.textContent = LastMessage.trim();
+				// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
+				userDetail.appendChild(userName);
+				userDetail.appendChild(userLastChat);
+
+				// Crear el contenedor del tiempo del último mensaje
+				const lastChatDetail = document.createElement('div');
+
+				// Crear el tiempo del último mensaje
+				const lastChatTime = document.createElement('div');
+				lastChatTime.classList.add('last-chat-time');
+				lastChatTime.textContent = '2 min';
+				lastChatTime.id="lastTime";
+
+				// Crear la insignia de mensajes no leídos
+				const unreadBadge = document.createElement('div');
+				unreadBadge.classList.add('badge', 'badge-success', 'badge-pill');
+				unreadBadge.textContent = '15';
+
+				// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
+				lastChatDetail.appendChild(lastChatTime);
+				//lastChatDetail.appendChild(unreadBadge);
+
+				// Añadir los detalles del usuario y el último mensaje al cuerpo del media
+				mediaBody.appendChild(userDetail);
+				mediaBody.appendChild(lastChatDetail);
+
+				// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
+				anchor.appendChild(mediaImgWrap);
+				anchor.appendChild(mediaBody);
+				anchor.id = id;
+				return anchor;
+			}
+			function createChatElement2(NAME, LastMessage,id , date) {
+				// Crear el elemento 'a'
+				const anchor = document.createElement('a');
+				anchor.classList.add('media', 'read-chat' ,  'd-flex');
+
+				// Crear el contenedor de la imagen
+				const mediaImgWrap = document.createElement('div');
+				mediaImgWrap.classList.add('media-img-wrap', 'flex-shrink-0');
+
+				// Crear el avatar
+				const avatar = document.createElement('div');
+				avatar.classList.add('avatar', 'avatar-away');
+
+				// Crear la imagen del usuario
+				const userImg = document.createElement('img');
+				userImg.src = '/assets_superAdmin/img/farmacista.png';
+				userImg.alt = 'User Image';
+				userImg.classList.add('avatar-img', 'rounded-circle');
+
+				// Añadir la imagen al avatar
+				avatar.appendChild(userImg);
+
+				// Añadir el avatar al contenedor de la imagen
+				mediaImgWrap.appendChild(avatar);
+
+				// Crear el cuerpo del media
+				const mediaBody = document.createElement('div');
+				mediaBody.classList.add('media-body', 'flex-grow-1');
+
+				// Crear el contenedor de los detalles del usuario
+				const userDetail = document.createElement('div');
+
+				// Crear el nombre del usuario
+				const userName = document.createElement('div');
+				userName.classList.add('user-name');
+				userName.textContent = NAME ;
+				// Crear el último mensaje del usuario
+				const userLastChat = document.createElement('div');
+				userLastChat.classList.add('user-last-chat');
+				userLastChat.textContent = LastMessage.trim();
+				// Añadir el nombre y el último mensaje al contenedor de detalles del usuario
+				userDetail.appendChild(userName);
+				userDetail.appendChild(userLastChat);
+
+				// Crear el contenedor del tiempo del último mensaje
+				const lastChatDetail = document.createElement('div');
+
+				// Crear el tiempo del último mensaje
+				const lastChatTime = document.createElement('div');
+				lastChatTime.classList.add('last-chat-time');
+				lastChatTime.textContent = date;
+
+				// Crear la insignia de mensajes no leídos
+				const unreadBadge = document.createElement('div');
+				unreadBadge.classList.add('badge', 'badge-success', 'badge-pill');
+				unreadBadge.textContent = '15';
+				unreadBadge.textContent = id;
+
+				// Añadir el tiempo del último mensaje y la insignia al contenedor del tiempo del último mensaje
+				lastChatDetail.appendChild(lastChatTime);
+				//opcional
+				//lastChatDetail.appendChild(unreadBadge);
+
+				// Añadir los detalles del usuario y el último mensaje al cuerpo del media
+				mediaBody.appendChild(userDetail);
+				mediaBody.appendChild(lastChatDetail);
+
+				// Añadir el contenedor de la imagen y el cuerpo del media al elemento 'a'
+				anchor.appendChild(mediaImgWrap);
+				anchor.appendChild(mediaBody);
+				anchor.id=id ;
+				return anchor;
+			}
+			var global = "" ;
+			//Con esto obtenemos los lasChatContent
+			document.addEventListener('DOMContentLoaded', ()=>	{
+				$.ajax({
+					url: "/pharmacist/getPatients",
+					type: "GET",
+					success: function(response){
+
+						response.forEach(
+								(content ,idx) =>{
+									console.log(idx);
+									if(idx === 0){
+										let div = document.getElementById("pacientes");
+										if(content.message !== null){
+											div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message ,content.idChat.idPacient.email));
+										}else{
+											div.appendChild(createChatElement(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , "Imagen" ,content.idChat.idPacient.email));
+										}
+										//Le ponemos un addEventListener q actualize la pagina cadavez q se le click ;
+										updateMessage(content.idChat.idPacient.email, content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName);
+										let doc= document.getElementById("receiver_name");
+										doc.textContent=content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName;
+										global=content.idChat.idPacient.email;
+									}else{
+										let div = document.getElementById("pacientes");
+										if(content.message !== null){
+											div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , content.message,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
+										}else{
+											div.appendChild(createChatElement2(content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName , "Imagen" ,content.idChat.idPacient.email , formatDateTimeTo12Hour(content.dateTime)));
+										}
+										updateMessage(content.idChat.idPacient.email , content.idChat.idPacient.name +" "+ content.idChat.idPacient.lastName );
+									}
+								});
+
+					},
+					error : function(response){
+						console.log("AYUDENME");
+					}
+				})
+			});
+			function updateMessage(id, nombre ){
+				let update = document.getElementById(id);
+				update.addEventListener('click', ()=>{
+					let doc= document.getElementById("receiver_name");
+					doc.textContent=nombre;
+					global=id;
+					//GetHistoryChat
+					$.ajax({
+						url: "/pharmacist/getChat?ola="+ id,
+						type: "GET",
+						success: function(response){
+							//Vaciamos todo el chat
+							let message = document.getElementById("messageTotal");
+							message.innerHTML="";
+							let farmacista= [[${session.usuario.email}]];
+							//Cargamos todos los mensajes de la persona con el farmacista
+							let listaMensajes = response;
+							console.log("FIN");
+							console.log(response);
+							listaMensajes.forEach((messageOne) =>{
+								if(messageOne.autor  === farmacista){
+									createMessageSender(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+								}else{
+									if(messageOne.message === "" || messageOne.message === null ){
+										createMessageSenderImagen("/getBlob/"+messageOne.id ,formatDateTimeTo12Hour(messageOne.dateTime) );
+									}else{
+										createMessageReceiver(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+									}
+								}
+							});
+							document.getElementById("chatContent").scrollTo({
+								top: document.getElementById("chatContent").scrollHeight,
+								behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+							});
+						},
+						error : function(response){
+							//Error
+							console.log("Auxilio");
+						}
+					});
+
+				});
+			}
+		</script>
+		<!-- /Main Wrapper -->
+		<script th:inline="javascript">
+			var stompClient = null;
+			document.addEventListener('DOMContentLoaded', ()=>{
+				connect();
+				let boton = document.getElementById("boton");
+				let message = document.getElementById("message");
+				boton.addEventListener('click' , () =>{
+					if(message.value.trim() !==""){
+						sendMessage();
+						createMessageSender(message.value,obtenerHoraActual());
+						document.getElementById(global).querySelector('.user-last-chat').textContent = message.value;
+						message.value="";
+						document.getElementById("chatContent").scrollTo({
+							top: document.getElementById("chatContent").scrollHeight,
+							behavior: 'smooth' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+						});
+					}
+				});
+				message.addEventListener('keydown' , (event)=>{
+					if(event.key ==="Enter" && message.value.trim() !==""){
+						sendMessage();
+						createMessageSender(message.value,obtenerHoraActual() );
+						document.getElementById(global).querySelector('.user-last-chat').textContent = message.value;
+						message.value="";
+						document.getElementById("chatContent").scrollTo({
+							top: document.getElementById("chatContent").scrollHeight,
+							behavior: 'smooth' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+						});
+					}
+				});
+			});
+			document.addEventListener('DOMContentLoaded', ()=>{
+				let pharmacist = [[${session.usuario.email}]];
+				//Como sabemos a quien va el mensaje
+				$.ajax({
+					url: "/pharmacist/getPatients",
+					type: "GET",
+					success: function (response) {
+						console.log(response);
+						response.forEach(
+								(content, idx) => {
+									if (idx === 0) {
+										$.ajax({
+											url: "/pharmacist/getChat?ola="+ content.idChat.idPacient.email,
+											type: "GET",
+											success: function(response){
+												//Cargamos todos los mensajes de la persona con el farmacista
+												let farmacista = [[${session.usuario.email}]];
+												let listaMensajes = response;
+												listaMensajes.forEach((messageOne) =>{
+													if(messageOne.autor  === farmacista){
+														createMessageSender(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+													}
+													if(messageOne.autor === content.idChat.idPacient.email ){
+														if(messageOne.message === "" || messageOne.message === null ){
+															createMessageSenderImagen("/getBlob/"+messageOne.id ,formatDateTimeTo12Hour(messageOne.dateTime) );
+														}else{
+															createMessageReceiver(messageOne.message,formatDateTimeTo12Hour(messageOne.dateTime));
+														}
+													}
+												});
+												document.getElementById("chatContent").scrollTo({
+													top: document.getElementById("chatContent").scrollHeight,
+													behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+												});
+											},
+											error : function(response){
+												//Error
+												console.log("Auxilio");
+											}
+										});
+									}
+								}
+						)},
+					error: function (response) {
+						console.log("error");
+					}
+				});
+			});
+			function connect() {
+				var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
+				stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
+				stompClient.connect({}, function (frame) {
+					// Suscribirse a la cola de mensajes del usuario
+					stompClient.subscribe('/user/queue/messages', function (message) {
+						if((JSON.parse(message.body)).sender ===  global){
+							if((JSON.parse(message.body)).content === "" || (JSON.parse(message.body)).content === null){
+								//Agregamos la imagen
+								$.ajax({
+									url: '/recuperarLastImagePharmacist?email='+global ,
+									type: 'GET',
+									xhrFields: {
+										responseType: 'blob' // Especificar que la respuesta es un blob
+									},
+									success: function(response){
+										let url = URL.createObjectURL(response);
+										createMessageSenderImagen(url ,obtenerHoraActual() );
+										document.getElementById("chatContent").scrollTo({
+											top: document.getElementById("chatContent").scrollHeight,
+											behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+										});
+									},
+									error: function(response){
+										console.log("Ayudenme");
+									}
+								});
+								document.getElementById(global).querySelector('.user-last-chat').textContent = "imagen";
+							}else{
+								createMessageReceiver((JSON.parse(message.body)).content, obtenerHoraActual() );
+								document.getElementById(global).querySelector('.user-last-chat').textContent = (JSON.parse(message.body)).content;
+								document.getElementById("chatContent").scrollTo({
+									top: document.getElementById("chatContent").scrollHeight,
+									behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+								});
+							}
+						}else{
+							//Q hacer en caso no se Lleguen nuevas notificacione de otro chat de donde no se esta
+							if( (JSON.parse(message.body)).content !== null){
+								document.getElementById((JSON.parse(message.body)).sender).querySelector('.user-last-chat').textContent = (JSON.parse(message.body)).content;
+							}else{
+								document.getElementById((JSON.parse(message.body)).sender).querySelector('.user-last-chat').textContent = "imagen";
+							}
+						}
+					});
+				});
+			}
+			// Enviar mensaje
+			function sendMessage() {
+				let message = document.getElementById('message').value;
+				stompClient.send("/app/chatPharmacist", {}, JSON.stringify({
+					'recipient':  global,  // Cambiar esto por el usuario autenticado
+					'sender': [[${session.usuario.email}]],
+					'content': message
+				}));
+			}
+			// Mostrar mensaje en la interfaz
+			function createMessageReceiver(message,date) {
+// Crear el elemento <li> con las clases correspondientes
+				let li = document.createElement('li');
+				li.classList.add('media', 'received', 'd-flex');
+
+// Crear el div.avatar
+				let avatarDiv = document.createElement('div');
+				avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+				let avatarImg = document.createElement('img');
+				avatarImg.src = "/assets_superAdmin/img/farmacista.png";
+				avatarImg.alt = 'User Image';
+				avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+				avatarDiv.appendChild(avatarImg);
+				//avatarDiv dentro de
+
+// Crear el div.media-body
+				let mediaBodyDiv = document.createElement('div');
+				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+				let msgBoxDiv = document.createElement('div');
+				msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+				let p1 = document.createElement('p');
+				p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+				let ul = document.createElement('ul');
+				ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+				let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+				let divTime = document.createElement('div');
+				divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+				let spanTime = document.createElement('span');
+				spanTime.textContent = date;
+
+// Agregar spanTime al div.chat-time
+				divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+				liInfo.appendChild(divTime);
+				ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+				let divUu = document.createElement('div');
+
+				divUu.appendChild(p1);
+				divUu.appendChild(ul);
+				msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+				mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+				li.appendChild(avatarDiv);
+				li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+				let chatList = document.getElementById("messageTotal");
+				chatList.appendChild(li);
+			}
+			function createMessageSender(message,date) {
+// Crear el elemento <li> con las clases correspondientes
+				// Crear el elemento <li> con las clases correspondientes
+				let li = document.createElement('li');
+				li.classList.add('media', 'sent', 'd-flex');
+
+// Crear el div.avatar
+				let avatarDiv = document.createElement('div');
+				avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+				let avatarImg = document.createElement('img');
+				avatarImg.src = '/assets_superAdmin/img/customer/customer5.jpg';
+				avatarImg.alt = 'User Image';
+				avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+				avatarDiv.appendChild(avatarImg);
+				//avatarDiv dentro de
+
+// Crear el div.media-body
+				let mediaBodyDiv = document.createElement('div');
+				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+				let msgBoxDiv = document.createElement('div');
+				msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+				let p1 = document.createElement('p');
+				p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+				let ul = document.createElement('ul');
+				ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+				let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+				let divTime = document.createElement('div');
+				divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+				let spanTime = document.createElement('span');
+				spanTime.textContent = date;
+
+// Agregar spanTime al div.chat-time
+				divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+				liInfo.appendChild(divTime);
+				ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+				let divUu = document.createElement('div');
+
+				divUu.appendChild(p1);
+				divUu.appendChild(ul);
+				msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+				mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+				li.appendChild(avatarDiv);
+				li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+				let chatList = document.getElementById("messageTotal");
+				chatList.appendChild(li);
+			}
+			function obtenerHoraActual() {
+				let ahora = new Date();
+				let horas = ahora.getHours();
+				let minutos = ahora.getMinutes();
+				let ampm = horas >= 12 ? 'PM' : 'AM';
+
+				// Convertir las horas al formato de 12 horas
+				horas = horas % 12;
+				horas = horas ? horas : 12; // La medianoche debe mostrarse como 12 AM
+
+				// Formatear la salida
+				let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
+				return horaFormateada;
+			}
+			function formatDateTimeTo12Hour(datetime) {
+				// Crear un objeto Date a partir de la cadena de fecha y hora
+				const date = new Date(datetime);
+
+				// Obtener las horas, minutos y determinar si es AM o PM
+				let hours = date.getHours();
+				const minutes = date.getMinutes();
+				const ampm = hours >= 12 ? 'PM' : 'AM';
+
+				// Convertir las horas al formato de 12 horas
+				hours = hours % 12;
+				hours = hours ? hours : 12; // Las 0 horas deben ser 12
+
+				// Asegurarse de que los minutos siempre tengan dos dígitos
+				const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+
+				// Formatear la cadena final
+				const formattedTime = `${hours}:${minutesStr} ${ampm}`;
+
+				return formattedTime;
+			}
+			function createMessageSenderImagen(url , date) {
+				const li = document.createElement('li');
+				li.classList.add('media', 'received', 'd-flex');
+
+				const avatarDiv = document.createElement('div');
+				avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+				const avatarImg = document.createElement('img');
+				avatarImg.src = '/assets_superAdmin/img/customer/profile2.jpg';
+				avatarImg.alt = 'User Image';
+				avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+				const mediaBodyDiv = document.createElement('div');
+				mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Primer msg-box
+				const msgBox1 = document.createElement('div');
+				msgBox1.classList.add('msg-box');
+
+				const msgBox1Div = document.createElement('div');
+
+				const p1_1 = document.createElement('p');
+				p1_1.textContent = 'Hola, claro en que puedo ayudarte';
+
+				const p1_2 = document.createElement('p');
+				p1_2.textContent = 'Aquí tengo unas recomendaciones';
+
+				const chatMsgInfo1 = document.createElement('ul');
+				chatMsgInfo1.classList.add('chat-msg-info');
+
+				const chatMsgInfoItem1 = document.createElement('li');
+
+				const chatTime1 = document.createElement('div');
+				chatTime1.classList.add('chat-time');
+
+				const span1 = document.createElement('span');
+				span1.textContent = '8:35 AM';
+
+// Ensamblar primer msg-box
+				chatTime1.appendChild(span1);
+				chatMsgInfoItem1.appendChild(chatTime1);
+				chatMsgInfo1.appendChild(chatMsgInfoItem1);
+
+				msgBox1Div.appendChild(p1_1);
+				msgBox1Div.appendChild(p1_2);
+				msgBox1Div.appendChild(chatMsgInfo1);
+				msgBox1.appendChild(msgBox1Div);
+
+// Segundo msg-box
+				const msgBox2 = document.createElement('div');
+				msgBox2.classList.add('msg-box');
+
+				const msgBox2Div = document.createElement('div');
+
+				const p2 = document.createElement('p');
+
+				const chatMsgInfo2 = document.createElement('ul');
+				chatMsgInfo2.classList.add('chat-msg-info');
+
+				const chatMsgInfoItem2 = document.createElement('li');
+
+				const chatTime2 = document.createElement('div');
+				chatTime2.classList.add('chat-time');
+
+				const span2 = document.createElement('span');
+				span2.textContent = '8:40 AM';
+
+// Ensamblar segundo msg-box
+				chatTime2.appendChild(span2);
+				chatMsgInfoItem2.appendChild(chatTime2);
+				chatMsgInfo2.appendChild(chatMsgInfoItem2);
+
+				msgBox2Div.appendChild(p2);
+				msgBox2Div.appendChild(chatMsgInfo2);
+				msgBox2.appendChild(msgBox2Div);
+
+// Tercer msg-box
+				const msgBox3 = document.createElement('div');
+				msgBox3.classList.add('msg-box');
+
+				const msgBox3Div = document.createElement('div');
+
+				const chatMsgAttachments = document.createElement('div');
+				chatMsgAttachments.classList.add('chat-msg-attachments');
+
+				const chatAttachment = document.createElement('div');
+				chatAttachment.classList.add('chat-attachment');
+
+				const img = document.createElement('img');
+				img.src = url;
+				img.alt = 'Attachment';
+
+				const chatAttachDownload = document.createElement('a');
+				chatAttachDownload.href = url;
+				chatAttachDownload.download = 'recetaChat.jpg';
+				chatAttachDownload.classList.add('chat-attach-download');
+
+				const icon = document.createElement('i');
+				icon.classList.add('fas', 'fa-download');
+
+// Ensamblar tercer msg-box
+				chatAttachDownload.appendChild(icon);
+				chatAttachment.appendChild(img);
+				chatAttachment.appendChild(chatAttachDownload);
+				chatMsgAttachments.appendChild(chatAttachment);
+
+				const chatMsgInfo3 = document.createElement('ul');
+				chatMsgInfo3.classList.add('chat-msg-info');
+
+				const chatMsgInfoItem3 = document.createElement('li');
+
+				const chatTime3 = document.createElement('div');
+				chatTime3.classList.add('chat-time');
+
+				const span3 = document.createElement('span');
+				span3.textContent = date ;
+
+				chatTime3.appendChild(span3);
+				chatMsgInfoItem3.appendChild(chatTime3);
+				chatMsgInfo3.appendChild(chatMsgInfoItem3);
+
+				msgBox3Div.appendChild(chatMsgAttachments);
+				msgBox3Div.appendChild(chatMsgInfo3);
+				msgBox3.appendChild(msgBox3Div);
+
+// Ensamblar elementos principales
+				avatarDiv.appendChild(avatarImg);
+
+
+				mediaBodyDiv.appendChild(msgBox3);
+
+				li.appendChild(avatarDiv);
+				li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+				let chatList = document.getElementById("messageTotal");
+				chatList.appendChild(li);
+			}
+		</script>
+
+
+		<!-- jQuery -->
+        <script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
         <!-- Feather Icon JS -->
-        <script src="assets_pharmacist/js/feather.min.js"></script>
+        <script src="/assets_superAdmin/js/feather.min.js"></script>
 
         <!-- Slimscroll JS -->
-        <script src="assets_pharmacist/js/jquery.slimscroll.min.js"></script>
+        <script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
 
         <!-- Datatable JS -->
-        <script src="assets_pharmacist/js/jquery.dataTables.min.js"></script>
-        <script src="assets_pharmacist/js/dataTables.bootstrap4.min.js"></script>
+        <script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+        <script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
         
         <!-- Bootstrap Core JS -->
-        <script src="assets_pharmacist/js/bootstrap.bundle.min.js"></script>
+        <script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
 
         <!-- Chart JS -->
-        <script src="assets_pharmacist/plugins/apexchart/apexcharts.min.js"></script>
-        <script src="assets_pharmacist/plugins/apexchart/chart-data.js"></script>
-        
+        <script src="/assets_superAdmin/plugins/apexchart/apexcharts.min.js"></script>
+        <script src="/assets_superAdmin/plugins/apexchart/chart-data.js"></script>
+
         <!-- Custom JS -->
-        <script src="assets_pharmacist/js/script.js"></script>
-        </div>
+        <script src="/assets_superAdmin/js/script.js"></script>
+
     </body>
 </html>

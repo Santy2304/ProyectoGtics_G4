@@ -45,196 +45,14 @@
 		<!-- Main Wrapper -->
 		<div class="main-wrapper">
 			<!-- Header -->
-			<div class="header">
-				<!-- Logo -->
-				<!-- Logo -->
-				<div class="header-left active">
-					<a href="error404.html" class="logo">
-						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-					</a>
-					<a href="error404.html" class="logo-small">
-						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
+			<div th:replace="navbarSuperAdmin"></div>
 
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				<!-- /Logo -->
-
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-
-					<!-- Search -->
-					<!--
-                    <li class="nav-item">
-                        <div class="top-nav-search">
-
-                            <a href="javascript:void(0);" class="responsive-search">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <form action="#">
-                                <div class="searchinputs">
-                                    <input type="text" placeholder="Search Here ...">
-                                    <div class="search-addon">
-                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                                    </div>
-                                </div>
-                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-                            </form>
-                        </div>
-                    </li>
-                    -->
-					<!-- /Search -->
-
-					<!-- Flag -->
-
-					<!-- /Flag -->
-
-					<!-- Notifications -->
-
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-
-									<!--Ejemplo completo-->
-									<!--
-                                    <li class="notification-message">
-                                        <a href="notifications.html">
-                                            <div class="media d-flex">
-                                                        <span class="avatar flex-shrink-0">
-                                                            <img alt="" src="assets/img/profiles/avatar-03.jpg">
-                                                        </span>
-                                                <div class="media-body flex-grow-1">
-                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    -->
-
-
-
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="notifications.html">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-					<!-- /Notifications -->
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>Joshy Yauri</h6>
-										<h5>SuperAdmin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="perfil.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="../signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="perfil.html">Mi Perfil</a>
-						<a class="dropdown-item" href="../signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
-
-			<!-- Header -->
 
 			<!-- Sidebar -->
-			<div class="sidebar" id="sidebar">
-				<div class="sidebar-inner slimscroll">
-					<div id="sidebar-menu" class="sidebar-menu">
-						<ul>
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'medicamentos')"> </div>
 
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verListadosSuperAdmin" >Listas de Usuarios</a></li>
-
-								</ul>
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
-
-								</ul>
-
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/listaMedicamentosSuperAdmin" class="active" >Medicamentos</a></li>
-								</ul>
-							</li>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
 			<!-- /Sidebar -->
+
 
 			<div class="page-wrapper">
 				<div class="content">
@@ -267,7 +85,7 @@
 
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
-											<label  >Precio del Producto</label>
+											<label  >Precio del Producto (S/.)</label>
 											<input  disabled="disabled" type="text" th:field="*{price}">
 										</div>
 									</div>
@@ -319,12 +137,11 @@
 												<li>
 													<div class="productviews">
 														<div class="productviewsimg">
-															<img src="/assets_superAdmin/img/icons/macbook.svg" alt="img">
+															<img th:src="@{'/imagenes/' + ${medicine.getPhoto()}}" alt="img">
 														</div>
 														<div class="productviewscontent">
 															<div class="productviewsname">
-																<h2>paracetamol.jpg</h2>
-																<h3>581kb</h3>
+																<h2 th:text="${medicine.getName()}"></h2>
 															</div>
 														</div>
 													</div>
@@ -333,7 +150,7 @@
 										</div>
 									</div>
 									<div class="col-lg-12">
-										<a th:href="@{/listaMedicamentosSuperAdmin}" class="btn btn-submit me-2" >Regresar</a>
+										<a th:href="@{/superAdmin/listaMedicamentos}" class="btn btn-submit me-2" >Regresar</a>
 									</div>
 								</div>
 							</div>

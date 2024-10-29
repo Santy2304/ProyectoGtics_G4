@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="description" content="POS - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+  <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+  <meta name="robots" content="noindex, nofollow">
+  <title>SaintMedic</title>
+  <!-- Favicon -->
+  <link rel="icon" href="/assets_pacient/img/PastillaSinFondo.png" >
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap.min.css">
+  <!-- animation CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/animate.css">
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.carousel.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/owlcarousel/owl.theme.default.min.css">
+  <!-- Select2 CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/select2/css/select2.min.css">
+  <!-- Datetimepicker CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/bootstrap-datetimepicker.min.css">
+  <!-- Fontawesome CSS -->
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/assets_pacient/plugins/fontawesome/css/all.min.css">
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="/assets_pacient/css/style.css">
+</head>
+<body>
+<div id="global-loader" >
+  <div class="whirly-loader"> </div>
+</div>
+<!-- Main Wrapper -->
+<div class="main-wrapper">
+  <!-- Header -->
+  <div th:replace="navbarPacienteNuevo"></div>
+  <!-- Header -->
+  <!-- Sidebar -->
+  <div th:replace="sidebarPatient :: sidebarPatient(activeTab = 'chat')"> </div>
+
+  <!-- /Sidebar -->
+  <!-- /Sidebar -->
+  <div class="page-wrapper pagehead">
+
+
+    <div class="content" style="margin-top: 2%;">
+      <div class="row chat-window">
+        <!-- Chat User List -->
+        <div class="col-lg-4 col-xl-3 chat-cont-left">
+          <div class="card mb-sm-3 mb-md-0 contacts_card flex-fill">
+            <div class="card-body contacts_body chat-users-list chat-scroll">
+              <a  class="media d-flex active">
+                <div class="media-img-wrap flex-shrink-0">
+                  <div class="avatar avatar-away">
+                    <img src="/assets_superAdmin/img/farmacista.png" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                </div>
+                <div class="media-body flex-grow-1">
+                  <div>
+                    <div class="user-name" th:text="|Farmacista ${session.sede.getName()}|" ></div>
+                    <div id="last" class="user-last-chat">Hola, ¿Cómo estás?</div>
+                  </div>
+                  <div>
+                    <div id="lastTime" class="last-chat-time"></div>
+                    <!--
+                    <div class="badge badge-success badge-pill">15</div>
+                     -->
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat User List -->
+        <!-- Chat Content -->
+        <div class="col-lg-7 col-xl-9 chat-cont-right">
+          <!-- Chat History -->
+          <div class="card mb-0">
+            <div id="scroll" class="card-header msg_head">
+              <div class="d-flex bd-highlight">
+                <a id="back_user_list" href="javascript:void(0)" class="back-user-list">
+                  <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="img_cont">
+                  <img class="rounded-circle user_img" src="/assets_superAdmin/img/farmacista.png" alt="">
+                </div>
+                <div class="user_info">
+                  <span><strong id="receiver_name" th:text="|Farmacista ${session.sede.getName()}|"></strong></span>
+                  <p class="mb-0">Mensajes</p>
+                </div>
+              </div>
+            </div>
+            <div id="chatContent" class="card-body msg_card_body chat-scroll">
+              <ul id="messageTotal" class="list-unstyled">
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Gracias por la ayuda</p>
+                        <p>¿Qué efectos secundarios presenta ese medicamento?</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>8:55 PM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media sent d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <p>Lo lamento, tuvimos una caída del sistema. Ahora resolveré sus dudas</p>
+                        <ul class="chat-msg-info">
+                          <li>
+                            <div class="chat-time">
+                              <span>10:19 AM</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media received d-flex">
+                  <div class="avatar flex-shrink-0">
+                    <img src="../assets_superAdmin/img/customer/profile2.jpg" alt="User Image" class="avatar-img rounded-circle">
+                  </div>
+                  <div class="media-body flex-grow-1">
+                    <div class="msg-box">
+                      <div>
+                        <div class="msg-typing">
+                          <span></span>
+                          <span></span>
+                          <span></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="card-footer">
+              <div class="input-group">
+                <button id="imageBoton" class="btn btn-primary btn_send"><i class="fa fa-paperclip" aria-hidden="true"></i></button>
+                  <input id="message" class="form-control type_msg mh-auto empty_check" placeholder="Escribe tu mensaje...">
+                <button id="boton" class="btn btn-primary btn_send"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+<input type="file" id="imagenInput" style="display: none;">
+<script th:inline="javascript">
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  //Todo bien con este metodo
+    document.addEventListener('DOMContentLoaded', ()=>{
+    let patient = [[${session.usuario.email}]];
+    $.ajax({
+      url: "/patient/getChat",
+      type: "GET",
+      success: function(response){
+        //Cargamos todos los mensajes de la persona con el farmacista
+        let listaMensajes = response.Content;
+        listaMensajes.forEach((message,index) =>{
+          console.log("mensaje iniciales");
+          if(message.autor  === patient){
+            if(message.message !== null ){
+              createMessageSender(message.message,formatDateTimeTo12Hour(message.dateTime));
+            }else{
+              console.log(message.id);
+              createMessageSenderImagen(  "/getBlob/"+message.id ,formatDateTimeTo12Hour(message.dateTime) );
+            }
+          }else{
+            createMessageReceiver(message.message,formatDateTimeTo12Hour(message.dateTime));
+          }
+          if(index === listaMensajes.length -1){
+            let last = document.getElementById("last");
+            last.textContent = message.message;
+            let lastTime = document.getElementById("lastTime");
+            lastTime.textContent = formatDateTimeTo12Hour(message.dateTime);
+          }
+        });
+        document.getElementById("chatContent").scrollTo({
+          top: document.getElementById("chatContent").scrollHeight,
+          behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+        });
+      },
+      error : function(response){
+        //Error
+        console.log("Auxilio");
+      }
+    });
+      });
+    //Ahora vemos este metodo
+    var stompClient = null;
+    document.addEventListener('DOMContentLoaded', ()=>{
+      connect();
+      let boton = document.getElementById("boton");
+      let message = document.getElementById("message");
+      let image = document.getElementById('imagenInput');
+      let botonImage  = document.getElementById('imageBoton');
+      botonImage.addEventListener('click', ()=>{
+        if(message.value.trim() === ""){
+          image.click();
+        }else{
+          swal.fire({
+            icon : "error" ,
+            title: "No se pueden enviar texto e imagenes a la vez"
+          });
+        }
+      });
+      image.addEventListener('change', ()=>{
+          if(image.files.length !== 0){
+            message.readOnly = true ;
+            document.getElementById('message').placeholder = "Ha ingresado una imagen , dele click a enviar =>";
+            message.value = "";
+          }
+          if(image.files.length === 0){
+            image.value = "";
+            message.readOnly = false ;
+            message.placeholder = "Escribe tu mensaje..." ;
+          }
+      });
+      boton.addEventListener('click' , () =>{
+        //Caso en el q solo envie mensajes de texto
+        if(message.value.trim() !== ""  && image.files.length === 0){
+          sendMessage();
+          createMessageSender(message.value,obtenerHoraActual());
+          let last = document.getElementById("last");
+          last.textContent = message.message;
+          let lastTime = document.getElementById("lastTime");
+          lastTime.textContent = obtenerHoraActual();
+          message.value="";
+          document.getElementById("chatContent").scrollTo({
+            top: document.getElementById("chatContent").scrollHeight,
+            behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+          });
+        }
+        //Caso en el q se envia una imagen
+        if(message.value.trim() === ""  && image.files.length !== 0){
+          sendImage(image.files[0]);
+          let last = document.getElementById("last");
+          last.textContent = "Imagen";
+          let lastTime = document.getElementById("lastTime");
+          lastTime.textContent = obtenerHoraActual();
+          message.value="";
+          document.getElementById("chatContent").scrollTo({
+            top: document.getElementById("chatContent").scrollHeight,
+            behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+          });
+        }
+      });
+      message.addEventListener('keydown' , (event)=>{
+        //Caso en el q solo envie mensajes de texto
+        if(event.key === "Enter"){
+          if(message.value.trim() !== ""  && image.files.length === 0) {
+            sendMessage();
+            createMessageSender(message.value,obtenerHoraActual());
+            let last = document.getElementById("last");
+            last.textContent = message.value;
+            let lastTime = document.getElementById("lastTime");
+            lastTime.textContent = obtenerHoraActual();
+            message.value="";
+            document.getElementById("chatContent").scrollTo({
+              top: document.getElementById("chatContent").scrollHeight,
+              behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+            });
+          }
+        }
+      });
+    });
+  // Conectar al servidor WebSocket
+    function connect() {
+      var socket = new SockJS('/ws');  // Crear una nueva instancia de SockJS
+      stompClient = Stomp.over(socket);  // Crear un cliente STOMP sobre el socket SockJS
+      stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/user/queue/messages', function (message) {
+          $.ajax({
+            url: "/patient/verificarCorreoPharmacist?email=" +  (JSON.parse(message.body)).sender,
+            type: "GET",
+            success : function (response){
+              console.log
+              if(response.content === "si"){
+                //Debemos de cambiar la hora
+                createMessageReceiver((JSON.parse(message.body)).content,obtenerHoraActual()) ;
+                //Cambiamos el ultimo mensaje visible
+                let last = document.getElementById("last");
+                last.textContent = (JSON.parse(message.body)).content;
+                let lastTime = document.getElementById("lastTime");
+                lastTime.textContent = obtenerHoraActual();
+                document.getElementById("chatContent").scrollTo({
+                  top: document.getElementById("chatContent").scrollHeight,
+                  behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+                });
+              }
+            }
+          });
+        });
+        // Suscribirse a la cola de mensajes del usuario
+        //Debemos verificar q el farmacista sea de la sede donde estamos
+      });
+    }
+    function formatDateTimeTo12Hour(dateTimeString) {
+      // Crear un objeto Date a partir de la cadena DateTime
+      const date = new Date(dateTimeString);
+
+      // Opciones para formatear la hora a formato de 12 horas
+      const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      };
+
+      // Formatear la hora usando toLocaleTimeString con configuración regional para Latinoamérica
+      return date.toLocaleTimeString('es-LA', options);
+    }
+  // Enviar mensaje
+    function sendMessage() {
+    let message = document.getElementById('message').value;
+    $.ajax({
+      url: "/patient/getCorreo",
+      type: "GET",
+      success: function(response){
+        stompClient.send("/app/chat", {}, JSON.stringify({
+          'sender': [[${session.usuario.email}]] ,  // Cambiar esto por el usuario autenticado
+          'recipient': response.correo,
+          'content': message
+        }));
+        document.getElementById("chatContent").scrollTo({
+          top: document.getElementById("chatContent").scrollHeight,
+          behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+        });
+      },
+      error: function(response){
+        console.log("error");
+      }
+    });
+    }
+    function sendImage(file) {
+      $.ajax({
+        url: "/patient/getCorreo",
+        type: "GET",
+        success: function(response){
+          let datos = {
+            'sender': [[${session.usuario.email}]] ,  // Cambiar esto por el usuario autenticado
+            'recipient': response.correo ,
+            'content': ""
+          };
+          let cosa = new FormData;
+          cosa.append('image', file );
+          $.ajax({
+            url: '/saveImage',
+            type: 'POST',
+            data: cosa ,
+            contentType: false,
+            processData: false,
+            success: function(response){
+              stompClient.send("/app/chatImage", {},JSON.stringify(datos));
+              //Agregamos ultima imagen
+              $.ajax({
+                url: '/recuperarLastImage' ,
+                type: 'GET',
+                xhrFields: {
+                  responseType: 'blob' // Especificar que la respuesta es un blob
+                },
+                success: function(response){
+                  let url = URL.createObjectURL(response);
+                  //Creamos imagen
+                  createMessageSenderImagen(url ,obtenerHoraActual() );
+                  document.getElementById('message').readOnly = false ;
+                  document.getElementById('message').placeholder = "Escribe tu mensaje..." ;
+                  let imageAAA = document.getElementById('imagenInput');
+                  imageAAA.value = "";
+                  document.getElementById("chatContent").scrollTo({
+                    top: document.getElementById("chatContent").scrollHeight,
+                    behavior: 'auto' // Puedes cambiar a 'auto' si no quieres un desplazamiento suave
+                  });
+                },
+                error: function(response){
+                  console.log("Ayudenme");
+                }
+              });
+            },
+            error: function(response){
+               console.log(response.message);
+            }
+          });
+          console.log(datos);
+        },
+        error: function(response){
+          console.log("error");
+        }
+      })
+    }
+  // Mostrar mensaje en la interfaz
+    function createMessageReceiver(message ,date) {
+// Crear el elemento <li> con las clases correspondientes
+      let li = document.createElement('li');
+      li.classList.add('media', 'received', 'd-flex');
+
+// Crear el div.avatar
+      let avatarDiv = document.createElement('div');
+      avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+      let avatarImg = document.createElement('img');
+      avatarImg.src = "/assets_superAdmin/img/farmacista.png";
+      avatarImg.alt = 'User Image';
+      avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+      avatarDiv.appendChild(avatarImg);
+      //avatarDiv dentro de
+
+// Crear el div.media-body
+      let mediaBodyDiv = document.createElement('div');
+      mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+      let msgBoxDiv = document.createElement('div');
+      msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+      let p1 = document.createElement('p');
+      p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+      let ul = document.createElement('ul');
+      ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+      let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+      let divTime = document.createElement('div');
+      divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+      let spanTime = document.createElement('span');
+      spanTime.textContent = date;
+
+// Agregar spanTime al div.chat-time
+      divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+      liInfo.appendChild(divTime);
+      ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+      let divUu = document.createElement('div');
+
+      divUu.appendChild(p1);
+      divUu.appendChild(ul);
+      msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+      mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+      li.appendChild(avatarDiv);
+      li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+      let chatList = document.getElementById("messageTotal");
+      chatList.appendChild(li);
+    }
+    function createMessageSender(message , date) {
+// Crear el elemento <li> con las clases correspondientes
+      // Crear el elemento <li> con las clases correspondientes
+      let li = document.createElement('li');
+      li.classList.add('media', 'sent', 'd-flex');
+
+// Crear el div.avatar
+      let avatarDiv = document.createElement('div');
+      avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+      let avatarImg = document.createElement('img');
+      avatarImg.src = "/imagenes/"+ [[${session.usuario.photo}]];
+      avatarImg.alt = 'User Image';
+      avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+      avatarDiv.appendChild(avatarImg);
+      //avatarDiv dentro de
+
+// Crear el div.media-body
+      let mediaBodyDiv = document.createElement('div');
+      mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+      let msgBoxDiv = document.createElement('div');
+      msgBoxDiv.classList.add('msg-box');
+
+// Crear el primer párrafo dentro de msg-box
+      let p1 = document.createElement('p');
+      p1.textContent = message;
+
+// Crear la lista ul.chat-msg-info
+      let ul = document.createElement('ul');
+      ul.classList.add('chat-msg-info');
+
+// Crear el li dentro de ul.chat-msg-info
+      let liInfo = document.createElement('li');
+
+// Crear el div.chat-time dentro de li
+      let divTime = document.createElement('div');
+      divTime.classList.add('chat-time');
+
+// Crear el span dentro de div.chat-time
+      let spanTime = document.createElement('span');
+      spanTime.textContent = date;
+
+// Agregar spanTime al div.chat-time
+      divTime.appendChild(spanTime);
+
+// Agregar divTime al liInfo y liInfo a ul
+      liInfo.appendChild(divTime);
+      ul.appendChild(liInfo);
+
+// Agregar p1 y ul a msgBoxDiv
+      let divUu = document.createElement('div');
+
+      divUu.appendChild(p1);
+      divUu.appendChild(ul);
+      msgBoxDiv.appendChild(divUu);
+
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+      mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+      li.appendChild(avatarDiv);
+      li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+      let chatList = document.getElementById("messageTotal");
+      chatList.appendChild(li);
+    }
+    function createMessageSenderImagen(url , date) {
+// Crear el elemento <li> con las clases correspondientes
+      // Crear el elemento <li> con las clases correspondientes
+      let li = document.createElement('li');
+      li.classList.add('media', 'sent', 'd-flex');
+
+// Crear el div.avatar
+      let avatarDiv = document.createElement('div');
+      avatarDiv.classList.add('avatar', 'flex-shrink-0');
+
+// Crear la imagen del avatar
+      let avatarImg = document.createElement('img');
+      avatarImg.src = "/imagenes/"+ [[${session.usuario.photo}]];
+      avatarImg.alt = 'User Image';
+      avatarImg.classList.add('avatar-img', 'rounded-circle');
+
+// Agregar la imagen del avatar al div.avatar
+      avatarDiv.appendChild(avatarImg);
+      //avatarDiv dentro de
+
+// Crear el div.media-body
+      let mediaBodyDiv = document.createElement('div');
+      mediaBodyDiv.classList.add('media-body', 'flex-grow-1');
+
+// Crear el div.msg-box
+      let msgBoxDiv = document.createElement('div');
+      msgBoxDiv.classList.add('msg-box');
+
+// Agregar p1 y ul a msgBoxDiv
+      msgBoxDiv.appendChild(createChatMessage(url , date));
+
+// Agregar avatarDiv y msgBoxDiv a mediaBodyDiv
+
+      mediaBodyDiv.appendChild(msgBoxDiv);
+
+// Agregar mediaBodyDiv al li
+      li.appendChild(avatarDiv);
+      li.appendChild(mediaBodyDiv);
+
+// Seleccionar el contenedor donde se agregará el contenido y agregar el li creado
+      let chatList = document.getElementById("messageTotal");
+      chatList.appendChild(li);
+    }
+    function createChatMessage(imageUrl, time) {
+      // Crear el contenedor principal
+      const chatMessageDiv = document.createElement('div');
+
+      // Crear el contenedor de adjuntos
+      const chatMsgAttachmentsDiv = document.createElement('div');
+      chatMsgAttachmentsDiv.classList.add('chat-msg-attachments');
+
+      // Crear el contenedor de un adjunto
+      const chatAttachmentDiv = document.createElement('div');
+      chatAttachmentDiv.classList.add('chat-attachment');
+
+      // Crear la imagen del adjunto
+      const img = document.createElement('img');
+      img.src = imageUrl;
+      img.alt = 'Attachment';
+
+      // Crear el enlace de descarga del adjunto
+      const downloadLink = document.createElement('a');
+      downloadLink.href = imageUrl;
+      downloadLink.download = 'recetaChat.jpg';
+      downloadLink.classList.add('chat-attach-download');
+
+      // Crear el icono de descarga
+      const downloadIcon = document.createElement('i');
+      downloadIcon.classList.add('fas', 'fa-download');
+
+      // Agregar el icono al enlace
+      downloadLink.appendChild(downloadIcon);
+
+      // Agregar la imagen y el enlace de descarga al contenedor del adjunto
+      chatAttachmentDiv.appendChild(img);
+      chatAttachmentDiv.appendChild(downloadLink);
+
+      // Agregar el contenedor del adjunto al contenedor de adjuntos
+      chatMsgAttachmentsDiv.appendChild(chatAttachmentDiv);
+
+      // Crear la lista de información del mensaje
+      const chatMsgInfoUl = document.createElement('ul');
+      chatMsgInfoUl.classList.add('chat-msg-info');
+
+      // Crear el elemento de lista para la hora del mensaje
+      const chatMsgInfoLi = document.createElement('li');
+
+      // Crear el contenedor de la hora
+      const chatTimeDiv = document.createElement('div');
+      chatTimeDiv.classList.add('chat-time');
+
+      // Crear el span de la hora
+      const chatTimeSpan = document.createElement('span');
+      chatTimeSpan.textContent = time;
+
+      // Agregar el span al contenedor de la hora
+      chatTimeDiv.appendChild(chatTimeSpan);
+
+      // Agregar el contenedor de la hora al elemento de lista
+      chatMsgInfoLi.appendChild(chatTimeDiv);
+
+      // Agregar el elemento de lista a la lista de información del mensaje
+      chatMsgInfoUl.appendChild(chatMsgInfoLi);
+
+      // Agregar el contenedor de adjuntos y la lista de información al contenedor principal
+      chatMessageDiv.appendChild(chatMsgAttachmentsDiv);
+      chatMessageDiv.appendChild(chatMsgInfoUl);
+
+      // Retornar el contenedor principal
+      return chatMessageDiv;
+    }
+    function obtenerHoraActual() {
+      let ahora = new Date();
+      let horas = ahora.getHours();
+      let minutos = ahora.getMinutes();
+      let ampm = horas >= 12 ? 'PM' : 'AM';
+
+      // Convertir las horas al formato de 12 horas
+      horas = horas % 12;
+      horas = horas ? horas : 12; // La medianoche debe mostrarse como 12 AM
+
+      // Formatear la salida
+      let horaFormateada = horas + ':' + (minutos < 10 ? '0' + minutos : minutos) + ' ' + ampm;
+      return horaFormateada;
+    }
+</script>
+<!-- jQuery -->
+<script src="/assets_pacient/js/jquery-3.6.0.min.js"></script>
+<!-- Feather Icon JS -->
+<script src="/assets_pacient/js/feather.min.js"></script>
+<!-- Slimscroll JS -->
+<script src="/assets_pacient/js/jquery.slimscroll.min.js"></script>
+<!-- Bootstrap Core JS -->
+<script src="/assets_pacient/js/bootstrap.bundle.min.js"></script>
+<!-- Datatable JS -->
+<script src="/assets_pacient/js/jquery.dataTables.min.js"></script>
+<script src="/assets_pacient/js/dataTables.bootstrap4.min.js"></script>
+<!-- Select2 JS -->
+<script src="/assets_pacient/plugins/select2/js/select2.min.js"></script>
+<!-- Owl JS -->
+<script src="/assets_pacient/plugins/owlcarousel/owl.carousel.min.js"></script>
+<!-- Sweetalert 2 -->
+<script src="/assets_pacient/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_pacient/plugins/sweetalert/sweetalerts.min.js"></script>
+<!-- Custom JS -->
+<script src="/assets_pacient/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "velvety-accord-405915",
+  "private_key_id": "e36c97ca07e653403351c662c5dfa2552456863f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC9ZyRqWFgd9ylc\nwya9DBzc3+HH+aL27eSTLG79OacnBVx0w2RijVetQ2x8Ki2HAwxCgMzIzJXEYfKx\nmBaZMcvGWuCsXDHucnNSoq7lDfZWdS+DSXh3L0s917z+cfHb0z7f/lIVlL267K8o\nN9ErjMU5pURQYWDslBB0zygrGDpUlCanuGiCtqANd2exzpyBEhWB2H2o+nLw3RjZ\nLPaUe86ltP9zdbA/ugHFQtq/RNMY1GP6xXLRuDBtlGQL6HQxbnD3mPfUtsxiLmms\nZoCOeu5UKKJ91G4BsD7tE3GWhQpmQKQlIivEPhHhMvEDQhFpaUkQkij57mjbWyl4\nl3vcbVqVAgMBAAECggEAH7ZOTZP/JP1GKqbuLIcDqiO+LPpqQ8fvFolBCBsIFqt6\nIH66pxmdTYBVgLCbMNjcy6G/J/vBM8Fmnj+lwP6qbMq4hYNmRNNa5cIhYG6nCTDT\nxLqfde0wPumJVl0Drte+1khBvCVMYyjP5v75gb4vI4i9WGwFi3b7DmPFCPokghaG\nPoMfKyYl2fSKqahuk2z+zaCbOEnjpegci+FoAaYdWg/Y0cN+wIkV4PCATULbXo2w\nEL+l6CdgSCIhjVNgFvIJbyJSbWuSrqi+Qb8uIkEuQCrVP+ZGQdnNfXXbFDP3BU84\n/s/SsmXBea2WL9u1VPmRzj/yrabVHlDgRpQPL1xkIQKBgQDrk89vYSaOQNnupmqm\nvtjCo9QnrAZrJ3GkIgr5qQAKUkcomLnMmR9N3s4YKTXCHdstTrZWju8F8DALRboe\nJ535g6nBprtgl9kA/w01XfeuJOYJkvAwv0GnMJJzUlvspPgipzL6CzZdMIZjMYP0\nqbPQ+xx+NbTv2+fReKBElq2GXQKBgQDN0pPZd0sJPBmY6JpuGR1kcYvXDVQO4kWU\nrXmqKsZgTlyf3+3flzXWZ5ohDgqSf7hFkd26lTQ9j9YcdJkDswYX6Z3Yy7FeiJRs\n137ze18N2owHybQ+77PUA9DK5GnOGZrahLRMJofQU3gid7byD/dhpQPLh/l73S3O\ne3eDV31xmQKBgQC4e/GXvNIP1vOUNBkTaiOgEeJkCxCfu60AJ3TG3TVd399ACJKA\nim18cv6c5zDlSrJJAfpDQP4ofVdyjHFbihTpwNUhBSx6UZAsepBieassYlMPrlWR\nJ0YH4z7dNuMsKGj14lBGhp9VTVoAtlcrM/bQssY2hGKk8GbToQ6JiCJuNQKBgFNk\n8Rb56ONTAKQeCwR1FJ2wDBMUiWyGbd7x8wvpzPsUhR8aIk2n/N5kl+SwxcPaEBXQ\nJmEFN2eCMiTRcXY4QU3LEHPZBILjIBCBuCR7ZmY8mORG68tcYCaVbTHoHp6tbTsA\n7fS03+6fA1wj2XJ22assqz76VzHCyl6RVDlZZ7BxAoGAFd2syrnCXuThyYVkGpxy\nhBlZPRlaUd4FRgcJRBLhRBsRuRnqjZvtH8A647RBbNDxLmfMaDkN2c11wYdnomhd\nPuRY9+JxfYVpxeFt9UXmF+bYNAdJNOfOnKFBLiSrO8QzwAQlDK//0GvPH9l8xkO4\np7W5RijwKlcR0OBIyTv9ftg=\n-----END PRIVATE KEY-----\n",
+  "client_email": "saintmedicbot@velvety-accord-405915.iam.gserviceaccount.com",
+  "client_id": "117327416576022898391",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/saintmedicbot%40velvety-accord-405915.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

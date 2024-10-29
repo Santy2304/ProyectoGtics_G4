@@ -1,41 +1,81 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
 @Entity
 @Table(name="patient")
-public class Patient {
+public class Patient implements Serializable  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="idpatient")
     private int idPatient;
 
+    @Column(name="name")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El nombre no debe superar los 45 carácteres")
     private String name;
+
     @Column(name="lastname")
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El apellido no debe superar los 45 carácteres")
     private String lastName;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Digits(integer = 8, fraction = 0, message = "El DNI debe ser un número")
+    @Size(min = 8, max = 8, message = "El DNI tiene que tener 8 dígitos")
     private String dni;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "La dirección no debe superar los 45 carácteres")
     private String location;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El correo no debe superar los 45 carácteres")
     private String email;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El distrito no debe superar los 45 carácteres")
     private String distrit;
 
+    @NotBlank(message = "Este campo es obligatorio")
+    @Size(min=1,max = 45, message = "El seguro no debe superar los 45 carácteres")
     private String insurance;
 
-    private String password;
+
 
     @Column(name="changepassword")
-    private String changePassword;
+    private Boolean changePassword;
 
     private String photo;
 
-    @Column(name="datecreationaccount")
-    private Date dateCreationAccount;
+    @Column(name = "datecreationaccount", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateCreationAccount;
+
+
+    private String state;
+
+    @Column(name = "expirationdate")
+    private LocalDateTime expirationDate;
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     public int getIdPatient() {
         return idPatient;
@@ -101,19 +141,12 @@ public class Patient {
         this.insurance = insurance;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getChangePassword() {
+    public Boolean getChangePassword() {
         return changePassword;
     }
 
-    public void setChangePassword(String changePassword) {
+    public void setChangePassword(Boolean changePassword) {
         this.changePassword = changePassword;
     }
 
@@ -125,11 +158,19 @@ public class Patient {
         this.photo = photo;
     }
 
-    public Date getDateCreationAccount() {
+    public LocalDate getDateCreationAccount() {
         return dateCreationAccount;
     }
 
-    public void setDateCreationAccount(Date dateCreationAccount) {
+    public void setDateCreationAccount(LocalDate dateCreationAccount) {
         this.dateCreationAccount = dateCreationAccount;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

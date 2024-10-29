@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -10,31 +10,32 @@
 	<title>Saint Medic</title>
 
 	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="assets_pharmacist/img/PastillaSinFondo.png">
+	<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
 
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
 
 	<!-- animation CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/css/animate.css">
+	<link rel="stylesheet" href="/assets_superAdmin/css/animate.css">
 
 	<!-- Owl Carousel CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/plugins/owlcarousel/owl.carousel.min.css">
-	<link rel="stylesheet" href="assets_pharmacist/plugins/owlcarousel/owl.theme.default.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/plugins/owlcarousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/plugins/owlcarousel/owl.theme.default.min.css">
 
 	<!-- Select2 CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/plugins/select2/css/select2.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/plugins/select2/css/select2.min.css">
 
 	<!-- Datetimepicker CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap-datetimepicker.min.css">
 
 
 	<!-- Fontawesome CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/plugins/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="assets_pharmacist/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
 
 	<!-- Main CSS -->
-	<link rel="stylesheet" href="assets_pharmacist/css/style.css">
+	<link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
 
 </head>
 <body >
@@ -44,238 +45,47 @@
 </div>
 
 <div class="main-wrappers">
-	<div class="header">
-		<!-- Logo -->
-		<!-- Logo -->
-		<div class="header-left active">
-			<a href="error404.html" class="logo">
-				<img src="assets_pharmacist/img/LogoConLetras.png" alt="">
-			</a>
-			<a href="error404.html" class="logo-small">
-				<img src="assets_pharmacist/img/PastillaSinFondo.png" alt="">
-			</a>
-			<a id="toggle_btn" href="javascript:void(0);">
-			</a>
-		</div>
-		<!-- /Logo -->
-
-		<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-		</a>
-		<!-- /Logo -->
-
-		<!-- Header Menu -->
-		<ul class="nav user-menu">
-
-			<!-- Search -->
-			<!--
-			<li class="nav-item">
-				<div class="top-nav-search">
-
-					<a href="javascript:void(0);" class="responsive-search">
-						<i class="fa fa-search"></i>
-					</a>
-					<form action="#">
-						<div class="searchinputs">
-							<input type="text" placeholder="Search Here ...">
-							<div class="search-addon">
-								<span><img src="assets/img/icons/closes.svg" alt="img"></span>
-							</div>
-						</div>
-						<a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-					</form>
-				</div>
-			</li>
-			-->
-			<!-- /Search -->
-
-
-			<!-- Notifications -->
-
-			<li class="nav-item dropdown">
-				<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-					<img src="assets_pharmacist/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-				</a>
-				<div class="dropdown-menu notifications">
-					<div class="topnav-dropdown-header">
-						<span class="notification-title">Notificaciones</span>
-					</div>
-					<div class="noti-content">
-						<ul class="notification-list">
-
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-											<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-											<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-
-
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-											<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">JeanPiere</span> ha comprado por Chat <span class="noti-title"></span></p>
-											<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-
-							<!--Ejemplo completo-->
-							<!--
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets/img/profiles/avatar-03.jpg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
-											<p class="noti-time"><span class="notification-time">6 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-							-->
-							<li class="notification-message">
-								<a href="notifications.html">
-									<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="assets_pharmacist/img/Farmacista.jpeg">
-												</span>
-										<div class="media-body flex-grow-1">
-											<p class="noti-details"><span class="noti-title">Santiago Yong</span> ha comprado por web<span class="noti-title"></span></p>
-											<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-										</div>
-									</div>
-								</a>
-							</li>
-
-
-						</ul>
-					</div>
-					<div class="topnav-dropdown-footer">
-						<a href="notifications.html">Mira todas las notificaciones</a>
-					</div>
-				</div>
-			</li>
-
-			<!-- /Notifications -->
-
-			<li class="nav-item dropdown has-arrow main-drop">
-				<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="assets_pharmacist/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-				</a>
-				<div class="dropdown-menu menu-drop-user">
-					<div class="profilename">
-						<div class="profileset">
-									<span class="user-img"><img src="assets_pharmacist/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-							<div class="profilesets">
-								<h6>Hineill Céspedes</h6>
-								<h5>Farmacista</h5>
-								<h5>Sede Pando</h5>
-							</div>
-						</div>
-						<hr class="m-0">
-						<a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-						<hr class="m-0">
-						<a class="dropdown-item logout pb-0" href="../signin.html"><img src="assets_pharmacist/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-					</div>
-				</div>
-			</li>
-		</ul>
-		<!-- /Header Menu -->
-
-		<!-- Mobile Menu -->
-
-		<!-- /Mobile Menu -->
-	</div>
+	<div th:replace="headerFarmacista"></div>
 
 	<!--sideBar-->
-	<div class="sidebar" id="sidebar">
-		<div class="sidebar-inner slimscroll">
-			<div id="sidebar-menu" class="sidebar-menu">
-				<ul>
-					<li >
-						<a href="error404.html" ><img src="assets_pharmacist/img/icons/dashboard.svg" alt="img"><span> Dashboard</span> </a>
-					</li>
-					<li class="submenu">
-						<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/product.svg" alt="img"><span>Medicamentos</span> <span class="menu-arrow"></span></a>
-						<ul>
-							<li><a href="medicinelist.html">Inventario</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/sales1.svg" alt="img"><span>Ventas</span> <span class="menu-arrow"></span></a>
-						<ul>
-							<li><a href="productlist.html">Ordenes de venta</a></li>
-							<li><a href="pos.html" class="active">POS</a></li>
-							<li><a href="pos.html">Reposición</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/purchase1.svg" alt="img"><span>Chats</span> <span class="menu-arrow"></span></a>
-						<ul>
-							<li><a href="chat.html">Chats con pacientes</a></li>
-						</ul>
-					</li>
-					<li class="submenu">
-						<a href="javascript:void(0);"><img src="assets_pharmacist/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-						<ul>
-							<li><a href="profile.html">Mi perfil</a></li>
-							<li><a href="notifications.html">Notificaciones</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<div th:replace="sidebarFarmacista:: sidebarFarmacista(activeTab = 'pos')"> </div>
+
 	<!-- /Sidebar -->
+
+		<script>
+
+				document.addEventListener('DOMContentLoaded', () => {
+					$.ajax({
+						url: '/pharmacist/getAllCarrito',
+						type: 'GET',
+						success: function (response) {
+							let listaMedicamentos = response;
+							// Realiza acciones con los datos, como mostrarlos en la consola
+							console.log('Lista de medicamentos:', listaMedicamentos);
+							// También puedes realizar otras acciones, como actualizar la interfaz de usuario
+							// Por ejemplo, si quieres mostrar los medicamentos en una lista HTML:
+							let total = 0;
+							listaMedicamentos.forEach(function (medicamento) {
+								total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+								let imagen = document.getElementById('active' + medicamento.idMedicine.idMedicine);
+								imagen.classList.add('active');
+							});
+							let miDiv = document.getElementById('total');
+							miDiv.textContent = 'S/.' + total.toFixed(2);
+							//productset
+							//"${medicamento.getIdMedicine()}"
+						},
+						error: function (error) {
+							console.error('There was a problem with the request:', error);
+						}
+					});
+				});
+
+
+
+
+	</script>
+
 
 
 	<div class="page-wrapper">
@@ -284,10 +94,14 @@
 				<div class="col-lg-8 col-sm-12 tabs_wrapper" >
 					<div class="page-header " >
 						<div class="page-title">
-							<h1>NUEVA VENTA</h1>
+							<h1>NUEVA VENTA PRESENCIAL</h1>
 							<h6>Escoge los productos que vas a vender.</h6>
 						</div>
-
+						<!--
+						<div class="page-btn">
+							<a  class="btn btn-adds btn-xs" data-bs-toggle="modal" data-bs-target="#pre-orden" style="font-size: 17px"><i class="fa fa-plus me-2"></i>Pre-Orden</a>
+						</div>
+-->
 					</div>
 
 					<style>
@@ -307,1049 +121,1254 @@
 					</style>
 
 					<div class="top-nav-search" style="width: 100%; margin:-1px">
-
-						<form id="miFormulario" >
+						<form id="miFormulario" method="post" th:action="@{/pharmacist/filtradoPost}">
 							<div class="searchinputs">
-								<input id="medicamento" type="text" placeholder="Buscalos aquí..." style="width: 80%;" required>
-								<button type="submit" class="custom-button" id="searchdiv" onclick="BuscarMedicamento(event)"><img src="assets_pharmacist/img/icons/search.svg" alt="img"></button>
+								<input id="medicamento" name="medicamento" type="text" placeholder="Buscalos aquí..." style="width: 80%;" required>
+								<button type="submit" class="custom-button" ><img src="/assets_superAdmin/img/icons/search.svg" alt="img"></button>
 							</div>
 						</form>
 					</div>
-					<script>
-
-						function BuscarMedicamento(event){
-							event.preventDefault();
-							var formulario = document.getElementById("miFormulario");
-							if(formulario.checkValidity()) {
-								event.preventDefault();
-								var medicamento = document.getElementById("medicamento").value;
-								//const htmlContent = ;
-								switch(medicamento){
-									case("Paracetamol1"):
-										Swal.fire({
-											title: "Paracetamol1",
-											text: "\n" +
-													"El paracetamol es uno de los medicamentos más utilizados para aliviar el dolor y la fiebre. Aquí tienes un resumen de sus características principales:\n" +
-													"Recuerda: Esta información es orientativa. Siempre consulta con tu médico o farmacéutico antes de tomar cualquier medicamento.",
-											imageUrl: "assets/img/aspirina.jpeg",
-											imageWidth: 400,
-											imageHeight: 200,
-											showDenyButton: true,
-											showCancelButton: false,
-											confirmButtonText: "Agregar a la venta",
-											confirmButtonColor: "orange"	,
-											denyButtonColor: "red" ,
-											denyButtonText: `Regresar`
-										})
-										break;
-									case("Paracetamol2"):
-										Swal.fire({
-											imageUrl: "assets/img/aspirina.jpeg",
-											imageWidth: 400,
-											imageHeight: 200,
-											title: "No nos quedan unidades de paracetamol2 pero te recomendamos \n" +
-													"Paracetamol1",
-											showDenyButton: true,
-											showCancelButton: false,
-											confirmButtonText: "Agregar a la venta",
-											confirmButtonColor: "orange"	,
-											denyButtonText: `Regresar`,
-											denyButtonColor: "red"
-										})
-										break;
-									default:
-										Swal.fire({
-										icon: "error",
-											iconColor: "orange",
-										title: "El nombre de la medicina ingresado no coincide con ninguna que tengamos en el inventario",
-											confirmButtonColor: "#dd986a"
-										})
-										break;
-								}
-							}else{
-								Swal.fire({
-									title: "Debes poner el nombre de la medicina en el buscador",
-									confirmButtonColor: "#dd986a"
-								})
-							}
-						}
-
-					</script>
-
 					<ul class=" tabs owl-carousel owl-theme owl-product  border-0 " >
 						<li class="active" id="Alergia">
 							<div class="product-details " >
-								<img src="assets_pharmacist/img/alergia.png" alt="img" >
+								<img src="/assets_superAdmin/img/alergico.png" alt="img" >
 								<h6>Alergia</h6>
 							</div>
 						</li>
-						<li id="analgesico">
+						<li id="dolor">
 							<div class="product-details " >
-								<img src="assets_pharmacist/img/analgesico.png" alt="img" width="10" height="10" >
-								<h6>Analgésico</h6>
+								<img src="/assets_superAdmin/img/dolor.png" alt="img" width="10" height="10" >
+								<h6>Dolor</h6>
 							</div>
 						</li>
-						<li id="aspirina">
+						<li id="suplemento">
 							<div class="product-details">
-								<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
+								<img src="/assets_superAdmin/img/suplemento.png" alt="img">
+								<h6>Suplemento</h6>
 							</div>
 						</li>
 						<li id="belleza">
 							<a class="product-details">
-								<img src="assets_pharmacist/img/belleza.png" alt="img">
+								<img src="/assets_superAdmin/img/belleza.png" alt="img">
 								<h6>Belleza</h6>
 							</a>
 						</li>
-						<li id="suplemento">
+						<li id="otros">
 							<a class="product-details">
-								<img src="assets_pharmacist/img/suplemento.png" alt="img">
-								<h6>Suplemento</h6>
+								<img src="/assets_superAdmin/img/otros.png" alt="img">
+								<h6>Otros</h6>
 							</a>
-						</li>
-						<li id="Snacks">
-							<div class="product-details">
-								<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="watch"><a class="product-details">
-							<img src="assets_pharmacist/img/suplemento.png" alt="img">
-							<h6>Suplemento</h6>
-						</a>
-						</li>
-						<li id="cycle">
-							<div class="product-details">
-								<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="fruits1">
-							<div class="product-details">
-								<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
-						</li>
-						<li id="headphone1">
-							<div class="product-details">
-								<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-								<h6>Aspirina</h6>
-							</div>
 						</li>
 					</ul>
 
-
-
 					<div class="tabs_container" >
-
-						<div  class="tab_content active" data-tab="Alergia">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5.00</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina1</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina2</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina3</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina4</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina5</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina6</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina7</h4>
-											<h6>35.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina8</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina9</h4>
-										<h6>150.00</h6>
-									</div>
-								</div>
-							</div><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina</h4>
-										<h6>20.00</h6>
-									</div>
-								</div>
-							</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<div class="tab_content" data-tab="analgesico">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 1</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Accessories</h5>
-											<h4>Sunglasses</h4>
-											<h6>15.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-							</div>
-						</div>
-
-
-						<div class="tab_content" data-tab="aspirina">
+						<div class="tab_content active" data-tab="Alergia">
+							<div th:with="alergiaPresente=false"></div>
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Alergias' && medicamento.getCantidad() > 0 }">
+									<div th:with="alergiaPresente=true"></div>
+									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img"  style="height: 192px; max-width: 192px;">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5 th:text="${medicamento.getCategoria()}" ></h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											let addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											let productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', (event) => {
+												console.log("Holaaaaa")
+												let adder = document.createElement('ul');
+												adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+												adder.className = "product-lists";
+												let li = document.createElement('li');
+												let productImgDiv = document.createElement('div');
+												productImgDiv.className = 'productimg';
+												let productImgsDiv = document.createElement('div');
+												productImgsDiv.className = 'productimgs';
+												let img = document.createElement('img');
+												img.src = '/imagenes/' + [[${medicamento.photo}]];
+												img.alt = 'img';
+												productImgsDiv.appendChild(img);
+												let productContentDiv = document.createElement('div');
+												productContentDiv.className = 'productcontet';
+												let h4 = document.createElement('h4');
+												h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+												let a = document.createElement('a');
+												a.href = 'javascript:void(0);';
+												a.className = 'ms-2';
+												a.setAttribute('data-bs-toggle', 'modal');
+												a.setAttribute('data-bs-target', '#edit');
+												let editImg = document.createElement('img');
+												editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+												editImg.alt = 'img';
+												a.appendChild(editImg);
+												h4.appendChild(a);
+												let productLinkSetDiv = document.createElement('div');
+												productLinkSetDiv.className = 'productlinkset';
+												let h5 = document.createElement('h5');
+												h5.textContent = "" + [[${medicamento.getCategoria()}]];
+												productLinkSetDiv.appendChild(h5);
+												let incrementDecrementDiv = document.createElement('div');
+												incrementDecrementDiv.className = 'increment-decrement';
+												let inputGroupsDiv = document.createElement('div');
+												inputGroupsDiv.className = 'input-groups';
+												let inputMinus = document.createElement('input');
+												inputMinus.type = 'button';
+												inputMinus.name = 'menos';
+												inputMinus.value = '-';
+												inputMinus.className = 'menos button';
+												let inputQuantity = document.createElement('input');
+												inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.type = 'text';
+												inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.value = "1";
+												inputQuantity.className = 'quantity-field';
+												let inputPlus = document.createElement('input');
+												inputPlus.type = 'button';
+												inputPlus.name = 'mas';
+												inputPlus.value = '+';
+												inputPlus.className = 'mas button';
+												inputGroupsDiv.appendChild(inputMinus);
+												inputGroupsDiv.appendChild(inputQuantity);
+												inputGroupsDiv.appendChild(inputPlus);
+												incrementDecrementDiv.appendChild(inputGroupsDiv);
+												// Añadir todo al div principal
+												productContentDiv.appendChild(h4);
+												productContentDiv.appendChild(productLinkSetDiv);
+												productContentDiv.appendChild(incrementDecrementDiv);
+												productImgDiv.appendChild(productImgsDiv);
+												productImgDiv.appendChild(productContentDiv);
+												li.appendChild(productImgDiv);
+												// Añadir el precio
+												let priceLi = document.createElement('li');
+												priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+												// Añadir botón de eliminar
+												let deleteLi = document.createElement('li');
+												let deleteA = document.createElement('a');
+												deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+												let deleteImg = document.createElement('img');
+												deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+												deleteImg.alt = 'img';
+												deleteA.appendChild(deleteImg);
+												deleteLi.appendChild(deleteA);
+												console.log(li);
+												console.log(priceLi);
+												console.log(deleteLi);
+												let structure2  = document.getElementById("active" + [[${medicamento.getIdMedicine()}]]);
+												let ola = false;
+												if(structure2.classList.contains('active')){
+													ola = true;
+												}
+												if (!ola) {
+													$.ajax({
+														url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															let productList2 = document.getElementById('productList');
+															adder.appendChild(li);
+															adder.appendChild(priceLi);
+															adder.appendChild(deleteLi);
+															console.log(adder)
+															productList2.appendChild(adder);
+															let addProduct = document.getElementById("delete" + [[${medicamento.getIdMedicine()}]]);
+															productList = document.getElementById('product-list');
+															addProduct.addEventListener('click', (event) => {
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>50.00</h6>
-										</div>
-									</div>
+																$.ajax({
+																	url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+																	type: 'GET',
+																	success: function (response) {
+																		// Eliminar porción de HTML
+																		$.ajax({
+																			url: '/pharmacist/getAllCarrito',
+																			type: 'GET',
+																			success: function (response) {
+																				let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+																				let listaMedicamentos = response;
+																				let total = 0;
+																				listaMedicamentos.forEach(function (medicamento) {
+																					total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+																				});
+																				let miDiv = document.getElementById('total');
+																				miDiv.textContent = 'S/.' + total.toFixed(2);
+																				let miDivTwo = document.getElementById('totalProductojpg');
+																				miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																				let activo = document.getElementById('active' + [[${medicamento.getIdMedicine()}]])
+																				activo.classList.remove('active');
+																				elemento.remove();
+																			},
+																			error: function (error) {
+																				console.error('There was a problem with the request:', error);
+																			}
+																		});
+																	},
+																	error: function (error) {
+																		console.error('There was a problem with the request:', error);
+																	}
+																});
+
+
+
+
+
+															});
+
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+																	//totalProductojpg
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}else{
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+															elemento.remove();
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}
+											});
+										});
+									</script>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
 
+						<div class="tab_content" data-tab="dolor">
+							<div th:with="dolorPresente=false"></div>
+							<!-- Iniciar la fila -->
+							<div class="row">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Dolor'  && medicamento.getCantidad() > 0 }">
+									<div th:with="dolorPresente=true"></div>
+									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
+										<div class="productsetimg">
+											<img   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img"  style="height: 192px; max-width: 192px;">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
+											</div>
+										</div>
+										<div class="productsetcontent">
+											<h5 th:text="${medicamento.getCategoria()}" ></h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
+									</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											let addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											let productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', (event) => {
+												console.log("Holaaaaa")
+												let adder = document.createElement('ul');
+												adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+												adder.className = "product-lists";
+												let li = document.createElement('li');
+												let productImgDiv = document.createElement('div');
+												productImgDiv.className = 'productimg';
+												let productImgsDiv = document.createElement('div');
+												productImgsDiv.className = 'productimgs';
+												let img = document.createElement('img');
+												img.src = '/imagenes/' + [[${medicamento.photo}]];
+												img.alt = 'img';
+												productImgsDiv.appendChild(img);
+												let productContentDiv = document.createElement('div');
+												productContentDiv.className = 'productcontet';
+												let h4 = document.createElement('h4');
+												h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+												let a = document.createElement('a');
+												a.href = 'javascript:void(0);';
+												a.className = 'ms-2';
+												a.setAttribute('data-bs-toggle', 'modal');
+												a.setAttribute('data-bs-target', '#edit');
+												let editImg = document.createElement('img');
+												editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+												editImg.alt = 'img';
+												a.appendChild(editImg);
+												h4.appendChild(a);
+												let productLinkSetDiv = document.createElement('div');
+												productLinkSetDiv.className = 'productlinkset';
+												let h5 = document.createElement('h5');
+												h5.textContent = "" + [[${medicamento.getCategoria()}]];
+												productLinkSetDiv.appendChild(h5);
+												let incrementDecrementDiv = document.createElement('div');
+												incrementDecrementDiv.className = 'increment-decrement';
+												let inputGroupsDiv = document.createElement('div');
+												inputGroupsDiv.className = 'input-groups';
+												let inputMinus = document.createElement('input');
+												inputMinus.type = 'button';
+												inputMinus.name = 'menos';
+												inputMinus.value = '-';
+												inputMinus.className = 'menos button';
+												let inputQuantity = document.createElement('input');
+												inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.type = 'text';
+												inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.value = "1";
+												inputQuantity.className = 'quantity-field';
+												let inputPlus = document.createElement('input');
+												inputPlus.type = 'button';
+												inputPlus.name = 'mas';
+												inputPlus.value = '+';
+												inputPlus.className = 'mas button';
+												inputGroupsDiv.appendChild(inputMinus);
+												inputGroupsDiv.appendChild(inputQuantity);
+												inputGroupsDiv.appendChild(inputPlus);
+												incrementDecrementDiv.appendChild(inputGroupsDiv);
+												// Añadir todo al div principal
+												productContentDiv.appendChild(h4);
+												productContentDiv.appendChild(productLinkSetDiv);
+												productContentDiv.appendChild(incrementDecrementDiv);
+												productImgDiv.appendChild(productImgsDiv);
+												productImgDiv.appendChild(productContentDiv);
+												li.appendChild(productImgDiv);
+												// Añadir el precio
+												let priceLi = document.createElement('li');
+												priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+												// Añadir botón de eliminar
+												let deleteLi = document.createElement('li');
+												let deleteA = document.createElement('a');
+												deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+												let deleteImg = document.createElement('img');
+												deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+												deleteImg.alt = 'img';
+												deleteA.appendChild(deleteImg);
+												deleteLi.appendChild(deleteA);
+												console.log(li);
+												console.log(priceLi);
+												console.log(deleteLi);
+												let structure2  = document.getElementById("active" + [[${medicamento.getIdMedicine()}]]);
+												let ola = false;
+												if(structure2.classList.contains('active')){
+													ola = true;
+												}
+												if (!ola) {
+													$.ajax({
+														url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															let productList2 = document.getElementById('productList');
+															adder.appendChild(li);
+															adder.appendChild(priceLi);
+															adder.appendChild(deleteLi);
+															console.log(adder)
+															productList2.appendChild(adder);
+															let addProduct = document.getElementById("delete" + [[${medicamento.getIdMedicine()}]]);
+															productList = document.getElementById('product-list');
+															addProduct.addEventListener('click', (event) => {
+
+																$.ajax({
+																	url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+																	type: 'GET',
+																	success: function (response) {
+																		// Eliminar porción de HTML
+																		$.ajax({
+																			url: '/pharmacist/getAllCarrito',
+																			type: 'GET',
+																			success: function (response) {
+																				let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+																				let listaMedicamentos = response;
+																				let total = 0;
+																				listaMedicamentos.forEach(function (medicamento) {
+																					total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+																				});
+																				let miDiv = document.getElementById('total');
+																				miDiv.textContent = 'S/.' + total.toFixed(2);
+																				let miDivTwo = document.getElementById('totalProductojpg');
+																				miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																				let activo = document.getElementById('active' + [[${medicamento.getIdMedicine()}]])
+																				activo.classList.remove('active');
+																				elemento.remove();
+																			},
+																			error: function (error) {
+																				console.error('There was a problem with the request:', error);
+																			}
+																		});
+																	},
+																	error: function (error) {
+																		console.error('There was a problem with the request:', error);
+																	}
+																});
 
 
 
+
+
+															});
+
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+																	//totalProductojpg
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}else{
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+															elemento.remove();
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}
+											});
+										});
+									</script>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
+								</div>
+							</div>
+						</div>
 
 						<div class="tab_content" data-tab="belleza">
+							<div th:with="bellezaPresente=false"></div>
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Belleza'  && medicamento.getCantidad() > 0}">
+									<div th:with="bellezaPresente=true"></div>
+									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img"  style="height: 192px; max-width: 192px;">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5 th:text="${medicamento.getCategoria()}" ></h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											let addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											let productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', (event) => {
+												console.log("Holaaaaa")
+												let adder = document.createElement('ul');
+												adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+												adder.className = "product-lists";
+												let li = document.createElement('li');
+												let productImgDiv = document.createElement('div');
+												productImgDiv.className = 'productimg';
+												let productImgsDiv = document.createElement('div');
+												productImgsDiv.className = 'productimgs';
+												let img = document.createElement('img');
+												img.src = '/imagenes/' + [[${medicamento.photo}]];
+												img.alt = 'img';
+												productImgsDiv.appendChild(img);
+												let productContentDiv = document.createElement('div');
+												productContentDiv.className = 'productcontet';
+												let h4 = document.createElement('h4');
+												h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+												let a = document.createElement('a');
+												a.href = 'javascript:void(0);';
+												a.className = 'ms-2';
+												a.setAttribute('data-bs-toggle', 'modal');
+												a.setAttribute('data-bs-target', '#edit');
+												let editImg = document.createElement('img');
+												editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+												editImg.alt = 'img';
+												a.appendChild(editImg);
+												h4.appendChild(a);
+												let productLinkSetDiv = document.createElement('div');
+												productLinkSetDiv.className = 'productlinkset';
+												let h5 = document.createElement('h5');
+												h5.textContent = "" + [[${medicamento.getCategoria()}]];
+												productLinkSetDiv.appendChild(h5);
+												let incrementDecrementDiv = document.createElement('div');
+												incrementDecrementDiv.className = 'increment-decrement';
+												let inputGroupsDiv = document.createElement('div');
+												inputGroupsDiv.className = 'input-groups';
+												let inputMinus = document.createElement('input');
+												inputMinus.type = 'button';
+												inputMinus.name = 'menos';
+												inputMinus.value = '-';
+												inputMinus.className = 'menos button';
+												let inputQuantity = document.createElement('input');
+												inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.type = 'text';
+												inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.value = "1";
+												inputQuantity.className = 'quantity-field';
+												let inputPlus = document.createElement('input');
+												inputPlus.type = 'button';
+												inputPlus.name = 'mas';
+												inputPlus.value = '+';
+												inputPlus.className = 'mas button';
+												inputGroupsDiv.appendChild(inputMinus);
+												inputGroupsDiv.appendChild(inputQuantity);
+												inputGroupsDiv.appendChild(inputPlus);
+												incrementDecrementDiv.appendChild(inputGroupsDiv);
+												// Añadir todo al div principal
+												productContentDiv.appendChild(h4);
+												productContentDiv.appendChild(productLinkSetDiv);
+												productContentDiv.appendChild(incrementDecrementDiv);
+												productImgDiv.appendChild(productImgsDiv);
+												productImgDiv.appendChild(productContentDiv);
+												li.appendChild(productImgDiv);
+												// Añadir el precio
+												let priceLi = document.createElement('li');
+												priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+												// Añadir botón de eliminar
+												let deleteLi = document.createElement('li');
+												let deleteA = document.createElement('a');
+												deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+												let deleteImg = document.createElement('img');
+												deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+												deleteImg.alt = 'img';
+												deleteA.appendChild(deleteImg);
+												deleteLi.appendChild(deleteA);
+												console.log(li);
+												console.log(priceLi);
+												console.log(deleteLi);
+												let structure2  = document.getElementById("active" + [[${medicamento.getIdMedicine()}]]);
+												let ola = false;
+												if(structure2.classList.contains('active')){
+													ola = true;
+												}
+												if (!ola) {
+													$.ajax({
+														url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															let productList2 = document.getElementById('productList');
+															adder.appendChild(li);
+															adder.appendChild(priceLi);
+															adder.appendChild(deleteLi);
+															console.log(adder)
+															productList2.appendChild(adder);
+															let addProduct = document.getElementById("delete" + [[${medicamento.getIdMedicine()}]]);
+															productList = document.getElementById('product-list');
+															addProduct.addEventListener('click', (event) => {
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
+																$.ajax({
+																	url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+																	type: 'GET',
+																	success: function (response) {
+																		// Eliminar porción de HTML
+																		$.ajax({
+																			url: '/pharmacist/getAllCarrito',
+																			type: 'GET',
+																			success: function (response) {
+																				let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+																				let listaMedicamentos = response;
+																				let total = 0;
+																				listaMedicamentos.forEach(function (medicamento) {
+																					total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+																				});
+																				let miDiv = document.getElementById('total');
+																				miDiv.textContent = 'S/.' + total.toFixed(2);
+																				let miDivTwo = document.getElementById('totalProductojpg');
+																				miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																				let activo = document.getElementById('active' + [[${medicamento.getIdMedicine()}]])
+																				activo.classList.remove('active');
+																				elemento.remove();
+																			},
+																			error: function (error) {
+																				console.error('There was a problem with the request:', error);
+																			}
+																		});
+																	},
+																	error: function (error) {
+																		console.error('There was a problem with the request:', error);
+																	}
+																});
+
+
+
+
+
+															});
+
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+																	//totalProductojpg
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}else{
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+															elemento.remove();
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}
+											});
+										});
+									</script>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
-
-
 
 						<div class="tab_content" data-tab="suplemento">
-							<div class="row"><div class="col-lg-3 col-sm-6 d-flex ">
-								<div class="productset flex-fill">
-									<div class="productsetimg">
-										<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-										<h6>Cantidad: 5</h6>
-										<div class="check-product">
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-									<div class="productsetcontent">
-										<h5>Alergia</h5>
-										<h4>Cetirizina</h4>
-										<h6>20.00</h6>
-									</div>
-								</div>
-							</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-
-						<div class="tab_content" data-tab="computer">
+							<!-- Variable de control para saber si hay al menos un medicamento de suplemento -->
+							<div th:with="suplementoPresente=false"></div>
+							<!-- Iniciar la fila -->
 							<div class="row">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Suplemento'  && medicamento.getCantidad() > 0 }">
+									<div th:with="suplementoPresente=true"></div>
+									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
+										<div class="productsetimg">
+											<img   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img"  style="height: 192px; max-width: 192px;">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
+											<div class="check-product">
+												<i class="fa fa-check"></i>
+											</div>
+										</div>
+										<div class="productsetcontent">
+											<h5 th:text="${medicamento.getCategoria()}" ></h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
+										</div>
+									</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											let addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											let productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', (event) => {
+												console.log("Holaaaaa")
+												let adder = document.createElement('ul');
+												adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+												adder.className = "product-lists";
+												let li = document.createElement('li');
+												let productImgDiv = document.createElement('div');
+												productImgDiv.className = 'productimg';
+												let productImgsDiv = document.createElement('div');
+												productImgsDiv.className = 'productimgs';
+												let img = document.createElement('img');
+												img.src = '/imagenes/' + [[${medicamento.photo}]];
+												img.alt = 'img';
+												productImgsDiv.appendChild(img);
+												let productContentDiv = document.createElement('div');
+												productContentDiv.className = 'productcontet';
+												let h4 = document.createElement('h4');
+												h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+												let a = document.createElement('a');
+												a.href = 'javascript:void(0);';
+												a.className = 'ms-2';
+												a.setAttribute('data-bs-toggle', 'modal');
+												a.setAttribute('data-bs-target', '#edit');
+												let editImg = document.createElement('img');
+												editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+												editImg.alt = 'img';
+												a.appendChild(editImg);
+												h4.appendChild(a);
+												let productLinkSetDiv = document.createElement('div');
+												productLinkSetDiv.className = 'productlinkset';
+												let h5 = document.createElement('h5');
+												h5.textContent = "" + [[${medicamento.getCategoria()}]];
+												productLinkSetDiv.appendChild(h5);
+												let incrementDecrementDiv = document.createElement('div');
+												incrementDecrementDiv.className = 'increment-decrement';
+												let inputGroupsDiv = document.createElement('div');
+												inputGroupsDiv.className = 'input-groups';
+												let inputMinus = document.createElement('input');
+												inputMinus.type = 'button';
+												inputMinus.name = 'menos';
+												inputMinus.value = '-';
+												inputMinus.className = 'menos button';
+												let inputQuantity = document.createElement('input');
+												inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.type = 'text';
+												inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.value = "1";
+												inputQuantity.className = 'quantity-field';
+												let inputPlus = document.createElement('input');
+												inputPlus.type = 'button';
+												inputPlus.name = 'mas';
+												inputPlus.value = '+';
+												inputPlus.className = 'mas button';
+												inputGroupsDiv.appendChild(inputMinus);
+												inputGroupsDiv.appendChild(inputQuantity);
+												inputGroupsDiv.appendChild(inputPlus);
+												incrementDecrementDiv.appendChild(inputGroupsDiv);
+												// Añadir todo al div principal
+												productContentDiv.appendChild(h4);
+												productContentDiv.appendChild(productLinkSetDiv);
+												productContentDiv.appendChild(incrementDecrementDiv);
+												productImgDiv.appendChild(productImgsDiv);
+												productImgDiv.appendChild(productContentDiv);
+												li.appendChild(productImgDiv);
+												// Añadir el precio
+												let priceLi = document.createElement('li');
+												priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+												// Añadir botón de eliminar
+												let deleteLi = document.createElement('li');
+												let deleteA = document.createElement('a');
+												deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+												let deleteImg = document.createElement('img');
+												deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+												deleteImg.alt = 'img';
+												deleteA.appendChild(deleteImg);
+												deleteLi.appendChild(deleteA);
+												console.log(li);
+												console.log(priceLi);
+												console.log(deleteLi);
+												let structure2  = document.getElementById("active" + [[${medicamento.getIdMedicine()}]]);
+												let ola = false;
+												if(structure2.classList.contains('active')){
+													ola = true;
+												}
+												if (!ola) {
+													$.ajax({
+														url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															let productList2 = document.getElementById('productList');
+															adder.appendChild(li);
+															adder.appendChild(priceLi);
+															adder.appendChild(deleteLi);
+															console.log(adder)
+															productList2.appendChild(adder);
+															let addProduct = document.getElementById("delete" + [[${medicamento.getIdMedicine()}]]);
+															productList = document.getElementById('product-list');
+															addProduct.addEventListener('click', (event) => {
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+																$.ajax({
+																	url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+																	type: 'GET',
+																	success: function (response) {
+																		// Eliminar porción de HTML
+																		$.ajax({
+																			url: '/pharmacist/getAllCarrito',
+																			type: 'GET',
+																			success: function (response) {
+																				let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+																				let listaMedicamentos = response;
+																				let total = 0;
+																				listaMedicamentos.forEach(function (medicamento) {
+																					total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+																				});
+																				let miDiv = document.getElementById('total');
+																				miDiv.textContent = 'S/.' + total.toFixed(2);
+																				let miDivTwo = document.getElementById('totalProductojpg');
+																				miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																				let activo = document.getElementById('active' + [[${medicamento.getIdMedicine()}]])
+																				activo.classList.remove('active');
+																				elemento.remove();
+																			},
+																			error: function (error) {
+																				console.error('There was a problem with the request:', error);
+																			}
+																		});
+																	},
+																	error: function (error) {
+																		console.error('There was a problem with the request:', error);
+																	}
+																});
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
+
+
+
+
+															});
+
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+																	//totalProductojpg
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}else{
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+															elemento.remove();
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}
+											});
+										});
+									</script>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
 
-
-
-						<div class="tab_content" data-tab="Snacks">
+						<div class="tab_content" data-tab="otros">
+							<div th:with="otrosPresente=false"></div>
+							<!-- Iniciar la fila -->
 							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
+								<div th:id="${medicamento.getIdMedicine()}" class="col-lg-4 col-md-4 col-sm-6" th:each="medicamento, ola : ${listamedicamentosfarm}" th:if=" ${medicamento.getCategoria() == 'Otros'  && medicamento.getCantidad() > 0 }">
+									<div th:with="otrosPresente=true"></div>
+									<div th:id="|active${medicamento.getIdMedicine()}|" class="productset">
 										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
+											<img   th:src="@{'/imagenes/' + ${medicamento.getPhoto()}}" alt="img"  style="height: 192px; max-width: 192px;">
+											<h6 th:text="|Cantidad:${medicamento.getCantidad()}|"></h6>
 											<div class="check-product">
 												<i class="fa fa-check"></i>
 											</div>
 										</div>
 										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
+											<h5 th:text="${medicamento.getCategoria()}" ></h5>
+											<h4 th:text="${medicamento.getNombreMedicamento()}"></h4>
+											<h6 th:text="|S/${medicamento.getPrecio()}0|"></h6>
 										</div>
 									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
+									<script th:inline="javascript" >
+										document.addEventListener('DOMContentLoaded', () => {
+											let addProduct = document.getElementById(""+ [[${medicamento.getIdMedicine()}]]);
+											let productList  = document.getElementById('productList');
+											addProduct.addEventListener('click', (event) => {
+												console.log("Holaaaaa")
+												let adder = document.createElement('ul');
+												adder.id = "aux" + [[${medicamento.getNombreMedicamento()}]];
+												adder.className = "product-lists";
+												let li = document.createElement('li');
+												let productImgDiv = document.createElement('div');
+												productImgDiv.className = 'productimg';
+												let productImgsDiv = document.createElement('div');
+												productImgsDiv.className = 'productimgs';
+												let img = document.createElement('img');
+												img.src = '/imagenes/' + [[${medicamento.photo}]];
+												img.alt = 'img';
+												productImgsDiv.appendChild(img);
+												let productContentDiv = document.createElement('div');
+												productContentDiv.className = 'productcontet';
+												let h4 = document.createElement('h4');
+												h4.textContent = "" + [[${medicamento.getNombreMedicamento()}]];
+												let a = document.createElement('a');
+												a.href = 'javascript:void(0);';
+												a.className = 'ms-2';
+												a.setAttribute('data-bs-toggle', 'modal');
+												a.setAttribute('data-bs-target', '#edit');
+												let editImg = document.createElement('img');
+												editImg.src = '/assets_superAdmin/img/icons/edit-5.svg';
+												editImg.alt = 'img';
+												a.appendChild(editImg);
+												h4.appendChild(a);
+												let productLinkSetDiv = document.createElement('div');
+												productLinkSetDiv.className = 'productlinkset';
+												let h5 = document.createElement('h5');
+												h5.textContent = "" + [[${medicamento.getCategoria()}]];
+												productLinkSetDiv.appendChild(h5);
+												let incrementDecrementDiv = document.createElement('div');
+												incrementDecrementDiv.className = 'increment-decrement';
+												let inputGroupsDiv = document.createElement('div');
+												inputGroupsDiv.className = 'input-groups';
+												let inputMinus = document.createElement('input');
+												inputMinus.type = 'button';
+												inputMinus.name = 'menos';
+												inputMinus.value = '-';
+												inputMinus.className = 'menos button';
+												let inputQuantity = document.createElement('input');
+												inputQuantity.id = 'awa' + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.type = 'text';
+												inputQuantity.name = "" + [[${medicamento.getIdMedicine()}]];
+												inputQuantity.value = "1";
+												inputQuantity.className = 'quantity-field';
+												let inputPlus = document.createElement('input');
+												inputPlus.type = 'button';
+												inputPlus.name = 'mas';
+												inputPlus.value = '+';
+												inputPlus.className = 'mas button';
+												inputGroupsDiv.appendChild(inputMinus);
+												inputGroupsDiv.appendChild(inputQuantity);
+												inputGroupsDiv.appendChild(inputPlus);
+												incrementDecrementDiv.appendChild(inputGroupsDiv);
+												// Añadir todo al div principal
+												productContentDiv.appendChild(h4);
+												productContentDiv.appendChild(productLinkSetDiv);
+												productContentDiv.appendChild(incrementDecrementDiv);
+												productImgDiv.appendChild(productImgsDiv);
+												productImgDiv.appendChild(productContentDiv);
+												li.appendChild(productImgDiv);
+												// Añadir el precio
+												let priceLi = document.createElement('li');
+												priceLi.textContent = Number([[${medicamento.getPrecio()}]]).toFixed(2);
+												// Añadir botón de eliminar
+												let deleteLi = document.createElement('li');
+												let deleteA = document.createElement('a');
+												deleteA.id = 'delete' + [[${medicamento.getIdMedicine()}]];
+												let deleteImg = document.createElement('img');
+												deleteImg.src = '/assets_superAdmin/img/icons/delete-2.svg';
+												deleteImg.alt = 'img';
+												deleteA.appendChild(deleteImg);
+												deleteLi.appendChild(deleteA);
+												console.log(li);
+												console.log(priceLi);
+												console.log(deleteLi);
+												let structure2  = document.getElementById("active" + [[${medicamento.getIdMedicine()}]]);
+												let ola = false;
+												if(structure2.classList.contains('active')){
+													ola = true;
+												}
+												if (!ola) {
+													$.ajax({
+														url: '/pharmacist/addCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															let productList2 = document.getElementById('productList');
+															adder.appendChild(li);
+															adder.appendChild(priceLi);
+															adder.appendChild(deleteLi);
+															console.log(adder)
+															productList2.appendChild(adder);
+															let addProduct = document.getElementById("delete" + [[${medicamento.getIdMedicine()}]]);
+															productList = document.getElementById('product-list');
+															addProduct.addEventListener('click', (event) => {
 
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
+																$.ajax({
+																	url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+																	type: 'GET',
+																	success: function (response) {
+																		// Eliminar porción de HTML
+																		$.ajax({
+																			url: '/pharmacist/getAllCarrito',
+																			type: 'GET',
+																			success: function (response) {
+																				let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+																				let listaMedicamentos = response;
+																				let total = 0;
+																				listaMedicamentos.forEach(function (medicamento) {
+																					total = total + (medicamento.idMedicine.price) * (medicamento.cantidad);
+																				});
+																				let miDiv = document.getElementById('total');
+																				miDiv.textContent = 'S/.' + total.toFixed(2);
+																				let miDivTwo = document.getElementById('totalProductojpg');
+																				miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																				let activo = document.getElementById('active' + [[${medicamento.getIdMedicine()}]])
+																				activo.classList.remove('active');
+																				elemento.remove();
+																			},
+																			error: function (error) {
+																				console.error('There was a problem with the request:', error);
+																			}
+																		});
+																	},
+																	error: function (error) {
+																		console.error('There was a problem with the request:', error);
+																	}
+																});
+
+
+
+
+
+															});
+
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+																	//totalProductojpg
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}else{
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${medicamento.getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let elemento = document.getElementById("aux" + [[${medicamento.getNombreMedicamento()}]]);
+															elemento.remove();
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	let total = 0 ;
+																	listaMedicamentos.forEach(function(medicamento) {
+																		total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+																	});
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let miDivTwo = document.getElementById('totalProductojpg');
+																	miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+																	//productset
+																	//"${medicamento.getIdMedicine()}"
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
+												}
+											});
+										});
+									</script>
+
+									<!-- Cerrar la fila y abrir una nueva cada tres elementos tengo sueño jefe -->
+									<div th:if="${ola.index % 3 == 2}" class="w-100 d-none d-lg-block"></div>
 								</div>
 							</div>
 						</div>
-
-
-
-
-						<div class="tab_content" data-tab="watch">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div class="tab_content" data-tab="cycle">
-							<div class="row">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div  class="tab_content" data-tab="fruits1">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
-
-						<div class="tab_content" data-tab="headphone1">
-							<div class="row ">
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-
-								<div class="col-lg-3 col-sm-6 d-flex ">
-									<div class="productset flex-fill">
-										<div class="productsetimg">
-											<img src="assets_pharmacist/img/ibuprofeno.png" alt="img">
-											<h6>Cantidad: 5</h6>
-											<div class="check-product">
-												<i class="fa fa-check"></i>
-											</div>
-										</div>
-										<div class="productsetcontent">
-											<h5>Alergia</h5>
-											<h4>Cetirizina</h4>
-											<h6>20.00</h6>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</div>
-
-
-
 					</div>
 				</div>
+
 
 
 
 				<div class="col-lg-4 col-sm-12 ">
 					<div class="order-list">
 						<div class="orderid">
-							<h4>Número de orden</h4>
-							<h5>#65565</h5>
+							<h4>Orden de venta presencial</h4>
+							<h5 th:if="${fullNamePatient} != null" th:text="|Paciente: ${fullNamePatient}|"></h5>
+							<h5 th:if="${fullNameDoctor} != null" th:text="|Doctor: ${fullNameDoctor}|"></h5>
 						</div>
-						<div class="actionproducts">
+						<div th:if="${fullNamePatient} != null" class="actionproducts">
 							<ul>
 								<li>
-									<a  onclick="return Swal.fire({ title:'¿Estás seguro de eliminar los productos elegidos y los datos del cliente?', icon: 'warning', showCancelButton: true, confirmButtonColor: '#d48e15', cancelButtonColor: '#805409', confirmButtonText: 'Eliminar datos' , cancelButtonText:'Cancelar' })" ><img src="assets_pharmacist/img/icons/delete-2.svg" alt="img"></a>
+									<a  id="borrador" ><img  src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"></a>
 									<script>
-										function BorrarTodo(){(
-												Swal.fire({
-													title: "Are you sure?",
-													text: "You won't be able to revert this!",
-													icon: "warning",
-													showCancelButton: true,
-													confirmButtonColor: "#3085d6",
-													cancelButtonColor: "#d33",
-													confirmButtonText: "Yes, delete it!"
-												})
-										)}
+
+										document.getElementById("borrador").onclick = function(){
+											Swal.fire({ title:'¿Estás seguro de eliminar los datos del cliente?',
+												icon: 'warning',
+												showCancelButton: true
+												, confirmButtonColor: '#d48e15',
+												cancelButtonColor: '#805409',
+												confirmButtonText: 'Eliminar datos' ,
+												cancelButtonText:'Cancelar' }).then((result) => {
+												if (result.isConfirmed) {
+													// Redirigir a la vista del controlador
+													window.location.href = "/pharmacist/eliminarPacienteDoctorDesdeFarmacista";
+												}
+											});
+										}
+
 									</script>
 								</li>
-								<!--
-								<li>
-									<a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset" >
-										<img src="assets/img/icons/ellipise1.svg" alt="img">
-									</a>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-end">
-										<li>
-											<a href="#" class="dropdown-item">Action</a>
-										</li>
-										<li>
-											<a href="#" class="dropdown-item">Another Action</a>
-										</li>
-										<li>
-											<a href="#" class="dropdown-item">Something Elses</a>
-										</li>
-									</ul>
-								</li>
-								-->
+
 							</ul>
 						</div>
 					</div>
 					<div class="card card-order">
-						<div class="card-body">
+						<div th:if="${fullNamePatient} == null" class="card-body">
 							<div class="row">
 								<div class="col-12">
 									<a href="javascript:void(0);" class="btn btn-adds" data-bs-toggle="modal" data-bs-target="#create"><i class="fa fa-plus me-2"></i>Ingresar datos del cliente</a>
@@ -1360,66 +1379,80 @@
 						</div>
 						<div class="card-body pt-0">
 							<div class="totalitem">
-								<h4>Total de productos : 5</h4>
-								<a href="javascript:void(0);">Vaciar carrito</a>
+								<h4 id="totalProductojpg" th:text="|Total de productos : ${listaComprar.size()}|"></h4>
+								<a href="/pharmacist/vaciarCarrito">Vaciar carrito</a>
 							</div>
-							<div class="product-table">
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="assets_pharmacist/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
+							<form id="myForm">
+								<div id='productList' class="product-table">
+									<ul  th:id="|aux${carrito.getIdMedicine().getName()}|" th:each="carrito : ${listaComprar}" class="product-lists">
+										<li>
+											<div class="productimg">
+												<div class="productimgs">
+													<img th:src="@{'/imagenes/' + ${carrito.getIdMedicine().getPhoto()}}" alt="img">
 												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
+												<div class="productcontet">
+													<h4 th:text="${carrito.getIdMedicine().getName()}">
+														<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="/assets_superAdmin/img/icons/edit-5.svg" alt="img"></a>
+													</h4>
+													<div class="productlinkset">
+														<h5 th:text="${carrito.getIdMedicine().getCategory()}"></h5>
+													</div>
+													<div class="increment-decrement">
+														<div class="input-groups">
+															<input type="button" name="menos" value="-"  class="menos  button">
+															<input th:id="|awa${carrito.getIdMedicine().getIdMedicine()}|" type="text" th:name="${carrito.idMedicine.getIdMedicine()}"  th:value="${carrito.getCantidad()}" class="quantity-field">
+															<input type="button" name="mas" value="+"  class="mas  button ">
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"-->   <img src="assets_pharmacist/img/icons/delete-2.svg" alt="img"> </a></li>
-								</ul>
+										</li>
+										<li th:text="${#numbers.formatDecimal(carrito.idMedicine.getPrice(), 2, 2)}"></li>
+										<li><a th:id="|delete${carrito.getIdMedicine().getIdMedicine()}|" > <img  src="/assets_superAdmin/img/icons/delete-2.svg" alt="img"> </a></li>
+										<script th:inline="javascript" >
+											document.addEventListener('DOMContentLoaded', () => {
+												let addProduct = document.getElementById("delete"+ [[${carrito.getIdMedicine().getIdMedicine()}]]);
+												let productList  = document.getElementById('productList');
+												addProduct.addEventListener('click', (event) => {
+													$.ajax({
+														url: '/pharmacist/deleteProductCarritoVenta?idProducto=' + [[${carrito.getIdMedicine().getIdMedicine()}]],
+														type: 'GET',
+														success: function (response) {
+															//Eliminar porcion de HTML
+															let imagen = document.getElementById('active' + [[${carrito.getIdMedicine().getIdMedicine()}]]);
+															imagen.classList.remove('active');
+															$.ajax({
+																url: '/pharmacist/getAllCarrito',
+																type: 'GET',
+																success: function (response) {
+																	let listaMedicamentos = response;
+																	// Realiza acciones con los datos, como mostrarlos en la consola
+																	console.log('Lista de medicamentos:', listaMedicamentos);
+																	// También puedes realizar otras acciones, como actualizar la interfaz de usuario
+																	// Por ejemplo, si quieres mostrar los medicamentos en una lista HTML:
+																	let total = 0;
+																	let miDiv = document.getElementById('total');
+																	miDiv.textContent = 'S/.' + total.toFixed(2);
+																	let elemento = document.getElementById("aux" + [[${carrito.getIdMedicine().getName()}]]);
+																	elemento.remove();
+																},
+																error: function (error) {
+																	console.error('There was a problem with the request:', error);
+																}
+															});
 
-								<ul class="product-lists">
-									<li>
-										<div class="productimg">
-											<div class="productimgs">
-												<img src="assets_pharmacist/img/aspirina.jpeg" alt="img">
-											</div>
-											<div class="productcontet">
-												<h4>Aspirina2
-													<a href="javascript:void(0);" class="ms-2" data-bs-toggle="modal" data-bs-target="#edit"><img src="assets_pharmacist/img/icons/edit-5.svg" alt="img"></a>
-												</h4>
-												<div class="productlinkset">
-													<h5>TEL223</h5>
-												</div>
-												<div class="increment-decrement">
-													<div class="input-groups">
-														<input type="button" value="-"  class="button-minus dec button">
-														<input type="text" name="child"  value="1" class="quantity-field">
-														<input type="button" value="+"  class="button-plus inc button ">
-													</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									<li>90.0</li>
-									<li><a><!-- class="confirm-text" href="javascript:void(0);"--> <img src="assets_pharmacist/img/icons/delete-2.svg" alt="img"></a></li>
-								</ul>
+														},
+														error: function (error) {
+															console.error('There was a problem with the request:', error);
+														}
+													});
 
-
-							</div>
+												})
+												});
+										</script>
+                                    </ul>
+								</div>
+							</form>
 						</div>
 						<div class="split-card">
 						</div>
@@ -1428,40 +1461,211 @@
 								<ul>
 									<li class="total-value">
 										<h5>Total  </h5>
-										<h6>s/.60.00</h6>
+										<h6 id="total"></h6>
 									</li>
 								</ul>
 							</div>
 							<div class="setvaluecash">
+								<style>
+									.selected {
+										background-color: #f0f0f0; /* Cambia el color de fondo cuando está seleccionado */
+									}
+									</style>
 								<ul>
 									<li>
-										<a  class="paymentmethod" 	>
-											<img src="assets_pharmacist/img/icons/cash.svg" alt="img" class="me-2">
+										<a id="cash" class="paymentmethod" >
+											<img src="/assets_superAdmin/img/icons/cash.svg" alt="img" class="me-2">
 											Efectivo
 										</a>
 									</li>
 									<li>
-										<a  class="paymentmethod">
-											<img src="assets_pharmacist/img/icons/debitcard.svg" alt="img" class="me-2">
+										<a id="tarjeta" class="paymentmethod">
+											<img src="/assets_superAdmin/img/icons/debitcard.svg" alt="img" class="me-2">
 											Tarjeta
 										</a>
 									</li>
+									<style>
+
+										</style>
+									<script>
+											document.addEventListener('DOMContentLoaded' , ()=> {
+												let tarjeta = document.getElementById('tarjeta');
+												let cash = document.getElementById('cash');
+												tarjeta.addEventListener('click', () => {
+													$.ajax({
+														url: '/pharmacist/saveMethod?method=tarjeta',
+														type: 'GET',
+														success: function (response) {
+															if (response.message) {
+																tarjeta.style.backgroundColor = 'Orange';
+																cash.style.backgroundColor = 'White';
+															}
+														}
+													});
+												});
+
+												cash.addEventListener('click', () => {
+													//Guardamos en session con ajax
+													$.ajax({
+														url: '/pharmacist/saveMethod?method=cash',
+														type: 'GET',
+														success: function (response) {
+															if (response.message) {
+																cash.style.backgroundColor = 'Orange';
+																tarjeta.style.backgroundColor = 'White';
+															}
+														}
+													});
+												});
+											});
+
+											document.addEventListener('DOMContentLoaded', ()=>{
+												$.ajax({
+													url:"/pharmacist/existeMethod",
+													type:'GET',
+													success: function(response){
+														switch(response.message){
+															case "cash":
+																cash.style.backgroundColor = 'Orange';
+																tarjeta.style.backgroundColor = 'White';
+																break;
+															case "tarjeta":
+																tarjeta.style.backgroundColor = 'Orange';
+																cash.style.backgroundColor = 'White';
+																break;
+														}
+													}
+												});
+											});
+
+									</script>
 								</ul>
+
+
 							</div>
-							<div class="btn-totallabel">
+							<div th:if="${fullNamePatient} != null" id="venta" style="cursor: pointer;" class="btn-totallabel">
 								<h5>Vender</h5>
-								<h6>s/60.00</h6>
 							</div>
-							<!--LUEGO PONER DE NUEVO-->
-							<!--
-							<div class="btn-pos">
-								<ul>
-									<li>
-										<a class="btn"  data-bs-toggle="modal" data-bs-target="#recents"><img src="assets/img/icons/transcation.svg" alt="img" class="me-1"> Ventas recientes </a>
-									</li>
-								</ul>
-							</div>
-							-->
+							<script>
+								var div = document.getElementById("venta");
+								div.addEventListener("click" ,  function() {
+									var formulario = document.getElementById("myForm");
+									var elementos = formulario.elements;
+									var inputs = Array.from(elementos).filter(function(elemento) {
+										return elemento.tagName === 'INPUT';
+									});
+									var inputMedicine = [ ];
+									var inputCantidad= [ ];
+									inputs.forEach(function(input) {
+										if(input.name !== "mas" && input.name!=="menos"){
+											inputMedicine.push(input.name);
+											inputCantidad.push(input.value);
+										}
+									});
+									console.log(inputMedicine);
+									console.log(inputCantidad);
+
+									//Validacion Front (no números negativos)
+									var valoresValidos = true;
+
+// Validar inputMedicine y inputCantidad
+									inputMedicine.forEach(function(valor, indice) {
+										// Verificar si el valor no es un número entero o es negativo
+										if (isNaN(valor) || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+											console.log("El valor en inputMedicine[" + indice + "] no es un número entero positivo.");
+											valoresValidos = false;
+										}
+									});
+
+									inputCantidad.forEach(function(valor, indice) {
+										// Verificar si el valor no es un número entero o es negativo
+										if (isNaN(valor) || !Number.isInteger(Number(valor)) || Number(valor) < 0) {
+											console.log("El valor en inputCantidad[" + indice + "] no es un número entero positivo.");
+											valoresValidos = false;
+										}
+									});
+									//Validar que haya algo en el carrito
+									$.ajax({
+										url: '/pharmacist/getAllCarrito',
+										type: 'GET',
+										success: function (response) {
+											let flsmdfr = 0 ;
+											let listaMedicamentos = response;
+											// Realiza acciones con los datos, como mostrarlos en la consola
+											flsmdfr = listaMedicamentos.length;
+											if(valoresValidos && flsmdfr !== 0){
+												//Ahora enviamos por ajax al servidor
+												$.ajax({
+													url: "/pharmacist/GenerarVenta",
+													data: JSON.stringify( {
+														ids: inputMedicine,
+														cantidades: inputCantidad
+													}),
+													contentType: "application/json",
+													type: "POST",
+													success: function(response){
+														switch(response.error){
+															case "":
+																Swal.fire({
+																	icon: "success",
+																	iconColor: '#f69b00',
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	title: "Venta concluida",
+																	text: "Se concreto correctamente la venta",
+																}).then(function() {
+																	window.location.href= "/pharmacist/verProductList";
+																});
+																break;
+
+															case "errorInesperado":
+																Swal.fire({
+																	icon: "error",
+																	iconColor:"#f69b00" ,
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	cancelButtonText: "Salir",
+																	text: "Ocurrio un error inesperado ",
+																});
+																break;
+															case "noHaySuficienteStock":
+																Swal.fire({
+																	icon: "error",
+																	iconColor:"#f69b00" ,
+																	showCancelButton: false
+																	, confirmButtonColor: '#d48e15',
+																	cancelButtonColor: '#805409',
+																	cancelButtonText: "Salir",
+																	text: "No hay suficiente stock como para realizar esta venta",
+																});
+																break;
+														}
+													}
+												});
+											}else{
+												console.log("holaaaaa");
+												Swal.fire({
+													icon: "warning",
+													showCancelButton: true
+													, confirmButtonColor: '#d48e15',
+													cancelButtonColor: '#805409',
+													cancelButtonText: "Salir",
+													text: "Debes escoger algun producto",
+												});
+											}
+										},
+										error: function (error) {
+											console.error('There was a problem with the request:', error);
+										}
+									});
+
+
+
+
+								});
+							</script>
 						</div>
 					</div>
 				</div>
@@ -1512,13 +1716,13 @@
 							<a href="javascript:void(0);">9</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="btn btn-closes"><img src="assets_pharmacist/img/icons/close-circle.svg" alt="img"></a>
+							<a href="javascript:void(0);" class="btn btn-closes"><img src="/assets_superAdmin/img/icons/close-circle.svg" alt="img"></a>
 						</li>
 						<li>
 							<a href="javascript:void(0);">0</a>
 						</li>
 						<li>
-							<a href="javascript:void(0);" class="btn btn-reverse"><img src="assets_pharmacist/img/icons/reverse.svg" alt="img"></a>
+							<a href="javascript:void(0);" class="btn btn-reverse"><img src="/assets_superAdmin/img/icons/reverse.svg" alt="img"></a>
 						</li>
 					</ul>
 				</div>
@@ -1634,6 +1838,100 @@
 				</button>
 			</div>
 			<div class="modal-body">
+				<div class="card">
+					<div class="card-body">
+							<div class="row">
+								<div class="col-lg-6 col-sm-12 col-12">
+									<div class="form-group">
+										<label>DNI</label>
+										<input id="dni" name="dni" type="text">
+									</div>
+								</div>
+								<div class="col-lg-3 col-sm-6 col-12">
+									<div class="form-group">
+										<label for="doctor">Doctor</label>
+										<select  class="form-control" name="idDoctor" id="doctor">
+											<option th:each="doctor :${listaDoctores}"
+													th:value="${doctor.getIdDoctor()}"
+													th:text="${doctor.getName()}+' '+${doctor.getLastName()}">
+											</option>
+										</select>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<button th:id="aux" type="button" class="btn btn-submit me-2" >Ingresar</button>
+					<script>
+						document.getElementById("aux").onclick = function() {
+							data = {
+								 dni :  document.getElementById("dni").value , doctor:document.getElementById("doctor").value
+							}
+							console.log(data);
+							$.ajax({
+								url: "/pharmacist/confirmarDatosPaciente",
+								type: "POST",
+								data: data,
+								success: function(response){
+									console.log(response);
+									var aux ;
+									response.forEach(function (error) {
+										aux = JSON.parse(error);
+									});
+									console.log("Me respondieon");
+									switch(aux.error){
+										case "":
+											window.location.href = "/pharmacist/posFarmacista";
+											//Recarga
+											break;
+										case "noEncontro":
+											Swal.fire({
+												colorIcon:'#805409'  ,
+												showCancelButton: true,
+												confirmButtonText: 'Ok',
+												cancelButtonText: 'Cancelar',
+												confirmButtonColor: '#d48e15',
+												cancelButtonColor: '#805409',
+												icon: "error",
+												iconColor: '#805409',
+												title: "Oops...",
+												text: "No se encontró ningún paciente con ese número de dni",
+											});
+											break;
+										case "casteo":
+											Swal.fire({
+												colorIcon:'#805409'  ,
+												showCancelButton: true,
+												confirmButtonText: 'Ok',
+												confirmButtonColor: '#d48e15',
+												icon: "error",
+												iconColor: '#805409',
+												title: "Oops...",
+												text: "Se ingreso un número incoherente",
+											});
+											break;
+									}
+								}
+							})
+						}
+					</script>
+					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="pre-orden" tabindex="-1" aria-labelledby="pre-orden"  aria-hidden="true">
+	<div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" >Pre-Orden</h5>
+				<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-6 col-sm-12 col-12">
 						<div class="form-group">
@@ -1666,9 +1964,29 @@
 							<input type="text" >
 						</div>
 					</div>
+
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Medicamento</label>
+							<input type="text" >
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Cantidad</label>
+							<input type="text" >
+						</div>
+					</div>
+					<div class="col-lg-6 col-sm-12 col-12">
+						<div class="form-group">
+							<label>Dirección</label>
+							<input type="text" >
+						</div>
+					</div>
+
 				</div>
 				<div class="col-lg-12">
-					<a class="btn btn-submit me-2">Ingresar</a>
+					<a class="btn btn-submit me-2">Generar</a>
 					<a class="btn btn-cancel" data-bs-dismiss="modal">Cancelar</a>
 				</div>
 			</div>
@@ -1686,7 +2004,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="delete-order">
-					<img src="assets_pharmacist/img/icons/close-circle1.svg" alt="img">
+					<img src="/assets_superAdmin/img/icons/close-circle1.svg" alt="img">
 				</div>
 				<div class="para-set text-center">
 					<p>The current order will be deleted as no payment has been <br> made so far.</p>
@@ -1726,19 +2044,19 @@
 							<div class="table-top">
 								<div class="search-set">
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets_pharmacist/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets_pharmacist/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets_pharmacist/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets_pharmacist/img/icons/printer.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -1762,13 +2080,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1779,13 +2097,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1796,13 +2114,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1813,13 +2131,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1830,13 +2148,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1847,13 +2165,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1864,13 +2182,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1882,19 +2200,19 @@
 							<div class="table-top">
 								<div class="search-set">
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets_pharmacist/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets_pharmacist/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets_pharmacist/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets_pharmacist/img/icons/printer.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -1918,13 +2236,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1935,13 +2253,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1952,13 +2270,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1969,13 +2287,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -1986,13 +2304,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2003,13 +2321,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2020,13 +2338,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2038,19 +2356,19 @@
 							<div class="table-top">
 								<div class="search-set">
 									<div class="search-input">
-										<a class="btn btn-searchset"><img src="assets_pharmacist/img/icons/search-white.svg" alt="img"></a>
+										<a class="btn btn-searchset"><img src="/assets_superAdmin/img/icons/search-white.svg" alt="img"></a>
 									</div>
 								</div>
 								<div class="wordset">
 									<ul>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="assets_pharmacist/img/icons/pdf.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="pdf"><img src="/assets_superAdmin/img/icons/pdf.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="assets_pharmacist/img/icons/excel.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="excel"><img src="/assets_superAdmin/img/icons/excel.svg" alt="img"></a>
 										</li>
 										<li>
-											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="assets_pharmacist/img/icons/printer.svg" alt="img"></a>
+											<a data-bs-toggle="tooltip" data-bs-placement="top" title="print"><img src="/assets_superAdmin/img/icons/printer.svg" alt="img"></a>
 										</li>
 									</ul>
 								</div>
@@ -2074,13 +2392,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2091,13 +2409,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2108,13 +2426,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2125,13 +2443,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2142,13 +2460,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2159,13 +2477,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2176,13 +2494,13 @@
 										<td>$ 1500.00</td>
 										<td>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/eye.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/eye.svg" alt="img">
 											</a>
 											<a class="me-3" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/edit.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/edit.svg" alt="img">
 											</a>
 											<a class="me-3 confirm-text" href="javascript:void(0);">
-												<img src="assets_pharmacist/img/icons/delete.svg" alt="img">
+												<img src="/assets_superAdmin/img/icons/delete.svg" alt="img">
 											</a>
 										</td>
 									</tr>
@@ -2196,34 +2514,123 @@
 		</div>
 	</div>
 </div>
+<script>
+	document.addEventListener('click', (event) => {
+		if (event.target.classList.contains('menos')) {
+			const quantityField = event.target.nextElementSibling;
+			let currentQuantity = parseInt(quantityField.value);
+			if (currentQuantity > 1) {
+				quantityField.value = currentQuantity - 1;
+			}
+			const idMedicine=  parseInt((quantityField.id).substring(3));
+			const newCantidad = quantityField.value;
+
+			$.ajax({
+				url: '/pharmacist/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
+				type: 'GET',
+				success: function (response) {
+					$.ajax({
+						url: '/pharmacist/getAllCarrito',
+						type: 'GET',
+						success: function (response) {
+							var listaMedicamentos = response;
+							let total = 0 ;
+							listaMedicamentos.forEach(function(medicamento) {
+								total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+							});
+							var miDiv = document.getElementById('total');
+							miDiv.textContent = 'S/.' + total.toFixed(2);
+							var miDivTwo = document.getElementById('totalProductojpg');
+							miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+							//totalProductojpg
+							//productset
+							//"${medicamento.getIdMedicine()}"
+						},
+						error: function (error) {
+							console.error('There was a problem with the request:', error);
+						}
+					});
+				},
+				error: function (error) {
+					console.error('There was a problem with the request:', error);
+				}
+			});
+		} else if (event.target.classList.contains('mas')) {
+			const quantityField = event.target.previousElementSibling;
+			let currentQuantity = parseInt(quantityField.value);
+			quantityField.value = currentQuantity + 1;
+			const idMedicine=  parseInt((quantityField.id).substring(3));
+			const newCantidad = quantityField.value;
+
+			$.ajax({
+				url: '/pharmacist/updateCantidad?'+ "idProduct=" + idMedicine+"&newCantidad="+newCantidad,
+				type: 'GET',
+				success: function (response) {
+					$.ajax({
+						url: '/pharmacist/getAllCarrito',
+						type: 'GET',
+						success: function (response) {
+							var listaMedicamentos = response;
+							let total = 0 ;
+							listaMedicamentos.forEach(function(medicamento) {
+								total = total + (medicamento.idMedicine.price)* (medicamento.cantidad);
+							});
+							var miDiv = document.getElementById('total');
+							miDiv.textContent = 'S/.' + total.toFixed(2);
+							var miDivTwo = document.getElementById('totalProductojpg');
+							miDivTwo.textContent = "Total de productos: " + listaMedicamentos.length;
+
+							//totalProductojpg
+							//productset
+							//"${medicamento.getIdMedicine()}"
+						},
+						error: function (error) {
+							console.error('There was a problem with the request:', error);
+						}
+					});
+				},
+				error: function (error) {
+					console.error('There was a problem with the request:', error);
+				}
+			});
+
+		}
+	});
+</script>
+
 <!-- jQuery -->
-<script src="assets_pharmacist/js/jquery-3.6.0.min.js"></script>
+<script src="/assets_superAdmin/js/jquery-3.6.0.min.js"></script>
 
 <!-- Feather Icon JS -->
-<script src="assets_pharmacist/js/feather.min.js"></script>
+<script src="/assets_superAdmin/js/feather.min.js"></script>
 
 <!-- Slimscroll JS -->
-<script src="assets_pharmacist/js/jquery.slimscroll.min.js"></script>
+<script src="/assets_superAdmin/js/jquery.slimscroll.min.js"></script>
 
 <!-- Bootstrap Core JS -->
-<script src="assets_pharmacist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets_superAdmin/js/bootstrap.bundle.min.js"></script>
 
 <!-- Datatable JS -->
-<script src="assets_pharmacist/js/jquery.dataTables.min.js"></script>
-<script src="assets_pharmacist/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assets_superAdmin/js/jquery.dataTables.min.js"></script>
+<script src="/assets_superAdmin/js/dataTables.bootstrap4.min.js"></script>
 
 <!-- Select2 JS -->
-<script src="assets_pharmacist/plugins/select2/js/select2.min.js"></script>
+<script src="/assets_superAdmin/plugins/select2/js/select2.min.js"></script>
 
 <!-- Owl JS -->
-<script src="assets_pharmacist/plugins/owlcarousel/owl.carousel.min.js"></script>
+<script src="/assets_superAdmin/plugins/owlcarousel/owl.carousel.min.js"></script>
 
 <!-- Sweetalert 2 -->
-<script src="assets_pharmacist/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<script src="assets_pharmacist/plugins/sweetalert/sweetalerts.min.js"></script>
+<script src="/assets_superAdmin/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="/assets_superAdmin/plugins/sweetalert/sweetalerts.min.js"></script>
 
 <!-- Custom JS -->
-<script src="assets_pharmacist/js/script.js"></script>
-
+<script src="/assets_superAdmin/js/script.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded",()=>{
+		connectNoti();
+	});
+</script>
 </body>
 </html>

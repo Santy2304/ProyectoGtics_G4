@@ -1,11 +1,14 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 @Entity
 @Table(name="lote")
-public class Lote{
+public class Lote implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,11 +18,13 @@ public class Lote{
     private String site;
 
     @Column(name = "expiredate")
-    private Date expireDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate expireDate;
 
     private boolean expire;
 
     private int stock;
+    private int initialQuantity;
 
     private boolean visible;
     @ManyToOne
@@ -46,11 +51,11 @@ public class Lote{
         this.site = site;
     }
 
-    public Date getExpireDate() {
+    public LocalDate getExpireDate() {
         return expireDate;
     }
 
-    public void setExpireDate(Date expireDate) {
+    public void setExpireDate(LocalDate expireDate) {
         this.expireDate = expireDate;
     }
 
@@ -92,5 +97,13 @@ public class Lote{
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public int getInitialQuantity() {
+        return initialQuantity;
+    }
+
+    public void setInitialQuantity(int initialQuantity) {
+        this.initialQuantity = initialQuantity;
     }
 }

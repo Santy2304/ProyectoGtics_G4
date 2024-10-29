@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
+
+        <!-- Fontawesome CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
+        <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
+
+        <!-- Main CSS -->
+        <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
+
+        <style>
+            .highlight-password {
+                color: orange; /* Cambia este color al que prefieras */
+                font-weight: bold;
+                font-style: italic;
+            }
+        </style>
+
+    </head>
+    <body>
+        <!-- Banner Image -->
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="cid:bannerImage" alt="Banner" style="max-width: 100%; height: auto;">
+        </div>
+        <h1 style="color: darkorange; text-align: center" class="text-center">Cambios a tu usuario en Saint Medic</h1>
+        <p>Hola, {{name}}!</p>
+        <p>Se ha aplicado cambios a tu usuario en la aplicación Saint Medic, a continuación te mostramos tu datos actualizados.</p>
+        <ul>
+            <li>Nombre(s): {{name}}</li>
+            <li>Apellido(s): {{apellido}}</li>
+            <li>Sede: {{sede}}</li>
+            <li>correo: {{correo}}</li>
+        </ul>
+
+    </body>
+</html>

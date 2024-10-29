@@ -10,6 +10,9 @@ import java.util.List;
 
 public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer> {
 
+    @Query(nativeQuery = true, value = "SELECT * FROM superadmin where email= ?1 and password=?2")
+    SuperAdmin buscarSuperAdmin (String email , String password);
+
     //Listar administradores
     @Query(value ="select * from administrator",nativeQuery = true)
     List<Administrator> listarAdministradores();
@@ -63,23 +66,25 @@ public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Integer>
     //Banear administrador
     @Transactional
     @Modifying
-    @Query(value = "update administrator set banned=TRUE where idadministrator=?1", nativeQuery= true)
+    @Query(value = "update administrator set banned=TRUE where idAdministrator=?1", nativeQuery= true)
     void banearAdmin(int idAdmin);
 
     //Registrar administrador
     @Transactional
     @Modifying
-    @Query(value = "insert into administrator (name,lastname,dni,site,email,password,datecreationaccount) values (?1,?2,?3,?4,?5,?6,now())",nativeQuery = true)
+    @Query(value = "insert into administrator (name,lastname,dni,site,email,password,dateCreationAccount) values (?1,?2,?3,?4,?5,?6,now())",nativeQuery = true)
     void agregarAdmin(String name, String lastname, String dni, String site,String email, String password);
 
     //Editar perfil de SuperAdmin
     @Transactional
     @Modifying
-    @Query(value = "update superadmin set email = ?1", nativeQuery = true)
-    void actualizarPerfilSuperAdmin(String email);
+    @Query(value = "update superadmin set email = ?1, name=?2 , lastName=?3, password=?4, photo=?5", nativeQuery = true)
+    void actualizarPerfilSuperAdmin(String email, String name, String lasName, String password, String photo);
 
+    SuperAdmin findByEmail(String email);
 
-
-
-
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value="update superadmin set password= ?1 where email=?2")
+    void actualizarContrasena(String pswrd, String email);
 }

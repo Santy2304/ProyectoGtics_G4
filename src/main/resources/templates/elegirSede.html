@@ -36,13 +36,13 @@
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4 d-flex" th:each="site : ${listSite}">
             <div class="card flex-fill bg-white">
-                <img alt="Card Image" src="../assets_pacient/images/sede1.jpeg" class="card-img-top">
+                <img alt="Card Image" th:src="@{/assets_superAdmin/images/{siteName}.jpg(siteName=${site.name.replace(' ', '')})}" class="card-img-top">
                 <div class="card-header">
                     <h5 class="card-title mb-0" th:text="${site.name}"></h5>
                 </div>
                 <div class="card-body">
                     <p class="card-text" th:text="|Dirección: ${site.address}|" ></p>
-                    <a class="btn btn-primary" th:href="|/elegirSedePrimeraVez?idSede=${site.getIdSite()}|">Ir a la tienda</a>
+                    <a class="btn btn-primary" th:href="|/patient/elegirSedePrimeraVez?idSede=${site.getIdSite()}|">Ir a la tienda</a>
                 </div>
             </div>
         </div>

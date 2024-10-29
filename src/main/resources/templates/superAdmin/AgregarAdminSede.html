@@ -8,11 +8,8 @@
         <meta name="author" content="Dreamguys - Bootstrap Admin Template">
         <meta name="robots" content="noindex, nofollow">
 		<title>Saint Medic</title>
-
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
-
-
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
 
@@ -44,191 +41,11 @@
         <div class="main-wrapper">
 
 			<!--header-->
-			<div class="header">
-				<!-- Logo -->
-				<!-- Logo -->
-				<div class="header-left active">
-					<a href="error404.html" class="logo">
-						<img src="/assets_superAdmin/img/LogoConLetras.png" alt="">
-					</a>
-					<a href="error404.html" class="logo-small">
-						<img src="/assets_superAdmin/img/PastillaSinFondo.png" alt="">
-					</a>
-					<a id="toggle_btn" href="javascript:void(0);">
-					</a>
-				</div>
-				<!-- /Logo -->
+			<div th:replace="navbarSuperAdmin"></div>
 
-				<a id="mobile_btn" class="mobile_btn" href="#sidebar">
-					<span class="bar-icon">
-						<span></span>
-						<span></span>
-						<span></span>
-					</span>
-				</a>
-				<!-- /Logo -->
-
-				<!-- Header Menu -->
-				<ul class="nav user-menu">
-
-					<!-- Search -->
-					<!--
-                    <li class="nav-item">
-                        <div class="top-nav-search">
-
-                            <a href="javascript:void(0);" class="responsive-search">
-                                <i class="fa fa-search"></i>
-                            </a>
-                            <form action="#">
-                                <div class="searchinputs">
-                                    <input type="text" placeholder="Search Here ...">
-                                    <div class="search-addon">
-                                        <span><img src="assets/img/icons/closes.svg" alt="img"></span>
-                                    </div>
-                                </div>
-                                <a class="btn" id="searchdiv"><img src="assets/img/icons/search.svg" alt="img"></a>
-                            </form>
-                        </div>
-                    </li>
-                    -->
-					<!-- /Search -->
-
-					<!-- Flag -->
-
-					<!-- /Flag -->
-
-					<!-- Notifications -->
-
-					<li class="nav-item dropdown">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-							<img src="/assets_superAdmin/img/icons/notification-bing.svg" alt="img"> <span class="badge rounded-pill">4</span>
-						</a>
-						<div class="dropdown-menu notifications">
-							<div class="topnav-dropdown-header">
-								<span class="notification-title">Notificaciones</span>
-							</div>
-							<div class="noti-content">
-								<ul class="notification-list">
-
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">Paracetamol5</span> está próximo a acabarse<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-									<li class="notification-message">
-										<a href="notifications.html">
-											<div class="media d-flex">
-												<span class="avatar flex-shrink-0">
-													<img alt="" src="/assets_superAdmin/img/Farmacista.jpeg">
-												</span>
-												<div class="media-body flex-grow-1">
-													<p class="noti-details"><span class="noti-title">JeanPiere</span> ha solicitado una reposición para Pando 1<span class="noti-title"></span></p>
-													<p class="noti-time"><span class="notification-time">8 mins ago</span></p>
-												</div>
-											</div>
-										</a>
-									</li>
-
-								</ul>
-							</div>
-							<div class="topnav-dropdown-footer">
-								<a href="notifications.html">Mira todas las notificaciones</a>
-							</div>
-						</div>
-					</li>
-					<!-- /Notifications -->
-
-					<li class="nav-item dropdown has-arrow main-drop">
-						<a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
-							<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-							<span class="status online"></span></span>
-						</a>
-						<div class="dropdown-menu menu-drop-user">
-							<div class="profilename">
-								<div class="profileset">
-									<span class="user-img"><img src="/assets_superAdmin/img/Farmacista.jpeg" alt="">
-									<span class="status online"></span></span>
-									<div class="profilesets">
-										<h6>Joshy Yauri</h6>
-										<h5>SuperAdmin</h5>
-									</div>
-								</div>
-								<hr class="m-0">
-								<a class="dropdown-item" href="profile.html"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user me-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> Mi perfil </a>
-								<hr class="m-0">
-								<a class="dropdown-item logout pb-0" href="signin.html"><img src="/assets_superAdmin/img/icons/log-out.svg" class="me-2" alt="img">Cerrar sesión</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<!-- /Header Menu -->
-
-				<!-- Mobile Menu -->
-				<div class="dropdown mobile-user-menu">
-					<a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-					<div class="dropdown-menu dropdown-menu-right">
-						<a class="dropdown-item" href="profile.html">My Profile</a>
-						<a class="dropdown-item" href="generalsettings.html">Settings</a>
-						<a class="dropdown-item" href="signin.html">Logout</a>
-					</div>
-				</div>
-				<!-- /Mobile Menu -->
-			</div>
 
 			<!-- Sidebar -->
-			<div class="sidebar" id="sidebar">
-				<div class="sidebar-inner slimscroll">
-					<div id="sidebar-menu" class="sidebar-menu">
-						<ul>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/people-fill.svg" alt="img"><span>Usuarios</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verListadosSuperAdmin" class="active" >Listas de Usuarios</a></li>
-
-								</ul>
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/hospital-fill.svg" alt="img"><span>Sedes</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verSedeSuperAdmin" >Pando Etapa 1</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 2</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 3</a></li>
-									<li><a href="/verSedeSuperAdmin">Pando Etapa 4</a></li>
-
-								</ul>
-
-							</li>
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/capsule-pill.svg" alt="img"><span>Inventario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/listaMedicamentosSuperAdmin">Medicamentos</a></li>
-								</ul>
-							</li>
-
-							<li class="submenu">
-								<a href="javascript:void(0);"><img src="/assets_superAdmin/img/icons/expense1.svg" alt="img"><span>Usuario</span> <span class="menu-arrow"></span></a>
-								<ul>
-									<li><a href="/verPerfilSuperAdmin">Perfil</a></li>
-									<li><a href="/verNotificationsSuperAdmin" > Notificaciones</a></li>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-
-
-
+			<div th:replace="sideBarSuperAdmin :: sideBarSuperAdmin(activeTab = 'listaUsuarios')"> </div>
 
 			<div class="page-wrapper">
 				<div class="content">
@@ -237,61 +54,158 @@
 							<h4>Nuevo Administrador de Sede</h4>
 						</div>
 					</div>
+					<p>Primero ingrese el DNI y espere a que se completen los campos de nombres y apellidos.</p>
 					<!-- /add -->
 					<div class="card">
 						<div class="card-body">
-							<form method="post" th:action="@{'agregarAdminSede'}">
+							<form method="post"   id="miFormulario" enctype="multipart/form-data" th:action="@{/superAdmin/agregarAdminSede}" th:object="${adminSede}">
+								<input type="hidden"  th:field="*{site}">
+
 								<div class="row">
+
+									<div class="col-lg-3 col-sm-6 col-12">
+										<div class="form-group">
+											<label for="dni">DNI</label>
+											<input class="form-control" type="text" id="dni" th:field="*{dni}"
+												   th:classappend="${(#fields.hasErrors('dni') || (error != null))? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+											<div class="invalid-feedback" th:if="${error}" th:text="${error}"></div>
+										</div>
+									</div>
+
+
+
+									<script>
+										function capitalizeName(name) {
+											// Separar el nombre por espacios en blanco
+											const words = name.split(' ');
+											// Capitalizar el primer carácter de cada palabra y unir el resto en minúsculas
+											const capitalizedWords = words.map(word => {
+												return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+											});
+											// Unir las palabras nuevamente en un string
+											return capitalizedWords.join(' ');
+										}
+
+										document.addEventListener('DOMContentLoaded', ()=>{
+											let dni =  document.getElementById("dni");
+											dni.addEventListener('input', (event)=>{
+													let cantidad = event.target.value.length;
+													if(cantidad=== 8){
+														//Hacemos consulta con ajax
+														$.ajax({
+															url: '/superAdmin/getDni?dni='+dni.value,
+															type:'GET',
+															success: function(response){
+																let name =  capitalizeName(response.nombres) ;
+																let lastName = capitalizeName(response.apellidoPaterno +" "+  response.apellidoMaterno);
+																let nameId = document.getElementById("name");
+																let lastNameId = document.getElementById("lastName");
+																nameId.value = name;
+																nameId.placeholder = name;
+																lastNameId.value = lastName;
+																lastNameId.placeholder = lastName;
+															},
+															error: function(response){
+																swal.fire({
+																	icon: "error",
+																	title: "No se encontro el DNI",
+																});
+															}
+														});
+													}
+											});
+										});
+									</script>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="name">Nombre</label>
-											<input type="text" id="name" name="name">
+											<input readonly class="form-control" type="text" id="name" th:field="*{name}"
+												   th:classappend="${#fields.hasErrors('name')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="lastName">Apellidos</label>
-											<input type="text" id="lastName" name="lastName">
-										</div>
-									</div>
-									<div class="col-lg-3 col-sm-6 col-12">
-										<div class="form-group">
-											<label for="dni">DNI</label>
-											<input type="text" id="dni" name="dni">
+											<input class="form-control" type="text" id="lastName" readonly th:field="*{lastName}"
+												   th:classappend="${#fields.hasErrors('lastName')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+
 										</div>
 									</div>
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="correo">Correo</label>
-											<input type="text" id="correo" name="email">
+
+											<input class="form-control" type="text" id="correo" th:field="*{email}"
+												   th:classappend="${#fields.hasErrors('email')? 'is-invalid' : ''}">
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
 										</div>
 									</div>
+
 									<div class="col-lg-3 col-sm-6 col-12">
 										<div class="form-group">
 											<label for="sede">Sede</label>
-											<select class="select" id="sede" name="site">
-												<option selected>Seleccionar</option>
-												<option th:each="sede : ${listaSedes}"
-														th:value="${sede.name}"
-														th:text="${sede.name}"></option>
+
+											<select class="form-select" id="sede" th:field="*{site}"
+													th:classappend="${#fields.hasErrors('site')? 'is-invalid' : ''}">
+												<option value="">Selecciona sede</option>
+												<option th:each="sede: ${listaSedes}"
+														th:value="${sede.getName()}"
+														th:text="${sede.getName()}">
+												</option>
 											</select>
+											<div class="invalid-feedback" th:if="${#fields.hasErrors('site')}" th:errors="*{site}"></div>
 										</div>
 									</div>
+									<input type="hidden" name="state" value="activo">
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label for="image">Foto de Usuario</label>
 											<div class="image-upload" id="image">
-												<input type="file" name="photo">
+												<input readonly type="file" name="adminFile" id="fileInput" accept="image/*">
+												<div class="image-preview" style="display: none; text-align: center; margin-bottom: 20px;">
+													<img id="previewImage" src="" alt="img" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+												</div>
 												<div class="image-uploads">
 													<img src="/assets_superAdmin/img/icons/upload.svg" alt="img">
 													<h4>Seleccione una imagen</h4>
 												</div>
+												<div class="text-danger" th:if="${imageError}" th:text="${imageError}"></div>
 											</div>
 										</div>
 									</div>
+									<script>
+										const fileInput = document.getElementById('fileInput');
+										const previewImage = document.getElementById('previewImage');
+										const imagePreview = document.querySelector('.image-preview');
+
+										fileInput.addEventListener('change', function() {
+											const file = this.files[0];
+											const reader = new FileReader();
+
+											reader.onload = function(event) {
+												previewImage.src = event.target.result;
+												imagePreview.style.display = 'block';
+											};
+
+											reader.readAsDataURL(file);
+										});
+
+										// Posicionar el contenedor de la imagen previsualizada
+										const formGroup = document.querySelector('.form-group');
+										const imagePreviewPosition = {
+											top: formGroup.offsetTop + formGroup.offsetHeight + 10,
+											left: formGroup.offsetLeft
+										};
+										imagePreview.style.top = `${imagePreviewPosition.top}px`;
+										imagePreview.style.left = `${imagePreviewPosition.left}px`;
+									</script>
 									<div class="col-lg-12">
 										<button class="btn btn-submit me-2" type="submit">Guardar</button>
-										<a th:href="@{'verListadosSuperAdmin'}" class="btn btn-cancel">Cancelar</a>
+										<a th:href="@{'/superAdmin/verListados'}" class="btn btn-cancel">Cancelar</a>
 									</div>
 								</div>
 							</form>
@@ -301,6 +215,8 @@
 				</div>
 			</div>
         </div>
+
+
 		<!-- /Main Wrapper -->
 		 
 		<!-- jQuery -->

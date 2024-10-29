@@ -3,10 +3,12 @@ package com.example.proyectogrupo4_gtics.Entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 
 @Entity
 @Table(name="site")
-public class Site {
+public class Site implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

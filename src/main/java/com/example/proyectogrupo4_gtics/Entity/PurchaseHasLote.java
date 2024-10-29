@@ -1,4 +1,60 @@
 package com.example.proyectogrupo4_gtics.Entity;
 
-public class PurchaseHasLote {
+
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "purchasehaslot")
+public class PurchaseHasLote implements Serializable {
+
+    @EmbeddedId
+    private PurchaseHasLotID id;
+
+    @MapsId("idPurchase")
+    @ManyToOne
+    @JoinColumn(name = "idpurchase")
+    private PurchaseOrder purchaseOrder;
+
+    @MapsId("idLote")
+    @ManyToOne
+    @JoinColumn(name = "idlote")
+    private Lote lote;
+
+
+    @Column(name = "cantidad_comprar")
+    private int cantidadComprar;
+
+    public PurchaseHasLotID getId() {
+        return id;
+    }
+
+    public void setId(PurchaseHasLotID id) {
+        this.id = id;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public Lote getLote() {
+        return lote;
+    }
+
+    public void setLote(Lote lote) {
+        this.lote = lote;
+    }
+
+    public int getCantidadComprar() {
+        return cantidadComprar;
+    }
+
+    public void setCantidadComprar(int cantidadComprar) {
+        this.cantidadComprar = cantidadComprar;
+    }
 }

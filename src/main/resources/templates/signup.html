@@ -8,38 +8,23 @@
     <meta name="author" content="Dreamguys - Bootstrap Admin Template">
     <meta name="robots" content="noindex, nofollow">
     <title>Saint Medic</title>
-
-    <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="/assets_superAdmin/img/PastillaSinFondo.png">
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/bootstrap.min.css">
-
-    <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="/assets_superAdmin/plugins/fontawesome/css/all.min.css">
-
-    <!-- Main CSS -->
     <link rel="stylesheet" href="/assets_superAdmin/css/style.css">
-
 </head>
 <body class="account-page">
-<!-- Main Wrapper -->
 <div class="main-wrapper">
     <div class="account-content">
         <form  class="login-wrapper" id="miFormulario">
             <div class="login-content">
                 <div class="login-userset">
-                    <!--
-                    <div class="login-logo">
-                        <img src="assets/img/LogoConLetras.png" alt="img">
-                    </div>
-                    -->
                     <div class="login-userheading">
                         <h2>Crear una cuenta</h2>
                     </div>
                     <h5 class="mb-2">
                         Primero, rellena tu DNI para y dale <span style="color: red">"Enter"</span> para continuar. Esto puede tardar unos instantes.
-
                     </h5>
                     <div class="form-login">
                         <label>DNI</label>
@@ -50,15 +35,10 @@
                     </div>
                     <script>
                         function capitalizeName(name) {
-                            // Separar el nombre por espacios en blanco
                             const words = name.split(' ');
-
-                            // Capitalizar el primer carácter de cada palabra y unir el resto en minúsculas
                             const capitalizedWords = words.map(word => {
                                 return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
                             });
-
-                            // Unir las palabras nuevamente en un string
                             return capitalizedWords.join(' ');
                         }
 
@@ -140,9 +120,6 @@
                             <div class="invalid-feedback" id="errorCorreo" style="display: none " > </div>
                         </div>
                     </div>
-
-
-
                     <div class="form-login">
                         <label>Dirección </label>
                         <div class="form-addons">

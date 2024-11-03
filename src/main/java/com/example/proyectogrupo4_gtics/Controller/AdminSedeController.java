@@ -58,8 +58,6 @@ public class AdminSedeController {
     final TrackingRepository trackingRepository;
     final SiteRepository siteRepository;
     final SimpMessagingTemplate simpMessagingTemplate;
-
-
     final CodeRepository codeRepository;
     public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
                                ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,

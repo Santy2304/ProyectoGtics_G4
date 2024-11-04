@@ -26,7 +26,7 @@ public class Dialogflow {
         this.resourceLoader = resourceLoader;
     }
     public String detectIntent(String text, String sessionId) throws IOException {
-            Resource resource = resourceLoader.getResource("classpath:bot-nuevo-440622-ef0e6ccb90d9.json");
+            Resource resource = resourceLoader.getResource("classpath:bot-nuevo-440622-d782e4fb7e98.json");
             GoogleCredentials credentials;
             try (InputStream credentialsStream = resource.getInputStream()) {
                 credentials = GoogleCredentials.fromStream(credentialsStream)

@@ -50,6 +50,12 @@ public class LogInController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
+
+    //VerVistas
+    @GetMapping("/forgetPassword")
+    public String forgetPassword(){
+        return "forgetpassword";
+    }
     @GetMapping(value={"/inicioSesion", "/"})
     public String InicioSesionController(HttpSession http , Model model){
         model.addAttribute("FechaNube", LocalDate.now());
@@ -66,10 +72,6 @@ public class LogInController {
             return "signin";}
         return "signin";
     }
-    @GetMapping("/forgetPassword")
-    public String forgetPassword(){
-        return "forgetpassword";
-    }
     @PostMapping("/enviarEmailForget")
     public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
         Map<String, String> response =  new HashMap<>();
@@ -83,8 +85,6 @@ public class LogInController {
         }
         return "redirect:inicioSesion";
     }
-
-    /*Cambiar contraseña sin enviar correo*/
     @GetMapping("/changePassword")
     public String verChangePassword(Model model){
         return "changePassword";
@@ -129,12 +129,10 @@ public class LogInController {
             return "changePassword";
         }
     }
-
     @GetMapping("/crearCuenta")
     public String signUp(){
         return "signup";
     }
-
     @RequestMapping(value = "/formNuevaCuenta")
     @ResponseBody
     public Map<String,String> formNuevaCuenta(Patient patient){
@@ -148,8 +146,7 @@ public class LogInController {
             patient.setChangePassword(false);
             patient.setDateCreationAccount( LocalDate.now());
             patient.setState("activo");
-            patient.setExpirationDate(LocalDateTime.now().plusMinutes(10)); // Expira en 10 minutos
-
+            patient.setExpirationDate(LocalDateTime.now().plusMinutes(10));
             patientRepository.save(patient);
             User user = new User();
             Rol rol = new Rol();
@@ -162,13 +159,6 @@ public class LogInController {
             rol = rolRepository.findById(4).get();
             user.setIdRol(rol);
             userRepository.save(user);
-
-          //  emailService.sendSimpleMessage(
-        //            patient.getEmail(),
-      //              "Bienvenido a Nuestro Servicio",
-    //                "Su cuenta ha sido creada exitosamente. Su contraseña inicial es: " + password
-  //          );
-
             try {
                 emailService.sendHtmlMessage(patient.getEmail(), "Bienvenido a SaintMedic", patient.getName(), password);
                 response.put("response", "Guardado");
@@ -184,7 +174,6 @@ public class LogInController {
 
     }
     //Vamos a crear un servicio Rest para consumir autenticacion
-
     public String generateRandomWord() {
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         String numbers = "0123456789";
@@ -212,7 +201,6 @@ public class LogInController {
         }
         return new String(wordArray);
     }
-
     @GetMapping(value="/estaBaneado")
     public Object estaBaneado(@RequestParam("email") String  email , @RequestParam("password") String  password ){
         System.out.println("Hola Santiago");
@@ -244,15 +232,13 @@ public class LogInController {
 
 
     @GetMapping(value="/getDni")
-    public Object getDni(@RequestParam("dni") String  dni , Model model ) {
-        try {
-            PersonaDni p = new DniDao().buscarDatosPorDNI(dni);
-            model.addAttribute("santiago",  p);
-            return ResponseEntity.ok(p);
+    public Object getDni(@RequestParam("dni") String  dni ) {
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(new DniDao().buscarDatosPorDNI(dni));
         } catch (Exception err) {
             HashMap<String, Object> er = new HashMap<>();
-            er.put("error", "No se encontro el DNI");
-            return ResponseEntity.badRequest().body(er);
+            er.put("error", "No se encontró el DNI");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(er);
         }
     }
 

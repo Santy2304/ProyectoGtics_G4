@@ -35,14 +35,10 @@ public class LogInController {
     final SuperAdminRepository superAdminRepository;
     final AdministratorRepository administratorRepository;
     final PharmacistRepository pharmacistRepository;
-
     final RolRepository rolRepository;
-
     final UserRepository userRepository;
-
     @Autowired
     private EmailService emailService;
-
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
                             SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
                             UserRepository userRepository, RolRepository rolRepository ) {
@@ -54,68 +50,33 @@ public class LogInController {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
     }
-    @GetMapping("/inicioSesion")
+    @GetMapping(value={"/inicioSesion", "/"})
     public String InicioSesionController(HttpSession http , Model model){
         model.addAttribute("FechaNube", LocalDate.now());
-
         if(http.getAttribute("usuario") != null){
             if((http.getAttribute("usuario")) instanceof Administrator ){
-                return "redirect:/adminSede/dashboardAdminSede";
-            }
+                return "redirect:/adminSede/dashboardAdminSede";}
             if((http.getAttribute("usuario")) instanceof Pharmacist ){
-                return "redirect:/pharmacist/verMedicinelist";
-            }
+                return "redirect:/pharmacist/verMedicinelist";}
             if((http.getAttribute("usuario")) instanceof Patient ){
-                return "redirect:/patient/ElegirSede";
-            }
+                return "redirect:/patient/ElegirSede";}
             if((http.getAttribute("usuario")) instanceof SuperAdmin ){
-                return "redirect:/superAdmin/verListados";
-            }
+                return "redirect:/superAdmin/verListados";}
         }else{
-            return "signin";
-        }
+            return "signin";}
         return "signin";
     }
-    //Validar cuenta superadmin
-
-    public class MyUser {
-        private String email;
-        private String password;
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String correo) {
-            this.email = correo;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
-
-
     @GetMapping("/forgetPassword")
     public String forgetPassword(){
         return "forgetpassword";
     }
-
-
     @PostMapping("/enviarEmailForget")
     public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
-        Map<String, String > response =  new HashMap<>();
+        Map<String, String> response =  new HashMap<>();
         try {
             httpSession.setAttribute("resetEmail", email);
-
             emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña");
             response.put("response", "Guardado");
-
         } catch (MessagingException | IOException e) {
             response.put("response", "Error al enviar el correo");
             e.printStackTrace();
@@ -136,14 +97,12 @@ public class LogInController {
         //Verificar que la nueva contraseña cumpla los requisitos
         if (newPassword.matches(passwordPattern)) { //Cuando cumple
             String email = (String) httpSession.getAttribute("resetEmail");
-
             Patient patient = patientRepository.buscarPatientEmail(email);
             Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
             Administrator admin = administratorRepository.findByEmail(email);
             SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
             BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             String encryptedPassword = passwordEncoder.encode(newPassword);
-
             if (!(patient == null)) {
                 //  patientRepository.actualizarContrasena(newPassword, correo);
                 userRepository.actualizarPassword(encryptedPassword, email);
@@ -244,8 +203,6 @@ public class LogInController {
         for (int i = 2; i < wordLength; i++) {
             word.append(characters.charAt(random.nextInt(characters.length())));
         }
-
-        // Shuffle the characters to ensure randomness
         char[] wordArray = word.toString().toCharArray();
         for (int i = 0; i < wordArray.length; i++) {
             int randomIndex = random.nextInt(wordArray.length);
@@ -253,7 +210,6 @@ public class LogInController {
             wordArray[i] = wordArray[randomIndex];
             wordArray[randomIndex] = temp;
         }
-
         return new String(wordArray);
     }
 
@@ -299,12 +255,5 @@ public class LogInController {
             return ResponseEntity.badRequest().body(er);
         }
     }
-
-
-
-
-
-
-
 
 }

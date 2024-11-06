@@ -59,11 +59,7 @@ public class AdminSedeController {
     final SiteRepository siteRepository;
     final SimpMessagingTemplate simpMessagingTemplate;
     final CodeRepository codeRepository;
-    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository,
-                               ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository ,
-                               LoteRepository loteRepository,UserRepository userRepository,
-                               TrackingRepository trackingRepository,NotificationsRepository notificationsRepository,
-                               SiteRepository siteRepository, CodeRepository codeRepository, SimpMessagingTemplate simpMessagingTemplate) {
+    public AdminSedeController(AdministratorRepository administratorRepository, DoctorRepository doctorRepository, PharmacistRepository pharmacistRepository, MedicineRepository medicineRepository, ReplacementOrderRepository replacementOrderRepository, ReplacementOrderHasMedicineRepository replacementOrderHasMedicineRepository , LoteRepository loteRepository,UserRepository userRepository, TrackingRepository trackingRepository,NotificationsRepository notificationsRepository, SiteRepository siteRepository, CodeRepository codeRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.administratorRepository = administratorRepository;
         this.doctorRepository = doctorRepository;
         this.pharmacistRepository = pharmacistRepository;
@@ -77,7 +73,7 @@ public class AdminSedeController {
         this.codeRepository = codeRepository;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
-    private String rutaAbsoluta = "//SaintMedic//imagenes";
+    private String rutaAbsoluta = "C://SaintMedic//imagenes";
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio( Model model){
 

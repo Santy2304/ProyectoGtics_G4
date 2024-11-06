@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,7 @@ import java.time.LocalDateTime;
 
 import java.util.*;
 
+
 @Controller
 @SessionAttributes("usuario")
 public class LogInController {
@@ -41,7 +43,8 @@ public class LogInController {
     private EmailService emailService;
     public LogInController (SiteRepository siteRepository , PatientRepository patientRepository , PharmacistRepository pharmacistRepository ,
                             SuperAdminRepository superAdminRepository , AdministratorRepository administratorRepository,
-                            UserRepository userRepository, RolRepository rolRepository ) {
+                            UserRepository userRepository, RolRepository rolRepository,
+                            TokenRepository tokenRepository) {
         this.siteRepository = siteRepository;
         this.patientRepository = patientRepository;
         this.superAdminRepository = superAdminRepository;
@@ -49,6 +52,7 @@ public class LogInController {
         this.pharmacistRepository = pharmacistRepository;
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     //VerVistas
@@ -72,54 +76,132 @@ public class LogInController {
             return "signin";}
         return "signin";
     }
-    @PostMapping("/enviarEmailForget")
-    public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
-        Map<String, String> response =  new HashMap<>();
-        try {
-            httpSession.setAttribute("resetEmail", email);
-            emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña");
-            response.put("response", "Guardado");
-        } catch (MessagingException | IOException e) {
-            response.put("response", "Error al enviar el correo");
-            e.printStackTrace();
+//    @PostMapping("/enviarEmailForget")
+//    public String enviarCorreoForgot(@RequestParam("email") String email,HttpSession httpSession){
+//        Map<String, String> response =  new HashMap<>();
+//        try {
+//            httpSession.setAttribute("resetEmail", email);
+//            emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña");
+//            response.put("response", "Guardado");
+//        } catch (MessagingException | IOException e) {
+//            response.put("response", "Error al enviar el correo");
+//            e.printStackTrace();
+//        }
+//        return "redirect:inicioSesion";
+//    }
+
+    @GetMapping("/enviarEmail")
+    public Object sendEmail(@RequestParam("email") String email) throws MessagingException, IOException {
+        LinkedHashMap<String,  Object> generalResponse =  new LinkedHashMap<>();
+        if(email ==null){
+            generalResponse.put("error","vacio");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
         }
-        return "redirect:inicioSesion";
+        //Verificamos q exista esta persona dentro de la bd
+        boolean  existe = false;
+        for(Patient p : patientRepository.findAll()){
+            if(p.getEmail().equals(email)){
+                existe=true;
+                break;
+            }
+        }
+        if(!existe){
+            generalResponse.put("error","NoExiste");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(generalResponse);
+        }
+        String token =  generarToken();
+        emailService.sendHtmlForgetPassword(email, "Recuperación de Contraseña" , token);
+        generalResponse.put("response", "Guardado");
+        User  user  = userRepository.findByEmail(email);
+        Token tokenClass  =  new Token();
+        tokenClass.setToken(token);
+        tokenClass.setIdUsuario(user);
+        tokenClass.setEstado("sinUsar");
+        tokenRepository.save(tokenClass);
+        return ResponseEntity.status(HttpStatus.OK).body(generalResponse);
     }
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom random = new SecureRandom();
+    private final TokenRepository tokenRepository;
+
+    public String generarToken(){
+        StringBuilder token = new StringBuilder(8);
+        for (int i = 0; i < 8; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            token.append(CHARACTERS.charAt(index));
+        }
+        return token.toString();
+    }
+
     @GetMapping("/changePassword")
-    public String verChangePassword(Model model){
-        return "changePassword";
+    public String verChangePassword(@RequestParam("tk") String token , Model model){
+        boolean existeToken = false;
+        Token tt = new Token();
+        for(Token t :  tokenRepository.findAll()){
+            if(t.getToken().equals(token)){
+                existeToken =true ;
+                tt = t;
+                break;
+            }
+        }
+        if(existeToken){
+            if(tt.getEstado().equals("sinUsar")){
+                //Ponemos algo
+                model.addAttribute("token" , token);
+                return "changePassword";
+            }
+        }
+        return "error404";
     }
     @PostMapping("/changingPassword")
-    public String changingPassword(HttpSession httpSession,@RequestParam("confirmarContrasena") String newPassword, Model model) {
+    public String changingPassword(@RequestParam("confirmarContrasena") String newPassword, Model model , @RequestParam("token") String token){
         //String correo = (String) model.getAttribute("email");
         //Regex para verificar que la contraseña cumpla con requisitos de seguridad
         String passwordPattern = "^(?=.*\\d)(?=.*[\\u0021-\\u002b\\u003c-\\u0040])(?=.*[A-Z])(?=.*[a-z])\\S{8,16}$";
         //Verificar que la nueva contraseña cumpla los requisitos
         if (newPassword.matches(passwordPattern)) { //Cuando cumple
-            String email = (String) httpSession.getAttribute("resetEmail");
-            Patient patient = patientRepository.buscarPatientEmail(email);
-            Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
-            Administrator admin = administratorRepository.findByEmail(email);
-            SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            String encryptedPassword = passwordEncoder.encode(newPassword);
-            if (!(patient == null)) {
-                //  patientRepository.actualizarContrasena(newPassword, correo);
-                userRepository.actualizarPassword(encryptedPassword, email);
+            //Validamos el token
+            boolean existeToken = false;
+            Token token1 = new Token();
+            for(Token tt : tokenRepository.findAll()){
+                if(tt.getToken().equals(token)){
+                    token1 = tt;
+                    existeToken =true;
+                    break;
+                }
             }
-            if (!(admin == null)) {
-                // administratorRepository.actualizarContrasena(newPassword, correo);
-                userRepository.actualizarPassword(encryptedPassword, email);
+            if(existeToken && token1.getEstado().equals("sinUsar")){
+                //Buscamos a la persona que le corresponde el token
+                String email = token1.getIdUsuario().getEmail();
+                Patient patient = patientRepository.buscarPatientEmail(email);
+                Pharmacist pharmacist = pharmacistRepository.findByEmail(email);
+                Administrator admin = administratorRepository.findByEmail(email);
+                SuperAdmin superAdmin = superAdminRepository.findByEmail(email);
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                String encryptedPassword = passwordEncoder.encode(newPassword);
+                token1.setEstado("Usado");
+                tokenRepository.save(token1);
+                if (!(patient == null)) {
+                    //  patientRepository.actualizarContrasena(newPassword, correo);
+                    userRepository.actualizarPassword(encryptedPassword, email);
+                }
+                if (!(admin == null)) {
+                    // administratorRepository.actualizarContrasena(newPassword, correo);
+                    userRepository.actualizarPassword(encryptedPassword, email);
+                }
+                if (!(superAdmin == null)) {
+                    superAdminRepository.actualizarContrasena(newPassword, email);
+                    userRepository.actualizarPassword(encryptedPassword, email);
+                }
+                if (!(pharmacist == null)) {
+                    // pharmacistRepository.actualizarContrasena(newPassword, correo);
+                    userRepository.actualizarPassword(encryptedPassword, email);
+                }
+                return "redirect:/inicioSesion";
+            }else{
+             //Token no es valido
+                return "redirect:/inicioSesion";
             }
-            if (!(superAdmin == null)) {
-                superAdminRepository.actualizarContrasena(newPassword, email);
-                userRepository.actualizarPassword(encryptedPassword, email);
-            }
-            if (!(pharmacist == null)) {
-                // pharmacistRepository.actualizarContrasena(newPassword, correo);
-                userRepository.actualizarPassword(encryptedPassword, email);
-            }
-            return "redirect:/inicioSesion";
         } else { //La contraseña no cumple con los requerimientos
             String mensajeError = "La contraseña debe cumplir con:\n" +
                     "- Tener entre 8 y 16 carácteres\n" +
@@ -170,8 +252,6 @@ public class LogInController {
             response.put("response" ,"YaExiste");
         }
         return response;
-
-
     }
     //Vamos a crear un servicio Rest para consumir autenticacion
     public String generateRandomWord() {
@@ -229,8 +309,6 @@ public class LogInController {
             return ResponseEntity.badRequest();
         }
     }
-
-
     @GetMapping(value="/getDni")
     public Object getDni(@RequestParam("dni") String  dni ) {
         try{

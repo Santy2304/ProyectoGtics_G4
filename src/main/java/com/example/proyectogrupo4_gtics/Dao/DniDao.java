@@ -11,7 +11,7 @@ public class DniDao {
     public PersonaDni buscarDatosPorDNI(String dni ){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<PersonaDni> response = restTemplate.getForEntity(
-                "https://api.apis.net.pe/v2/reniec/dni?numero="+dni+"&token=apis-token-9525.2dMQHGrRPXRjGELmYfSZY6RAXkvIZG-m", PersonaDni.class);
+                "https://api.apis.net.pe/v2/reniec/dni?numero="+dni+"&token=apis-token-11403.gwwomqZn2qmi7V60i5drzio7EHlaaO1q", PersonaDni.class);
         return response.getBody();
     }
 

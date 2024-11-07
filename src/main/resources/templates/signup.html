@@ -202,157 +202,140 @@
                     </script>
                     <script type="text/javascript">
                         $("#registro").click(function(){
-                            let formulario = document.getElementById("miFormulario");
-                            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                            let dni =  document.getElementById("dni");
-                            let name  =  document.getElementById("name");
-                            let lastName = document.getElementById("lastName");
-                            let correo = document.getElementById("correo");
-                            let direccion = document.getElementById("direccion");
-                            //Validamos antes de consultar por Ajax
-                            let error = 0 ;
-                            //Validamos vacío
-                            if(dni.value.trim() === "" ){
-                                //DNI no nulo
-                                correo.className= "is-valid";
-                                document.getElementById("errorDni").textContent = "Debe ingresar un valor" ;
-                                document.getElementById("errorDni").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-                                dni.className= "";
-                                document.getElementById("errorDni").textContent = "" ;
-                                document.getElementById("errorDni").style.display = 'none' ;
-                            }
-                            if(correo.value.trim() === "" ){
-                                //DNI no nulo
-                                correo.className= "is-valid";
-                                document.getElementById("errorCorreo").textContent = "Debe ingresar un valor" ;
-                                document.getElementById("errorCorreo").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-                                correo.className= "";
-                                document.getElementById("errorCorreo").textContent = "" ;
-                                document.getElementById("errorCorreo").style.display = 'none' ;
-                            }
-                            if(direccion.value.trim() === "" ){
-                                //DNI no nulo
-                                direccion.className= "is-valid";
-                                document.getElementById("errorDireccion").textContent = "Debe ingresar un valor" ;
-                                document.getElementById("errorDireccion").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-                                direccion.className= "";
-                                document.getElementById("errorDireccion").textContent = "" ;
-                                document.getElementById("errorDireccion").style.display = 'none' ;
-                            }
-                            if(!emailRegex.test(correo.value)){
-                                //DNI no nulo
-                                correo.className= "is-valid";
-                                document.getElementById("errorCorreo").textContent = "Debe ingresar un correo válido" ;
-                                document.getElementById("errorCorreo").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-                                correo.className= "";
-                                document.getElementById("errorCorreo").textContent = "" ;
-                                document.getElementById("errorCorreo").style.display = 'none' ;
-                            }
-                            //PREVIAMENTE SE VALIDARON TODOS LOS CAMPOS
-                            let datos = $("#miFormulario").serialize();
-                            if(datos.insurance ===  ""){
-                                //DNI no nulo
-                                document.getElementById("errorSeguro").textContent = "Debe escoger un seguro" ;
-                                document.getElementById("errorSeguro").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-
-                                document.getElementById("errorSeguro").textContent = "" ;
-                                document.getElementById("errorSeguro").style.display = 'none' ;
-                            }
-                            if(datos.distrit ===  ""){
-                                //DNI no nulo
-                                document.getElementById("errorDistrito").textContent = "Debe escoger un distrito" ;
-                                document.getElementById("errorDistrito").style.display = 'block' ;
-                                error++;
-                            }else{
-                                //Se corrige un error
-                                document.getElementById("errorDistrito").textContent = "" ;
-                                document.getElementById("errorDistrito").style.display = 'none' ;
-                            }
-                            if(error>0){
-                                $.ajax({
-                                    url: "/getDni?dni="+document.getElementById("dni").value,
-                                    type: "GET",
-                                    success: function (response) {
-                                        var nuevoInput1 = document.createElement("input");
-                                        var nuevoInput2 = document.createElement("input");
-                                        nuevoInput1.type = "text";
-                                        nuevoInput1.name = "name";
-                                        nuevoInput1.id = "nombre";
-                                        nuevoInput1.value= capitalizeName(response.nombres);
-                                        nuevoInput2.type = "text";
-                                        nuevoInput2.name = "lastName";
-                                        nuevoInput2.id = "apellidos";
-                                        nuevoInput2.value= capitalizeName(response.apellidoPaterno + " " + response.apellidoMaterno) ;
-                                        let datos = $("#miFormulario").serialize();
-                                        datos += "&lastName=" + encodeURIComponent(nuevoInput2.value);
-                                        datos += "&name=" + encodeURIComponent(nuevoInput1.value);
-                                        $.ajax({
-                                            url: "/formNuevaCuenta",
-                                            type: "POST",
-                                            data: datos,
-                                            success: function(data) {
-                                                switch(data.response){
-                                                    case "Guardado":
-                                                        Swal.fire({
-                                                            icon: "succes",
-                                                            iconColor: "orange",
-                                                            title: "Bienvenido a SAINT MEDIC",
-                                                            text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
-                                                            confirmButtonColor: "#dd986a"
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                window.location.href = '/inicioSesion';
-                                                            }
-                                                        });
-                                                        break;
-                                                    case "YaExiste":
-                                                        Swal.fire({
-                                                            icon: "error",
-                                                            iconColor: "orange",
-                                                            title: "Este correo o DNI ya tiene una cuenta asociada",
-                                                            confirmButtonColor: "#dd986a"
-                                                        }).then((result) => {
-                                                            if (result.isConfirmed) {
-                                                                window.location.href = '/crearCuenta';}
-                                                        });
-                                                        break;
+                            var formulario = document.getElementById("miFormulario");
+                            var correo = document.getElementById("correo").value;
+                            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if(formulario.checkValidity()) {
+                                if (emailRegex.test(correo)) {
+                                    $.ajax({
+                                        url: "/getDni?dni="+document.getElementById("dni").value,
+                                        type: "GET",
+                                        success: function (response) {
+                                            // Redirecciona a otra vista
+                                            //Insertamos inputs de los nuevos nombres
+                                            // Crear un nuevo elemento de entrada
+                                            var nuevoInput1 = document.createElement("input");
+                                            var nuevoInput2 = document.createElement("input");
+                                            // Configurar las propiedades del nuevo elemento
+                                            nuevoInput1.type = "text";
+                                            nuevoInput1.name = "name";
+                                            nuevoInput1.id = "nombre";
+                                            nuevoInput1.value= capitalizeName(response.nombres);
+                                            nuevoInput2.type = "text";
+                                            nuevoInput2.name = "lastName";
+                                            nuevoInput2.id = "apellidos";
+                                            nuevoInput2.value= capitalizeName(response.apellidoPaterno + " " + response.apellidoMaterno) ;
+                                            var datos = $("#miFormulario").serialize();
+                                            datos += "&lastName=" + encodeURIComponent(nuevoInput2.value);
+                                            datos += "&name=" + encodeURIComponent(nuevoInput1.value);
+                                            // Agregar el nuevo elemento al formulario
+                                            //$("#miFormulario").appendChild(nuevoInput1);
+                                            //$("#miFormulario").appendChild(nuevoInput2);
+                                            $.ajax({
+                                                url: "/formNuevaCuenta",
+                                                type: "POST",
+                                                data: datos,
+                                                success: function(data) {
+                                                    switch(data.response){
+                                                        case "Guardado":
+                                                            Swal.fire({
+                                                                icon: "succes",
+                                                                iconColor: "orange",
+                                                                title: "Bienvenido a SAINT MEDIC",
+                                                                text:"Te hemos enviamos un enlace a tu correo para que puedas iniciar sesión",
+                                                                confirmButtonColor: "#dd986a"
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Redirecciona a otra vista
+                                                                    window.location.href = '/inicioSesion';
+                                                                }
+                                                            });
+                                                            break;
+                                                        case "YaExiste":
+                                                            Swal.fire({
+                                                                icon: "error",
+                                                                iconColor: "orange",
+                                                                title: "Este correo o DNI ya tiene una cuenta asociada",
+                                                                confirmButtonColor: "#dd986a"
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Redirecciona a otra vista
+                                                                    window.location.href = '/crearCuenta';
+                                                                }
+                                                            });
+                                                            break;
+                                                    }
                                                 }
-                                            }
-                                        });
-                                    } ,
-                                    error: function(){
-                                        Swal.fire({
-                                            icon: "error",
-                                            iconColor: "orange",
-                                            title: "El número de DNI que ha ingresado no existe",
-                                            confirmButtonColor: "#dd986a"
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                document.getElementById('dni').value = '';
-                                            }
-                                        });
-                                    }
-                                });
+                                            });
+                                        } ,
+                                        error: function(){
+                                            Swal.fire({
+                                                icon: "error",
+                                                iconColor: "orange",
+                                                title: "El número de DNI que ha ingresado no existe",
+                                                confirmButtonColor: "#dd986a"
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    document.getElementById('dni').value = '';
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }else{
+                                let correo = document.getElementById("correo");
+                                let  seguro = document.getElementById("seguro");
+                                let direccion = document.getElementById("direccion");
+                                let distrit = document.getElementById("distrit");
+                                if(correo.value.trim() === ""){
+                                    correo.className= "is-valid";
+                                    document.getElementById("errorCorreo").textContent = "Debe ingresar un valor" ;
+                                    document.getElementById("errorCorreo").style.display = 'block' ;
+                                }else{
+                                    correo.className= "";
+                                    document.getElementById("errorCorreo").textContent = "" ;
+                                    document.getElementById("errorCorreo").style.display = 'none' ;
+                                }
+                                if(!validateEmail(correo.value.trim())){
+                                    correo.className= "is-valid";
+                                    document.getElementById("errorCorreo").textContent = "Debe ingresar un correo" ;
+                                    document.getElementById("errorCorreo").style.display = 'block' ;
+                                }else{
+                                    correo.className= "";
+                                    document.getElementById("errorCorreo").textContent = "" ;
+                                    document.getElementById("errorCorreo").style.display = 'none' ;
+                                }
+                                if(seguro.value.trim() === ""){
+                                    seguro.className= "is-valid";
+                                    document.getElementById("errorSeguro").textContent = "Debe ingresar un valor" ;
+                                    document.getElementById("errorSeguro").style.display = 'block' ;
+                                }else{
+                                    seguro.className= "";
+                                    document.getElementById("errorSeguro").textContent = "" ;
+                                    document.getElementById("errorSeguro").style.display = 'none' ;
+                                }
+                                if(direccion.value.trim()  === ""){
+                                    direccion.className= "is-valid";
+                                    document.getElementById("errorDireccion").textContent = "Debe ingresar un valor" ;
+                                    document.getElementById("errorDireccion").style.display = 'block' ;
+                                }else{
+                                    direccion.className= "";
+                                    document.getElementById("errorDireccion").textContent = "" ;
+                                    document.getElementById("errorDireccion").style.display = 'none' ;
+                                }
+                                if(distrit.value.trim() === ""){
+                                    distrit.className= "is-valid";
+                                    document.getElementById("errorDistrito").textContent = "Debe ingresar un valor" ;
+                                    document.getElementById("errorDistrito").style.display = 'block' ;
+                                }else{
+                                    distrit.className= "";
+                                    document.getElementById("errorDistrit").textContent = "" ;
+                                    document.getElementById("errorDistrit").style.display = 'none' ;
+                                }
+                                //Probamos campo por campo
                             }
                         });
-
-
-                        </script>
+                    </script>
                     <script>
                             function setReadOnly() {
                                 const nameField = document.getElementById('name');

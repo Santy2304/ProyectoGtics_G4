@@ -79,7 +79,7 @@ public class PharmacistController {
         this.chatRepository = chatRepository;
         this.chatContentRepository = chatContentRepository;
     }
-    private String rutaAbsoluta = "C://SaintMedic//imagenes";
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
     @GetMapping("/cambioObligatorio")
     public String cambioObligatorio(){
 

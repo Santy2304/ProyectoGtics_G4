@@ -114,7 +114,7 @@ public class PatientController {
         this.dialogflow = dialogflow;
         this.simpMessagingTemplate = simpMessagingTemplate;
     }
-    private String rutaAbsoluta = "C://SaintMedic//imagenes";
+    private String rutaAbsoluta = "//SaintMedic//imagenes";
 
     @GetMapping("/sessionPatient")
     public String iniciarSesion( Model model, @RequestParam("idUser") String id){
